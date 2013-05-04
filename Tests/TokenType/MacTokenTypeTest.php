@@ -9,17 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\TokenType;
+namespace Pantarei\Oauth2\Test\TokenType;
 
 /**
- * MAC token type implementation.
+ * Test MAC token type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class MacTokenType implements TokenTypeInterface
+class MacTokenTypeTest extends \PHPUnit_Framework_TestCase
 {
-  public function getTokenType()
+  public function testGetTokenType()
   {
-    return 'mac';
+    $grant_type = new \Pantarei\Oauth2\TokenType\MacTokenType();
+    $this->assertEquals('mac', $grant_type->getTokenType());
   }
 }

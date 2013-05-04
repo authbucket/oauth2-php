@@ -12,7 +12,7 @@
 namespace Pantarei\Oauth2\Test\GrantType;
 
 /**
- * Test authorization code grant type functionality
+ * Test authorization code grant type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */

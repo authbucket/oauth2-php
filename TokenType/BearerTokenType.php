@@ -18,4 +18,8 @@ namespace Pantarei\Oauth2\TokenType;
  */
 class BearerTokenType implements TokenTypeInterface
 {
+  public function getTokenType()
+  {
+    return 'bearer';
+  }
 }

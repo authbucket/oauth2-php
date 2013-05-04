@@ -12,7 +12,7 @@
 namespace Pantarei\Oauth2\Test\GrantType;
 
 /**
- * Test refresh token grant type functionality
+ * Test refresh token grant type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */

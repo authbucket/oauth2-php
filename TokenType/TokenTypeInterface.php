@@ -18,4 +18,24 @@ namespace Pantarei\Oauth2\TokenType;
  */
 interface TokenTypeInterface
 {
+  /**
+   * Return the supported token type.
+   *
+   * The access token type provides the client with the information
+   * required to successfully utilize the access token to make a protected
+   * resource request (along with type-specific attributes). The client
+   * MUST NOT use an access token if it does not understand the token
+   * type.
+   *
+   * @return string
+   *   The supported token type as defined in rfc6749, one of:
+   *   - bearer
+   *   - mac
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4.2.2
+   * @see http://tools.ietf.org/html/rfc6749#section-5.1
+   * @see http://tools.ietf.org/html/rfc6749#section-7.1
+   * @see http://tools.ietf.org/html/rfc6749#section-8.1
+   */
+  public function getTokenType();
 }
