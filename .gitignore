@@ -1,3 +1,4 @@
-/composer.lock
-/composer.phar
-/vendor/
+_gh_pages
+composer.lock
+composer.phar
+vendor/
