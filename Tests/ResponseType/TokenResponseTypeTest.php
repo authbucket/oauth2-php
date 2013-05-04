@@ -9,17 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\ResponseType;
+namespace Pantarei\Oauth2\Test\ResponseType;
 
 /**
- * Token response type implementation.
+ * Test token response type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class TokenResponseType implements ResponseTypeInterface
+class TokenResponseTypeTest extends \PHPUnit_Framework_TestCase
 {
-  public function getResponseType()
+  public function testGetResponseType()
   {
-    return 'token';
+    $grant_type = new \Pantarei\Oauth2\ResponseType\TokenResponseType();
+    $this->assertEquals('token', $grant_type->getResponseType());
   }
 }

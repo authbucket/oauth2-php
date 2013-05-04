@@ -18,4 +18,8 @@ namespace Pantarei\Oauth2\ResponseType;
  */
 class CodeResponseType implements ResponseTypeInterface
 {
+  public function getResponseType()
+  {
+    return 'code';
+  }
 }

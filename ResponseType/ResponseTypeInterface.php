@@ -18,4 +18,21 @@ namespace Pantarei\Oauth2\ResponseType;
  */
 interface ResponseTypeInterface
 {
+  /**
+   * Return the supported response type.
+   *
+   * The authorization endpoint is used by the authorization code grant
+   * type and implicit grant type flows.  The client informs the
+   * authorization server of the desired grant type using the following
+   * parameter.
+   *
+   * @return string
+   *   The supported response type as defined in rfc6749, one of:
+   *   - code
+   *   - token
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-3.1.1
+   * @see http://tools.ietf.org/html/rfc6749#section-8.4
+   */
+  public function getResponseType();
 }
