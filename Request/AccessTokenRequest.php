@@ -18,4 +18,13 @@ namespace Pantarei\Oauth2\Request;
  */
 class AccessTokenRequest implements RequestInterface
 {
+  public function validateRequest(array $query = array())
+  {
+    if (!isset($query['client_id'])) {
+      throw new Exception\InvalidClientException('No client id supplied', 0);
+    }
+
+    return TRUE;
+  }
+
 }

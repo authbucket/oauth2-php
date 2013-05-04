@@ -11,6 +11,8 @@
 
 namespace Pantarei\Oauth2\Request;
 
+use Pantarei\Oauth2\Oauth2;
+
 /**
  * Authorization request implementation.
  *
@@ -18,4 +20,22 @@ namespace Pantarei\Oauth2\Request;
  */
 class AuthorizationRequest implements RequestInterface
 {
+  public function validateRequest(array $query = array())
+  {
+    $filters = array(
+      "response_type" => array("filter" => FILTER_VALIDATE_REGEXP, "options" => array("regexp" => Oauth2::getRegexp('response_type')), "flags" => FILTER_REQUIRE_SCALAR),
+      "client_id" => array("filter" => FILTER_VALIDATE_REGEXP, "options" => array("regexp" => Oauth2::getRegexp('client_id')), "flags" => FILTER_REQUIRE_SCALAR),
+      "redirect_uri" => array("filter" => FILTER_SANITIZE_URL),
+      "scope" => array("filter" => FILTER_VALIDATE_REGEXP, "options" => array("regexp" => Oauth2::getRegexp('scope')), "flags" => FILTER_REQUIRE_SCALAR),
+      "state" => array("filter" => FILTER_VALIDATE_REGEXP, "options" => array("regexp" => Oauth2::getRegexp('state')), "flags" => FILTER_REQUIRE_SCALAR),
+    );
+
+    $input = filter_var_array($query, $filters);
+
+    if (!$input['client_id']) {
+      throw new \Pantarei\Oauth2\Exception\InvalidClientException();
+    }
+
+    return TRUE;
+  }
 }

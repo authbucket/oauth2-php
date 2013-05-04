@@ -18,6 +18,11 @@ namespace Pantarei\Oauth2\Test;
  */
 class AutoloadTest extends \PHPUnit_Framework_TestCase
 {
+  public function testOauth2ClassExists()
+  {
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Oauth2'));
+  }
+
   public function testControllerClassesExist()
   {
     $this->assertTrue(class_exists('Pantarei\Oauth2\Controller\AuthorizationServerController'));

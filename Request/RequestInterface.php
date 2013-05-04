@@ -18,4 +18,15 @@ namespace Pantarei\Oauth2\Request;
  */
 interface RequestInterface
 {
+  /**
+   * Validate the request to ensure that all required parameters are present
+   * and valid.
+   * 
+   * @param $query
+   *   The query component, most likely $_GET.
+   *
+   * @return bool
+   *   TRUE if all required parameters are valid, or FALSE otherwise.
+   */
+  public function validateRequest(array $query = array());
 }
