@@ -1,27 +1,25 @@
-# PantareiBootstrapBundle [![Build Status](https://travis-ci.org/pantarei/oauth2-bundle.png?branch=1.0)](https://travis-ci.org/pantarei/oauth2-bundle)
+# Pantarei/Oauth2 [![Build Status](https://travis-ci.org/pantarei/oauth2.png?branch=1.0)](https://travis-ci.org/pantarei/oauth2)
 
-PantaReiBootstrapBundle is a collection of code to integrate Twitter Bootstrap
-(http://twitter.github.com/bootstrap/) as easy as possible into your Symfony
-(http://www.symfony.com) Project.
+The primary goal of this project is to develop a standards compliant OAuth2.0 library; secondary goal would be develop corresponding wrapper Symfony2 Bundle (http://www.symfony.com) and Drupal module (http://drupal.org).
 
 ## Installation
 
-First you need to add `pantarei/bootstrap-bundle` to `composer.json`:
+First you need to add `pantarei/oauth2` to `composer.json`:
 
     {
       "require": {
-        "pantarei/bootstrap-bundle": "3.0.*@dev"
+        "pantarei/bootstrap-bundle": "1.0.*@dev"
       }
     }
 
-You also have to add `PantareiBootstrapBundle` to your `AppKernel.php`:
+You also have to add `Oauth2` to your `AppKernel.php`:
 
     class AppKernel extends Kernel
     {
       public function registerBundles()
       {
       $bundles = array(
-          new Pantarei\Bundle\BootstrapBundle\PantareiBootstrapBundle()
+          new Pantarei\Oauth2\Oauth2()
           );
         return $bundles;
       }
@@ -83,7 +81,7 @@ After that, the last thing we need is to include bootstrap in main template:
 If you hope to enable the examples as reference, update your `app/config/routing.yml` file to this:
 
     pantarei_bootstrap:
-        resource: "@PantareiBootstrapBundle/Resources/config/routing.yml"
+        resource: "@Oauth2/Resources/config/routing.yml"
         prefix:   /_bootstrap
 
 Then you can access `_bootstrap/starter-template` or other pages as example.

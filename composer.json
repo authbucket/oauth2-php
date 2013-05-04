@@ -11,7 +11,7 @@
             "Pantarei\\Oauth2": ""
         }
     },
-    "description": "OAuth2.0 Implementation",
+    "description": "Standards compliant OAuth2.0 library, for both Symfony2 and Drupal",
     "homepage": "https://github.com/pantarei/oauth2",
     "keywords": [
         "oauth2"
