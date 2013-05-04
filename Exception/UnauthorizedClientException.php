@@ -18,4 +18,14 @@ namespace Pantarei\Oauth2\Exception;
  */
 class UnauthorizedClientException extends \Exception
 {
+  /**
+   * Error Response
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4.1.2.1
+   * @see http://tools.ietf.org/html/rfc6749#section-4.2.2.1
+   * @see http://tools.ietf.org/html/rfc6749#section-5.2
+   */
+  protected $message =
+    'The authenticated client is not authorized to use this ' .
+    'authorization grant type.';
 }

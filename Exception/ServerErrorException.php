@@ -18,4 +18,16 @@ namespace Pantarei\Oauth2\Exception;
  */
 class ServerErrorException extends \Exception
 {
+  /**
+   * Error Response
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4.1.2.1
+   * @see http://tools.ietf.org/html/rfc6749#section-4.2.2.1
+   */
+  protected $message =
+    'The authorization server encountered an unexpected ' .
+    'condition that prevented it from fulfilling the request. ' .
+    '(This error code is needed because a 500 Internal Server ' .
+    'Error HTTP status code cannot be returned to the client ' .
+    'via an HTTP redirect.)';
 }

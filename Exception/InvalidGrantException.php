@@ -18,4 +18,15 @@ namespace Pantarei\Oauth2\Exception;
  */
 class InvalidGrantException extends \Exception
 {
+  /**
+   * Error Response
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-5.2
+   */
+  protected $message =
+    'The provided authorization grant (e.g., authorization ' .
+    'code, resource owner credentials) or refresh token is ' .
+    'invalid, expired, revoked, does not match the redirection ' .
+    'URI used in the authorization request, or was issued to ' .
+    'another client.';
 }

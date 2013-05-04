@@ -19,7 +19,8 @@ namespace Pantarei\Oauth2\Test\Request;
 class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
 {
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\InvalidClientException
+   * @expectedException         \Pantarei\Oauth2\Exception\InvalidClientException
+   * @expectedExceptionMessage  Client authentication failed
    */
   public function testvalidateRequestNoClientId()
   {

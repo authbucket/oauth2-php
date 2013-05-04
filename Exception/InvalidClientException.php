@@ -18,4 +18,20 @@ namespace Pantarei\Oauth2\Exception;
  */
 class InvalidClientException extends \Exception
 {
+  /**
+   * Error Response
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-5.2
+   */
+  protected $message =
+    'Client authentication failed (e.g., unknown client, no ' .
+    'client authentication included, or unsupported ' .
+    'authentication method).  The authorization server MAY ' .
+    'return an HTTP 401 (Unauthorized) status code to indicate ' .
+    'which HTTP authentication schemes are supported.  If the ' .
+    'client attempted to authenticate via the "Authorization" ' .
+    'request header field, the authorization server MUST ' .
+    'respond with an HTTP 401 (Unauthorized) status code and ' .
+    'include the "WWW-Authenticate" response header field ' .
+    'matching the authentication scheme used by the client.';
 }

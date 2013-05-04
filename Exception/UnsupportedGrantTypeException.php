@@ -18,4 +18,12 @@ namespace Pantarei\Oauth2\Exception;
  */
 class UnsupportedGrantTypeException extends \Exception
 {
+  /**
+   * Error Response
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-5.2
+   */
+  protected $message =
+    'The authorization grant type is not supported by the ' .
+    'authorization server.';
 }
