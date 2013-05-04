@@ -1,4 +1,4 @@
-# Pantarei/Oauth2 [![Build Status](https://travis-ci.org/pantarei/oauth2.png?branch=1.0)](https://travis-ci.org/pantarei/oauth2) {#mainpage}
+# Pantarei/Oauth2 [![Build Status](https://travis-ci.org/pantarei/oauth2.png?branch=1.0)](https://travis-ci.org/pantarei/oauth2)
 
 The primary goal of this project is to develop a standards compliant OAuth2.0 library; secondary goal would be develop corresponding wrapper Symfony2 Bundle (http://www.symfony.com) and Drupal module (http://drupal.org).
 
