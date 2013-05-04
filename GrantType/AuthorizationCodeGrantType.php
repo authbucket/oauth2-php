@@ -18,4 +18,8 @@ namespace Pantarei\Oauth2\GrantType;
  */
 class AuthorizationCodeGrantType implements GrantTypeInterface
 {
+  public function getGrantType()
+  {
+    return 'authorization_code';
+  }
 }

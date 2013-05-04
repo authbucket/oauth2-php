@@ -9,17 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\GrantType;
+namespace Pantarei\Oauth2\Test\GrantType;
 
 /**
- * Password grant type implementation.
+ * Test password grant type functionality
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class PasswordGrantType implements GrantTypeInterface
+class PasswordGrantTypeTest extends \PHPUnit_Framework_TestCase
 {
-  public function getGrantType()
+  public function testGetGrantType()
   {
-    return 'password';
+    $grant_type = new \Pantarei\Oauth2\GrantType\PasswordGrantType();
+    $this->assertEquals('password', $grant_type->getGrantType());
   }
 }

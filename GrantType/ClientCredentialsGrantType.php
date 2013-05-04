@@ -18,4 +18,8 @@ namespace Pantarei\Oauth2\GrantType;
  */
 class ClientCredentialsGrantType implements GrantTypeInterface
 {
+  public function getGrantType()
+  {
+    return 'client_credentials';
+  }
 }

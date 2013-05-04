@@ -18,4 +18,29 @@ namespace Pantarei\Oauth2\GrantType;
  */
 interface GrantTypeInterface
 {
+  /**
+   * Return the supported grant type.
+   *
+   * To request an access token, the client obtains authorization from the
+   * resource owner. The authorization is expressed in the form of an
+   * authorization grant, which the client uses to request the access
+   * token. OAuth defines four grant types: authorization code, implicit,
+   * resource owner password credentials, and client credentials. It also
+   * provides an extension mechanism for defining additional grant types.
+   *
+   * @return string
+   *   The supported grant type as defined in rfc6749, one of:
+   *   - authorization_code
+   *   - client_credentials
+   *   - password
+   *   - refresh_token
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4
+   * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+   * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
+   * @see http://tools.ietf.org/html/rfc6749#section-4.4.2
+   * @see http://tools.ietf.org/html/rfc6749#section-4.5
+   * @see http://tools.ietf.org/html/rfc6749#section-6
+   */
+  public function getGrantType();
 }

@@ -18,4 +18,8 @@ namespace Pantarei\Oauth2\GrantType;
  */
 class RefreshTokenGrantType implements GrantTypeInterface
 {
+  public function getGrantType()
+  {
+    return 'refresh_token';
+  }
 }
