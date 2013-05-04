@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\GrantType;
+namespace Pantarei\Oauth2\Controller;
 
 /**
- * Defines the interface for grant type.
+ * Defines the interface for controller.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-interface GrantTypeInterface
+interface ControllerInterface
 {
 }

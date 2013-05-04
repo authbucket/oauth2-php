@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the pantarei/oauth2-bundle package.
+ * This file is part of the pantarei/oauth2 package.
  *
  * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Bundle\Oauth2Bundle\ResponseType;
+namespace Pantarei\Oauth2\ResponseType;
 
 /**
  * Defines the interface for response type.

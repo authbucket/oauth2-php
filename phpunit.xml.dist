@@ -2,11 +2,10 @@
 
 <phpunit bootstrap="./vendor/autoload.php" colors="true">
   <testsuites>
-    <testsuite name="PantareiOauth2Bundle">
+    <testsuite name="pantarei/oauth2">
       <directory>./Tests</directory>
     </testsuite>
   </testsuites>
-
   <filter>
     <whitelist>
       <directory>./Tests</directory>
