@@ -1,0 +1,40 @@
+{
+    "authors": [
+        {
+            "email": "hswong3i@pantarei-design.com", 
+            "homepage": "http://edin.no-ip.com", 
+            "name": "Wong Hoi Sing Edison"
+        }
+    ], 
+    "autoload": {
+        "psr-0": {
+            "Pantarei\\Oauth2": ""
+        }
+    }, 
+    "description": "OAuth2.0 Implementation", 
+    "homepage": "https://github.com/pantarei/oauth2", 
+    "keywords": [
+        "oauth2"
+    ], 
+    "license": "MIT", 
+    "minimum-stability": "dev", 
+    "name": "pantarei/oauth2", 
+    "require": {
+        "php": ">=5.3.3"
+    }, 
+    "require-dev": {
+        "doctrine/doctrine-bundle": "1.2.*", 
+        "doctrine/orm": "~2.2,>=2.2.3", 
+        "phpunit/phpunit": "3.7.*", 
+        "symfony/class-loader": ">=2.1,<2.3-dev", 
+        "symfony/framework-bundle": ">=2.1,<2.3-dev", 
+        "symfony/http-foundation": ">=2.1,<2.3-dev", 
+        "symfony/security-bundle": ">=2.1,<2.3-dev", 
+        "symfony/yaml": ">=2.1,<2.3-dev"
+    }, 
+    "suggest": {
+        "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
+    }, 
+    "target-dir": "Pantarei/Oauth2", 
+    "type": "library"
+}
