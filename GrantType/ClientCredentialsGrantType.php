@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Bundle\Oauth2Bundle\GrantType;
+namespace Pantarei\Oauth2\GrantType;
 
 /**
  * Client credentials grant type implementation.

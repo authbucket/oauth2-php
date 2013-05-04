@@ -17,4 +17,13 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
     $this->assertTrue(class_exists('Pantarei\Oauth2\Exception\UnsupportedGrantTypeException'));
     $this->assertTrue(class_exists('Pantarei\Oauth2\Exception\UnsupportedResponseType'));
   }
+
+  public function testGrantTypeClassExist()
+  {
+    $this->assertTrue(class_exists('Pantarei\Oauth2\GrantType\AuthorizationCodeGrantType'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\GrantType\ClientCredentialsGrantType'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\GrantType\PasswordGrantType'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\GrantType\RefreshTokenGrantType'));
+    $this->assertTrue(interface_exists('Pantarei\Oauth2\GrantType\GrantTypeInterface'));
+  }
 }
