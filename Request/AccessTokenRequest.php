@@ -11,6 +11,18 @@
 
 namespace Pantarei\Oauth2\Request;
 
+use Pantarei\Oauth2\Exception\AccessDeniedException;
+use Pantarei\Oauth2\Exception\InvalidClientException;
+use Pantarei\Oauth2\Exception\InvalidGrantException;
+use Pantarei\Oauth2\Exception\InvalidRequestException;
+use Pantarei\Oauth2\Exception\InvalidScopeException;
+use Pantarei\Oauth2\Exception\ServerErrorException;
+use Pantarei\Oauth2\Exception\TemporarilyUnavailableException;
+use Pantarei\Oauth2\Exception\UnauthorizedClientException;
+use Pantarei\Oauth2\Exception\UnsupportedGrantTypeException;
+use Pantarei\Oauth2\Exception\UnsupportedResponseTypeException;
+use Pantarei\Oauth2\Oauth2;
+
 /**
  * Access token request implementation.
  *
@@ -20,11 +32,63 @@ class AccessTokenRequest implements RequestInterface
 {
   public function validateRequest(array $query = array())
   {
-    if (!isset($query['client_id'])) {
-      throw new Exception\InvalidClientException('No client id supplied', 0);
+    $filters = array(
+      'access_token' => array(
+        'filter' => FILTER_VALIDATE_REGEXP,
+        'flags' => FILTER_REQUIRE_SCALAR,
+        'options' => array(
+          'regexp' => Oauth2::getRegexp('access_token'),
+        ),
+      ),
+      'token_type' => array(
+        'filter' => FILTER_VALIDATE_REGEXP,
+        'flags' => FILTER_REQUIRE_SCALAR,
+        'options' => array(
+          'regexp' => Oauth2::getRegexp('token_type'),
+        ),
+      ),
+      'expires_in' => array(
+        'filter' => FILTER_VALIDATE_INT,
+      ),
+      'scope' => array(
+        'filter' => FILTER_VALIDATE_REGEXP,
+        'flags' => FILTER_REQUIRE_SCALAR,
+        'options' => array(
+          'regexp' => Oauth2::getRegexp('scope'),
+        ),
+      ),
+      'state' => array(
+        'filter' => FILTER_VALIDATE_REGEXP,
+        'flags' => FILTER_REQUIRE_SCALAR,
+        'options' => array(
+          'regexp' => Oauth2::getRegexp('state'),
+        ),
+      ),
+    );
+
+    $filtered_query = filter_var_array($query, $filters);
+
+    // Both access_token and token_type are required.
+    if (!$filtered_query['access_token'] || !$filtered_query['token_type']) {
+      throw new InvalidRequestException();
     }
 
-    return TRUE;
+    // Validate that the requested expires_in is number.
+    if (isset($query['expires_in']) && !$filtered_query['expires_in']) {
+      throw new InvalidRequestException();
+    }
+
+    // Validate that the requested scope is supported.
+    if (isset($query['scope']) && !$filtered_query['scope']) {
+      throw new InvalidScopeException();
+    }
+
+    // Validate that the requested state is supproted.
+    if (isset($query['state']) && !$filtered_query['state']) {
+      throw new InvalidRequestException();
+    }
+
+    return $filtered_query;
   }
 
 }

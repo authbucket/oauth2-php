@@ -34,7 +34,7 @@ class AuthorizationRequest implements RequestInterface
         'filter' => FILTER_VALIDATE_REGEXP,
         'flags' => FILTER_REQUIRE_SCALAR,
         'options' => array(
-          'regexp' => Oauth2::getRegexp('response_type')
+          'regexp' => Oauth2::getRegexp('response_type'),
         ),
       ),
       'client_id' => array(
