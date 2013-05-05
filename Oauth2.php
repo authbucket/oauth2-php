@@ -75,7 +75,7 @@ class Oauth2
       'password'          => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['password'])),
       'refresh_token'     => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['refresh_token'])),
     );
-    $filtered_query = filter_var_array($query, self::$definition);
+    $filtered_query = filter_var_array($query, $definition);
 
     if (is_string($params)) {
       return isset($filtered_query[$params]) ? $filtered_query[$params] : '';
