@@ -22,7 +22,7 @@ interface RequestInterface
    * Validate the request to ensure that all required parameters are present
    * and valid.
    *
-   * @param $query array
+   * @param array $query
    *   The query component, most likely $_GET.
    *
    * @return array|false

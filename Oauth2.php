@@ -19,41 +19,69 @@ namespace Pantarei\Oauth2;
 class Oauth2
 {
   /**
-   * Some of the definitions that follow use these common definitions.
+   * Get a parameter from passed input query, with pattern filtering.
+   *
+   * @param array $query
+   *   The input query for filtering.
+   * @param string|array $params
+   *   The target parameter, in string for single value, or array for
+   *   multiple values.
+   *
+   * @return string|array
+   *   Filtered parameter, string or array according to request.
    *
    * @see http://tools.ietf.org/html/rfc6749#appendix-A
    */
-  protected static $syntax = array(
-    'VSCHAR'            => '[\x20-\x7E]',
-    'NQCHAR'            => '[\x21\x22-\x5B\x5D-\x7E]',
-    'NQSCHAR'           => '[\x20-\x21\x23-\x5B\x5D-\x7E]',
-    'UNICODECHARNOCRLF' => '[\x09\x20-\x7E\x80-\xD7FF\xE000-\xFFFD\x10000-\x10FFFF]',
-  );
-
-  /**
-   * Regexp for augmented Backus-Naur Form (ABNF) Syntax.
-   *
-   * @see http://tools.ietf.org/html/rfc6749#appendix-A
-   */
-  public static function getRegexp($element = '')
-  {
+  public static function getParam($query, $params = '') {
+    $syntax = array(
+      'VSCHAR'            => '[\x20-\x7E]',
+      'NQCHAR'            => '[\x21\x22-\x5B\x5D-\x7E]',
+      'NQSCHAR'           => '[\x20-\x21\x23-\x5B\x5D-\x7E]',
+      'UNICODECHARNOCRLF' => '[\x09\x20-\x7E\x80-\xD7FF\xE000-\xFFFD\x10000-\x10FFFF]',
+    );
     $regexp = array(
-      'client_id'         => '/^(' . self::$syntax['VSCHAR'] . '*)$/',
-      'client_secret'     => '/^(' . self::$syntax['VSCHAR'] . '*)$/',
+      'client_id'         => '/^(' . $syntax['VSCHAR'] . '*)$/',
+      'client_secret'     => '/^(' . $syntax['VSCHAR'] . '*)$/',
       'response_type'     => '/^(code|token)$/',
-      'scope'             => '/^(' . self::$syntax['NQCHAR'] . '+(?:\s*' . self::$syntax['NQCHAR'] . '+(?R)*)*)$/',
-      'state'             => '/^(' . self::$syntax['VSCHAR'] . '+)$/',
-      'error'             => '/^(' . self::$syntax['NQCHAR'] . '+)$/',
-      'error_description' => '/^(' . self::$syntax['NQCHAR'] . '+)$/',
+      'scope'             => '/^(' . $syntax['NQCHAR'] . '+(?:\s*' . $syntax['NQCHAR'] . '+(?R)*)*)$/',
+      'state'             => '/^(' . $syntax['VSCHAR'] . '+)$/',
+      'error'             => '/^(' . $syntax['NQCHAR'] . '+)$/',
+      'error_description' => '/^(' . $syntax['NQCHAR'] . '+)$/',
       'grant_type'        => '/^(client_credentials|password|authorization_code|refresh_token)$/',
-      'code'              => '/^(' . self::$syntax['VSCHAR'] . '+)$/',
-      'access_token'      => '/^(' . self::$syntax['VSCHAR'] . '+)$/',
+      'code'              => '/^(' . $syntax['VSCHAR'] . '+)$/',
+      'access_token'      => '/^(' . $syntax['VSCHAR'] . '+)$/',
       'token_type'        => '/^(bearer|mac)$/',
       'expires_in'        => '/^[0-9]+$/',
-      'username'          => '/^(' . self::$syntax['UNICODECHARNOCRLF'] . '*)$/',
-      'password'          => '/^(' . self::$syntax['UNICODECHARNOCRLF'] . '*)$/',
-      'refresh_token'     => '/^(' . self::$syntax['VSCHAR'] . '+)$/',
+      'username'          => '/^(' . $syntax['UNICODECHARNOCRLF'] . '*)$/',
+      'password'          => '/^(' . $syntax['UNICODECHARNOCRLF'] . '*)$/',
+      'refresh_token'     => '/^(' . $syntax['VSCHAR'] . '+)$/',
     );
-    return isset($regexp[$element]) ? $regexp[$element] : '';
+    $definition = array(
+      'client_id'         => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['client_id'])),
+      'client_secret'     => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['client_secret'])),
+      'response_type'     => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['response_type'])),
+      'scope'             => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['scope'])),
+      'state'             => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['state'])),
+      'redirect_uri'      => array('filter' => FILTER_SANITIZE_URL),
+      'error'             => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['error'])),
+      'error_description' => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['error_description'])),
+      'error_uri'         => array('filter' => FILTER_SANITIZE_URL),
+      'grant_type'        => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['grant_type'])),
+      'code'              => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['code'])),
+      'access_token'      => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['access_token'])),
+      'token_type'        => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['token_type'])),
+      'expires_in'        => array('filter' => FILTER_VALIDATE_INT),
+      'username'          => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['username'])),
+      'password'          => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['password'])),
+      'refresh_token'     => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['refresh_token'])),
+    );
+    $filtered_query = filter_var_array($query, self::$definition);
+
+    if (is_string($params)) {
+      return isset($filtered_query[$params]) ? $filtered_query[$params] : '';
+    }
+    else if (is_array($params)) {
+      return array_intersect_key($filtered_query, array_flip($params));
+    }
   }
 }

@@ -32,41 +32,7 @@ class AccessTokenRequest implements RequestInterface
 {
   public function validateRequest(array $query = array())
   {
-    $filters = array(
-      'access_token' => array(
-        'filter' => FILTER_VALIDATE_REGEXP,
-        'flags' => FILTER_REQUIRE_SCALAR,
-        'options' => array(
-          'regexp' => Oauth2::getRegexp('access_token'),
-        ),
-      ),
-      'token_type' => array(
-        'filter' => FILTER_VALIDATE_REGEXP,
-        'flags' => FILTER_REQUIRE_SCALAR,
-        'options' => array(
-          'regexp' => Oauth2::getRegexp('token_type'),
-        ),
-      ),
-      'expires_in' => array(
-        'filter' => FILTER_VALIDATE_INT,
-      ),
-      'scope' => array(
-        'filter' => FILTER_VALIDATE_REGEXP,
-        'flags' => FILTER_REQUIRE_SCALAR,
-        'options' => array(
-          'regexp' => Oauth2::getRegexp('scope'),
-        ),
-      ),
-      'state' => array(
-        'filter' => FILTER_VALIDATE_REGEXP,
-        'flags' => FILTER_REQUIRE_SCALAR,
-        'options' => array(
-          'regexp' => Oauth2::getRegexp('state'),
-        ),
-      ),
-    );
-
-    $filtered_query = filter_var_array($query, $filters);
+    $filtered_query = Oauth2::getParam($query, array('access_token', 'token_type', 'expires_in', 'scope', 'state'));
 
     // Both access_token and token_type are required.
     if (!$filtered_query['access_token'] || !$filtered_query['token_type']) {

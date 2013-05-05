@@ -29,41 +29,7 @@ class AuthorizationRequest implements RequestInterface
 {
   public function validateRequest(array $query = array())
   {
-    $filters = array(
-      'response_type' => array(
-        'filter' => FILTER_VALIDATE_REGEXP,
-        'flags' => FILTER_REQUIRE_SCALAR,
-        'options' => array(
-          'regexp' => Oauth2::getRegexp('response_type'),
-        ),
-      ),
-      'client_id' => array(
-        'filter' => FILTER_VALIDATE_REGEXP,
-        'flags' => FILTER_REQUIRE_SCALAR,
-        'options' => array(
-          'regexp' => Oauth2::getRegexp('client_id'),
-        ),
-      ),
-      'redirect_uri' => array(
-        'filter' => FILTER_SANITIZE_URL
-      ),
-      'scope' => array(
-        'filter' => FILTER_VALIDATE_REGEXP,
-        'flags' => FILTER_REQUIRE_SCALAR,
-        'options' => array(
-          'regexp' => Oauth2::getRegexp('scope'),
-        ),
-      ),
-      'state' => array(
-          'filter' => FILTER_VALIDATE_REGEXP,
-          'flags' => FILTER_REQUIRE_SCALAR,
-          'options' => array(
-            'regexp' => Oauth2::getRegexp('state'),
-          ),
-        ),
-      );
-
-    $filtered_query = filter_var_array($query, $filters);
+    $filtered_query = Oauth2::getParam($query, array('response_type', 'client_id', 'redirect_uri', 'scope', 'state'));
 
     // Both response_type and client_id are required.
     if (!$filtered_query['response_type'] || !$filtered_query['client_id']) {
