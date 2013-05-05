@@ -9,23 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\Request;
+namespace Pantarei\Oauth2\Test\Exception;
 
-use Pantarei\Oauth2\Request\AuthorizationRequest;
+use Pantarei\Oauth2\Exception\InvalidClientException;
 
 /**
- * Test authorization code grant type functionality.
+ * Test invalid client exception.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
+class InvalidClientExceptionTest extends \PHPUnit_Framework_TestCase
 {
   /**
    * @expectedException \Pantarei\Oauth2\Exception\InvalidClientException
    */
-  public function testvalidateRequestNoClientId()
+  public function testInvalidClientException()
   {
-    $request = new AuthorizationRequest();
-    $request->validateRequest();
+    throw new InvalidClientException();
   }
 }

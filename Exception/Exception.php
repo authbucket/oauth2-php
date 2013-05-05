@@ -12,10 +12,10 @@
 namespace Pantarei\Oauth2\Exception;
 
 /**
- * TemporarilyUnavailableException
+ * Base Oauth2.0 exception.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class TemporarilyUnavailableException extends Exception
+class Exception extends \Exception
 {
 }

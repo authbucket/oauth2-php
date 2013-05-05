@@ -21,7 +21,7 @@ interface RequestInterface
   /**
    * Validate the request to ensure that all required parameters are present
    * and valid.
-   * 
+   *
    * @param $query
    *   The query component, most likely $_GET.
    *

@@ -11,6 +11,8 @@
 
 namespace Pantarei\Oauth2\Test\GrantType;
 
+use Pantarei\Oauth2\GrantType\RefreshTokenGrantType;
+
 /**
  * Test refresh token grant type functionality.
  *
@@ -20,7 +22,7 @@ class RefreshTokenGrantTypeTest extends \PHPUnit_Framework_TestCase
 {
   public function testGetGrantType()
   {
-    $grant_type = new \Pantarei\Oauth2\GrantType\RefreshTokenGrantType();
+    $grant_type = new RefreshTokenGrantType();
     $this->assertEquals('refresh_token', $grant_type->getGrantType());
   }
 }

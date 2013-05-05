@@ -9,20 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\ResponseType;
+namespace Pantarei\Oauth2\Test\Exception;
 
-use Pantarei\Oauth2\ResponseType\CodeResponseType;
+use Pantarei\Oauth2\Exception\Exception;
 
 /**
- * Test code response type functionality.
+ * Test base OAuth2.0 exception.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class CodeResponseTypeTest extends \PHPUnit_Framework_TestCase
+class ExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  public function testGetResponseType()
+  /**
+   * @expectedException \Pantarei\Oauth2\Exception\Exception
+   */
+  public function testException()
   {
-    $grant_type = new CodeResponseType();
-    $this->assertEquals('code', $grant_type->getResponseType());
+    throw new Exception();
   }
 }

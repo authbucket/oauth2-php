@@ -11,6 +11,8 @@
 
 namespace Pantarei\Oauth2\Test\ResponseType;
 
+use Pantarei\Oauth2\ResponseType\TokenResponseType;
+
 /**
  * Test token response type functionality.
  *
@@ -20,7 +22,7 @@ class TokenResponseTypeTest extends \PHPUnit_Framework_TestCase
 {
   public function testGetResponseType()
   {
-    $grant_type = new \Pantarei\Oauth2\ResponseType\TokenResponseType();
+    $grant_type = new TokenResponseType();
     $this->assertEquals('token', $grant_type->getResponseType());
   }
 }

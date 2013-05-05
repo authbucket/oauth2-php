@@ -11,6 +11,8 @@
 
 namespace Pantarei\Oauth2\Test\TokenType;
 
+use Pantarei\Oauth2\TokenType\MacTokenType;
+
 /**
  * Test MAC token type functionality.
  *
@@ -20,7 +22,7 @@ class MacTokenTypeTest extends \PHPUnit_Framework_TestCase
 {
   public function testGetTokenType()
   {
-    $grant_type = new \Pantarei\Oauth2\TokenType\MacTokenType();
+    $grant_type = new MacTokenType();
     $this->assertEquals('mac', $grant_type->getTokenType());
   }
 }

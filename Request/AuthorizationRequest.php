@@ -12,6 +12,7 @@
 namespace Pantarei\Oauth2\Request;
 
 use Pantarei\Oauth2\Oauth2;
+use Pantarei\Oauth2\Exception\InvalidClientException;
 
 /**
  * Authorization request implementation.
@@ -33,7 +34,7 @@ class AuthorizationRequest implements RequestInterface
     $input = filter_var_array($query, $filters);
 
     if (!$input['client_id']) {
-      throw new \Pantarei\Oauth2\Exception\InvalidClientException();
+      throw new InvalidClientException();
     }
 
     return TRUE;

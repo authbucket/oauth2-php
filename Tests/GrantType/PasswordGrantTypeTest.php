@@ -11,6 +11,8 @@
 
 namespace Pantarei\Oauth2\Test\GrantType;
 
+use Pantarei\Oauth2\GrantType\PasswordGrantType;
+
 /**
  * Test password grant type functionality.
  *
@@ -20,7 +22,7 @@ class PasswordGrantTypeTest extends \PHPUnit_Framework_TestCase
 {
   public function testGetGrantType()
   {
-    $grant_type = new \Pantarei\Oauth2\GrantType\PasswordGrantType();
+    $grant_type = new PasswordGrantType();
     $this->assertEquals('password', $grant_type->getGrantType());
   }
 }

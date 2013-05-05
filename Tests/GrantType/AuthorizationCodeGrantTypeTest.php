@@ -11,6 +11,8 @@
 
 namespace Pantarei\Oauth2\Test\GrantType;
 
+use Pantarei\Oauth2\GrantType\AuthorizationCodeGrantType;
+
 /**
  * Test authorization code grant type functionality.
  *
@@ -20,7 +22,7 @@ class AuthorizationCodeGrantTypeTest extends \PHPUnit_Framework_TestCase
 {
   public function testGetGrantType()
   {
-    $grant_type = new \Pantarei\Oauth2\GrantType\AuthorizationCodeGrantType();
+    $grant_type = new AuthorizationCodeGrantType();
     $this->assertEquals('authorization_code', $grant_type->getGrantType());
   }
 }

@@ -11,6 +11,8 @@
 
 namespace Pantarei\Oauth2\Test\GrantType;
 
+use Pantarei\Oauth2\GrantType\ClientCredentialsGrantType;
+
 /**
  * Test client credential grant type functionality.
  *
@@ -20,7 +22,7 @@ class ClientCredentialsGrantTypeTest extends \PHPUnit_Framework_TestCase
 {
   public function testGetGrantType()
   {
-    $grant_type = new \Pantarei\Oauth2\GrantType\ClientCredentialsGrantType();
+    $grant_type = new ClientCredentialsGrantType();
     $this->assertEquals('client_credentials', $grant_type->getGrantType());
   }
 }

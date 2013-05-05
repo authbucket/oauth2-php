@@ -11,6 +11,8 @@
 
 namespace Pantarei\Oauth2\Test\TokenType;
 
+use Pantarei\Oauth2\TokenType\BearerTokenType;
+
 /**
  * Test Bearer token type functionality.
  *
@@ -20,7 +22,7 @@ class BearerTokenTypeTest extends \PHPUnit_Framework_TestCase
 {
   public function testGetTokenType()
   {
-    $grant_type = new \Pantarei\Oauth2\TokenType\BearerTokenType();
+    $grant_type = new BearerTokenType();
     $this->assertEquals('bearer', $grant_type->getTokenType());
   }
 }
