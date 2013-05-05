@@ -25,7 +25,7 @@ class Oauth2
    */
   protected static $syntax = array(
     'VSCHAR'            => '[\x20-\x7E]',
-    'NQCHAR'            => '[\x21\x22-\x5B\x5D-\7E]',
+    'NQCHAR'            => '[\x21\x22-\x5B\x5D-\x7E]',
     'NQSCHAR'           => '[\x20-\x21\x23-\x5B\x5D-\x7E]',
     'UNICODECHARNOCRLF' => '[\x09\x20-\x7E\x80-\xD7FF\xE000-\xFFFD\x10000-\x10FFFF]',
   );
@@ -41,7 +41,7 @@ class Oauth2
       'client_id'         => '/^(' . self::$syntax['VSCHAR'] . '*)$/',
       'client_secret'     => '/^(' . self::$syntax['VSCHAR'] . '*)$/',
       'response_type'     => '/^(code|token)$/',
-      'scope'             => '/^(' . self::$syntax['NQCHAR'] . '+)$/',
+      'scope'             => '/^(' . self::$syntax['NQCHAR'] . '+(?:\s*' . self::$syntax['NQCHAR'] . '+(?R)*)*)$/',
       'state'             => '/^(' . self::$syntax['VSCHAR'] . '+)$/',
       'error'             => '/^(' . self::$syntax['NQCHAR'] . '+)$/',
       'error_description' => '/^(' . self::$syntax['NQCHAR'] . '+)$/',
@@ -54,6 +54,6 @@ class Oauth2
       'password'          => '/^(' . self::$syntax['UNICODECHARNOCRLF'] . '*)$/',
       'refresh_token'     => '/^(' . self::$syntax['VSCHAR'] . '+)$/',
     );
-    return isset($regexp[$element]) ? isset($regexp[$element]) : '';
+    return isset($regexp[$element]) ? $regexp[$element] : '';
   }
 }

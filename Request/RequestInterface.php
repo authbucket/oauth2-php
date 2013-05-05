@@ -22,11 +22,11 @@ interface RequestInterface
    * Validate the request to ensure that all required parameters are present
    * and valid.
    *
-   * @param $query
+   * @param $query array
    *   The query component, most likely $_GET.
    *
-   * @return bool
-   *   TRUE if all required parameters are valid, or FALSE otherwise.
+   * @return array|false
+   *   The filtered request query parameters if valid, or FALSE otherwise.
    */
   public function validateRequest(array $query = array());
 }

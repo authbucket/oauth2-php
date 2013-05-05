@@ -16,6 +16,6 @@ namespace Pantarei\Oauth2\Exception;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class UnsupportedResponseType extends Exception
+class UnsupportedResponseTypeException extends Exception
 {
 }
