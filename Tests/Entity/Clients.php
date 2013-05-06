@@ -11,44 +11,43 @@
 
 namespace Pantarei\Oauth2\Tests\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Pantarei\Oauth2\Entity\ClientsInterface;
 
 /**
  * Clients
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\ClientsRepository")
+ * @Table()
+ * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\ClientsRepository")
  */
 class Clients implements ClientsInterface
 {
   /**
    * @var integer
    *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="client_id", type="string", length=255)
+   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="client_secret", type="string", length=255)
+   * @Column(name="client_secret", type="string", length=255)
    */
   private $clientSecret;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="redirect_uri", type="text")
+   * @Column(name="redirect_uri", type="text")
    */
   private $redirectUri;
 

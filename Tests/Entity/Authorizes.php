@@ -11,44 +11,43 @@
 
 namespace Pantarei\Oauth2\Tests\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Pantarei\Oauth2\Entity\AuthorizesInterface;
 
 /**
  * Authorizes
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\AuthorizesRepository")
+ * @Table()
+ * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\AuthorizesRepository")
  */
 class Authorizes implements AuthorizesInterface
 {
   /**
    * @var integer
    *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="client_id", type="string", length=255)
+   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="username", type="string", length=255)
+   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var array
    *
-   * @ORM\Column(name="scope", type="array")
+   * @Column(name="scope", type="array")
    */
   private $scope;
 

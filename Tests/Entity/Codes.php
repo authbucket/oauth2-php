@@ -11,65 +11,64 @@
 
 namespace Pantarei\Oauth2\Tests\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Pantarei\Oauth2\Entity\CodesInterface;
 
 /**
  * Codes
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\CodesRepository")
+ * @Table()
+ * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\CodesRepository")
  */
 class Codes implements CodesInterface
 {
   /**
    * @var integer
    *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="code", type="string", length=255)
+   * @Column(name="code", type="string", length=255)
    */
   private $code;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="client_id", type="string", length=255)
+   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="username", type="string", length=255)
+   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="redirect_uri", type="text")
+   * @Column(name="redirect_uri", type="text")
    */
   private $redirectUri;
 
   /**
    * @var integer
    *
-   * @ORM\Column(name="expires_in", type="integer")
+   * @Column(name="expires_in", type="integer")
    */
   private $expiresIn;
 
   /**
    * @var array
    *
-   * @ORM\Column(name="scope", type="array")
+   * @Column(name="scope", type="array")
    */
   private $scope;
 

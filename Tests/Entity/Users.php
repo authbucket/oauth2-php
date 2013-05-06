@@ -11,37 +11,36 @@
 
 namespace Pantarei\Oauth2\Tests\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Pantarei\Oauth2\Entity\UsersInterface;
 
 /**
  * Users
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\UsersRepository")
+ * @Table()
+ * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\UsersRepository")
  */
 class Users implements UsersInterface
 {
   /**
    * @var integer
    *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="username", type="string", length=255)
+   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="password", type="string", length=255)
+   * @Column(name="password", type="string", length=255)
    */
   private $password;
 

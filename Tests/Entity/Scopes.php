@@ -11,30 +11,29 @@
 
 namespace Pantarei\Oauth2\Tests\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Pantarei\Oauth2\Entity\ScopesInterface;
 
 /**
  * Scopes
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\ScopesRepository")
+ * @Table()
+ * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\ScopesRepository")
  */
 class Scopes implements ScopesInterface
 {
   /**
    * @var integer
    *
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
    *
-   * @ORM\Column(name="scope", type="string", length=255)
+   * @Column(name="scope", type="string", length=255)
    */
   private $scope;
 
