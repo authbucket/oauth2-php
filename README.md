@@ -1,6 +1,18 @@
-# Pantarei/Oauth2 [![Build Status](https://travis-ci.org/pantarei/oauth2.png?branch=1.0)](https://travis-ci.org/pantarei/oauth2)
+# [Pantarei/Oauth2](https://github.com/pantarei/oauth2) [![Build Status](https://travis-ci.org/pantarei/oauth2.png?branch=1.0)](https://travis-ci.org/pantarei/oauth2)
 
-The primary goal of this project is to develop a standards compliant OAuth2.0 library; secondary goal would be develop corresponding wrapper Symfony2 Bundle (http://www.symfony.com) and Drupal module (http://drupal.org).
+The primary goal of this project is to develop a standards compliant OAuth2.0 [RFC6749](http://tools.ietf.org/html/rfc6749) library; secondary goal would be develop corresponding wrapper Symfony2 Bundle (http://www.symfony.com) and Drupal module (http://drupal.org).
+
+## Documentation
+
+The automatically generated doxygen can be found from http://pantarei.github.io/oauth2.
+
+If you hope to build the document locally, please execute `doxygen config.doxygen` and it will goes to `_gh_pages` folder.
+
+## Testing
+
+This project is coverage with phpunit test cases, where CI result can be found from https://travis-ci.org/pantarei/oauth2.
+
+If you hope to run the test cases locally, please execute `phpunit -c phpunit.xml.dist`.
 
 ## Installation
 
