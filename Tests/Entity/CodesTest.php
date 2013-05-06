@@ -12,13 +12,14 @@
 namespace Pantarei\Oauth2\Tests\Entity;
 
 use Pantarei\Oauth2\Tests\Entity\Codes;
+use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
 
 /**
  * Test authorizes entity functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class CodesTest extends \PHPUnit_Framework_TestCase
+class CodesTest extends Oauth2_Database_TestCase
 {
   public function testInterface()
   {

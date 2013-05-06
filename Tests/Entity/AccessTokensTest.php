@@ -12,13 +12,14 @@
 namespace Pantarei\Oauth2\Tests\Entity;
 
 use Pantarei\Oauth2\Tests\Entity\AccessTokens;
+use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
 
 /**
  * Test access tokens entity functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AccessTokensTest extends \PHPUnit_Framework_TestCase
+class AccessTokensTest extends Oauth2_Database_TestCase
 {
   public function testInterface()
   {
