@@ -31,9 +31,21 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
     $this->assertTrue(interface_exists('Pantarei\Oauth2\Controller\ControllerInterface'));
   }
 
+  public function testEntityClassesExist()
+  {
+    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\AccessTokensInterface'));
+    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\AuthorizesInterface'));
+    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\ClientsInterface'));
+    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\CodesInterface'));
+    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\RefreshTokensInterface'));
+    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\ScopesInterface'));
+    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\UsersInterface'));
+  }
+
   public function testExceptionClassesExist()
   {
     $this->assertTrue(class_exists('Pantarei\Oauth2\Exception\AccessDeniedException'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Exception\Exception'));
     $this->assertTrue(class_exists('Pantarei\Oauth2\Exception\InvalidClientException'));
     $this->assertTrue(class_exists('Pantarei\Oauth2\Exception\InvalidGrantException'));
     $this->assertTrue(class_exists('Pantarei\Oauth2\Exception\InvalidRequestException'));
