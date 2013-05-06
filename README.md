@@ -1,8 +1,7 @@
 Pantarei/Oauth2
 ===============
 
-[![Build
-Status](https://travis-ci.org/pantarei/oauth2.png?branch=1.0)](https://travis-ci.org/pantarei/oauth2)
+<a href="https://travis-ci.org/pantarei/oauth2"><img src="https://travis-ci.org/pantarei/oauth2.png?branch=1.0" alt="Build Status" /></a>
 
 The primary goal of
 [Pantarei/Oauth2](https://github.com/pantarei/oauth2) is to develop a
