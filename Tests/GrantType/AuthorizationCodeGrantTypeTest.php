@@ -20,9 +20,45 @@ use Pantarei\Oauth2\GrantType\AuthorizationCodeGrantType;
  */
 class AuthorizationCodeGrantTypeTest extends \PHPUnit_Framework_TestCase
 {
-  public function testGetGrantType()
+  public function testGrantType()
   {
     $grant_type = new AuthorizationCodeGrantType();
     $this->assertEquals('authorization_code', $grant_type->getGrantType());
+  }
+
+  public function testCode()
+  {
+    $grant_type = new AuthorizationCodeGrantType(array(
+      'code' => 'abcd',
+    ));
+    $this->assertEquals('abcd', $grant_type->getCode());
+
+    $grant_type->setCode('efgh');
+    $this->assertEquals('efgh', $grant_type->getCode());
+  }
+
+  public function testRedirectUri()
+  {
+    $grant_type = new AuthorizationCodeGrantType(array(
+      'code' => 'abcd',
+      'redirect_uri' => 'http://example.com/redirect',
+    ));
+    $this->assertEquals('http://example.com/redirect', $grant_type->getRedirectUri());
+
+    $grant_type->setRedirectUri('http://abc.com/redirect');
+    $this->assertEquals('http://abc.com/redirect', $grant_type->getRedirectUri());
+  }
+
+  public function testClientId()
+  {
+    $grant_type = new AuthorizationCodeGrantType(array(
+      'code' => 'abcd',
+      'redirect_uri' => 'http://example.com/redirect',
+      'client_id' => '1234',
+    ));
+    $this->assertEquals('1234', $grant_type->getClientId());
+
+    $grant_type->setClientId('5678');
+    $this->assertEquals('5678', $grant_type->getClientId());
   }
 }

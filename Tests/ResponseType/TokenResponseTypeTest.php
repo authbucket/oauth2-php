@@ -75,5 +75,4 @@ class TokenResponseTypeTest extends \PHPUnit_Framework_TestCase
     $response_type->setState('example state');
     $this->assertEquals('example state', $response_type->getState());
   }
-
 }
