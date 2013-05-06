@@ -20,7 +20,7 @@ use Pantarei\Oauth2\TokenType\BearerTokenType;
  */
 class BearerTokenTypeTest extends \PHPUnit_Framework_TestCase
 {
-  public function testGetTokenType()
+  public function testTokenType()
   {
     $grant_type = new BearerTokenType();
     $this->assertEquals('bearer', $grant_type->getTokenType());

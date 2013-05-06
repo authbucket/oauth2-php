@@ -20,7 +20,7 @@ use Pantarei\Oauth2\TokenType\MacTokenType;
  */
 class MacTokenTypeTest extends \PHPUnit_Framework_TestCase
 {
-  public function testGetTokenType()
+  public function testTokenType()
   {
     $grant_type = new MacTokenType();
     $this->assertEquals('mac', $grant_type->getTokenType());

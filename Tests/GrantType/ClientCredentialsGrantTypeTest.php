@@ -20,9 +20,20 @@ use Pantarei\Oauth2\GrantType\ClientCredentialsGrantType;
  */
 class ClientCredentialsGrantTypeTest extends \PHPUnit_Framework_TestCase
 {
-  public function testGetGrantType()
+  public function testGrantType()
   {
     $grant_type = new ClientCredentialsGrantType();
     $this->assertEquals('client_credentials', $grant_type->getGrantType());
+  }
+
+  public function testScope()
+  {
+    $grant_type = new ClientCredentialsGrantType(array(
+      'scope' => 'aaa bbb ccc',
+    ));
+    $this->assertEquals('aaa bbb ccc', $grant_type->getScope());
+
+    $grant_type->setScope('ddd eee fff');
+    $this->assertEquals('ddd eee fff', $grant_type->getScope());
   }
 }

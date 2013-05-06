@@ -20,7 +20,7 @@ use Pantarei\Oauth2\GrantType\PasswordGrantType;
  */
 class PasswordGrantTypeTest extends \PHPUnit_Framework_TestCase
 {
-  public function testGetGrantType()
+  public function testGrantType()
   {
     $grant_type = new PasswordGrantType();
     $this->assertEquals('password', $grant_type->getGrantType());
