@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the pantarei/oauth2 package.
  *
  * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
