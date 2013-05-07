@@ -33,13 +33,13 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
 
   public function testEntityClassesExist()
   {
-    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\AccessTokensInterface'));
-    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\AuthorizesInterface'));
-    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\ClientsInterface'));
-    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\CodesInterface'));
-    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\RefreshTokensInterface'));
-    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\ScopesInterface'));
-    $this->assertTrue(interface_exists('Pantarei\Oauth2\Entity\UsersInterface'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\AccessTokens'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Authorizes'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Clients'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Codes'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\RefreshTokens'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Scopes'));
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Users'));
   }
 
   public function testExceptionClassesExist()

@@ -9,59 +9,43 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Entity;
+namespace Pantarei\Oauth2\Entity;
 
 /**
- * AccessTokens
- *
- * @Table()
- * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\AccessTokensRepository")
+ * RefreshTokens
  */
-class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
+class RefreshTokens
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="access_token", type="string", length=255)
    */
-  private $accessToken;
+  private $refreshToken;
 
   /**
    * @var string
-   *
-   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
-   *
-   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var integer
-   *
-   * @Column(name="expires_in", type="integer")
    */
   private $expiresIn;
 
   /**
    * @var array
-   *
-   * @Column(name="scope", type="array")
    */
   private $scope;
+
 
   /**
    * Get id
@@ -74,33 +58,33 @@ class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
   }
 
   /**
-   * Set accessToken
+   * Set refreshToken
    *
-   * @param string $accessToken
-   * @return AccessTokens
+   * @param string $refreshToken
+   * @return RefreshTokens
    */
-  public function setAccessToken($accessToken)
+  public function setRefreshToken($refreshToken)
   {
-    $this->accessToken = $accessToken;
+    $this->refreshToken = $refreshToken;
 
     return $this;
   }
 
   /**
-   * Get accessToken
+   * Get refreshToken
    *
    * @return string
    */
-  public function getAccessToken()
+  public function getRefreshToken()
   {
-    return $this->accessToken;
+    return $this->refreshToken;
   }
 
   /**
    * Set clientId
    *
    * @param string $clientId
-   * @return AccessTokens
+   * @return RefreshTokens
    */
   public function setClientId($clientId)
   {
@@ -123,7 +107,7 @@ class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
    * Set expiresIn
    *
    * @param integer $expiresIn
-   * @return AccessTokens
+   * @return RefreshTokens
    */
   public function setExpiresIn($expiresIn)
   {
@@ -146,7 +130,7 @@ class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
    * Set username
    *
    * @param string $username
-   * @return AccessTokens
+   * @return RefreshTokens
    */
   public function setUsername($username)
   {
@@ -169,7 +153,7 @@ class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
    * Set scope
    *
    * @param array $scope
-   * @return AccessTokens
+   * @return RefreshTokens
    */
   public function setScope($scope)
   {

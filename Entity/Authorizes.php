@@ -12,16 +12,39 @@
 namespace Pantarei\Oauth2\Entity;
 
 /**
- * Define the AuthorizesInterface.
+ * Authorizes
  */
-interface AuthorizesInterface
+class Authorizes
 {
+  /**
+   * @var integer
+   */
+  private $id;
+
+  /**
+   * @var string
+   */
+  private $clientId;
+
+  /**
+   * @var string
+   */
+  private $username;
+
+  /**
+   * @var array
+   */
+  private $scope;
+
   /**
    * Get id
    *
    * @return integer
    */
-  public function getId();
+  public function getId()
+  {
+    return $this->id;
+  }
 
   /**
    * Set clientId
@@ -29,14 +52,22 @@ interface AuthorizesInterface
    * @param string $clientId
    * @return Authorizes
    */
-  public function setClientId($clientId);
+  public function setClientId($clientId)
+  {
+    $this->clientId = $clientId;
+
+    return $this;
+  }
 
   /**
    * Get clientId
    *
    * @return string
    */
-  public function getClientId();
+  public function getClientId()
+  {
+    return $this->clientId;
+  }
 
   /**
    * Set username
@@ -44,14 +75,22 @@ interface AuthorizesInterface
    * @param string $username
    * @return Authorizes
    */
-  public function setUsername($username);
+  public function setUsername($username)
+  {
+    $this->username = $username;
+
+    return $this;
+  }
 
   /**
    * Get username
    *
    * @return string
    */
-  public function getUsername();
+  public function getUsername()
+  {
+    return $this->username;
+  }
 
   /**
    * Set scope
@@ -59,12 +98,20 @@ interface AuthorizesInterface
    * @param array $scope
    * @return Authorizes
    */
-  public function setScope($scope);
+  public function setScope($scope)
+  {
+    $this->scope = $scope;
+
+    return $this;
+  }
 
   /**
    * Get scope
    *
    * @return array
    */
-  public function getScope();
+  public function getScope()
+  {
+    return $this->scope;
+  }
 }

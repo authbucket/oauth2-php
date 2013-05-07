@@ -9,43 +9,30 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Entity;
+namespace Pantarei\Oauth2\Entity;
 
 /**
  * Clients
- *
- * @Table()
- * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\ClientsRepository")
  */
-class Clients extends \Pantarei\Oauth2\Entity\Clients
+class Clients
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
-   *
-   * @Column(name="client_secret", type="string", length=255)
    */
   private $clientSecret;
 
   /**
    * @var string
-   *
-   * @Column(name="redirect_uri", type="text")
    */
   private $redirectUri;
 

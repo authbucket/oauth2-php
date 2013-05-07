@@ -12,7 +12,7 @@
 namespace Pantarei\Oauth2\Tests;
 
 use Doctrine\Common\Persistence\PersistentObject;
-use Doctrine\ORM\EntityManager;
+use Pantarei\Oauth2\Tests\Entity\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 

@@ -12,16 +12,34 @@
 namespace Pantarei\Oauth2\Entity;
 
 /**
- * Define the UsersInterface.
+ * Users
  */
-interface UsersInterface
+class Users
 {
+  /**
+   * @var integer
+   */
+  private $id;
+
+  /**
+   * @var string
+   */
+  private $username;
+
+  /**
+   * @var string
+   */
+  private $password;
+
   /**
    * Get id
    *
    * @return integer
    */
-  public function getId();
+  public function getId()
+  {
+    return $this->id;
+  }
 
   /**
    * Set username
@@ -29,14 +47,22 @@ interface UsersInterface
    * @param string $username
    * @return Users
    */
-  public function setUsername($username);
+  public function setUsername($username)
+  {
+    $this->username = $username;
+
+    return $this;
+  }
 
   /**
    * Get username
    *
    * @return string
    */
-  public function getUsername();
+  public function getUsername()
+  {
+    return $this->username;
+  }
 
   /**
    * Set password
@@ -44,12 +70,20 @@ interface UsersInterface
    * @param string $password
    * @return Users
    */
-  public function setPassword($password);
+  public function setPassword($password)
+  {
+    $this->password = $password;
+
+    return $this;
+  }
 
   /**
    * Get password
    *
    * @return string
    */
-  public function getPassword();
+  public function getPassword()
+  {
+    return $this->password;
+  }
 }

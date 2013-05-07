@@ -11,15 +11,13 @@
 
 namespace Pantarei\Oauth2\Tests\Entity;
 
-use Pantarei\Oauth2\Entity\RefreshTokensInterface;
-
 /**
  * RefreshTokens
  *
  * @Table()
  * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\RefreshTokensRepository")
  */
-class RefreshTokens implements RefreshTokensInterface
+class RefreshTokens extends \Pantarei\Oauth2\Entity\RefreshTokens
 {
   /**
    * @var integer

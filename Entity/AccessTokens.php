@@ -9,57 +9,40 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Entity;
+namespace Pantarei\Oauth2\Entity;
 
 /**
  * AccessTokens
- *
- * @Table()
- * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\AccessTokensRepository")
  */
-class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
+class AccessTokens
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="access_token", type="string", length=255)
    */
   private $accessToken;
 
   /**
    * @var string
-   *
-   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
-   *
-   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var integer
-   *
-   * @Column(name="expires_in", type="integer")
    */
   private $expiresIn;
 
   /**
    * @var array
-   *
-   * @Column(name="scope", type="array")
    */
   private $scope;
 

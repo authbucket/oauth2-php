@@ -12,16 +12,29 @@
 namespace Pantarei\Oauth2\Entity;
 
 /**
- * Define the ScopesInterface
+ * Scopes
  */
-interface ScopesInterface
+class Scopes
 {
+  /**
+   * @var integer
+   */
+  private $id;
+
+  /**
+   * @var string
+   */
+  private $scope;
+
   /**
    * Get id
    *
    * @return integer
    */
-  public function getId();
+  public function getId()
+  {
+    return $this->id;
+  }
 
   /**
    * Set scope
@@ -29,12 +42,20 @@ interface ScopesInterface
    * @param string $scope
    * @return Scopes
    */
-  public function setScope($scope);
+  public function setScope($scope)
+  {
+    $this->scope = $scope;
+
+    return $this;
+  }
 
   /**
    * Get scope
    *
    * @return string
    */
-  public function getScope();
+  public function getScope()
+  {
+    return $this->scope;
+  }
 }

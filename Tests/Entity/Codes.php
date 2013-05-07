@@ -11,15 +11,13 @@
 
 namespace Pantarei\Oauth2\Tests\Entity;
 
-use Pantarei\Oauth2\Entity\CodesInterface;
-
 /**
  * Codes
  *
  * @Table()
  * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\CodesRepository")
  */
-class Codes implements CodesInterface
+class Codes extends \Pantarei\Oauth2\Entity\Codes
 {
   /**
    * @var integer

@@ -11,15 +11,13 @@
 
 namespace Pantarei\Oauth2\Tests\Entity;
 
-use Pantarei\Oauth2\Entity\ScopesInterface;
-
 /**
  * Scopes
  *
  * @Table()
  * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\ScopesRepository")
  */
-class Scopes implements ScopesInterface
+class Scopes extends \Pantarei\Oauth2\Entity\Scopes
 {
   /**
    * @var integer

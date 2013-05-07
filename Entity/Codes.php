@@ -9,57 +9,45 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Entity;
+namespace Pantarei\Oauth2\Entity;
 
 /**
- * AccessTokens
- *
- * @Table()
- * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\AccessTokensRepository")
+ * Codes
  */
-class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
+class Codes
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="access_token", type="string", length=255)
    */
-  private $accessToken;
+  private $code;
 
   /**
    * @var string
-   *
-   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
-   *
-   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
+   * @var string
+   */
+  private $redirectUri;
+
+  /**
    * @var integer
-   *
-   * @Column(name="expires_in", type="integer")
    */
   private $expiresIn;
 
   /**
    * @var array
-   *
-   * @Column(name="scope", type="array")
    */
   private $scope;
 
@@ -74,33 +62,33 @@ class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
   }
 
   /**
-   * Set accessToken
+   * Set code
    *
-   * @param string $accessToken
-   * @return AccessTokens
+   * @param string $code
+   * @return Codes
    */
-  public function setAccessToken($accessToken)
+  public function setCode($code)
   {
-    $this->accessToken = $accessToken;
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get accessToken
+   * Get code
    *
    * @return string
    */
-  public function getAccessToken()
+  public function getCode()
   {
-    return $this->accessToken;
+    return $this->code;
   }
 
   /**
    * Set clientId
    *
    * @param string $clientId
-   * @return AccessTokens
+   * @return Codes
    */
   public function setClientId($clientId)
   {
@@ -120,10 +108,33 @@ class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
   }
 
   /**
+   * Set redirectUri
+   *
+   * @param string $redirectUri
+   * @return Codes
+   */
+  public function setRedirectUri($redirectUri)
+  {
+    $this->redirectUri = $redirectUri;
+
+    return $this;
+  }
+
+  /**
+   * Get redirectUri
+   *
+   * @return string
+   */
+  public function getRedirectUri()
+  {
+    return $this->redirectUri;
+  }
+
+  /**
    * Set expiresIn
    *
    * @param integer $expiresIn
-   * @return AccessTokens
+   * @return Codes
    */
   public function setExpiresIn($expiresIn)
   {
@@ -146,7 +157,7 @@ class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
    * Set username
    *
    * @param string $username
-   * @return AccessTokens
+   * @return Codes
    */
   public function setUsername($username)
   {
@@ -169,7 +180,7 @@ class AccessTokens extends \Pantarei\Oauth2\Entity\AccessTokens
    * Set scope
    *
    * @param array $scope
-   * @return AccessTokens
+   * @return Codes
    */
   public function setScope($scope)
   {

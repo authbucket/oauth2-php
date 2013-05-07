@@ -12,6 +12,7 @@
 namespace Pantarei\Oauth2\Tests\Entity;
 
 use Pantarei\Oauth2\Tests\Entity\AccessTokens;
+use Pantarei\Oauth2\Tests\Entity\AccessTokensRepository;
 use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
 
 /**
@@ -24,5 +25,8 @@ class AccessTokensTest extends Oauth2_Database_TestCase
   public function testInterface()
   {
     $token = new AccessTokens();
+
+    $token_repository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\AccessTokens');
+    $tokens = $token_repository->findAll();
   }
 }
