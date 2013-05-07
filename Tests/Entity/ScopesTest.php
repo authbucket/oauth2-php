@@ -21,8 +21,12 @@ use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
  */
 class ScopesTest extends Oauth2_Database_TestCase
 {
-  public function testInterface()
+  public function testFind()
   {
-    $token = new Scopes();
+    $scopeRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\Scopes');
+    $scope = $scopeRepository->find(1);
+
+    $this->assertTrue($scope !== NULL);
+    $this->assertEquals('demoscope1', $scope->getScope());
   }
 }

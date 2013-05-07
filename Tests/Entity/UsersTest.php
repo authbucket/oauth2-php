@@ -21,8 +21,13 @@ use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
  */
 class UsersTest extends Oauth2_Database_TestCase
 {
-  public function testInterface()
+  public function testFind()
   {
-    $token = new Users();
+    $userRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\Users');
+    $user = $userRepository->find(1);
+
+    $this->assertTrue($user !== NULL);
+    $this->assertEquals('demouser1', $user->getUsername());
+    $this->assertEquals('demopassword1', $user->getPassword());
   }
 }

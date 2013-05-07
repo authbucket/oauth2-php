@@ -12,7 +12,6 @@
 namespace Pantarei\Oauth2\Tests\Entity;
 
 use Pantarei\Oauth2\Tests\Entity\AccessTokens;
-use Pantarei\Oauth2\Tests\Entity\AccessTokensRepository;
 use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
 
 /**
@@ -22,11 +21,16 @@ use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
  */
 class AccessTokensTest extends Oauth2_Database_TestCase
 {
-  public function testInterface()
+  public function testFind()
   {
-    $token = new AccessTokens();
+    $accessTokenRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\AccessTokens');
+    $accessToken = $accessTokenRepository->find(1);
 
-    $token_repository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\AccessTokens');
-    $tokens = $token_repository->findAll();
+    $this->assertTrue($accessToken !== NULL);
+    $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $accessToken->getAccessToken());
+    $this->assertEquals('http://democlient1.com/', $accessToken->getClientId());
+    $this->assertEquals('3600', $accessToken->getExpiresIn());
+    $this->assertEquals('demouser1', $accessToken->getUsername());
+    $this->assertEquals(array('demoscope1'), $accessToken->getScope());
   }
 }

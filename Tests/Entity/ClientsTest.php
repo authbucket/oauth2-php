@@ -21,8 +21,14 @@ use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
  */
 class ClientsTest extends Oauth2_Database_TestCase
 {
-  public function testInterface()
+  public function testFind()
   {
-    $token = new Clients();
+    $clientRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\Clients');
+    $client = $clientRepository->find(1);
+
+    $this->assertTrue($client !== NULL);
+    $this->assertEquals('http://democlient1.com/', $client->getClientId());
+    $this->assertEquals('demosecret1', $client->getClientSecret());
+    $this->assertEquals('http://democlient1.com/redirect', $client->getRedirectUri());
   }
 }

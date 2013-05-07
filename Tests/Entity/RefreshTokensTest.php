@@ -21,8 +21,16 @@ use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
  */
 class RefreshTokensTest extends Oauth2_Database_TestCase
 {
-  public function testInterface()
+  public function testFind()
   {
-    $token = new RefreshTokens();
+    $refreshTokenRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\RefreshTokens');
+    $refreshToken = $refreshTokenRepository->find(1);
+
+    $this->assertTrue($refreshToken !== NULL);
+    $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $refreshToken->getRefreshToken());
+    $this->assertEquals('http://democlient3.com/', $refreshToken->getClientId());
+    $this->assertEquals('86400', $refreshToken->getExpiresIn());
+    $this->assertEquals('demouser3', $refreshToken->getUsername());
+    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $refreshToken->getScope());
   }
 }

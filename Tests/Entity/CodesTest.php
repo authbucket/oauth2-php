@@ -21,8 +21,17 @@ use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
  */
 class CodesTest extends Oauth2_Database_TestCase
 {
-  public function testInterface()
+  public function testFind()
   {
-    $token = new Codes();
+    $codeRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\Codes');
+    $code = $codeRepository->find(1);
+
+    $this->assertTrue($code !== NULL);
+    $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $code->getCode());
+    $this->assertEquals('http://democlient2.com/', $code->getClientId());
+    $this->assertEquals('http://democlient2.com/redirect', $code->getRedirectUri());
+    $this->assertEquals('300', $code->getExpiresIn());
+    $this->assertEquals('demouser2', $code->getUsername());
+    $this->assertEquals(array('demoscope1', 'demoscope2'), $code->getScope());
   }
 }

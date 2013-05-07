@@ -21,8 +21,14 @@ use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
  */
 class AuthorizesTest extends Oauth2_Database_TestCase
 {
-  public function testInterface()
+  public function testFind()
   {
-    $token = new Authorizes();
+    $authorizeRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\Authorizes');
+    $authorize = $authorizeRepository->find(3);
+
+    $this->assertTrue($authorize !== NULL);
+    $this->assertEquals('http://democlient3.com/', $authorize->getClientId());
+    $this->assertEquals('demouser3', $authorize->getUsername());
+    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $authorize->getScope());
   }
 }
