@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2;
+namespace Pantarei\Oauth2\Util;
 
 /**
  * Shared component for Oauth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class Oauth2
+class ParamUtils
 {
   /**
    * Get a parameter from passed input query, with pattern filtering.
@@ -32,7 +32,7 @@ class Oauth2
    *
    * @see http://tools.ietf.org/html/rfc6749#appendix-A
    */
-  public static function getParam($query, $params = '') {
+  public static function filter($query, $params = '') {
     $syntax = array(
       'VSCHAR'            => '[\x20-\x7E]',
       'NQCHAR'            => '[\x21\x22-\x5B\x5D-\x7E]',

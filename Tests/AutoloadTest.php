@@ -18,28 +18,12 @@ namespace Pantarei\Oauth2\Test;
  */
 class AutoloadTest extends \PHPUnit_Framework_TestCase
 {
-  public function testOauth2ClassExists()
-  {
-    $this->assertTrue(class_exists('Pantarei\Oauth2\Oauth2'));
-  }
-
   public function testControllerClassesExist()
   {
     $this->assertTrue(class_exists('Pantarei\Oauth2\Controller\AuthorizationServerController'));
     $this->assertTrue(class_exists('Pantarei\Oauth2\Controller\ClientController'));
     $this->assertTrue(class_exists('Pantarei\Oauth2\Controller\ResourceServerController'));
     $this->assertTrue(interface_exists('Pantarei\Oauth2\Controller\ControllerInterface'));
-  }
-
-  public function testEntityClassesExist()
-  {
-    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\AccessTokens'));
-    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Authorizes'));
-    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Clients'));
-    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Codes'));
-    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\RefreshTokens'));
-    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Scopes'));
-    $this->assertTrue(class_exists('Pantarei\Oauth2\Entity\Users'));
   }
 
   public function testExceptionClassesExist()
@@ -93,5 +77,10 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
     $this->assertTrue(class_exists('Pantarei\Oauth2\TokenType\BearerTokenType'));
     $this->assertTrue(class_exists('Pantarei\Oauth2\TokenType\MacTokenType'));
     $this->assertTrue(interface_exists('Pantarei\Oauth2\TokenType\TokenTypeInterface'));
+  }
+
+  public function testUtilClassExists()
+  {
+    $this->assertTrue(class_exists('Pantarei\Oauth2\Util\ParamUtils'));
   }
 }

@@ -18,7 +18,7 @@ use Pantarei\Oauth2\Exception\ServerErrorException;
 use Pantarei\Oauth2\Exception\TemporarilyUnavailableException;
 use Pantarei\Oauth2\Exception\UnauthorizedClientException;
 use Pantarei\Oauth2\Exception\UnsupportedResponseTypeException;
-use Pantarei\Oauth2\Oauth2;
+use Pantarei\Oauth2\Util\ParamUtils;
 
 /**
  * Authorization request implementation.
@@ -29,7 +29,7 @@ class AuthorizationRequest implements RequestInterface
 {
   public function validateRequest(array $query = array())
   {
-    $filtered_query = Oauth2::getParam($query, array('response_type', 'client_id', 'redirect_uri', 'scope', 'state'));
+    $filtered_query = ParamUtils::filter($query, array('response_type', 'client_id', 'redirect_uri', 'scope', 'state'));
 
     // Both response_type and client_id are required.
     if (!$filtered_query['response_type'] || !$filtered_query['client_id']) {

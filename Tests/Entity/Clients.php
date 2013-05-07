@@ -17,7 +17,7 @@ namespace Pantarei\Oauth2\Tests\Entity;
  * @Table()
  * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\ClientsRepository")
  */
-class Clients extends \Pantarei\Oauth2\Entity\Clients
+class Clients
 {
   /**
    * @var integer

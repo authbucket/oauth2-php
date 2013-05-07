@@ -21,7 +21,7 @@ use Pantarei\Oauth2\Exception\TemporarilyUnavailableException;
 use Pantarei\Oauth2\Exception\UnauthorizedClientException;
 use Pantarei\Oauth2\Exception\UnsupportedGrantTypeException;
 use Pantarei\Oauth2\Exception\UnsupportedResponseTypeException;
-use Pantarei\Oauth2\Oauth2;
+use Pantarei\Oauth2\Util\ParamUtils;
 
 /**
  * Access token request implementation.
@@ -32,7 +32,7 @@ class AccessTokenRequest implements RequestInterface
 {
   public function validateRequest(array $query = array())
   {
-    $filtered_query = Oauth2::getParam($query, array('access_token', 'token_type', 'expires_in', 'scope', 'state'));
+    $filtered_query = ParamUtils::filter($query, array('access_token', 'token_type', 'expires_in', 'scope', 'state'));
 
     // Both access_token and token_type are required.
     if (!$filtered_query['access_token'] || !$filtered_query['token_type']) {

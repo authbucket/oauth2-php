@@ -12,13 +12,13 @@
 namespace Pantarei\Oauth2\Tests;
 
 use Doctrine\Common\Persistence\PersistentObject;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use Pantarei\Oauth2\Tests\Entity\AccessTokens;
 use Pantarei\Oauth2\Tests\Entity\Authorizes;
 use Pantarei\Oauth2\Tests\Entity\Clients;
 use Pantarei\Oauth2\Tests\Entity\Codes;
-use Pantarei\Oauth2\Tests\Entity\EntityManager;
 use Pantarei\Oauth2\Tests\Entity\RefreshTokens;
 use Pantarei\Oauth2\Tests\Entity\Scopes;
 use Pantarei\Oauth2\Tests\Entity\Users;

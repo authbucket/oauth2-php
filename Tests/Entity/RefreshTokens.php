@@ -17,7 +17,7 @@ namespace Pantarei\Oauth2\Tests\Entity;
  * @Table()
  * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\RefreshTokensRepository")
  */
-class RefreshTokens extends \Pantarei\Oauth2\Entity\RefreshTokens
+class RefreshTokens
 {
   /**
    * @var integer
