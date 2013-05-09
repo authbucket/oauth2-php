@@ -53,7 +53,7 @@ abstract class Database
    */
   final protected static function openConnection()
   {
-    if (empty($self::$databaseInfo)) {
+    if (empty(self::$databaseInfo)) {
       throw new Exception('Need to execute Database::setDatabaseInfo() for database initialization');
     }
 
@@ -63,6 +63,14 @@ abstract class Database
     // Create a new connection and return it.
     $new_connection = new $driver_class(self::$databaseInfo);
     return $new_connection;
+  }
+
+  /**
+   * Closes a connection to the server.
+   */
+  final public static function closeConnection()
+  {
+    self::$connection = NULL;
   }
 
   /**
@@ -84,6 +92,6 @@ abstract class Database
    * Gets the database information array for the database;
    */
   final public static function getDatabaseInfo(){
-    return self::$databaseInfo();
+    return self::$databaseInfo;
   }
 }

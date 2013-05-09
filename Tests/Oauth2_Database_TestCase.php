@@ -11,10 +11,7 @@
 
 namespace Pantarei\Oauth2\Tests;
 
-use Doctrine\Common\Persistence\PersistentObject;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\SchemaTool;
-use Doctrine\ORM\Tools\Setup;
+use Pantarei\Oauth2\Database\Database;
 use Pantarei\Oauth2\Tests\Entity\AccessTokens;
 use Pantarei\Oauth2\Tests\Entity\Authorizes;
 use Pantarei\Oauth2\Tests\Entity\Clients;
@@ -34,20 +31,8 @@ class Oauth2_Database_TestCase extends \PHPUnit_Framework_TestCase
 
   public function setUp()
   {
-    // Create a simple "default" Doctrine ORM configuration for Annotations.
-    $isDevMode = TRUE;
-    $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/Entity"), $isDevMode);
-
-    // Database configuration parameters.
-    $conn = array(
-      'driver' => 'pdo_sqlite',
-      'memory' => TRUE,
-    );
-
-    // Obtaining the entity manager.
-    $this->em = EntityManager::create($conn, $config);
-    PersistentObject::setObjectManager($this->em);
-    $this->tool = new SchemaTool($this->em);
+    $this->em = Database::getConnection()->em;
+    $this->tool = Database::getConnection()->tool;
 
     // Add tables and sample data.
     $this->addTables();
@@ -58,8 +43,7 @@ class Oauth2_Database_TestCase extends \PHPUnit_Framework_TestCase
   {
     // Drop tables and reset connection settings.
     $this->dropTables();
-    unset($this->tool);
-    unset($this->em);
+    Database::closeConnection();
   }
 
   function addTables()
