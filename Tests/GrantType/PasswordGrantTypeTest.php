@@ -28,9 +28,8 @@ class PasswordGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testUsername()
   {
-    $grant_type = new PasswordGrantType(array(
-      'username' => 'edison',
-    ));
+    $grant_type = new PasswordGrantType();
+    $grant_type->setUsername('edison');
     $this->assertEquals('edison', $grant_type->getUsername());
 
     $grant_type->setUsername('rebecca');
@@ -39,10 +38,9 @@ class PasswordGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testPassword()
   {
-    $grant_type = new PasswordGrantType(array(
-      'username' => 'edison',
-      'password' => 'hello123',
-    ));
+    $grant_type = new PasswordGrantType();
+    $grant_type->setUsername('edison')
+      ->setPassword('hello123');
     $this->assertEquals('hello123', $grant_type->getPassword());
 
     $grant_type->setPassword('abc123');
@@ -51,11 +49,10 @@ class PasswordGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testScope()
   {
-    $grant_type = new PasswordGrantType(array(
-      'username' => 'edison',
-      'password' => 'hello123',
-      'scope' => 'aaa bbb ccc',
-    ));
+    $grant_type = new PasswordGrantType();
+    $grant_type->setUsername('edison')
+      ->setPassword('hello123')
+      ->setScope('aaa bbb ccc');
     $this->assertEquals('aaa bbb ccc', $grant_type->getScope());
 
     $grant_type->setScope('ddd eee fff');

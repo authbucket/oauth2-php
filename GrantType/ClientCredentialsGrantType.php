@@ -35,13 +35,6 @@ class ClientCredentialsGrantType implements GrantTypeInterface
    */
   private $scope = '';
 
-  public function __construct(array $query = array())
-  {
-    if (isset($query['scope'])) {
-      $this->setScope($query['scope']);
-    }
-  }
-
   public function getGrantType()
   {
     return $this->grantType;

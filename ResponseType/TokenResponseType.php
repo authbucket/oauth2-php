@@ -58,22 +58,6 @@ class TokenResponseType implements ResponseTypeInterface
    */
   private $state = '';
 
-  public function __construct(array $query = array())
-  {
-    if (isset($query['client_id'])) {
-      $this->setClientId($query['client_id']);
-    }
-    if (isset($query['redirect_uri'])) {
-      $this->setRedirectUri($query['redirect_uri']);
-    }
-    if (isset($query['scope'])) {
-      $this->setScope($query['scope']);
-    }
-    if (isset($query['state'])) {
-      $this->setState($query['state']);
-    }
-  }
-
   public function getResponseType()
   {
     return $this->responseType;

@@ -28,9 +28,8 @@ class RefreshTokenGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testRefreshToken()
   {
-    $grant_type = new RefreshTokenGrantType(array(
-      'refresh_token' => 'abcd',
-    ));
+    $grant_type = new RefreshTokenGrantType();
+    $grant_type->setRefreshToken('abcd');
     $this->assertEquals('abcd', $grant_type->getRefreshToken());
 
     $grant_type->setRefreshToken('efgh');
@@ -39,10 +38,9 @@ class RefreshTokenGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testScope()
   {
-    $grant_type = new RefreshTokenGrantType(array(
-      'refresh_token' => 'abcd',
-      'scope' => 'aaa bbb ccc',
-    ));
+    $grant_type = new RefreshTokenGrantType();
+    $grant_type->setRefreshToken('abcd')
+      ->setScope('aaa bbb ccc');
     $this->assertEquals('aaa bbb ccc', $grant_type->getScope());
 
     $grant_type->setScope('ddd eee fff');

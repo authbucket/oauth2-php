@@ -26,10 +26,6 @@
         "doctrine/doctrine-bundle": "1.2.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "phpunit/phpunit": "3.7.*",
-        "symfony/class-loader": ">=2.1,<2.3-dev",
-        "symfony/framework-bundle": ">=2.1,<2.3-dev",
-        "symfony/http-foundation": ">=2.1,<2.3-dev",
-        "symfony/security-bundle": ">=2.1,<2.3-dev",
         "symfony/yaml": ">=2.1,<2.3-dev"
     },
     "suggest": {

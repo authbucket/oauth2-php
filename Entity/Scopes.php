@@ -9,29 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Entity;
+
+use Pantarei\OAuth2\Entity\EntityInterface;
 
 /**
  * Scopes
- *
- * @Table(name="scopes")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ScopesRepository")
  */
-class Scopes extends \Pantarei\OAuth2\Entity\Scopes
+class Scopes implements EntityInterface
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="scope", type="string", length=255)
    */
   private $scope;
 

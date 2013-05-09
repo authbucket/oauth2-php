@@ -9,60 +9,49 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Entity;
+
+use Pantarei\OAuth2\Entity\EntityInterface;
 
 /**
- * RefreshTokens
- *
- * @Table(name="refresh_tokens")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokensRepository")
+ * Codes
  */
-class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
+class Codes implements EntityInterface
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="refresh_token", type="string", length=255)
    */
-  private $refreshToken;
+  private $code;
 
   /**
    * @var string
-   *
-   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
-   *
-   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
+   * @var string
+   */
+  private $redirectUri;
+
+  /**
    * @var integer
-   *
-   * @Column(name="expires_in", type="integer")
    */
   private $expiresIn;
 
   /**
    * @var array
-   *
-   * @Column(name="scope", type="array")
    */
   private $scope;
-
 
   /**
    * Get id
@@ -75,33 +64,33 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
   }
 
   /**
-   * Set refreshToken
+   * Set code
    *
-   * @param string $refreshToken
-   * @return RefreshTokens
+   * @param string $code
+   * @return Codes
    */
-  public function setRefreshToken($refreshToken)
+  public function setCode($code)
   {
-    $this->refreshToken = $refreshToken;
+    $this->code = $code;
 
     return $this;
   }
 
   /**
-   * Get refreshToken
+   * Get code
    *
    * @return string
    */
-  public function getRefreshToken()
+  public function getCode()
   {
-    return $this->refreshToken;
+    return $this->code;
   }
 
   /**
    * Set clientId
    *
    * @param string $clientId
-   * @return RefreshTokens
+   * @return Codes
    */
   public function setClientId($clientId)
   {
@@ -121,10 +110,33 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
   }
 
   /**
+   * Set redirectUri
+   *
+   * @param string $redirectUri
+   * @return Codes
+   */
+  public function setRedirectUri($redirectUri)
+  {
+    $this->redirectUri = $redirectUri;
+
+    return $this;
+  }
+
+  /**
+   * Get redirectUri
+   *
+   * @return string
+   */
+  public function getRedirectUri()
+  {
+    return $this->redirectUri;
+  }
+
+  /**
    * Set expiresIn
    *
    * @param integer $expiresIn
-   * @return RefreshTokens
+   * @return Codes
    */
   public function setExpiresIn($expiresIn)
   {
@@ -147,7 +159,7 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
    * Set username
    *
    * @param string $username
-   * @return RefreshTokens
+   * @return Codes
    */
   public function setUsername($username)
   {
@@ -170,7 +182,7 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
    * Set scope
    *
    * @param array $scope
-   * @return RefreshTokens
+   * @return Codes
    */
   public function setScope($scope)
   {

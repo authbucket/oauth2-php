@@ -49,19 +49,6 @@ class PasswordGrantType implements GrantTypeInterface
    */
   private $scope = '';
 
-  public function __construct(array $query = array())
-  {
-    if (isset($query['username'])) {
-      $this->setUsername($query['username']);
-    }
-    if (isset($query['password'])) {
-      $this->setPassword($query['password']);
-    }
-    if (isset($query['scope'])) {
-      $this->setScope($query['scope']);
-    }
-  }
-
   public function getGrantType()
   {
     return $this->grantType;

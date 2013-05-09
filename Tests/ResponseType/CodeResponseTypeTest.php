@@ -28,9 +28,8 @@ class CodeResponseTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testClientId()
   {
-    $response_type = new CodeResponseType(array(
-      'client_id' => '1234',
-    ));
+    $response_type = new CodeResponseType();
+    $response_type->setClientId('1234');
     $this->assertEquals('1234', $response_type->getClientId());
 
     $response_type->setClientId('5678');
@@ -39,10 +38,9 @@ class CodeResponseTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testRedirectUri()
   {
-    $response_type = new CodeResponseType(array(
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
-    ));
+    $response_type = new CodeResponseType();
+    $response_type->setClientId('1234')
+      ->setRedirectUri('http://example.com/redirect');
     $this->assertEquals('http://example.com/redirect', $response_type->getRedirectUri());
 
     $response_type->setRedirectUri('http://abc.com/redirect');
@@ -51,11 +49,10 @@ class CodeResponseTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testScope()
   {
-    $response_type = new CodeResponseType(array(
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
-      'scope' => 'aaa bbb ccc',
-    ));
+    $response_type = new CodeResponseType();
+    $response_type->setClientId('1234')
+      ->setRedirectUri('http://example.com/redirect')
+      ->setScope('aaa bbb ccc');
     $this->assertEquals('aaa bbb ccc', $response_type->getScope());
 
     $response_type->setScope('ddd eee fff');
@@ -64,12 +61,11 @@ class CodeResponseTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testState()
   {
-    $response_type = new CodeResponseType(array(
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
-      'scope' => 'aaa bbb ccc',
-      'state' => 'demo state',
-    ));
+    $response_type = new CodeResponseType();
+    $response_type->setClientId('1234')
+      ->setRedirectUri('http://example.com/redirect')
+      ->setScope('aaa bbb ccc')
+      ->setState('demo state');
     $this->assertEquals('demo state', $response_type->getState());
 
     $response_type->setState('example state');

@@ -9,60 +9,44 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Entity;
+
+use Pantarei\OAuth2\Entity\EntityInterface;
 
 /**
  * RefreshTokens
- *
- * @Table(name="refresh_tokens")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokensRepository")
  */
-class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
+class RefreshTokens implements EntityInterface
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="refresh_token", type="string", length=255)
    */
   private $refreshToken;
 
   /**
    * @var string
-   *
-   * @Column(name="client_id", type="string", length=255)
    */
   private $clientId;
 
   /**
    * @var string
-   *
-   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var integer
-   *
-   * @Column(name="expires_in", type="integer")
    */
   private $expiresIn;
 
   /**
    * @var array
-   *
-   * @Column(name="scope", type="array")
    */
   private $scope;
-
 
   /**
    * Get id

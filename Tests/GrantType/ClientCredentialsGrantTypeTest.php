@@ -28,9 +28,8 @@ class ClientCredentialsGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testScope()
   {
-    $grant_type = new ClientCredentialsGrantType(array(
-      'scope' => 'aaa bbb ccc',
-    ));
+    $grant_type = new ClientCredentialsGrantType();
+    $grant_type->setScope('aaa bbb ccc');
     $this->assertEquals('aaa bbb ccc', $grant_type->getScope());
 
     $grant_type->setScope('ddd eee fff');

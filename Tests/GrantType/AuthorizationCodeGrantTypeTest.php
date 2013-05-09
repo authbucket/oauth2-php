@@ -28,9 +28,8 @@ class AuthorizationCodeGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testCode()
   {
-    $grant_type = new AuthorizationCodeGrantType(array(
-      'code' => 'abcd',
-    ));
+    $grant_type = new AuthorizationCodeGrantType();
+    $grant_type->setCode('abcd');
     $this->assertEquals('abcd', $grant_type->getCode());
 
     $grant_type->setCode('efgh');
@@ -39,10 +38,9 @@ class AuthorizationCodeGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testRedirectUri()
   {
-    $grant_type = new AuthorizationCodeGrantType(array(
-      'code' => 'abcd',
-      'redirect_uri' => 'http://example.com/redirect',
-    ));
+    $grant_type = new AuthorizationCodeGrantType();
+    $grant_type->setCode('abcd')
+      ->setRedirectUri('http://example.com/redirect');
     $this->assertEquals('http://example.com/redirect', $grant_type->getRedirectUri());
 
     $grant_type->setRedirectUri('http://abc.com/redirect');
@@ -51,11 +49,10 @@ class AuthorizationCodeGrantTypeTest extends \PHPUnit_Framework_TestCase
 
   public function testClientId()
   {
-    $grant_type = new AuthorizationCodeGrantType(array(
-      'code' => 'abcd',
-      'redirect_uri' => 'http://example.com/redirect',
-      'client_id' => '1234',
-    ));
+    $grant_type = new AuthorizationCodeGrantType();
+    $grant_type->setCode('abcd')
+      ->setRedirectUri('http://example.com/redirect')
+      ->setClientId('1234');
     $this->assertEquals('1234', $grant_type->getClientId());
 
     $grant_type->setClientId('5678');

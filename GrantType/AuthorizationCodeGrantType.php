@@ -52,19 +52,6 @@ class AuthorizationCodeGrantType implements GrantTypeInterface
    */
   private $cilentId;
 
-  public function __construct(array $query = array())
-  {
-    if (isset($query['code'])) {
-      $this->setCode($query['code']);
-    }
-    if (isset($query['redirect_uri'])) {
-      $this->setRedirectUri($query['redirect_uri']);
-    }
-    if (isset($query['client_id'])) {
-      $this->setClientId($query['client_id']);
-    }
-  }
-
   public function getGrantType()
   {
     return $this->grantType;

@@ -9,38 +9,34 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Entity;
+
+use Pantarei\OAuth2\Entity\EntityInterface;
 
 /**
- * Users
- *
- * @Table(name="users")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\UsersRepository")
+ * Authorizes
  */
-class Users extends \Pantarei\OAuth2\Entity\Users
+class Authorizes implements EntityInterface
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="username", type="string", length=255)
+   */
+  private $clientId;
+
+  /**
+   * @var string
    */
   private $username;
 
   /**
-   * @var string
-   *
-   * @Column(name="password", type="string", length=255)
+   * @var array
    */
-  private $password;
+  private $scope;
 
   /**
    * Get id
@@ -53,10 +49,33 @@ class Users extends \Pantarei\OAuth2\Entity\Users
   }
 
   /**
+   * Set clientId
+   *
+   * @param string $clientId
+   * @return Authorizes
+   */
+  public function setClientId($clientId)
+  {
+    $this->clientId = $clientId;
+
+    return $this;
+  }
+
+  /**
+   * Get clientId
+   *
+   * @return string
+   */
+  public function getClientId()
+  {
+    return $this->clientId;
+  }
+
+  /**
    * Set username
    *
    * @param string $username
-   * @return Users
+   * @return Authorizes
    */
   public function setUsername($username)
   {
@@ -76,25 +95,25 @@ class Users extends \Pantarei\OAuth2\Entity\Users
   }
 
   /**
-   * Set password
+   * Set scope
    *
-   * @param string $password
-   * @return Users
+   * @param array $scope
+   * @return Authorizes
    */
-  public function setPassword($password)
+  public function setScope($scope)
   {
-    $this->password = $password;
+    $this->scope = $scope;
 
     return $this;
   }
 
   /**
-   * Get password
+   * Get scope
    *
-   * @return string
+   * @return array
    */
-  public function getPassword()
+  public function getScope()
   {
-    return $this->password;
+    return $this->scope;
   }
 }

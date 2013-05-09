@@ -14,10 +14,10 @@ namespace Pantarei\OAuth2\Tests\Entity;
 /**
  * Codes
  *
- * @Table()
+ * @Table(name="codes")
  * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodesRepository")
  */
-class Codes
+class Codes extends \Pantarei\OAuth2\Entity\Codes
 {
   /**
    * @var integer

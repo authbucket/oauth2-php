@@ -9,36 +9,27 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Entity;
+
+use Pantarei\OAuth2\Entity\EntityInterface;
 
 /**
  * Users
- *
- * @Table(name="users")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\UsersRepository")
  */
-class Users extends \Pantarei\OAuth2\Entity\Users
+class Users implements EntityInterface
 {
   /**
    * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
-   *
-   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var string
-   *
-   * @Column(name="password", type="string", length=255)
    */
   private $password;
 

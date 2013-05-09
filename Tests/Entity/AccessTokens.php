@@ -14,10 +14,10 @@ namespace Pantarei\OAuth2\Tests\Entity;
 /**
  * AccessTokens
  *
- * @Table()
+ * @Table(name="access_tokens")
  * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokensRepository")
  */
-class AccessTokens
+class AccessTokens extends \Pantarei\OAuth2\Entity\AccessTokens
 {
   /**
    * @var integer
