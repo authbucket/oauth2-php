@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Test\Exception;
+namespace Pantarei\OAuth2\Tests\Exception;
 
 use Pantarei\OAuth2\Exception\AccessDeniedException;
 

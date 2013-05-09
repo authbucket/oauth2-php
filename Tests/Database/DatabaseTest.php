@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Test\Database;
+namespace Pantarei\OAuth2\Tests\Database;
 
 use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Tests\Database\Connection;

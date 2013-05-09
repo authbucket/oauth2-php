@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Test\ResponseType;
+namespace Pantarei\OAuth2\Tests\ResponseType;
 
 use Pantarei\OAuth2\ResponseType\CodeResponseType;
 

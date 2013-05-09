@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Test\GrantType;
+namespace Pantarei\OAuth2\Tests\GrantType;
 
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
 

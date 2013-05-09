@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Test;
+namespace Pantarei\OAuth2\Tests;
 
 /**
  * Test if autoload able to discover all required classes.

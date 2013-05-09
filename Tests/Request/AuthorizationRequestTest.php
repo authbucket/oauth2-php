@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Test\Request;
+namespace Pantarei\OAuth2\Tests\Request;
 
 use Pantarei\OAuth2\Request\AuthorizationRequest;
 
