@@ -16,23 +16,18 @@ namespace Pantarei\Oauth2\Util;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ParamUtils
+abstract class ParamUtils
 {
   /**
-   * Get a parameter from passed input query, with pattern filtering.
-   *
-   * @param array $query
-   *   The input query for filtering.
-   * @param string|array $params
-   *   The target parameter, in string for single value, or array for
-   *   multiple values.
-   *
-   * @return string|array
-   *   Filtered parameter, string or array according to request.
-   *
-   * @see http://tools.ietf.org/html/rfc6749#appendix-A
+   * Filter definition for filter_var_array();
    */
-  public static function filter($query, $params = '') {
+  static protected $definition = NULL;
+
+  /**
+   * Simply initialize self::$definition once.
+   */
+  final protected static function initializeDefinition()
+  {
     $syntax = array(
       'VSCHAR'            => '[\x20-\x7E]',
       'NQCHAR'            => '[\x21\x22-\x5B\x5D-\x7E]',
@@ -75,9 +70,37 @@ class ParamUtils
       'password'          => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['password'])),
       'refresh_token'     => array('filter' => FILTER_VALIDATE_REGEXP, 'flags' => FILTER_REQUIRE_SCALAR, 'options' => array('regexp' => $regexp['refresh_token'])),
     );
-    $filtered_query = filter_var_array($query, $definition);
 
-    if (is_string($params)) {
+    self::$definition = $definition;
+  }
+
+  /**
+   * Get a parameter from passed input query, with pattern filtering.
+   *
+   * @param array $query
+   *   The input query for filtering.
+   * @param string|array $params
+   *   The target parameter, in string for single value, or array for
+   *   multiple values.
+   *
+   * @return string|array
+   *   Filtered parameter, string or array according to request.
+   *
+   * @see http://tools.ietf.org/html/rfc6749#appendix-A
+   */
+  final public static function filter($query, $params = NULL)
+  {
+    // Initialize self::$definition once if required.
+    if (empty(self::$definition)) {
+      self::initializeDefinition();
+    }
+    $filtered_query = filter_var_array($query, self::$definition);
+
+    // Return entire result set, or only specific key(s).
+    if (empty($param)) {
+      return $filtered_query;
+    }
+    else if (is_string($params)) {
       return isset($filtered_query[$params]) ? $filtered_query[$params] : '';
     }
     else if (is_array($params)) {
