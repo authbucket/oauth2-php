@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Exception;
+namespace Pantarei\OAuth2\Exception;
 
 /**
  * ServerErrorException

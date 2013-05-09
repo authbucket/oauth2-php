@@ -9,21 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests;
+namespace Pantarei\OAuth2\Tests;
 
-use Pantarei\Oauth2\Database\Database;
-use Pantarei\Oauth2\Tests\Entity\AccessTokens;
-use Pantarei\Oauth2\Tests\Entity\Authorizes;
-use Pantarei\Oauth2\Tests\Entity\Clients;
-use Pantarei\Oauth2\Tests\Entity\Codes;
-use Pantarei\Oauth2\Tests\Entity\RefreshTokens;
-use Pantarei\Oauth2\Tests\Entity\Scopes;
-use Pantarei\Oauth2\Tests\Entity\Users;
+use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Tests\Entity\AccessTokens;
+use Pantarei\OAuth2\Tests\Entity\Authorizes;
+use Pantarei\OAuth2\Tests\Entity\Clients;
+use Pantarei\OAuth2\Tests\Entity\Codes;
+use Pantarei\OAuth2\Tests\Entity\RefreshTokens;
+use Pantarei\OAuth2\Tests\Entity\Scopes;
+use Pantarei\OAuth2\Tests\Entity\Users;
 
 /**
  * Extend PHPUnit_Framework_TestCase for test case require database setup.
  */
-class Oauth2_Database_TestCase extends \PHPUnit_Framework_TestCase
+class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
 {
   protected $em;
 
@@ -50,13 +50,13 @@ class Oauth2_Database_TestCase extends \PHPUnit_Framework_TestCase
   {
     // Generate testing database schema.
     $classes = array(
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\AccessTokens'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Authorizes'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Clients'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Codes'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\RefreshTokens'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Scopes'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Users'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\AccessTokens'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Authorizes'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Clients'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Codes'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\RefreshTokens'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Scopes'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Users'),
     );
     $this->tool->createSchema($classes);
 
@@ -66,13 +66,13 @@ class Oauth2_Database_TestCase extends \PHPUnit_Framework_TestCase
   {
     // Drop testing database schema.
     $classes = array(
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\AccessTokens'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Authorizes'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Clients'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Codes'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\RefreshTokens'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Scopes'),
-      $this->em->getClassMetadata('Pantarei\Oauth2\Tests\Entity\Users'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\AccessTokens'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Authorizes'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Clients'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Codes'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\RefreshTokens'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Scopes'),
+      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Users'),
     );
     $this->tool->dropSchema($classes);
   }

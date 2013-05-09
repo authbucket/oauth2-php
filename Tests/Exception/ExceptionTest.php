@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\Exception;
+namespace Pantarei\OAuth2\Test\Exception;
 
-use Pantarei\Oauth2\Exception\Exception;
+use Pantarei\OAuth2\Exception\Exception;
 
 /**
  * Test base OAuth2.0 exception.
@@ -21,7 +21,7 @@ use Pantarei\Oauth2\Exception\Exception;
 class ExceptionTest extends \PHPUnit_Framework_TestCase
 {
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\Exception
+   * @expectedException \Pantarei\OAuth2\Exception\Exception
    */
   public function testException()
   {

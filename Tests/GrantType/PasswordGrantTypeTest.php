@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\GrantType;
+namespace Pantarei\OAuth2\Test\GrantType;
 
-use Pantarei\Oauth2\GrantType\PasswordGrantType;
+use Pantarei\OAuth2\GrantType\PasswordGrantType;
 
 /**
  * Test password grant type functionality.

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Database;
+namespace Pantarei\OAuth2\Database;
 
-use Pantarei\Oauth2\Exception\Exception;
+use Pantarei\OAuth2\Exception\Exception;
 
 /**
  * Primary front-controller for the database system.

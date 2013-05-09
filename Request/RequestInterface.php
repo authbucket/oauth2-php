@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Request;
+namespace Pantarei\OAuth2\Request;
 
 /**
  * Defines the interface for request.

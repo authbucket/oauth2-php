@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\TokenType;
+namespace Pantarei\OAuth2\TokenType;
 
-use Pantarei\Oauth2\Exception\Exception;
+use Pantarei\OAuth2\Exception\Exception;
 
 /**
  * MAC token type implementation.

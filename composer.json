@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "Pantarei\\Oauth2": ""
+            "Pantarei\\OAuth2": ""
         }
     },
     "description": "Standards compliant OAuth2.0 library, for both Symfony2 and Drupal",
@@ -35,6 +35,6 @@
     "suggest": {
         "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
     },
-    "target-dir": "Pantarei/Oauth2",
+    "target-dir": "Pantarei/OAuth2",
     "type": "library"
 }

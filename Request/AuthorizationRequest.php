@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Request;
+namespace Pantarei\OAuth2\Request;
 
-use Pantarei\Oauth2\Exception\AccessDeniedException;
-use Pantarei\Oauth2\Exception\InvalidRequestException;
-use Pantarei\Oauth2\Exception\InvalidScopeException;
-use Pantarei\Oauth2\Exception\ServerErrorException;
-use Pantarei\Oauth2\Exception\TemporarilyUnavailableException;
-use Pantarei\Oauth2\Exception\UnauthorizedClientException;
-use Pantarei\Oauth2\Exception\UnsupportedResponseTypeException;
-use Pantarei\Oauth2\Util\ParamUtils;
+use Pantarei\OAuth2\Exception\AccessDeniedException;
+use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Pantarei\OAuth2\Exception\ServerErrorException;
+use Pantarei\OAuth2\Exception\TemporarilyUnavailableException;
+use Pantarei\OAuth2\Exception\UnauthorizedClientException;
+use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
+use Pantarei\OAuth2\Util\ParamUtils;
 
 /**
  * Authorization request implementation.

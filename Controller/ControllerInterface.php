@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Controller;
+namespace Pantarei\OAuth2\Controller;
 
 /**
  * Defines the interface for controller.

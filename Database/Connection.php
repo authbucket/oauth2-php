@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Database;
+namespace Pantarei\OAuth2\Database;
 
 /**
- * Base Oauth2.0 exception.
+ * Base database API class.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\Exception;
+namespace Pantarei\OAuth2\Test\Exception;
 
-use Pantarei\Oauth2\Exception\UnsupportedResponseTypeException;
+use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
 
 /**
  * Test unsupported response type exception.
@@ -21,7 +21,7 @@ use Pantarei\Oauth2\Exception\UnsupportedResponseTypeException;
 class UnsupportedResponseTypeTest extends \PHPUnit_Framework_TestCase
 {
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\UnsupportedResponseTypeException
+   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedResponseTypeException
    */
   public function testUnsupportedResponseTypeException()
   {

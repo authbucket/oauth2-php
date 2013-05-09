@@ -1,12 +1,12 @@
-Pantarei/Oauth2
+Pantarei/OAuth2
 ===============
 
 <a href="https://travis-ci.org/pantarei/oauth2"><img src="https://travis-ci.org/pantarei/oauth2.png?branch=1.0" alt="Build Status" /></a>
 
 The primary goal of
-[Pantarei/Oauth2](https://github.com/pantarei/oauth2) is to develop a
+[Pantarei/OAuth2](https://github.com/pantarei/oauth2) is to develop a
 standards compliant [RFC6749
-Oauth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
+OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://www.symfony.com) and [Drupal module](http://drupal.org).
 
@@ -39,14 +39,14 @@ First you need to add `pantarei/oauth2` to `composer.json`:
       }
     }
 
-You also have to add `Oauth2` to your `AppKernel.php`:
+You also have to add `OAuth2` to your `AppKernel.php`:
 
     class AppKernel extends Kernel
     {
       public function registerBundles()
       {
       $bundles = array(
-          new Pantarei\Oauth2\Oauth2()
+          new Pantarei\OAuth2\OAuth2()
           );
         return $bundles;
       }
@@ -117,7 +117,7 @@ If you hope to enable the examples as reference, update your
 `app/config/routing.yml` file to this:
 
     pantarei_bootstrap:
-        resource: "@Oauth2/Resources/config/routing.yml"
+        resource: "@OAuth2/Resources/config/routing.yml"
         prefix:   /_bootstrap
 
 Then you can access `_bootstrap/starter-template` or other pages as

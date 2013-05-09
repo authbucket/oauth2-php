@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Response;
+namespace Pantarei\OAuth2\Response;
 
 /**
  * Authorization response implementation.

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\Exception;
+namespace Pantarei\OAuth2\Test\Exception;
 
-use Pantarei\Oauth2\Exception\AccessDeniedException;
+use Pantarei\OAuth2\Exception\AccessDeniedException;
 
 /**
  * Test access denied exception.
@@ -21,7 +21,7 @@ use Pantarei\Oauth2\Exception\AccessDeniedException;
 class AccessDeniedExceptionTest extends \PHPUnit_Framework_TestCase
 {
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\AccessDeniedException
+   * @expectedException \Pantarei\OAuth2\Exception\AccessDeniedException
    */
   public function testAccessDeniedException()
   {

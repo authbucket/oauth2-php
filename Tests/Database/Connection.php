@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Database;
+namespace Pantarei\OAuth2\Tests\Database;
 
 use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
-use Pantarei\Oauth2\Database\Connection as DatabaseConnection;
+use Pantarei\OAuth2\Database\Connection as DatabaseConnection;
 
 /**
- * Extend PHPUnit_Framework_TestCase for test case require database setup.
+ * Extend connection class for doctrine.
  */
 class Connection extends DatabaseConnection
 {

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\TokenType;
+namespace Pantarei\OAuth2\TokenType;
 
 /**
  * Defines the interface for token type.

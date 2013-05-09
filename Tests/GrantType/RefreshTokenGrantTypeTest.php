@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\GrantType;
+namespace Pantarei\OAuth2\Test\GrantType;
 
-use Pantarei\Oauth2\GrantType\RefreshTokenGrantType;
+use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
 
 /**
  * Test refresh token grant type functionality.

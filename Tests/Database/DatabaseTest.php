@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\Database;
+namespace Pantarei\OAuth2\Test\Database;
 
-use Pantarei\Oauth2\Database\Database;
-use Pantarei\Oauth2\Tests\Database\Connection;
+use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Tests\Database\Connection;
 
 /**
  * Test base OAuth2.0 exception.
@@ -24,7 +24,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
   public function testDatabaseInfo()
   {
     $databaseInfo = array(
-      'namespace' => 'Pantarei\\Oauth2\\Tests\\Database',
+      'namespace' => 'Pantarei\\OAuth2\\Tests\\Database',
     );
 
     Database::setDatabaseInfo($databaseInfo);
@@ -34,12 +34,12 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
   public function testConnection()
   {
     $databaseInfo = array(
-      'namespace' => 'Pantarei\\Oauth2\\Tests\\Database',
+      'namespace' => 'Pantarei\\OAuth2\\Tests\\Database',
     );
 
     Database::setDatabaseInfo($databaseInfo);
 
     $conn = Database::getConnection();
-    $this->assertTrue($conn instanceof \Pantarei\Oauth2\Database\Connection);
+    $this->assertTrue($conn instanceof \Pantarei\OAuth2\Database\Connection);
   }
 }

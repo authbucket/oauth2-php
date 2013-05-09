@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Exception;
+namespace Pantarei\OAuth2\Exception;
 
 /**
- * Base Oauth2.0 exception.
+ * Base OAuth2.0 exception.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */

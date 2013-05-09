@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\GrantType;
+namespace Pantarei\OAuth2\Test\GrantType;
 
-use Pantarei\Oauth2\GrantType\ClientCredentialsGrantType;
+use Pantarei\OAuth2\GrantType\ClientCredentialsGrantType;
 
 /**
  * Test client credential grant type functionality.

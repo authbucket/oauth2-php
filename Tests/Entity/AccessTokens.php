@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Entity;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 /**
  * AccessTokens
  *
  * @Table()
- * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\AccessTokensRepository")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokensRepository")
  */
 class AccessTokens
 {

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\Exception;
+namespace Pantarei\OAuth2\Test\Exception;
 
-use Pantarei\Oauth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\InvalidRequestException;
 
 /**
  * Test invalid request exception.
@@ -21,7 +21,7 @@ use Pantarei\Oauth2\Exception\InvalidRequestException;
 class InvalidRequestExceptionTest extends \PHPUnit_Framework_TestCase
 {
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testInvalidRequestException()
   {

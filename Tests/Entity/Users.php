@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Entity;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 /**
  * Users
  *
  * @Table()
- * @Entity(repositoryClass="Pantarei\Oauth2\Tests\Entity\UsersRepository")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\UsersRepository")
  */
 class Users
 {

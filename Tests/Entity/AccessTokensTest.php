@@ -9,21 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Entity;
+namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\Oauth2\Tests\Entity\AccessTokens;
-use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
+use Pantarei\OAuth2\Tests\Entity\AccessTokens;
+use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
 /**
  * Test access tokens entity functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AccessTokensTest extends Oauth2_Database_TestCase
+class AccessTokensTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $accessTokenRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\AccessTokens');
+    $accessTokenRepository = $this->em->getRepository('Pantarei\OAuth2\Tests\Entity\AccessTokens');
     $accessToken = $accessTokenRepository->find(1);
 
     $this->assertTrue($accessToken !== NULL);

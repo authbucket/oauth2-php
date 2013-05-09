@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\ResponseType;
+namespace Pantarei\OAuth2\Test\ResponseType;
 
-use Pantarei\Oauth2\ResponseType\CodeResponseType;
+use Pantarei\OAuth2\ResponseType\CodeResponseType;
 
 /**
  * Test code response type functionality.

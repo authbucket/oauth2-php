@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Util;
+namespace Pantarei\OAuth2\Util;
 
 /**
- * Shared component for Oauth2.
+ * Shared component for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */

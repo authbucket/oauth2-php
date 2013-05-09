@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\Exception;
+namespace Pantarei\OAuth2\Test\Exception;
 
-use Pantarei\Oauth2\Exception\UnsupportedGrantTypeException;
+use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
 
 /**
  * Test unsupported grant type exception.
@@ -21,7 +21,7 @@ use Pantarei\Oauth2\Exception\UnsupportedGrantTypeException;
 class UnsupportedGrantTypeExceptionTest extends \PHPUnit_Framework_TestCase
 {
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\UnsupportedGrantTypeException
+   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedGrantTypeException
    */
   public function testUnsupportedGrantTypeException()
   {

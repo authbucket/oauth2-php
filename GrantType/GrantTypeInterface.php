@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\GrantType;
+namespace Pantarei\OAuth2\GrantType;
 
 /**
  * Defines the interface for grant type.

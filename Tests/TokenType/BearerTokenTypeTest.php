@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\TokenType;
+namespace Pantarei\OAuth2\Test\TokenType;
 
-use Pantarei\Oauth2\TokenType\BearerTokenType;
+use Pantarei\OAuth2\TokenType\BearerTokenType;
 
 /**
  * Test Bearer token type functionality.

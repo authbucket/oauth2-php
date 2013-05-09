@@ -9,21 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Tests\Entity;
+namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\Oauth2\Tests\Entity\Authorizes;
-use Pantarei\Oauth2\Tests\Oauth2_Database_TestCase;
+use Pantarei\OAuth2\Tests\Entity\Authorizes;
+use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
 /**
  * Test authorizes entity functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizesTest extends Oauth2_Database_TestCase
+class AuthorizesTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $authorizeRepository = $this->em->getRepository('Pantarei\Oauth2\Tests\Entity\Authorizes');
+    $authorizeRepository = $this->em->getRepository('Pantarei\OAuth2\Tests\Entity\Authorizes');
     $authorize = $authorizeRepository->find(3);
 
     $this->assertTrue($authorize !== NULL);

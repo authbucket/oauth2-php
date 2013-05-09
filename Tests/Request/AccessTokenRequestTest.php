@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Test\Request;
+namespace Pantarei\OAuth2\Test\Request;
 
-use Pantarei\Oauth2\Request\AccessTokenRequest;
+use Pantarei\OAuth2\Request\AccessTokenRequest;
 
 /**
  * Test authorization code grant type functionality.
@@ -21,7 +21,7 @@ use Pantarei\Oauth2\Request\AccessTokenRequest;
 class AccessTokenRequestTest extends \PHPUnit_Framework_TestCase
 {
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testValidateRequestNoAccessToken()
   {
@@ -34,7 +34,7 @@ class AccessTokenRequestTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testValidateRequestNoTokenType()
   {
@@ -49,7 +49,7 @@ class AccessTokenRequestTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testValidateRequestBadTokenType()
   {
@@ -84,7 +84,7 @@ class AccessTokenRequestTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testValidateRequestBadExpiresIn()
   {
@@ -114,7 +114,7 @@ class AccessTokenRequestTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\InvalidScopeException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
    */
   public function testValidateRequestBadScope()
   {
@@ -155,7 +155,7 @@ class AccessTokenRequestTest extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testValidateRequestBadState()
   {

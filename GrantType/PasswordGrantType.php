@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\GrantType;
+namespace Pantarei\OAuth2\GrantType;
 
 /**
  * Password grant type implementation.
