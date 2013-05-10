@@ -11,7 +11,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text
+  - phpunit -c phpunit.xml.dist --coverage-text
 
 after_script:
   - php vendor/bin/coveralls -v
