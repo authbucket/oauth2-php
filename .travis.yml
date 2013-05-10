@@ -9,4 +9,9 @@ before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar --dev --prefer-source install
 
-phpunit: phpunit --coverage-text
+script:
+  - mkdir -p build/logs
+  - php vendor/bin/phpunit -c phpunit.xml.dist --coverage-text
+
+after_script:
+  - php vendor/bin/coveralls -v

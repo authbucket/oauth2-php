@@ -5,6 +5,8 @@ Pantarei/OAuth2
 Status](https://travis-ci.org/pantarei/oauth2.png?branch=master)](https://travis-ci.org/pantarei/oauth2)
 [![Coverage
 Status](https://coveralls.io/repos/pantarei/oauth2/badge.png)](https://coveralls.io/r/pantarei/oauth2)
+[![Dependency
+Status](https://www.versioneye.com/package/php--pantarei--oauth2/badge.png)](https://www.versioneye.com/package/php--pantarei--oauth2)
 
 The primary goal of
 [Pantarei/OAuth2](https://github.com/pantarei/oauth2) is to develop a
