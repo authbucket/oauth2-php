@@ -91,16 +91,16 @@ class AuthorizationRequestTest extends OAuth2_Database_TestCase
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
-    $filtered_query = $request->validateRequest($query);
-    $this->assertTrue(is_array($filtered_query));
+    $response_type = $request->validateRequest($query);
+    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
 
     $query = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
-    $filtered_query = $request->validateRequest($query);
-    $this->assertTrue(is_array($filtered_query));
+    $response_type = $request->validateRequest($query);
+    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\TokenResponseType', get_class($response_type));
   }
 
   /**
@@ -131,8 +131,8 @@ class AuthorizationRequestTest extends OAuth2_Database_TestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1',
     );
-    $filtered_query = $request->validateRequest($query);
-    $this->assertTrue(is_array($filtered_query));
+    $response_type = $request->validateRequest($query);
+    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
 
     $query = array(
       'response_type' => 'code',
@@ -140,8 +140,8 @@ class AuthorizationRequestTest extends OAuth2_Database_TestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );
-    $filtered_query = $request->validateRequest($query);
-    $this->assertTrue(is_array($filtered_query));
+    $response_type = $request->validateRequest($query);
+    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
   }
 
   /**
@@ -174,7 +174,7 @@ class AuthorizationRequestTest extends OAuth2_Database_TestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
       'state' => 'example state',
     );
-    $filtered_query = $request->validateRequest($query);
-    $this->assertTrue(is_array($filtered_query));
+    $response_type = $request->validateRequest($query);
+    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
   }
 }

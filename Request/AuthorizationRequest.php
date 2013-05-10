@@ -19,6 +19,8 @@ use Pantarei\OAuth2\Exception\ServerErrorException;
 use Pantarei\OAuth2\Exception\TemporarilyUnavailableException;
 use Pantarei\OAuth2\Exception\UnauthorizedClientException;
 use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
+use Pantarei\OAuth2\ResponseType\CodeResponseType;
+use Pantarei\OAuth2\ResponseType\TokenResponseType;
 use Pantarei\OAuth2\Util\ParamUtils;
 
 /**
@@ -65,8 +67,8 @@ class AuthorizationRequest implements RequestInterface
         throw new InvalidRequestException();
       }
     }
-    elseif ($client) {
-      $filtered_query['redirect_uri'] = $client->getRedirectUri();
+    elseif ($redirect_uri) {
+      $filtered_query['redirect_uri'] = $redirect_uri;
     }
 
     // Validate that the requested scope is supported.
@@ -79,6 +81,11 @@ class AuthorizationRequest implements RequestInterface
       throw new InvalidRequestException();
     }
 
-    return $filtered_query;
+    $response_type = $filtered_query['response_type'] == 'code' ? new CodeResponseType() : new TokenResponseType();
+    $response_type->setClientId($filtered_query['client_id'])
+      ->setRedirectUri($filtered_query['redirect_uri'])
+      ->setScope($filtered_query['scope'])
+      ->setState($filtered_query['state']);
+    return $response_type;
   }
 }
