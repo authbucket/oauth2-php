@@ -32,7 +32,13 @@ class AuthorizationRequest implements RequestInterface
 {
   public function validateRequest(array $query = array())
   {
-    $filtered_query = ParamUtils::filter($query, array('response_type', 'client_id', 'redirect_uri', 'scope', 'state'));
+    $filtered_query = ParamUtils::filter($query, array(
+      'client_id',
+      'redirect_uri',
+      'response_type',
+      'scope',
+      'state',
+    ));
 
     // Both response_type and client_id are required.
     if (!$filtered_query['response_type'] || !$filtered_query['client_id']) {
@@ -81,6 +87,7 @@ class AuthorizationRequest implements RequestInterface
       throw new InvalidRequestException();
     }
 
+    // Build and return the response type.
     $response_type = $filtered_query['response_type'] == 'code' ? new CodeResponseType() : new TokenResponseType();
     $response_type->setClientId($filtered_query['client_id'])
       ->setRedirectUri($filtered_query['redirect_uri'])

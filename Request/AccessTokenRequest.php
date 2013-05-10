@@ -32,12 +32,25 @@ class AccessTokenRequest implements RequestInterface
 {
   public function validateRequest(array $query = array())
   {
-    $filtered_query = ParamUtils::filter($query, array('access_token', 'token_type', 'expires_in', 'scope', 'state'));
+    $filtered_query = ParamUtils::filter($query, array(
+      'client_id',
+      'code',
+      'grant_type',
+      'password',
+      'redirect_uri',
+      'refresh_token',
+      'scope',
+      'username',
+    ));
 
-    // Both access_token and token_type are required.
-    if (!$filtered_query['access_token'] || !$filtered_query['token_type']) {
+    // grant_type myst be specified.
+    if (!$filtered_query['grant_type']) {
       throw new InvalidRequestException();
     }
+
+    // TODO: Make sure we've implemented the requested grant type.
+    //if (!in_array($input["grant_type"], $this->getSupportedGrantTypes()))
+    //  $this->errorJsonResponse(OAUTH2_HTTP_BAD_REQUEST, OAUTH2_ERROR_UNSUPPORTED_GRANT_TYPE);
 
     // Validate that the requested expires_in is number.
     if (isset($query['expires_in']) && !$filtered_query['expires_in']) {

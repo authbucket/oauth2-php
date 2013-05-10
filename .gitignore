@@ -1,4 +1,4 @@
-_gh_pages
+build/
 composer.lock
 composer.phar
 vendor/
