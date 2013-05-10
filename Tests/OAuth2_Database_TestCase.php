@@ -81,7 +81,7 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
       ->setScope(array(
         'demoscope1',
       ));
-    Database::getconnection()->persist($accessToken);
+    Database::persist($accessToken);
 
     // Add demo authorizes.
     $authorize = new Authorizes();
@@ -90,7 +90,7 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
       ->setScope(array(
         'demoscope1',
       ));
-    Database::getconnection()->persist($authorize);
+    Database::persist($authorize);
 
     $authorize = new Authorizes();
     $authorize->setClientId('http://democlient2.com/')
@@ -99,7 +99,7 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
         'demoscope1',
         'demoscope2',
       ));
-    Database::getconnection()->persist($authorize);
+    Database::persist($authorize);
 
     $authorize = new Authorizes();
     $authorize->setClientId('http://democlient3.com/')
@@ -109,26 +109,26 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
         'demoscope2',
         'demoscope3',
       ));
-    Database::getconnection()->persist($authorize);
+    Database::persist($authorize);
 
     // Add demo clients.
     $client = new Clients();
     $client->setClientId('http://democlient1.com/')
       ->setClientSecret('demosecret1')
       ->setRedirectUri('http://democlient1.com/redirect');
-    Database::getconnection()->persist($client);
+    Database::persist($client);
 
     $client = new Clients();
     $client->setClientId('http://democlient2.com/')
       ->setClientSecret('demosecret2')
       ->setRedirectUri('http://democlient2.com/redirect');
-    Database::getconnection()->persist($client);
+    Database::persist($client);
 
     $client = new Clients();
     $client->setClientId('http://democlient3.com/')
       ->setClientSecret('demosecret3')
       ->setRedirectUri('http://democlient3.com/redirect');
-    Database::getconnection()->persist($client);
+    Database::persist($client);
 
     // Add demo code.
     $code = new Codes();
@@ -141,7 +141,7 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
         'demoscope1',
         'demoscope2',
       ));
-    Database::getconnection()->persist($code);
+    Database::persist($code);
 
     // Add demo refresh token.
     $refreshToken = new RefreshTokens();
@@ -154,35 +154,35 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
         'demoscope2',
         'demoscope3',
       ));
-    Database::getconnection()->persist($refreshToken);
+    Database::persist($refreshToken);
 
     // Add demo scopes.
     $scope = new Scopes();
     $scope->setScope('demoscope1');
-    Database::getconnection()->persist($scope);
+    Database::persist($scope);
 
     $scope = new Scopes();
     $scope->setScope('demoscope2');
-    Database::getconnection()->persist($scope);
+    Database::persist($scope);
 
     $scope = new Scopes();
     $scope->setScope('demoscope3');
-    Database::getconnection()->persist($scope);
+    Database::persist($scope);
 
     // Add demo users.
     $user = new Users();
     $user->setUsername('demouser1')
       ->setPassword('demopassword1');
-    Database::getconnection()->persist($user);
+    Database::persist($user);
 
     $user = new Users();
     $user->setUsername('demouser2')
       ->setPassword('demopassword2');
-    Database::getconnection()->persist($user);
+    Database::persist($user);
 
     $user = new Users();
     $user->setUsername('demouser3')
       ->setPassword('demopassword3');
-    Database::getconnection()->persist($user);
+    Database::persist($user);
   }
 }

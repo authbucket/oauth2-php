@@ -94,4 +94,34 @@ abstract class Database
   final public static function getDatabaseInfo(){
     return self::$databaseInfo;
   }
+  
+  public function find($entityName, $id)
+  {
+    return self::getConnection()->find($entityName, $id);
+  }
+  
+  public function findBy($entityName, $criteria)
+  {
+    return self::getConnection()->findBy($entityName, $criteria);
+  }
+  
+  public function findOneBy($entityName, $criteria)
+  {
+    return self::getConnection()->findOneBy($entityName, $criteria);
+  }
+  
+  public function findAll($entityName)
+  {
+    return self::getConnection()->findAll($entityName);
+  }
+  
+  public function persist($entity)
+  {
+    return self::getConnection()->persist($entity);
+  }
+  
+  public function remove($entity)
+  {
+    return self::getConnection()->remove($entity);
+  }
 }

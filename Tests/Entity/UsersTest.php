@@ -24,7 +24,7 @@ class UsersTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $entity = Database::getConnection()->find('Pantarei\OAuth2\Tests\Entity\Users', 1);
+    $entity = Database::find('Pantarei\OAuth2\Tests\Entity\Users', 1);
     $this->assertEquals('Pantarei\OAuth2\Tests\Entity\Users', get_class($entity));
     $this->assertEquals('demouser1', $entity->getUsername());
     $this->assertEquals('demopassword1', $entity->getPassword());

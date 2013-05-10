@@ -24,7 +24,7 @@ class CodesTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $entity = Database::getConnection()->find('Pantarei\OAuth2\Tests\Entity\Codes', 1);
+    $entity = Database::find('Pantarei\OAuth2\Tests\Entity\Codes', 1);
     $this->assertEquals('Pantarei\OAuth2\Tests\Entity\Codes', get_class($entity));
     $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $entity->getCode());
     $this->assertEquals('http://democlient2.com/', $entity->getClientId());

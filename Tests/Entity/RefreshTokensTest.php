@@ -24,7 +24,7 @@ class RefreshTokensTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $entity = Database::getConnection()->find('Pantarei\OAuth2\Tests\Entity\RefreshTokens', 1);
+    $entity = Database::find('Pantarei\OAuth2\Tests\Entity\RefreshTokens', 1);
     $this->assertEquals('Pantarei\OAuth2\Tests\Entity\RefreshTokens', get_class($entity));
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $entity->getRefreshToken());
     $this->assertEquals('http://democlient3.com/', $entity->getClientId());

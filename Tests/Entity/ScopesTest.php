@@ -24,7 +24,7 @@ class ScopesTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $entity = Database::getConnection()->find('Pantarei\OAuth2\Tests\Entity\Scopes', 1);
+    $entity = Database::find('Pantarei\OAuth2\Tests\Entity\Scopes', 1);
     $this->assertEquals('Pantarei\OAuth2\Tests\Entity\Scopes', get_class($entity));
     $this->assertTrue($entity !== NULL);
     $this->assertEquals('demoscope1', $entity->getScope());
