@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Request;
 
+use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\AccessDeniedException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
@@ -41,14 +42,31 @@ class AuthorizationRequest implements RequestInterface
 
     // redirect_uri is not required if already established via other channels
     // check an existing redirect URI against the one supplied.
-    //
-    // TODO: Check backend storage to retrive saved redirect_uri.
-    $redirect_uri = FALSE;
+    $client = Database::findOneBy('Clients', array(
+      'client_id' => $filtered_query['client_id'],
+    ));
+
+    // If client_id is invalid we should stop here.
+    if ($client == NULL) {
+      throw new UnauthorizedClientException();
+    }
+    $redirect_uri = $client->getRedirectUri();
 
     // At least one of: existing redirect URI or input redirect URI must be
     // specified.
     if (!$redirect_uri && !$filtered_query['redirect_uri']) {
       throw new InvalidRequestException();
+    }
+
+    // If there's an existing uri and one from input, verify that they match.
+    if ($redirect_uri && $filtered_query['redirect_uri']) {
+      // Ensure that the input uri starts with the stored uri.
+      if (strcasecmp(substr($filtered_query["redirect_uri"], 0, strlen($redirect_uri)), $redirect_uri) !== 0) {
+        throw new InvalidRequestException();
+      }
+    }
+    elseif ($client) {
+      $filtered_query['redirect_uri'] = $client->getRedirectUri();
     }
 
     // Validate that the requested scope is supported.

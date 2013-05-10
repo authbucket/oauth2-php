@@ -12,7 +12,6 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Database\Database;
-use Pantarei\OAuth2\Tests\Entity\Clients;
 use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
 /**
@@ -24,10 +23,10 @@ class ClientsTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $entity = Database::find('Pantarei\OAuth2\Tests\Entity\Clients', 1);
-    $this->assertEquals('Pantarei\OAuth2\Tests\Entity\Clients', get_class($entity));
+    $entity = Database::find('Clients', 1);
+    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Clients', get_class($entity));
     $this->assertEquals('http://democlient1.com/', $entity->getClientId());
     $this->assertEquals('demosecret1', $entity->getClientSecret());
-    $this->assertEquals('http://democlient1.com/redirect', $entity->getRedirectUri());
+    $this->assertEquals('http://democlient1.com/redirect_uri', $entity->getRedirectUri());
   }
 }

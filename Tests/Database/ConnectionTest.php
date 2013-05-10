@@ -23,20 +23,17 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
   public function testDatabaseInfo()
   {
-    $databaseInfo = array(
-      'namespace' => 'Pantarei\\OAuth2\\Tests\\Database',
-    );
-
+    $databaseInfo['Database']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Database';
+    $databaseInfo['Entity']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Entity';
     Database::setDatabaseInfo($databaseInfo);
+
     $this->assertEquals($databaseInfo, Database::getDatabaseInfo());
   }
 
   public function testConnection()
   {
-    $databaseInfo = array(
-      'namespace' => 'Pantarei\\OAuth2\\Tests\\Database',
-    );
-
+    $databaseInfo['Database']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Database';
+    $databaseInfo['Entity']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Entity';
     Database::setDatabaseInfo($databaseInfo);
 
     $conn = Database::getConnection();

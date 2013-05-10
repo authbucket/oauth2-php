@@ -58,7 +58,7 @@ abstract class Database
     }
 
     // Prefix Connection class as namespace provided.
-    $driver_class = self::$databaseInfo['namespace'] . '\\Connection';
+    $driver_class = self::$databaseInfo['Database']['namespace'] . '\\Connection';
 
     // Create a new connection and return it.
     $new_connection = new $driver_class(self::$databaseInfo);
@@ -82,8 +82,11 @@ abstract class Database
    */
   final public static function setDatabaseInfo($databaseInfo = array())
   {
-    if (!isset($databaseInfo['namespace'])) {
-      throw new Exception('Driver namespace not specificed');
+    if (!isset($databaseInfo['Database']['namespace'])) {
+      throw new Exception('Database namespace not specificed');
+    }
+    if (!isset($databaseInfo['Entity']['namespace'])) {
+      throw new Exception('Entity namespace not specificed');
     }
     self::$databaseInfo = $databaseInfo;
   }
@@ -94,33 +97,33 @@ abstract class Database
   final public static function getDatabaseInfo(){
     return self::$databaseInfo;
   }
-  
-  public function find($entityName, $id)
+
+  final public static function find($entityName, $id)
   {
-    return self::getConnection()->find($entityName, $id);
+    return self::getConnection()->find(self::$databaseInfo['Entity']['namespace'] . '\\'. $entityName, $id);
   }
-  
-  public function findBy($entityName, $criteria)
+
+  final public static function findBy($entityName, $criteria)
   {
-    return self::getConnection()->findBy($entityName, $criteria);
+    return self::getConnection()->findBy(self::$databaseInfo['Entity']['namespace'] . '\\'. $entityName, $criteria);
   }
-  
-  public function findOneBy($entityName, $criteria)
+
+  final public static function findOneBy($entityName, $criteria)
   {
-    return self::getConnection()->findOneBy($entityName, $criteria);
+    return self::getConnection()->findOneBy(self::$databaseInfo['Entity']['namespace'] . '\\'. $entityName, $criteria);
   }
-  
-  public function findAll($entityName)
+
+  final public static function findAll($entityName)
   {
-    return self::getConnection()->findAll($entityName);
+    return self::getConnection()->findAll(self::$databaseInfo['Entity']['namespace'] . '\\'. $entityName);
   }
-  
-  public function persist($entity)
+
+  final public static function persist($entity)
   {
     return self::getConnection()->persist($entity);
   }
-  
-  public function remove($entity)
+
+  final public static function remove($entity)
   {
     return self::getConnection()->remove($entity);
   }

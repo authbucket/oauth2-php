@@ -12,13 +12,14 @@
 namespace Pantarei\OAuth2\Tests\Request;
 
 use Pantarei\OAuth2\Request\AuthorizationRequest;
+use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
 /**
  * Test authorization code grant type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
+class AuthorizationRequestTest extends OAuth2_Database_TestCase
 {
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
@@ -57,7 +58,7 @@ class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
 
     $query = array(
       'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
+      'redirect_uri' => 'http://example.com/redirect_uri',
     );
     $filtered_query = $request->validateRequest($query);
     // This won't happened!!
@@ -74,7 +75,7 @@ class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
     $query = array(
       'response_type' => 'foo',
       'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
+      'redirect_uri' => 'http://example.com/redirect_uri',
     );
     $filtered_query = $request->validateRequest($query);
     // This won't happened!!
@@ -87,16 +88,16 @@ class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
 
     $query = array(
       'response_type' => 'code',
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
     $filtered_query = $request->validateRequest($query);
     $this->assertTrue(is_array($filtered_query));
 
     $query = array(
       'response_type' => 'token',
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
     $filtered_query = $request->validateRequest($query);
     $this->assertTrue(is_array($filtered_query));
@@ -111,8 +112,8 @@ class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
 
     $query = array(
       'response_type' => 'code',
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
     );
     $filtered_query = $request->validateRequest($query);
@@ -126,18 +127,18 @@ class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
 
     $query = array(
       'response_type' => 'code',
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
-      'scope' => 'aaa',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => 'demoscope1',
     );
     $filtered_query = $request->validateRequest($query);
     $this->assertTrue(is_array($filtered_query));
 
     $query = array(
       'response_type' => 'code',
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
-      'scope' => 'aaa bbb ccc',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $filtered_query = $request->validateRequest($query);
     $this->assertTrue(is_array($filtered_query));
@@ -152,8 +153,8 @@ class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
 
     $query = array(
       'response_type' => 'code',
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "aaa bbb ccc",
       'state' => "aaa\x19bbb\x7Fccc",
     );
@@ -168,9 +169,9 @@ class AuthorizationRequestTest extends \PHPUnit_Framework_TestCase
 
     $query = array(
       'response_type' => 'code',
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect',
-      'scope' => 'aaa bbb ccc',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
       'state' => 'example state',
     );
     $filtered_query = $request->validateRequest($query);

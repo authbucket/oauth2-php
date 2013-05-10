@@ -27,6 +27,11 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
 {
   public function setUp()
   {
+    // Initialize database information.
+    $databaseInfo['Database']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Database';
+    $databaseInfo['Entity']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Entity';
+    Database::setDatabaseInfo($databaseInfo);
+
     // Add tables and sample data.
     $this->addTables();
     $this->addSampleData();
@@ -43,13 +48,13 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
   {
     // Generate testing database schema.
     $classes = array(
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\AccessTokens'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Authorizes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Clients'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Codes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\RefreshTokens'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Scopes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Users'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\AccessTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Authorizes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Clients'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Codes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\RefreshTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Scopes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Users'),
     );
     Database::getConnection()->getSchemaTool()->createSchema($classes);
 
@@ -59,13 +64,13 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
   {
     // Drop testing database schema.
     $classes = array(
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\AccessTokens'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Authorizes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Clients'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Codes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\RefreshTokens'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Scopes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Users'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\AccessTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Authorizes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Clients'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Codes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\RefreshTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Scopes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Users'),
     );
     Database::getConnection()->getSchemaTool()->dropSchema($classes);
   }
@@ -115,26 +120,26 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
     $client = new Clients();
     $client->setClientId('http://democlient1.com/')
       ->setClientSecret('demosecret1')
-      ->setRedirectUri('http://democlient1.com/redirect');
+      ->setRedirectUri('http://democlient1.com/redirect_uri');
     Database::persist($client);
 
     $client = new Clients();
     $client->setClientId('http://democlient2.com/')
       ->setClientSecret('demosecret2')
-      ->setRedirectUri('http://democlient2.com/redirect');
+      ->setRedirectUri('http://democlient2.com/redirect_uri');
     Database::persist($client);
 
     $client = new Clients();
     $client->setClientId('http://democlient3.com/')
       ->setClientSecret('demosecret3')
-      ->setRedirectUri('http://democlient3.com/redirect');
+      ->setRedirectUri('http://democlient3.com/redirect_uri');
     Database::persist($client);
 
     // Add demo code.
     $code = new Codes();
     $code->setCode('f0c68d250bcc729eb780a235371a9a55')
       ->setClientId('http://democlient2.com/')
-      ->setRedirectUri('http://democlient2.com/redirect')
+      ->setRedirectUri('http://democlient2.com/redirect_uri')
       ->setExpiresIn('300')
       ->setUsername('demouser2')
       ->setScope(array(

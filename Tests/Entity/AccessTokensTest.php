@@ -12,7 +12,6 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Database\Database;
-use Pantarei\OAuth2\Tests\Entity\AccessTokens;
 use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
 /**
@@ -24,8 +23,8 @@ class AccessTokensTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $entity = Database::find('Pantarei\OAuth2\Tests\Entity\AccessTokens', 1);
-    $this->assertEquals('Pantarei\OAuth2\Tests\Entity\AccessTokens', get_class($entity));
+    $entity = Database::find('AccessTokens', 1);
+    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\AccessTokens', get_class($entity));
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $entity->getAccessToken());
     $this->assertEquals('http://democlient1.com/', $entity->getClientId());
     $this->assertEquals('3600', $entity->getExpiresIn());
