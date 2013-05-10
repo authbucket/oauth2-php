@@ -33,7 +33,7 @@ class Authorizes extends \Pantarei\OAuth2\Entity\Authorizes
    *
    * @Column(name="client_id", type="string", length=255)
    */
-  private $clientId;
+  private $client_id;
 
   /**
    * @var string
@@ -60,26 +60,26 @@ class Authorizes extends \Pantarei\OAuth2\Entity\Authorizes
   }
 
   /**
-   * Set clientId
+   * Set client_id
    *
-   * @param string $clientId
+   * @param string $client_id
    * @return Authorizes
    */
-  public function setClientId($clientId)
+  public function setClientId($client_id)
   {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
 
     return $this;
   }
 
   /**
-   * Get clientId
+   * Get client_id
    *
    * @return string
    */
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
   /**

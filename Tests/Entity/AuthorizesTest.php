@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Tests\Entity\Authorizes;
 use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
@@ -23,12 +24,10 @@ class AuthorizesTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $authorizeRepository = $this->em->getRepository('Pantarei\OAuth2\Tests\Entity\Authorizes');
-    $authorize = $authorizeRepository->find(3);
-
-    $this->assertTrue($authorize !== NULL);
-    $this->assertEquals('http://democlient3.com/', $authorize->getClientId());
-    $this->assertEquals('demouser3', $authorize->getUsername());
-    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $authorize->getScope());
+    $entity = Database::getConnection()->find('Pantarei\OAuth2\Tests\Entity\Authorizes', 3);
+    $this->assertEquals('Pantarei\OAuth2\Tests\Entity\Authorizes', get_class($entity));
+    $this->assertEquals('http://democlient3.com/', $entity->getClientId());
+    $this->assertEquals('demouser3', $entity->getUsername());
+    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $entity->getScope());
   }
 }

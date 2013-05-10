@@ -12,6 +12,7 @@
 namespace Pantarei\OAuth2\Tests\Database;
 
 use Doctrine\Common\Persistence\PersistentObject;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
@@ -22,9 +23,9 @@ use Pantarei\OAuth2\Database\Connection as DatabaseConnection;
  */
 class Connection extends DatabaseConnection
 {
-  public $em;
+  private $em;
 
-  public $tool;
+  private $tool;
 
   public function __construct(array $connection_options = array())
   {
@@ -49,5 +50,63 @@ class Connection extends DatabaseConnection
     // Drop tables and reset connection settings.
     unset($this->tool);
     unset($this->em);
+  }
+
+  /**
+   * Return the stored EntityManager for debug only.
+   *
+   * FIXME: Don't do this in production bundle.
+   *
+   * @return
+   *   The stored EntityManager.
+   */
+  public function getEntityManager()
+  {
+    return $this->em;
+  }
+
+  /**
+   * Return the stored SchemaTool for debug only.
+   *
+   * FIXME: Don't do this in production bundle.
+   *
+   * @return
+   *   The stored SchemaTool.
+   */
+  public function getSchemaTool()
+  {
+    return $this->tool;
+  }
+
+  public function find($entityName, $id)
+  {
+    return $this->em->find($entityName, $id);
+  }
+
+  public function findBy($entityName, $criteria)
+  {
+    return $this->em->getRepository($entityName)->findBy($criteria);
+  }
+
+  public function findOneBy($entityName, $criteria)
+  {
+    return $this->em->getRepository($entityName)->findOneBy($criteria);
+  }
+
+  public function findAll($entityName)
+  {
+    return $this->em->getRepository($entityName)->findAll();
+  }
+
+  public function persist($entity)
+  {
+    $this->em->persist($entity);
+    $this->em->flush();
+  }
+
+  public function remove($entity)
+  {
+    $this->em->remove($entity);
+    $this->em->flush();
   }
 }

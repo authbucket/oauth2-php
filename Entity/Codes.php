@@ -31,7 +31,7 @@ class Codes implements EntityInterface
   /**
    * @var string
    */
-  private $clientId;
+  private $client_id;
 
   /**
    * @var string
@@ -41,17 +41,30 @@ class Codes implements EntityInterface
   /**
    * @var string
    */
-  private $redirectUri;
+  private $redirect_uri;
 
   /**
    * @var integer
    */
-  private $expiresIn;
+  private $expires_in;
 
   /**
    * @var array
    */
   private $scope;
+
+  /**
+   * Set id
+   *
+   * @param string $id
+   * @return Codes
+   */
+  public function setId($id)
+  {
+    $this->id = $id;
+
+    return $this;
+  }
 
   /**
    * Get id
@@ -87,72 +100,72 @@ class Codes implements EntityInterface
   }
 
   /**
-   * Set clientId
+   * Set client_id
    *
-   * @param string $clientId
+   * @param string $client_id
    * @return Codes
    */
-  public function setClientId($clientId)
+  public function setClientId($client_id)
   {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
 
     return $this;
   }
 
   /**
-   * Get clientId
+   * Get client_id
    *
    * @return string
    */
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
   /**
-   * Set redirectUri
+   * Set redirect_uri
    *
-   * @param string $redirectUri
+   * @param string $redirect_uri
    * @return Codes
    */
-  public function setRedirectUri($redirectUri)
+  public function setRedirectUri($redirect_uri)
   {
-    $this->redirectUri = $redirectUri;
+    $this->redirect_uri = $redirect_uri;
 
     return $this;
   }
 
   /**
-   * Get redirectUri
+   * Get redirect_uri
    *
    * @return string
    */
   public function getRedirectUri()
   {
-    return $this->redirectUri;
+    return $this->redirect_uri;
   }
 
   /**
-   * Set expiresIn
+   * Set expires_in
    *
-   * @param integer $expiresIn
+   * @param integer $expires_in
    * @return Codes
    */
-  public function setExpiresIn($expiresIn)
+  public function setExpiresIn($expires_in)
   {
-    $this->expiresIn = $expiresIn;
+    $this->expires_in = $expires_in;
 
     return $this;
   }
 
   /**
-   * Get expiresIn
+   * Get expires_in
    *
    * @return integer
    */
   public function getExpiresIn()
   {
-    return $this->expiresIn;
+    return $this->expires_in;
   }
 
   /**

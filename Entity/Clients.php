@@ -26,17 +26,30 @@ class Clients implements EntityInterface
   /**
    * @var string
    */
-  private $clientId;
+  private $client_id;
 
   /**
    * @var string
    */
-  private $clientSecret;
+  private $client_secret;
 
   /**
    * @var string
    */
-  private $redirectUri;
+  private $redirect_uri;
+
+  /**
+   * Set id
+   *
+   * @param string $id
+   * @return Clients
+   */
+  public function setId($id)
+  {
+    $this->id = $id;
+
+    return $this;
+  }
 
   /**
    * Get id
@@ -49,71 +62,71 @@ class Clients implements EntityInterface
   }
 
   /**
-   * Set clientId
+   * Set client_id
    *
-   * @param string $clientId
+   * @param string $client_id
    * @return Clients
    */
-  public function setClientId($clientId)
+  public function setClientId($client_id)
   {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
 
     return $this;
   }
 
   /**
-   * Get clientId
+   * Get client_id
    *
    * @return string
    */
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
   /**
-   * Set clientSecret
+   * Set client_secret
    *
-   * @param string $clientSecret
+   * @param string $client_secret
    * @return Clients
    */
-  public function setClientSecret($clientSecret)
+  public function setClientSecret($client_secret)
   {
-    $this->clientSecret = $clientSecret;
+    $this->client_secret = $client_secret;
 
     return $this;
   }
 
   /**
-   * Get clientSecret
+   * Get client_secret
    *
    * @return string
    */
   public function getClientSecret()
   {
-    return $this->clientSecret;
+    return $this->client_secret;
   }
 
   /**
-   * Set redirectUri
+   * Set redirect_uri
    *
-   * @param string $redirectUri
+   * @param string $redirect_uri
    * @return Clients
    */
-  public function setRedirectUri($redirectUri)
+  public function setRedirectUri($redirect_uri)
   {
-    $this->redirectUri = $redirectUri;
+    $this->redirect_uri = $redirect_uri;
 
     return $this;
   }
 
   /**
-   * Get redirectUri
+   * Get redirect_uri
    *
    * @return string
    */
   public function getRedirectUri()
   {
-    return $this->redirectUri;
+    return $this->redirect_uri;
   }
 }

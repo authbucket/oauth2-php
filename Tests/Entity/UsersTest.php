@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Tests\Entity\Users;
 use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
@@ -23,11 +24,9 @@ class UsersTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $userRepository = $this->em->getRepository('Pantarei\OAuth2\Tests\Entity\Users');
-    $user = $userRepository->find(1);
-
-    $this->assertTrue($user !== NULL);
-    $this->assertEquals('demouser1', $user->getUsername());
-    $this->assertEquals('demopassword1', $user->getPassword());
+    $entity = Database::getConnection()->find('Pantarei\OAuth2\Tests\Entity\Users', 1);
+    $this->assertEquals('Pantarei\OAuth2\Tests\Entity\Users', get_class($entity));
+    $this->assertEquals('demouser1', $entity->getUsername());
+    $this->assertEquals('demopassword1', $entity->getPassword());
   }
 }

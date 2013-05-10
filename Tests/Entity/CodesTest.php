@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Tests\Entity\Codes;
 use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
@@ -23,15 +24,13 @@ class CodesTest extends OAuth2_Database_TestCase
 {
   public function testFind()
   {
-    $codeRepository = $this->em->getRepository('Pantarei\OAuth2\Tests\Entity\Codes');
-    $code = $codeRepository->find(1);
-
-    $this->assertTrue($code !== NULL);
-    $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $code->getCode());
-    $this->assertEquals('http://democlient2.com/', $code->getClientId());
-    $this->assertEquals('http://democlient2.com/redirect', $code->getRedirectUri());
-    $this->assertEquals('300', $code->getExpiresIn());
-    $this->assertEquals('demouser2', $code->getUsername());
-    $this->assertEquals(array('demoscope1', 'demoscope2'), $code->getScope());
+    $entity = Database::getConnection()->find('Pantarei\OAuth2\Tests\Entity\Codes', 1);
+    $this->assertEquals('Pantarei\OAuth2\Tests\Entity\Codes', get_class($entity));
+    $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $entity->getCode());
+    $this->assertEquals('http://democlient2.com/', $entity->getClientId());
+    $this->assertEquals('http://democlient2.com/redirect', $entity->getRedirectUri());
+    $this->assertEquals('300', $entity->getExpiresIn());
+    $this->assertEquals('demouser2', $entity->getUsername());
+    $this->assertEquals(array('demoscope1', 'demoscope2'), $entity->getScope());
   }
 }

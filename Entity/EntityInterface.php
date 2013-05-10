@@ -19,7 +19,17 @@ namespace Pantarei\OAuth2\Entity;
 interface EntityInterface
 {
   /**
-   * Get unique ID.
+   * Set id
+   *
+   * @param string $id
+   * @return $this
+   */
+  public function setId($id);
+
+  /**
+   * Get id
+   *
+   * @return integer
    */
   public function getId();
 }

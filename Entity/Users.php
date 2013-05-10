@@ -34,6 +34,19 @@ class Users implements EntityInterface
   private $password;
 
   /**
+   * Set id
+   *
+   * @param string $id
+   * @return Users
+   */
+  public function setId($id)
+  {
+    $this->id = $id;
+
+    return $this;
+  }
+
+  /**
    * Get id
    *
    * @return integer

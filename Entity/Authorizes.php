@@ -26,7 +26,7 @@ class Authorizes implements EntityInterface
   /**
    * @var string
    */
-  private $clientId;
+  private $client_id;
 
   /**
    * @var string
@@ -39,6 +39,19 @@ class Authorizes implements EntityInterface
   private $scope;
 
   /**
+   * Set id
+   *
+   * @param string $id
+   * @return Authorizes
+   */
+  public function setId($id)
+  {
+    $this->id = $id;
+
+    return $this;
+  }
+
+  /**
    * Get id
    *
    * @return integer
@@ -49,26 +62,26 @@ class Authorizes implements EntityInterface
   }
 
   /**
-   * Set clientId
+   * Set client_id
    *
-   * @param string $clientId
+   * @param string $client_id
    * @return Authorizes
    */
-  public function setClientId($clientId)
+  public function setClientId($client_id)
   {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
 
     return $this;
   }
 
   /**
-   * Get clientId
+   * Get client_id
    *
    * @return string
    */
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
   /**

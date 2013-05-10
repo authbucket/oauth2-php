@@ -26,12 +26,12 @@ class AccessTokens implements EntityInterface
   /**
    * @var string
    */
-  private $accessToken;
+  private $access_token;
 
   /**
    * @var string
    */
-  private $clientId;
+  private $client_id;
 
   /**
    * @var string
@@ -41,12 +41,25 @@ class AccessTokens implements EntityInterface
   /**
    * @var integer
    */
-  private $expiresIn;
+  private $expires_in;
 
   /**
    * @var array
    */
   private $scope;
+
+  /**
+   * Set id
+   *
+   * @param string $id
+   * @return AccessTokens
+   */
+  public function setId($id)
+  {
+    $this->id = $id;
+
+    return $this;
+  }
 
   /**
    * Get id
@@ -59,72 +72,72 @@ class AccessTokens implements EntityInterface
   }
 
   /**
-   * Set accessToken
+   * Set access_token
    *
-   * @param string $accessToken
+   * @param string $access_token
    * @return AccessTokens
    */
-  public function setAccessToken($accessToken)
+  public function setAccessToken($access_token)
   {
-    $this->accessToken = $accessToken;
+    $this->access_token = $access_token;
 
     return $this;
   }
 
   /**
-   * Get accessToken
+   * Get access_token
    *
    * @return string
    */
   public function getAccessToken()
   {
-    return $this->accessToken;
+    return $this->access_token;
   }
 
   /**
-   * Set clientId
+   * Set client_id
    *
-   * @param string $clientId
+   * @param string $client_id
    * @return AccessTokens
    */
-  public function setClientId($clientId)
+  public function setClientId($client_id)
   {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
 
     return $this;
   }
 
   /**
-   * Get clientId
+   * Get client_id
    *
    * @return string
    */
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
   /**
-   * Set expiresIn
+   * Set expires_in
    *
-   * @param integer $expiresIn
+   * @param integer $expires_in
    * @return AccessTokens
    */
-  public function setExpiresIn($expiresIn)
+  public function setExpiresIn($expires_in)
   {
-    $this->expiresIn = $expiresIn;
+    $this->expires_in = $expires_in;
 
     return $this;
   }
 
   /**
-   * Get expiresIn
+   * Get expires_in
    *
    * @return integer
    */
   public function getExpiresIn()
   {
-    return $this->expiresIn;
+    return $this->expires_in;
   }
 
   /**

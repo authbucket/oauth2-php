@@ -18,4 +18,15 @@ namespace Pantarei\OAuth2\Database;
  */
 abstract class Connection
 {
+  abstract public function find($entityName, $id);
+
+  abstract public function findBy($entityName, $criteria);
+
+  abstract public function findOneBy($entityName, $criteria);
+
+  abstract public function findAll($entityName);
+
+  abstract public function persist($entity);
+
+  abstract public function remove($entity);
 }

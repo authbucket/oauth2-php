@@ -33,14 +33,14 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
    *
    * @Column(name="refresh_token", type="string", length=255)
    */
-  private $refreshToken;
+  private $refresh_token;
 
   /**
    * @var string
    *
    * @Column(name="client_id", type="string", length=255)
    */
-  private $clientId;
+  private $client_id;
 
   /**
    * @var string
@@ -54,7 +54,7 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
    *
    * @Column(name="expires_in", type="integer")
    */
-  private $expiresIn;
+  private $expires_in;
 
   /**
    * @var array
@@ -75,72 +75,72 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
   }
 
   /**
-   * Set refreshToken
+   * Set refresh_token
    *
-   * @param string $refreshToken
+   * @param string $refresh_token
    * @return RefreshTokens
    */
-  public function setRefreshToken($refreshToken)
+  public function setRefreshToken($refresh_token)
   {
-    $this->refreshToken = $refreshToken;
+    $this->refresh_token = $refresh_token;
 
     return $this;
   }
 
   /**
-   * Get refreshToken
+   * Get refresh_token
    *
    * @return string
    */
   public function getRefreshToken()
   {
-    return $this->refreshToken;
+    return $this->refresh_token;
   }
 
   /**
-   * Set clientId
+   * Set client_id
    *
-   * @param string $clientId
+   * @param string $client_id
    * @return RefreshTokens
    */
-  public function setClientId($clientId)
+  public function setClientId($client_id)
   {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
 
     return $this;
   }
 
   /**
-   * Get clientId
+   * Get client_id
    *
    * @return string
    */
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
   /**
-   * Set expiresIn
+   * Set expires_in
    *
-   * @param integer $expiresIn
+   * @param integer $expires_in
    * @return RefreshTokens
    */
-  public function setExpiresIn($expiresIn)
+  public function setExpiresIn($expires_in)
   {
-    $this->expiresIn = $expiresIn;
+    $this->expires_in = $expires_in;
 
     return $this;
   }
 
   /**
-   * Get expiresIn
+   * Get expires_in
    *
    * @return integer
    */
   public function getExpiresIn()
   {
-    return $this->expiresIn;
+    return $this->expires_in;
   }
 
   /**

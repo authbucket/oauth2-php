@@ -40,7 +40,7 @@ class Codes extends \Pantarei\OAuth2\Entity\Codes
    *
    * @Column(name="client_id", type="string", length=255)
    */
-  private $clientId;
+  private $client_id;
 
   /**
    * @var string
@@ -54,14 +54,14 @@ class Codes extends \Pantarei\OAuth2\Entity\Codes
    *
    * @Column(name="redirect_uri", type="text")
    */
-  private $redirectUri;
+  private $redirect_uri;
 
   /**
    * @var integer
    *
    * @Column(name="expires_in", type="integer")
    */
-  private $expiresIn;
+  private $expires_in;
 
   /**
    * @var array
@@ -104,72 +104,72 @@ class Codes extends \Pantarei\OAuth2\Entity\Codes
   }
 
   /**
-   * Set clientId
+   * Set client_id
    *
-   * @param string $clientId
+   * @param string $client_id
    * @return Codes
    */
-  public function setClientId($clientId)
+  public function setClientId($client_id)
   {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
 
     return $this;
   }
 
   /**
-   * Get clientId
+   * Get client_id
    *
    * @return string
    */
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
   /**
-   * Set redirectUri
+   * Set redirect_uri
    *
-   * @param string $redirectUri
+   * @param string $redirect_uri
    * @return Codes
    */
-  public function setRedirectUri($redirectUri)
+  public function setRedirectUri($redirect_uri)
   {
-    $this->redirectUri = $redirectUri;
+    $this->redirect_uri = $redirect_uri;
 
     return $this;
   }
 
   /**
-   * Get redirectUri
+   * Get redirect_uri
    *
    * @return string
    */
   public function getRedirectUri()
   {
-    return $this->redirectUri;
+    return $this->redirect_uri;
   }
 
   /**
-   * Set expiresIn
+   * Set expires_in
    *
-   * @param integer $expiresIn
+   * @param integer $expires_in
    * @return Codes
    */
-  public function setExpiresIn($expiresIn)
+  public function setExpiresIn($expires_in)
   {
-    $this->expiresIn = $expiresIn;
+    $this->expires_in = $expires_in;
 
     return $this;
   }
 
   /**
-   * Get expiresIn
+   * Get expires_in
    *
    * @return integer
    */
   public function getExpiresIn()
   {
-    return $this->expiresIn;
+    return $this->expires_in;
   }
 
   /**

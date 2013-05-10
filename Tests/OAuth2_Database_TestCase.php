@@ -25,15 +25,8 @@ use Pantarei\OAuth2\Tests\Entity\Users;
  */
 class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
 {
-  protected $em;
-
-  protected $tool;
-
   public function setUp()
   {
-    $this->em = Database::getConnection()->em;
-    $this->tool = Database::getConnection()->tool;
-
     // Add tables and sample data.
     $this->addTables();
     $this->addSampleData();
@@ -50,15 +43,15 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
   {
     // Generate testing database schema.
     $classes = array(
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\AccessTokens'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Authorizes'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Clients'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Codes'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\RefreshTokens'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Scopes'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Users'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\AccessTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Authorizes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Clients'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Codes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\RefreshTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Scopes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Users'),
     );
-    $this->tool->createSchema($classes);
+    Database::getConnection()->getSchemaTool()->createSchema($classes);
 
   }
 
@@ -66,15 +59,15 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
   {
     // Drop testing database schema.
     $classes = array(
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\AccessTokens'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Authorizes'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Clients'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Codes'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\RefreshTokens'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Scopes'),
-      $this->em->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Users'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\AccessTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Authorizes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Clients'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Codes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\RefreshTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Scopes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\OAuth2\Tests\Entity\Users'),
     );
-    $this->tool->dropSchema($classes);
+    Database::getConnection()->getSchemaTool()->dropSchema($classes);
   }
 
   function addSampleData()
@@ -88,7 +81,7 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
       ->setScope(array(
         'demoscope1',
       ));
-    $this->em->persist($accessToken);
+    Database::getconnection()->persist($accessToken);
 
     // Add demo authorizes.
     $authorize = new Authorizes();
@@ -97,7 +90,7 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
       ->setScope(array(
         'demoscope1',
       ));
-    $this->em->persist($authorize);
+    Database::getconnection()->persist($authorize);
 
     $authorize = new Authorizes();
     $authorize->setClientId('http://democlient2.com/')
@@ -106,7 +99,7 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
         'demoscope1',
         'demoscope2',
       ));
-    $this->em->persist($authorize);
+    Database::getconnection()->persist($authorize);
 
     $authorize = new Authorizes();
     $authorize->setClientId('http://democlient3.com/')
@@ -116,26 +109,26 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
         'demoscope2',
         'demoscope3',
       ));
-    $this->em->persist($authorize);
+    Database::getconnection()->persist($authorize);
 
     // Add demo clients.
     $client = new Clients();
     $client->setClientId('http://democlient1.com/')
       ->setClientSecret('demosecret1')
       ->setRedirectUri('http://democlient1.com/redirect');
-    $this->em->persist($client);
+    Database::getconnection()->persist($client);
 
     $client = new Clients();
     $client->setClientId('http://democlient2.com/')
       ->setClientSecret('demosecret2')
       ->setRedirectUri('http://democlient2.com/redirect');
-    $this->em->persist($client);
+    Database::getconnection()->persist($client);
 
     $client = new Clients();
     $client->setClientId('http://democlient3.com/')
       ->setClientSecret('demosecret3')
       ->setRedirectUri('http://democlient3.com/redirect');
-    $this->em->persist($client);
+    Database::getconnection()->persist($client);
 
     // Add demo code.
     $code = new Codes();
@@ -148,7 +141,7 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
         'demoscope1',
         'demoscope2',
       ));
-    $this->em->persist($code);
+    Database::getconnection()->persist($code);
 
     // Add demo refresh token.
     $refreshToken = new RefreshTokens();
@@ -161,38 +154,35 @@ class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
         'demoscope2',
         'demoscope3',
       ));
-    $this->em->persist($refreshToken);
+    Database::getconnection()->persist($refreshToken);
 
     // Add demo scopes.
     $scope = new Scopes();
     $scope->setScope('demoscope1');
-    $this->em->persist($scope);
+    Database::getconnection()->persist($scope);
 
     $scope = new Scopes();
     $scope->setScope('demoscope2');
-    $this->em->persist($scope);
+    Database::getconnection()->persist($scope);
 
     $scope = new Scopes();
     $scope->setScope('demoscope3');
-    $this->em->persist($scope);
+    Database::getconnection()->persist($scope);
 
     // Add demo users.
     $user = new Users();
     $user->setUsername('demouser1')
       ->setPassword('demopassword1');
-    $this->em->persist($user);
+    Database::getconnection()->persist($user);
 
     $user = new Users();
     $user->setUsername('demouser2')
       ->setPassword('demopassword2');
-    $this->em->persist($user);
+    Database::getconnection()->persist($user);
 
     $user = new Users();
     $user->setUsername('demouser3')
       ->setPassword('demopassword3');
-    $this->em->persist($user);
-
-    // Now flush all presisted demo data to sqlite3.
-    $this->em->flush();
+    Database::getconnection()->persist($user);
   }
 }
