@@ -30,7 +30,7 @@ use Pantarei\OAuth2\Util\ParamUtils;
  */
 class AuthorizationRequest implements RequestInterface
 {
-  public function validateRequest(array $query = array())
+  public function validateRequest($query = array(), $request = array())
   {
     $filtered_query = ParamUtils::filter($query, array(
       'client_id',
@@ -47,7 +47,17 @@ class AuthorizationRequest implements RequestInterface
       }
       throw new InvalidRequestException();
     }
-    $response_type = $filtered_query['response_type'] == 'code' ? new CodeResponseType() : new TokenResponseType();
+
+    // Let's initialize response_type object here.
+    $response_type = NULL;
+    switch ($filtered_query['response_type']) {
+      case 'code':
+        $response_type = new CodeResponseType();
+        break;
+      case 'token':
+        $response_type = new TokenResponseType();
+        break;
+    }
     $response_type->setClientId($filtered_query['client_id']);
 
     // redirect_uri is not required if already established via other channels

@@ -25,7 +25,7 @@ class OAuth2WebTestCaseTest extends OAuth2WebTestCase
     $app = parent::createApplication();
 
     $app->get('/foo/{name}', function ($name) {
-      $controller = new OAuth2WebTestCaseTest();
+      $controller = new self();
       return $controller->bar($name);
     });
 

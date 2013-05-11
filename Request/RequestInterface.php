@@ -23,10 +23,12 @@ interface RequestInterface
    * and valid.
    *
    * @param array $query
-   *   The query component, most likely $_GET.
+   *   The retrieved $_GET.
+   * @param array $request
+   *   The retrieved $_POST.
    *
-   * @return array|false
-   *   The filtered request query parameters if valid, or FALSE otherwise.
+   * @return object
+   *   The object of ResponseType or GrantType.
    */
-  public function validateRequest(array $query = array());
+  public function validateRequest($query = array(), $request = array());
 }
