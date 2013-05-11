@@ -12,6 +12,11 @@
         }
     },
     "description": "Standards compliant OAuth2.0 library, for both Symfony2 and Drupal",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
     "homepage": "https://github.com/pantarei/oauth2",
     "keywords": [
         "oauth2"
@@ -25,7 +30,9 @@
     "require-dev": {
         "doctrine/orm": "2.*",
         "satooshi/php-coveralls": "dev-master",
-        "silex/silex": "1.0.*@dev"
+        "silex/silex": "1.0.*@dev",
+        "symfony/browser-kit": "2.3.*@dev",
+        "symfony/css-selector": "2.3.*@dev"
     },
     "target-dir": "Pantarei/OAuth2",
     "type": "library"

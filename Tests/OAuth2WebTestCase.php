@@ -19,6 +19,7 @@ use Pantarei\OAuth2\Tests\Entity\Codes;
 use Pantarei\OAuth2\Tests\Entity\RefreshTokens;
 use Pantarei\OAuth2\Tests\Entity\Scopes;
 use Pantarei\OAuth2\Tests\Entity\Users;
+use Silex\Application;
 use Silex\WebTestCase;
 
 /**
@@ -27,10 +28,20 @@ use Silex\WebTestCase;
  */
 class OAuth2WebTestCase extends WebTestCase
 {
-  public function createApplication() {}
+  public function createApplication()
+  {
+    $app = new Application();
+    $app['debug'] = TRUE;
+    $app['session'] = TRUE;
+    $app['exception_handler']->disable();
+    return $app;
+  }
 
   public function setUp()
   {
+    // Initialize with parent's setUp().
+    parent::setUp();
+
     // Initialize database information.
     $databaseInfo['Database']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Database';
     $databaseInfo['Entity']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Entity';
@@ -46,6 +57,9 @@ class OAuth2WebTestCase extends WebTestCase
     // Drop tables and reset connection settings.
     $this->dropTables();
     Database::closeConnection();
+
+    // Finalize with parent's tearDown().
+    parent::tearDown();
   }
 
   function addTables()
