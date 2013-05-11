@@ -4,7 +4,7 @@ Pantarei/OAuth2
 [![Build
 Status](https://travis-ci.org/pantarei/oauth2.png?branch=master)](https://travis-ci.org/pantarei/oauth2)
 [![Coverage
-Status](https://coveralls.io/repos/pantarei/oauth2/badge.png)](https://coveralls.io/r/pantarei/oauth2)
+Status](https://coveralls.io/repos/pantarei/oauth2/badge.png?branch=1.0)](https://coveralls.io/r/pantarei/oauth2?branch=1.0)
 [![Dependency
 Status](https://www.versioneye.com/package/php--pantarei--oauth2/badge.png)](https://www.versioneye.com/package/php--pantarei--oauth2)
 
