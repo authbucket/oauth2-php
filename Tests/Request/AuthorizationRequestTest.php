@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Tests\Request;
 
 use Pantarei\OAuth2\Request\AuthorizationRequest;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test authorization code grant type functionality.
@@ -21,6 +23,23 @@ use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
  */
 class AuthorizationRequestTest extends OAuth2WebTestCase
 {
+  public function createApplication()
+  {
+    $app = parent::createApplication();
+  
+    $app->get('/validaterequest', function(Request $request) {
+      $response = new Response();
+      $controller = new AuthorizationRequest();
+      
+      $response_type = $controller->validateRequest($request->query->all());
+      return (get_class($response_type) == 'Pantarei\\OAuth2\\ResponseType\\CodeResponseType')
+        ? $response->setStatusCode(200)
+        : $response->setStatusCode(404);
+    });
+
+    return $app;
+  }
+
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
@@ -176,5 +195,18 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     );
     $response_type = $request->validateRequest($query);
     $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
+  }
+  
+  public function testWebValidateRequestGoodState()
+  {
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/validaterequest', array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
+      'state' => 'example state',
+    ));
+    $this->assertTrue($client->getResponse()->isSuccessful());
   }
 }
