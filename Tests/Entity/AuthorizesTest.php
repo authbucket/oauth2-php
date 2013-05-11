@@ -12,6 +12,7 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Entity\Authorizes;
 use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
 /**
@@ -21,12 +22,28 @@ use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
  */
 class AuthorizesTest extends OAuth2_Database_TestCase
 {
+  public function testAbstract()
+  {
+    $entity = new Authorizes();
+    $entity->setId(1)
+      ->setClientId('http://democlient1.com/')
+      ->setUsername('demouser1')
+      ->setScope(array(
+        'demoscope1',
+      ));
+    $this->assertEquals(1, $entity->getId());
+    $this->assertEquals('http://democlient1.com/', $entity->getClientId());
+    $this->assertEquals('demouser1', $entity->getUsername());
+    $this->assertEquals(array('demoscope1'), $entity->getScope());
+  }
+
   public function testFind()
   {
-    $entity = Database::find('Authorizes', 3);
+    $entity = Database::find('Authorizes', 1);
     $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Authorizes', get_class($entity));
-    $this->assertEquals('http://democlient3.com/', $entity->getClientId());
-    $this->assertEquals('demouser3', $entity->getUsername());
-    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $entity->getScope());
+    $this->assertEquals(1, $entity->getId());
+    $this->assertEquals('http://democlient1.com/', $entity->getClientId());
+    $this->assertEquals('demouser1', $entity->getUsername());
+    $this->assertEquals(array('demoscope1'), $entity->getScope());
   }
 }

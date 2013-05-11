@@ -12,6 +12,7 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
 /**
@@ -21,10 +22,32 @@ use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
  */
 class RefreshTokensTest extends OAuth2_Database_TestCase
 {
+  public function testAbstract()
+  {
+    $entity = new RefreshTokens();
+    $entity->setId(1)
+      ->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
+      ->setClientId('http://democlient3.com/')
+      ->setExpiresIn('86400')
+      ->setUsername('demouser3')
+      ->setScope(array(
+        'demoscope1',
+        'demoscope2',
+        'demoscope3',
+      ));
+    $this->assertEquals(1, $entity->getId());
+    $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $entity->getRefreshToken());
+    $this->assertEquals('http://democlient3.com/', $entity->getClientId());
+    $this->assertEquals('86400', $entity->getExpiresIn());
+    $this->assertEquals('demouser3', $entity->getUsername());
+    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $entity->getScope());
+  }
+
   public function testFind()
   {
     $entity = Database::find('RefreshTokens', 1);
     $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\RefreshTokens', get_class($entity));
+    $this->assertEquals(1, $entity->getId());
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $entity->getRefreshToken());
     $this->assertEquals('http://democlient3.com/', $entity->getClientId());
     $this->assertEquals('86400', $entity->getExpiresIn());

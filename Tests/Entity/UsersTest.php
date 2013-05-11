@@ -12,6 +12,7 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Entity\Users;
 use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
 
 /**
@@ -21,10 +22,21 @@ use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
  */
 class UsersTest extends OAuth2_Database_TestCase
 {
+  public function testAbstract()
+  {
+    $entity = new Users();
+    $entity->setId(1)->setUsername('demouser1')
+      ->setPassword('demopassword1');
+    $this->assertEquals(1, $entity->getId());
+    $this->assertEquals('demouser1', $entity->getUsername());
+    $this->assertEquals('demopassword1', $entity->getPassword());
+  }
+
   public function testFind()
   {
     $entity = Database::find('Users', 1);
     $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Users', get_class($entity));
+    $this->assertEquals(1, $entity->getId());
     $this->assertEquals('demouser1', $entity->getUsername());
     $this->assertEquals('demopassword1', $entity->getPassword());
   }

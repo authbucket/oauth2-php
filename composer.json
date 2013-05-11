@@ -23,12 +23,9 @@
         "php": ">=5.3.3"
     },
     "require-dev": {
-        "doctrine/doctrine-bundle": "1.2.*",
-        "doctrine/orm": "~2.2,>=2.2.3",
-        "phpunit/phpunit": "3.7.*",
+        "doctrine/orm": "2.*",
         "satooshi/php-coveralls": "dev-master",
-        "silex/silex": "1.0.*@dev",
-        "symfony/yaml": ">=2.1,<2.3-dev"
+        "silex/silex": "1.0.*@dev"
     },
     "target-dir": "Pantarei/OAuth2",
     "type": "library"
