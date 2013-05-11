@@ -11,7 +11,9 @@
 
 namespace Pantarei\OAuth2\Tests\Request;
 
+use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Request\AuthorizationRequest;
+use Pantarei\OAuth2\Tests\Entity\Clients;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,13 +28,13 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
   public function createApplication()
   {
     $app = parent::createApplication();
-  
+
     $app->get('/validaterequest', function(Request $request) {
       $response = new Response();
       $controller = new AuthorizationRequest();
-      
+
       $response_type = $controller->validateRequest($request->query->all());
-      return (get_class($response_type) == 'Pantarei\\OAuth2\\ResponseType\\CodeResponseType')
+      return (is_object($response_type))
         ? $response->setStatusCode(200)
         : $response->setStatusCode(404);
     });
@@ -50,7 +52,23 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $query = array();
     $filtered_query = $request->validateRequest($query);
     // This won't happened!!
-    $this->assertTrue(is_array($filtered_query));
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+   */
+  public function testValidateRequestBadClientId()
+  {
+    $request = new AuthorizationRequest();
+
+    $query = array(
+      'response_type' => 'code',
+      'client_id' => 'http://badclient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+    );
+    $response_type = $request->validateRequest($query);
+    $this->assertTrue(is_object($filtered_query));
   }
 
   /**
@@ -65,7 +83,47 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     );
     $filtered_query = $request->validateRequest($query);
     // This won't happened!!
-    $this->assertTrue(is_array($filtered_query));
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testValidateRequestNoSavedNoPassedRedirectUri()
+  {
+    // Insert client without redirect_uri.
+    $client = new Clients();
+    $client->setClientId('http://democlient4.com/')
+      ->setClientSecret('demosecret4')
+      ->setRedirectUri('');
+    Database::persist($client);
+
+    $request = new AuthorizationRequest();
+
+    $query = array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient4.com/',
+    );
+    $filtered_query = $request->validateRequest($query);
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testValidateRequestWongSavedRedirectUri()
+  {
+    $request = new AuthorizationRequest();
+
+    $query = array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/wrong_uri',
+    );
+    $filtered_query = $request->validateRequest($query);
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
   }
 
   /**
@@ -81,7 +139,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     );
     $filtered_query = $request->validateRequest($query);
     // This won't happened!!
-    $this->assertTrue(is_array($filtered_query));
+    $this->assertTrue(is_object($filtered_query));
   }
 
   /**
@@ -98,28 +156,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     );
     $filtered_query = $request->validateRequest($query);
     // This won't happened!!
-    $this->assertTrue(is_array($filtered_query));
-  }
-
-  public function testValidateRequestGoodResponseType()
-  {
-    $request = new AuthorizationRequest();
-
-    $query = array(
-      'response_type' => 'code',
-      'client_id' => 'http://democlient1.com/',
-      'redirect_uri' => 'http://democlient1.com/redirect_uri',
-    );
-    $response_type = $request->validateRequest($query);
-    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
-
-    $query = array(
-      'response_type' => 'token',
-      'client_id' => 'http://democlient1.com/',
-      'redirect_uri' => 'http://democlient1.com/redirect_uri',
-    );
-    $response_type = $request->validateRequest($query);
-    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\TokenResponseType', get_class($response_type));
+    $this->assertTrue(is_object($filtered_query));
   }
 
   /**
@@ -137,30 +174,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     );
     $filtered_query = $request->validateRequest($query);
     // This won't happened!!
-    $this->assertTrue(is_array($filtered_query));
-  }
-
-  public function testValidateRequestGoodScope()
-  {
-    $request = new AuthorizationRequest();
-
-    $query = array(
-      'response_type' => 'code',
-      'client_id' => 'http://democlient1.com/',
-      'redirect_uri' => 'http://democlient1.com/redirect_uri',
-      'scope' => 'demoscope1',
-    );
-    $response_type = $request->validateRequest($query);
-    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
-
-    $query = array(
-      'response_type' => 'code',
-      'client_id' => 'http://democlient1.com/',
-      'redirect_uri' => 'http://democlient1.com/redirect_uri',
-      'scope' => 'demoscope1 demoscope2 demoscope3',
-    );
-    $response_type = $request->validateRequest($query);
-    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
+    $this->assertTrue(is_object($filtered_query));
   }
 
   /**
@@ -179,25 +193,77 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     );
     $filtered_query = $request->validateRequest($query);
     // This won't happened!!
-    $this->assertTrue(is_array($filtered_query));
+    $this->assertTrue(is_object($filtered_query));
   }
 
-  public function testValidateRequestGoodState()
+  public function testValidateRequestGoodRedirectUri()
   {
-    $request = new AuthorizationRequest();
+    // Insert client without redirect_uri.
+    $client = new Clients();
+    $client->setClientId('http://democlient4.com/')
+      ->setClientSecret('demosecret4')
+      ->setRedirectUri('http://democlient4.com/redirect_uri');
+    Database::persist($client);
 
-    $query = array(
+    // It works even if we skip redirect_uri from GET.
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/validaterequest', array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient4.com/',
+    ));
+    $this->assertTrue($client->getResponse()->isSuccessful());
+
+    // And for sure, if match redirect_uri from GET it works, too.
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/validaterequest', array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient4.com/',
+      'redirect_uri' => 'http://democlient4.com/redirect_uri',
+    ));
+    $this->assertTrue($client->getResponse()->isSuccessful());
+  }
+
+  public function testValidateRequestGoodResponseType()
+  {
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/validaterequest', array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+    ));
+    $this->assertTrue($client->getResponse()->isSuccessful());
+
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/validaterequest', array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+    ));
+    $this->assertTrue($client->getResponse()->isSuccessful());
+  }
+
+  public function testValidateRequestGoodScope()
+  {
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/validaterequest', array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => 'demoscope1',
+    ));
+    $this->assertTrue($client->getResponse()->isSuccessful());
+
+    $client = $this->createClient();
+    $crawler = $client->request('GET', '/validaterequest', array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1 demoscope2 demoscope3',
-      'state' => 'example state',
-    );
-    $response_type = $request->validateRequest($query);
-    $this->assertEquals('Pantarei\\OAuth2\\ResponseType\\CodeResponseType', get_class($response_type));
+    ));
+    $this->assertTrue($client->getResponse()->isSuccessful());
   }
-  
-  public function testWebValidateRequestGoodState()
+
+  public function testValidateRequestGoodState()
   {
     $client = $this->createClient();
     $crawler = $client->request('GET', '/validaterequest', array(
