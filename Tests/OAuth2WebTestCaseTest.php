@@ -12,6 +12,8 @@
 namespace Pantarei\OAuth2\Tests;
 
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test the OAuth2WebTestCase wrapper functionality.
@@ -24,8 +26,10 @@ class OAuth2WebTestCaseTest extends OAuth2WebTestCase
   {
     $app = parent::createApplication();
 
-    $app->get('/foo/{name}', function ($name) {
-      $controller = new self();
+    $app->get('/foo/{name}', function ($name, Request $request) {
+      $request->overrideGlobals();
+      //var_dump($_GET);
+      $controller = new OAuth2WebTestCaseTest();
       return $controller->bar($name);
     });
 
@@ -39,7 +43,7 @@ class OAuth2WebTestCaseTest extends OAuth2WebTestCase
   public function testSilexPage()
   {
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/foo/bar');
+    $crawler = $client->request('GET', '/foo/bar', array('dummy' => 'content'));
     $this->assertTrue($client->getResponse()->isOk());
     $this->assertCount(1, $crawler->filter('html:contains("Hello bar")'));
   }
