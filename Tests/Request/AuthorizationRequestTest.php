@@ -12,14 +12,14 @@
 namespace Pantarei\OAuth2\Tests\Request;
 
 use Pantarei\OAuth2\Request\AuthorizationRequest;
-use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
+use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
 /**
  * Test authorization code grant type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationRequestTest extends OAuth2_Database_TestCase
+class AuthorizationRequestTest extends OAuth2WebTestCase
 {
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException

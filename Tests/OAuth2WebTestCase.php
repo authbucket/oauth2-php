@@ -19,12 +19,16 @@ use Pantarei\OAuth2\Tests\Entity\Codes;
 use Pantarei\OAuth2\Tests\Entity\RefreshTokens;
 use Pantarei\OAuth2\Tests\Entity\Scopes;
 use Pantarei\OAuth2\Tests\Entity\Users;
+use Silex\WebTestCase;
 
 /**
- * Extend PHPUnit_Framework_TestCase for test case require database setup.
+ * Extend Silex\WebTestCase for test case require database and web interface
+ * setup.
  */
-class OAuth2_Database_TestCase extends \PHPUnit_Framework_TestCase
+class OAuth2WebTestCase extends WebTestCase
 {
+  public function createApplication() {}
+
   public function setUp()
   {
     // Initialize database information.

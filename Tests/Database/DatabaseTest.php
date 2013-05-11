@@ -13,14 +13,14 @@ namespace Pantarei\OAuth2\Tests\Database;
 
 use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Tests\Entity\Scopes;
-use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
+use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
 /**
  * Test base OAuth2.0 exception.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class DatabaseTest extends OAuth2_Database_TestCase
+class DatabaseTest extends OAuth2WebTestCase
 {
 
   public function testFind()

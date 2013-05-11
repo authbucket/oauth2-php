@@ -13,14 +13,14 @@ namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Entity\Users;
-use Pantarei\OAuth2\Tests\OAuth2_Database_TestCase;
+use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
 /**
  * Test authorizes entity functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class UsersTest extends OAuth2_Database_TestCase
+class UsersTest extends OAuth2WebTestCase
 {
   public function testAbstract()
   {
