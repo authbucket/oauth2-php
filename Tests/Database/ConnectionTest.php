@@ -21,6 +21,42 @@ use Pantarei\OAuth2\Tests\Database\Connection;
  */
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\Exception
+   */
+  public function testNoDatabaseInfo()
+  {
+    $conn = Database::getConnection();
+    // This won't happened!!
+    $this->assertTrue($conn instanceof \Pantarei\OAuth2\Database\Connection);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\Exception
+   */
+  public function testNoDatabaseNamespace()
+  {
+    $databaseInfo = array();
+    Database::setDatabaseInfo($databaseInfo);
+    $conn = Database::getConnection();
+
+    // This won't happened!!
+    $this->assertTrue($conn instanceof \Pantarei\OAuth2\Database\Connection);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\Exception
+   */
+  public function testNoEntityNamespace()
+  {
+    $databaseInfo['Database']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Database';
+    Database::setDatabaseInfo($databaseInfo);
+    $conn = Database::getConnection();
+
+    // This won't happened!!
+    $this->assertTrue($conn instanceof \Pantarei\OAuth2\Database\Connection);
+  }
+
   public function testDatabaseInfo()
   {
     $databaseInfo['Database']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Database';

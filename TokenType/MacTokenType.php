@@ -26,9 +26,4 @@ class MacTokenType implements TokenTypeInterface
   {
     return 'mac';
   }
-
-  public function __construct()
-  {
-    throw new Exception();
-  }
 }

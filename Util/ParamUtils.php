@@ -79,12 +79,11 @@ abstract class ParamUtils
    *
    * @param array $query
    *   The input query for filtering.
-   * @param string|array $params
-   *   The target parameter, in string for single value, or array for
-   *   multiple values.
+   * @param array $params
+   *   The target parameter in array or keys.
    *
-   * @return string|array
-   *   Filtered parameter, string or array according to request.
+   * @return array
+   *   Filtered parameters
    *
    * @see http://tools.ietf.org/html/rfc6749#appendix-A
    */
@@ -94,17 +93,12 @@ abstract class ParamUtils
     if (empty(self::$definition)) {
       self::initializeDefinition();
     }
-    $filtered_query = filter_var_array($query, self::$definition);
+    $filtered_query = array_filter(filter_var_array($query, self::$definition));
 
     // Return entire result set, or only specific key(s).
-    if (empty($param)) {
-      return $filtered_query;
-    }
-    else if (is_string($params)) {
-      return isset($filtered_query[$params]) ? $filtered_query[$params] : '';
-    }
-    else if (is_array($params)) {
+    if ($params != NULL) {
       return array_intersect_key($filtered_query, array_flip($params));
     }
+    return $filtered_query;
   }
 }

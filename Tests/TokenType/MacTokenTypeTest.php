@@ -20,9 +20,6 @@ use Pantarei\OAuth2\TokenType\MacTokenType;
  */
 class MacTokenTypeTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\Exception
-   */
   public function testTokenType()
   {
     $grant_type = new MacTokenType();

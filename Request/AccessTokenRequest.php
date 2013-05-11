@@ -44,7 +44,7 @@ class AccessTokenRequest implements RequestInterface
     ));
 
     // grant_type myst be specified.
-    if (!$filtered_query['grant_type']) {
+    if (!isset($filtered_query['grant_type'])) {
       throw new InvalidRequestException();
     }
 

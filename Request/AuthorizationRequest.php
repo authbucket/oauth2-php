@@ -41,12 +41,14 @@ class AuthorizationRequest implements RequestInterface
     ));
 
     // Both response_type and client_id are required.
-    if (!$filtered_query['response_type'] || !$filtered_query['client_id']) {
+    if (!isset($filtered_query['response_type']) || !isset($filtered_query['client_id'])) {
       if (isset($query['response_type'])) {
         throw new UnsupportedResponseTypeException();
       }
       throw new InvalidRequestException();
     }
+    $response_type = $filtered_query['response_type'] == 'code' ? new CodeResponseType() : new TokenResponseType();
+    $response_type->setClientId($filtered_query['client_id']);
 
     // redirect_uri is not required if already established via other channels
     // check an existing redirect URI against the one supplied.
@@ -62,12 +64,12 @@ class AuthorizationRequest implements RequestInterface
 
     // At least one of: existing redirect URI or input redirect URI must be
     // specified.
-    if (!$redirect_uri && !$filtered_query['redirect_uri']) {
+    if (!$redirect_uri && !isset($filtered_query['redirect_uri'])) {
       throw new InvalidRequestException();
     }
 
     // If there's an existing uri and one from input, verify that they match.
-    if ($redirect_uri && $filtered_query['redirect_uri']) {
+    if ($redirect_uri && isset($filtered_query['redirect_uri'])) {
       // Ensure that the input uri starts with the stored uri.
       if (strcasecmp(substr($filtered_query["redirect_uri"], 0, strlen($redirect_uri)), $redirect_uri) !== 0) {
         throw new InvalidRequestException();
@@ -76,23 +78,24 @@ class AuthorizationRequest implements RequestInterface
     elseif ($redirect_uri) {
       $filtered_query['redirect_uri'] = $redirect_uri;
     }
+    $response_type->setRedirectUri($filtered_query['redirect_uri']);
 
     // Validate that the requested scope is supported.
-    if (isset($query['scope']) && !$filtered_query['scope']) {
-      throw new InvalidScopeException();
+    if (isset($query['scope'])) {
+      if(!isset($filtered_query['scope'])) {
+        throw new InvalidScopeException();
+      }
+      $response_type->setScope($filtered_query['scope']);
     }
 
     // Validate that the requested state is supproted.
-    if (isset($query['state']) && !$filtered_query['state']) {
-      throw new InvalidRequestException();
+    if (isset($query['state'])) {
+      if(!isset($filtered_query['state'])) {
+        throw new InvalidRequestException();
+      }
+      $response_type->setState($filtered_query['state']);
     }
 
-    // Build and return the response type.
-    $response_type = $filtered_query['response_type'] == 'code' ? new CodeResponseType() : new TokenResponseType();
-    $response_type->setClientId($filtered_query['client_id'])
-      ->setRedirectUri($filtered_query['redirect_uri'])
-      ->setScope($filtered_query['scope'])
-      ->setState($filtered_query['state']);
     return $response_type;
   }
 }
