@@ -30,10 +30,11 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $app = parent::createApplication();
 
     $app->get('/validaterequest', function(Request $request) {
+      $request->overrideGlobals();
       $response = new Response();
       $controller = new AuthorizationRequest();
 
-      $response_type = $controller->validateRequest($request->query->all());
+      $response_type = $controller->validateRequest();
       return (is_object($response_type))
         ? $response->setStatusCode(200)
         : $response->setStatusCode(404);
@@ -47,10 +48,12 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestNoClientId()
   {
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array();
-    $filtered_query = $request->validateRequest($query);
+    $request->initialize(array());
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -60,14 +63,17 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestBadClientId()
   {
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array(
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://badclient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
-    );
-    $response_type = $request->validateRequest($query);
+    ));
+    $request->overrideGlobals();
+    $response_type = $controller->validateRequest();
+    // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -76,12 +82,14 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestNoRedirectUri()
   {
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array(
+    $request->initialize(array(
       'client_id' => '1234',
-    );
-    $filtered_query = $request->validateRequest($query);
+    ));
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -98,13 +106,15 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       ->setRedirectUri('');
     Database::persist($client);
 
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array(
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
-    );
-    $filtered_query = $request->validateRequest($query);
+    ));
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -114,14 +124,16 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestWongSavedRedirectUri()
   {
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array(
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/wrong_uri',
-    );
-    $filtered_query = $request->validateRequest($query);
+    ));
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -131,13 +143,15 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestNoResponseType()
   {
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array(
+    $request->initialize(array(
       'client_id' => '1234',
       'redirect_uri' => 'http://example.com/redirect_uri',
-    );
-    $filtered_query = $request->validateRequest($query);
+    ));
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -147,14 +161,16 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestBadResponseType()
   {
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array(
+    $request->initialize(array(
       'response_type' => 'foo',
       'client_id' => '1234',
       'redirect_uri' => 'http://example.com/redirect_uri',
-    );
-    $filtered_query = $request->validateRequest($query);
+    ));
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -164,15 +180,17 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestBadScope()
   {
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array(
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
-    );
-    $filtered_query = $request->validateRequest($query);
+    ));
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -182,16 +200,18 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestBadState()
   {
-    $request = new AuthorizationRequest();
+    $controller = new AuthorizationRequest();
+    $request = new Request();
 
-    $query = array(
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "aaa bbb ccc",
       'state' => "aaa\x19bbb\x7Fccc",
-    );
-    $filtered_query = $request->validateRequest($query);
+    ));
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }

@@ -30,9 +30,9 @@ use Pantarei\OAuth2\Util\ParamUtils;
  */
 class AuthorizationRequest implements RequestInterface
 {
-  public function validateRequest($query = array(), $request = array())
+  public function validateRequest()
   {
-    $filtered_query = ParamUtils::filter($query, array(
+    $filtered_query = ParamUtils::filter($_GET, array(
       'client_id',
       'redirect_uri',
       'response_type',
@@ -42,7 +42,7 @@ class AuthorizationRequest implements RequestInterface
 
     // Both response_type and client_id are required.
     if (!isset($filtered_query['response_type']) || !isset($filtered_query['client_id'])) {
-      if (isset($query['response_type'])) {
+      if (isset($_GET['response_type'])) {
         throw new UnsupportedResponseTypeException();
       }
       throw new InvalidRequestException();
@@ -91,7 +91,7 @@ class AuthorizationRequest implements RequestInterface
     $response_type->setRedirectUri($filtered_query['redirect_uri']);
 
     // Validate that the requested scope is supported.
-    if (isset($query['scope'])) {
+    if (isset($_GET['scope'])) {
       if(!isset($filtered_query['scope'])) {
         throw new InvalidScopeException();
       }
@@ -99,7 +99,7 @@ class AuthorizationRequest implements RequestInterface
     }
 
     // Validate that the requested state is supproted.
-    if (isset($query['state'])) {
+    if (isset($_GET['state'])) {
       if(!isset($filtered_query['state'])) {
         throw new InvalidRequestException();
       }
