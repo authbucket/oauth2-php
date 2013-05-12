@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Request;
 
+use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\AccessDeniedException;
 use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidGrantException;
@@ -34,9 +35,51 @@ use Pantarei\OAuth2\Util\ParamUtils;
  */
 class AccessTokenRequest implements RequestInterface
 {
-  public function validateRequest($query = array(), $request = array())
+  /**
+   * Internal function used to get the client credentials from HTTP basic
+   * auth or POST data.
+   *
+   * @return
+   *   A array containing the client identifier and password, with keys:
+   *   - client_id
+   *   - client_secret
+   */
+  private function getClientCredentials()
   {
-    $filtered_query = ParamUtils::filter($query, array(
+    // At least one (and only one) of client credentials method required.
+    if (!isset($_SERVER["PHP_AUTH_USER"]) && !isset($_POST["client_id"])) {
+      throw new InvalidClientException();
+    }
+    elseif (isset($_SERVER["PHP_AUTH_USER"]) && isset($_POST["client_id"])) {
+      throw new InvalidRequestException();
+    }
+
+    $query = array();
+
+    // Try basic auth.
+    if (isset($_SERVER["PHP_AUTH_USER"])) {
+      $query = array(
+        'client_id' => $_SERVER["PHP_AUTH_USER"],
+        'client_secret' => isset($_SERVER["PHP_AUTH_PW"]) ? $_SERVER["PHP_AUTH_PW"] : '',
+      );
+    }
+    // Try POST
+    elseif ($_POST && isset($_POST["client_id"])) {
+      $query = array(
+        'client_id' => $_POST["client_id"],
+        'client_secret' => isset($_POST["client_secret"]) ? $_POST["client_secret"] : '',
+      );
+    }
+
+    return ParamUtils::filter($query, array(
+      'client_id',
+      'client_secret',
+    ));
+  }
+
+  public function validateRequest()
+  {
+    $filtered_query = ParamUtils::filter($_POST, array(
       'client_id',
       'code',
       'grant_type',
@@ -52,12 +95,15 @@ class AccessTokenRequest implements RequestInterface
       throw new InvalidRequestException();
     }
 
-    // Validate the client credentials.
-    $client = $this->validateClientCredentials();
-
     // TODO: Make sure we've implemented the requested grant type.
     //if (!in_array($input["grant_type"], $this->getSupportedGrantTypes()))
     //  $this->errorJsonResponse(OAUTH2_HTTP_BAD_REQUEST, OAUTH2_ERROR_UNSUPPORTED_GRANT_TYPE);
+
+    // Authorize the client, and stop here if invalid.
+    $client = Database::findOneBy('Clients', $this->getClientCredentials());
+    if ($client == NULL) {
+      throw new UnauthorizedClientException();
+    }
 
     // Let's initialize grant_type object here.
     $grant_type = NULL;
@@ -77,10 +123,5 @@ class AccessTokenRequest implements RequestInterface
     }
 
     return $grant_type;
-  }
-
-  protected function validateClientCredentials()
-  {
-
   }
 }
