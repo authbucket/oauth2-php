@@ -32,7 +32,7 @@ abstract class ParamUtils
       'VSCHAR'            => '[\x20-\x7E]',
       'NQCHAR'            => '[\x21\x22-\x5B\x5D-\x7E]',
       'NQSCHAR'           => '[\x20-\x21\x23-\x5B\x5D-\x7E]',
-      'UNICODECHARNOCRLF' => '[\x09\x20-\x7E\x80-\xD7FF\xE000-\xFFFD\x10000-\x10FFFF]',
+      'UNICODECHARNOCRLF' => '[\x09\x20-\x7E\x80-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]',
     );
     $regexp = array(
       'client_id'         => '/^(' . $syntax['VSCHAR'] . '*)$/',
@@ -47,8 +47,8 @@ abstract class ParamUtils
       'access_token'      => '/^(' . $syntax['VSCHAR'] . '+)$/',
       'token_type'        => '/^(bearer|mac)$/',
       'expires_in'        => '/^[0-9]+$/',
-      'username'          => '/^(' . $syntax['UNICODECHARNOCRLF'] . '*)$/',
-      'password'          => '/^(' . $syntax['UNICODECHARNOCRLF'] . '*)$/',
+      'username'          => '/^(' . $syntax['UNICODECHARNOCRLF'] . '*)$/u',
+      'password'          => '/^(' . $syntax['UNICODECHARNOCRLF'] . '*)$/u',
       'refresh_token'     => '/^(' . $syntax['VSCHAR'] . '+)$/',
     );
     $definition = array(

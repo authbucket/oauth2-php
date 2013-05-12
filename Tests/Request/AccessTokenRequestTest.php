@@ -147,6 +147,8 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
 
     $post = array(
       'grant_type' => 'authorization_code',
+      'code' => 'f0c68d250bcc729eb780a235371a9a55',
+      'redirect_uri' => 'http://democlient2.com/redirect_uri',
     );
     $server = array(
       'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -185,6 +187,8 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
 
     $post = array(
       'grant_type' => 'authorization_code',
+      'code' => 'f0c68d250bcc729eb780a235371a9a55',
+      'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient1.com/',
       'client_secret' => 'demosecret1',
     );
@@ -195,13 +199,17 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($filtered_query));
   }
 
-  public function testValidateRequestGoodAuthCode()
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testValidateRequestBadAuthCodeNoCode()
   {
     $controller = new AccessTokenRequest();
     $request = new Request();
 
     $post = array(
       'grant_type' => 'authorization_code',
+      'redirect_uri' => 'http://democlient2.com/redirect_uri',
     );
     $server = array(
       'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -210,6 +218,73 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $filtered_query = $controller->validateRequest();
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testValidateRequestBadAuthCodeNoRedirectUri()
+  {
+    $controller = new AccessTokenRequest();
+    $request = new Request();
+
+    $post = array(
+      'grant_type' => 'authorization_code',
+      'code' => 'f0c68d250bcc729eb780a235371a9a55',
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  public function testValidateRequestGoodAuthCode()
+  {
+    $controller = new AccessTokenRequest();
+    $request = new Request();
+
+    $post = array(
+      'grant_type' => 'authorization_code',
+      'code' => 'f0c68d250bcc729eb780a235371a9a55',
+      'redirect_uri' => 'http://democlient2.com/redirect_uri',
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   */
+  public function testValidateRequestBadClientCredBadState()
+  {
+    $controller = new AccessTokenRequest();
+    $request = new Request();
+
+    $post = array(
+      'grant_type' => 'client_credentials',
+      'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -220,6 +295,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
 
     $post = array(
       'grant_type' => 'client_credentials',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $server = array(
       'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -228,6 +304,79 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testValidateRequestBadPasswordNoUsername()
+  {
+    $controller = new AccessTokenRequest();
+    $request = new Request();
+
+    $post = array(
+      'grant_type' => 'password',
+      'password' => 'demopassword1',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testValidateRequestBadPasswordNoPassword()
+  {
+    $controller = new AccessTokenRequest();
+    $request = new Request();
+
+    $post = array(
+      'grant_type' => 'password',
+      'username' => 'demouser1',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   */
+  public function testValidateRequestBadPasswordBadState()
+  {
+    $controller = new AccessTokenRequest();
+    $request = new Request();
+
+    $post = array(
+      'grant_type' => 'password',
+      'username' => 'demouser1',
+      'password' => 'demopassword1',
+      'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -238,6 +387,9 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
 
     $post = array(
       'grant_type' => 'password',
+      'username' => 'demouser1',
+      'password' => 'demopassword1',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $server = array(
       'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -249,6 +401,53 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($filtered_query));
   }
 
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testValidateRequestBadRefreshTokenNoToken()
+  {
+    $controller = new AccessTokenRequest();
+    $request = new Request();
+
+    $post = array(
+      'grant_type' => 'refresh_token',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   */
+  public function testValidateRequestBadRefreshTokenBadState()
+  {
+    $controller = new AccessTokenRequest();
+    $request = new Request();
+
+    $post = array(
+      'grant_type' => 'refresh_token',
+      'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+      'scope' => "demoscope1\x22demoscope2\x5cemoscope3",
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
+  }
+
   public function testValidateRequestGoodRefreshToken()
   {
     $controller = new AccessTokenRequest();
@@ -256,6 +455,8 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
 
     $post = array(
       'grant_type' => 'refresh_token',
+      'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $server = array(
       'PHP_AUTH_USER' => 'http://democlient1.com/',

@@ -109,16 +109,66 @@ class AccessTokenRequest implements RequestInterface
     $grant_type = NULL;
     switch ($filtered_query['grant_type']) {
       case 'authorization_code':
+        // Both grant_type, code, redirect_uri and client_id are required.
+        if (!isset($filtered_query['code']) || !isset($filtered_query['redirect_uri'])) {
+          throw new InvalidRequestException();
+        }
+
         $grant_type = new AuthorizationCodeGrantType();
+
+        $grant_type->setCode($filtered_query['code'])
+          ->setRedirectUri($filtered_query['redirect_uri'])
+          ->setClientId($client->getClientId());
+
         break;
       case 'client_credentials':
         $grant_type = new ClientCredentialsGrantType();
+
+        // Validate that the requested scope is supported.
+        if (isset($_POST['scope'])) {
+          if(!isset($filtered_query['scope'])) {
+            throw new InvalidScopeException();
+          }
+          $grant_type->setScope($filtered_query['scope']);
+        }
+
         break;
       case 'password':
+        // Both grant_type, username and password are required.
+        if (!isset($filtered_query['username']) || !isset($filtered_query['password'])) {
+          throw new InvalidRequestException();
+        }
+
         $grant_type = new PasswordGrantType();
+        $grant_type->setUsername($filtered_query['username'])
+          ->setPassword($filtered_query['password']);
+
+        // Validate that the requested scope is supported.
+        if (isset($_POST['scope'])) {
+          if(!isset($filtered_query['scope'])) {
+            throw new InvalidScopeException();
+          }
+          $grant_type->setScope($filtered_query['scope']);
+        }
+
         break;
       case 'refresh_token':
+        // Both grant_type and refresh_token are required.
+        if (!isset($filtered_query['refresh_token'])) {
+          throw new InvalidRequestException();
+        }
+
         $grant_type = new RefreshTokenGrantType();
+        $grant_type->setRefreshToken($filtered_query['refresh_token']);
+
+        // Validate that the requested scope is supported.
+        if (isset($_POST['scope'])) {
+          if(!isset($filtered_query['scope'])) {
+            throw new InvalidScopeException();
+          }
+          $grant_type->setScope($filtered_query['scope']);
+        }
+
         break;
     }
 
