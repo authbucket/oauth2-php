@@ -24,26 +24,26 @@ class AuthorizesTest extends OAuth2WebTestCase
 {
   public function testAbstract()
   {
-    $entity = new Authorizes();
-    $entity->setId(1)
+    $data = new Authorizes();
+    $data->setId(1)
       ->setClientId('http://democlient1.com/')
       ->setUsername('demouser1')
       ->setScope(array(
         'demoscope1',
       ));
-    $this->assertEquals(1, $entity->getId());
-    $this->assertEquals('http://democlient1.com/', $entity->getClientId());
-    $this->assertEquals('demouser1', $entity->getUsername());
-    $this->assertEquals(array('demoscope1'), $entity->getScope());
+    $this->assertEquals(1, $data->getId());
+    $this->assertEquals('http://democlient1.com/', $data->getClientId());
+    $this->assertEquals('demouser1', $data->getUsername());
+    $this->assertEquals(array('demoscope1'), $data->getScope());
   }
 
   public function testFind()
   {
-    $entity = Database::find('Authorizes', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Authorizes', get_class($entity));
-    $this->assertEquals(1, $entity->getId());
-    $this->assertEquals('http://democlient1.com/', $entity->getClientId());
-    $this->assertEquals('demouser1', $entity->getUsername());
-    $this->assertEquals(array('demoscope1'), $entity->getScope());
+    $result = Database::find('Authorizes', 1);
+    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Authorizes', get_class($result));
+    $this->assertEquals(1, $result->getId());
+    $this->assertEquals('http://democlient1.com/', $result->getClientId());
+    $this->assertEquals('demouser1', $result->getUsername());
+    $this->assertEquals(array('demoscope1'), $result->getScope());
   }
 }

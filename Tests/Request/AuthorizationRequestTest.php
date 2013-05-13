@@ -25,24 +25,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AuthorizationRequestTest extends OAuth2WebTestCase
 {
-  public function createApplication()
-  {
-    $app = parent::createApplication();
-
-    $app->get('/validaterequest', function(Request $request) {
-      $request->overrideGlobals();
-      $response = new Response();
-      $controller = new AuthorizationRequest();
-
-      $response_type = $controller->validateRequest();
-      return (is_object($response_type))
-        ? $response->setStatusCode(200)
-        : $response->setStatusCode(404);
-    });
-
-    return $app;
-  }
-
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
@@ -228,74 +210,91 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       ->setRedirectUri('http://democlient4.com/redirect_uri');
     Database::persist($client);
 
-    // It works even if we skip redirect_uri from GET.
-    $client = $this->createClient();
-    $crawler = $client->request('GET', '/validaterequest', array(
+    $controller = new AuthorizationRequest();
+    $request = new Request();
+
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
     ));
-    $this->assertTrue($client->getResponse()->isSuccessful());
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
 
-    // And for sure, if match redirect_uri from GET it works, too.
-    $client = $this->createClient();
-    $crawler = $client->request('GET', '/validaterequest', array(
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
       'redirect_uri' => 'http://democlient4.com/redirect_uri',
     ));
-    $this->assertTrue($client->getResponse()->isSuccessful());
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
   }
 
   public function testValidateRequestGoodResponseType()
   {
-    $client = $this->createClient();
-    $crawler = $client->request('GET', '/validaterequest', array(
+    $controller = new AuthorizationRequest();
+    $request = new Request();
+
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
-    $this->assertTrue($client->getResponse()->isSuccessful());
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
 
-    $client = $this->createClient();
-    $crawler = $client->request('GET', '/validaterequest', array(
+    $request->initialize(array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
-    $this->assertTrue($client->getResponse()->isSuccessful());
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
   }
 
   public function testValidateRequestGoodScope()
   {
-    $client = $this->createClient();
-    $crawler = $client->request('GET', '/validaterequest', array(
+    $controller = new AuthorizationRequest();
+    $request = new Request();
+
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1',
     ));
-    $this->assertTrue($client->getResponse()->isSuccessful());
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
 
-    $client = $this->createClient();
-    $crawler = $client->request('GET', '/validaterequest', array(
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1 demoscope2 demoscope3',
     ));
-    $this->assertTrue($client->getResponse()->isSuccessful());
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
   }
 
   public function testValidateRequestGoodState()
   {
-    $client = $this->createClient();
-    $crawler = $client->request('GET', '/validaterequest', array(
+    $controller = new AuthorizationRequest();
+    $request = new Request();
+
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1 demoscope2 demoscope3',
       'state' => 'example state',
     ));
-    $this->assertTrue($client->getResponse()->isSuccessful());
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    $this->assertTrue(is_object($filtered_query));
   }
 }

@@ -28,7 +28,6 @@ class OAuth2WebTestCaseTest extends OAuth2WebTestCase
 
     $app->get('/foo/{name}', function ($name, Request $request) {
       $request->overrideGlobals();
-      //var_dump($_GET);
       $controller = new OAuth2WebTestCaseTest();
       return $controller->bar($name);
     });

@@ -24,8 +24,8 @@ class AccessTokensTest extends OAuth2WebTestCase
 {
   public function testAbstract()
   {
-    $entity = new AccessTokens();
-    $entity->setId(1)
+    $data = new AccessTokens();
+    $data->setId(1)
       ->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
       ->setClientId('http://democlient1.com/')
       ->setExpiresIn('3600')
@@ -33,23 +33,23 @@ class AccessTokensTest extends OAuth2WebTestCase
       ->setScope(array(
         'demoscope1',
       ));
-    $this->assertEquals(1, $entity->getId());
-    $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $entity->getAccessToken());
-    $this->assertEquals('http://democlient1.com/', $entity->getClientId());
-    $this->assertEquals('3600', $entity->getExpiresIn());
-    $this->assertEquals('demouser1', $entity->getUsername());
-    $this->assertEquals(array('demoscope1'), $entity->getScope());
+    $this->assertEquals(1, $data->getId());
+    $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $data->getAccessToken());
+    $this->assertEquals('http://democlient1.com/', $data->getClientId());
+    $this->assertEquals('3600', $data->getExpiresIn());
+    $this->assertEquals('demouser1', $data->getUsername());
+    $this->assertEquals(array('demoscope1'), $data->getScope());
   }
 
   public function testFind()
   {
-    $entity = Database::find('AccessTokens', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\AccessTokens', get_class($entity));
-    $this->assertEquals(1, $entity->getId());
-    $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $entity->getAccessToken());
-    $this->assertEquals('http://democlient1.com/', $entity->getClientId());
-    $this->assertEquals('3600', $entity->getExpiresIn());
-    $this->assertEquals('demouser1', $entity->getUsername());
-    $this->assertEquals(array('demoscope1'), $entity->getScope());
+    $result = Database::find('AccessTokens', 1);
+    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\AccessTokens', get_class($result));
+    $this->assertEquals(1, $result->getId());
+    $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result->getAccessToken());
+    $this->assertEquals('http://democlient1.com/', $result->getClientId());
+    $this->assertEquals('3600', $result->getExpiresIn());
+    $this->assertEquals('demouser1', $result->getUsername());
+    $this->assertEquals(array('demoscope1'), $result->getScope());
   }
 }

@@ -24,20 +24,20 @@ class ScopesTest extends OAuth2WebTestCase
 {
   public function testAbstract()
   {
-    $entity = new Scopes();
-    $entity->setId(1)
+    $data = new Scopes();
+    $data->setId(1)
       ->setScope('demoscope1');
-    $this->assertEquals(1, $entity->getId());
-    $this->assertTrue($entity !== NULL);
-    $this->assertEquals('demoscope1', $entity->getScope());
+    $this->assertEquals(1, $data->getId());
+    $this->assertTrue($data !== NULL);
+    $this->assertEquals('demoscope1', $data->getScope());
   }
 
   public function testFind()
   {
-    $entity = Database::find('Scopes', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Scopes', get_class($entity));
-    $this->assertEquals(1, $entity->getId());
-    $this->assertTrue($entity !== NULL);
-    $this->assertEquals('demoscope1', $entity->getScope());
+    $result = Database::find('Scopes', 1);
+    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Scopes', get_class($result));
+    $this->assertEquals(1, $result->getId());
+    $this->assertTrue($result !== NULL);
+    $this->assertEquals('demoscope1', $result->getScope());
   }
 }

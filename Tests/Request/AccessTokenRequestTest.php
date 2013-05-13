@@ -23,24 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AccessTokenRequestTest extends OAuth2WebTestCase
 {
-  public function createApplication()
-  {
-    $app = parent::createApplication();
-
-    $app->get('/validaterequest', function(Request $request) {
-      $request->overrideGlobals();
-      $response = new Response();
-      $controller = new AccessTokenRequest();
-
-      $response_type = $controller->validateRequest();
-      return (is_object($response_type))
-      ? $response->setStatusCode(200)
-      : $response->setStatusCode(404);
-    });
-
-    return $app;
-  }
-
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */

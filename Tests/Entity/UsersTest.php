@@ -24,20 +24,20 @@ class UsersTest extends OAuth2WebTestCase
 {
   public function testAbstract()
   {
-    $entity = new Users();
-    $entity->setId(1)->setUsername('demousername1')
+    $data = new Users();
+    $data->setId(1)->setUsername('demousername1')
       ->setPassword('demopassword1');
-    $this->assertEquals(1, $entity->getId());
-    $this->assertEquals('demousername1', $entity->getUsername());
-    $this->assertEquals('demopassword1', $entity->getPassword());
+    $this->assertEquals(1, $data->getId());
+    $this->assertEquals('demousername1', $data->getUsername());
+    $this->assertEquals('demopassword1', $data->getPassword());
   }
 
   public function testFind()
   {
-    $entity = Database::find('Users', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Users', get_class($entity));
-    $this->assertEquals(1, $entity->getId());
-    $this->assertEquals('demousername1', $entity->getUsername());
-    $this->assertEquals('demopassword1', $entity->getPassword());
+    $result = Database::find('Users', 1);
+    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Users', get_class($result));
+    $this->assertEquals(1, $result->getId());
+    $this->assertEquals('demousername1', $result->getUsername());
+    $this->assertEquals('demopassword1', $result->getPassword());
   }
 }

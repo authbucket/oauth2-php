@@ -24,8 +24,8 @@ class RefreshTokensTest extends OAuth2WebTestCase
 {
   public function testAbstract()
   {
-    $entity = new RefreshTokens();
-    $entity->setId(1)
+    $data = new RefreshTokens();
+    $data->setId(1)
       ->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
       ->setClientId('http://democlient3.com/')
       ->setExpiresIn('86400')
@@ -35,23 +35,23 @@ class RefreshTokensTest extends OAuth2WebTestCase
         'demoscope2',
         'demoscope3',
       ));
-    $this->assertEquals(1, $entity->getId());
-    $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $entity->getRefreshToken());
-    $this->assertEquals('http://democlient3.com/', $entity->getClientId());
-    $this->assertEquals('86400', $entity->getExpiresIn());
-    $this->assertEquals('demouser3', $entity->getUsername());
-    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $entity->getScope());
+    $this->assertEquals(1, $data->getId());
+    $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $data->getRefreshToken());
+    $this->assertEquals('http://democlient3.com/', $data->getClientId());
+    $this->assertEquals('86400', $data->getExpiresIn());
+    $this->assertEquals('demouser3', $data->getUsername());
+    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $data->getScope());
   }
 
   public function testFind()
   {
-    $entity = Database::find('RefreshTokens', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\RefreshTokens', get_class($entity));
-    $this->assertEquals(1, $entity->getId());
-    $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $entity->getRefreshToken());
-    $this->assertEquals('http://democlient3.com/', $entity->getClientId());
-    $this->assertEquals('86400', $entity->getExpiresIn());
-    $this->assertEquals('demouser3', $entity->getUsername());
-    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $entity->getScope());
+    $result = Database::find('RefreshTokens', 1);
+    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\RefreshTokens', get_class($result));
+    $this->assertEquals(1, $result->getId());
+    $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $result->getRefreshToken());
+    $this->assertEquals('http://democlient3.com/', $result->getClientId());
+    $this->assertEquals('86400', $result->getExpiresIn());
+    $this->assertEquals('demouser3', $result->getUsername());
+    $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $result->getScope());
   }
 }
