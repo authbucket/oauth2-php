@@ -15,6 +15,19 @@ OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://www.symfony.com) and [Drupal module](http://drupal.org).
 
+Installation
+------------
+
+This library is provided as a [Composer
+package](https://packagist.org/packages/pantarei/oauth2) which cna be
+installed by adding the package to your `composer.json`:
+
+    {
+      "require": {
+        "pantarei/oauth2": "1.0.*@dev"
+      }
+    }
+
 Documentation
 -------------
 
@@ -33,26 +46,26 @@ found from https://travis-ci.org/pantarei/oauth2.
 Code coverage CI result can be found from
 https://coveralls.io/r/pantarei/oauth2.
 
+The package dependency status can be from from
+https://www.versioneye.com/package/php--pantarei--oauth2.
+
 If you hope to run the test cases locally, please execute
 `phpunit -c phpunit.xml.dist`. Coverage report can be found from
 `build/html` folder.
 
-Installation
-------------
+References
+----------
 
-First you need to add `pantarei/oauth2` to `composer.json`:
-
-    {
-      "require": {
-        "pantarei/oauth2": "1.0.*@dev"
-      }
-    }
+-   http://pantarei.github.io/oauth2/
+-   https://coveralls.io/r/pantarei/oauth2
+-   https://github.com/pantarei/oauth2
+-   https://packagist.org/packages/pantarei/oauth2
+-   https://travis-ci.org/pantarei/oauth2
+-   https://www.versioneye.com/package/php--pantarei--oauth2
 
 License
 -------
 
--   The bundle is licensed under the [MIT
+-   The library is licensed under the [MIT
     License](http://opensource.org/licenses/MIT)
--   The CSS and Javascript from the Twitter Bootstrap are licensed under
-    the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
