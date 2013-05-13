@@ -14,7 +14,7 @@ namespace Pantarei\OAuth2\Util;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 
 /**
- * Scope related utility for OAuth2.
+ * Scope related utilities for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */

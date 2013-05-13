@@ -11,6 +11,12 @@
 
 namespace Pantarei\OAuth2\GrantType;
 
+use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Exception\InvalidGrantException;
+use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Util\ScopeUtils;
+use Pantarei\OAuth2\Util\ResourceOwnerCredentialUtils;
+
 /**
  * Password grant type implementation.
  *
@@ -85,5 +91,18 @@ class PasswordGrantType implements GrantTypeInterface
   public function getScope()
   {
     return $this->scope;
+  }
+
+  public function __construct($query, $filtered_query) {
+    // Validate and set username and password.
+    if (ResourceOwnerCredentialUtils::check($query, $filtered_query)) {
+      $this->setUsername($filtered_query['username']);
+      $this->setPassword($filtered_query['password']);
+    }
+
+    // Validate and set scope.
+    if (ScopeUtils::check($query, $filtered_query)) {
+      $this->setScope($query['scope']);
+    }
   }
 }

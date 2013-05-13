@@ -12,27 +12,24 @@
 namespace Pantarei\OAuth2\Tests\GrantType;
 
 use Pantarei\OAuth2\GrantType\ClientCredentialsGrantType;
+use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
 /**
  * Test client credential grant type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ClientCredentialsGrantTypeTest extends \PHPUnit_Framework_TestCase
+class ClientCredentialsGrantTypeTest extends OAuth2WebTestCase
 {
   public function testGrantType()
   {
-    $grant_type = new ClientCredentialsGrantType();
+    $query = array(
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new ClientCredentialsGrantType($query, $query);
     $this->assertEquals('client_credentials', $grant_type->getGrantType());
-  }
 
-  public function testScope()
-  {
-    $grant_type = new ClientCredentialsGrantType();
-    $grant_type->setScope('aaa bbb ccc');
-    $this->assertEquals('aaa bbb ccc', $grant_type->getScope());
-
-    $grant_type->setScope('ddd eee fff');
-    $this->assertEquals('ddd eee fff', $grant_type->getScope());
+    $grant_type->setScope('demoscope2');
+    $this->assertEquals('demoscope2', $grant_type->getScope());
   }
 }

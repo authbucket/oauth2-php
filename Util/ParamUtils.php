@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Util;
 
 /**
- * Shared component for OAuth2.
+ * Parameter related utilities for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
@@ -83,7 +83,7 @@ abstract class ParamUtils
    *   The target parameter in array or keys.
    *
    * @return array
-   *   Filtered parameters
+   *   Filtered parameters.
    *
    * @see http://tools.ietf.org/html/rfc6749#appendix-A
    */

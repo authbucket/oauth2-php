@@ -12,38 +12,56 @@
 namespace Pantarei\OAuth2\Tests\GrantType;
 
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
+use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
 /**
  * Test refresh token grant type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class RefreshTokenGrantTypeTest extends \PHPUnit_Framework_TestCase
+class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
 {
   public function testGrantType()
   {
-    $grant_type = new RefreshTokenGrantType();
+    $query = array(
+      'grant_type' => 'refresh_token',
+      'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new RefreshTokenGrantType($query, $query);
+    $this->assertEquals('refresh_token', $grant_type->getGrantType());
+
+    $grant_type->setRefreshToken('37ed55a16777958a3953088576869ca7');
+    $this->assertEquals('37ed55a16777958a3953088576869ca7', $grant_type->getRefreshToken());
+
+    $grant_type->setScope('demoscope2');
+    $this->assertEquals('demoscope2', $grant_type->getScope());
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testNoRefreshToken()
+  {
+    $query = array(
+      'grant_type' => 'refresh_token',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new RefreshTokenGrantType($query, $query);
     $this->assertEquals('refresh_token', $grant_type->getGrantType());
   }
 
-  public function testRefreshToken()
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+   */
+  public function testBadRefreshToken()
   {
-    $grant_type = new RefreshTokenGrantType();
-    $grant_type->setRefreshToken('abcd');
-    $this->assertEquals('abcd', $grant_type->getRefreshToken());
-
-    $grant_type->setRefreshToken('efgh');
-    $this->assertEquals('efgh', $grant_type->getRefreshToken());
-  }
-
-  public function testScope()
-  {
-    $grant_type = new RefreshTokenGrantType();
-    $grant_type->setRefreshToken('abcd')
-      ->setScope('aaa bbb ccc');
-    $this->assertEquals('aaa bbb ccc', $grant_type->getScope());
-
-    $grant_type->setScope('ddd eee fff');
-    $this->assertEquals('ddd eee fff', $grant_type->getScope());
+    $query = array(
+      'grant_type' => 'refresh_token',
+      'refresh_token' => '37ed55a16777958a3953088576869ca7',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new RefreshTokenGrantType($query, $query);
+    $this->assertEquals('refresh_token', $grant_type->getGrantType());
   }
 }

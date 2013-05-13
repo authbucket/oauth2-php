@@ -194,17 +194,17 @@ class OAuth2WebTestCase extends WebTestCase
 
     // Add demo users.
     $user = new Users();
-    $user->setUsername('demouser1')
+    $user->setUsername('demousername1')
       ->setPassword('demopassword1');
     Database::persist($user);
 
     $user = new Users();
-    $user->setUsername('demouser2')
+    $user->setUsername('demousername2')
       ->setPassword('demopassword2');
     Database::persist($user);
 
     $user = new Users();
-    $user->setUsername('demouser3')
+    $user->setUsername('demousername3')
       ->setPassword('demopassword3');
     Database::persist($user);
   }

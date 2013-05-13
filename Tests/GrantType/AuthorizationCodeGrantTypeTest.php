@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\GrantType;
 
+use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
 
 /**
@@ -18,44 +19,55 @@ use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationCodeGrantTypeTest extends \PHPUnit_Framework_TestCase
+class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
 {
   public function testGrantType()
   {
-    $grant_type = new AuthorizationCodeGrantType();
+    $query = array(
+      'grant_type' => 'authorization_code',
+      'code' => 'f0c68d250bcc729eb780a235371a9a55',
+      'redirect_uri' => 'http://democlient2.com/redirect_uri',
+      'client_id' => 'http://democlient2.com/',
+    );
+    $grant_type = new AuthorizationCodeGrantType($query, $query);
+    $this->assertEquals('authorization_code', $grant_type->getGrantType());
+
+    $grant_type->setCode('83f1d26e90c2a275ae752adc6e49aa43');
+    $this->assertEquals('83f1d26e90c2a275ae752adc6e49aa43', $grant_type->getCode());
+
+    $grant_type->setRedirectUri('http://democlient3.com/redirect_uri');
+    $this->assertEquals('http://democlient3.com/redirect_uri', $grant_type->getRedirectUri());
+
+    $grant_type->setClientId('http://democlient3.com/');
+    $this->assertEquals('http://democlient3.com/', $grant_type->getClientId());
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testNoCode() {
+    $query = array(
+      'grant_type' => 'authorization_code',
+      'redirect_uri' => 'http://democlient2.com/redirect_uri',
+      'client_id' => 'http://democlient2.com/',
+    );
+    $grant_type = new AuthorizationCodeGrantType($query, $query);
+    // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getGrantType());
   }
 
-  public function testCode()
-  {
-    $grant_type = new AuthorizationCodeGrantType();
-    $grant_type->setCode('abcd');
-    $this->assertEquals('abcd', $grant_type->getCode());
-
-    $grant_type->setCode('efgh');
-    $this->assertEquals('efgh', $grant_type->getCode());
-  }
-
-  public function testRedirectUri()
-  {
-    $grant_type = new AuthorizationCodeGrantType();
-    $grant_type->setCode('abcd')
-      ->setRedirectUri('http://example.com/redirect');
-    $this->assertEquals('http://example.com/redirect', $grant_type->getRedirectUri());
-
-    $grant_type->setRedirectUri('http://abc.com/redirect');
-    $this->assertEquals('http://abc.com/redirect', $grant_type->getRedirectUri());
-  }
-
-  public function testClientId()
-  {
-    $grant_type = new AuthorizationCodeGrantType();
-    $grant_type->setCode('abcd')
-      ->setRedirectUri('http://example.com/redirect')
-      ->setClientId('1234');
-    $this->assertEquals('1234', $grant_type->getClientId());
-
-    $grant_type->setClientId('5678');
-    $this->assertEquals('5678', $grant_type->getClientId());
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+   */
+  public function testBadCode() {
+    $query = array(
+      'grant_type' => 'authorization_code',
+      'code' => '83f1d26e90c2a275ae752adc6e49aa43',
+      'redirect_uri' => 'http://democlient2.com/redirect_uri',
+      'client_id' => 'http://democlient2.com/',
+    );
+    $grant_type = new AuthorizationCodeGrantType($query, $query);
+    // This won't happened!!
+    $this->assertEquals('authorization_code', $grant_type->getGrantType());
   }
 }

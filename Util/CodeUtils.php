@@ -11,17 +11,21 @@
 
 namespace Pantarei\OAuth2\Util;
 
+use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 
 /**
- * State related utilities for OAuth2.
+ * Code related utility for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-abstract class StateUtils
+abstract class CodeUtils
 {
   /**
-   * Check if state provided valid.
+   * Check if code valid.
+   *
+   * @todo Check if code expired.
    *
    * @param array $query
    *   The original query.
@@ -31,15 +35,23 @@ abstract class StateUtils
    * @return boolean
    *   TRUE if valid, or else FALSE.
    *
+   * @throws \Pantarei\OAuth2\Exception\InvalidGrantException
    * @throws \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public static function check($query, $filtered_query) {
-    if (isset($query['state'])) {
-      if (!isset($filtered_query['state'])) {
-        throw new InvalidRequestException();
-      }
-      return TRUE;
+    // code is required and must in good format.
+    if (!isset($filtered_query['code'])) {
+      throw new InvalidRequestException();
     }
-    return FALSE;
+
+    // If refresh_token is invalid we should stop here.
+    $result = Database::findOneBy('Codes', array(
+      'code' => $filtered_query['code'],
+    ));
+    if ($result == NULL) {
+      throw new InvalidGrantException();
+    }
+
+    return TRUE;
   }
 }

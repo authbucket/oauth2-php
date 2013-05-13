@@ -12,50 +12,90 @@
 namespace Pantarei\OAuth2\Tests\GrantType;
 
 use Pantarei\OAuth2\GrantType\PasswordGrantType;
+use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
 /**
  * Test password grant type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class PasswordGrantTypeTest extends \PHPUnit_Framework_TestCase
+class PasswordGrantTypeTest extends OAuth2WebTestCase
 {
   public function testGrantType()
   {
-    $grant_type = new PasswordGrantType();
+    $query = array(
+      'username' => 'demousername1',
+      'password' => 'demopassword1',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new PasswordGrantType($query, $query);
+    $this->assertEquals('password', $grant_type->getGrantType());
+
+    $grant_type->setUsername('demouser2');
+    $this->assertEquals('demouser2', $grant_type->getUsername());
+
+    $grant_type->setPassword('demopassword1');
+    $this->assertEquals('demopassword1', $grant_type->getPassword());
+
+    $grant_type->setScope('demoscope2');
+    $this->assertEquals('demoscope2', $grant_type->getScope());
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testNoUsername()
+  {
+    $query = array(
+      'password' => 'demopassword1',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new PasswordGrantType($query, $query);
+    // This won't happened!!
     $this->assertEquals('password', $grant_type->getGrantType());
   }
 
-  public function testUsername()
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+   */
+  public function testBadUsername()
   {
-    $grant_type = new PasswordGrantType();
-    $grant_type->setUsername('edison');
-    $this->assertEquals('edison', $grant_type->getUsername());
-
-    $grant_type->setUsername('rebecca');
-    $this->assertEquals('rebecca', $grant_type->getUsername());
+    $query = array(
+      'username' => 'badusername1',
+      'password' => 'demopassword1',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new PasswordGrantType($query, $query);
+    // This won't happened!!
+    $this->assertEquals('password', $grant_type->getGrantType());
   }
 
-  public function testPassword()
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testNoPassword()
   {
-    $grant_type = new PasswordGrantType();
-    $grant_type->setUsername('edison')
-      ->setPassword('hello123');
-    $this->assertEquals('hello123', $grant_type->getPassword());
-
-    $grant_type->setPassword('abc123');
-    $this->assertEquals('abc123', $grant_type->getPassword());
+    $query = array(
+      'username' => 'demousername1',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new PasswordGrantType($query, $query);
+    // This won't happened!!
+    $this->assertEquals('password', $grant_type->getGrantType());
   }
 
-  public function testScope()
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+   */
+  public function testBadPassword()
   {
-    $grant_type = new PasswordGrantType();
-    $grant_type->setUsername('edison')
-      ->setPassword('hello123')
-      ->setScope('aaa bbb ccc');
-    $this->assertEquals('aaa bbb ccc', $grant_type->getScope());
-
-    $grant_type->setScope('ddd eee fff');
-    $this->assertEquals('ddd eee fff', $grant_type->getScope());
+    $query = array(
+      'username' => 'demousername1',
+      'password' => 'badpassword1',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new PasswordGrantType($query, $query);
+    // This won't happened!!
+    $this->assertEquals('password', $grant_type->getGrantType());
   }
 }

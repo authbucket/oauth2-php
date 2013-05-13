@@ -58,7 +58,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($filtered_query));
   }
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
    */
   public function testValidateRequestBadGrantType()
   {
@@ -120,7 +120,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
   }
 
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
    */
   public function testValidateRequestClientBadBasic()
   {
@@ -140,7 +140,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($filtered_query));
   }
 
-  public function FAILED_testValidateRequestClientGoodBasic()
+  public function testValidateRequestClientGoodBasic()
   {
     $controller = new AccessTokenRequest();
     $request = new Request();
@@ -151,8 +151,8 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
     );
     $server = array(
-      'PHP_AUTH_USER' => 'http://democlient1.com/',
-      'PHP_AUTH_PW' => 'demosecret1',
+      'PHP_AUTH_USER' => 'http://democlient2.com/',
+      'PHP_AUTH_PW' => 'demosecret2',
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
@@ -161,7 +161,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
   }
 
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
    */
   public function testValideRequestClientBadPost()
   {
@@ -180,7 +180,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($filtered_query));
   }
 
-  public function FAILED_testValideRequestClientGoodPost()
+  public function testValideRequestClientGoodPost()
   {
     $controller = new AccessTokenRequest();
     $request = new Request();
@@ -189,8 +189,8 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
       'grant_type' => 'authorization_code',
       'code' => 'f0c68d250bcc729eb780a235371a9a55',
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
-      'client_id' => 'http://democlient1.com/',
-      'client_secret' => 'demosecret1',
+      'client_id' => 'http://democlient2.com/',
+      'client_secret' => 'demosecret2',
     );
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
@@ -222,10 +222,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($filtered_query));
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testValidateRequestBadAuthCodeNoRedirectUri()
+  public function testValidateRequestGoodAuthCodeNoRedirectUri()
   {
     $controller = new AccessTokenRequest();
     $request = new Request();
@@ -235,17 +232,16 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
       'code' => 'f0c68d250bcc729eb780a235371a9a55',
     );
     $server = array(
-      'PHP_AUTH_USER' => 'http://democlient1.com/',
-      'PHP_AUTH_PW' => 'demosecret1',
+      'PHP_AUTH_USER' => 'http://democlient2.com/',
+      'PHP_AUTH_PW' => 'demosecret2',
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $filtered_query = $controller->validateRequest();
-    // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
 
-  public function FAILED_testValidateRequestGoodAuthCode()
+  public function testValidateRequestGoodAuthCode()
   {
     $controller = new AccessTokenRequest();
     $request = new Request();
@@ -256,8 +252,8 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
     );
     $server = array(
-      'PHP_AUTH_USER' => 'http://democlient1.com/',
-      'PHP_AUTH_PW' => 'demosecret1',
+      'PHP_AUTH_USER' => 'http://democlient2.com/',
+      'PHP_AUTH_PW' => 'demosecret2',
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
@@ -341,7 +337,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
 
     $post = array(
       'grant_type' => 'password',
-      'username' => 'demouser1',
+      'username' => 'demousername1',
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $server = array(
@@ -365,7 +361,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
 
     $post = array(
       'grant_type' => 'password',
-      'username' => 'demouser1',
+      'username' => 'demousername1',
       'password' => 'demopassword1',
       'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
     );
@@ -387,7 +383,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
 
     $post = array(
       'grant_type' => 'password',
-      'username' => 'demouser1',
+      'username' => 'demousername1',
       'password' => 'demopassword1',
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );

@@ -16,7 +16,7 @@ use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Util\ClientIdUtils;
 
 /**
- * Redirect URI related utility for OAuth2.
+ * Redirect URI related utilities for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
@@ -34,11 +34,11 @@ abstract class RedirectUriUtils
   public static function fetch($query) {
     // redirect_uri is not required if already established via other channels,
     // check an existing redirect URI against the one supplied.
-    $client = Database::findOneBy('Clients', array(
+    $result = Database::findOneBy('Clients', array(
       'client_id' => $query['client_id'],
     ));
-    if ($client !== NULL && $client->getRedirectUri()) {
-      $query['redirect_uri'] = $client->getRedirectUri();
+    if ($result !== NULL && $result->getRedirectUri()) {
+      $query['redirect_uri'] = $result->getRedirectUri();
     }
     return $query;
   }

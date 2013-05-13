@@ -12,18 +12,18 @@
 namespace Pantarei\OAuth2\Util;
 
 use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\UnauthorizedClientException;
 
 /**
- * Client ID related utility for OAuth2.
+ * Resource owner credentials related utilities for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-abstract class ClientIdUtils
+abstract class ResourceOwnerCredentialUtils
 {
   /**
-   * Check if client_id provided valid.
+   * Check if resource owner credentials valid.
    *
    * @param array $query
    *   The original query.
@@ -33,21 +33,23 @@ abstract class ClientIdUtils
    * @return boolean
    *   TRUE if valid, or else FALSE.
    *
+   * @throws \Pantarei\OAuth2\Exception\InvalidGrantException
    * @throws \Pantarei\OAuth2\Exception\InvalidRequestException
-   * @throws \Pantarei\OAuth2\Exception\UnauthorizedClientException
    */
-  public static function check($query, $filtered_query) {
-    // client_id is required and must in good format.
-    if (!isset($filtered_query['client_id']) && !isset($query['client_id'])) {
+  public static function check($query, $filtered_query)
+  {
+    // username and password are required.
+    if (!isset($filtered_query['username']) || !isset($filtered_query['password'])) {
       throw new InvalidRequestException();
     }
 
-    // If client_id is invalid we should stop here.
-    $client = Database::findOneBy('Clients', array(
-      'client_id' => $query['client_id'],
+    // If username and password invalid we should stop here.
+    $result = Database::findOneBy('Users', array(
+      'username' => $filtered_query['username'],
+      'password' => $filtered_query['password'],
     ));
-    if ($client == NULL) {
-      throw new UnauthorizedClientException();
+    if ($result == NULL) {
+      throw new InvalidGrantException();
     }
 
     return TRUE;

@@ -11,6 +11,8 @@
 
 namespace Pantarei\OAuth2\GrantType;
 
+use Pantarei\OAuth2\Util\ScopeUtils;
+
 /**
  * Client credentials grant type implementation.
  *
@@ -49,5 +51,13 @@ class ClientCredentialsGrantType implements GrantTypeInterface
   public function getScope()
   {
     return $this->scope;
+  }
+
+  public function __construct($query, $filtered_query)
+  {
+    // Validate and set scope.
+    if (ScopeUtils::check($query, $filtered_query)) {
+      $this->setScope($query['scope']);
+    }
   }
 }
