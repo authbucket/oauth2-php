@@ -105,33 +105,42 @@ class AccessTokenRequest implements RequestInterface
       throw new UnauthorizedClientException();
     }
 
-    // Let's initialize grant_type object here.
     $grant_type = NULL;
     switch ($filtered_query['grant_type']) {
       case 'authorization_code':
-        // Both grant_type, code, redirect_uri and client_id are required.
-        if (!isset($filtered_query['code']) || !isset($filtered_query['redirect_uri'])) {
+        // Both grant_type, code and client_id are required.
+        if (!isset($filtered_query['code'])) {
           throw new InvalidRequestException();
         }
 
-        $grant_type = new AuthorizationCodeGrantType();
+        // Similar as authorization request, we need to check redirect_uri
+        // before accept it.
+        $redirect_uri = $client->getRedirectUri();
 
+        // At least one of: existing redirect URI or input redirect URI must be
+        // specified.
+        if (!$redirect_uri && !isset($filtered_query['redirect_uri'])) {
+          throw new InvalidRequestException();
+        }
+
+        // If there's an existing uri and one from input, verify that they match.
+        if ($redirect_uri && isset($filtered_query['redirect_uri'])) {
+          // Ensure that the input uri starts with the stored uri.
+          if (strcasecmp(substr($filtered_query["redirect_uri"], 0, strlen($redirect_uri)), $redirect_uri)) {
+            throw new InvalidRequestException();
+          }
+        }
+        elseif ($redirect_uri) {
+          $filtered_query['redirect_uri'] = $redirect_uri;
+        }
+
+        $grant_type = new AuthorizationCodeGrantType();
         $grant_type->setCode($filtered_query['code'])
           ->setRedirectUri($filtered_query['redirect_uri'])
           ->setClientId($client->getClientId());
-
         break;
       case 'client_credentials':
         $grant_type = new ClientCredentialsGrantType();
-
-        // Validate that the requested scope is supported.
-        if (isset($_POST['scope'])) {
-          if(!isset($filtered_query['scope'])) {
-            throw new InvalidScopeException();
-          }
-          $grant_type->setScope($filtered_query['scope']);
-        }
-
         break;
       case 'password':
         // Both grant_type, username and password are required.
@@ -142,15 +151,6 @@ class AccessTokenRequest implements RequestInterface
         $grant_type = new PasswordGrantType();
         $grant_type->setUsername($filtered_query['username'])
           ->setPassword($filtered_query['password']);
-
-        // Validate that the requested scope is supported.
-        if (isset($_POST['scope'])) {
-          if(!isset($filtered_query['scope'])) {
-            throw new InvalidScopeException();
-          }
-          $grant_type->setScope($filtered_query['scope']);
-        }
-
         break;
       case 'refresh_token':
         // Both grant_type and refresh_token are required.
@@ -160,7 +160,13 @@ class AccessTokenRequest implements RequestInterface
 
         $grant_type = new RefreshTokenGrantType();
         $grant_type->setRefreshToken($filtered_query['refresh_token']);
+        break;
+    }
 
+    switch ($filtered_query['grant_type']) {
+      case 'client_credentials':
+      case 'password':
+      case 'refresh_token':
         // Validate that the requested scope is supported.
         if (isset($_POST['scope'])) {
           if(!isset($filtered_query['scope'])) {
@@ -168,7 +174,6 @@ class AccessTokenRequest implements RequestInterface
           }
           $grant_type->setScope($filtered_query['scope']);
         }
-
         break;
     }
 

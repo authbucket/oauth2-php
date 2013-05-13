@@ -11,13 +11,7 @@
 
 namespace Pantarei\OAuth2\Request;
 
-use Pantarei\OAuth2\Database\Database;
-use Pantarei\OAuth2\Exception\AccessDeniedException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\InvalidScopeException;
-use Pantarei\OAuth2\Exception\ServerErrorException;
-use Pantarei\OAuth2\Exception\TemporarilyUnavailableException;
-use Pantarei\OAuth2\Exception\UnauthorizedClientException;
 use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
 use Pantarei\OAuth2\ResponseType\CodeResponseType;
 use Pantarei\OAuth2\ResponseType\TokenResponseType;
@@ -30,82 +24,35 @@ use Pantarei\OAuth2\Util\ParamUtils;
  */
 class AuthorizationRequest implements RequestInterface
 {
+  /**
+   * Validate the authorization request.
+   *
+   * @todo Support defining new authorization endpoint response types.
+   *
+   * @return object
+   *   The corresponding created response type object.
+   */
   public function validateRequest()
   {
-    $filtered_query = ParamUtils::filter($_GET, array(
-      'client_id',
-      'redirect_uri',
-      'response_type',
-      'scope',
-      'state',
-    ));
+    // Prepare the filtered query.
+    $filtered_query = ParamUtils::filter($_GET, array('client_id', 'redirect_uri', 'response_type', 'scope', 'state'));
 
-    // Both response_type and client_id are required.
-    if (!isset($filtered_query['response_type']) || !isset($filtered_query['client_id'])) {
+    // response_type is required.
+    if (!isset($filtered_query['response_type'])) {
       if (isset($_GET['response_type'])) {
         throw new UnsupportedResponseTypeException();
       }
       throw new InvalidRequestException();
     }
 
-    // Let's initialize response_type object here.
+    // Create and return the response type created.
     $response_type = NULL;
-    switch ($filtered_query['response_type']) {
+    switch ($_GET['response_type']) {
       case 'code':
-        $response_type = new CodeResponseType();
-        break;
+        $response_type = new CodeResponseType($_GET, $filtered_query);
       case 'token':
-        $response_type = new TokenResponseType();
-        break;
+        $response_type = new TokenResponseType($_GET, $filtered_query);
     }
-    $response_type->setClientId($filtered_query['client_id']);
-
-    // redirect_uri is not required if already established via other channels
-    // check an existing redirect URI against the one supplied.
-    $client = Database::findOneBy('Clients', array(
-      'client_id' => $filtered_query['client_id'],
-    ));
-
-    // If client_id is invalid we should stop here.
-    if ($client == NULL) {
-      throw new UnauthorizedClientException();
-    }
-    $redirect_uri = $client->getRedirectUri();
-
-    // At least one of: existing redirect URI or input redirect URI must be
-    // specified.
-    if (!$redirect_uri && !isset($filtered_query['redirect_uri'])) {
-      throw new InvalidRequestException();
-    }
-
-    // If there's an existing uri and one from input, verify that they match.
-    if ($redirect_uri && isset($filtered_query['redirect_uri'])) {
-      // Ensure that the input uri starts with the stored uri.
-      if (strcasecmp(substr($filtered_query["redirect_uri"], 0, strlen($redirect_uri)), $redirect_uri) !== 0) {
-        throw new InvalidRequestException();
-      }
-    }
-    elseif ($redirect_uri) {
-      $filtered_query['redirect_uri'] = $redirect_uri;
-    }
-    $response_type->setRedirectUri($filtered_query['redirect_uri']);
-
-    // Validate that the requested scope is supported.
-    if (isset($_GET['scope'])) {
-      if(!isset($filtered_query['scope'])) {
-        throw new InvalidScopeException();
-      }
-      $response_type->setScope($filtered_query['scope']);
-    }
-
-    // Validate that the requested state is supproted.
-    if (isset($_GET['state'])) {
-      if(!isset($filtered_query['state'])) {
-        throw new InvalidRequestException();
-      }
-      $response_type->setState($filtered_query['state']);
-    }
-
     return $response_type;
   }
 }

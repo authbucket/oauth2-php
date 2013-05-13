@@ -51,7 +51,10 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $controller = new AuthorizationRequest();
     $request = new Request();
 
-    $request->initialize(array());
+    $request->initialize(array(
+      'response_type' => 'code',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+    ));
     $request->overrideGlobals();
     $filtered_query = $controller->validateRequest();
     // This won't happened!!
