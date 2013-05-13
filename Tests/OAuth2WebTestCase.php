@@ -99,8 +99,8 @@ class OAuth2WebTestCase extends WebTestCase
     $accessToken = new AccessTokens();
     $accessToken->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
       ->setClientId('http://democlient1.com/')
-      ->setExpiresIn('3600')
-      ->setUsername('demouser1')
+      ->setExpires(time() + 28800)
+      ->setUsername('demousername1')
       ->setScope(array(
         'demoscope1',
       ));
@@ -109,7 +109,7 @@ class OAuth2WebTestCase extends WebTestCase
     // Add demo authorizes.
     $authorize = new Authorizes();
     $authorize->setClientId('http://democlient1.com/')
-      ->setUsername('demouser1')
+      ->setUsername('demousername1')
       ->setScope(array(
         'demoscope1',
       ));
@@ -117,7 +117,7 @@ class OAuth2WebTestCase extends WebTestCase
 
     $authorize = new Authorizes();
     $authorize->setClientId('http://democlient2.com/')
-      ->setUsername('demouser2')
+      ->setUsername('demousername2')
       ->setScope(array(
         'demoscope1',
         'demoscope2',
@@ -126,7 +126,7 @@ class OAuth2WebTestCase extends WebTestCase
 
     $authorize = new Authorizes();
     $authorize->setClientId('http://democlient3.com/')
-      ->setUsername('demouser3')
+      ->setUsername('demousername3')
       ->setScope(array(
         'demoscope1',
         'demoscope2',
@@ -158,8 +158,8 @@ class OAuth2WebTestCase extends WebTestCase
     $code->setCode('f0c68d250bcc729eb780a235371a9a55')
       ->setClientId('http://democlient2.com/')
       ->setRedirectUri('http://democlient2.com/redirect_uri')
-      ->setExpiresIn('300')
-      ->setUsername('demouser2')
+      ->setExpires(time() + 3600)
+      ->setUsername('demousername2')
       ->setScope(array(
         'demoscope1',
         'demoscope2',
@@ -170,8 +170,8 @@ class OAuth2WebTestCase extends WebTestCase
     $refreshToken = new RefreshTokens();
     $refreshToken->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
       ->setClientId('http://democlient3.com/')
-      ->setExpiresIn('86400')
-      ->setUsername('demouser3')
+      ->setExpires(time() + 86400)
+      ->setUsername('demousername3')
       ->setScope(array(
         'demoscope1',
         'demoscope2',

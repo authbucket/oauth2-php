@@ -52,9 +52,9 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
   /**
    * @var integer
    *
-   * @Column(name="expires_in", type="integer")
+   * @Column(name="expires", type="integer")
    */
-  private $expires_in;
+  private $expires;
 
   /**
    * @var array
@@ -121,26 +121,26 @@ class RefreshTokens extends \Pantarei\OAuth2\Entity\RefreshTokens
   }
 
   /**
-   * Set expires_in
+   * Set expires
    *
-   * @param integer $expires_in
+   * @param integer $expires
    * @return RefreshTokens
    */
-  public function setExpiresIn($expires_in)
+  public function setExpires($expires)
   {
-    $this->expires_in = $expires_in;
+    $this->expires = $expires;
 
     return $this;
   }
 
   /**
-   * Get expires_in
+   * Get expires
    *
    * @return integer
    */
-  public function getExpiresIn()
+  public function getExpires()
   {
-    return $this->expires_in;
+    return $this->expires;
   }
 
   /**

@@ -28,16 +28,16 @@ class AccessTokensTest extends OAuth2WebTestCase
     $data->setId(1)
       ->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
       ->setClientId('http://democlient1.com/')
-      ->setExpiresIn('3600')
-      ->setUsername('demouser1')
+      ->setExpires(time() + 28800)
+      ->setUsername('demousername1')
       ->setScope(array(
         'demoscope1',
       ));
     $this->assertEquals(1, $data->getId());
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $data->getAccessToken());
     $this->assertEquals('http://democlient1.com/', $data->getClientId());
-    $this->assertEquals('3600', $data->getExpiresIn());
-    $this->assertEquals('demouser1', $data->getUsername());
+    $this->assertTrue($data->getExpires() > time());
+    $this->assertEquals('demousername1', $data->getUsername());
     $this->assertEquals(array('demoscope1'), $data->getScope());
   }
 
@@ -48,8 +48,28 @@ class AccessTokensTest extends OAuth2WebTestCase
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result->getAccessToken());
     $this->assertEquals('http://democlient1.com/', $result->getClientId());
-    $this->assertEquals('3600', $result->getExpiresIn());
-    $this->assertEquals('demouser1', $result->getUsername());
+    $this->assertTrue($result->getExpires() > time());
+    $this->assertEquals('demousername1', $result->getUsername());
     $this->assertEquals(array('demoscope1'), $result->getScope());
   }
+
+  public function testExpired()
+  {
+    $data = new \Pantarei\OAuth2\Tests\Entity\AccessTokens();
+    $data->setAccessToken('5ddaa68ac1805e728563dd7915441408')
+      ->setClientId('http://democlient4.com/')
+      ->setExpires(time() - 3600)
+      ->setUsername('demousername4')
+      ->setScope(array(
+        'demoscope1',
+      ));
+    Database::persist($data);
+
+    $result = Database::findOneBy('AccessTokens', array(
+      'access_token' => '5ddaa68ac1805e728563dd7915441408',
+    ));
+    $this->assertTrue($result !== NULL);
+    $this->assertTrue($result->getExpires() < time());
+  }
+
 }

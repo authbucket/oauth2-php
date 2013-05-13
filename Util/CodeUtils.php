@@ -25,8 +25,6 @@ abstract class CodeUtils
   /**
    * Check if code valid.
    *
-   * @todo Check if code expired.
-   *
    * @param array $query
    *   The original query.
    * @param array $filtered_query
@@ -50,6 +48,9 @@ abstract class CodeUtils
     ));
     if ($result == NULL) {
       throw new InvalidGrantException();
+    }
+    elseif ($result->getExpires() < time()) {
+      throw new InvalidRequestException();
     }
 
     return TRUE;

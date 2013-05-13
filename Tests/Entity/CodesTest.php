@@ -29,8 +29,8 @@ class CodesTest extends OAuth2WebTestCase
       ->setCode('f0c68d250bcc729eb780a235371a9a55')
       ->setClientId('http://democlient2.com/')
       ->setRedirectUri('http://democlient2.com/redirect_uri')
-      ->setExpiresIn('300')
-      ->setUsername('demouser2')
+      ->setExpires(time() + 3600)
+      ->setUsername('demousername2')
       ->setScope(array(
         'demoscope1',
         'demoscope2',
@@ -39,8 +39,8 @@ class CodesTest extends OAuth2WebTestCase
     $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $data->getCode());
     $this->assertEquals('http://democlient2.com/', $data->getClientId());
     $this->assertEquals('http://democlient2.com/redirect_uri', $data->getRedirectUri());
-    $this->assertEquals('300', $data->getExpiresIn());
-    $this->assertEquals('demouser2', $data->getUsername());
+    $this->assertTrue($data->getExpires() > time());
+    $this->assertEquals('demousername2', $data->getUsername());
     $this->assertEquals(array('demoscope1', 'demoscope2'), $data->getScope());
   }
 
@@ -52,8 +52,28 @@ class CodesTest extends OAuth2WebTestCase
     $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $result->getCode());
     $this->assertEquals('http://democlient2.com/', $result->getClientId());
     $this->assertEquals('http://democlient2.com/redirect_uri', $result->getRedirectUri());
-    $this->assertEquals('300', $result->getExpiresIn());
-    $this->assertEquals('demouser2', $result->getUsername());
+    $this->assertTrue($result->getExpires() > time());
+    $this->assertEquals('demousername2', $result->getUsername());
     $this->assertEquals(array('demoscope1', 'demoscope2'), $result->getScope());
+  }
+
+  public function testExpired()
+  {
+    $data = new \Pantarei\OAuth2\Tests\Entity\Codes();
+    $data->setCode('5ddaa68ac1805e728563dd7915441408')
+      ->setClientId('http://democlient4.com/')
+      ->setRedirectUri('http://democlient4.com/redirect_uri')
+      ->setExpires(time() - 3600)
+      ->setUsername('demousername4')
+      ->setScope(array(
+        'demoscope1',
+      ));
+    Database::persist($data);
+
+    $result = Database::findOneBy('Codes', array(
+      'code' => '5ddaa68ac1805e728563dd7915441408',
+    ));
+    $this->assertTrue($result !== NULL);
+    $this->assertTrue($result->getExpires() < time());
   }
 }

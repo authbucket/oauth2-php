@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\GrantType;
 
+use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
 
@@ -65,6 +66,32 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'code' => '83f1d26e90c2a275ae752adc6e49aa43',
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
+    );
+    $grant_type = new AuthorizationCodeGrantType($query, $query);
+    // This won't happened!!
+    $this->assertEquals('authorization_code', $grant_type->getGrantType());
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExpiredCode() {
+    $data = new \Pantarei\OAuth2\Tests\Entity\Codes();
+    $data->setCode('5ddaa68ac1805e728563dd7915441408')
+      ->setClientId('http://democlient1.com/')
+      ->setRedirectUri('http://democlient1.com/redirect_uri')
+      ->setExpires(time() - 3600)
+      ->setUsername('demousername4')
+      ->setScope(array(
+        'demoscope1',
+      ));
+    Database::persist($data);
+
+    $query = array(
+      'grant_type' => 'authorization_code',
+      'code' => '5ddaa68ac1805e728563dd7915441408',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'client_id' => 'http://democlient1.com/',
     );
     $grant_type = new AuthorizationCodeGrantType($query, $query);
     // This won't happened!!

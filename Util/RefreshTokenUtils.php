@@ -25,8 +25,6 @@ abstract class RefreshTokenUtils
   /**
    * Check if refresh_token valid.
    *
-   * @todo Check if refresh_token expired.
-   *
    * @param array $query
    *   The original query.
    * @param array $filtered_query
@@ -50,6 +48,9 @@ abstract class RefreshTokenUtils
     ));
     if ($result == NULL) {
       throw new InvalidGrantException();
+    }
+    elseif ($result->getExpires() < time()) {
+      throw new InvalidRequestException();
     }
 
     return TRUE;

@@ -28,8 +28,8 @@ class RefreshTokensTest extends OAuth2WebTestCase
     $data->setId(1)
       ->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
       ->setClientId('http://democlient3.com/')
-      ->setExpiresIn('86400')
-      ->setUsername('demouser3')
+      ->setExpires(time() + 86400)
+      ->setUsername('demousername3')
       ->setScope(array(
         'demoscope1',
         'demoscope2',
@@ -38,8 +38,8 @@ class RefreshTokensTest extends OAuth2WebTestCase
     $this->assertEquals(1, $data->getId());
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $data->getRefreshToken());
     $this->assertEquals('http://democlient3.com/', $data->getClientId());
-    $this->assertEquals('86400', $data->getExpiresIn());
-    $this->assertEquals('demouser3', $data->getUsername());
+    $this->assertTrue($data->getExpires() > time());
+    $this->assertEquals('demousername3', $data->getUsername());
     $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $data->getScope());
   }
 
@@ -50,8 +50,27 @@ class RefreshTokensTest extends OAuth2WebTestCase
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $result->getRefreshToken());
     $this->assertEquals('http://democlient3.com/', $result->getClientId());
-    $this->assertEquals('86400', $result->getExpiresIn());
-    $this->assertEquals('demouser3', $result->getUsername());
+    $this->assertTrue($result->getExpires() > time());
+    $this->assertEquals('demousername3', $result->getUsername());
     $this->assertEquals(array('demoscope1', 'demoscope2', 'demoscope3'), $result->getScope());
+  }
+
+  public function testExpired()
+  {
+    $data = new \Pantarei\OAuth2\Tests\Entity\RefreshTokens();
+    $data->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
+      ->setClientId('http://democlient4.com/')
+      ->setExpires(time() - 3600)
+      ->setUsername('demousername4')
+      ->setScope(array(
+        'demoscope1',
+      ));
+    Database::persist($data);
+
+    $result = Database::findOneBy('RefreshTokens', array(
+      'refresh_token' => '5ddaa68ac1805e728563dd7915441408',
+    ));
+    $this->assertTrue($result !== NULL);
+    $this->assertTrue($result->getExpires() < time());
   }
 }

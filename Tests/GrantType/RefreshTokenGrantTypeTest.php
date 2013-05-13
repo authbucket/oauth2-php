@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\GrantType;
 
+use Pantarei\Oauth2\Database\Database;
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
@@ -48,6 +49,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     );
     $grant_type = new RefreshTokenGrantType($query, $query);
+    // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getGrantType());
   }
 
@@ -62,6 +64,32 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     );
     $grant_type = new RefreshTokenGrantType($query, $query);
+    // This won't happened!!
+    $this->assertEquals('refresh_token', $grant_type->getGrantType());
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExpiredRefreshToken()
+  {
+    $refreshToken = new \Pantarei\OAuth2\Tests\Entity\RefreshTokens();
+    $refreshToken->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
+      ->setClientId('http://democlient1.com/')
+      ->setExpires(time() - 3600)
+      ->setUsername('demousername1')
+      ->setScope(array(
+        'demoscope1',
+      ));
+    Database::persist($refreshToken);
+
+    $query = array(
+      'grant_type' => 'refresh_token',
+      'refresh_token' => '5ddaa68ac1805e728563dd7915441408',
+      'scope' => 'demoscope1',
+    );
+    $grant_type = new RefreshTokenGrantType($query, $query);
+    // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getGrantType());
   }
 }

@@ -27,13 +27,13 @@ class AuthorizesTest extends OAuth2WebTestCase
     $data = new Authorizes();
     $data->setId(1)
       ->setClientId('http://democlient1.com/')
-      ->setUsername('demouser1')
+      ->setUsername('demousername1')
       ->setScope(array(
         'demoscope1',
       ));
     $this->assertEquals(1, $data->getId());
     $this->assertEquals('http://democlient1.com/', $data->getClientId());
-    $this->assertEquals('demouser1', $data->getUsername());
+    $this->assertEquals('demousername1', $data->getUsername());
     $this->assertEquals(array('demoscope1'), $data->getScope());
   }
 
@@ -43,7 +43,7 @@ class AuthorizesTest extends OAuth2WebTestCase
     $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Authorizes', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('http://democlient1.com/', $result->getClientId());
-    $this->assertEquals('demouser1', $result->getUsername());
+    $this->assertEquals('demousername1', $result->getUsername());
     $this->assertEquals(array('demoscope1'), $result->getScope());
   }
 }
