@@ -181,6 +181,26 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
   }
 
   /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   */
+  public function testValidateRequestNotExistsScope()
+  {
+    $controller = new AuthorizationRequest();
+    $request = new Request();
+
+    $request->initialize(array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => "badscope1",
+    ));
+    $request->overrideGlobals();
+    $filtered_query = $controller->validateRequest();
+    // This won't happened!!
+    $this->assertTrue(is_object($filtered_query));
+  }
+
+  /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testValidateRequestBadState()
@@ -192,7 +212,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
-      'scope' => "aaa bbb ccc",
+      'scope' => "demoscope1 demoscope2 demoscope3",
       'state' => "aaa\x19bbb\x7Fccc",
     ));
     $request->overrideGlobals();

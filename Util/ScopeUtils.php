@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Util;
 
+use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 
 /**
@@ -23,8 +24,6 @@ abstract class ScopeUtils
   /**
    * Check if scope provided valid.
    *
-   * @todo Check supported scope from database.
-   *
    * @param array $query
    *   The original query.
    * @param array $filtered_query
@@ -36,9 +35,20 @@ abstract class ScopeUtils
    * @throws \Pantarei\OAuth2\Exception\InvalidScopeException
    */
   public static function check($query, $filtered_query) {
+    // scope is optional.
     if (isset($query['scope'])) {
       if (!isset($filtered_query['scope'])) {
         throw new InvalidScopeException();
+      }
+
+      // Check scope from database.
+      foreach (preg_split("/\s+/", $filtered_query['scope']) as $scope) {
+        $result = Database::findOneBy('Scopes', array(
+          'scope' => $scope,
+        ));
+        if ($result == NULL) {
+          throw new InvalidScopeException();
+        }
       }
       return TRUE;
     }
