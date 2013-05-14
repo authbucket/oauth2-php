@@ -9,13 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Controller;
+namespace Pantarei\OAuth2\Request;
 
 /**
- * Authorization server controller implementation.
+ * Defines the interface for request.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationServerController implements ControllerInterface
+interface Request
 {
+  /**
+   * Validate the request to ensure that all required parameters are present
+   * and valid.
+   *
+   * @return object
+   *   The object of ResponseType or GrantType.
+   */
+  public function validateRequest();
 }

@@ -26,7 +26,7 @@ use Pantarei\OAuth2\Util\ParamUtils;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AccessTokenRequest implements RequestInterface
+class AccessTokenRequest implements Request
 {
   /**
    * Validate the access token request.

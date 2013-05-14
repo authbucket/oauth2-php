@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Controller;
+namespace Pantarei\OAuth2\Response;
 
 /**
- * Defines the interface for controller.
+ * Defines the interface for response.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-interface ControllerInterface
+interface Response
 {
 }

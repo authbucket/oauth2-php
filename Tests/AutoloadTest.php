@@ -18,14 +18,6 @@ namespace Pantarei\OAuth2\Tests;
  */
 class AutoloadTest extends \PHPUnit_Framework_TestCase
 {
-  public function testControllerClassesExist()
-  {
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Controller\\AuthorizationServerController'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Controller\\ClientController'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Controller\\ResourceServerController'));
-    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\Controller\\ControllerInterface'));
-  }
-
   public function testExceptionClassesExist()
   {
     $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\AccessDeniedException'));
@@ -54,7 +46,7 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
   {
     $this->assertTrue(class_exists('Pantarei\\OAuth2\\Request\\AccessTokenRequest'));
     $this->assertTrue(class_exists('Pantarei\\OAuth2\\Request\\AuthorizationRequest'));
-    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\Request\\RequestInterface'));
+    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\Request\\Request'));
   }
 
   public function testResponseClassesExist()
@@ -62,7 +54,7 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
     $this->assertTrue(class_exists('Pantarei\\OAuth2\\Response\\AccessTokenResponse'));
     $this->assertTrue(class_exists('Pantarei\\OAuth2\\Response\\AuthorizationResponse'));
     $this->assertTrue(class_exists('Pantarei\\OAuth2\\Response\\ErrorResponse'));
-    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\Response\\ResponseInterface'));
+    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\Response\\Response'));
   }
 
   public function testResponseTypeClassesExist()

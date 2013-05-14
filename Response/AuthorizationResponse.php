@@ -16,6 +16,6 @@ namespace Pantarei\OAuth2\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationResponse implements ResponseInterface
+class AuthorizationResponse implements Response
 {
 }

@@ -22,7 +22,7 @@ use Pantarei\OAuth2\Util\ParamUtils;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationRequest implements RequestInterface
+class AuthorizationRequest implements Request
 {
   /**
    * Validate the authorization request.
