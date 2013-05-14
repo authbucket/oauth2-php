@@ -25,8 +25,7 @@ class CodesTest extends OAuth2WebTestCase
   public function testAbstract()
   {
     $data = new Codes();
-    $data->setId(1)
-      ->setCode('f0c68d250bcc729eb780a235371a9a55')
+    $data->setCode('f0c68d250bcc729eb780a235371a9a55')
       ->setClientId('http://democlient2.com/')
       ->setRedirectUri('http://democlient2.com/redirect_uri')
       ->setExpires(time() + 3600)
@@ -35,7 +34,6 @@ class CodesTest extends OAuth2WebTestCase
         'demoscope1',
         'demoscope2',
       ));
-    $this->assertEquals(1, $data->getId());
     $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $data->getCode());
     $this->assertEquals('http://democlient2.com/', $data->getClientId());
     $this->assertEquals('http://democlient2.com/redirect_uri', $data->getRedirectUri());
@@ -47,7 +45,7 @@ class CodesTest extends OAuth2WebTestCase
   public function testFind()
   {
     $result = Database::find('Codes', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Codes', get_class($result));
+    $this->assertEquals('Pantarei\\OAuth2\\Entity\\Codes', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $result->getCode());
     $this->assertEquals('http://democlient2.com/', $result->getClientId());
@@ -59,7 +57,7 @@ class CodesTest extends OAuth2WebTestCase
 
   public function testExpired()
   {
-    $data = new \Pantarei\OAuth2\Tests\Entity\Codes();
+    $data = new Codes();
     $data->setCode('5ddaa68ac1805e728563dd7915441408')
       ->setClientId('http://democlient4.com/')
       ->setRedirectUri('http://democlient4.com/redirect_uri')

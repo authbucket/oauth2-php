@@ -11,45 +11,43 @@
 
 namespace Pantarei\OAuth2\Entity;
 
-use Pantarei\OAuth2\Entity\EntityInterface;
-
 /**
  * Authorizes
+ *
+ * @Table(name="authorize")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Entity\AuthorizesRepository")
  */
-class Authorizes implements EntityInterface
+class Authorizes
 {
   /**
    * @var integer
+   *
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
+   *
+   * @Column(name="client_id", type="string", length=255)
    */
   private $client_id;
 
   /**
    * @var string
+   *
+   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var array
+   *
+   * @Column(name="scope", type="array")
    */
   private $scope;
-
-  /**
-   * Set id
-   *
-   * @param string $id
-   * @return Authorizes
-   */
-  public function setId($id)
-  {
-    $this->id = $id;
-
-    return $this;
-  }
 
   /**
    * Get id

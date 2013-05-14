@@ -11,60 +11,64 @@
 
 namespace Pantarei\OAuth2\Entity;
 
-use Pantarei\OAuth2\Entity\EntityInterface;
-
 /**
  * Codes
+ *
+ * @Table(name="codes")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Entity\CodesRepository")
  */
-class Codes implements EntityInterface
+class Codes
 {
   /**
    * @var integer
+   *
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
+   *
+   * @Column(name="code", type="string", length=255)
    */
   private $code;
 
   /**
    * @var string
+   *
+   * @Column(name="client_id", type="string", length=255)
    */
   private $client_id;
 
   /**
    * @var string
+   *
+   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var string
+   *
+   * @Column(name="redirect_uri", type="text")
    */
   private $redirect_uri;
 
   /**
    * @var integer
+   *
+   * @Column(name="expires", type="integer")
    */
   private $expires;
 
   /**
    * @var array
+   *
+   * @Column(name="scope", type="array")
    */
   private $scope;
-
-  /**
-   * Set id
-   *
-   * @param string $id
-   * @return Codes
-   */
-  public function setId($id)
-  {
-    $this->id = $id;
-
-    return $this;
-  }
 
   /**
    * Get id

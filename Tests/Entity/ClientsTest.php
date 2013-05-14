@@ -26,11 +26,9 @@ class ClientsTest extends OAuth2WebTestCase
   public function testAbstract()
   {
     $data = new Clients();
-    $data->setId(1)
-      ->setClientId('http://democlient1.com/')
+    $data->setClientId('http://democlient1.com/')
       ->setClientSecret('demosecret1')
       ->setRedirectUri('http://democlient1.com/redirect_uri');
-    $this->assertEquals(1, $data->getId());
     $this->assertEquals('http://democlient1.com/', $data->getClientId());
     $this->assertEquals('demosecret1', $data->getClientSecret());
     $this->assertEquals('http://democlient1.com/redirect_uri', $data->getRedirectUri());
@@ -39,7 +37,7 @@ class ClientsTest extends OAuth2WebTestCase
   public function testFind()
   {
     $result = Database::find('Clients', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\Clients', get_class($result));
+    $this->assertEquals('Pantarei\\OAuth2\\Entity\\Clients', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('http://democlient1.com/', $result->getClientId());
     $this->assertEquals('demosecret1', $result->getClientSecret());

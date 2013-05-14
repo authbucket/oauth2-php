@@ -12,8 +12,9 @@
 namespace Pantarei\OAuth2\Tests\GrantType;
 
 use Pantarei\OAuth2\Database\Database;
-use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
+use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
 /**
  * Test authorization code grant type functionality.
@@ -76,7 +77,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testExpiredCode() {
-    $data = new \Pantarei\OAuth2\Tests\Entity\Codes();
+    $data = new Codes();
     $data->setCode('5ddaa68ac1805e728563dd7915441408')
       ->setClientId('http://democlient1.com/')
       ->setRedirectUri('http://democlient1.com/redirect_uri')

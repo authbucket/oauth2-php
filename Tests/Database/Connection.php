@@ -31,7 +31,7 @@ class Connection extends DatabaseConnection
   {
     // Create a simple "default" Doctrine ORM configuration for Annotations.
     $isDevMode = TRUE;
-    $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/../Entity"), $isDevMode);
+    $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/../../Entity"), $isDevMode);
 
     // Database configuration parameters.
     $conn = array(

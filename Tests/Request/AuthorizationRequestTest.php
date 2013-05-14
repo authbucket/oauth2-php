@@ -13,7 +13,7 @@ namespace Pantarei\OAuth2\Tests\Request;
 
 use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Request\AuthorizationRequest;
-use Pantarei\OAuth2\Tests\Entity\Clients;
+use Pantarei\OAuth2\Entity\Clients;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -12,13 +12,13 @@
 namespace Pantarei\OAuth2\Tests;
 
 use Pantarei\OAuth2\Database\Database;
-use Pantarei\OAuth2\Tests\Entity\AccessTokens;
-use Pantarei\OAuth2\Tests\Entity\Authorizes;
-use Pantarei\OAuth2\Tests\Entity\Clients;
-use Pantarei\OAuth2\Tests\Entity\Codes;
-use Pantarei\OAuth2\Tests\Entity\RefreshTokens;
-use Pantarei\OAuth2\Tests\Entity\Scopes;
-use Pantarei\OAuth2\Tests\Entity\Users;
+use Pantarei\OAuth2\Entity\AccessTokens;
+use Pantarei\OAuth2\Entity\Authorizes;
+use Pantarei\OAuth2\Entity\Clients;
+use Pantarei\OAuth2\Entity\Codes;
+use Pantarei\OAuth2\Entity\RefreshTokens;
+use Pantarei\OAuth2\Entity\Scopes;
+use Pantarei\OAuth2\Entity\Users;
 use Silex\Application;
 use Silex\WebTestCase;
 
@@ -44,7 +44,7 @@ class OAuth2WebTestCase extends WebTestCase
 
     // Initialize database information.
     $databaseInfo['Database']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Database';
-    $databaseInfo['Entity']['namespace'] = 'Pantarei\\OAuth2\\Tests\\Entity';
+    $databaseInfo['Entity']['namespace'] = 'Pantarei\\OAuth2\\Entity';
     Database::setDatabaseInfo($databaseInfo);
 
     // Add tables and sample data.
@@ -66,13 +66,13 @@ class OAuth2WebTestCase extends WebTestCase
   {
     // Generate testing database schema.
     $classes = array(
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\AccessTokens'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Authorizes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Clients'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Codes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\RefreshTokens'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Scopes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Users'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\AccessTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Authorizes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Clients'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Codes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\RefreshTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Scopes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Users'),
     );
     Database::getConnection()->getSchemaTool()->createSchema($classes);
 
@@ -82,13 +82,13 @@ class OAuth2WebTestCase extends WebTestCase
   {
     // Drop testing database schema.
     $classes = array(
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\AccessTokens'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Authorizes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Clients'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Codes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\RefreshTokens'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Scopes'),
-      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Tests\\Entity\\Users'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\AccessTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Authorizes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Clients'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Codes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\RefreshTokens'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Scopes'),
+      Database::getConnection()->getEntityManager()->getClassMetadata('Pantarei\\OAuth2\\Entity\\Users'),
     );
     Database::getConnection()->getSchemaTool()->dropSchema($classes);
   }

@@ -11,45 +11,43 @@
 
 namespace Pantarei\OAuth2\Entity;
 
-use Pantarei\OAuth2\Entity\EntityInterface;
-
 /**
  * Clients
+ *
+ * @Table(name="clients")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Entity\ClientsRepository")
  */
-class Clients implements EntityInterface
+class Clients
 {
   /**
    * @var integer
+   *
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
+   *
+   * @Column(name="client_id", type="string", length=255)
    */
   private $client_id;
 
   /**
    * @var string
+   *
+   * @Column(name="client_secret", type="string", length=255)
    */
   private $client_secret;
 
   /**
    * @var string
+   *
+   * @Column(name="redirect_uri", type="text")
    */
   private $redirect_uri;
-
-  /**
-   * Set id
-   *
-   * @param string $id
-   * @return Clients
-   */
-  public function setId($id)
-  {
-    $this->id = $id;
-
-    return $this;
-  }
 
   /**
    * Get id

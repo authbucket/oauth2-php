@@ -25,8 +25,7 @@ class RefreshTokensTest extends OAuth2WebTestCase
   public function testAbstract()
   {
     $data = new RefreshTokens();
-    $data->setId(1)
-      ->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
+    $data->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
       ->setClientId('http://democlient3.com/')
       ->setExpires(time() + 86400)
       ->setUsername('demousername3')
@@ -35,7 +34,6 @@ class RefreshTokensTest extends OAuth2WebTestCase
         'demoscope2',
         'demoscope3',
       ));
-    $this->assertEquals(1, $data->getId());
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $data->getRefreshToken());
     $this->assertEquals('http://democlient3.com/', $data->getClientId());
     $this->assertTrue($data->getExpires() > time());
@@ -46,7 +44,7 @@ class RefreshTokensTest extends OAuth2WebTestCase
   public function testFind()
   {
     $result = Database::find('RefreshTokens', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Tests\\Entity\\RefreshTokens', get_class($result));
+    $this->assertEquals('Pantarei\\OAuth2\\Entity\\RefreshTokens', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $result->getRefreshToken());
     $this->assertEquals('http://democlient3.com/', $result->getClientId());
@@ -57,7 +55,7 @@ class RefreshTokensTest extends OAuth2WebTestCase
 
   public function testExpired()
   {
-    $data = new \Pantarei\OAuth2\Tests\Entity\RefreshTokens();
+    $data = new RefreshTokens();
     $data->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
       ->setClientId('http://democlient4.com/')
       ->setExpires(time() - 3600)

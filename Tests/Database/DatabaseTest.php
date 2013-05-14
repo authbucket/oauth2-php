@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Tests\Database;
 
 use Pantarei\OAuth2\Database\Database;
-use Pantarei\OAuth2\Tests\Entity\Scopes;
+use Pantarei\OAuth2\Entity\Scopes;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
 /**

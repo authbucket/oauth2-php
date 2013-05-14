@@ -11,7 +11,8 @@
 
 namespace Pantarei\OAuth2\Tests\GrantType;
 
-use Pantarei\Oauth2\Database\Database;
+use Pantarei\OAuth2\Database\Database;
+use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
@@ -73,7 +74,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
    */
   public function testExpiredRefreshToken()
   {
-    $refreshToken = new \Pantarei\OAuth2\Tests\Entity\RefreshTokens();
+    $refreshToken = new RefreshTokens();
     $refreshToken->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
       ->setClientId('http://democlient1.com/')
       ->setExpires(time() - 3600)

@@ -11,35 +11,29 @@
 
 namespace Pantarei\OAuth2\Entity;
 
-use Pantarei\OAuth2\Entity\EntityInterface;
-
 /**
  * Scopes
+ *
+ * @Table(name="scopes")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Entity\ScopesRepository")
  */
-class Scopes implements EntityInterface
+class Scopes
 {
   /**
    * @var integer
+   *
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
+   *
+   * @Column(name="scope", type="string", length=255)
    */
   private $scope;
-
-  /**
-   * Set id
-   *
-   * @param string $id
-   * @return Scopes
-   */
-  public function setId($id)
-  {
-    $this->id = $id;
-
-    return $this;
-  }
 
   /**
    * Get id

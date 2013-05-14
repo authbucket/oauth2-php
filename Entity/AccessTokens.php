@@ -11,55 +11,57 @@
 
 namespace Pantarei\OAuth2\Entity;
 
-use Pantarei\OAuth2\Entity\EntityInterface;
-
 /**
  * AccessTokens
+ *
+ * @Table(name="access_tokens")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Entity\AccessTokensRepository")
  */
-class AccessTokens implements EntityInterface
+class AccessTokens
 {
   /**
    * @var integer
+   *
+   * @Column(name="id", type="integer")
+   * @Id
+   * @GeneratedValue(strategy="AUTO")
    */
   private $id;
 
   /**
    * @var string
+   *
+   * @Column(name="access_token", type="string", length=255)
    */
   private $access_token;
 
   /**
    * @var string
+   *
+   * @Column(name="client_id", type="string", length=255)
    */
   private $client_id;
 
   /**
    * @var string
+   *
+   * @Column(name="username", type="string", length=255)
    */
   private $username;
 
   /**
    * @var integer
+   *
+   * @Column(name="expires", type="integer")
    */
   private $expires;
 
   /**
    * @var array
+   *
+   * @Column(name="scope", type="array")
    */
   private $scope;
-
-  /**
-   * Set id
-   *
-   * @param string $id
-   * @return AccessTokens
-   */
-  public function setId($id)
-  {
-    $this->id = $id;
-
-    return $this;
-  }
 
   /**
    * Get id

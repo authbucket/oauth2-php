@@ -35,7 +35,7 @@ class Application implements ArrayAccess
   {
     parent::__construct();
 
-    $app = $this;   
+    $app = $this;
 
     foreach ($values as $key => $value) {
       $this[$key] = $value;
@@ -98,7 +98,7 @@ class Application implements ArrayAccess
    * If you call this method directly instead of run(), you must call the
    * terminate() method yourself if you want the finish filters to be run.
    *
-   * @param 
+   * @param
    */
   public function handle(Request $request)
   {
