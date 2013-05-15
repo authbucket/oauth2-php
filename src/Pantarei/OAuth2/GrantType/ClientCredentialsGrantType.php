@@ -56,7 +56,7 @@ class ClientCredentialsGrantType implements GrantTypeInterface
   public function __construct(Application $app, $query, $filtered_query)
   {
     // Validate and set scope.
-    if ($app['param.check.scope']($query, $filtered_query)) {
+    if ($app['oauth2.param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
   }

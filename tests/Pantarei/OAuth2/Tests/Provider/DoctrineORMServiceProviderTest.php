@@ -29,7 +29,7 @@ class DoctrineORMServiceProviderTest extends OAuth2WebTestCase
     $app = parent::createApplication();
 
     $app->register(new DoctrineORMServiceProvider, array(
-      'orms.options' => array(
+      'oauth2.orms.options' => array(
         'master' => array(
           'connection' => 'default',
           'path' => __DIR__ . '/Entity',
@@ -46,19 +46,19 @@ class DoctrineORMServiceProviderTest extends OAuth2WebTestCase
 
   public function testFind()
   {
-    $result = $this->app['orm']->find('Pantarei\OAuth2\Entity\AccessTokens', 1);
+    $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\AccessTokens', 1);
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result->getAccessToken());
   }
 
   public function testFindOnSlave()
   {
-    $result = $this->app['orms']['slave']->find('Pantarei\OAuth2\Entity\AccessTokens', 1);
+    $result = $this->app['oauth2.orms']['slave']->find('Pantarei\OAuth2\Entity\AccessTokens', 1);
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result->getAccessToken());
   }
 
   public function testFindBy()
   {
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\AccessTokens')->findBy(array(
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\AccessTokens')->findBy(array(
       'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
     ));
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result[0]->getAccessToken());
@@ -66,7 +66,7 @@ class DoctrineORMServiceProviderTest extends OAuth2WebTestCase
 
   public function testFindOneBy()
   {
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\AccessTokens')->findOneBy(array(
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\AccessTokens')->findOneBy(array(
       'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
     ));
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result->getAccessToken());
@@ -74,7 +74,7 @@ class DoctrineORMServiceProviderTest extends OAuth2WebTestCase
 
   public function testFindAll()
   {
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findAll();
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findAll();
     $this->assertEquals(3, count($result));
   }
 
@@ -82,10 +82,10 @@ class DoctrineORMServiceProviderTest extends OAuth2WebTestCase
   {
     $data = new Scopes();
     $data->setScope('demoscope4');
-    $this->app['orm']->persist($data);
-    $this->app['orm']->flush();
+    $this->app['oauth2.orm']->persist($data);
+    $this->app['oauth2.orm']->flush();
 
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findAll();
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findAll();
     $this->assertEquals(4, count($result));
     $this->assertEquals('demoscope4', $result[3]->getScope());
   }
@@ -94,16 +94,16 @@ class DoctrineORMServiceProviderTest extends OAuth2WebTestCase
   {
     $data = new Scopes();
     $data->setScope('demoscope4');
-    $this->app['orm']->persist($data);
-    $this->app['orm']->flush();
+    $this->app['oauth2.orm']->persist($data);
+    $this->app['oauth2.orm']->flush();
 
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findAll();
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findAll();
     $this->assertEquals(4, count($result));
     $this->assertEquals('demoscope4', $result[3]->getScope());
 
-    $this->app['orm']->remove($data);
-    $this->app['orm']->flush();
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findAll();
+    $this->app['oauth2.orm']->remove($data);
+    $this->app['oauth2.orm']->flush();
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findAll();
     $this->assertEquals(3, count($result));
   }
 }

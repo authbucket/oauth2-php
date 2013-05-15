@@ -89,8 +89,8 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
-    $this->app['orm']->persist($client);
-    $this->app['orm']->flush();
+    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->flush();
 
     $controller = new AuthorizationRequest();
     $request = new Request();
@@ -229,8 +229,8 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('http://democlient4.com/redirect_uri');
-    $this->app['orm']->persist($client);
-    $this->app['orm']->flush();
+    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->flush();
 
     $controller = new AuthorizationRequest($this->app);
     $request = new Request();

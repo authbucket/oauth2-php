@@ -44,7 +44,7 @@ abstract class ResourceOwnerCredentialUtils
     }
 
     // If username and password invalid we should stop here.
-    $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
       'username' => $filtered_query['username'],
       'password' => $filtered_query['password'],
     ));

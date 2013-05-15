@@ -31,7 +31,7 @@ class ScopesTest extends OAuth2WebTestCase
 
   public function testFind()
   {
-    $result = $this->app['orm']->find('Pantarei\OAuth2\Entity\Scopes', 1);
+    $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Scopes', 1);
     $this->assertEquals('Pantarei\OAuth2\Entity\Scopes', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertTrue($result !== NULL);

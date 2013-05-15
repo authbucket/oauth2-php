@@ -40,7 +40,7 @@ class AccessTokensTest extends OAuth2WebTestCase
 
   public function testFind()
   {
-    $result = $this->app['orm']->find('Pantarei\OAuth2\Entity\AccessTokens', 1);
+    $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\AccessTokens', 1);
     $this->assertEquals('Pantarei\OAuth2\Entity\AccessTokens', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result->getAccessToken());
@@ -60,10 +60,10 @@ class AccessTokensTest extends OAuth2WebTestCase
       ->setScope(array(
         'demoscope1',
       ));
-    $this->app['orm']->persist($data);
-    $this->app['orm']->flush();
+    $this->app['oauth2.orm']->persist($data);
+    $this->app['oauth2.orm']->flush();
 
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\AccessTokens')->findOneBy(array(
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\AccessTokens')->findOneBy(array(
       'access_token' => '5ddaa68ac1805e728563dd7915441408',
     ));
     $this->assertTrue($result !== NULL);

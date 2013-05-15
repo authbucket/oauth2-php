@@ -65,7 +65,7 @@ abstract class ClientCredentialUtils
 
     // Try HTTP basic auth.
     if (isset($_SERVER['PHP_AUTH_USER'])) {
-      $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
         'client_id' => $_SERVER['PHP_AUTH_USER'],
         'client_secret' => isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '',
       ));
@@ -75,7 +75,7 @@ abstract class ClientCredentialUtils
     }
     // Try POST
     elseif (isset($query['client_id'])) {
-      $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
         'client_id' => $query['client_id'],
         'client_secret' => isset($query['client_secret']) ? $query['client_secret'] : '',
       ));

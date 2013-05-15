@@ -39,7 +39,7 @@ class AccessTokenRequest implements Request
   public function validateRequest(Application $app)
   {
     // Prepare the filtered query.
-    $filtered_query = $app['param.filter']($_POST, array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username'));
+    $filtered_query = $app['oauth2.param.filter']($_POST, array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username'));
 
     // grant_type is required.
     if (!isset($filtered_query['grant_type'])) {

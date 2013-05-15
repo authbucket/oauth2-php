@@ -98,7 +98,7 @@ class PasswordGrantType implements GrantTypeInterface
     }
 
     // Validate and set scope.
-    if ($app['param.check.scope']($query, $filtered_query)) {
+    if ($app['oauth2.param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
   }

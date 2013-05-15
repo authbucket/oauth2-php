@@ -43,7 +43,7 @@ class CodesTest extends OAuth2WebTestCase
 
   public function testFind()
   {
-    $result = $this->app['orm']->find('Pantarei\OAuth2\Entity\Codes', 1);
+    $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Codes', 1);
     $this->assertEquals('Pantarei\OAuth2\Entity\Codes', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('f0c68d250bcc729eb780a235371a9a55', $result->getCode());
@@ -65,10 +65,10 @@ class CodesTest extends OAuth2WebTestCase
       ->setScope(array(
         'demoscope1',
       ));
-    $this->app['orm']->persist($data);
-    $this->app['orm']->flush();
+    $this->app['oauth2.orm']->persist($data);
+    $this->app['oauth2.orm']->flush();
 
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
       'code' => '5ddaa68ac1805e728563dd7915441408',
     ));
     $this->assertTrue($result !== NULL);

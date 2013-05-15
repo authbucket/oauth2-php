@@ -35,7 +35,7 @@ class AuthorizationRequest implements Request
   public function validateRequest(Application $app)
   {
     // Prepare the filtered query.
-    $filtered_query = $app['param.filter']($_GET, array('client_id', 'redirect_uri', 'response_type', 'scope', 'state'));
+    $filtered_query = $app['oauth2.param.filter']($_GET, array('client_id', 'redirect_uri', 'response_type', 'scope', 'state'));
 
     // response_type is required.
     if (!isset($filtered_query['response_type'])) {

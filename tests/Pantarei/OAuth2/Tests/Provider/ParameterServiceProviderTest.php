@@ -26,7 +26,7 @@ class ParameterServiceProviderTest extends OAuth2WebTestCase
       'client_id' => 'democlient1',
       'client_secret' => 'demosecret1',
     );
-    $filtered_array = $this->app['param.filter']($array);
+    $filtered_array = $this->app['oauth2.param.filter']($array);
     $this->assertEquals($array, $filtered_array);
   }
 
@@ -37,7 +37,7 @@ class ParameterServiceProviderTest extends OAuth2WebTestCase
       'client_secret' => 'demosecret1',
     );
     $params = array('client_id');
-    $filtered_array = $this->app['param.filter']($array, $params);
+    $filtered_array = $this->app['oauth2.param.filter']($array, $params);
 
     $this->assertEquals(1, count($filtered_array));
     $this->assertEquals('democlient1', $filtered_array['client_id']);

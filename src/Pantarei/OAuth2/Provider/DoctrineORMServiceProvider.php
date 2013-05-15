@@ -25,12 +25,12 @@ class DoctrineORMServiceProvider implements ServiceProviderInterface
 {
   public function register(Application $app)
   {
-    $app['orm.default_options'] = array(
+    $app['oauth2.orm.default_options'] = array(
       'connection' => 'default',
       'path' => __DIR__ . '/Entity',
     );
 
-    $app['orms.options.initializer'] = $app->protect(function () use ($app) {
+    $app['oauth2.orms.options.initializer'] = $app->protect(function () use ($app) {
       static $initialized = FALSE;
 
       if ($initialized) {
@@ -38,60 +38,60 @@ class DoctrineORMServiceProvider implements ServiceProviderInterface
       }
       $initialized = TRUE;
 
-      if (!isset($app['orms.options'])) {
-        $app['orms.options'] = array(
-          'default' => isset($app['orm.options']) ? $app['orm.options'] : array(),
+      if (!isset($app['oauth2.orms.options'])) {
+        $app['oauth2.orms.options'] = array(
+          'default' => isset($app['oauth2.orm.options']) ? $app['oauth2.orm.options'] : array(),
         );
       }
 
-      $tmp = $app['orms.options'];
+      $tmp = $app['oauth2.orms.options'];
       foreach ($tmp as $name => &$options) {
-        $options = array_replace($app['orm.default_options'], $options);
-        if (!isset($app['orms.default'])) {
-          $app['orms.default'] = $name;
+        $options = array_replace($app['oauth2.orm.default_options'], $options);
+        if (!isset($app['oauth2.orms.default'])) {
+          $app['oauth2.orms.default'] = $name;
         }
       }
-      $app['orms.options'] = $tmp;
+      $app['oauth2.orms.options'] = $tmp;
     });
 
-    $app['orms'] = $app->share(function ($app) {
-      $app['orms.options.initializer']();
+    $app['oauth2.orms'] = $app->share(function ($app) {
+      $app['oauth2.orms.options.initializer']();
 
       $orms = new \Pimple();
-      foreach ($app['orms.options'] as $name => $options) {
+      foreach ($app['oauth2.orms.options'] as $name => $options) {
         $conn = $app['dbs'][$options['connection']];
         $event_manager = $app['dbs.event_manager'][$options['connection']];
         // We use shortcuts here in case the default has been overridden.
-        if ($app['orms.default'] === $name) {
-          $config = $app['orm.config'];
+        if ($app['oauth2.orms.default'] === $name) {
+          $config = $app['oauth2.orm.config'];
         }
         else {
-          $config = $app['orms.config'][$name];
+          $config = $app['oauth2.orms.config'][$name];
         }
         $orms[$name] = EntityManager::create($conn, $config, $event_manager);
       }
       return $orms;
     });
 
-    $app['orms.config'] = $app->share(function($app) {
-      $app['orms.options.initializer']();
+    $app['oauth2.orms.config'] = $app->share(function($app) {
+      $app['oauth2.orms.options.initializer']();
 
       $configs = new \Pimple();
-      foreach ($app['orms.options'] as $name => $options) {
+      foreach ($app['oauth2.orms.options'] as $name => $options) {
         $configs[$name] = Setup::createAnnotationMetadataConfiguration(array($options['path']), TRUE);
       }
       return $configs;
     });
 
     // Shortcurs for the "first" ORM.
-    $app['orm'] = $app->share(function ($app) {
-      $orms = $app['orms'];
-      return $orms[$app['orms.default']];
+    $app['oauth2.orm'] = $app->share(function ($app) {
+      $orms = $app['oauth2.orms'];
+      return $orms[$app['oauth2.orms.default']];
     });
 
-    $app['orm.config'] = $app->share(function ($app) {
-      $orms = $app['orms.config'];
-      return $orms[$app['orms.default']];
+    $app['oauth2.orm.config'] = $app->share(function ($app) {
+      $orms = $app['oauth2.orms.config'];
+      return $orms[$app['oauth2.orms.default']];
     });
   }
 

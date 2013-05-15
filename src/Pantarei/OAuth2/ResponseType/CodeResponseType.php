@@ -113,24 +113,24 @@ class CodeResponseType implements ResponseTypeInterface
   public function __construct(Application $app, $query, $filtered_query)
   {
     // Validate and set client_id.
-    if ($app['param.check.client_id']($query, $filtered_query)) {
+    if ($app['oauth2.param.check.client_id']($query, $filtered_query)) {
       $this->setClientId($query['client_id']);
     }
 
     // Validate and set redirect_uri. NOTE: redirect_uri is not required if
     // already established via other channels.
-    $query = $app['param.fetch.redirect_uri']($query);
-    if ($app['param.check.redirect_uri']($query, $filtered_query)) {
+    $query = $app['oauth2.param.fetch.redirect_uri']($query);
+    if ($app['oauth2.param.check.redirect_uri']($query, $filtered_query)) {
       $this->setRedirectUri($query['redirect_uri']);
     }
 
     // Validate and set scope.
-    if ($app['param.check.scope']($query, $filtered_query)) {
+    if ($app['oauth2.param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
 
     // Validate and set state.
-    if ($app['param.check.state']($query, $filtered_query)) {
+    if ($app['oauth2.param.check.state']($query, $filtered_query)) {
       $this->setState($query['state']);
     }
   }

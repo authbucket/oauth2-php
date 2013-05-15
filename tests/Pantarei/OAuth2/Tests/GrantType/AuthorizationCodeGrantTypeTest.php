@@ -85,8 +85,8 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       ->setScope(array(
         'demoscope1',
       ));
-    $this->app['orm']->persist($data);
-    $this->app['orm']->flush();
+    $this->app['oauth2.orm']->persist($data);
+    $this->app['oauth2.orm']->flush();
 
     $query = array(
       'grant_type' => 'authorization_code',

@@ -82,8 +82,8 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       ->setScope(array(
         'demoscope1',
       ));
-    $this->app['orm']->persist($refresh_token);
-    $this->app['orm']->flush();
+    $this->app['oauth2.orm']->persist($refresh_token);
+    $this->app['oauth2.orm']->flush();
 
     $query = array(
       'grant_type' => 'refresh_token',
