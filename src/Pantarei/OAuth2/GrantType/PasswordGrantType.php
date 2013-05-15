@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\GrantType;
 
-use Pantarei\OAuth2\Util\ResourceOwnerCredentialUtils;
+use Pantarei\OAuth2\Provider\CredentialServiceProvider;
 use Silex\Application;
 
 /**
@@ -91,8 +91,10 @@ class PasswordGrantType implements GrantTypeInterface
   }
 
   public function __construct(Application $app, $query, $filtered_query) {
+    $app->register(new CredentialServiceProvider());
+
     // Validate and set username and password.
-    if (ResourceOwnerCredentialUtils::check($app, $query, $filtered_query)) {
+    if ($app['oauth2.credential.check.resource_owner']($query, $filtered_query)) {
       $this->setUsername($filtered_query['username']);
       $this->setPassword($filtered_query['password']);
     }
