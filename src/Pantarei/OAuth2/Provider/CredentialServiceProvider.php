@@ -16,6 +16,8 @@ use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Client credentials related utilities for OAuth2.
@@ -27,27 +29,32 @@ class CredentialServiceProvider implements ServiceProviderInterface
   public function register(Application $app)
   {
     $app['oauth2.credential.fetch.client'] = $app->protect(function ($query) use ($app) {
-      if (isset($_SERVER['PHP_AUTH_USER'])) {
-        $query['client_id'] = $_SERVER['PHP_AUTH_USER'];
-        $query['client_secret'] = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
+      $request = Request::createFromGlobals();
+
+      if ($request->getUser()) {
+        $query['client_id'] = $request->getUser();
+        $query['client_secret'] = $request->getPassword();
       }
+
       return $query;
     });
 
     $app['oauth2.credential.check.client'] = $app->protect(function ($query, $filtered_query) use ($app) {
+      $request = Request::createFromGlobals();
+
       // At least one (and only one) of client credentials method required.
-      if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($filtered_query['client_id'])) {
+      if (!$request->getUser() && !isset($filtered_query['client_id'])) {
         throw new InvalidClientException();
       }
-      elseif (isset($_SERVER['PHP_AUTH_USER']) && isset($filtered_query['client_id'])) {
+      elseif ($request->getUser() && isset($filtered_query['client_id'])) {
         throw new InvalidRequestException();
       }
 
       // Try HTTP basic auth.
-      if (isset($_SERVER['PHP_AUTH_USER'])) {
+      if ($request->getUser()) {
         $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
-          'client_id' => $_SERVER['PHP_AUTH_USER'],
-          'client_secret' => isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '',
+          'client_id' => $request->getUser(),
+          'client_secret' => $request->getPassword(),
         ));
         if ($result == NULL) {
           return FALSE;
@@ -57,7 +64,7 @@ class CredentialServiceProvider implements ServiceProviderInterface
       elseif (isset($query['client_id'])) {
         $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
           'client_id' => $query['client_id'],
-          'client_secret' => isset($query['client_secret']) ? $query['client_secret'] : '',
+          'client_secret' => $query['client_secret'],
         ));
         if ($result == NULL) {
           return FALSE;

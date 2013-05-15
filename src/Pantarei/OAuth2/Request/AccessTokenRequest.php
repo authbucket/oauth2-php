@@ -18,7 +18,6 @@ use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
 use Pantarei\OAuth2\GrantType\ClientCredentialsGrantType;
 use Pantarei\OAuth2\GrantType\PasswordGrantType;
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
-use Pantarei\OAuth2\Provider\CredentialServiceProvider;
 use Silex\Application;
 
 /**
@@ -38,8 +37,6 @@ class AccessTokenRequest implements Request
    */
   public function validateRequest(Application $app)
   {
-    $app->register(new CredentialServiceProvider());
-
     // Prepare the filtered query.
     $filtered_query = $app['oauth2.param.filter']($_POST, array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username'));
 
