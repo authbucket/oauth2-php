@@ -11,9 +11,9 @@
 
 namespace Pantarei\OAuth2\Util;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Silex\Application;
 
 /**
  * Client credentials related utilities for OAuth2.
@@ -31,7 +31,7 @@ abstract class ClientCredentialUtils
    * @param string
    *   The original query with redirect_uri fetched.
    */
-  public static function fetch($query) {
+  public static function fetch(Application $app, $query) {
     if (isset($_SERVER['PHP_AUTH_USER'])) {
       $query['client_id'] = $_SERVER['PHP_AUTH_USER'];
       $query['client_secret'] = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
@@ -53,7 +53,7 @@ abstract class ClientCredentialUtils
    * @throws \Pantarei\OAuth2\Exception\InvalidClientException
    * @throws \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public static function check($query, $filtered_query)
+  public static function check(Application $app, $query, $filtered_query)
   {
     // At least one (and only one) of client credentials method required.
     if (!isset($_SERVER['PHP_AUTH_USER']) && !isset($filtered_query['client_id'])) {
@@ -65,7 +65,7 @@ abstract class ClientCredentialUtils
 
     // Try HTTP basic auth.
     if (isset($_SERVER['PHP_AUTH_USER'])) {
-      $result = Database::findOneBy('Clients', array(
+      $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
         'client_id' => $_SERVER['PHP_AUTH_USER'],
         'client_secret' => isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '',
       ));
@@ -75,7 +75,7 @@ abstract class ClientCredentialUtils
     }
     // Try POST
     elseif (isset($query['client_id'])) {
-      $result = Database::findOneBy('Clients', array(
+      $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
         'client_id' => $query['client_id'],
         'client_secret' => isset($query['client_secret']) ? $query['client_secret'] : '',
       ));

@@ -35,7 +35,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -53,7 +53,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -72,7 +72,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -96,7 +96,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -118,7 +118,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -138,7 +138,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -158,7 +158,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -177,7 +177,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -199,7 +199,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -219,7 +219,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -239,7 +239,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -261,7 +261,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -281,7 +281,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -304,7 +304,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -328,7 +328,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -353,7 +353,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -375,7 +375,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -397,7 +397,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -421,7 +421,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -442,7 +442,7 @@ class AccessTokenRequestTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 }

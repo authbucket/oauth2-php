@@ -11,9 +11,9 @@
 
 namespace Pantarei\OAuth2\Util;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Util\ClientIdUtils;
+use Silex\Application;
 
 /**
  * Redirect URI related utilities for OAuth2.
@@ -31,10 +31,10 @@ abstract class RedirectUriUtils
    * @param string
    *   The original query with redirect_uri fetched.
    */
-  public static function fetch($query) {
+  public static function fetch(Application $app, $query) {
     // redirect_uri is not required if already established via other channels,
     // check an existing redirect URI against the one supplied.
-    $result = Database::findOneBy('Clients', array(
+    $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
       'client_id' => $query['client_id'],
     ));
     if ($result !== NULL && $result->getRedirectUri()) {
@@ -56,7 +56,7 @@ abstract class RedirectUriUtils
    *
    * @throws \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public static function check($query, $filtered_query) {
+  public static function check(Application $app, $query, $filtered_query) {
     // At least one of: existing redirect URI or input redirect URI must be
     // specified.
     if (!isset($filtered_query['redirect_uri']) && !isset($query['redirect_uri'])) {

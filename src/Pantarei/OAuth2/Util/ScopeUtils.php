@@ -11,8 +11,8 @@
 
 namespace Pantarei\OAuth2\Util;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Silex\Application;
 
 /**
  * Scope related utilities for OAuth2.
@@ -34,7 +34,7 @@ abstract class ScopeUtils
    *
    * @throws \Pantarei\OAuth2\Exception\InvalidScopeException
    */
-  public static function check($query, $filtered_query) {
+  public static function check(Application $app, $query, $filtered_query) {
     // scope is optional.
     if (isset($query['scope'])) {
       if (!isset($filtered_query['scope'])) {
@@ -43,7 +43,7 @@ abstract class ScopeUtils
 
       // Check scope from database.
       foreach (preg_split("/\s+/", $filtered_query['scope']) as $scope) {
-        $result = Database::findOneBy('Scopes', array(
+        $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
           'scope' => $scope,
         ));
         if ($result == NULL) {

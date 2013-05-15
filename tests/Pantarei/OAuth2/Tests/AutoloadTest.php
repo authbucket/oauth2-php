@@ -20,59 +20,59 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
 {
   public function testExceptionClassesExist()
   {
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\AccessDeniedException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\Exception'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\InvalidClientException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\InvalidGrantException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\InvalidRequestException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\InvalidScopeException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\ServerErrorException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\TemporarilyUnavailableException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\UnauthorizedClientException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\UnsupportedGrantTypeException'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Exception\\UnsupportedResponseTypeException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\AccessDeniedException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\Exception'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\InvalidClientException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\InvalidGrantException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\InvalidRequestException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\InvalidScopeException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\ServerErrorException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\TemporarilyUnavailableException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\UnauthorizedClientException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\UnsupportedGrantTypeException'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Exception\UnsupportedResponseTypeException'));
   }
 
   public function testGrantTypeClassesExist()
   {
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\GrantType\\AuthorizationCodeGrantType'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\GrantType\\ClientCredentialsGrantType'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\GrantType\\PasswordGrantType'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\GrantType\\RefreshTokenGrantType'));
-    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\GrantType\\GrantTypeInterface'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\GrantType\ClientCredentialsGrantType'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\GrantType\PasswordGrantType'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\GrantType\RefreshTokenGrantType'));
+    $this->assertTrue(interface_exists('Pantarei\OAuth2\GrantType\GrantTypeInterface'));
   }
 
   public function testRequestClassesExist()
   {
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Request\\AccessTokenRequest'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Request\\AuthorizationRequest'));
-    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\Request\\Request'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Request\AccessTokenRequest'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Request\AuthorizationRequest'));
+    $this->assertTrue(interface_exists('Pantarei\OAuth2\Request\Request'));
   }
 
   public function testResponseClassesExist()
   {
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Response\\AccessTokenResponse'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Response\\AuthorizationResponse'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Response\\ErrorResponse'));
-    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\Response\\Response'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Response\AccessTokenResponse'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Response\AuthorizationResponse'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Response\ErrorResponse'));
+    $this->assertTrue(interface_exists('Pantarei\OAuth2\Response\Response'));
   }
 
   public function testResponseTypeClassesExist()
   {
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\ResponseType\\CodeResponseType'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\ResponseType\\TokenResponseType'));
-    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\ResponseType\\ResponseTypeInterface'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\ResponseType\CodeResponseType'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\ResponseType\TokenResponseType'));
+    $this->assertTrue(interface_exists('Pantarei\OAuth2\ResponseType\ResponseTypeInterface'));
   }
 
   public function testTokenTypeClassesExist()
   {
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\TokenType\\BearerTokenType'));
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\TokenType\\MacTokenType'));
-    $this->assertTrue(interface_exists('Pantarei\\OAuth2\\TokenType\\TokenTypeInterface'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\TokenType\BearerTokenType'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\TokenType\MacTokenType'));
+    $this->assertTrue(interface_exists('Pantarei\OAuth2\TokenType\TokenTypeInterface'));
   }
 
   public function testUtilClassExists()
   {
-    $this->assertTrue(class_exists('Pantarei\\OAuth2\\Util\\ParamUtils'));
+    $this->assertTrue(class_exists('Pantarei\OAuth2\Util\ParamUtils'));
   }
 }

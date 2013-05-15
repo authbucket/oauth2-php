@@ -11,9 +11,9 @@
 
 namespace Pantarei\OAuth2\Util;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Silex\Application;
 
 /**
  * Refresh token related utilities for OAuth2.
@@ -36,14 +36,14 @@ abstract class RefreshTokenUtils
    * @throws \Pantarei\OAuth2\Exception\InvalidGrantException
    * @throws \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public static function check($query, $filtered_query) {
+  public static function check($app, $query, $filtered_query) {
     // refresh_token is required and must in good format.
     if (!isset($filtered_query['refresh_token'])) {
       throw new InvalidRequestException();
     }
 
     // If refresh_token is invalid we should stop here.
-    $result = Database::findOneBy('RefreshTokens', array(
+    $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
       'refresh_token' => $filtered_query['refresh_token'],
     ));
     if ($result == NULL) {

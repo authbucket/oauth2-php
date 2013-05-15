@@ -30,7 +30,7 @@ class CodeResponseTypeTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
       'state' => 'demostate1',
     );
-    $response_type = new CodeResponseType($query, $query);
+    $response_type = new CodeResponseType($this->app, $query, $query);
     $this->assertEquals('code', $response_type->getResponseType());
 
     $response_type->setClientId('5678');

@@ -11,6 +11,8 @@
 
 namespace Pantarei\OAuth2\Request;
 
+use Silex\Application;
+
 /**
  * Defines the interface for request.
  *
@@ -25,5 +27,5 @@ interface Request
    * @return object
    *   The object of ResponseType or GrantType.
    */
-  public function validateRequest();
+  public function validateRequest(Application $app);
 }

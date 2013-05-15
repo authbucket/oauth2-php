@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Tests\GrantType;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
@@ -31,7 +30,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
-    $grant_type = new AuthorizationCodeGrantType($query, $query);
+    $grant_type = new AuthorizationCodeGrantType($this->app, $query, $query);
     $this->assertEquals('authorization_code', $grant_type->getGrantType());
 
     $grant_type->setCode('83f1d26e90c2a275ae752adc6e49aa43');
@@ -53,7 +52,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
-    $grant_type = new AuthorizationCodeGrantType($query, $query);
+    $grant_type = new AuthorizationCodeGrantType($this->app, $query, $query);
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getGrantType());
   }
@@ -68,7 +67,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
-    $grant_type = new AuthorizationCodeGrantType($query, $query);
+    $grant_type = new AuthorizationCodeGrantType($this->app, $query, $query);
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getGrantType());
   }
@@ -86,7 +85,8 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       ->setScope(array(
         'demoscope1',
       ));
-    Database::persist($data);
+    $this->app['orm']->persist($data);
+    $this->app['orm']->flush();
 
     $query = array(
       'grant_type' => 'authorization_code',
@@ -94,7 +94,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'client_id' => 'http://democlient1.com/',
     );
-    $grant_type = new AuthorizationCodeGrantType($query, $query);
+    $grant_type = new AuthorizationCodeGrantType($this->app, $query, $query);
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getGrantType());
   }

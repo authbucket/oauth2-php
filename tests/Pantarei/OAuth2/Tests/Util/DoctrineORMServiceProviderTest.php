@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Database;
+namespace Pantarei\OAuth2\Tests\Util;
 
 use Pantarei\OAuth2\Entity\Scopes;
-use Pantarei\OAuth2\Provider\DoctrineORMServiceProvider;
+use Pantarei\OAuth2\Util\DoctrineORMServiceProvider;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
@@ -22,21 +22,12 @@ use Silex\Provider\DoctrineServiceProvider;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class DatabaseTest extends OAuth2WebTestCase
+class DoctrineORMServiceProviderTest extends OAuth2WebTestCase
 {
   public function createApplication()
   {
-    $app = new Application();
-    $app['debug'] = TRUE;
-    $app['session'] = TRUE;
-    $app['exception_handler']->disable();
+    $app = parent::createApplication();
 
-    $app->register(new DoctrineServiceProvider, array(
-      'db.options' => array(
-        'driver' => 'pdo_sqlite',
-        'memory' => TRUE,
-      ),
-    ));
     $app->register(new DoctrineORMServiceProvider, array(
       'orms.options' => array(
         'master' => array(

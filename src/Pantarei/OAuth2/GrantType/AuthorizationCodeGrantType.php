@@ -14,6 +14,7 @@ namespace Pantarei\OAuth2\GrantType;
 use Pantarei\OAuth2\Util\ClientIdUtils;
 use Pantarei\OAuth2\Util\CodeUtils;
 use Pantarei\OAuth2\Util\RedirectUriUtils;
+use Silex\Application;
 
 /**
  * Authorization code grant type implementation.
@@ -94,22 +95,22 @@ class AuthorizationCodeGrantType implements GrantTypeInterface
     return $this->clientId;
   }
 
-  public function __construct($query, $filtered_query)
+  public function __construct(Application $app, $query, $filtered_query)
   {
     // Validate and set client_id.
-    if (ClientIdUtils::check($query, $filtered_query)) {
+    if (ClientIdUtils::check($app, $query, $filtered_query)) {
       $this->setClientId($query['client_id']);
     }
 
     // Validate and set redirect_uri. NOTE: redirect_uri is not required if
     // already established via other channels.
-    $query = RedirectUriUtils::fetch($query);
-    if (RedirectUriUtils::check($query, $filtered_query)) {
+    $query = RedirectUriUtils::fetch($app, $query);
+    if (RedirectUriUtils::check($app, $query, $filtered_query)) {
       $this->setRedirectUri($query['redirect_uri']);
     }
 
     // Validate and set code.
-    if (CodeUtils::check($query, $filtered_query)) {
+    if (CodeUtils::check($app, $query, $filtered_query)) {
       $this->setCode($filtered_query['code']);
     }
   }

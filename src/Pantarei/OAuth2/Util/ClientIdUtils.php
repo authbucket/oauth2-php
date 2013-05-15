@@ -13,6 +13,7 @@ namespace Pantarei\OAuth2\Util;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\UnauthorizedClientException;
+use Silex\Application;
 
 /**
  * Client ID related utility for OAuth2.
@@ -35,14 +36,14 @@ abstract class ClientIdUtils
    * @throws \Pantarei\OAuth2\Exception\InvalidRequestException
    * @throws \Pantarei\OAuth2\Exception\UnauthorizedClientException
    */
-  public static function check($query, $filtered_query) {
+  public static function check(Application $app, $query, $filtered_query) {
     // client_id is required and must in good format.
     if (!isset($filtered_query['client_id']) && !isset($query['client_id'])) {
       throw new InvalidRequestException();
     }
 
     // If client_id is invalid we should stop here.
-    $client = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+    $client = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
       'client_id' => $query['client_id'],
     ));
     if ($client == NULL) {

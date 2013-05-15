@@ -13,6 +13,7 @@ namespace Pantarei\OAuth2\GrantType;
 
 use Pantarei\OAuth2\Util\RefreshTokenUtils;
 use Pantarei\OAuth2\Util\ScopeUtils;
+use Silex\Application;
 
 /**
  * Refresh token grant type implementation.
@@ -75,15 +76,15 @@ class RefreshTokenGrantType implements GrantTypeInterface
     return $this->scope;
   }
 
-  public function __construct($query, $filtered_query)
+  public function __construct(Application $app, $query, $filtered_query)
   {
     // Validate and set refresh_token.
-    if (RefreshTokenUtils::check($query, $filtered_query)) {
+    if (RefreshTokenUtils::check($app, $query, $filtered_query)) {
       $this->setRefreshToken($query['refresh_token']);
     }
 
     // Validate and set scope.
-    if (ScopeUtils::check($query, $filtered_query)) {
+    if (ScopeUtils::check($app, $query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
   }

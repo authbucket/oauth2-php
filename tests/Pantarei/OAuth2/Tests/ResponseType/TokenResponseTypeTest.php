@@ -30,7 +30,7 @@ class TokenResponseTypeTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
       'state' => 'demostate1',
     );
-    $response_type = new TokenResponseType($query, $query);
+    $response_type = new TokenResponseType($this->app, $query, $query);
     $this->assertEquals('token', $response_type->getResponseType());
 
     $response_type->setClientId('5678');

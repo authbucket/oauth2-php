@@ -10,4 +10,4 @@
  */
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->add('Pantarei\\OAuth2\\Tests', __DIR__);
+$loader->add('Pantarei\OAuth2\Tests', __DIR__);

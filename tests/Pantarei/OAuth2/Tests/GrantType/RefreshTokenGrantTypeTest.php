@@ -11,10 +11,10 @@
 
 namespace Pantarei\OAuth2\Tests\GrantType;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Silex\Application;
 
 /**
  * Test refresh token grant type functionality.
@@ -30,7 +30,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
       'scope' => 'demoscope1',
     );
-    $grant_type = new RefreshTokenGrantType($query, $query);
+    $grant_type = new RefreshTokenGrantType($this->app, $query, $query);
     $this->assertEquals('refresh_token', $grant_type->getGrantType());
 
     $grant_type->setRefreshToken('37ed55a16777958a3953088576869ca7');
@@ -49,7 +49,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'grant_type' => 'refresh_token',
       'scope' => 'demoscope1',
     );
-    $grant_type = new RefreshTokenGrantType($query, $query);
+    $grant_type = new RefreshTokenGrantType($this->app, $query, $query);
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getGrantType());
   }
@@ -64,7 +64,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'refresh_token' => '37ed55a16777958a3953088576869ca7',
       'scope' => 'demoscope1',
     );
-    $grant_type = new RefreshTokenGrantType($query, $query);
+    $grant_type = new RefreshTokenGrantType($this->app, $query, $query);
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getGrantType());
   }
@@ -74,22 +74,23 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
    */
   public function testExpiredRefreshToken()
   {
-    $refreshToken = new RefreshTokens();
-    $refreshToken->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
+    $refresh_token = new RefreshTokens();
+    $refresh_token->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
       ->setClientId('http://democlient1.com/')
       ->setExpires(time() - 3600)
       ->setUsername('demousername1')
       ->setScope(array(
         'demoscope1',
       ));
-    Database::persist($refreshToken);
+    $this->app['orm']->persist($refresh_token);
+    $this->app['orm']->flush();
 
     $query = array(
       'grant_type' => 'refresh_token',
       'refresh_token' => '5ddaa68ac1805e728563dd7915441408',
       'scope' => 'demoscope1',
     );
-    $grant_type = new RefreshTokenGrantType($query, $query);
+    $grant_type = new RefreshTokenGrantType($this->app, $query, $query);
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getGrantType());
   }

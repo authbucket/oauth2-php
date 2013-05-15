@@ -20,6 +20,7 @@ use Pantarei\OAuth2\GrantType\PasswordGrantType;
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
 use Pantarei\OAuth2\Util\ClientCredentialUtils;
 use Pantarei\OAuth2\Util\ParamUtils;
+use Silex\Application;
 
 /**
  * Access token request implementation.
@@ -36,7 +37,7 @@ class AccessTokenRequest implements Request
    * @return object
    *   The corresponding created grant type object.
    */
-  public function validateRequest()
+  public function validateRequest(Application $app)
   {
     // Prepare the filtered query.
     $filtered_query = ParamUtils::filter($_POST, array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username'));
@@ -50,8 +51,8 @@ class AccessTokenRequest implements Request
     }
 
     // Validate and set client_id.
-    $_POST = ClientCredentialUtils::fetch($_POST);
-    if (!ClientCredentialUtils::check($_POST, $filtered_query)) {
+    $_POST = ClientCredentialUtils::fetch($app, $_POST);
+    if (!ClientCredentialUtils::check($app, $_POST, $filtered_query)) {
       throw new InvalidClientException();
     }
 
@@ -59,16 +60,16 @@ class AccessTokenRequest implements Request
     $grant_type = NULL;
     switch ($filtered_query['grant_type']) {
       case 'authorization_code':
-        $grant_type = new AuthorizationCodeGrantType($_POST, $filtered_query);
+        $grant_type = new AuthorizationCodeGrantType($app, $_POST, $filtered_query);
         break;
       case 'client_credentials':
-        $grant_type = new ClientCredentialsGrantType($_POST, $filtered_query);
+        $grant_type = new ClientCredentialsGrantType($app, $_POST, $filtered_query);
         break;
       case 'password':
-        $grant_type = new PasswordGrantType($_POST, $filtered_query);
+        $grant_type = new PasswordGrantType($app, $_POST, $filtered_query);
         break;
       case 'refresh_token':
-        $grant_type = new RefreshTokenGrantType($_POST, $filtered_query);
+        $grant_type = new RefreshTokenGrantType($app, $_POST, $filtered_query);
         break;
     }
     return $grant_type;

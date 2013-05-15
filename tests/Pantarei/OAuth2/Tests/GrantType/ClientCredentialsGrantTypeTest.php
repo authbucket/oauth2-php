@@ -26,7 +26,7 @@ class ClientCredentialsGrantTypeTest extends OAuth2WebTestCase
     $query = array(
       'scope' => 'demoscope1',
     );
-    $grant_type = new ClientCredentialsGrantType($query, $query);
+    $grant_type = new ClientCredentialsGrantType($this->app, $query, $query);
     $this->assertEquals('client_credentials', $grant_type->getGrantType());
 
     $grant_type->setScope('demoscope2');

@@ -11,12 +11,12 @@
 
 namespace Pantarei\OAuth2\Tests\Request;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Request\AuthorizationRequest;
 use Pantarei\OAuth2\Entity\Clients;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Silex\Application;
 
 /**
  * Test authorization code grant type functionality.
@@ -38,7 +38,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -57,7 +57,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $controller->validateRequest();
+    $response_type = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -74,7 +74,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'client_id' => '1234',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -89,7 +89,8 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
-    Database::persist($client);
+    $this->app['orm']->persist($client);
+    $this->app['orm']->flush();
 
     $controller = new AuthorizationRequest();
     $request = new Request();
@@ -99,7 +100,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient4.com/',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -118,7 +119,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/wrong_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -136,7 +137,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://example.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -155,7 +156,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://example.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -175,7 +176,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -195,7 +196,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'scope' => "badscope1",
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -216,7 +217,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'state' => "aaa\x19bbb\x7Fccc",
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     // This won't happened!!
     $this->assertTrue(is_object($filtered_query));
   }
@@ -228,9 +229,10 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('http://democlient4.com/redirect_uri');
-    Database::persist($client);
+    $this->app['orm']->persist($client);
+    $this->app['orm']->flush();
 
-    $controller = new AuthorizationRequest();
+    $controller = new AuthorizationRequest($this->app);
     $request = new Request();
 
     $request->initialize(array(
@@ -238,7 +240,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient4.com/',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
 
     $request->initialize(array(
@@ -247,7 +249,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient4.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -262,7 +264,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
 
     $request->initialize(array(
@@ -271,7 +273,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -287,7 +289,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
 
     $request->initialize(array(
@@ -297,7 +299,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 
@@ -314,7 +316,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'state' => 'example state',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest();
+    $filtered_query = $controller->validateRequest($this->app);
     $this->assertTrue(is_object($filtered_query));
   }
 }

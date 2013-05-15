@@ -13,6 +13,7 @@ namespace Pantarei\OAuth2\Util;
 
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Silex\Application;
 
 /**
  * Code related utility for OAuth2.
@@ -35,14 +36,14 @@ abstract class CodeUtils
    * @throws \Pantarei\OAuth2\Exception\InvalidGrantException
    * @throws \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public static function check($query, $filtered_query) {
+  public static function check(Application $app, $query, $filtered_query) {
     // code is required and must in good format.
     if (!isset($filtered_query['code'])) {
       throw new InvalidRequestException();
     }
 
     // If refresh_token is invalid we should stop here.
-    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
+    $result = $app['orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
       'code' => $filtered_query['code'],
     ));
     if ($result == NULL) {

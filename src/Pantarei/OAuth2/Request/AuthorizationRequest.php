@@ -16,6 +16,7 @@ use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
 use Pantarei\OAuth2\ResponseType\CodeResponseType;
 use Pantarei\OAuth2\ResponseType\TokenResponseType;
 use Pantarei\OAuth2\Util\ParamUtils;
+use Silex\Application;
 
 /**
  * Authorization request implementation.
@@ -32,7 +33,7 @@ class AuthorizationRequest implements Request
    * @return object
    *   The corresponding created response type object.
    */
-  public function validateRequest()
+  public function validateRequest(Application $app)
   {
     // Prepare the filtered query.
     $filtered_query = ParamUtils::filter($_GET, array('client_id', 'redirect_uri', 'response_type', 'scope', 'state'));
@@ -49,9 +50,9 @@ class AuthorizationRequest implements Request
     $response_type = NULL;
     switch ($_GET['response_type']) {
       case 'code':
-        $response_type = new CodeResponseType($_GET, $filtered_query);
+        $response_type = new CodeResponseType($app, $_GET, $filtered_query);
       case 'token':
-        $response_type = new TokenResponseType($_GET, $filtered_query);
+        $response_type = new TokenResponseType($app, $_GET, $filtered_query);
     }
     return $response_type;
   }

@@ -12,6 +12,7 @@
 namespace Pantarei\OAuth2\Util;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Silex\Application;
 
 /**
  * State related utilities for OAuth2.
@@ -33,7 +34,7 @@ abstract class StateUtils
    *
    * @throws \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public static function check($query, $filtered_query) {
+  public static function check(Application $app, $query, $filtered_query) {
     if (isset($query['state'])) {
       if (!isset($filtered_query['state'])) {
         throw new InvalidRequestException();

@@ -20,7 +20,7 @@ use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Entity\Scopes;
 use Pantarei\OAuth2\Entity\Users;
-use Pantarei\OAuth2\Provider\DoctrineORMServiceProvider;
+use Pantarei\OAuth2\Util\DoctrineORMServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\WebTestCase;
@@ -77,13 +77,13 @@ class OAuth2WebTestCase extends WebTestCase
   {
     // Generate testing database schema.
     $classes = array(
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\AccessTokens'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Authorizes'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Clients'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Codes'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\RefreshTokens'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Scopes'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Users'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\AccessTokens'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Authorizes'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Clients'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Codes'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\RefreshTokens'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Scopes'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Users'),
     );
 
     PersistentObject::setObjectManager($this->app['orm']);
@@ -95,13 +95,13 @@ class OAuth2WebTestCase extends WebTestCase
   {
     // Drop testing database schema.
     $classes = array(
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\AccessTokens'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Authorizes'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Clients'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Codes'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\RefreshTokens'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Scopes'),
-      $this->app['orm']->getClassMetadata('Pantarei\\OAuth2\\Entity\\Users'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\AccessTokens'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Authorizes'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Clients'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Codes'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\RefreshTokens'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Scopes'),
+      $this->app['orm']->getClassMetadata('Pantarei\OAuth2\Entity\Users'),
     );
 
     PersistentObject::setObjectManager($this->app['orm']);
