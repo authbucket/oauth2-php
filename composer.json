@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "Pantarei\\OAuth2": ""
+            "Pantarei\\OAuth2": "src/"
         }
     },
     "description": "Standards compliant OAuth2.0 library, for both Symfony2 and Drupal",
@@ -26,14 +26,12 @@
     "name": "pantarei/oauth2",
     "require": {
         "doctrine/orm": "2.*",
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+        "silex/silex": "1.0.*@dev"
     },
     "require-dev": {
         "satooshi/php-coveralls": "dev-master",
-        "silex/silex": "1.0.*@dev",
         "symfony/browser-kit": "2.3.*@dev",
         "symfony/css-selector": "2.3.*@dev"
-    },
-    "target-dir": "Pantarei/OAuth2",
-    "type": "library"
+    }
 }

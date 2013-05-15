@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="./vendor/autoload.php" colors="true">
-  <testsuites>
-    <testsuite name="pantarei/oauth2">
-      <directory>./Tests</directory>
-    </testsuite>
-  </testsuites>
-  <filter>
-    <blacklist>
-      <directory>./build</directory>
-      <directory>./vendor</directory>
-    </blacklist>
-  </filter>
-  <logging>
-    <log type="coverage-clover" target="build/logs/clover.xml"/>a
-    <log type="coverage-html" target="build/html"/>a
-  </logging>
+<phpunit bootstrap="./tests/bootstrap.php" colors="true">
+        <testsuites>
+                <testsuite name="Pantarei/Oauth2 Test Suite">
+                        <directory>./tests/Pantarei/OAuth2</directory>
+                </testsuite>
+        </testsuites>
+        <filter>
+                <whitelist>
+                        <directory>./src/Pantarei/OAuth2</directory>
+                </whitelist>
+        </filter>
+        <logging>
+                <log type="coverage-clover" target="build/logs/clover.xml"/>a
+                <log type="coverage-html" target="build/html"/>a
+        </logging>
 </phpunit>
