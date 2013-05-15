@@ -1,0 +1,22 @@
+#!/bin/bash
+
+COMMIT=`git log --oneline -n 1`
+if [ "$COMMIT" = ""]
+then
+        exit 1
+fi
+
+cd build/_gh_pages
+git rm -rf *
+
+cd ../../
+doxygen config.doxy > /dev/null 2&>1
+
+cd build/_gh_pages
+git add *
+git commit -am "$COMMIT"
+git push
+git pull
+
+cd ../../
+git pull
