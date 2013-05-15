@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Util;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\UnauthorizedClientException;
 
@@ -43,7 +42,7 @@ abstract class ClientIdUtils
     }
 
     // If client_id is invalid we should stop here.
-    $client = Database::findOneBy('Clients', array(
+    $client = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
       'client_id' => $query['client_id'],
     ));
     if ($client == NULL) {

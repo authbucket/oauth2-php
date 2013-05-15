@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Util;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 
@@ -43,7 +42,7 @@ abstract class CodeUtils
     }
 
     // If refresh_token is invalid we should stop here.
-    $result = Database::findOneBy('Codes', array(
+    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
       'code' => $filtered_query['code'],
     ));
     if ($result == NULL) {

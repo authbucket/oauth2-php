@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Database\Database;
 use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 
@@ -43,8 +42,8 @@ class RefreshTokensTest extends OAuth2WebTestCase
 
   public function testFind()
   {
-    $result = Database::find('RefreshTokens', 1);
-    $this->assertEquals('Pantarei\\OAuth2\\Entity\\RefreshTokens', get_class($result));
+    $result = $this->app['orm']->find('Pantarei\OAuth2\Entity\RefreshTokens', 1);
+    $this->assertEquals('Pantarei\OAuth2\Entity\RefreshTokens', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $result->getRefreshToken());
     $this->assertEquals('http://democlient3.com/', $result->getClientId());
@@ -63,9 +62,10 @@ class RefreshTokensTest extends OAuth2WebTestCase
       ->setScope(array(
         'demoscope1',
       ));
-    Database::persist($data);
+    $this->app['orm']->persist($data);
+    $this->app['orm']->flush();
 
-    $result = Database::findOneBy('RefreshTokens', array(
+    $result = $this->app['orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
       'refresh_token' => '5ddaa68ac1805e728563dd7915441408',
     ));
     $this->assertTrue($result !== NULL);
