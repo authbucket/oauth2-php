@@ -11,10 +11,6 @@
 
 namespace Pantarei\OAuth2\ResponseType;
 
-use Pantarei\OAuth2\Util\ClientIdUtils;
-use Pantarei\OAuth2\Util\RedirectUriUtils;
-use Pantarei\OAuth2\Util\ScopeUtils;
-use Pantarei\OAuth2\Util\StateUtils;
 use Silex\Application;
 
 /**
@@ -117,24 +113,24 @@ class CodeResponseType implements ResponseTypeInterface
   public function __construct(Application $app, $query, $filtered_query)
   {
     // Validate and set client_id.
-    if (ClientIdUtils::check($app, $query, $filtered_query)) {
+    if ($app['param.check.client_id']($query, $filtered_query)) {
       $this->setClientId($query['client_id']);
     }
 
     // Validate and set redirect_uri. NOTE: redirect_uri is not required if
     // already established via other channels.
-    $query = RedirectUriUtils::fetch($app, $query);
-    if (RedirectUriUtils::check($app, $query, $filtered_query)) {
+    $query = $app['param.fetch.redirect_uri']($query);
+    if ($app['param.check.redirect_uri']($query, $filtered_query)) {
       $this->setRedirectUri($query['redirect_uri']);
     }
 
     // Validate and set scope.
-    if (ScopeUtils::check($app, $query, $filtered_query)) {
+    if ($app['param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
 
     // Validate and set state.
-    if (StateUtils::check($app, $query, $filtered_query)) {
+    if ($app['param.check.state']($query, $filtered_query)) {
       $this->setState($query['state']);
     }
   }

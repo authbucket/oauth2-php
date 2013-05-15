@@ -45,7 +45,7 @@ abstract class ClientCredentialUtils
    * @param array $query
    *   The original query.
    * @param array $filtered_query
-   *   The filtered query which processed by ParamUtils::filter().
+   *   The filtered query.
    *
    * @return boolean
    *   TRUE if valid, or else FALSE.

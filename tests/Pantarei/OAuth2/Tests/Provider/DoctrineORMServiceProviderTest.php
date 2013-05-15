@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Util;
+namespace Pantarei\OAuth2\Tests\Provider;
 
 use Pantarei\OAuth2\Entity\Scopes;
-use Pantarei\OAuth2\Util\DoctrineORMServiceProvider;
+use Pantarei\OAuth2\Provider\DoctrineORMServiceProvider;
 use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;

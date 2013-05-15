@@ -70,9 +70,4 @@ class AutoloadTest extends \PHPUnit_Framework_TestCase
     $this->assertTrue(class_exists('Pantarei\OAuth2\TokenType\MacTokenType'));
     $this->assertTrue(interface_exists('Pantarei\OAuth2\TokenType\TokenTypeInterface'));
   }
-
-  public function testUtilClassExists()
-  {
-    $this->assertTrue(class_exists('Pantarei\OAuth2\Util\ParamUtils'));
-  }
 }

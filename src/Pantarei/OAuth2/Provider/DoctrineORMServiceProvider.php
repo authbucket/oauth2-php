@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Util;
+namespace Pantarei\OAuth2\Provider;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;

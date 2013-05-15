@@ -20,7 +20,8 @@ use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Entity\Scopes;
 use Pantarei\OAuth2\Entity\Users;
-use Pantarei\OAuth2\Util\DoctrineORMServiceProvider;
+use Pantarei\OAuth2\Provider\DoctrineORMServiceProvider;
+use Pantarei\OAuth2\Provider\ParameterServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\WebTestCase;
@@ -50,6 +51,7 @@ class OAuth2WebTestCase extends WebTestCase
         'path' => __DIR__ . '/Entity',
       ),
     ));
+    $app->register(new ParameterServiceProvider());
 
     return $app;
   }

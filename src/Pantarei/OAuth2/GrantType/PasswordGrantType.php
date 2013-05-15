@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\GrantType;
 
-use Pantarei\OAuth2\Util\ScopeUtils;
 use Pantarei\OAuth2\Util\ResourceOwnerCredentialUtils;
 use Silex\Application;
 
@@ -99,7 +98,7 @@ class PasswordGrantType implements GrantTypeInterface
     }
 
     // Validate and set scope.
-    if (ScopeUtils::check($app, $query, $filtered_query)) {
+    if ($app['param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
   }
