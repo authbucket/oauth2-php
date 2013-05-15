@@ -1,19 +1,19 @@
 #!/bin/bash
 
 COMMIT=`git log --oneline -n 1`
-if [ "$COMMIT" = ""]
+if [ -z "$COMMIT" ];
 then
         exit 1
 fi
 
 cd build/_gh_pages
-git rm -rf *
+git rm -rf * >/dev/null 2>&1
 
 cd ../../
-doxygen config.doxy > /dev/null 2&>1
+doxygen config.doxy >/dev/null 2>&1
 
 cd build/_gh_pages
-git add *
+git add * >/dev/null 2>&1
 git commit -am "$COMMIT"
 git push
 git pull
