@@ -30,6 +30,8 @@ use Silex\WebTestCase;
 /**
  * Extend Silex\WebTestCase for test case require database and web interface
  * setup.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
 class OAuth2WebTestCase extends WebTestCase
 {

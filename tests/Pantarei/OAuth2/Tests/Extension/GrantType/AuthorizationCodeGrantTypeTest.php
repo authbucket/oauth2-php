@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\GrantType;
+namespace Pantarei\OAuth2\Tests\Extension\GrantType;
 
 use Pantarei\OAuth2\Entity\Codes;
-use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
+use Pantarei\OAuth2\Extension\GrantType\AuthorizationCodeGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
@@ -30,8 +30,10 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
-    $grant_type = new AuthorizationCodeGrantType($this->app, $query, $query);
-    $this->assertEquals('authorization_code', $grant_type->getGrantType());
+    $grant_type = new AuthorizationCodeGrantType($this->app);
+    $grant_type->buildType($query, $query);
+    $this->assertEquals('grant_type', $grant_type->getParent());
+    $this->assertEquals('authorization_code', $grant_type->getName());
 
     $grant_type->setCode('83f1d26e90c2a275ae752adc6e49aa43');
     $this->assertEquals('83f1d26e90c2a275ae752adc6e49aa43', $grant_type->getCode());
@@ -52,9 +54,10 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
-    $grant_type = new AuthorizationCodeGrantType($this->app, $query, $query);
+    $grant_type = new AuthorizationCodeGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('authorization_code', $grant_type->getGrantType());
+    $this->assertEquals('authorization_code', $grant_type->getName());
   }
 
   /**
@@ -67,9 +70,10 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
-    $grant_type = new AuthorizationCodeGrantType($this->app, $query, $query);
+    $grant_type = new AuthorizationCodeGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('authorization_code', $grant_type->getGrantType());
+    $this->assertEquals('authorization_code', $grant_type->getName());
   }
 
   /**
@@ -94,8 +98,9 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'client_id' => 'http://democlient1.com/',
     );
-    $grant_type = new AuthorizationCodeGrantType($this->app, $query, $query);
+    $grant_type = new AuthorizationCodeGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('authorization_code', $grant_type->getGrantType());
+    $this->assertEquals('authorization_code', $grant_type->getName());
   }
 }

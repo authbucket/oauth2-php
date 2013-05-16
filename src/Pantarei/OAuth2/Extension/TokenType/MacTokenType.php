@@ -9,17 +9,27 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\TokenType;
+namespace Pantarei\OAuth2\Extension\TokenType;
+
+use Pantarei\OAuth2\Extension\TokenType;
+use Silex\Application;
 
 /**
- * Bearer token type implementation.
+ * MAC token type implementation.
+ *
+ * TODO: This is not yet supported!
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class BearerTokenType implements TokenTypeInterface
+class MacTokenType extends TokenType
 {
-  public function getTokenType()
+  public function getParent()
   {
-    return 'bearer';
+    return 'token_type';
+  }
+
+  public function getName()
+  {
+    return 'mac';
   }
 }

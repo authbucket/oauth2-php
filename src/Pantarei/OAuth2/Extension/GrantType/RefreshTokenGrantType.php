@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\GrantType;
+namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
 
 /**
@@ -20,21 +21,21 @@ use Silex\Application;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class RefreshTokenGrantType implements GrantTypeInterface
+class RefreshTokenGrantType extends GrantType
 {
   /**
    * REQUIRED. Value MUST be set to "refresh_token".
    *
    * @see http://tools.ietf.org/html/rfc6749#section-6
    */
-  private $grantType = 'refresh_token';
+  private $grant_type = 'refresh_token';
 
   /**
    * REQUIRED. The refresh token issued to the client.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-6
    */
-  private $refreshToken = '';
+  private $refresh_token = '';
 
   /**
    * OPTIONAL.  The scope of the access request as described by
@@ -47,20 +48,15 @@ class RefreshTokenGrantType implements GrantTypeInterface
    */
   private $scope = '';
 
-  public function getGrantType()
+  public function setRefreshToken($refresh_token)
   {
-    return $this->grantType;
-  }
-
-  public function setRefreshToken($refreshToken)
-  {
-    $this->refreshToken = $refreshToken;
+    $this->refresh_token = $refresh_token;
     return $this;
   }
 
   public function getRefreshToken()
   {
-    return $this->refreshToken;
+    return $this->refresh_token;
   }
 
   public function setScope($scope)
@@ -74,16 +70,26 @@ class RefreshTokenGrantType implements GrantTypeInterface
     return $this->scope;
   }
 
-  public function __construct(Application $app, $query, $filtered_query)
+  public function buildType($query, $filtered_query)
   {
     // Validate and set refresh_token.
-    if ($app['oauth2.param.check.refresh_token']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.refresh_token']($query, $filtered_query)) {
       $this->setRefreshToken($query['refresh_token']);
     }
 
     // Validate and set scope.
-    if ($app['oauth2.param.check.scope']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
+  }
+
+  public function getParent()
+  {
+    return 'grant_type';
+  }
+
+  public function getName()
+  {
+    return $this->grant_type;
   }
 }

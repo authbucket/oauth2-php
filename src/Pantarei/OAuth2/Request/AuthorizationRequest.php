@@ -13,8 +13,8 @@ namespace Pantarei\OAuth2\Request;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
-use Pantarei\OAuth2\ResponseType\CodeResponseType;
-use Pantarei\OAuth2\ResponseType\TokenResponseType;
+use Pantarei\OAuth2\Extension\ResponseType\CodeResponseType;
+use Pantarei\OAuth2\Extension\ResponseType\TokenResponseType;
 use Silex\Application;
 
 /**
@@ -49,9 +49,13 @@ class AuthorizationRequest implements Request
     $response_type = NULL;
     switch ($_GET['response_type']) {
       case 'code':
-        $response_type = new CodeResponseType($app, $_GET, $filtered_query);
+        $response_type = new CodeResponseType($app);
+        $response_type->buildType($_GET, $filtered_query);
+        break;
       case 'token':
-        $response_type = new TokenResponseType($app, $_GET, $filtered_query);
+        $response_type = new TokenResponseType($app);
+        $response_type->buildType($_GET, $filtered_query);
+        break;
     }
     return $response_type;
   }

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\GrantType;
+namespace Pantarei\OAuth2\Tests\Extension\GrantType;
 
-use Pantarei\OAuth2\GrantType\PasswordGrantType;
+use Pantarei\OAuth2\Extension\GrantType\PasswordGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
@@ -28,8 +28,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
-    $grant_type = new PasswordGrantType($this->app, $query, $query);
-    $this->assertEquals('password', $grant_type->getGrantType());
+    $grant_type = new PasswordGrantType($this->app);
+    $grant_type->buildType($query, $query);
+    $this->assertEquals('grant_type', $grant_type->getParent());
+    $this->assertEquals('password', $grant_type->getName());
 
     $grant_type->setUsername('demouser2');
     $this->assertEquals('demouser2', $grant_type->getUsername());
@@ -50,9 +52,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
-    $grant_type = new PasswordGrantType($this->app, $query, $query);
+    $grant_type = new PasswordGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('password', $grant_type->getGrantType());
+    $this->assertEquals('password', $grant_type->getName());
   }
 
   /**
@@ -65,9 +68,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
-    $grant_type = new PasswordGrantType($this->app, $query, $query);
+    $grant_type = new PasswordGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('password', $grant_type->getGrantType());
+    $this->assertEquals('password', $grant_type->getName());
   }
 
   /**
@@ -79,9 +83,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'username' => 'demousername1',
       'scope' => 'demoscope1',
     );
-    $grant_type = new PasswordGrantType($this->app, $query, $query);
+    $grant_type = new PasswordGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('password', $grant_type->getGrantType());
+    $this->assertEquals('password', $grant_type->getName());
   }
 
   /**
@@ -94,8 +99,9 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'password' => 'badpassword1',
       'scope' => 'demoscope1',
     );
-    $grant_type = new PasswordGrantType($this->app, $query, $query);
+    $grant_type = new PasswordGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('password', $grant_type->getGrantType());
+    $this->assertEquals('password', $grant_type->getName());
   }
 }

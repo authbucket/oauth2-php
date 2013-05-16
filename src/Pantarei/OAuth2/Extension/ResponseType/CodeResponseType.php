@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\ResponseType;
+namespace Pantarei\OAuth2\Extension\ResponseType;
 
+use Pantarei\OAuth2\Extension\ResponseType;
 use Silex\Application;
 
 /**
@@ -20,28 +21,28 @@ use Silex\Application;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class CodeResponseType implements ResponseTypeInterface
+class CodeResponseType extends ResponseType
 {
   /**
    * REQUIRED. Value MUST be set to "code".
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  private $responseType = 'code';
+  private $response_type = 'code';
 
   /**
    * REQUIRED. The client identifier as described in Section 2.2.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  private $clientId = '';
+  private $client_id = '';
 
   /**
    * OPTIONAL. As described in Section 3.1.2.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  private $redirectUri = '';
+  private $redirect_uri = '';
 
   /**
    * OPTIONAL. The scope of the access request as described by Section 3.3.
@@ -61,31 +62,26 @@ class CodeResponseType implements ResponseTypeInterface
    */
   private $state = '';
 
-  public function getResponseType()
+  public function setClientId($client_id)
   {
-    return $this->responseType;
-  }
-
-  public function setClientId($clientId)
-  {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
     return $this;
   }
 
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
-  public function setRedirectUri($redirectUri)
+  public function setRedirectUri($redirect_uri)
   {
-    $this->redirectUri = $redirectUri;
+    $this->redirect_uri = $redirect_uri;
     return $this;
   }
 
   public function getRedirectUri()
   {
-    return $this->redirectUri;
+    return $this->redirect_uri;
   }
 
   public function setScope($scope)
@@ -110,28 +106,38 @@ class CodeResponseType implements ResponseTypeInterface
     return $this->state;
   }
 
-  public function __construct(Application $app, $query, $filtered_query)
+  public function buildType($query, $filtered_query)
   {
     // Validate and set client_id.
-    if ($app['oauth2.param.check.client_id']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.client_id']($query, $filtered_query)) {
       $this->setClientId($query['client_id']);
     }
 
     // Validate and set redirect_uri. NOTE: redirect_uri is not required if
     // already established via other channels.
-    $query = $app['oauth2.param.fetch.redirect_uri']($query);
-    if ($app['oauth2.param.check.redirect_uri']($query, $filtered_query)) {
+    $query = $this->app['oauth2.param.fetch.redirect_uri']($query);
+    if ($this->app['oauth2.param.check.redirect_uri']($query, $filtered_query)) {
       $this->setRedirectUri($query['redirect_uri']);
     }
 
     // Validate and set scope.
-    if ($app['oauth2.param.check.scope']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
 
     // Validate and set state.
-    if ($app['oauth2.param.check.state']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.state']($query, $filtered_query)) {
       $this->setState($query['state']);
     }
+  }
+
+  public function getParent()
+  {
+    return 'response_type';
+  }
+
+  public function getName()
+  {
+    return $this->response_type;
   }
 }

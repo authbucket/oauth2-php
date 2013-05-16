@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\GrantType;
+namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
 
 /**
@@ -20,14 +21,14 @@ use Silex\Application;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ClientCredentialsGrantType implements GrantTypeInterface
+class ClientCredentialsGrantType extends GrantType
 {
   /**
    * REQUIRED. Value MUST be set to "client_credentials".
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.4.2
    */
-  private $grantType = 'client_credentials';
+  private $grant_type = 'client_credentials';
 
   /**
    * OPTIONAL. The scope of the access request as described by
@@ -36,11 +37,6 @@ class ClientCredentialsGrantType implements GrantTypeInterface
    * @see http://tools.ietf.org/html/rfc6749#section-4.4.2
    */
   private $scope = '';
-
-  public function getGrantType()
-  {
-    return $this->grantType;
-  }
 
   public function setScope($scope)
   {
@@ -53,11 +49,21 @@ class ClientCredentialsGrantType implements GrantTypeInterface
     return $this->scope;
   }
 
-  public function __construct(Application $app, $query, $filtered_query)
+  public function buildType($query, $filtered_query)
   {
     // Validate and set scope.
-    if ($app['oauth2.param.check.scope']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
+  }
+
+  public function getParent()
+  {
+    return 'grant_type';
+  }
+
+  public function getName()
+  {
+    return $this->grant_type;
   }
 }

@@ -9,29 +9,33 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\ResponseType;
+namespace Pantarei\OAuth2\Tests\Extension\ResponseType;
 
-use Pantarei\OAuth2\ResponseType\CodeResponseType;
+use Pantarei\OAuth2\Extension\ResponseType\TokenResponseType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
- * Test code response type functionality.
+ * Test token response type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class CodeResponseTypeTest extends OAuth2WebTestCase
+class TokenResponseTypeTest extends OAuth2WebTestCase
 {
   public function testResponseType()
   {
     $query = array(
-      'response_type' => 'code',
+      'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1',
       'state' => 'demostate1',
     );
-    $response_type = new CodeResponseType($this->app, $query, $query);
-    $this->assertEquals('code', $response_type->getResponseType());
+    $response_type = new TokenResponseType($this->app);
+    $response_type->buildType($query, $query);
+    $this->assertTrue($response_type->buildView());
+    $this->assertTrue($response_type->finishView());
+    $this->assertEquals('token', $response_type->getName());
+    $this->assertEquals('response_type', $response_type->getParent());
 
     $response_type->setClientId('5678');
     $this->assertEquals('5678', $response_type->getClientId());

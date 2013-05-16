@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\GrantType;
+namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
 
 /**
@@ -20,14 +21,14 @@ use Silex\Application;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class PasswordGrantType implements GrantTypeInterface
+class PasswordGrantType extends GrantType
 {
   /**
    * REQUIRED. Value MUST be set to "password".
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
    */
-  private $grantType = 'password';
+  private $grant_type = 'password';
 
   /**
    * REQUIRED. The resource owner username.
@@ -50,11 +51,6 @@ class PasswordGrantType implements GrantTypeInterface
    * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
    */
   private $scope = '';
-
-  public function getGrantType()
-  {
-    return $this->grantType;
-  }
 
   public function setUsername($username)
   {
@@ -89,16 +85,26 @@ class PasswordGrantType implements GrantTypeInterface
     return $this->scope;
   }
 
-  public function __construct(Application $app, $query, $filtered_query) {
+  public function buildType($query, $filtered_query) {
     // Validate and set username and password.
-    if ($app['oauth2.credential.check.resource_owner']($query, $filtered_query)) {
+    if ($this->app['oauth2.credential.check.resource_owner']($query, $filtered_query)) {
       $this->setUsername($filtered_query['username']);
       $this->setPassword($filtered_query['password']);
     }
 
     // Validate and set scope.
-    if ($app['oauth2.param.check.scope']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.scope']($query, $filtered_query)) {
       $this->setScope($query['scope']);
     }
+  }
+
+  public function getParent()
+  {
+    return 'grant_type';
+  }
+
+  public function getName()
+  {
+    return $this->grant_type;
   }
 }

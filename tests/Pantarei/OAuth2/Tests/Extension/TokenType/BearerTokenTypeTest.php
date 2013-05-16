@@ -9,20 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\TokenType;
+namespace Pantarei\OAuth2\Tests\Extension\TokenType;
 
-use Pantarei\OAuth2\TokenType\BearerTokenType;
+use Pantarei\OAuth2\Extension\TokenType\BearerTokenType;
+use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
  * Test Bearer token type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class BearerTokenTypeTest extends \PHPUnit_Framework_TestCase
+class BearerTokenTypeTest extends OAuth2WebTestCase
 {
   public function testTokenType()
   {
-    $grant_type = new BearerTokenType();
-    $this->assertEquals('bearer', $grant_type->getTokenType());
+    $grant_type = new BearerTokenType($this->app);
+    $this->assertEquals('token_type', $grant_type->getParent());
+    $this->assertEquals('bearer', $grant_type->getName());
   }
 }

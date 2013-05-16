@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\GrantType;
+namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
 
 /**
@@ -20,14 +21,14 @@ use Silex\Application;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationCodeGrantType implements GrantTypeInterface
+class AuthorizationCodeGrantType extends GrantType
 {
   /**
    * REQUIRED. Value MUST be set to "authorization_code".
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  private $grantType = 'authorization_code';
+  private $grant_type = 'authorization_code';
 
   /**
    * REQUIRED. The authorization code received from the
@@ -44,7 +45,7 @@ class AuthorizationCodeGrantType implements GrantTypeInterface
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  private $redirectUri;
+  private $redirect_uri;
 
   /**
    * REQUIRED, if the client is not authenticating with the
@@ -53,11 +54,6 @@ class AuthorizationCodeGrantType implements GrantTypeInterface
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
   private $cilentId;
-
-  public function getGrantType()
-  {
-    return $this->grantType;
-  }
 
   public function setCode($code)
   {
@@ -70,45 +66,55 @@ class AuthorizationCodeGrantType implements GrantTypeInterface
     return $this->code;
   }
 
-  public function setRedirectUri($redirectUri)
+  public function setRedirectUri($redirect_uri)
   {
-    $this->redirectUri = $redirectUri;
+    $this->redirect_uri = $redirect_uri;
     return $this;
   }
 
   public function getRedirectUri()
   {
-    return $this->redirectUri;
+    return $this->redirect_uri;
   }
 
-  public function setClientId($clientId)
+  public function setClientId($client_id)
   {
-    $this->clientId = $clientId;
+    $this->client_id = $client_id;
     return $this;
   }
 
   public function getClientId()
   {
-    return $this->clientId;
+    return $this->client_id;
   }
 
-  public function __construct(Application $app, $query, $filtered_query)
+  public function buildType($query, $filtered_query)
   {
     // Validate and set client_id.
-    if ($app['oauth2.param.check.client_id']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.client_id']($query, $filtered_query)) {
       $this->setClientId($query['client_id']);
     }
 
     // Validate and set redirect_uri. NOTE: redirect_uri is not required if
     // already established via other channels.
-    $query = $app['oauth2.param.fetch.redirect_uri']($query);
-    if ($app['oauth2.param.check.redirect_uri']($query, $filtered_query)) {
+    $query = $this->app['oauth2.param.fetch.redirect_uri']($query);
+    if ($this->app['oauth2.param.check.redirect_uri']($query, $filtered_query)) {
       $this->setRedirectUri($query['redirect_uri']);
     }
 
     // Validate and set code.
-    if ($app['oauth2.param.check.code']($query, $filtered_query)) {
+    if ($this->app['oauth2.param.check.code']($query, $filtered_query)) {
       $this->setCode($filtered_query['code']);
     }
+  }
+
+  public function getParent()
+  {
+    return 'grant_type';
+  }
+
+  public function getName()
+  {
+    return $this->grant_type;
   }
 }

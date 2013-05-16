@@ -11,27 +11,31 @@
 
 namespace Pantarei\OAuth2\Tests\ResponseType;
 
-use Pantarei\OAuth2\ResponseType\TokenResponseType;
+use Pantarei\OAuth2\Extension\ResponseType\CodeResponseType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
- * Test token response type functionality.
+ * Test code response type functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class TokenResponseTypeTest extends OAuth2WebTestCase
+class CodeResponseTypeTest extends OAuth2WebTestCase
 {
   public function testResponseType()
   {
     $query = array(
-      'response_type' => 'token',
+      'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1',
       'state' => 'demostate1',
     );
-    $response_type = new TokenResponseType($this->app, $query, $query);
-    $this->assertEquals('token', $response_type->getResponseType());
+    $response_type = new CodeResponseType($this->app);
+    $response_type->buildType($query, $query);
+    $this->assertTrue($response_type->buildView());
+    $this->assertTrue($response_type->finishView());
+    $this->assertEquals('code', $response_type->getName());
+    $this->assertEquals('response_type', $response_type->getParent());
 
     $response_type->setClientId('5678');
     $this->assertEquals('5678', $response_type->getClientId());

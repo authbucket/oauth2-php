@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\GrantType;
+namespace Pantarei\OAuth2\Tests\Extension\GrantType;
 
 use Pantarei\OAuth2\Entity\RefreshTokens;
-use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
+use Pantarei\OAuth2\Extension\GrantType\RefreshTokenGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Silex\Application;
 
@@ -30,8 +30,10 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
       'scope' => 'demoscope1',
     );
-    $grant_type = new RefreshTokenGrantType($this->app, $query, $query);
-    $this->assertEquals('refresh_token', $grant_type->getGrantType());
+    $grant_type = new RefreshTokenGrantType($this->app);
+    $grant_type->buildType($query, $query);
+    $this->assertEquals('grant_type', $grant_type->getParent());
+    $this->assertEquals('refresh_token', $grant_type->getName());
 
     $grant_type->setRefreshToken('37ed55a16777958a3953088576869ca7');
     $this->assertEquals('37ed55a16777958a3953088576869ca7', $grant_type->getRefreshToken());
@@ -49,9 +51,10 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'grant_type' => 'refresh_token',
       'scope' => 'demoscope1',
     );
-    $grant_type = new RefreshTokenGrantType($this->app, $query, $query);
+    $grant_type = new RefreshTokenGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('refresh_token', $grant_type->getGrantType());
+    $this->assertEquals('refresh_token', $grant_type->getName());
   }
 
   /**
@@ -64,9 +67,10 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'refresh_token' => '37ed55a16777958a3953088576869ca7',
       'scope' => 'demoscope1',
     );
-    $grant_type = new RefreshTokenGrantType($this->app, $query, $query);
+    $grant_type = new RefreshTokenGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('refresh_token', $grant_type->getGrantType());
+    $this->assertEquals('refresh_token', $grant_type->getName());
   }
 
   /**
@@ -90,8 +94,9 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'refresh_token' => '5ddaa68ac1805e728563dd7915441408',
       'scope' => 'demoscope1',
     );
-    $grant_type = new RefreshTokenGrantType($this->app, $query, $query);
+    $grant_type = new RefreshTokenGrantType($this->app);
+    $grant_type->buildType($query, $query);
     // This won't happened!!
-    $this->assertEquals('refresh_token', $grant_type->getGrantType());
+    $this->assertEquals('refresh_token', $grant_type->getName());
   }
 }

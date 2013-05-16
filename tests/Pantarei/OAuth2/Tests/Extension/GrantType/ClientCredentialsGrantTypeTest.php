@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\GrantType;
+namespace Pantarei\OAuth2\Tests\Extension\GrantType;
 
-use Pantarei\OAuth2\GrantType\ClientCredentialsGrantType;
+use Pantarei\OAuth2\Extension\GrantType\ClientCredentialsGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
@@ -26,8 +26,10 @@ class ClientCredentialsGrantTypeTest extends OAuth2WebTestCase
     $query = array(
       'scope' => 'demoscope1',
     );
-    $grant_type = new ClientCredentialsGrantType($this->app, $query, $query);
-    $this->assertEquals('client_credentials', $grant_type->getGrantType());
+    $grant_type = new ClientCredentialsGrantType($this->app);
+    $grant_type->buildType($query, $query);
+    $this->assertEquals('grant_type', $grant_type->getParent());
+    $this->assertEquals('client_credentials', $grant_type->getName());
 
     $grant_type->setScope('demoscope2');
     $this->assertEquals('demoscope2', $grant_type->getScope());
