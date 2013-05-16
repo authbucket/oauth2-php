@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Tests\GrantType;
 
 use Pantarei\OAuth2\GrantType\ClientCredentialsGrantType;
-use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
  * Test client credential grant type functionality.

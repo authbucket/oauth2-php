@@ -16,6 +16,6 @@ namespace Pantarei\OAuth2\Exception;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AccessDeniedException extends Exception
+class AccessDeniedException extends \LogicException implements ExceptionInterface
 {
 }

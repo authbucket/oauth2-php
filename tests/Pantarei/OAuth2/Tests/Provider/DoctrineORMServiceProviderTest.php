@@ -13,7 +13,7 @@ namespace Pantarei\OAuth2\Tests\Provider;
 
 use Pantarei\OAuth2\Entity\Scopes;
 use Pantarei\OAuth2\Provider\DoctrineORMServiceProvider;
-use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Pantarei\OAuth2\OAuth2WebTestCase;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 

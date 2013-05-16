@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Tests\ResponseType;
 
 use Pantarei\OAuth2\ResponseType\CodeResponseType;
-use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
  * Test code response type functionality.

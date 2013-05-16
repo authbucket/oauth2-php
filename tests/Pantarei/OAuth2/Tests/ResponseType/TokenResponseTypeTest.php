@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Tests\ResponseType;
 
 use Pantarei\OAuth2\ResponseType\TokenResponseType;
-use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
  * Test token response type functionality.

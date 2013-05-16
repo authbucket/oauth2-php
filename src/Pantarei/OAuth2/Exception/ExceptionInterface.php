@@ -9,22 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Exception;
-
-use Pantarei\OAuth2\Exception\Exception;
+namespace Pantarei\OAuth2\Exception;
 
 /**
- * Test base OAuth2.0 exception.
+ * Base ExceptionInterface for the OAuth2 component.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ExceptionTest extends \PHPUnit_Framework_TestCase
+interface ExceptionInterface
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\Exception
-   */
-  public function testException()
-  {
-    throw new Exception();
-  }
 }

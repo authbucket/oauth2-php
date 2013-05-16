@@ -16,6 +16,6 @@ namespace Pantarei\OAuth2\Exception;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class InvalidScopeException extends Exception
+class InvalidScopeException extends \InvalidArgumentException implements ExceptionInterface
 {
 }

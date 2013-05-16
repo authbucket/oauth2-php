@@ -16,6 +16,6 @@ namespace Pantarei\OAuth2\Exception;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class InvalidClientException extends Exception
+class InvalidClientException extends \InvalidArgumentException implements ExceptionInterface
 {
 }

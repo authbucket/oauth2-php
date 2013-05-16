@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Provider;
 
-use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Pantarei\OAuth2\OAuth2WebTestCase;
 
 /**
  * Testing parameter utility functionality.

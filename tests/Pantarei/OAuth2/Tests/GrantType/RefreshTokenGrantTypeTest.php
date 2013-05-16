@@ -13,7 +13,7 @@ namespace Pantarei\OAuth2\Tests\GrantType;
 
 use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
-use Pantarei\OAuth2\Tests\OAuth2WebTestCase;
+use Pantarei\OAuth2\OAuth2WebTestCase;
 use Silex\Application;
 
 /**
