@@ -9,9 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Request;
+namespace Pantarei\OAuth2\Tests\Provider;
 
-use Pantarei\OAuth2\Request\AuthorizationRequest;
 use Pantarei\OAuth2\Entity\Clients;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,24 +22,23 @@ use Silex\Application;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationRequestTest extends OAuth2WebTestCase
+class AuthorizationServiceProviderTest extends OAuth2WebTestCase
 {
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testValidateRequestNoClientId()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $this->app['oauth2.auth.options.initializer']();
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -48,18 +46,16 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestBadClientId()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://badclient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -67,16 +63,14 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestNoRedirectUri()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'client_id' => '1234',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -92,17 +86,15 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($client);
     $this->app['oauth2.orm']->flush();
 
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -110,18 +102,16 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestWongSavedRedirectUri()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/wrong_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -129,17 +119,15 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestNoResponseType()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'client_id' => '1234',
       'redirect_uri' => 'http://example.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -147,18 +135,16 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestBadResponseType()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'foo',
       'client_id' => '1234',
       'redirect_uri' => 'http://example.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -166,9 +152,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestBadScope()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
@@ -176,9 +160,9 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -186,9 +170,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestNotExistsScope()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
@@ -196,9 +178,9 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'scope' => "badscope1",
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   /**
@@ -206,9 +188,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
    */
   public function testValidateRequestBadState()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
@@ -217,9 +197,9 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'state' => "aaa\x19bbb\x7Fccc",
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
+    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($filtered_query));
+    $this->assertTrue(is_object($response_type));
   }
 
   public function testValidateRequestGoodRedirectUri()
@@ -232,56 +212,52 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($client);
     $this->app['oauth2.orm']->flush();
 
-    $controller = new AuthorizationRequest($this->app);
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
-    $this->assertTrue(is_object($filtered_query));
+    $response_type = $this->app['oauth2.auth.response_type'];
+    $this->assertTrue(is_object($response_type));
 
+    $request = new Request();
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
       'redirect_uri' => 'http://democlient4.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
-    $this->assertTrue(is_object($filtered_query));
+    $response_type = $this->app['oauth2.auth.response_type'];
+    $this->assertTrue(is_object($response_type));
   }
 
   public function testValidateRequestGoodResponseType()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
-    $this->assertTrue(is_object($filtered_query));
+    $response_type = $this->app['oauth2.auth.response_type'];
+    $this->assertTrue(is_object($response_type));
 
+    $request = new Request();
     $request->initialize(array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
-    $this->assertTrue(is_object($filtered_query));
+    $response_type = $this->app['oauth2.auth.response_type'];
+    $this->assertTrue(is_object($response_type));
   }
 
   public function testValidateRequestGoodScope()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
@@ -289,9 +265,10 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
-    $this->assertTrue(is_object($filtered_query));
+    $response_type = $this->app['oauth2.auth.response_type'];
+    $this->assertTrue(is_object($response_type));
 
+    $request = new Request();
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
@@ -299,15 +276,13 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
-    $this->assertTrue(is_object($filtered_query));
+    $response_type = $this->app['oauth2.auth.response_type'];
+    $this->assertTrue(is_object($response_type));
   }
 
   public function testValidateRequestGoodState()
   {
-    $controller = new AuthorizationRequest();
     $request = new Request();
-
     $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
@@ -316,7 +291,7 @@ class AuthorizationRequestTest extends OAuth2WebTestCase
       'state' => 'example state',
     ));
     $request->overrideGlobals();
-    $filtered_query = $controller->validateRequest($this->app);
-    $this->assertTrue(is_object($filtered_query));
+    $response_type = $this->app['oauth2.auth.response_type'];
+    $this->assertTrue(is_object($response_type));
   }
 }
