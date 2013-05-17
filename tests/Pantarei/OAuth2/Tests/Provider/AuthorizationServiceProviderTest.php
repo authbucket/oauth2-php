@@ -15,7 +15,6 @@ use Pantarei\OAuth2\Entity\Clients;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Silex\Application;
 
 /**
  * Test authorization code grant type functionality.
@@ -35,7 +34,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $this->app['oauth2.auth.options.initializer']();
+    $this->assertTrue($this->app['oauth2.auth.options.initializer']());
+    $this->assertFalse($this->app['oauth2.auth.options.initializer']());
     $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
     $this->assertTrue(is_object($response_type));

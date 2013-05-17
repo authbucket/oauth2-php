@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Authorization related utilities for OAuth2.
+ * Authorization service provider for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
@@ -29,8 +29,8 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
   {
     $app['oauth2.auth.default_options'] = array(
       'response_type' => array(
-        'Pantarei\OAuth2\Extension\ResponseType\CodeResponseType',
-        'Pantarei\OAuth2\Extension\ResponseType\TokenResponseType',
+        'code' => 'Pantarei\OAuth2\Extension\ResponseType\CodeResponseType',
+        'token' => 'Pantarei\OAuth2\Extension\ResponseType\TokenResponseType',
       ),
     );
 
@@ -38,18 +38,27 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
       static $initialized = FALSE;
 
       if ($initialized) {
-        return;
+        return FALSE;
       }
       $initialized = TRUE;
 
       if (!isset($app['oauth2.auth.options'])) {
         $app['oauth2.auth.options'] = $app['oauth2.auth.default_options'];
       }
+      return TRUE;
+    });
+
+    $app['oauth2.auth.response_type.config'] = $app->share(function($app) {
+      $app['oauth2.auth.options.initializer']();
+
+      $configs = new \Pimple();
+      foreach ($app['oauth2.auth.options']['response_type'] as $name => $options) {
+        $configs[$name] = new $options($app);
+      }
+      return $configs;
     });
 
     $app['oauth2.auth.response_type'] = $app->share(function ($app) {
-      $app['oauth2.auth.options.initializer']();
-
       $request = Request::createFromGlobals();
       $query = $request->query->all();
 
@@ -64,14 +73,9 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
         throw new InvalidRequestException();
       }
 
-      $response_type = NULL;
-      foreach ($app['oauth2.auth.options']['response_type'] as $namespace) {
-        $response_type = new $namespace($app);
-        if ($response_type->getName() === $query['response_type']) {
-          $response_type->buildType($query, $filtered_query);
-          break;
-        }
-      }
+      // Create, build and return the respone type.
+      $response_type = $app['oauth2.auth.response_type.config'][$query['response_type']];
+      $response_type->buildType($query, $filtered_query);
       return $response_type;
     });
   }

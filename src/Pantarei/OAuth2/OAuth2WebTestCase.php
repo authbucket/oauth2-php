@@ -20,6 +20,7 @@ use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Entity\Scopes;
 use Pantarei\OAuth2\Entity\Users;
+use Pantarei\OAuth2\Provider\AccessTokenServiceProvider;
 use Pantarei\OAuth2\Provider\AuthorizationServiceProvider;
 use Pantarei\OAuth2\Provider\CredentialServiceProvider;
 use Pantarei\OAuth2\Provider\DoctrineORMServiceProvider;
@@ -58,6 +59,7 @@ class OAuth2WebTestCase extends WebTestCase
     $app->register(new ParameterServiceProvider());
     $app->register(new CredentialServiceProvider());
     $app->register(new AuthorizationServiceProvider());
+    $app->register(new AccessTokenServiceProvider());
 
     return $app;
   }
