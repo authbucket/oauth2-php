@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension\ResponseType;
 
+use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Extension\ResponseType;
 use Silex\Application;
 
@@ -108,10 +109,13 @@ class CodeResponseType extends ResponseType
 
   public function buildType($query, $filtered_query)
   {
-    // Validate and set client_id.
-    if ($this->app['oauth2.param.check.client_id']($query, $filtered_query)) {
-      $this->setClientId($query['client_id']);
+    // client_id is required.
+    if (!isset($query['client_id'])) {
+      throw new InvalidRequestException();
     }
+
+    // Validate and set client_id.
+    $this->setClientId($this->app['oauth2.param.check.client_id']($query['client_id']));
 
     // Validate and set redirect_uri. NOTE: redirect_uri is not required if
     // already established via other channels.

@@ -63,14 +63,24 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
       $query = $request->query->all();
 
       // Prepare the filtered query.
-      $filtered_query = $app['oauth2.param.filter']($query, array('client_id', 'redirect_uri', 'response_type', 'scope', 'state'));
+      $params = array('client_id', 'redirect_uri', 'response_type', 'scope', 'state');
+      $filtered_query = $app['oauth2.param.filter']($query, $params);
+      foreach ($params as $param) {
+        if (isset($query[$param])) {
+          if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $query[$param]) {
+            throw new InvalidRequestException();
+          }
+        }
+      }
 
       // response_type is required.
       if (!isset($filtered_query['response_type'])) {
-        if (isset($query['response_type'])) {
-          throw new UnsupportedResponseTypeException();
-        }
         throw new InvalidRequestException();
+      }
+
+      // Check if response_type is supported.
+      if (!isset($app['oauth2.auth.response_type.config'][$query['response_type']])) {
+        throw new UnsupportedResponseTypeException();
       }
 
       // Create, build and return the respone type.

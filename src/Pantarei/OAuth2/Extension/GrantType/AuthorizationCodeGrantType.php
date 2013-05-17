@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
 
@@ -90,6 +91,11 @@ class AuthorizationCodeGrantType extends GrantType
 
   public function buildType($query, $filtered_query)
   {
+    // code is required.
+    if (!isset($query['code'])) {
+      throw new InvalidRequestException();
+    }
+
     // Validate and set client_id.
     if ($this->app['oauth2.param.check.client_id']($query, $filtered_query)) {
       $this->setClientId($query['client_id']);

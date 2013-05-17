@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Provider;
 
 use Pantarei\OAuth2\Exception\InvalidClientException;
-use Pantarei\OAuth2\Exception\InvalidGrantException;
+use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -66,14 +66,24 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
       $query = $request->request->all();
 
       // Prepare the filtered query.
-      $filtered_query = $app['oauth2.param.filter']($query, array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username'));
+      $params = array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username');
+      $filtered_query = $app['oauth2.param.filter']($query, $params);
+      foreach ($params as $param) {
+        if (isset($query[$param])) {
+          if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $query[$param]) {
+            throw new InvalidRequestException();
+          }
+        }
+      }
 
       // grant_type is required.
       if (!isset($filtered_query['grant_type'])) {
-        if (isset($query['grant_type'])) {
-          throw new InvalidGrantException();
-        }
         throw new InvalidRequestException();
+      }
+
+      // Check if response_type is supported.
+      if (!isset($app['oauth2.token.grant_type.config'][$query['grant_type']])) {
+        throw new UnsupportedGrantTypeException();
       }
 
       // Validate and set client_id.

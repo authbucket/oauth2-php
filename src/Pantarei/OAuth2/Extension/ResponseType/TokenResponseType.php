@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension\ResponseType;
 
+use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Extension\ResponseType;
 use Silex\Application;
 
@@ -107,6 +108,11 @@ class TokenResponseType extends ResponseType
 
   public function buildType($query, $filtered_query)
   {
+    // client_id is required.
+    if (!isset($query['client_id'])) {
+      throw new InvalidRequestException();
+    }
+
     // Validate and set client_id.
     if ($this->app['oauth2.param.check.client_id']($query, $filtered_query)) {
       $this->setClientId($query['client_id']);

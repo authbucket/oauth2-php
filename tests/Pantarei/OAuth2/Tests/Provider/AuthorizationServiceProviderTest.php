@@ -26,7 +26,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestNoClientId()
+  public function testNoClientId()
   {
     $request = new Request();
     $request->initialize(array(
@@ -44,7 +44,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
    */
-  public function testValidateRequestBadClientId()
+  public function testBadClientId()
   {
     $request = new Request();
     $request->initialize(array(
@@ -61,7 +61,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestNoRedirectUri()
+  public function testNoRedirectUri()
   {
     $request = new Request();
     $request->initialize(array(
@@ -76,7 +76,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestNoSavedNoPassedRedirectUri()
+  public function testNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
     $client = new Clients();
@@ -100,7 +100,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestWongSavedRedirectUri()
+  public function testWongSavedRedirectUri()
   {
     $request = new Request();
     $request->initialize(array(
@@ -117,7 +117,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestNoResponseType()
+  public function testNoResponseType()
   {
     $request = new Request();
     $request->initialize(array(
@@ -133,7 +133,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\UnsupportedResponseTypeException
    */
-  public function testValidateRequestBadResponseType()
+  public function testBadResponseType()
   {
     $request = new Request();
     $request->initialize(array(
@@ -148,9 +148,9 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   }
 
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadScope()
+  public function testBadScope()
   {
     $request = new Request();
     $request->initialize(array(
@@ -168,7 +168,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
    */
-  public function testValidateRequestNotExistsScope()
+  public function testNotExistsScope()
   {
     $request = new Request();
     $request->initialize(array(
@@ -186,7 +186,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadState()
+  public function testBadState()
   {
     $request = new Request();
     $request->initialize(array(
@@ -202,7 +202,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($response_type));
   }
 
-  public function testValidateRequestGoodRedirectUri()
+  public function testGoodRedirectUri()
   {
     // Insert client without redirect_uri.
     $client = new Clients();
@@ -232,7 +232,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($response_type));
   }
 
-  public function testValidateRequestGoodResponseType()
+  public function testGoodResponseType()
   {
     $request = new Request();
     $request->initialize(array(
@@ -255,7 +255,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($response_type));
   }
 
-  public function testValidateRequestGoodScope()
+  public function testGoodScope()
   {
     $request = new Request();
     $request->initialize(array(
@@ -280,7 +280,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($response_type));
   }
 
-  public function testValidateRequestGoodState()
+  public function testGoodState()
   {
     $request = new Request();
     $request->initialize(array(

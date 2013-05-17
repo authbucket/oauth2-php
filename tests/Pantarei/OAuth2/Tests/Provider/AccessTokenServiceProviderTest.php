@@ -25,7 +25,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestNoGrantType()
+  public function testNoGrantType()
   {
     $request = new Request();
     $post = array();
@@ -39,9 +39,9 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($grant_type));
   }
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedGrantTypeException
    */
-  public function testValidateRequestBadGrantType()
+  public function testBadGrantType()
   {
     $request = new Request();
     $post = array(
@@ -58,7 +58,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
    */
-  public function testValidateRequestClientBothEmpty()
+  public function testClientBothEmpty()
   {
     $request = new Request();
     $post = array(
@@ -75,7 +75,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestClientBothExists()
+  public function testClientBothExists()
   {
     $request = new Request();
     $post = array(
@@ -97,7 +97,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
    */
-  public function testValidateRequestClientBadBasic()
+  public function testClientBadBasic()
   {
     $request = new Request();
     $post = array(
@@ -114,7 +114,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($grant_type));
   }
 
-  public function testValidateRequestClientGoodBasic()
+  public function testClientGoodBasic()
   {
     $request = new Request();
     $post = array(
@@ -172,7 +172,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadAuthCodeNoCode()
+  public function testBadAuthCodeNoCode()
   {
     $request = new Request();
     $post = array(
@@ -190,7 +190,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($grant_type));
   }
 
-  public function testValidateRequestGoodAuthCodeNoRedirectUri()
+  public function testGoodAuthCodeNoRedirectUri()
   {
     $request = new Request();
     $post = array(
@@ -207,7 +207,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($grant_type));
   }
 
-  public function testValidateRequestGoodAuthCode()
+  public function testGoodAuthCode()
   {
     $request = new Request();
     $post = array(
@@ -226,9 +226,9 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   }
 
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadClientCredBadState()
+  public function testBadClientCredBadState()
   {
     $request = new Request();
     $post = array(
@@ -246,7 +246,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($grant_type));
   }
 
-  public function testValidateRequestGoodClientCred()
+  public function testGoodClientCred()
   {
     $request = new Request();
     $post = array(
@@ -266,7 +266,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadPasswordNoUsername()
+  public function testBadPasswordNoUsername()
   {
     $request = new Request();
     $post = array(
@@ -288,7 +288,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadPasswordNoPassword()
+  public function testBadPasswordNoPassword()
   {
     $request = new Request();
     $post = array(
@@ -308,9 +308,9 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   }
 
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadPasswordBadState()
+  public function testBadPasswordBadState()
   {
     $request = new Request();
     $post = array(
@@ -330,7 +330,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($grant_type));
   }
 
-  public function testValidateRequestGoodPassword()
+  public function testGoodPassword()
   {
     $request = new Request();
     $post = array(
@@ -352,7 +352,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadRefreshTokenNoToken()
+  public function testBadRefreshTokenNoToken()
   {
     $request = new Request();
     $post = array(
@@ -371,9 +371,9 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   }
 
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testValidateRequestBadRefreshTokenBadState()
+  public function testBadRefreshTokenBadState()
   {
     $request = new Request();
     $post = array(
@@ -392,7 +392,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue(is_object($grant_type));
   }
 
-  public function testValidateRequestGoodRefreshToken()
+  public function testGoodRefreshToken()
   {
     $request = new Request();
     $post = array(

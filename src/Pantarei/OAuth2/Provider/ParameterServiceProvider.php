@@ -49,16 +49,16 @@ class ParameterServiceProvider implements ServiceProviderInterface
         $app['oauth2.param.filter.regexp'] = array(
           'client_id'         => '/^(' . $syntax['VSCHAR'] . '*)$/',
           'client_secret'     => '/^(' . $syntax['VSCHAR'] . '*)$/',
-          'response_type'     => '/^(code|token)$/',
+          'response_type'     => '/^([a-z0-9\_]+)$/',
           'scope'             => '/^(' . $syntax['NQCHAR'] . '+(?:\s*' . $syntax['NQCHAR'] . '+(?R)*)*)$/',
           'state'             => '/^(' . $syntax['VSCHAR'] . '+)$/',
           'error'             => '/^(' . $syntax['NQCHAR'] . '+)$/',
           'error_description' => '/^(' . $syntax['NQCHAR'] . '+)$/',
-          'grant_type'        => '/^(client_credentials|password|authorization_code|refresh_token)$/',
+          'grant_type'        => '/^([a-z0-9\_\-\.]+)$/',
           'code'              => '/^(' . $syntax['VSCHAR'] . '+)$/',
           'access_token'      => '/^(' . $syntax['VSCHAR'] . '+)$/',
-          'token_type'        => '/^(bearer|mac)$/',
-          'expires_in'        => '/^[0-9]+$/',
+          'token_type'        => '/^([a-z0-9\_\-\.]+)$/',
+          'expires_in'        => '/^([0-9]+)$/',
           'username'          => '/^(' . $syntax['UNICODECHARNOCRLF'] . '*)$/u',
           'password'          => '/^(' . $syntax['UNICODECHARNOCRLF'] . '*)$/u',
           'refresh_token'     => '/^(' . $syntax['VSCHAR'] . '+)$/',
@@ -102,41 +102,31 @@ class ParameterServiceProvider implements ServiceProviderInterface
       return $filtered_query;
     });
 
-    $app['oauth2.param.check.client_id'] = $app->protect(function ($query, $filtered_query) use ($app) {
-      // client_id is required and must in good format.
-      if (!isset($filtered_query['client_id']) && !isset($query['client_id'])) {
-        throw new InvalidRequestException();
-      }
-
+    $app['oauth2.param.check.client_id'] = $app->protect(function ($client_id) use ($app) {
       // If client_id is invalid we should stop here.
-      $client = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
-        'client_id' => $query['client_id'],
+      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+        'client_id' => $client_id,
       ));
-      if ($client == NULL) {
+      if ($result === NULL) {
         throw new UnauthorizedClientException();
       }
 
-      return TRUE;
+      return $client_id;
     });
 
-    $app['oauth2.param.check.code'] = $app->protect(function ($query, $filtered_query) use ($app) {
-      // code is required and must in good format.
-      if (!isset($filtered_query['code'])) {
-        throw new InvalidRequestException();
-      }
-
-      // If refresh_token is invalid we should stop here.
+    $app['oauth2.param.check.code'] = $app->protect(function ($code) use ($app) {
+      // If code is invalid we should stop here.
       $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
-        'code' => $filtered_query['code'],
+        'code' => $code,
       ));
-      if ($result == NULL) {
+      if ($result === NULL) {
         throw new InvalidGrantException();
       }
       elseif ($result->getExpires() < time()) {
         throw new InvalidRequestException();
       }
 
-      return TRUE;
+      return $code;
     });
 
     $app['oauth2.param.fetch.redirect_uri'] = $app->protect(function ($query) use ($app) {
