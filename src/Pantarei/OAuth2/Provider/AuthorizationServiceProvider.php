@@ -48,17 +48,9 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
       return TRUE;
     });
 
-    $app['oauth2.auth.response_type.config'] = $app->share(function($app) {
+    $app['oauth2.auth.response_type'] = $app->share(function ($app) {
       $app['oauth2.auth.options.initializer']();
 
-      $configs = new \Pimple();
-      foreach ($app['oauth2.auth.options']['response_type'] as $name => $options) {
-        $configs[$name] = new $options($app);
-      }
-      return $configs;
-    });
-
-    $app['oauth2.auth.response_type'] = $app->share(function ($app) {
       $request = Request::createFromGlobals();
       $query = $request->query->all();
 
@@ -79,14 +71,23 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
       }
 
       // Check if response_type is supported.
-      if (!isset($app['oauth2.auth.response_type.config'][$query['response_type']])) {
+      if (!isset($app['oauth2.auth.options']['response_type'][$query['response_type']])) {
         throw new UnsupportedResponseTypeException();
       }
 
-      // Create, build and return the respone type.
-      $response_type = $app['oauth2.auth.response_type.config'][$query['response_type']];
-      $response_type->buildType($query, $filtered_query);
-      return $response_type;
+      // Create and return the controller.
+      $response_type = $app['oauth2.auth.options']['response_type'][$query['response_type']];
+      return new $response_type($app);
+    });
+
+    // The main callback for authorization endpoint.
+    $app['oauth2.auth'] = $app->share(function ($app) {
+      $app['oauth2.auth.options.initializer']();
+
+      $response_type = $app['oauth2.auth.response_type'];
+      $response_type->buildType();
+      $response_type->buildView();
+      return $response_type->finishView();
     });
   }
 

@@ -14,6 +14,8 @@ namespace Pantarei\OAuth2\Extension\ResponseType;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Extension\ResponseType;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Token response type implementation.
@@ -106,33 +108,79 @@ class TokenResponseType extends ResponseType
     return $this->state;
   }
 
-  public function buildType($query, $filtered_query)
+  public function buildType()
   {
+    $request = Request::createFromGlobals();
+
     // client_id is required.
-    if (!isset($query['client_id'])) {
+    if (!$request->query->get('client_id')) {
       throw new InvalidRequestException();
     }
 
-    // Validate and set client_id.
-    if ($this->app['oauth2.param.check.client_id']($query, $filtered_query)) {
-      $this->setClientId($query['client_id']);
+    // Validate client_id.
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+      'client_id' => $request->query->get('client_id'),
+    ));
+    if ($result === NULL) {
+      throw new UnauthorizedClientException();
     }
 
-    // Validate and set redirect_uri. NOTE: redirect_uri is not required if
-    // already established via other channels.
-    $query = $this->app['oauth2.param.fetch.redirect_uri']($query);
-    if ($this->app['oauth2.param.check.redirect_uri']($query, $filtered_query)) {
-      $this->setRedirectUri($query['redirect_uri']);
+    // redirect_uri is not required if already established via other channels,
+    // check an existing redirect URI against the one supplied.
+    $redirect_uri = NULL;
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+      'client_id' => $request->query->get('client_id'),
+    ));
+    if ($result !== NULL && $result->getRedirectUri()) {
+      $redirect_uri = $result->getRedirectUri();
     }
 
-    // Validate and set scope.
-    if ($this->app['oauth2.param.check.scope']($query, $filtered_query)) {
-      $this->setScope($query['scope']);
+    // At least one of: existing redirect URI or input redirect URI must be
+    // specified.
+    if (!$redirect_uri && !$request->query->get('redirect_uri')) {
+      throw new InvalidRequestException();
     }
 
-    // Validate and set state.
-    if ($this->app['oauth2.param.check.state']($query, $filtered_query)) {
-      $this->setState($query['state']);
+    // If there's an existing uri and one from input, verify that they match.
+    if ($redirect_uri) {
+      // Ensure that the input uri starts with the stored uri.
+      if (strcasecmp(substr($request->query->get('redirect_uri'), 0, strlen($redirect_uri)), $redirect_uri) !== 0) {
+        throw new InvalidRequestException();
+      }
+    }
+
+    // scope is optional.
+    if ($request->query->get('scope')) {
+      // Check scope with database record.
+      foreach (preg_split('/\s+/', $request->query->get('scope')) as $scope) {
+        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
+          'scope' => $scope,
+        ));
+        if ($result === NULL) {
+          throw new InvalidScopeException();
+        }
+      }
+    }
+
+    // client_id is required.
+    $this->setClientId($request->query->get('client_id'));
+
+    // Set redirect_uri from database record, or directly from GET.
+    if ($redirect_uri) {
+      $this->setRedirectUri($redirect_uri);
+    }
+    else {
+      $this->setRedirectUri($request->query->get('redirect_uri'));
+    }
+
+    // scope is optional.
+    if ($request->query->get('scope')) {
+      $this->setScope($request->query->get('scope'));
+    }
+
+    // state is optional.
+    if ($request->query->get('state')) {
+      $this->setScope($request->query->get('state'));
     }
   }
 

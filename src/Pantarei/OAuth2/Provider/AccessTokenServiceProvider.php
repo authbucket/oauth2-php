@@ -51,17 +51,9 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
       return TRUE;
     });
 
-    $app['oauth2.token.grant_type.config'] = $app->share(function($app) {
+    $app['oauth2.token.grant_type'] = $app->share(function ($app) {
       $app['oauth2.token.options.initializer']();
 
-      $configs = new \Pimple();
-      foreach ($app['oauth2.token.options']['grant_type'] as $name => $options) {
-        $configs[$name] = new $options($app);
-      }
-      return $configs;
-    });
-
-    $app['oauth2.token.grant_type'] = $app->share(function ($app) {
       $request = Request::createFromGlobals();
       $query = $request->request->all();
 
@@ -82,7 +74,7 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
       }
 
       // Check if response_type is supported.
-      if (!isset($app['oauth2.token.grant_type.config'][$query['grant_type']])) {
+      if (!isset($app['oauth2.token.options']['grant_type'][$query['grant_type']])) {
         throw new UnsupportedGrantTypeException();
       }
 
@@ -91,11 +83,22 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
       if (!$app['oauth2.credential.check.client']($query, $filtered_query)) {
         throw new InvalidClientException();
       }
+      $request->request->set('client_id', $query['client_id']);
+      $request->overrideGlobals();
 
-      // Create, build and return the token type.
-      $grant_type = $app['oauth2.token.grant_type.config'][$query['grant_type']];
-      $grant_type->buildType($query, $filtered_query);
-      return $grant_type;
+      // Create and return the token type.
+      $grant_type = $app['oauth2.token.options']['grant_type'][$query['grant_type']];
+      return new $grant_type($app);
+    });
+
+    // The main callback for access token endpoint.
+    $app['oauth2.token'] = $app->share(function($app) {
+      $app['oauth2.token.options.initializer']();
+
+      $grant_type = $app['oauth2.token.grant_type'];
+      $grant_type->buildType();
+      $grant_type->buildView();
+      return $grant_type->finishView();
     });
   }
 

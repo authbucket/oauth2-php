@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Tests\Extension\ResponseType;
 
 use Pantarei\OAuth2\Extension\ResponseType\TokenResponseType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test token response type functionality.
@@ -23,15 +25,17 @@ class TokenResponseTypeTest extends OAuth2WebTestCase
 {
   public function testResponseType()
   {
-    $query = array(
+    $request = new Request();
+    $request->initialize(array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1',
       'state' => 'demostate1',
-    );
+    ));
+    $request->overrideGlobals();
     $response_type = new TokenResponseType($this->app);
-    $response_type->buildType($query, $query);
+    $response_type->buildType();
     $this->assertTrue($response_type->buildView());
     $this->assertTrue($response_type->finishView());
     $this->assertEquals('token', $response_type->getName());

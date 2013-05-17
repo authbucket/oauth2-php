@@ -11,8 +11,13 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Exception\InvalidGrantException;
+use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\UnsupportedScopeException;
 use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Refresh token grant type implementation.
@@ -70,16 +75,45 @@ class RefreshTokenGrantType extends GrantType
     return $this->scope;
   }
 
-  public function buildType($query, $filtered_query)
+  public function buildType()
   {
-    // Validate and set refresh_token.
-    if ($this->app['oauth2.param.check.refresh_token']($query, $filtered_query)) {
-      $this->setRefreshToken($query['refresh_token']);
+    $request = Request::createFromGlobals();
+
+    // refresh_token is required.
+    if (!$request->request->get('refresh_token')) {
+      throw new InvalidRequestException();
     }
 
-    // Validate and set scope.
-    if ($this->app['oauth2.param.check.scope']($query, $filtered_query)) {
-      $this->setScope($query['scope']);
+    // Validate refresh_token.
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
+      'refresh_token' => $request->request->get('refresh_token'),
+    ));
+    if ($result === NULL) {
+      throw new InvalidGrantException();
+    }
+    elseif ($result->getExpires() < time()) {
+      throw new InvalidRequestException();
+    }
+
+    // scope is optional.
+    if ($request->request->get('scope')) {
+      // Check scope with database record.
+      foreach (preg_split('/\s+/', $request->request->get('scope')) as $scope) {
+        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
+          'scope' => $scope,
+        ));
+        if ($result === NULL) {
+          throw new InvalidScopeException();
+        }
+      }
+    }
+
+    // Set refresh_token.
+    $this->setRefreshToken($request->request->get('refresh_token'));
+
+    // scope is optional.
+    if ($request->request->get('scope')) {
+      $this->setScope($request->request->get('scope'));
     }
   }
 

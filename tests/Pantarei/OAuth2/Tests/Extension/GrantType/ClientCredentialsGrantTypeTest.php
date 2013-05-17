@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Tests\Extension\GrantType;
 
 use Pantarei\OAuth2\Extension\GrantType\ClientCredentialsGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test client credential grant type functionality.
@@ -23,11 +25,16 @@ class ClientCredentialsGrantTypeTest extends OAuth2WebTestCase
 {
   public function testGrantType()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
+      'grant_type' => 'client_credentials',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new ClientCredentialsGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     $this->assertEquals('grant_type', $grant_type->getParent());
     $this->assertEquals('client_credentials', $grant_type->getName());
 

@@ -11,9 +11,12 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Authorization code grant type implementation.
@@ -89,28 +92,67 @@ class AuthorizationCodeGrantType extends GrantType
     return $this->client_id;
   }
 
-  public function buildType($query, $filtered_query)
+  public function buildType()
   {
+    $request = Request::createFromGlobals();
+
     // code is required.
-    if (!isset($query['code'])) {
+    if (!$request->request->get('code')) {
       throw new InvalidRequestException();
     }
 
-    // Validate and set client_id.
-    if ($this->app['oauth2.param.check.client_id']($query, $filtered_query)) {
-      $this->setClientId($query['client_id']);
+    // Validate code with database record.
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
+      'code' => $request->request->get('code'),
+    ));
+    if ($result === NULL) {
+      throw new InvalidGrantException();
+    }
+    elseif ($result->getExpires() < time()) {
+      throw new InvalidRequestException();
     }
 
-    // Validate and set redirect_uri. NOTE: redirect_uri is not required if
-    // already established via other channels.
-    $query = $this->app['oauth2.param.fetch.redirect_uri']($query);
-    if ($this->app['oauth2.param.check.redirect_uri']($query, $filtered_query)) {
-      $this->setRedirectUri($query['redirect_uri']);
+    // redirect_uri is not required if already established via other channels,
+    // check an existing redirect URI against the one supplied.
+    $redirect_uri = NULL;
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+      'client_id' => $request->request->get('client_id'),
+    ));
+    if ($result !== NULL && $result->getRedirectUri()) {
+      $redirect_uri = $result->getRedirectUri();
     }
 
-    // Validate and set code.
-    if ($this->app['oauth2.param.check.code']($query, $filtered_query)) {
-      $this->setCode($filtered_query['code']);
+    // At least one of: existing redirect URI or input redirect URI must be
+    // specified.
+    if (!$redirect_uri && !$request->request->get('redirect_uri')) {
+      throw new InvalidRequestException();
+    }
+
+    // If there's an existing uri and one from input, verify that they match.
+    if ($redirect_uri) {
+      // Ensure that the input uri starts with the stored uri.
+      if (strcasecmp(substr($request->request->get('redirect_uri'), 0, strlen($redirect_uri)), $redirect_uri) !== 0) {
+        throw new InvalidRequestException();
+      }
+    }
+
+    // code is required.
+    $this->setCode($request->request->get('code'));
+
+    // Set client_id from HTTP basic auth, or directly from POST.
+    if ($request->getUser()) {
+      $this->setClientId($request->getUser());
+    }
+    else {
+      $this->setClientId($request->request->get('client_id'));
+    }
+
+    // Set redirect_uri from database record, or directly from GET.
+    if ($redirect_uri) {
+      $this->setRedirectUri($redirect_uri);
+    }
+    else {
+      $this->setRedirectUri($request->request->get('redirect_uri'));
     }
   }
 

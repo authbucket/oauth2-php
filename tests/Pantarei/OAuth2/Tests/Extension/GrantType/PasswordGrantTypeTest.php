@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Tests\Extension\GrantType;
 
 use Pantarei\OAuth2\Extension\GrantType\PasswordGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test password grant type functionality.
@@ -23,13 +25,18 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
 {
   public function testGrantType()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
+      'grant_type' => 'password',
       'username' => 'demousername1',
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new PasswordGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     $this->assertEquals('grant_type', $grant_type->getParent());
     $this->assertEquals('password', $grant_type->getName());
 
@@ -48,12 +55,17 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
    */
   public function testNoUsername()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
+      'grant_type' => 'password',
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new PasswordGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('password', $grant_type->getName());
   }
@@ -63,13 +75,18 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
    */
   public function testBadUsername()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
+      'grant_type' => 'password',
       'username' => 'badusername1',
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new PasswordGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('password', $grant_type->getName());
   }
@@ -79,12 +96,17 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
    */
   public function testNoPassword()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
+      'grant_type' => 'password',
       'username' => 'demousername1',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new PasswordGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('password', $grant_type->getName());
   }
@@ -94,13 +116,18 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
    */
   public function testBadPassword()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
+      'grant_type' => 'password',
       'username' => 'demousername1',
       'password' => 'badpassword1',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new PasswordGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('password', $grant_type->getName());
   }

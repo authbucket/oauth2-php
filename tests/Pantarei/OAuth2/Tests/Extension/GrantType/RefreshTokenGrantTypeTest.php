@@ -15,6 +15,8 @@ use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Extension\GrantType\RefreshTokenGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test refresh token grant type functionality.
@@ -25,13 +27,17 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
 {
   public function testGrantType()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
       'grant_type' => 'refresh_token',
       'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     $this->assertEquals('grant_type', $grant_type->getParent());
     $this->assertEquals('refresh_token', $grant_type->getName());
 
@@ -47,12 +53,16 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
    */
   public function testNoRefreshToken()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
       'grant_type' => 'refresh_token',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getName());
   }
@@ -62,13 +72,17 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
    */
   public function testBadRefreshToken()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
       'grant_type' => 'refresh_token',
       'refresh_token' => '37ed55a16777958a3953088576869ca7',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getName());
   }
@@ -89,13 +103,17 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($refresh_token);
     $this->app['oauth2.orm']->flush();
 
-    $query = array(
+    $request = new Request();
+    $post = array(
       'grant_type' => 'refresh_token',
       'refresh_token' => '5ddaa68ac1805e728563dd7915441408',
       'scope' => 'demoscope1',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getName());
   }

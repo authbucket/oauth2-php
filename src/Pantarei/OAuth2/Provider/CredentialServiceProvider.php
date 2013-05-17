@@ -74,23 +74,6 @@ class CredentialServiceProvider implements ServiceProviderInterface
       return TRUE;
     });
 
-    $app['oauth2.credential.check.resource_owner'] = $app->protect(function ($query, $filtered_query) use ($app) {
-      // username and password are required.
-      if (!isset($filtered_query['username']) || !isset($filtered_query['password'])) {
-        throw new InvalidRequestException();
-      }
-
-      // If username and password invalid we should stop here.
-      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
-        'username' => $filtered_query['username'],
-        'password' => $filtered_query['password'],
-      ));
-      if ($result == NULL) {
-        throw new InvalidGrantException();
-      }
-
-      return TRUE;
-    });
   }
 
   public function boot(Application $app)

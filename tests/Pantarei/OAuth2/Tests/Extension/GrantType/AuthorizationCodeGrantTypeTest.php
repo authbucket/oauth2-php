@@ -14,6 +14,8 @@ namespace Pantarei\OAuth2\Tests\Extension\GrantType;
 use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Extension\GrantType\AuthorizationCodeGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test authorization code grant type functionality.
@@ -24,14 +26,18 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
 {
   public function testGrantType()
   {
-    $query = array(
+    $request = new Request();
+    $post = array(
       'grant_type' => 'authorization_code',
       'code' => 'f0c68d250bcc729eb780a235371a9a55',
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new AuthorizationCodeGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     $this->assertEquals('grant_type', $grant_type->getParent());
     $this->assertEquals('authorization_code', $grant_type->getName());
 
@@ -49,13 +55,17 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testNoCode() {
-    $query = array(
+    $request = new Request();
+    $post = array(
       'grant_type' => 'authorization_code',
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new AuthorizationCodeGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getName());
   }
@@ -64,14 +74,18 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
    * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
    */
   public function testBadCode() {
-    $query = array(
+    $request = new Request();
+    $post = array(
       'grant_type' => 'authorization_code',
       'code' => '83f1d26e90c2a275ae752adc6e49aa43',
       'redirect_uri' => 'http://democlient2.com/redirect_uri',
       'client_id' => 'http://democlient2.com/',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new AuthorizationCodeGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getName());
   }
@@ -92,14 +106,18 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($data);
     $this->app['oauth2.orm']->flush();
 
-    $query = array(
+    $request = new Request();
+    $post = array(
       'grant_type' => 'authorization_code',
       'code' => '5ddaa68ac1805e728563dd7915441408',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'client_id' => 'http://democlient1.com/',
     );
+    $server = array();
+    $request->initialize(array(), $post, array(), array(), array(), $server);
+    $request->overrideGlobals();
     $grant_type = new AuthorizationCodeGrantType($this->app);
-    $grant_type->buildType($query, $query);
+    $grant_type->buildType();
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getName());
   }

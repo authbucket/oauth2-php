@@ -11,8 +11,13 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Exception\InvalidGrantException;
+use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\UnsupportedScopeException;
 use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Password grant type implementation.
@@ -85,16 +90,43 @@ class PasswordGrantType extends GrantType
     return $this->scope;
   }
 
-  public function buildType($query, $filtered_query) {
-    // Validate and set username and password.
-    if ($this->app['oauth2.credential.check.resource_owner']($query, $filtered_query)) {
-      $this->setUsername($filtered_query['username']);
-      $this->setPassword($filtered_query['password']);
+  public function buildType() {
+    $request = Request::createFromGlobals();
+
+    // username and password are required.
+    if (!$request->request->get('username') || !$request->request->get('password')) {
+      throw new InvalidRequestException();
     }
 
-    // Validate and set scope.
-    if ($this->app['oauth2.param.check.scope']($query, $filtered_query)) {
-      $this->setScope($query['scope']);
+    // If username and password invalid we should stop here.
+    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
+      'username' => $request->request->get('username'),
+      'password' => $request->request->get('password'),
+    ));
+    if ($result == NULL) {
+      throw new InvalidGrantException();
+    }
+
+    // scope is optional.
+    if ($request->request->get('scope')) {
+      // Check scope with database record.
+      foreach (preg_split('/\s+/', $request->request->get('scope')) as $scope) {
+        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
+          'scope' => $scope,
+        ));
+        if ($result === NULL) {
+          throw new InvalidScopeException();
+        }
+      }
+    }
+
+    // username and password are required.
+    $this->setUsername($request->request->get('username'));
+    $this->setPassword($request->request->get('password'));
+
+    // state is optional.
+    if ($request->query->get('state')) {
+      $this->setScope($request->request->get('state'));
     }
   }
 

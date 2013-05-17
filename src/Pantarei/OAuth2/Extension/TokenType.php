@@ -28,7 +28,7 @@ class TokenType implements OAuth2TypeInterface
     $this->app = $app;
   }
 
-  public function buildType($query, $filtered_query)
+  public function buildType()
   {
     return TRUE;
   }

@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Tests\ResponseType;
 
 use Pantarei\OAuth2\Extension\ResponseType\CodeResponseType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test code response type functionality.
@@ -23,15 +25,17 @@ class CodeResponseTypeTest extends OAuth2WebTestCase
 {
   public function testResponseType()
   {
-    $query = array(
+    $request = new Request();
+    $request->initialize(array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1',
       'state' => 'demostate1',
-    );
+    ));
+    $request->overrideGlobals();
     $response_type = new CodeResponseType($this->app);
-    $response_type->buildType($query, $query);
+    $response_type->buildType();
     $this->assertTrue($response_type->buildView());
     $this->assertTrue($response_type->finishView());
     $this->assertEquals('code', $response_type->getName());

@@ -30,13 +30,8 @@ interface OAuth2TypeInterface
 
   /**
    * Build the type.
-   *
-   * @param array $query
-   *   The original query.
-   * @param array $filtered_query
-   *   The filtered query.
    */
-  public function buildType($query, $filtered_query);
+  public function buildType();
 
   /**
    *

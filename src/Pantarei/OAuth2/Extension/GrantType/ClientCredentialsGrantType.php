@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Extension\GrantType;
 
 use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Client credentials grant type implementation.
@@ -49,11 +51,22 @@ class ClientCredentialsGrantType extends GrantType
     return $this->scope;
   }
 
-  public function buildType($query, $filtered_query)
+  public function buildType()
   {
-    // Validate and set scope.
-    if ($this->app['oauth2.param.check.scope']($query, $filtered_query)) {
-      $this->setScope($query['scope']);
+    $request = Request::createFromGlobals();
+
+    // scope is optionale
+    if ($request->request->get('scope')) {
+      // Check scope with database record.
+      foreach (preg_split('/\s+/', $request->request->get('scope')) as $scope) {
+        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
+          'scope' => $scope,
+        ));
+        if ($result === NULL) {
+          throw new InvalidScopeException();
+        }
+      }
+      $this->setScope($request->request->get('state'));
     }
   }
 
