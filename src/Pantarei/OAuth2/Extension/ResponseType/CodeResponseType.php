@@ -15,6 +15,7 @@ use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Exception\UnauthorizedClientException;
 use Pantarei\OAuth2\Extension\ResponseType;
+use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -121,11 +122,8 @@ class CodeResponseType extends ResponseType
     }
 
     // Validate client_id.
-    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
-      'client_id' => $request->query->get('client_id'),
-    ));
-    if ($result === NULL) {
-      throw new UnauthorizedClientException();
+    if (ParameterUtils::checkClientId($this->app, $request->query->get('client_id'))) {
+      $this->setClientId($request->query->get('client_id'));
     }
 
     // redirect_uri is not required if already established via other channels,
@@ -154,19 +152,10 @@ class CodeResponseType extends ResponseType
 
     // scope is optional.
     if ($request->query->get('scope')) {
-      // Check scope with database record.
-      foreach (preg_split('/\s+/', $request->query->get('scope')) as $scope) {
-        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
-          'scope' => $scope,
-        ));
-        if ($result === NULL) {
-          throw new InvalidScopeException();
-        }
+      if (ParameterUtils::checkScope($this->app, $request->query->get('scope'))) {
+        $this->setScope($request->query->get('scope'));
       }
     }
-
-    // client_id is required.
-    $this->setClientId($request->query->get('client_id'));
 
     // Set redirect_uri from database record, or directly from GET.
     if ($redirect_uri) {
@@ -178,7 +167,6 @@ class CodeResponseType extends ResponseType
 
     // scope is optional.
     if ($request->query->get('scope')) {
-      $this->setScope($request->query->get('scope'));
     }
 
     // state is optional.

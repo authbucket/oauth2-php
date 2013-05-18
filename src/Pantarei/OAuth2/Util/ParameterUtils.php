@@ -11,6 +11,10 @@
 
 namespace Pantarei\OAuth2\Util;
 
+use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Pantarei\OAuth2\Exception\UnauthorizedClientException;
+use Silex\Application;
+
 /**
  * A simple Doctrine ORM service provider for OAuth2.
  *
@@ -91,4 +95,29 @@ abstract class ParameterUtils
     }
     return $filtered_query;
   }
+
+  public static function checkClientId(Application $app, $query)
+  {
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+      'client_id' => $query,
+    ));
+    if ($result === NULL) {
+      throw new UnauthorizedClientException();
+    }
+    return TRUE;
+  }
+
+  public static function checkScope(Application $app, $query)
+  {
+    foreach (preg_split('/\s+/', $query) as $scope) {
+      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
+        'scope' => $scope,
+      ));
+      if ($result === NULL) {
+        throw new InvalidScopeException();
+      }
+    }
+    return TRUE;
+  }
+
 }
