@@ -26,7 +26,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testNoClientId()
+  public function testExceptionCodeNoClientId()
   {
     $request = new Request();
     $request->initialize(array(
@@ -39,9 +39,24 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   }
 
   /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExceptionTokenNoClientId()
+  {
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+    ));
+    $request->overrideGlobals();
+    // This won't happened!!
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  /**
    * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
    */
-  public function testBadClientId()
+  public function testExceptionCodeBadClientId()
   {
     $request = new Request();
     $request->initialize(array(
@@ -55,9 +70,25 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   }
 
   /**
+   * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+   */
+  public function testExceptionTokenBadClientId()
+  {
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://badclient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+    ));
+    $request->overrideGlobals();
+    // This won't happened!!
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testNoRedirectUri()
+  public function testExceptionNoResponseType()
   {
     $request = new Request();
     $request->initialize(array(
@@ -71,7 +102,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testNoSavedNoPassedRedirectUri()
+  public function testExceptionCodeNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
     $client = new Clients();
@@ -94,7 +125,30 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testWongSavedRedirectUri()
+  public function testExceptionTokenNoSavedNoPassedRedirectUri()
+  {
+    // Insert client without redirect_uri.
+    $client = new Clients();
+    $client->setClientId('http://democlient4.com/')
+      ->setClientSecret('demosecret4')
+      ->setRedirectUri('');
+    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->flush();
+
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient4.com/',
+    ));
+    $request->overrideGlobals();
+    // This won't happened!!
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExceptionCodeBadRedirectUri()
   {
     $request = new Request();
     $request->initialize(array(
@@ -110,12 +164,13 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testNoResponseType()
+  public function testExceptionTokenBadRedirectUri()
   {
     $request = new Request();
     $request->initialize(array(
-      'client_id' => '1234',
-      'redirect_uri' => 'http://example.com/redirect_uri',
+      'response_type' => 'token',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/wrong_uri',
     ));
     $request->overrideGlobals();
     // This won't happened!!
@@ -125,7 +180,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\UnsupportedResponseTypeException
    */
-  public function testBadResponseType()
+  public function testExceptionBadResponseType()
   {
     $request = new Request();
     $request->initialize(array(
@@ -141,7 +196,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testBadScope()
+  public function testExceptionCodeBadScopeFormat()
   {
     $request = new Request();
     $request->initialize(array(
@@ -158,7 +213,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
    */
-  public function testNotExistsScope()
+  public function testExceptionCodeBadScope()
   {
     $request = new Request();
     $request->initialize(array(
@@ -175,7 +230,41 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
-  public function testBadState()
+  public function testExceptionTokenBadScopeFormat()
+  {
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
+    ));
+    $request->overrideGlobals();
+    // This won't happened!!
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   */
+  public function testExceptionTokenBadScope()
+  {
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => "badscope1",
+    ));
+    $request->overrideGlobals();
+    // This won't happened!!
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExceptionCodeBadStateFormat()
   {
     $request = new Request();
     $request->initialize(array(
@@ -190,35 +279,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     $this->assertTrue($this->app['oauth2.auth']);
   }
 
-  public function testGoodRedirectUri()
-  {
-    // Insert client without redirect_uri.
-    $client = new Clients();
-    $client->setClientId('http://democlient4.com/')
-      ->setClientSecret('demosecret4')
-      ->setRedirectUri('http://democlient4.com/redirect_uri');
-    $this->app['oauth2.orm']->persist($client);
-    $this->app['oauth2.orm']->flush();
-
-    $request = new Request();
-    $request->initialize(array(
-      'response_type' => 'code',
-      'client_id' => 'http://democlient4.com/',
-    ));
-    $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
-
-    $request = new Request();
-    $request->initialize(array(
-      'response_type' => 'code',
-      'client_id' => 'http://democlient4.com/',
-      'redirect_uri' => 'http://democlient4.com/redirect_uri',
-    ));
-    $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
-  }
-
-  public function testGoodResponseType()
+  public function testGoodCode()
   {
     $request = new Request();
     $request->initialize(array(
@@ -229,18 +290,6 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     $request->overrideGlobals();
     $this->assertTrue($this->app['oauth2.auth']);
 
-    $request = new Request();
-    $request->initialize(array(
-      'response_type' => 'token',
-      'client_id' => 'http://democlient1.com/',
-      'redirect_uri' => 'http://democlient1.com/redirect_uri',
-    ));
-    $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
-  }
-
-  public function testGoodScope()
-  {
     $request = new Request();
     $request->initialize(array(
       'response_type' => 'code',
@@ -260,10 +309,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     $this->assertTrue($this->app['oauth2.auth']);
-  }
 
-  public function testGoodState()
-  {
     $request = new Request();
     $request->initialize(array(
       'response_type' => 'code',
@@ -271,6 +317,123 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1 demoscope2 demoscope3',
       'state' => 'example state',
+    ));
+    $request->overrideGlobals();
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  public function testGoodCodeNoPassedRedirectUri() {
+    // Insert client with redirect_uri, test empty pass in.
+    $client = new Clients();
+    $client->setClientId('http://democlient4.com/')
+      ->setClientSecret('demosecret4')
+      ->setRedirectUri('http://democlient4.com/redirect_uri');
+    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->flush();
+
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient4.com/',
+    ));
+    $request->overrideGlobals();
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  public function testGoodCodeNoStoredRedirectUri() {
+    // Insert client without redirect_uri, test valid pass in.
+    $client = new Clients();
+    $client->setClientId('http://democlient5.com/')
+      ->setClientSecret('demosecret5')
+      ->setRedirectUri('');
+    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->flush();
+
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'code',
+      'client_id' => 'http://democlient5.com/',
+      'redirect_uri' => 'http://democlient5.com/redirect_uri',
+    ));
+    $request->overrideGlobals();
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  public function testGoodToken()
+  {
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+    ));
+    $request->overrideGlobals();
+    $this->assertTrue($this->app['oauth2.auth']);
+
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => 'demoscope1',
+    ));
+    $request->overrideGlobals();
+    $this->assertTrue($this->app['oauth2.auth']);
+
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
+    ));
+    $request->overrideGlobals();
+    $this->assertTrue($this->app['oauth2.auth']);
+
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient1.com/',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
+      'state' => 'example state',
+    ));
+    $request->overrideGlobals();
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  public function testGoodTokenNoPassedRedirectUri() {
+    // Insert client with redirect_uri, test empty pass in.
+    $client = new Clients();
+    $client->setClientId('http://democlient4.com/')
+      ->setClientSecret('demosecret4')
+      ->setRedirectUri('http://democlient4.com/redirect_uri');
+    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->flush();
+
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient4.com/',
+    ));
+    $request->overrideGlobals();
+    $this->assertTrue($this->app['oauth2.auth']);
+  }
+
+  public function testGoodTokenNoStoredRedirectUri() {
+    // Insert client without redirect_uri, test valid pass in.
+    $client = new Clients();
+    $client->setClientId('http://democlient5.com/')
+      ->setClientSecret('demosecret5')
+      ->setRedirectUri('');
+    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->flush();
+
+    $request = new Request();
+    $request->initialize(array(
+      'response_type' => 'token',
+      'client_id' => 'http://democlient5.com/',
+      'redirect_uri' => 'http://democlient5.com/redirect_uri',
     ));
     $request->overrideGlobals();
     $this->assertTrue($this->app['oauth2.auth']);

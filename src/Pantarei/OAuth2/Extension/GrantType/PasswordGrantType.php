@@ -13,7 +13,7 @@ namespace Pantarei\OAuth2\Extension\GrantType;
 
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\UnsupportedScopeException;
+use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,7 +125,7 @@ class PasswordGrantType extends GrantType
     $this->setPassword($request->request->get('password'));
 
     // state is optional.
-    if ($request->query->get('state')) {
+    if ($request->request->get('state')) {
       $this->setScope($request->request->get('state'));
     }
   }

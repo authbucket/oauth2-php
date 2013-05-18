@@ -12,6 +12,8 @@
 namespace Pantarei\OAuth2\Extension\ResponseType;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Pantarei\OAuth2\Exception\UnauthorizedClientException;
 use Pantarei\OAuth2\Extension\ResponseType;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Token response type implementation.
+ *
+ * @see http://tools.ietf.org/html/rfc6749#section-4.2
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
@@ -142,7 +146,7 @@ class TokenResponseType extends ResponseType
     }
 
     // If there's an existing uri and one from input, verify that they match.
-    if ($redirect_uri) {
+    if ($redirect_uri && $request->query->get('redirect_uri')) {
       // Ensure that the input uri starts with the stored uri.
       if (strcasecmp(substr($request->query->get('redirect_uri'), 0, strlen($redirect_uri)), $redirect_uri) !== 0) {
         throw new InvalidRequestException();

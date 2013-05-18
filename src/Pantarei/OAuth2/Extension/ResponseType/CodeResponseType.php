@@ -15,6 +15,7 @@ use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Exception\UnauthorizedClientException;
 use Pantarei\OAuth2\Extension\ResponseType;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

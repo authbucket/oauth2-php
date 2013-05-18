@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Extension\GrantType;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
