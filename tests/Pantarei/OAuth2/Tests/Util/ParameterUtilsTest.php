@@ -9,16 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Provider;
+namespace Pantarei\OAuth2\Tests\Util;
 
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Pantarei\OAuth2\Util\ParameterUtils;
 
 /**
  * Testing parameter utility functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ParameterServiceProviderTest extends OAuth2WebTestCase
+class ParameterUtilsTest extends OAuth2WebTestCase
 {
   public function testReturnAll()
   {
@@ -26,7 +27,7 @@ class ParameterServiceProviderTest extends OAuth2WebTestCase
       'client_id' => 'democlient1',
       'client_secret' => 'demosecret1',
     );
-    $filtered_array = $this->app['oauth2.param.filter']($array);
+    $filtered_array = ParameterUtils::filter($array);
     $this->assertEquals($array, $filtered_array);
   }
 
@@ -37,8 +38,7 @@ class ParameterServiceProviderTest extends OAuth2WebTestCase
       'client_secret' => 'demosecret1',
     );
     $params = array('client_id');
-    $this->app['oauth2.param.filter.initializer']();
-    $filtered_array = $this->app['oauth2.param.filter']($array, $params);
+    $filtered_array = ParameterUtils::filter($array, $params);
     $this->assertEquals(1, count($filtered_array));
     $this->assertEquals('democlient1', $filtered_array['client_id']);
   }

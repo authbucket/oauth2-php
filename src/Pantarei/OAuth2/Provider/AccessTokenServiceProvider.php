@@ -12,8 +12,10 @@
 namespace Pantarei\OAuth2\Provider;
 
 use Pantarei\OAuth2\Exception\InvalidClientException;
-use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
+use Pantarei\OAuth2\Util\CredentialUtils;
+use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,7 +61,7 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
 
       // Prepare the filtered query.
       $params = array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username');
-      $filtered_query = $app['oauth2.param.filter']($query, $params);
+      $filtered_query = ParameterUtils::filter($query, $params);
       foreach ($params as $param) {
         if (isset($query[$param])) {
           if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $query[$param]) {
@@ -79,12 +81,12 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
       }
 
       // Validate and set client_id.
-      $query = $app['oauth2.credential.fetch.client']($query);
-      if (!$app['oauth2.credential.check.client']($query, $filtered_query)) {
-        throw new InvalidClientException();
+      if (CredentialUtils::check($app)) {
+        if ($request->getUser()) {
+          $request->request->set('client_id', $request->getUser());
+          $request->overrideGlobals();
+        }
       }
-      $request->request->set('client_id', $query['client_id']);
-      $request->overrideGlobals();
 
       // Create and return the token type.
       $grant_type = $app['oauth2.token.options']['grant_type'][$query['grant_type']];

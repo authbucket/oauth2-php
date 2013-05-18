@@ -54,7 +54,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
   }
 
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */
   public function testExceptionAuthCodeNoClientId()
   {

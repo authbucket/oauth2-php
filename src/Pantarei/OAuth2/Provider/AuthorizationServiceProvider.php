@@ -13,6 +13,7 @@ namespace Pantarei\OAuth2\Provider;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
+use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +57,7 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
 
       // Prepare the filtered query.
       $params = array('client_id', 'redirect_uri', 'response_type', 'scope', 'state');
-      $filtered_query = $app['oauth2.param.filter']($query, $params);
+      $filtered_query = ParameterUtils::filter($query, $params);
       foreach ($params as $param) {
         if (isset($query[$param])) {
           if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $query[$param]) {
