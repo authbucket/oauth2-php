@@ -129,7 +129,7 @@ class AuthorizationCodeGrantType extends GrantType
     }
 
     // If there's an existing uri and one from input, verify that they match.
-    if ($redirect_uri) {
+    if ($redirect_uri && $request->request->get('redirect_uri')) {
       // Ensure that the input uri starts with the stored uri.
       if (strcasecmp(substr($request->request->get('redirect_uri'), 0, strlen($redirect_uri)), $redirect_uri) !== 0) {
         throw new InvalidRequestException();

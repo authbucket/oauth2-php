@@ -73,7 +73,7 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
         throw new InvalidRequestException();
       }
 
-      // Check if response_type is supported.
+      // Check if grant_type is supported.
       if (!isset($app['oauth2.token.options']['grant_type'][$query['grant_type']])) {
         throw new UnsupportedGrantTypeException();
       }

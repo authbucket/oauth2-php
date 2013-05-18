@@ -34,11 +34,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth.options.initializer']());
-    $this->assertFalse($this->app['oauth2.auth.options.initializer']());
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -53,9 +50,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -68,9 +64,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'client_id' => '1234',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -92,9 +87,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient4.com/',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -109,9 +103,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/wrong_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -125,9 +118,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://example.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -142,9 +134,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://example.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -160,9 +151,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -178,9 +168,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'scope' => "badscope1",
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   /**
@@ -197,9 +186,8 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'state' => "aaa\x19bbb\x7Fccc",
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
     // This won't happened!!
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   public function testGoodRedirectUri()
@@ -218,8 +206,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient4.com/',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
 
     $request = new Request();
     $request->initialize(array(
@@ -228,8 +215,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient4.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   public function testGoodResponseType()
@@ -241,8 +227,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
 
     $request = new Request();
     $request->initialize(array(
@@ -251,8 +236,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   public function testGoodScope()
@@ -265,8 +249,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
 
     $request = new Request();
     $request->initialize(array(
@@ -276,8 +259,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 
   public function testGoodState()
@@ -291,7 +273,6 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'state' => 'example state',
     ));
     $request->overrideGlobals();
-    $response_type = $this->app['oauth2.auth.response_type'];
-    $this->assertTrue(is_object($response_type));
+    $this->assertTrue($this->app['oauth2.auth']);
   }
 }
