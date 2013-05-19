@@ -15,6 +15,7 @@ use Pantarei\OAuth2\Entity\Clients;
 use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Extension\GrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Pantarei\OAuth2\Provider\AccessTokenServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,6 +26,15 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AccessTokenServiceProviderTest extends OAuth2WebTestCase
 {
+  public function createApplication()
+  {
+    $app = parent::createApplication();
+
+    $app->register(new AccessTokenServiceProvider());
+
+    return $app;
+  }
+
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */

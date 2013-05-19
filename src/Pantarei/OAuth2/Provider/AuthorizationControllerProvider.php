@@ -15,18 +15,19 @@ use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Silex\ControllerCollection;
+use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Authorization service provider for OAuth2.
+ * Authorization controller provider for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationServiceProvider implements ServiceProviderInterface
+class AuthorizationControllerProvider implements ControllerProviderInterface
 {
-  public function register(Application $app)
+  public function connect(Application $app)
   {
     $app['oauth2.auth.default_options'] = array(
       'response_type' => array(
@@ -81,16 +82,17 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
       return new $response_type($app);
     });
 
+    $controllers = $app['controllers_factory'];
+
     // The main callback for authorization endpoint.
-    $app['oauth2.auth'] = $app->share(function ($app) {
+    $controllers->get('/', function (Request $request, Application $app) {
       $app['oauth2.auth.options.initializer']();
 
+      $request->overrideGlobals();
       $response_type = $app['oauth2.auth.response_type'];
-      return $response_type;
+      return new Response();
     });
-  }
 
-  public function boot(Application $app)
-  {
+    return $controllers;
   }
 }

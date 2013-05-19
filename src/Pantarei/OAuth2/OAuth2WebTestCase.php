@@ -20,8 +20,6 @@ use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Entity\Scopes;
 use Pantarei\OAuth2\Entity\Users;
-use Pantarei\OAuth2\Provider\AccessTokenServiceProvider;
-use Pantarei\OAuth2\Provider\AuthorizationServiceProvider;
 use Pantarei\OAuth2\Provider\DoctrineORMServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
@@ -54,8 +52,6 @@ class OAuth2WebTestCase extends WebTestCase
         'path' => __DIR__ . '/Entity',
       ),
     ));
-    $app->register(new AuthorizationServiceProvider());
-    $app->register(new AccessTokenServiceProvider());
 
     return $app;
   }
@@ -68,15 +64,6 @@ class OAuth2WebTestCase extends WebTestCase
     // Add tables and sample data.
     $this->createSchema();
     $this->addSampleData();
-  }
-
-  public function tearDown()
-  {
-    // Drop tables and reset connection settings.
-    $this->dropSchema();
-
-    // Finalize with parent's tearDown().
-    parent::tearDown();
   }
 
   function createSchema()
@@ -95,24 +82,6 @@ class OAuth2WebTestCase extends WebTestCase
     PersistentObject::setObjectManager($this->app['oauth2.orm']);
     $tool = new SchemaTool($this->app['oauth2.orm']);
     $tool->createSchema($classes);
-  }
-
-  function dropSchema()
-  {
-    // Drop testing database schema.
-    $classes = array(
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\AccessTokens'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Authorizes'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Clients'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Codes'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\RefreshTokens'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Scopes'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Users'),
-    );
-
-    PersistentObject::setObjectManager($this->app['oauth2.orm']);
-    $tool = new SchemaTool($this->app['oauth2.orm']);
-    $tool->dropSchema($classes);
   }
 
   function addSampleData()
