@@ -16,6 +16,7 @@ use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Extension\GrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Pantarei\OAuth2\Provider\AccessTokenControllerProvider;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,56 +36,55 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
     return $app;
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionNoGrantType()
+  public function testExceptionNoGrantType()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array();
     $server = array();
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedGrantTypeException
-   */
-  public function FAILED_testExceptionBadGrantType()
+
+  public function testExceptionBadGrantType()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'foo',
     );
     $server = array();
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionAuthCodeNoClientId()
+  public function testExceptionAuthCodeNoClientId()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'authorization_code',
     );
     $server = array();
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionAuthCodeBothClientId()
+  public function testExceptionAuthCodeBothClientId()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'authorization_code',
       'client_id' => 'http://democlient1.com/',
@@ -94,18 +94,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
-   */
-  public function FAILED_testExceptionAuthCodeBadBasicClientId()
+  public function testExceptionAuthCodeBadBasicClientId()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'authorization_code',
     );
@@ -113,54 +112,29 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://badclient1.com/',
       'PHP_AUTH_PW' => 'badsecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
-   */
-  public function FAILED_testExceptionAuthCodeBadPostClientId()
+  public function testExceptionAuthCodeBadPostClientId()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'authorization_code',
       'client_id' => 'http://badclient1.com/',
       'client_secret' => 'badsecret1',
     );
     $server = array();
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionAuthCodeNoCode()
-  {
-    $request = new Request();
-    $post = array(
-      'grant_type' => 'authorization_code',
-      'redirect_uri' => 'http://democlient2.com/redirect_uri',
-    );
-    $server = array(
-      'PHP_AUTH_USER' => 'http://democlient1.com/',
-      'PHP_AUTH_PW' => 'demosecret1',
-    );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
-  }
-
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionAuthCodeNoSavedNoPassedRedirectUri()
+  public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
     $client = new Clients();
@@ -182,7 +156,10 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($code);
     $this->app['oauth2.orm']->flush();
 
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'authorization_code',
       'code' => '08fb55e26c84f8cb060b7803bc177af8',
@@ -191,18 +168,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient4.com/',
       'PHP_AUTH_PW' => 'demosecret4',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionAuthCodeBadRedirectUri()
+  public function testExceptionAuthCodeBadRedirectUri()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'authorization_code',
       'code' => 'f0c68d250bcc729eb780a235371a9a55',
@@ -212,17 +188,37 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient2.com/',
       'PHP_AUTH_PW' => 'demosecret2',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
-   */
-  public function FAILED_testExceptionClientCredBadState()
+  public function testErrorAuthCodeNoCode()
   {
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $request = new Request();
+    $post = array(
+      'grant_type' => 'authorization_code',
+      'redirect_uri' => 'http://democlient1.com/redirect_uri',
+    );
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
+  }
+
+  public function testErrorClientCredBadState()
+  {
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'client_credentials',
       'scope' => "badscope1",
@@ -231,18 +227,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionClientCredBadStateFormat()
+  public function testErrorClientCredBadStateFormat()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'client_credentials',
       'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
@@ -251,18 +246,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionPasswordNoUsername()
+  public function testErrorPasswordNoUsername()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'password',
       'password' => 'demopassword1',
@@ -272,18 +266,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionPasswordNoPassword()
+  public function testErrorPasswordNoPassword()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'password',
       'username' => 'demousername1',
@@ -293,18 +286,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
-   */
-  public function FAILED_testExceptionPasswordBadScope()
+  public function testErrorPasswordBadScope()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'password',
       'username' => 'demousername1',
@@ -315,18 +307,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionPasswordBadScopeFormat()
+  public function testErrorPasswordBadScopeFormat()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'password',
       'username' => 'demousername1',
@@ -337,18 +328,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionRefreshTokenNoToken()
+  public function testErrorRefreshTokenNoToken()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'refresh_token',
       'scope' => 'demoscope1 demoscope2 demoscope3',
@@ -357,18 +347,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
-   */
-  public function FAILED_testExceptionRefreshTokenBadScope()
+  public function testErrorRefreshTokenBadScope()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'refresh_token',
       'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
@@ -378,18 +367,17 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient3.com/',
       'PHP_AUTH_PW' => 'demosecret3',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionRefreshTokenBadScopeFormat()
+  public function testErrorRefreshTokenBadScopeFormat()
   {
-    $request = new Request();
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AccessTokenControllerProvider());
+
     $post = array(
       'grant_type' => 'refresh_token',
       'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
@@ -399,10 +387,9 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
+    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
   public function testGoodAuthCode()

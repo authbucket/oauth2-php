@@ -15,6 +15,7 @@ use Pantarei\OAuth2\Entity\Clients;
 use Pantarei\OAuth2\Extension\ResponseType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Pantarei\OAuth2\Provider\AuthorizationControllerProvider;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,86 +35,83 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     return $app;
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionCodeNoClientId()
+  public function testExceptionCodeNoClientId()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'code',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionTokenNoClientId()
+  public function testExceptionTokenNoClientId()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'token',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
-   */
-  public function FAILED_testExceptionCodeBadClientId()
+  public function testExceptionCodeBadClientId()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://badclient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
-   */
-  public function FAILED_testExceptionTokenBadClientId()
+  public function testExceptionTokenBadClientId()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://badclient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionNoResponseType()
+  public function testExceptionNoResponseType()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'client_id' => '1234',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionCodeNoSavedNoPassedRedirectUri()
+  public function testExceptionCodeNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
     $client = new Clients();
@@ -123,20 +121,20 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($client);
     $this->app['oauth2.orm']->flush();
 
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionTokenNoSavedNoPassedRedirectUri()
+  public function testExceptionTokenNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
     $client = new Clients();
@@ -146,148 +144,151 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($client);
     $this->app['oauth2.orm']->flush();
 
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient4.com/',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionCodeBadRedirectUri()
+  public function testExceptionCodeBadRedirectUri()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/wrong_uri',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionTokenBadRedirectUri()
+  public function testExceptionTokenBadRedirectUri()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/wrong_uri',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedResponseTypeException
-   */
-  public function FAILED_testExceptionBadResponseType()
+  public function testErrorBadResponseType()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'foo',
       'client_id' => '1234',
       'redirect_uri' => 'http://example.com/redirect_uri',
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionCodeBadScopeFormat()
+  public function testErrorCodeBadScopeFormat()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
-   */
-  public function FAILED_testExceptionCodeBadScope()
+  public function testErrorCodeBadScope()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "badscope1",
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionTokenBadScopeFormat()
+  public function testErrorTokenBadScopeFormat()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
-   */
-  public function FAILED_testExceptionTokenBadScope()
+  public function testErrorTokenBadScope()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "badscope1",
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function FAILED_testExceptionCodeBadStateFormat()
+  public function testErrorCodeBadStateFormat()
   {
-    $request = new Request();
-    $request->initialize(array(
+    $app = new Application;
+    $app['debug'] = TRUE;
+    $app->mount('/', new AuthorizationControllerProvider());
+
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "demoscope1 demoscope2 demoscope3",
       'state' => "aaa\x19bbb\x7Fccc",
-    ));
-    $request->overrideGlobals();
-    // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
+    );
+    $request = Request::create('/', 'GET', $parameters);
+    $response = $app->handle($request);
+    $this->assertEquals(500, $response->getStatusCode());
   }
 
   public function testGoodCode()
