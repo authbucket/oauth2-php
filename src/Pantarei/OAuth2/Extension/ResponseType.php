@@ -28,21 +28,6 @@ class ResponseType implements OAuth2TypeInterface
     $this->app = $app;
   }  
 
-  public function buildType()
-  {
-    return TRUE;
-  }
-
-  public function buildView()
-  {
-    return TRUE;
-  }
-
-  public function finishView()
-  {
-    return TRUE;
-  }
-
   public function getParent()
   {
     return NULL;

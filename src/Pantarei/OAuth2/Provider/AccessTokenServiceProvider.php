@@ -95,9 +95,7 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
       $app['oauth2.token.options.initializer']();
 
       $grant_type = $app['oauth2.token.grant_type'];
-      $grant_type->buildType();
-      $grant_type->buildView();
-      return $grant_type->finishView();
+      return $grant_type;
     });
   }
 

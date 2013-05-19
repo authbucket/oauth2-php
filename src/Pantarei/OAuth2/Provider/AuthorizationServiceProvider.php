@@ -86,9 +86,7 @@ class AuthorizationServiceProvider implements ServiceProviderInterface
       $app['oauth2.auth.options.initializer']();
 
       $response_type = $app['oauth2.auth.response_type'];
-      $response_type->buildType();
-      $response_type->buildView();
-      return $response_type->finishView();
+      return $response_type;
     });
   }
 

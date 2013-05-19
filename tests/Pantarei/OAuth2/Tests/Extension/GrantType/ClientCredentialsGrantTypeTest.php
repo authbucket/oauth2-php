@@ -34,7 +34,6 @@ class ClientCredentialsGrantTypeTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new ClientCredentialsGrantType($this->app);
-    $grant_type->buildType();
     $this->assertEquals('grant_type', $grant_type->getParent());
     $this->assertEquals('client_credentials', $grant_type->getName());
 

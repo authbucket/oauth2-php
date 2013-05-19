@@ -111,8 +111,10 @@ class TokenResponseType extends ResponseType
     return $this->state;
   }
 
-  public function buildType()
+  public function __construct(Application $app)
   {
+    parent::__construct($app);
+
     $request = Request::createFromGlobals();
     $query = $request->query->all();
 

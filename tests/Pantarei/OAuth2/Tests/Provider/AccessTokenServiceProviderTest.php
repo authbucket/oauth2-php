@@ -11,8 +11,9 @@
 
 namespace Pantarei\OAuth2\Tests\Provider;
 
-use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Entity\Clients;
+use Pantarei\OAuth2\Entity\Codes;
+use Pantarei\OAuth2\Extension\GrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,9 +34,8 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $post = array();
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
-    $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
   /**
    * @expectedException \Pantarei\OAuth2\Exception\UnsupportedGrantTypeException
@@ -50,7 +50,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -66,7 +66,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -87,7 +87,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -106,7 +106,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -124,7 +124,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -144,7 +144,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -184,7 +184,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -204,7 +204,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -224,7 +224,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -244,7 +244,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -265,7 +265,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -286,7 +286,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -308,7 +308,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -330,7 +330,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -350,7 +350,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -371,7 +371,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   /**
@@ -392,7 +392,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   public function testGoodAuthCode()
@@ -409,7 +409,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
 
     $request = new Request();
     $post = array(
@@ -422,7 +422,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   public function testGoodAuthCodeNoPassedRedirectUri()
@@ -437,7 +437,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   public function testGoodAuthCodeNoStoredRedirectUri()
@@ -473,7 +473,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   public function testGoodClientCred()
@@ -489,7 +489,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   public function testGoodPassword()
@@ -508,7 +508,7 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 
   public function testGoodRefreshToken()
@@ -525,6 +525,6 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.token']);
+    $this->assertTrue($this->app['oauth2.token'] instanceof GrantType);
   }
 }

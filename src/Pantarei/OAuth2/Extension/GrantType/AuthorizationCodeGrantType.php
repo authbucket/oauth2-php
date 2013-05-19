@@ -92,8 +92,10 @@ class AuthorizationCodeGrantType extends GrantType
     return $this->client_id;
   }
 
-  public function buildType()
+  public function __construct(Application $app)
   {
+    parent::__construct($app);
+
     $request = Request::createFromGlobals();
     $query = $request->request->all();
 

@@ -24,9 +24,6 @@ class GrantTypeTest extends OAuth2WebTestCase
   public function testGrantType()
   {
     $response_type = new GrantType($this->app);
-    $this->assertTrue($response_type->buildType(array(), array()));
-    $this->assertTrue($response_type->buildView());
-    $this->assertTrue($response_type->finishView());
     $this->assertEquals('grant_type', $response_type->getName());
     $this->assertNull($response_type->getParent());
   }

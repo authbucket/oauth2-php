@@ -74,8 +74,10 @@ class RefreshTokenGrantType extends GrantType
     return $this->scope;
   }
 
-  public function buildType()
+  public function __construct(Application $app)
   {
+    parent::__construct($app);
+
     $request = Request::createFromGlobals();
     $query = $request->request->all();
 

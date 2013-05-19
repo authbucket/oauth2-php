@@ -24,9 +24,6 @@ class TokenTypeTest extends OAuth2WebTestCase
   public function testTokenType()
   {
     $response_type = new TokenType($this->app);
-    $this->assertTrue($response_type->buildType(array(), array()));
-    $this->assertTrue($response_type->buildView());
-    $this->assertTrue($response_type->finishView());
     $this->assertEquals('token_type', $response_type->getName());
     $this->assertNull($response_type->getParent());
   }

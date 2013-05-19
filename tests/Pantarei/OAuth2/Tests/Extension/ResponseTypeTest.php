@@ -24,9 +24,6 @@ class ResponseTypeTest extends OAuth2WebTestCase
   public function testResponseType()
   {
     $response_type = new ResponseType($this->app);
-    $this->assertTrue($response_type->buildType());
-    $this->assertTrue($response_type->buildView());
-    $this->assertTrue($response_type->finishView());
     $this->assertEquals('response_type', $response_type->getName());
     $this->assertNull($response_type->getParent());
   }

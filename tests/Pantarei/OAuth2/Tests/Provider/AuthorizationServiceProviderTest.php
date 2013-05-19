@@ -12,6 +12,7 @@
 namespace Pantarei\OAuth2\Tests\Provider;
 
 use Pantarei\OAuth2\Entity\Clients;
+use Pantarei\OAuth2\Extension\ResponseType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +36,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -50,7 +51,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -66,7 +67,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -82,7 +83,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -96,7 +97,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -119,7 +120,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -142,7 +143,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -158,7 +159,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -174,7 +175,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -190,7 +191,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -207,7 +208,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -224,7 +225,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -241,7 +242,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -258,7 +259,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   /**
@@ -276,7 +277,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     // This won't happened!!
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   public function testGoodCode()
@@ -288,7 +289,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
 
     $request = new Request();
     $request->initialize(array(
@@ -298,7 +299,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
 
     $request = new Request();
     $request->initialize(array(
@@ -308,7 +309,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
 
     $request = new Request();
     $request->initialize(array(
@@ -319,7 +320,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'state' => 'example state',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   public function testGoodCodeNoPassedRedirectUri() {
@@ -337,7 +338,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient4.com/',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   public function testGoodCodeNoStoredRedirectUri() {
@@ -356,7 +357,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient5.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   public function testGoodToken()
@@ -368,7 +369,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
 
     $request = new Request();
     $request->initialize(array(
@@ -378,7 +379,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
 
     $request = new Request();
     $request->initialize(array(
@@ -388,7 +389,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
 
     $request = new Request();
     $request->initialize(array(
@@ -399,7 +400,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'state' => 'example state',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   public function testGoodTokenNoPassedRedirectUri() {
@@ -417,7 +418,7 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient4.com/',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 
   public function testGoodTokenNoStoredRedirectUri() {
@@ -436,6 +437,6 @@ class AuthorizationServiceProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient5.com/redirect_uri',
     ));
     $request->overrideGlobals();
-    $this->assertTrue($this->app['oauth2.auth']);
+    $this->assertTrue($this->app['oauth2.auth'] instanceof ResponseType);
   }
 }

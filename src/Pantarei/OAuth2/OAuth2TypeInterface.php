@@ -29,21 +29,6 @@ interface OAuth2TypeInterface
   public function __construct(Application $app);
 
   /**
-   * Build the type.
-   */
-  public function buildType();
-
-  /**
-   *
-   */
-  public function buildView();
-
-  /**
-   *
-   */
-  public function finishView();
-
-  /**
    * Returns the name of the parent type.
    *
    * @return string|null
