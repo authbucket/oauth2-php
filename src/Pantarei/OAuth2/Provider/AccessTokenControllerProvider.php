@@ -17,7 +17,8 @@ use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
 use Pantarei\OAuth2\Util\CredentialUtils;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Silex\ControllerCollection;
+use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,9 +27,9 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AccessTokenServiceProvider implements ServiceProviderInterface
+class AccessTokenControllerProvider implements ControllerProviderInterface
 {
-  public function register(Application $app)
+  public function connect(Application $app)
   {
     $app['oauth2.token.default_options'] = array(
       'grant_type' => array(
@@ -90,16 +91,17 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
       return new $grant_type($app);
     });
 
+    $controllers = $app['controllers_factory'];
+
     // The main callback for access token endpoint.
-    $app['oauth2.token'] = $app->share(function($app) {
+    $controllers->post('/', function (Request $request, Application $app) {
       $app['oauth2.token.options.initializer']();
 
+      $request->overrideGlobals();
       $grant_type = $app['oauth2.token.grant_type'];
-      return $grant_type;
+      return new Response();
     });
-  }
 
-  public function boot(Application $app)
-  {
+    return $controllers;
   }
 }

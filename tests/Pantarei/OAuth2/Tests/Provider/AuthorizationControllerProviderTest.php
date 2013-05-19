@@ -292,36 +292,36 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
 
   public function testGoodCode()
   {
-    $params = array(
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
@@ -329,7 +329,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
       'state' => 'example state',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
   }
 
@@ -342,12 +342,12 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($fixture);
     $this->app['oauth2.orm']->flush();
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
   }
 
@@ -360,48 +360,48 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($fixture);
     $this->app['oauth2.orm']->flush();
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'code',
       'client_id' => 'http://democlient5.com/',
       'redirect_uri' => 'http://democlient5.com/redirect_uri',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
   }
 
   public function testGoodToken()
   {
-    $params = array(
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
@@ -409,7 +409,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
       'state' => 'example state',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
   }
 
@@ -422,12 +422,12 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($fixture);
     $this->app['oauth2.orm']->flush();
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient4.com/',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
   }
 
@@ -440,13 +440,13 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     $this->app['oauth2.orm']->persist($fixture);
     $this->app['oauth2.orm']->flush();
 
-    $params = array(
+    $parameters = array(
       'response_type' => 'token',
       'client_id' => 'http://democlient5.com/',
       'redirect_uri' => 'http://democlient5.com/redirect_uri',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $params);
+    $crawler = $client->request('GET', '/', $parameters);
     $this->assertTrue($client->getResponse()->isOk());
   }
 }
