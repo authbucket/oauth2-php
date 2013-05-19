@@ -11,7 +11,10 @@
 
 namespace Pantarei\OAuth2\Extension;
 
+use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
 use Pantarei\OAuth2\OAuth2TypeInterface;
+use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,5 +44,34 @@ abstract class ResponseType implements OAuth2TypeInterface
   public function getName()
   {
     return 'response_type';
+  }
+
+  public static function getType(Request $request, Application $app)
+  {
+    // Prepare the filtered query.
+    $params = array('client_id', 'redirect_uri', 'response_type', 'scope', 'state');
+    $filtered_query = ParameterUtils::filter($request->query->all(), $params);
+    foreach ($params as $param) {
+      if ($request->query->get($param)) {
+        if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $request->query->get($param)) {
+          throw new InvalidRequestException();
+        }
+      }
+    }
+
+    // response_type is required.
+    if (!isset($filtered_query['response_type'])) {
+      throw new InvalidRequestException();
+    }
+    $response_type = $request->query->get('response_type');
+
+    // Check if response_type is supported.
+    if (!isset($app['oauth2.auth.options']['response_type'][$response_type])) {
+      throw new UnsupportedResponseTypeException();
+    }
+
+    // Create and return the controller.
+    $namespace = $app['oauth2.auth.options']['response_type'][$response_type];
+    return new $namespace($request, $app);
   }
 }
