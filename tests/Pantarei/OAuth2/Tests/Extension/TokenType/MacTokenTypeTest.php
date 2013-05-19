@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Tests\Extension\TokenType;
 
 use Pantarei\OAuth2\Extension\TokenType\MacTokenType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test MAC token type functionality.
@@ -23,7 +25,8 @@ class MacTokenTypeTest extends OAuth2WebTestCase
 {
   public function testTokenType()
   {
-    $grant_type = new MacTokenType($this->app);
+    $request = new Request();
+    $grant_type = new MacTokenType($request, $this->app);
     $this->assertEquals('token_type', $grant_type->getParent());
     $this->assertEquals('mac', $grant_type->getName());
   }

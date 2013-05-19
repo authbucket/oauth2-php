@@ -40,68 +40,53 @@ class AccessTokenControllerProvider implements ControllerProviderInterface
       ),
     );
 
-    $app['oauth2.token.options.initializer'] = $app->protect(function () use ($app) {
-      static $initialized = FALSE;
-
-      if ($initialized) {
-        return FALSE;
-      }
-      $initialized = TRUE;
-
-      if (!isset($app['oauth2.token.options'])) {
-        $app['oauth2.token.options'] = $app['oauth2.token.default_options'];
-      }
-      return TRUE;
-    });
-
-    $app['oauth2.token.grant_type'] = $app->share(function ($app) {
-      $app['oauth2.token.options.initializer']();
-
-      $request = Request::createFromGlobals();
-      $query = $request->request->all();
-
-      // Prepare the filtered query.
-      $params = array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username');
-      $filtered_query = ParameterUtils::filter($query, $params);
-      foreach ($params as $param) {
-        if (isset($query[$param])) {
-          if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $query[$param]) {
-            throw new InvalidRequestException();
-          }
-        }
-      }
-
-      // grant_type is required.
-      if (!isset($filtered_query['grant_type'])) {
-        throw new InvalidRequestException();
-      }
-
-      // Check if grant_type is supported.
-      if (!isset($app['oauth2.token.options']['grant_type'][$query['grant_type']])) {
-        throw new UnsupportedGrantTypeException();
-      }
-
-      // Validate and set client_id.
-      if (!CredentialUtils::check($app)) {
-        throw new InvalidClientException();
-      }
-
-      // Create and return the token type.
-      $grant_type = $app['oauth2.token.options']['grant_type'][$query['grant_type']];
-      return new $grant_type($app);
-    });
+    if (!isset($app['oauth2.token.options'])) {
+      $app['oauth2.token.options'] = $app['oauth2.token.default_options'];
+    }
 
     $controllers = $app['controllers_factory'];
 
     // The main callback for access token endpoint.
     $controllers->post('/', function (Request $request, Application $app) {
-      $app['oauth2.token.options.initializer']();
-
-      $request->overrideGlobals();
-      $grant_type = $app['oauth2.token.grant_type'];
-      return new Response();
+      $grant_type = $this->getGrantType($request, $app);
+      return $grant_type->getResponse();
     });
 
     return $controllers;
+  }
+
+  private function getGrantType(Request $request, Application $app)
+  {
+    $query = $request->request->all();
+
+    // Prepare the filtered query.
+    $params = array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username');
+    $filtered_query = ParameterUtils::filter($query, $params);
+    foreach ($params as $param) {
+      if (isset($query[$param])) {
+        if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $query[$param]) {
+          throw new InvalidRequestException();
+        }
+      }
+    }
+
+    // grant_type is required.
+    if (!isset($filtered_query['grant_type'])) {
+      throw new InvalidRequestException();
+    }
+
+    // Check if grant_type is supported.
+    if (!isset($app['oauth2.token.options']['grant_type'][$query['grant_type']])) {
+      throw new UnsupportedGrantTypeException();
+    }
+
+    // Validate and set client_id.
+    if (!CredentialUtils::check($request, $app)) {
+      throw new InvalidClientException();
+    }
+
+    // Create and return the token type.
+    $grant_type = $app['oauth2.token.options']['grant_type'][$query['grant_type']];
+    return new $grant_type($request, $app);
   }
 }

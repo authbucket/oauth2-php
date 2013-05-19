@@ -34,7 +34,7 @@ class CodeResponseTypeTest extends OAuth2WebTestCase
       'state' => 'demostate1',
     ));
     $request->overrideGlobals();
-    $response_type = new CodeResponseType($this->app);
+    $response_type = new CodeResponseType($request, $this->app);
     $this->assertEquals('code', $response_type->getName());
     $this->assertEquals('response_type', $response_type->getParent());
 

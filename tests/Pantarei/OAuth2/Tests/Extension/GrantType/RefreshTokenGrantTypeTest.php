@@ -39,7 +39,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new RefreshTokenGrantType($this->app);
+    $grant_type = new RefreshTokenGrantType($request, $this->app);
     $this->assertEquals('grant_type', $grant_type->getParent());
     $this->assertEquals('refresh_token', $grant_type->getName());
 
@@ -66,7 +66,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new RefreshTokenGrantType($this->app);
+    $grant_type = new RefreshTokenGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getName());
   }
@@ -88,7 +88,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new RefreshTokenGrantType($this->app);
+    $grant_type = new RefreshTokenGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getName());
   }
@@ -121,7 +121,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new RefreshTokenGrantType($this->app);
+    $grant_type = new RefreshTokenGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('refresh_token', $grant_type->getName());
   }

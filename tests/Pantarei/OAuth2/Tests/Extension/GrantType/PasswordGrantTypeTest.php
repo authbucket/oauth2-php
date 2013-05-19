@@ -35,7 +35,7 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new PasswordGrantType($this->app);
+    $grant_type = new PasswordGrantType($request, $this->app);
     $this->assertEquals('grant_type', $grant_type->getParent());
     $this->assertEquals('password', $grant_type->getName());
 
@@ -63,7 +63,7 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new PasswordGrantType($this->app);
+    $grant_type = new PasswordGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('password', $grant_type->getName());
   }
@@ -83,7 +83,7 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new PasswordGrantType($this->app);
+    $grant_type = new PasswordGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('password', $grant_type->getName());
   }
@@ -102,7 +102,7 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new PasswordGrantType($this->app);
+    $grant_type = new PasswordGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('password', $grant_type->getName());
   }
@@ -122,7 +122,7 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new PasswordGrantType($this->app);
+    $grant_type = new PasswordGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('password', $grant_type->getName());
   }

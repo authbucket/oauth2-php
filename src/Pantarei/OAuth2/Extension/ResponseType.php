@@ -13,20 +13,25 @@ namespace Pantarei\OAuth2\Extension;
 
 use Pantarei\OAuth2\OAuth2TypeInterface;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Defines the abstract class for response type.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ResponseType implements OAuth2TypeInterface
+abstract class ResponseType implements OAuth2TypeInterface
 {
-  protected $app;
-
-  public function __construct(Application $app)
+  public function __construct(Request $request, Application $app)
   {
-    $this->app = $app;
-  }  
+    return TRUE;
+  }
+
+  public function getResponse()
+  {
+    return new Response();
+  }
 
   public function getParent()
   {

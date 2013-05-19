@@ -52,17 +52,12 @@ class ClientCredentialsGrantType extends GrantType
     return $this->scope;
   }
 
-  public function __construct(Application $app)
+  public function __construct(Request $request, Application $app)
   {
-    parent::__construct($app);
-
-    $request = Request::createFromGlobals();
-    $query = $request->request->all();
-
     // Validate and set scope.
-    if (isset($query['scope'])) {
-      if (ParameterUtils::checkScope($this->app, $query)) {
-        $this->setScope($query['scope']);
+    if ($request->request->get('scope')) {
+      if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
+        $this->setScope($scope);
       }
     }
   }

@@ -23,9 +23,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class CredentialUtils
 {
-  public static function check(Application $app)
+  public static function check(Request $request, Application $app)
   {
-    $request = Request::createFromGlobals();
     $query = $request->request->all();
 
     // At least one (and only one) of client credentials method required.

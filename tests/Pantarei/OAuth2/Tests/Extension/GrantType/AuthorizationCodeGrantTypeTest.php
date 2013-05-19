@@ -36,7 +36,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new AuthorizationCodeGrantType($this->app);
+    $grant_type = new AuthorizationCodeGrantType($request, $this->app);
     $this->assertEquals('grant_type', $grant_type->getParent());
     $this->assertEquals('authorization_code', $grant_type->getName());
 
@@ -63,7 +63,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new AuthorizationCodeGrantType($this->app);
+    $grant_type = new AuthorizationCodeGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getName());
   }
@@ -82,7 +82,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new AuthorizationCodeGrantType($this->app);
+    $grant_type = new AuthorizationCodeGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getName());
   }
@@ -113,7 +113,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
-    $grant_type = new AuthorizationCodeGrantType($this->app);
+    $grant_type = new AuthorizationCodeGrantType($request, $this->app);
     // This won't happened!!
     $this->assertEquals('authorization_code', $grant_type->getName());
   }

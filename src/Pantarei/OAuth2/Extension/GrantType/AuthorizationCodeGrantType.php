@@ -92,30 +92,25 @@ class AuthorizationCodeGrantType extends GrantType
     return $this->client_id;
   }
 
-  public function __construct(Application $app)
+  public function __construct(Request $request, Application $app)
   {
-    parent::__construct($app);
-
-    $request = Request::createFromGlobals();
-    $query = $request->request->all();
-
     // code is required.
-    if (!isset($query['code'])) {
+    if (!$request->request->get('code')) {
       throw new InvalidRequestException();
     }
 
     // Validate and set client_id.
-    if (ParameterUtils::checkClientId($this->app, $query)) {
-      $this->setClientId($query['client_id']);
+    if ($client_id = ParameterUtils::checkClientId($request, $app, 'POST')) {
+      $this->setClientId($client_id);
 
       // Validate and set redirect_uri.
-      if (ParameterUtils::checkRedirectUri($this->app, $query)) {
-        $this->setRedirectUri($query['redirect_uri']);
+      if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app, 'POST')) {
+        $this->setRedirectUri($redirect_uri);
       }
 
       // Validate and set code.
-      if (ParameterUtils::checkCode($this->app, $query)) {
-        $this->setCode($query['code']);
+      if ($code = ParameterUtils::checkCode($request, $app)) {
+        $this->setCode($code);
       }
     }
   }

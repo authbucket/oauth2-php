@@ -111,38 +111,33 @@ class TokenResponseType extends ResponseType
     return $this->state;
   }
 
-  public function __construct(Application $app)
+  public function __construct(Request $request, Application $app)
   {
-    parent::__construct($app);
-
-    $request = Request::createFromGlobals();
-    $query = $request->query->all();
-
     // REQUIRED: client_id.
-    if (!isset($query['client_id'])) {
+    if (!$request->query->get('client_id')) {
       throw new InvalidRequestException();
     }
 
     // Validate and set client_id.
-    if (ParameterUtils::checkClientId($this->app, $query)) {
-      $this->setClientId($query['client_id']);
+    if ($client_id = ParameterUtils::checkClientId($request, $app)) {
+      $this->setClientId($client_id);
 
       // Validate and set redirect_uri.
-      if (ParameterUtils::checkRedirectUri($this->app, $query)) {
-        $this->setRedirectUri($query['redirect_uri']);
+      if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app)) {
+        $this->setRedirectUri($redirect_uri);
       }
     }
 
     // Validate and set scope.
-    if (isset($query['scope'])) {
-      if (ParameterUtils::checkScope($this->app, $query)) {
-        $this->setScope($query['scope']);
+    if ($request->query->get('scope')) {
+      if ($scope = ParameterUtils::checkScope($request, $app)) {
+        $this->setScope($scope);
       }
     }
 
     // Validate and set state.
-    if (isset($query['state'])) {
-      $this->setScope($query['state']);
+    if ($state = $request->query->get('state')) {
+      $this->setScope($state);
     }
   }
 

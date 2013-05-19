@@ -89,37 +89,32 @@ class PasswordGrantType extends GrantType
     return $this->scope;
   }
 
-  public function __construct(Application $app) {
-    parent::__construct($app);
-
-    $request = Request::createFromGlobals();
-    $query = $request->request->all();
-
+  public function __construct(Request $request, Application $app) {
     // REQUIRED: username, password.
-    if (!isset($query['username']) || !isset($query['password'])) {
+    if (!$request->request->get('username') || !$request->request->get('password')) {
       throw new InvalidRequestException();
     }
 
     // Validate and set username.
-    if (ParameterUtils::checkUsername($this->app, $query)) {
-      $this->setUsername($query['username']);
+    if ($username = ParameterUtils::checkUsername($request, $app)) {
+      $this->setUsername($username);
 
       // Validate and set password.
-      if (ParameterUtils::checkPassword($this->app, $query)) {
-        $this->setPassword($query['password']);
+      if ($password = ParameterUtils::checkPassword($request, $app)) {
+        $this->setPassword($password);
       }
     }
 
     // Validate and set scope.
-    if (isset($query['scope'])) {
-      if (ParameterUtils::checkScope($this->app, $query)) {
-        $this->setScope($query['scope']);
+    if ($request->request->get('scope')) {
+      if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
+        $this->setScope($scope);
       }
     }
 
     // Validate and set state.
-    if (isset($query['state'])) {
-      $this->setScope($query['state']);
+    if ($state = $request->request->get('state')) {
+      $this->setScope($state);
     }
   }
 

@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Tests\Extension\TokenType;
 
 use Pantarei\OAuth2\Extension\TokenType\BearerTokenType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test Bearer token type functionality.
@@ -23,7 +25,8 @@ class BearerTokenTypeTest extends OAuth2WebTestCase
 {
   public function testTokenType()
   {
-    $grant_type = new BearerTokenType($this->app);
+    $request = new Request();
+    $grant_type = new BearerTokenType($request, $this->app);
     $this->assertEquals('token_type', $grant_type->getParent());
     $this->assertEquals('bearer', $grant_type->getName());
   }

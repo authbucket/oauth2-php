@@ -100,31 +100,43 @@ abstract class ParameterUtils
     return $filtered_query;
   }
 
-  public static function checkClientId(Application $app, &$query)
+  public static function checkClientId(Request $request, Application $app, $method = 'GET')
   {
-    $request = Request::createFromGlobals();
-
     // Try to fetch client_id from HTTP basic auth, if no client_id from
     // incoming query.
-    if (!isset($query['client_id']) && $request->getUser()) {
-      $query['client_id'] = $request->getUser();
+    switch ($method) {
+      case 'GET':
+        $client_id = $request->query->get('client_id');
+        break;
+      case 'POST':
+        $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
+        break;
     }
 
     // Check client_id with database record.
     $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
-      'client_id' => $query['client_id'],
+      'client_id' => $client_id,
     ));
     if ($result === NULL) {
       throw new UnauthorizedClientException();
     }
 
-    return TRUE;
+    return $client_id;
   }
 
-  public static function checkScope(Application $app, &$query)
+  public static function checkScope(Request $request, Application $app, $method = 'GET')
   {
+    switch ($method) {
+      case 'GET':
+        $scopes = $request->query->get('scope');
+        break;
+      case 'POST':
+        $scopes = $request->request->get('scope');
+        break;
+    }
+
     // Check scope with database record.
-    foreach (preg_split('/\s+/', $query['scope']) as $scope) {
+    foreach (preg_split('/\s+/', $scopes) as $scope) {
       $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
         'scope' => $scope,
       ));
@@ -133,48 +145,58 @@ abstract class ParameterUtils
       }
     }
 
-    return TRUE;
+    return $scopes;
   }
 
-  public static function checkRedirectUri(Application $app, &$query)
+  public static function checkRedirectUri(Request $request, Application $app, $method = 'GET')
   {
+    switch ($method) {
+      case 'GET':
+        $redirect_uri = $request->query->get('redirect_uri');
+        $client_id = $request->query->get('client_id');
+        break;
+      case 'POST':
+        $redirect_uri = $request->request->get('redirect_uri');
+        $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
+        break;
+    }
+
     // redirect_uri is not required if already established via other channels,
     // check an existing redirect URI against the one supplied.
-    $stored = array();
+    $stored = NULL;
     $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
-      'client_id' => $query['client_id'],
+      'client_id' => $client_id,
     ));
     if ($result !== NULL && $result->getRedirectUri()) {
-      $stored['redirect_uri'] = $result->getRedirectUri();
+      $stored = $result->getRedirectUri();
     }
 
     // At least one of: existing redirect URI or input redirect URI must be
     // specified.
-    if (!isset($stored['redirect_uri']) && !isset($query['redirect_uri'])) {
+    if (!$stored && !$redirect_uri) {
       throw new InvalidRequestException();
     }
 
     // If there's an existing uri and one from input, verify that they match.
-    if (isset($stored['redirect_uri']) && isset($query['redirect_uri'])) {
+    if ($stored && $redirect_uri) {
       // Ensure that the input uri starts with the stored uri.
-      if (strcasecmp(substr($query['redirect_uri'], 0, strlen($stored['redirect_uri'])), $stored['redirect_uri']) !== 0) {
+      if (strcasecmp(substr($redirect_uri, 0, strlen($stored)), $stored) !== 0) {
         throw new InvalidRequestException();
       }
     }
 
-    // We no longer care where redirect_uri coming from as we already have
-    // a valid record, so override and return it.
-    $query = array_merge($query, $stored);
-
-    return TRUE;
+    return $redirect_uri ? $redirect_uri : $stored;
   }
 
-  public static function checkCode(Application $app, &$query)
+  public static function checkCode(Request $request, Application $app)
   {
+    $code = $request->request->get('code');
+    $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
+
     // Check code with database record.
     $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
-      'client_id' => $query['client_id'],
-      'code' => $query['code'],
+      'client_id' => $client_id,
+      'code' => $code,
     ));
     if ($result === NULL) {
       throw new InvalidGrantException();
@@ -183,42 +205,50 @@ abstract class ParameterUtils
       throw new InvalidGrantException();
     }
 
-    return TRUE;
+    return $code;
   }
 
-  public static function checkUsername(Application $app, &$query)
+  public static function checkUsername(Request $request, Application $app)
   {
+    $username = $request->request->get('username');
+
     // Check username with database record.
     $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
-      'username' => $query['username'],
+      'username' => $username,
     ));
     if ($result === NULL) {
       throw new InvalidGrantException();
     }
 
-    return TRUE;
+    return $username;
   }
 
-  public static function checkPassword(Application $app, &$query)
+  public static function checkPassword(Request $request, Application $app)
   {
+    $username = $request->request->get('username');
+    $password = $request->request->get('password');
+
     // Check username with database record.
     $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
-      'username' => $query['username'],
-      'password' => $query['password'],
+      'username' => $username,
+      'password' => $password,
     ));
     if ($result === NULL) {
       throw new InvalidGrantException();
     }
 
-    return TRUE;
+    return $password;
   }
 
-  public static function checkRefreshToken(Application $app, &$query)
+  public static function checkRefreshToken(Request $request, Application $app)
   {
+    $refresh_token = $request->request->get('refresh_token');
+    $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
+
     // Check refresh_token with database record.
     $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
-      'client_id' => $query['client_id'],
-      'refresh_token' => $query['refresh_token'],
+      'client_id' => $client_id,
+      'refresh_token' => $refresh_token,
     ));
     if ($result === NULL) {
       throw new InvalidGrantException();
@@ -227,6 +257,6 @@ abstract class ParameterUtils
       throw new InvalidRequestException();
     }
 
-    return TRUE;
+    return $refresh_token;
   }
 }

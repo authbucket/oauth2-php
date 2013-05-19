@@ -12,6 +12,8 @@
 namespace Pantarei\OAuth2;
 
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Base OAuth2 type interface for response, grant and token type.
@@ -26,7 +28,15 @@ interface OAuth2TypeInterface
    * @param Application $app
    *   An Application instance.
    */
-  public function __construct(Application $app);
+  public function __construct(Request $request, Application $app);
+
+  /**
+   * Return a Response instance for feedback.
+   *
+   * @return Response
+   *   An Response instance.
+   */
+  public function getResponse();
 
   /**
    * Returns the name of the parent type.

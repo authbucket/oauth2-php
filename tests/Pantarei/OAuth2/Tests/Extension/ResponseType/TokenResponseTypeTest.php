@@ -34,7 +34,7 @@ class TokenResponseTypeTest extends OAuth2WebTestCase
       'state' => 'demostate1',
     ));
     $request->overrideGlobals();
-    $response_type = new TokenResponseType($this->app);
+    $response_type = new TokenResponseType($request, $this->app);
     $this->assertEquals('token', $response_type->getName());
     $this->assertEquals('response_type', $response_type->getParent());
 

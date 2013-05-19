@@ -74,32 +74,27 @@ class RefreshTokenGrantType extends GrantType
     return $this->scope;
   }
 
-  public function __construct(Application $app)
+  public function __construct(Request $request, Application $app)
   {
-    parent::__construct($app);
-
-    $request = Request::createFromGlobals();
-    $query = $request->request->all();
-
     // REQUIRED: refresh_token.
-    if (!isset($query['refresh_token'])) {
+    if (!$request->request->get('refresh_token')) {
       throw new InvalidRequestException();
     }
 
     // Although client_id is not required in request parameter, we need to
     // ensure that the supplied refresh_token do belongs to corresponding
     // client_id.
-    if (ParameterUtils::checkClientId($this->app, $query)) {
+    if (ParameterUtils::checkClientId($request, $app, 'POST')) {
       // Validate and set refresh_token.
-      if (ParameterUtils::checkRefreshToken($this->app, $query)) {
-        $this->setRefreshToken($query['refresh_token']);
+      if ($refresh_token = ParameterUtils::checkRefreshToken($request, $app)) {
+        $this->setRefreshToken($refresh_token);
       }
     }
 
     // Validate and set scope.
-    if (isset($query['scope'])) {
-      if (ParameterUtils::checkScope($this->app, $query)) {
-        $this->setScope($query['scope']);
+    if ($request->request->get('scope')) {
+      if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
+        $this->setScope($scope);
       }
     }
   }
