@@ -49,8 +49,7 @@ class TokenResponseType extends ResponseType
   private $redirect_uri = '';
 
   /**
-   * OPTIONAL. The scope of the access request as described by
-   * Section 3.3.
+   * OPTIONAL. The scope of the access request as described by Section 3.3.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.2.1
    */
