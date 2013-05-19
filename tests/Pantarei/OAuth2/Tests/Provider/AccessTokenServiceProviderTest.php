@@ -365,8 +365,8 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
       'scope' => "badscope1",
     );
     $server = array(
-      'PHP_AUTH_USER' => 'http://democlient1.com/',
-      'PHP_AUTH_PW' => 'demosecret1',
+      'PHP_AUTH_USER' => 'http://democlient3.com/',
+      'PHP_AUTH_PW' => 'demosecret3',
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
@@ -520,8 +520,8 @@ class AccessTokenServiceProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $server = array(
-      'PHP_AUTH_USER' => 'http://democlient1.com/',
-      'PHP_AUTH_PW' => 'demosecret1',
+      'PHP_AUTH_USER' => 'http://democlient3.com/',
+      'PHP_AUTH_PW' => 'demosecret3',
     );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();

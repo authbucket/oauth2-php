@@ -11,8 +11,6 @@
 
 namespace Pantarei\OAuth2\Util;
 
-use Pantarei\OAuth2\Exception\InvalidClientException;
-use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,34 +26,29 @@ abstract class CredentialUtils
   public static function check(Application $app)
   {
     $request = Request::createFromGlobals();
+    $query = $request->request->all();
 
     // At least one (and only one) of client credentials method required.
-    if (!$request->getUser() && !$request->request->get('client_id')) {
+    if (!$request->getUser() && !isset($query['client_id'])) {
       throw new InvalidRequestException();
     }
-    elseif ($request->getUser() && $request->request->get('client_id')) {
+    elseif ($request->getUser() && isset($query['client_id'])) {
       throw new InvalidRequestException();
     }
 
-    // Try HTTP basic auth.
+    // Check with HTTP basic auth if exists.
     if ($request->getUser()) {
-      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
-        'client_id' => $request->getUser(),
-        'client_secret' => $request->getPassword(),
-      ));
-      if ($result === NULL) {
-        throw new InvalidClientException();
-      }
+      $query['client_id'] = $request->getUser();
+      $query['client_secret'] = $request->getPassword();
     }
-    // Try POST
-    elseif ($request->request->get('client_id')) {
-      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
-        'client_id' => $request->request->get('client_id'),
-        'client_secret' => $request->request->get('client_secret'),
-      ));
-      if ($result === NULL) {
-        throw new InvalidClientException();
-      }
+
+    // Check with database record.
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+      'client_id' => $query['client_id'],
+      'client_secret' => $query['client_secret'],
+    ));
+    if ($result === NULL) {
+      return FALSE;
     }
 
     return TRUE;

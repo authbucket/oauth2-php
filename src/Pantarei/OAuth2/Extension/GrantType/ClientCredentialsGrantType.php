@@ -11,8 +11,8 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
-use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Extension\GrantType;
+use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,19 +55,13 @@ class ClientCredentialsGrantType extends GrantType
   public function buildType()
   {
     $request = Request::createFromGlobals();
+    $query = $request->request->all();
 
-    // scope is optionale
-    if ($request->request->get('scope')) {
-      // Check scope with database record.
-      foreach (preg_split('/\s+/', $request->request->get('scope')) as $scope) {
-        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
-          'scope' => $scope,
-        ));
-        if ($result === NULL) {
-          throw new InvalidScopeException();
-        }
+    // Validate and set scope.
+    if (isset($query['scope'])) {
+      if (ParameterUtils::checkScope($this->app, $query)) {
+        $this->setScope($query['scope']);
       }
-      $this->setScope($request->request->get('state'));
     }
   }
 

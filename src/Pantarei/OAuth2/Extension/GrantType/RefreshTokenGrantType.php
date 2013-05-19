@@ -11,10 +11,9 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
-use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Extension\GrantType;
+use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,42 +77,28 @@ class RefreshTokenGrantType extends GrantType
   public function buildType()
   {
     $request = Request::createFromGlobals();
+    $query = $request->request->all();
 
-    // refresh_token is required.
-    if (!$request->request->get('refresh_token')) {
+    // REQUIRED: refresh_token.
+    if (!isset($query['refresh_token'])) {
       throw new InvalidRequestException();
     }
 
-    // Validate refresh_token.
-    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
-      'refresh_token' => $request->request->get('refresh_token'),
-    ));
-    if ($result === NULL) {
-      throw new InvalidGrantException();
-    }
-    elseif ($result->getExpires() < time()) {
-      throw new InvalidRequestException();
-    }
-
-    // scope is optional.
-    if ($request->request->get('scope')) {
-      // Check scope with database record.
-      foreach (preg_split('/\s+/', $request->request->get('scope')) as $scope) {
-        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
-          'scope' => $scope,
-        ));
-        if ($result === NULL) {
-          throw new InvalidScopeException();
-        }
+    // Although client_id is not required in request parameter, we need to
+    // ensure that the supplied refresh_token do belongs to corresponding
+    // client_id.
+    if (ParameterUtils::checkClientId($this->app, $query)) {
+      // Validate and set refresh_token.
+      if (ParameterUtils::checkRefreshToken($this->app, $query)) {
+        $this->setRefreshToken($query['refresh_token']);
       }
     }
 
-    // Set refresh_token.
-    $this->setRefreshToken($request->request->get('refresh_token'));
-
-    // scope is optional.
-    if ($request->request->get('scope')) {
-      $this->setScope($request->request->get('scope'));
+    // Validate and set scope.
+    if (isset($query['scope'])) {
+      if (ParameterUtils::checkScope($this->app, $query)) {
+        $this->setScope($query['scope']);
+      }
     }
   }
 

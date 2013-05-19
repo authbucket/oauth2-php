@@ -31,9 +31,12 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     $post = array(
       'grant_type' => 'refresh_token',
       'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
-      'scope' => 'demoscope1',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient3.com/',
+      'PHP_AUTH_PW' => 'demosecret3',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($this->app);
@@ -56,9 +59,12 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     $request = new Request();
     $post = array(
       'grant_type' => 'refresh_token',
-      'scope' => 'demoscope1',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient3.com/',
+      'PHP_AUTH_PW' => 'demosecret3',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($this->app);
@@ -76,9 +82,12 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     $post = array(
       'grant_type' => 'refresh_token',
       'refresh_token' => '37ed55a16777958a3953088576869ca7',
-      'scope' => 'demoscope1',
+      'scope' => 'demoscope1 demoscope2 demoscope3',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient3.com/',
+      'PHP_AUTH_PW' => 'demosecret3',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($this->app);
@@ -109,7 +118,10 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
       'refresh_token' => '5ddaa68ac1805e728563dd7915441408',
       'scope' => 'demoscope1',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($this->app);

@@ -91,7 +91,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
   }
 
   /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
    */
   public function testExpiredCode() {
     $data = new Codes();

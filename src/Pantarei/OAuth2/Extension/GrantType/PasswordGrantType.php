@@ -11,10 +11,9 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
-use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Extension\GrantType;
+use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -92,41 +91,33 @@ class PasswordGrantType extends GrantType
 
   public function buildType() {
     $request = Request::createFromGlobals();
+    $query = $request->request->all();
 
-    // username and password are required.
-    if (!$request->request->get('username') || !$request->request->get('password')) {
+    // REQUIRED: username, password.
+    if (!isset($query['username']) || !isset($query['password'])) {
       throw new InvalidRequestException();
     }
 
-    // If username and password invalid we should stop here.
-    $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
-      'username' => $request->request->get('username'),
-      'password' => $request->request->get('password'),
-    ));
-    if ($result == NULL) {
-      throw new InvalidGrantException();
-    }
+    // Validate and set username.
+    if (ParameterUtils::checkUsername($this->app, $query)) {
+      $this->setUsername($query['username']);
 
-    // scope is optional.
-    if ($request->request->get('scope')) {
-      // Check scope with database record.
-      foreach (preg_split('/\s+/', $request->request->get('scope')) as $scope) {
-        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
-          'scope' => $scope,
-        ));
-        if ($result === NULL) {
-          throw new InvalidScopeException();
-        }
+      // Validate and set password.
+      if (ParameterUtils::checkPassword($this->app, $query)) {
+        $this->setPassword($query['password']);
       }
     }
 
-    // username and password are required.
-    $this->setUsername($request->request->get('username'));
-    $this->setPassword($request->request->get('password'));
+    // Validate and set scope.
+    if (isset($query['scope'])) {
+      if (ParameterUtils::checkScope($this->app, $query)) {
+        $this->setScope($query['scope']);
+      }
+    }
 
-    // state is optional.
-    if ($request->request->get('state')) {
-      $this->setScope($request->request->get('state'));
+    // Validate and set state.
+    if (isset($query['state'])) {
+      $this->setScope($query['state']);
     }
   }
 

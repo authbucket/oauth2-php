@@ -81,11 +81,8 @@ class AccessTokenServiceProvider implements ServiceProviderInterface
       }
 
       // Validate and set client_id.
-      if (CredentialUtils::check($app)) {
-        if ($request->getUser()) {
-          $request->request->set('client_id', $request->getUser());
-          $request->overrideGlobals();
-        }
+      if (!CredentialUtils::check($app)) {
+        throw new InvalidClientException();
       }
 
       // Create and return the token type.

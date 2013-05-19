@@ -11,9 +11,13 @@
 
 namespace Pantarei\OAuth2\Util;
 
+use Pantarei\OAuth2\Exception\InvalidGrantException;
+use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Exception\UnauthorizedClientException;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * A simple Doctrine ORM service provider for OAuth2.
@@ -96,20 +100,31 @@ abstract class ParameterUtils
     return $filtered_query;
   }
 
-  public static function checkClientId(Application $app, $query)
+  public static function checkClientId(Application $app, &$query)
   {
+    $request = Request::createFromGlobals();
+
+    // Try to fetch client_id from HTTP basic auth, if no client_id from
+    // incoming query.
+    if (!isset($query['client_id']) && $request->getUser()) {
+      $query['client_id'] = $request->getUser();
+    }
+
+    // Check client_id with database record.
     $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
-      'client_id' => $query,
+      'client_id' => $query['client_id'],
     ));
     if ($result === NULL) {
       throw new UnauthorizedClientException();
     }
+
     return TRUE;
   }
 
-  public static function checkScope(Application $app, $query)
+  public static function checkScope(Application $app, &$query)
   {
-    foreach (preg_split('/\s+/', $query) as $scope) {
+    // Check scope with database record.
+    foreach (preg_split('/\s+/', $query['scope']) as $scope) {
       $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
         'scope' => $scope,
       ));
@@ -117,7 +132,101 @@ abstract class ParameterUtils
         throw new InvalidScopeException();
       }
     }
+
     return TRUE;
   }
 
+  public static function checkRedirectUri(Application $app, &$query)
+  {
+    // redirect_uri is not required if already established via other channels,
+    // check an existing redirect URI against the one supplied.
+    $stored = array();
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+      'client_id' => $query['client_id'],
+    ));
+    if ($result !== NULL && $result->getRedirectUri()) {
+      $stored['redirect_uri'] = $result->getRedirectUri();
+    }
+
+    // At least one of: existing redirect URI or input redirect URI must be
+    // specified.
+    if (!isset($stored['redirect_uri']) && !isset($query['redirect_uri'])) {
+      throw new InvalidRequestException();
+    }
+
+    // If there's an existing uri and one from input, verify that they match.
+    if (isset($stored['redirect_uri']) && isset($query['redirect_uri'])) {
+      // Ensure that the input uri starts with the stored uri.
+      if (strcasecmp(substr($query['redirect_uri'], 0, strlen($stored['redirect_uri'])), $stored['redirect_uri']) !== 0) {
+        throw new InvalidRequestException();
+      }
+    }
+
+    // We no longer care where redirect_uri coming from as we already have
+    // a valid record, so override and return it.
+    $query = array_merge($query, $stored);
+
+    return TRUE;
+  }
+
+  public static function checkCode(Application $app, &$query)
+  {
+    // Check code with database record.
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
+      'client_id' => $query['client_id'],
+      'code' => $query['code'],
+    ));
+    if ($result === NULL) {
+      throw new InvalidGrantException();
+    }
+    elseif ($result->getExpires() < time()) {
+      throw new InvalidGrantException();
+    }
+
+    return TRUE;
+  }
+
+  public static function checkUsername(Application $app, &$query)
+  {
+    // Check username with database record.
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
+      'username' => $query['username'],
+    ));
+    if ($result === NULL) {
+      throw new InvalidGrantException();
+    }
+
+    return TRUE;
+  }
+
+  public static function checkPassword(Application $app, &$query)
+  {
+    // Check username with database record.
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
+      'username' => $query['username'],
+      'password' => $query['password'],
+    ));
+    if ($result === NULL) {
+      throw new InvalidGrantException();
+    }
+
+    return TRUE;
+  }
+
+  public static function checkRefreshToken(Application $app, &$query)
+  {
+    // Check refresh_token with database record.
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
+      'client_id' => $query['client_id'],
+      'refresh_token' => $query['refresh_token'],
+    ));
+    if ($result === NULL) {
+      throw new InvalidGrantException();
+    }
+    elseif ($result->getExpires() < time()) {
+      throw new InvalidRequestException();
+    }
+
+    return TRUE;
+  }
 }
