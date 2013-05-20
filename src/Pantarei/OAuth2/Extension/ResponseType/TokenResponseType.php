@@ -136,7 +136,7 @@ class TokenResponseType extends ResponseType
 
     // Validate and set state.
     if ($state = $request->query->get('state')) {
-      $this->setScope($state);
+      $this->setState($state);
     }
   }
 

@@ -31,7 +31,7 @@ abstract class ResponseType implements OAuth2TypeInterface
     return TRUE;
   }
 
-  public function getResponse()
+  public function getResponse(Request $request, Application $app)
   {
     return new Response();
   }

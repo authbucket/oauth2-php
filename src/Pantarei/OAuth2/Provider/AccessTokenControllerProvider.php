@@ -44,7 +44,7 @@ class AccessTokenControllerProvider implements ControllerProviderInterface
     // The main callback for access token endpoint.
     $controllers->post('/', function (Request $request, Application $app) {
       $grant_type = GrantType::getType($request, $app);
-      return $grant_type->getResponse();
+      return $grant_type->getResponse($request, $app);
     });
 
     return $controllers;

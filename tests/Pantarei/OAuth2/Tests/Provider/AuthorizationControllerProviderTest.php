@@ -300,7 +300,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertTrue($client->getResponse()->isRedirect());
 
     $parameters = array(
       'response_type' => 'code',
@@ -310,7 +310,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertTrue($client->getResponse()->isRedirect());
 
     $parameters = array(
       'response_type' => 'code',
@@ -320,7 +320,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertTrue($client->getResponse()->isRedirect());
 
     $parameters = array(
       'response_type' => 'code',
@@ -331,7 +331,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertTrue($client->getResponse()->isRedirect());
   }
 
   public function testGoodCodeNoPassedRedirectUri() {
@@ -349,7 +349,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertTrue($client->getResponse()->isRedirect());
   }
 
   public function testGoodCodeNoStoredRedirectUri() {
@@ -368,7 +368,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertTrue($client->getResponse()->isRedirect());
   }
 
   public function testGoodToken()

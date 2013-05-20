@@ -11,10 +11,13 @@
 
 namespace Pantarei\OAuth2\Extension\ResponseType;
 
+use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Extension\ResponseType;
 use Pantarei\OAuth2\Util\ParameterUtils;
+use Rhumsaa\Uuid\Uuid;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -136,8 +139,29 @@ class CodeResponseType extends ResponseType
 
     // Validate and set state.
     if ($state = $request->query->get('state')) {
-      $this->setScope($state);
+      $this->setState($state);
     }
+  }
+
+  public function getResponse(Request $request, Application $app)
+  {
+    $code = new Codes();
+    $code->setCode(md5(Uuid::uuid4()))
+      ->setClientId($this->getClientId())
+      ->setUsername('')
+      ->setRedirectUri($this->getRedirectUri())
+      ->setExpires(time() + 3600)
+      ->setScope($this->getScope());
+    $app['oauth2.orm']->persist($code);
+    $app['oauth2.orm']->flush();
+
+    $parameters = array(
+      'code' => $code->getCode(),
+      'state' => $this->getState(),
+    );
+    $builder = Request::create($this->getRedirectUri(), 'GET', array_filter($parameters));
+
+    return new RedirectResponse($builder->getUri());
   }
 
   public function getParent()

@@ -42,7 +42,7 @@ class AuthorizationControllerProvider implements ControllerProviderInterface
     // The main callback for authorization endpoint.
     $controllers->get('/', function (Request $request, Application $app) {
       $response_type = ResponseType::getType($request, $app);
-      return $response_type->getResponse();
+      return $response_type->getResponse($request, $app);
     });
 
     return $controllers;

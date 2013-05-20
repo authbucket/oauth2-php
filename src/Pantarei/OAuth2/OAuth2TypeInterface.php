@@ -36,7 +36,7 @@ interface OAuth2TypeInterface
    * @return Response
    *   An Response instance.
    */
-  public function getResponse();
+  public function getResponse(Request $request, Application $app);
 
   /**
    * Returns the name of the parent type.
