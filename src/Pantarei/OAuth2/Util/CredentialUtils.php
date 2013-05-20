@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Util;
 
+use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,7 +48,7 @@ abstract class CredentialUtils
       'client_secret' => $query['client_secret'],
     ));
     if ($result === NULL) {
-      return FALSE;
+      throw new InvalidClientException();
     }
 
     return TRUE;

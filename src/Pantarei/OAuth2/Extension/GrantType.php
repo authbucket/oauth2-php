@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Extension;
 
-use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
 use Pantarei\OAuth2\OAuth2TypeInterface;
@@ -73,10 +72,8 @@ abstract class GrantType implements OAuth2TypeInterface
       throw new UnsupportedGrantTypeException();
     }
 
-    // Validate and set client_id.
-    if (!CredentialUtils::check($request, $app)) {
-      throw new InvalidClientException();
-    }
+    // Validate client_id.
+    CredentialUtils::check($request, $app);
 
     // Create and return the token type.
     $grant_type = $app['oauth2.token.options']['grant_type'][$request->request->get('grant_type')];
