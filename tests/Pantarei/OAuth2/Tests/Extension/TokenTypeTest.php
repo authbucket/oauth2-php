@@ -25,10 +25,6 @@ class TokenTypeTest extends OAuth2WebTestCase
   public function testTokenType()
   {
     $request = new Request();
-    $stub = $this->getMockForAbstractClass('Pantarei\OAuth2\Extension\TokenType', array($request, $this->app));
-    $this->assertTrue($stub->__construct($request, $this->app));
-    $this->assertTrue($stub->getResponse($request, $this->app) instanceof Response);
-    $this->assertNull($stub->getParent());
-    $this->assertEquals('token_type', $stub->getName());
+    $stub = $this->getMockForAbstractClass('Pantarei\OAuth2\Extension\TokenType');
   }
 }

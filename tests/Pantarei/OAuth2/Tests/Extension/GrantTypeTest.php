@@ -25,9 +25,6 @@ class GrantTypeTest extends OAuth2WebTestCase
   public function testGrantType()
   {
     $request = new Request();
-    $stub = $this->getMockForAbstractClass('Pantarei\OAuth2\Extension\GrantType', array($request, $this->app));
-    $this->assertTrue($stub->getResponse($request, $this->app) instanceof Response);
-    $this->assertNull($stub->getParent());
-    $this->assertEquals('grant_type', $stub->getName());
+    $stub = $this->getMockForAbstractClass('Pantarei\OAuth2\Extension\GrantType');
   }
 }

@@ -35,8 +35,6 @@ class TokenResponseTypeTest extends OAuth2WebTestCase
     ));
     $request->overrideGlobals();
     $response_type = new TokenResponseType($request, $this->app);
-    $this->assertEquals('token', $response_type->getName());
-    $this->assertEquals('response_type', $response_type->getParent());
 
     $response_type->setClientId('5678');
     $this->assertEquals('5678', $response_type->getClientId());

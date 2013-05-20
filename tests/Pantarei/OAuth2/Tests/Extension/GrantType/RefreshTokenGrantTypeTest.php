@@ -40,8 +40,6 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new RefreshTokenGrantType($request, $this->app);
-    $this->assertEquals('grant_type', $grant_type->getParent());
-    $this->assertEquals('refresh_token', $grant_type->getName());
 
     $grant_type->setRefreshToken('37ed55a16777958a3953088576869ca7');
     $this->assertEquals('37ed55a16777958a3953088576869ca7', $grant_type->getRefreshToken());

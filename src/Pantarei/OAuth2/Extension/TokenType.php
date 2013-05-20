@@ -23,24 +23,48 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class TokenType implements OAuth2TypeInterface
 {
-  public function __construct(Request $request, Application $app)
+  protected $client_id = '';
+
+  protected $username = '';
+
+  protected $scope = array();
+
+  abstract public static function create();
+
+  abstract public function createAccessToken();
+
+  abstract public function createRefreshToken();
+
+  public function setClientId($client_id)
   {
-    return TRUE;
+    $this->client_id = $client_id;
+    return $this;
   }
 
-  public function getResponse(Request $request, Application $app)
+  public function getClientId()
   {
-    return new Response();
+    return $this->client_id;
   }
 
-  public function getParent()
+  public function setUsername($username)
   {
-    return NULL;
+    $this->username = $username;
+    return $this;
   }
 
-  public function getName()
+  public function getUsername()
   {
-    return 'token_type';
+    return $this->username;
   }
 
+  public function setScope($scope)
+  {
+    $this->scope = $scope;
+    return $this;
+  }
+
+  public function getScope()
+  {
+    return $this->scope;
+  }
 }

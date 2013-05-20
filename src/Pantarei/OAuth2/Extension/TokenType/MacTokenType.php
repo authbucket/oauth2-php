@@ -23,13 +23,18 @@ use Silex\Application;
  */
 class MacTokenType extends TokenType
 {
-  public function getParent()
+  public static function create()
   {
-    return 'token_type';
+    return NULL;
   }
 
-  public function getName()
+  public function createAccessToken()
   {
-    return 'mac';
+    return NULL;
+  }
+
+  public function createRefreshToken()
+  {
+    return NULL;
   }
 }

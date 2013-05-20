@@ -27,24 +27,47 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class GrantType implements OAuth2TypeInterface
 {
-  public function __construct(Request $request, Application $app)
+  protected $client_id = '';
+
+  protected $username = '';
+
+  protected $scope = array();
+
+  abstract public static function create(Request $request, Application $app);
+
+  abstract public function getResponse(Request $request, Application $app);
+
+  public function setClientId($client_id)
   {
-    return TRUE;
+    $this->client_id = $client_id;
+    return $this;
   }
 
-  public function getResponse(Request $request, Application $app)
+  public function getClientId()
   {
-    return new Response();
+    return $this->client_id;
   }
 
-  public function getParent()
+  public function setUsername($username)
   {
-    return NULL;
+    $this->username = $username;
+    return $this;
   }
 
-  public function getName()
+  public function getUsername()
   {
-    return 'grant_type';
+    return $this->username;
+  }
+
+  public function setScope($scope)
+  {
+    $this->scope = $scope;
+    return $this;
+  }
+
+  public function getScope()
+  {
+    return $this->scope;
   }
 
   public static function getType(Request $request, Application $app)
@@ -78,6 +101,6 @@ abstract class GrantType implements OAuth2TypeInterface
 
     // Create and return the token type.
     $namespace = $app['oauth2.token.options']['grant_type'][$grant_type];
-    return new $namespace($request, $app);
+    return $namespace::create($request, $app);
   }
 }

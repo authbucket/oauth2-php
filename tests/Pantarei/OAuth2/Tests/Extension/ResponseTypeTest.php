@@ -25,10 +25,6 @@ class ResponseTypeTest extends OAuth2WebTestCase
   public function testResponseType()
   {
     $request = new Request();
-    $stub = $this->getMockForAbstractClass('Pantarei\OAuth2\Extension\ResponseType', array($request, $this->app));
-    $this->assertTrue($stub->__construct($request, $this->app));
-    $this->assertTrue($stub->getResponse($request, $this->app) instanceof Response);
-    $this->assertNull($stub->getParent());
-    $this->assertEquals('response_type', $stub->getName());
+    $stub = $this->getMockForAbstractClass('Pantarei\OAuth2\Extension\ResponseType');
   }
 }

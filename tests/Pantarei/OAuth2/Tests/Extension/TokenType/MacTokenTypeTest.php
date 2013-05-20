@@ -26,8 +26,9 @@ class MacTokenTypeTest extends OAuth2WebTestCase
   public function testTokenType()
   {
     $request = new Request();
-    $grant_type = new MacTokenType($request, $this->app);
-    $this->assertEquals('token_type', $grant_type->getParent());
-    $this->assertEquals('mac', $grant_type->getName());
+    $grant_type = new MacTokenType();
+    $this->assertNull(MacTokenType::create());
+    $this->assertNull($grant_type->createAccessToken());
+    $this->assertNull($grant_type->createRefreshToken());
   }
 }

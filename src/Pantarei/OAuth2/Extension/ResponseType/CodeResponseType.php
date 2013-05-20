@@ -35,28 +35,14 @@ class CodeResponseType extends ResponseType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  private $response_type = 'code';
-
-  /**
-   * REQUIRED. The client identifier as described in Section 2.2.
-   *
-   * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
-   */
-  private $client_id = '';
+  protected $response_type = 'code';
 
   /**
    * OPTIONAL. As described in Section 3.1.2.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  private $redirect_uri = '';
-
-  /**
-   * OPTIONAL. The scope of the access request as described by Section 3.3.
-   *
-   * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
-   */
-  private $scope = array();
+  protected $redirect_uri = '';
 
   /**
    * RECOMMENDED. An opaque value used by the client to maintain
@@ -67,18 +53,7 @@ class CodeResponseType extends ResponseType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  private $state = '';
-
-  public function setClientId($client_id)
-  {
-    $this->client_id = $client_id;
-    return $this;
-  }
-
-  public function getClientId()
-  {
-    return $this->client_id;
-  }
+  protected $state = '';
 
   public function setRedirectUri($redirect_uri)
   {
@@ -89,17 +64,6 @@ class CodeResponseType extends ResponseType
   public function getRedirectUri()
   {
     return $this->redirect_uri;
-  }
-
-  public function setScope($scope)
-  {
-    $this->scope = $scope;
-    return $this;
-  }
-
-  public function getScope()
-  {
-    return $this->scope;
   }
 
   public function setState($state)
@@ -141,6 +105,11 @@ class CodeResponseType extends ResponseType
     }
   }
 
+  public static function create(Request $request, Application $app)
+  {
+    return new static($request, $app);
+  }
+
   public function getResponse(Request $request, Application $app)
   {
     $code = new Codes();
@@ -161,15 +130,5 @@ class CodeResponseType extends ResponseType
     $response = new RedirectResponse($redirect_uri);
 
     return $response;
-  }
-
-  public function getParent()
-  {
-    return 'response_type';
-  }
-
-  public function getName()
-  {
-    return $this->response_type;
   }
 }

@@ -39,8 +39,6 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new PasswordGrantType($request, $this->app);
-    $this->assertEquals('grant_type', $grant_type->getParent());
-    $this->assertEquals('password', $grant_type->getName());
 
     $grant_type->setUsername('demouser2');
     $this->assertEquals('demouser2', $grant_type->getUsername());

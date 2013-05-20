@@ -36,30 +36,14 @@ class RefreshTokenGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-6
    */
-  private $grant_type = 'refresh_token';
+  protected $grant_type = 'refresh_token';
 
   /**
    * REQUIRED. The refresh token issued to the client.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-6
    */
-  private $refresh_token = '';
-
-  /**
-   * OPTIONAL. The scope of the access request as described by
-   * Section 3.3. The requested scope MUST NOT include any scope
-   * not originally granted by the resource owner, and if omitted is
-   * treated as equal to the scope originally granted by the
-   * resource owner.
-   *
-   * @see http://tools.ietf.org/html/rfc6749#section-6
-   */
-  private $scope = array();
-
-  /**
-   * INTERNAL. Need to fetch client_id from refresh_token.
-   */
-  private $client_id = '';
+  protected $refresh_token = '';
 
   public function setRefreshToken($refresh_token)
   {
@@ -70,28 +54,6 @@ class RefreshTokenGrantType extends GrantType
   public function getRefreshToken()
   {
     return $this->refresh_token;
-  }
-
-  public function setScope($scope)
-  {
-    $this->scope = $scope;
-    return $this;
-  }
-
-  public function getScope()
-  {
-    return $this->scope;
-  }
-
-  public function setClientId($client_id)
-  {
-    $this->client_id = $client_id;
-    return $this;
-  }
-
-  public function getClientId()
-  {
-    return $this->client_id;
   }
 
   public function __construct(Request $request, Application $app)
@@ -115,6 +77,11 @@ class RefreshTokenGrantType extends GrantType
     if ($scope = ParameterUtils::checkScopeByRefreshToken($request, $app)) {
       $this->setScope($scope);
     }
+  }
+
+  public static function create(Request $request, Application $app)
+  {
+    return new static($request, $app);
   }
 
   public function getResponse(Request $request, Application $app)
@@ -153,15 +120,5 @@ class RefreshTokenGrantType extends GrantType
     $response = JsonResponse::create(array_filter($parameters), 200, $headers);
 
     return $response;
-  }
-
-  public function getParent()
-  {
-    return 'grant_type';
-  }
-
-  public function getName()
-  {
-    return $this->grant_type;
   }
 }

@@ -37,8 +37,6 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new AuthorizationCodeGrantType($request, $this->app);
-    $this->assertEquals('grant_type', $grant_type->getParent());
-    $this->assertEquals('authorization_code', $grant_type->getName());
 
     $grant_type->setCode('83f1d26e90c2a275ae752adc6e49aa43');
     $this->assertEquals('83f1d26e90c2a275ae752adc6e49aa43', $grant_type->getCode());

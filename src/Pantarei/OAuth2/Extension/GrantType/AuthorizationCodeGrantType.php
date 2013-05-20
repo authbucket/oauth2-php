@@ -36,7 +36,7 @@ class AuthorizationCodeGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  private $grant_type = 'authorization_code';
+  protected $grant_type = 'authorization_code';
 
   /**
    * REQUIRED. The authorization code received from the
@@ -44,7 +44,7 @@ class AuthorizationCodeGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  private $code = '';
+  protected $code = '';
 
   /**
    * REQUIRED, if the "redirect_uri" parameter was included in the
@@ -53,20 +53,7 @@ class AuthorizationCodeGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  private $redirect_uri = '';
-
-  /**
-   * REQUIRED, if the client is not authenticating with the
-   * authorization server as described in Section 3.2.1.
-   *
-   * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
-   */
-  private $client_id = '';
-
-  /**
-   * INTERNAL. Need to fetch scope from provided code.
-   */
-  private $scope = array();
+  protected $redirect_uri = '';
 
   public function setCode($code)
   {
@@ -88,28 +75,6 @@ class AuthorizationCodeGrantType extends GrantType
   public function getRedirectUri()
   {
     return $this->redirect_uri;
-  }
-
-  public function setClientId($client_id)
-  {
-    $this->client_id = $client_id;
-    return $this;
-  }
-
-  public function getClientId()
-  {
-    return $this->client_id;
-  }
-
-  public function setScope($scope)
-  {
-    $this->scope = $scope;
-    return $this;
-  }
-
-  public function getScope()
-  {
-    return $this->scope;
   }
 
   public function __construct(Request $request, Application $app)
@@ -138,6 +103,11 @@ class AuthorizationCodeGrantType extends GrantType
     if ($scope = ParameterUtils::checkScopeByCode($request, $app)) {
       $this->setScope($scope);
     }
+  }
+
+  public static function create(Request $request, Application $app)
+  {
+    return new static($request, $app);
   }
 
   public function getResponse(Request $request, Application $app)
@@ -176,15 +146,5 @@ class AuthorizationCodeGrantType extends GrantType
     $response = JsonResponse::create(array_filter($parameters), 200, $headers);
 
     return $response;
-  }
-
-  public function getParent()
-  {
-    return 'grant_type';
-  }
-
-  public function getName()
-  {
-    return $this->grant_type;
   }
 }

@@ -21,13 +21,18 @@ use Silex\Application;
  */
 class BearerTokenType extends TokenType
 {
-  public function getParent()
+  public static function create()
   {
-    return 'token_type';
+    return NULL;
   }
 
-  public function getName()
+  public function createAccessToken()
   {
-    return 'bearer';
+    return NULL;
+  }
+
+  public function createRefreshToken()
+  {
+    return NULL;
   }
 }

@@ -36,45 +36,14 @@ class PasswordGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
    */
-  private $grant_type = 'password';
-
-  /**
-   * REQUIRED. The resource owner username.
-   *
-   * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
-   */
-  private $username = '';
+  protected $grant_type = 'password';
 
   /**
    * REQUIRED. The resource owner password.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
    */
-  private $password = '';
-
-  /**
-   * OPTIONAL. The scope of the access request as described by
-   * Section 3.3.
-   *
-   * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
-   */
-  private $scope = array();
-
-  /**
-   * Need to fetch client_id from credential.
-   */
-  private $client_id = '';
-
-  public function setUsername($username)
-  {
-    $this->username = $username;
-    return $this;
-  }
-
-  public function getUsername()
-  {
-    return $this->username;
-  }
+  protected $password = '';
 
   public function setPassword($password)
   {
@@ -85,28 +54,6 @@ class PasswordGrantType extends GrantType
   public function getPassword()
   {
     return $this->password;
-  }
-
-  public function setScope($scope)
-  {
-    $this->scope = $scope;
-    return $this;
-  }
-
-  public function getScope()
-  {
-    return $this->scope;
-  }
-
-  public function setClientId($client_id)
-  {
-    $this->client_id = $client_id;
-    return $this;
-  }
-
-  public function getClientId()
-  {
-    return $this->client_id;
   }
 
   public function __construct(Request $request, Application $app) {
@@ -134,6 +81,11 @@ class PasswordGrantType extends GrantType
     if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
       $this->setScope($scope);
     }
+  }
+
+  public static function create(Request $request, Application $app)
+  {
+    return new static($request, $app);
   }
 
   public function getResponse(Request $request, Application $app)
@@ -172,15 +124,5 @@ class PasswordGrantType extends GrantType
     $response = JsonResponse::create(array_filter($parameters), 200, $headers);
 
     return $response;
-  }
-
-  public function getParent()
-  {
-    return 'grant_type';
-  }
-
-  public function getName()
-  {
-    return $this->grant_type;
   }
 }
