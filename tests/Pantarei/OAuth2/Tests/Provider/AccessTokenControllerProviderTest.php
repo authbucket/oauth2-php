@@ -481,7 +481,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('POST', '/', $parameters, array(), $server);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodPassword()

@@ -30,7 +30,10 @@ class ClientCredentialsGrantTypeTest extends OAuth2WebTestCase
       'grant_type' => 'client_credentials',
       'scope' => 'demoscope1',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new ClientCredentialsGrantType($request, $this->app);

@@ -53,7 +53,7 @@ class AuthorizationCodeGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  private $redirect_uri;
+  private $redirect_uri = '';
 
   /**
    * REQUIRED, if the client is not authenticating with the
@@ -61,12 +61,12 @@ class AuthorizationCodeGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  private $cilentId;
+  private $client_id = '';
 
   /**
-   * Scope will need to fetch from provided code.
+   * scope need to fetch from provided code.
    */
-  private $scope;
+  private $scope = '';
 
   public function setCode($code)
   {
