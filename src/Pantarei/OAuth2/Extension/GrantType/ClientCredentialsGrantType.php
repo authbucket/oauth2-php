@@ -46,7 +46,7 @@ class ClientCredentialsGrantType extends GrantType
   private $scope = '';
 
   /**
-   * client_id need to fetch from credential.
+   * Need to fetch client_id from credential.
    */
   private $client_id = '';
 

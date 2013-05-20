@@ -64,7 +64,7 @@ class AuthorizationCodeGrantType extends GrantType
   private $client_id = '';
 
   /**
-   * scope need to fetch from provided code.
+   * Need to fetch scope from provided code.
    */
   private $scope = '';
 

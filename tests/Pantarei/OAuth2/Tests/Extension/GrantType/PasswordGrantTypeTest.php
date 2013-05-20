@@ -32,7 +32,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new PasswordGrantType($request, $this->app);
@@ -60,7 +63,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new PasswordGrantType($request, $this->app);
@@ -80,7 +86,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'password' => 'demopassword1',
       'scope' => 'demoscope1',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new PasswordGrantType($request, $this->app);
@@ -99,7 +108,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'username' => 'demousername1',
       'scope' => 'demoscope1',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new PasswordGrantType($request, $this->app);
@@ -119,7 +131,10 @@ class PasswordGrantTypeTest extends OAuth2WebTestCase
       'password' => 'badpassword1',
       'scope' => 'demoscope1',
     );
-    $server = array();
+    $server = array(
+      'PHP_AUTH_USER' => 'http://democlient1.com/',
+      'PHP_AUTH_PW' => 'demosecret1',
+    );
     $request->initialize(array(), $post, array(), array(), array(), $server);
     $request->overrideGlobals();
     $grant_type = new PasswordGrantType($request, $this->app);
