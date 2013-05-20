@@ -405,7 +405,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('POST', '/', $parameters, array(), $server);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
     $parameters = array(
       'grant_type' => 'authorization_code',
@@ -417,7 +417,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
     $server = array();
     $client = $this->createClient();
     $crawler = $client->request('POST', '/', $parameters, array(), $server);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodAuthCodeNoPassedRedirectUri()
@@ -431,7 +431,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
     $server = array();
     $client = $this->createClient();
     $crawler = $client->request('POST', '/', $parameters, array(), $server);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodAuthCodeNoStoredRedirectUri()
@@ -466,7 +466,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
     $server = array();
     $client = $this->createClient();
     $crawler = $client->request('POST', '/', $parameters, array(), $server);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodClientCred()

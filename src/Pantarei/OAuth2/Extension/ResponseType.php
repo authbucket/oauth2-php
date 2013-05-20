@@ -63,7 +63,7 @@ abstract class ResponseType implements OAuth2TypeInterface
     if (!isset($filtered_query['response_type'])) {
       throw new InvalidRequestException();
     }
-    $response_type = $request->query->get('response_type');
+    $response_type = $filtered_query['response_type'];
 
     // Check if response_type is supported.
     if (!isset($app['oauth2.auth.options']['response_type'][$response_type])) {

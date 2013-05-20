@@ -148,6 +148,20 @@ abstract class ParameterUtils
     return $scopes;
   }
 
+  public static function checkScopeByCode(Request $request, Application $app)
+  {
+    // Fetch scope from pre-generated code.
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
+      'code' => $request->request->get('code'),
+      'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
+    ));
+    if ($result !== NULL && $result->getScope()) {
+      return implode(' ', $result->getScope());
+    }
+
+    return FALSE;
+  }
+
   public static function checkRedirectUri(Request $request, Application $app, $method = 'GET')
   {
     switch ($method) {

@@ -199,6 +199,31 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $this->assertEquals($post['scope'], $result);
   }
 
+  public function testCheckScopeByCode()
+  {
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'client_id' => 'http://democlient2.com/',
+      'code' => 'f0c68d250bcc729eb780a235371a9a55',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkScopeByCode($request, $this->app);
+    $this->assertEquals('demoscope1 demoscope2', $result);
+
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'client_id' => 'http://badclient2.com/',
+      'code' => 'f0c68d250bcc729eb780a235371a9a55',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkScopeByCode($request, $this->app);
+    $this->assertFalse($result);
+  }
+
   /**
    * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
    */

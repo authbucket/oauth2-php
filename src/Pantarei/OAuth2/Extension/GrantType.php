@@ -66,9 +66,10 @@ abstract class GrantType implements OAuth2TypeInterface
     if (!isset($filtered_query['grant_type'])) {
       throw new InvalidRequestException();
     }
+    $grant_type = $filtered_query['grant_type'];
 
     // Check if grant_type is supported.
-    if (!isset($app['oauth2.token.options']['grant_type'][$request->request->get('grant_type')])) {
+    if (!isset($app['oauth2.token.options']['grant_type'][$grant_type])) {
       throw new UnsupportedGrantTypeException();
     }
 
@@ -76,7 +77,7 @@ abstract class GrantType implements OAuth2TypeInterface
     CredentialUtils::check($request, $app);
 
     // Create and return the token type.
-    $grant_type = $app['oauth2.token.options']['grant_type'][$request->request->get('grant_type')];
-    return new $grant_type($request, $app);
+    $namespace = $app['oauth2.token.options']['grant_type'][$grant_type];
+    return new $namespace($request, $app);
   }
 }
