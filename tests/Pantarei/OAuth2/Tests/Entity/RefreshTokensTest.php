@@ -25,6 +25,7 @@ class RefreshTokensTest extends OAuth2WebTestCase
   {
     $data = new RefreshTokens();
     $data->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
+      ->setTokenType('bearer')
       ->setClientId('http://democlient3.com/')
       ->setExpires(time() + 86400)
       ->setUsername('demousername3')
@@ -34,6 +35,7 @@ class RefreshTokensTest extends OAuth2WebTestCase
         'demoscope3',
       ));
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $data->getRefreshToken());
+    $this->assertEquals('bearer', $data->getTokenType());
     $this->assertEquals('http://democlient3.com/', $data->getClientId());
     $this->assertTrue($data->getExpires() > time());
     $this->assertEquals('demousername3', $data->getUsername());
@@ -46,6 +48,7 @@ class RefreshTokensTest extends OAuth2WebTestCase
     $this->assertEquals('Pantarei\OAuth2\Entity\RefreshTokens', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('288b5ea8e75d2b24368a79ed5ed9593b', $result->getRefreshToken());
+    $this->assertEquals('bearer', $result->getTokenType());
     $this->assertEquals('http://democlient3.com/', $result->getClientId());
     $this->assertTrue($result->getExpires() > time());
     $this->assertEquals('demousername3', $result->getUsername());
@@ -56,6 +59,7 @@ class RefreshTokensTest extends OAuth2WebTestCase
   {
     $data = new RefreshTokens();
     $data->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
+      ->setTokenType('bearer')
       ->setClientId('http://democlient4.com/')
       ->setExpires(time() - 3600)
       ->setUsername('demousername4')

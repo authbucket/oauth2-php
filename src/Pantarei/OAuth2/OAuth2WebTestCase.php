@@ -89,6 +89,7 @@ class OAuth2WebTestCase extends WebTestCase
     // Add demo access token.
     $access_token = new AccessTokens();
     $access_token->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
+      ->setTokenType('bearer')
       ->setClientId('http://democlient1.com/')
       ->setExpires(time() + 28800)
       ->setUsername('demousername1')
@@ -160,6 +161,7 @@ class OAuth2WebTestCase extends WebTestCase
     // Add demo refresh token.
     $refresh_token = new RefreshTokens();
     $refresh_token->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
+      ->setTokenType('bearer')
       ->setClientId('http://democlient3.com/')
       ->setExpires(time() + 86400)
       ->setUsername('demousername3')

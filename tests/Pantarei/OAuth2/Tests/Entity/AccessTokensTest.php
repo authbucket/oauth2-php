@@ -25,6 +25,7 @@ class AccessTokensTest extends OAuth2WebTestCase
   {
     $data = new AccessTokens();
     $data->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
+      ->setTokenType('bearer')
       ->setClientId('http://democlient1.com/')
       ->setExpires(time() + 28800)
       ->setUsername('demousername1')
@@ -32,6 +33,7 @@ class AccessTokensTest extends OAuth2WebTestCase
         'demoscope1',
       ));
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $data->getAccessToken());
+    $this->assertEquals('bearer', $data->getTokenType());
     $this->assertEquals('http://democlient1.com/', $data->getClientId());
     $this->assertTrue($data->getExpires() > time());
     $this->assertEquals('demousername1', $data->getUsername());
@@ -44,6 +46,7 @@ class AccessTokensTest extends OAuth2WebTestCase
     $this->assertEquals('Pantarei\OAuth2\Entity\AccessTokens', get_class($result));
     $this->assertEquals(1, $result->getId());
     $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result->getAccessToken());
+    $this->assertEquals('bearer', $result->getTokenType());
     $this->assertEquals('http://democlient1.com/', $result->getClientId());
     $this->assertTrue($result->getExpires() > time());
     $this->assertEquals('demousername1', $result->getUsername());
@@ -54,6 +57,7 @@ class AccessTokensTest extends OAuth2WebTestCase
   {
     $data = new AccessTokens();
     $data->setAccessToken('5ddaa68ac1805e728563dd7915441408')
+      ->setTokenType('bearer')
       ->setClientId('http://democlient4.com/')
       ->setExpires(time() - 3600)
       ->setUsername('demousername4')

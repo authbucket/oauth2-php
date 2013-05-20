@@ -38,6 +38,13 @@ class RefreshTokens
   /**
    * @var string
    *
+   * @Column(name="token_type", type="string", length=255)
+   */
+  private $token_type;
+
+  /**
+   * @var string
+   *
    * @Column(name="client_id", type="string", length=255)
    */
   private $client_id;
@@ -95,6 +102,29 @@ class RefreshTokens
   public function getRefreshToken()
   {
     return $this->refresh_token;
+  }
+
+  /**
+   * Set token_type
+   *
+   * @param string $token_type
+   * @return TokenTypes
+   */
+  public function setTokenType($token_type)
+  {
+    $this->token_type = $token_type;
+
+    return $this;
+  }
+
+  /**
+   * Get token_type
+   *
+   * @return string
+   */
+  public function getTokenType()
+  {
+    return $this->token_type;
   }
 
   /**

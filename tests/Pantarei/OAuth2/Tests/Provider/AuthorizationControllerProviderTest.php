@@ -380,7 +380,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
     $parameters = array(
       'response_type' => 'token',
@@ -390,7 +390,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
     $parameters = array(
       'response_type' => 'token',
@@ -400,7 +400,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
     $parameters = array(
       'response_type' => 'token',
@@ -411,7 +411,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodTokenNoPassedRedirectUri() {
@@ -429,7 +429,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodTokenNoStoredRedirectUri() {
@@ -448,6 +448,6 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
     );
     $client = $this->createClient();
     $crawler = $client->request('GET', '/', $parameters);
-    $this->assertTrue($client->getResponse()->isOk());
+    $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 }

@@ -100,6 +100,7 @@ class RefreshTokenGrantTypeTest extends OAuth2WebTestCase
   {
     $refresh_token = new RefreshTokens();
     $refresh_token->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
+      ->setTokenType('bearer')
       ->setClientId('http://democlient1.com/')
       ->setExpires(time() - 3600)
       ->setUsername('demousername1')

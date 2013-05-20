@@ -150,7 +150,7 @@ class CodeResponseType extends ResponseType
       ->setClientId($this->getClientId())
       ->setUsername('')
       ->setRedirectUri($this->getRedirectUri())
-      ->setExpires(time() + 3600)
+      ->setExpires(time() + 600)
       ->setScope($this->getScope());
     $app['oauth2.orm']->persist($code);
     $app['oauth2.orm']->flush();
@@ -159,9 +159,10 @@ class CodeResponseType extends ResponseType
       'code' => $code->getCode(),
       'state' => $this->getState(),
     );
-    $builder = Request::create($this->getRedirectUri(), 'GET', array_filter($parameters));
+    $redirect_uri = Request::create($this->getRedirectUri(), 'GET', array_filter($parameters))->getUri();
+    $response = new RedirectResponse($redirect_uri);
 
-    return new RedirectResponse($builder->getUri());
+    return $response;
   }
 
   public function getParent()
