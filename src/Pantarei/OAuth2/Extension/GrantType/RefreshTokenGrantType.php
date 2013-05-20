@@ -11,10 +11,14 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
+use Pantarei\OAuth2\Entity\AccessTokens;
+use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Extension\GrantType;
 use Pantarei\OAuth2\Util\ParameterUtils;
+use Rhumsaa\Uuid\Uuid;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -42,15 +46,20 @@ class RefreshTokenGrantType extends GrantType
   private $refresh_token = '';
 
   /**
-   * OPTIONAL.  The scope of the access request as described by
-   * Section 3.3.  The requested scope MUST NOT include any scope
+   * OPTIONAL. The scope of the access request as described by
+   * Section 3.3. The requested scope MUST NOT include any scope
    * not originally granted by the resource owner, and if omitted is
    * treated as equal to the scope originally granted by the
    * resource owner.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-6
    */
-  private $scope = '';
+  private $scope = array();
+
+  /**
+   * INTERNAL. Need to fetch client_id from refresh_token.
+   */
+  private $client_id = '';
 
   public function setRefreshToken($refresh_token)
   {
@@ -74,6 +83,17 @@ class RefreshTokenGrantType extends GrantType
     return $this->scope;
   }
 
+  public function setClientId($client_id)
+  {
+    $this->client_id = $client_id;
+    return $this;
+  }
+
+  public function getClientId()
+  {
+    return $this->client_id;
+  }
+
   public function __construct(Request $request, Application $app)
   {
     // REQUIRED: refresh_token.
@@ -81,22 +101,58 @@ class RefreshTokenGrantType extends GrantType
       throw new InvalidRequestException();
     }
 
-    // Although client_id is not required in request parameter, we need to
-    // ensure that the supplied refresh_token do belongs to corresponding
-    // client_id.
-    if (ParameterUtils::checkClientId($request, $app, 'POST')) {
-      // Validate and set refresh_token.
-      if ($refresh_token = ParameterUtils::checkRefreshToken($request, $app)) {
-        $this->setRefreshToken($refresh_token);
-      }
+    // Validate and set client_id.
+    if ($client_id = ParameterUtils::checkClientId($request, $app, 'POST')) {
+      $this->setClientId($client_id);
+    }
+
+    // Validate and set refresh_token.
+    if ($refresh_token = ParameterUtils::checkRefreshToken($request, $app)) {
+      $this->setRefreshToken($refresh_token);
     }
 
     // Validate and set scope.
-    if ($request->request->get('scope')) {
-      if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
-        $this->setScope($scope);
-      }
+    if ($scope = ParameterUtils::checkScopeByRefreshToken($request, $app)) {
+      $this->setScope($scope);
     }
+  }
+
+  public function getResponse(Request $request, Application $app)
+  {
+    $access_token = new AccessTokens();
+    $access_token->setAccessToken(md5(Uuid::uuid4()))
+      ->setTokenType('bearer')
+      ->setClientId($this->getClientId())
+      ->setUsername('')
+      ->setExpires(time() + 3600)
+      ->setScope($this->getScope());
+    $app['oauth2.orm']->persist($access_token);
+    $app['oauth2.orm']->flush();
+
+    $refresh_token = new RefreshTokens();
+    $refresh_token->setRefreshToken(md5(Uuid::uuid4()))
+      ->setTokenType('bearer')
+      ->setClientId($this->getClientId())
+      ->setUsername('')
+      ->setExpires(time() + 86400)
+      ->setScope($this->getScope());
+    $app['oauth2.orm']->persist($refresh_token);
+    $app['oauth2.orm']->flush();
+
+    $parameters = array(
+      'access_token' => $access_token->getAccessToken(),
+      'token_type' => $access_token->getTokenType(),
+      'expires_in' => $access_token->getExpires() - time(),
+      'refresh_token' => $refresh_token->getRefreshToken(),
+      'scope' => implode(' ', $this->getScope()),
+    );
+    $headers = array(
+      'Cache-Control' => 'no-store',
+      'Pragma' => 'no-cache',
+    );
+    $response = JsonResponse::create(array_filter($parameters), 200, $headers);
+
+    return $response;
   }
 
   public function getParent()

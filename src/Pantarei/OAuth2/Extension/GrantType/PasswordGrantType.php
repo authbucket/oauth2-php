@@ -58,7 +58,7 @@ class PasswordGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
    */
-  private $scope = '';
+  private $scope = array();
 
   /**
    * Need to fetch client_id from credential.
@@ -131,10 +131,8 @@ class PasswordGrantType extends GrantType
     }
 
     // Validate and set scope.
-    if ($request->request->get('scope')) {
-      if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
-        $this->setScope($scope);
-      }
+    if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
+      $this->setScope($scope);
     }
   }
 
@@ -165,7 +163,7 @@ class PasswordGrantType extends GrantType
       'token_type' => $access_token->getTokenType(),
       'expires_in' => $access_token->getExpires() - time(),
       'refresh_token' => $refresh_token->getRefreshToken(),
-      'scope' => $this->getScope(),
+      'scope' => implode(' ', $this->getScope()),
     );
     $headers = array(
       'Cache-Control' => 'no-store',

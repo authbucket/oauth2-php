@@ -64,9 +64,9 @@ class AuthorizationCodeGrantType extends GrantType
   private $client_id = '';
 
   /**
-   * Need to fetch scope from provided code.
+   * INTERNAL. Need to fetch scope from provided code.
    */
-  private $scope = '';
+  private $scope = array();
 
   public function setCode($code)
   {
@@ -122,21 +122,21 @@ class AuthorizationCodeGrantType extends GrantType
     // Validate and set client_id.
     if ($client_id = ParameterUtils::checkClientId($request, $app, 'POST')) {
       $this->setClientId($client_id);
+    }
 
-      // Validate and set redirect_uri.
-      if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app, 'POST')) {
-        $this->setRedirectUri($redirect_uri);
-      }
+    // Validate and set redirect_uri.
+    if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app, 'POST')) {
+      $this->setRedirectUri($redirect_uri);
+    }
 
-      // Validate and set code.
-      if ($code = ParameterUtils::checkCode($request, $app)) {
-        $this->setCode($code);
+    // Validate and set code.
+    if ($code = ParameterUtils::checkCode($request, $app)) {
+      $this->setCode($code);
 
-        // Validate and set scope.
-        if ($scope = ParameterUtils::checkScopeByCode($request, $app)) {
-          $this->setScope($scope);
-        }
-      }
+    }
+    // Validate and set scope.
+    if ($scope = ParameterUtils::checkScopeByCode($request, $app)) {
+      $this->setScope($scope);
     }
   }
 
@@ -167,7 +167,7 @@ class AuthorizationCodeGrantType extends GrantType
       'token_type' => $access_token->getTokenType(),
       'expires_in' => $access_token->getExpires() - time(),
       'refresh_token' => $refresh_token->getRefreshToken(),
-      'scope' => $this->getScope(),
+      'scope' => implode(' ', $this->getScope()),
     );
     $headers = array(
       'Cache-Control' => 'no-store',

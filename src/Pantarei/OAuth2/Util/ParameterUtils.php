@@ -128,24 +128,32 @@ abstract class ParameterUtils
   {
     switch ($method) {
       case 'GET':
-        $scopes = $request->query->get('scope');
+        $scope = $request->query->get('scope');
         break;
       case 'POST':
-        $scopes = $request->request->get('scope');
+        $scope = $request->request->get('scope');
         break;
     }
 
-    // Check scope with database record.
-    foreach (preg_split('/\s+/', $scopes) as $scope) {
-      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findOneBy(array(
-        'scope' => $scope,
-      ));
-      if ($result === NULL) {
+    if ($scope) {
+      // Fetch and prepare all stored scopes.
+      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findAll();
+
+      $stored = array();
+      foreach ($result as $row) {
+        $stored[] = $row->getScope();
+      }
+
+      // Compare if given scope within all available stored scopes.
+      $scopes = preg_split('/\s+/', $scope);
+      if (array_intersect($scopes, $stored) !== $scopes) {
         throw new InvalidScopeException();
       }
+
+      return $scopes;
     }
 
-    return $scopes;
+    return FALSE;
   }
 
   public static function checkScopeByCode(Request $request, Application $app)
@@ -156,7 +164,36 @@ abstract class ParameterUtils
       'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
     ));
     if ($result !== NULL && $result->getScope()) {
-      return implode(' ', $result->getScope());
+      return $result->getScope();
+    }
+
+    return FALSE;
+  }
+
+  public static function checkScopeByRefreshToken(Request $request, Application $app)
+  {
+    // Fetch scope from pre-grnerated refresh_token.
+    $stored = NULL;
+    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
+      'refresh_token' => $request->request->get('refresh_token'),
+      'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
+    ));
+    if ($result !== NULL && $result->getScope()) {
+      $stored = $result->getScope();
+    }
+
+    // Compare if given scope is subset of original refresh_token's scope.
+    if ($request->request->get('scope') && $stored !== NULL) {
+      $scopes = preg_split('/\s+/', $request->request->get('scope'));
+      if (array_intersect($scopes, $stored) != $scopes) {
+        throw new InvalidScopeException();
+      }
+
+      return $scopes;
+    }
+    // Return original refresh_token's scope if not specify in new request.
+    elseif ($stored !== NULL) {
+      return $stored;
     }
 
     return FALSE;

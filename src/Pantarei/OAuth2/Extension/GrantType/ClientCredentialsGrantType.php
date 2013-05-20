@@ -43,10 +43,10 @@ class ClientCredentialsGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.4.2
    */
-  private $scope = '';
+  private $scope = array();
 
   /**
-   * Need to fetch client_id from credential.
+   * INTERNAL. Need to fetch client_id from credential.
    */
   private $client_id = '';
 
@@ -80,10 +80,8 @@ class ClientCredentialsGrantType extends GrantType
     }
 
     // Validate and set scope.
-    if ($request->request->get('scope')) {
-      if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
-        $this->setScope($scope);
-      }
+    if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
+      $this->setScope($scope);
     }
   }
 
@@ -114,7 +112,7 @@ class ClientCredentialsGrantType extends GrantType
       'token_type' => $access_token->getTokenType(),
       'expires_in' => $access_token->getExpires() - time(),
       'refresh_token' => $refresh_token->getRefreshToken(),
-      'scope' => $this->getScope(),
+      'scope' => implode(' ', $this->getScope()),
     );
     $headers = array(
       'Cache-Control' => 'no-store',

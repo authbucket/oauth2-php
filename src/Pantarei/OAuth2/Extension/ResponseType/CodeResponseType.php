@@ -56,7 +56,7 @@ class CodeResponseType extends ResponseType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  private $scope = '';
+  private $scope = array();
 
   /**
    * RECOMMENDED. An opaque value used by the client to maintain
@@ -123,18 +123,16 @@ class CodeResponseType extends ResponseType
     // Validate and set client_id.
     if ($client_id = ParameterUtils::checkClientId($request, $app)) {
       $this->setClientId($client_id);
-      
-      // Validate and set redirect_uri.
-      if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app)) {
-        $this->setRedirectUri($redirect_uri);
-      }
+    }
+
+    // Validate and set redirect_uri.
+    if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app)) {
+      $this->setRedirectUri($redirect_uri);
     }
 
     // Validate and set scope.
-    if ($request->query->get('scope')) {
-      if ($scope = ParameterUtils::checkScope($request, $app)) {
-        $this->setScope($scope);
-      }
+    if ($scope = ParameterUtils::checkScope($request, $app)) {
+      $this->setScope($scope);
     }
 
     // Validate and set state.

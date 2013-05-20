@@ -12,6 +12,8 @@
 namespace Pantarei\OAuth2\Tests\Util;
 
 use Pantarei\OAuth2\Entity\Clients;
+use Pantarei\OAuth2\Entity\RefreshTokens;
+use Pantarei\OAuth2\Entity\Scopes;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -186,7 +188,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
     $result = ParameterUtils::checkScope($request, $this->app, 'GET');
-    $this->assertEquals($get['scope'], $result);
+    $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
 
     $request = new Request();
     $get = array();
@@ -196,7 +198,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
     $result = ParameterUtils::checkScope($request, $this->app, 'POST');
-    $this->assertEquals($post['scope'], $result);
+    $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
   }
 
   public function testCheckScopeByCode()
@@ -210,7 +212,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
     $result = ParameterUtils::checkScopeByCode($request, $this->app);
-    $this->assertEquals('demoscope1 demoscope2', $result);
+    $this->assertTrue($result == array('demoscope1', 'demoscope2'));
 
     $request = new Request();
     $get = array();
@@ -222,6 +224,63 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $request->initialize($get, $post, array(), array(), array(), $server);
     $result = ParameterUtils::checkScopeByCode($request, $this->app);
     $this->assertFalse($result);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+   */
+  public function testBadCheckScopeByRefreshTokenNotSubset()
+  {
+    $scope = new Scopes();
+    $scope->setScope('demoscope4');
+    $this->app['oauth2.orm']->persist($scope);
+    $this->app['oauth2.orm']->flush();
+
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'client_id' => 'http://democlient3.com/',
+      'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+      'scope' => 'demoscope1 demoscope2 demoscope3 demoscope4',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
+    // This wont' happened!!
+    $this->assertTrue($result);
+  }
+
+  public function testGoodCheckScopeByRefreshToken()
+  {
+    $refresh_token = new RefreshTokens();
+    $refresh_token->setRefreshToken('13dcf9db36152fa322daf9deb7b0a22e')
+      ->setTokenType('bearer')
+      ->setClientId('http://democlient1.com/')
+      ->setExpires(time() + 86400)
+      ->setUsername('demousername1');
+    $this->app['oauth2.orm']->persist($refresh_token);
+
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'client_id' => 'http://democlient1.com/',
+      'refresh_token' => '13dcf9db36152fa322daf9deb7b0a22e',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
+    $this->assertFalse($result);
+
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'client_id' => 'http://democlient3.com/',
+      'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
+    $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
   }
 
   /**
