@@ -11,6 +11,10 @@
 
 namespace Pantarei\OAuth2;
 
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Base OAuth2 type interface for response, grant and token type.
  *
@@ -18,6 +22,10 @@ namespace Pantarei\OAuth2;
  */
 interface OAuth2TypeInterface
 {
+  public static function create(Request $request, Application $app);
+
+  public function getResponse(Request $request, Application $app);
+
   public function setUsername($username);
 
   public function getUsername();
