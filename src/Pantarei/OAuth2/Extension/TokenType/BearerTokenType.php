@@ -13,6 +13,8 @@ namespace Pantarei\OAuth2\Extension\TokenType;
 
 use Pantarei\OAuth2\Extension\TokenType;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Bearer token type implementation.
@@ -21,17 +23,12 @@ use Silex\Application;
  */
 class BearerTokenType extends TokenType
 {
-  public static function create()
+  public static function create(Request $request, Application $app)
   {
-    return NULL;
+    return new static();
   }
 
-  public function createAccessToken()
-  {
-    return NULL;
-  }
-
-  public function createRefreshToken()
+  public function getResponse(Request $request, Application $app)
   {
     return NULL;
   }

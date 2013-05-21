@@ -29,11 +29,9 @@ abstract class TokenType implements OAuth2TypeInterface
 
   protected $scope = array();
 
-  abstract public static function create();
+  abstract public static function create(Request $request, Application $app);
 
-  abstract public function createAccessToken();
-
-  abstract public function createRefreshToken();
+  abstract public function getResponse(Request $request, Application $app);
 
   public function setClientId($client_id)
   {

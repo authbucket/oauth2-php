@@ -26,9 +26,7 @@ class BearerTokenTypeTest extends OAuth2WebTestCase
   public function testTokenType()
   {
     $request = new Request();
-    $grant_type = new BearerTokenType();
-    $this->assertNull(BearerTokenType::create());
-    $this->assertNull($grant_type->createAccessToken());
-    $this->assertNull($grant_type->createRefreshToken());
+    $token_type = BearerTokenType::create($request, $this->app);
+    $this->assertNull($token_type->getResponse($request, $this->app));
   }
 }
