@@ -71,22 +71,27 @@ abstract class ResponseType implements OAuth2TypeInterface
 
   public static function getType(Request $request, Application $app)
   {
-    // Prepare the filtered query.
-    $params = array('client_id', 'redirect_uri', 'response_type', 'scope', 'state');
-    $filtered_query = ParameterUtils::filter($request->query->all(), $params);
-    foreach ($params as $param) {
-      if ($request->query->get($param)) {
-        if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $request->query->get($param)) {
-          throw new InvalidRequestException();
-        }
-      }
+    $get = $request->query->all();
+    $post = $request->request->all();
+    
+    $filtered_get = ParameterUtils::filter($get);
+    $filtered_post = ParameterUtils::filter($post);
+
+    // Shouldn't provide data from both GET and POST.
+    if (!empty($filtered_get) && !empty($filtered_post)) {
+      throw new InvalidRequestException();
+    }
+
+    // If input format invalid we should stop here.
+    if (empty($filtered_get) || $filtered_get != $get) {
+      throw new InvalidRequestException();
     }
 
     // response_type is required.
-    if (!isset($filtered_query['response_type'])) {
+    if (!isset($filtered_get['response_type'])) {
       throw new InvalidRequestException();
     }
-    $response_type = $filtered_query['response_type'];
+    $response_type = $filtered_get['response_type'];
 
     // Check if response_type is supported.
     if (!isset($app['oauth2.auth.options']['response_type'][$response_type])) {

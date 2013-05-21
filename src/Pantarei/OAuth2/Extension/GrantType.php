@@ -72,24 +72,27 @@ abstract class GrantType implements OAuth2TypeInterface
 
   public static function getType(Request $request, Application $app)
   {
-    $query = $request->request->all();
+    $get = $request->query->all();
+    $post = $request->request->all();
 
-    // Prepare the filtered query.
-    $params = array('client_id', 'code', 'grant_type', 'password', 'redirect_uri', 'refresh_token', 'scope', 'username');
-    $filtered_query = ParameterUtils::filter($request->request->all(), $params);
-    foreach ($params as $param) {
-      if (isset($query[$param])) {
-        if (!isset($filtered_query[$param]) || $filtered_query[$param] !== $request->request->get($param)) {
-          throw new InvalidRequestException();
-        }
-      }
+    $filtered_get = ParameterUtils::filter($get);
+    $filtered_post = ParameterUtils::filter($post);
+
+    // Shouldn't provide data from both GET and POST.
+    if (!empty($filtered_get) && !empty($filtered_post)) {
+      throw new InvalidRequestException();
+    }
+
+    // If input format invalid we should stop here.
+    if (empty($filtered_post) || $filtered_post != $post) {
+      throw new InvalidRequestException();
     }
 
     // grant_type is required.
-    if (!isset($filtered_query['grant_type'])) {
+    if (!isset($filtered_post['grant_type'])) {
       throw new InvalidRequestException();
     }
-    $grant_type = $filtered_query['grant_type'];
+    $grant_type = $filtered_post['grant_type'];
 
     // Check if grant_type is supported.
     if (!isset($app['oauth2.token.options']['grant_type'][$grant_type])) {

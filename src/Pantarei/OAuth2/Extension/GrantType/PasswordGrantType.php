@@ -63,7 +63,7 @@ class PasswordGrantType extends GrantType
     }
 
     // Validate and set client_id.
-    if ($client_id = ParameterUtils::checkClientId($request, $app, 'POST')) {
+    if ($client_id = ParameterUtils::checkClientId($request, $app)) {
       $this->setClientId($client_id);
     }
 
@@ -78,7 +78,7 @@ class PasswordGrantType extends GrantType
     }
 
     // Validate and set scope.
-    if ($scope = ParameterUtils::checkScope($request, $app, 'POST')) {
+    if ($scope = ParameterUtils::checkScope($request, $app)) {
       $this->setScope($scope);
     }
   }

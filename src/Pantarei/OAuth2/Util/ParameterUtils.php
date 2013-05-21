@@ -100,18 +100,16 @@ abstract class ParameterUtils
     return $filtered_query;
   }
 
-  public static function checkClientId(Request $request, Application $app, $method = 'GET')
+  public static function checkClientId(Request $request, Application $app)
   {
-    // Try to fetch client_id from HTTP basic auth, if no client_id from
-    // incoming query.
-    switch ($method) {
-      case 'GET':
-        $client_id = $request->query->get('client_id');
-        break;
-      case 'POST':
-        $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
-        break;
-    }
+    // Fetch client_id from HTTP basic auth, POST, or GET.
+    $client_id = NULL;
+    if ($request->getUser())
+      $client_id = $request->getUser();
+    elseif ($request->request->get('client_id'))
+      $client_id = $request->request->get('client_id');
+    elseif ($request->query->get('client_id'))
+      $client_id = $request->query->get('client_id');
 
     // Check client_id with database record.
     $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
@@ -124,16 +122,14 @@ abstract class ParameterUtils
     return $client_id;
   }
 
-  public static function checkScope(Request $request, Application $app, $method = 'GET')
+  public static function checkScope(Request $request, Application $app)
   {
-    switch ($method) {
-      case 'GET':
-        $scope = $request->query->get('scope');
-        break;
-      case 'POST':
-        $scope = $request->request->get('scope');
-        break;
-    }
+    // Fetch scope from POST, or GET.
+    $scope = array();
+    if ($request->request->get('scope'))
+      $scope = $request->request->get('scope');
+    elseif ($request->query->get('scope'))
+      $scope = $request->query->get('scope');
 
     if ($scope) {
       // Fetch and prepare all stored scopes.
@@ -199,17 +195,18 @@ abstract class ParameterUtils
     return FALSE;
   }
 
-  public static function checkRedirectUri(Request $request, Application $app, $method = 'GET')
+  public static function checkRedirectUri(Request $request, Application $app)
   {
-    switch ($method) {
-      case 'GET':
-        $redirect_uri = $request->query->get('redirect_uri');
-        $client_id = $request->query->get('client_id');
-        break;
-      case 'POST':
-        $redirect_uri = $request->request->get('redirect_uri');
-        $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
-        break;
+    // Getch redirect_uri from POST, or GET.
+    $redirect_uri = NULL;
+    $client_id = NULL;
+    if ($request->request->get('redirect_uri') || $request->request->get('client_id') || $request->getUser()) {
+      $redirect_uri = $request->request->get('redirect_uri');
+      $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
+    }
+    elseif ($request->query->get('redirect_uri') || $request->query->get('client_id')) {
+      $redirect_uri = $request->query->get('redirect_uri');
+      $client_id = $request->query->get('client_id');
     }
 
     // redirect_uri is not required if already established via other channels,

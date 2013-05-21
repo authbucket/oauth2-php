@@ -85,12 +85,12 @@ class AuthorizationCodeGrantType extends GrantType
     }
 
     // Validate and set client_id.
-    if ($client_id = ParameterUtils::checkClientId($request, $app, 'POST')) {
+    if ($client_id = ParameterUtils::checkClientId($request, $app)) {
       $this->setClientId($client_id);
     }
 
     // Validate and set redirect_uri.
-    if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app, 'POST')) {
+    if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app)) {
       $this->setRedirectUri($redirect_uri);
     }
 

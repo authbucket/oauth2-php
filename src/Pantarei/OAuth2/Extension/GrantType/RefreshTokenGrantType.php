@@ -64,7 +64,7 @@ class RefreshTokenGrantType extends GrantType
     }
 
     // Validate and set client_id.
-    if ($client_id = ParameterUtils::checkClientId($request, $app, 'POST')) {
+    if ($client_id = ParameterUtils::checkClientId($request, $app)) {
       $this->setClientId($client_id);
     }
 

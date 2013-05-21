@@ -89,7 +89,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     );
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkClientId($request, $this->app, 'POST');
+    $result = ParameterUtils::checkClientId($request, $this->app);
     // This won't happened!!
     $this->assertTrue($result);
   }
@@ -106,7 +106,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://badclient1.com/',
     );
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkClientId($request, $this->app, 'POST');
+    $result = ParameterUtils::checkClientId($request, $this->app);
     // This won't happened!!
     $this->assertTrue($result);
   }
@@ -130,7 +130,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     );
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkClientId($request, $this->app, 'POST');
+    $result = ParameterUtils::checkClientId($request, $this->app);
     $this->assertEquals($post['client_id'], $result);
 
     $request = new Request();
@@ -140,7 +140,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
     );
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkClientId($request, $this->app, 'POST');
+    $result = ParameterUtils::checkClientId($request, $this->app);
     $this->assertEquals($server['PHP_AUTH_USER'], $result);
   }
 
@@ -173,7 +173,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     );
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkScope($request, $this->app, 'POST');
+    $result = ParameterUtils::checkScope($request, $this->app);
     // This won't happened!!
     $this->assertTrue($result);
   }
@@ -197,7 +197,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     );
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkScope($request, $this->app, 'POST');
+    $result = ParameterUtils::checkScope($request, $this->app);
     $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
   }
 
