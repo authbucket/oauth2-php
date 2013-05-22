@@ -43,7 +43,7 @@ abstract class CredentialUtils
     }
 
     // Check with database record.
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Clients'])->findOneBy(array(
       'client_id' => $query['client_id'],
       'client_secret' => $query['client_secret'],
     ));

@@ -11,14 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension;
 
-use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
 use Pantarei\OAuth2\OAuth2TypeInterface;
-use Pantarei\OAuth2\Util\CredentialUtils;
-use Pantarei\OAuth2\Util\ParameterUtils;
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Defines the abstract class for grant type.
@@ -64,42 +57,5 @@ abstract class GrantType implements OAuth2TypeInterface
   public function getScope()
   {
     return $this->scope;
-  }
-
-  public static function getType(Request $request, Application $app)
-  {
-    $get = $request->query->all();
-    $post = $request->request->all();
-
-    $filtered_get = ParameterUtils::filter($get);
-    $filtered_post = ParameterUtils::filter($post);
-
-    // Shouldn't provide data from both GET and POST.
-    if (!empty($filtered_get) && !empty($filtered_post)) {
-      throw new InvalidRequestException();
-    }
-
-    // If input format invalid we should stop here.
-    if (empty($filtered_post) || $filtered_post != $post) {
-      throw new InvalidRequestException();
-    }
-
-    // grant_type is required.
-    if (!isset($filtered_post['grant_type'])) {
-      throw new InvalidRequestException();
-    }
-    $grant_type = $filtered_post['grant_type'];
-
-    // Check if grant_type is supported.
-    if (!isset($app['oauth2.token.options']['grant_type'][$grant_type])) {
-      throw new UnsupportedGrantTypeException();
-    }
-
-    // Validate client_id.
-    CredentialUtils::check($request, $app);
-
-    // Create and return the token type.
-    $namespace = $app['oauth2.token.options']['grant_type'][$grant_type];
-    return $namespace::create($request, $app);
   }
 }

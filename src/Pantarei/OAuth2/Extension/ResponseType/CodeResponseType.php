@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Extension\ResponseType;
 
-use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Extension\ResponseType;
 use Pantarei\OAuth2\Util\ParameterUtils;
@@ -112,7 +111,7 @@ class CodeResponseType extends ResponseType
 
   public function getResponse(Request $request, Application $app)
   {
-    $code = new Codes();
+    $code = new $app['oauth2.entity']['Codes']();
     $code->setCode(md5(Uuid::uuid4()))
       ->setClientId($this->getClientId())
       ->setUsername('')

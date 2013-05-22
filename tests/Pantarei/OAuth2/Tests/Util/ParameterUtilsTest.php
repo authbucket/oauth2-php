@@ -11,9 +11,6 @@
 
 namespace Pantarei\OAuth2\Tests\Util;
 
-use Pantarei\OAuth2\Entity\Clients;
-use Pantarei\OAuth2\Entity\RefreshTokens;
-use Pantarei\OAuth2\Entity\Scopes;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -231,7 +228,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
    */
   public function testBadCheckScopeByRefreshTokenNotSubset()
   {
-    $scope = new Scopes();
+    $scope = new $app['oauth2.entity']['Scopes']();
     $scope->setScope('demoscope4');
     $this->app['oauth2.orm']->persist($scope);
     $this->app['oauth2.orm']->flush();
@@ -252,7 +249,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
 
   public function testGoodCheckScopeByRefreshToken()
   {
-    $refresh_token = new RefreshTokens();
+    $refresh_token = new $app['oauth2.entity']['RefreshTokens']s();
     $refresh_token->setRefreshToken('13dcf9db36152fa322daf9deb7b0a22e')
       ->setTokenType('bearer')
       ->setClientId('http://democlient1.com/')
@@ -289,7 +286,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
   public function testBadCheckRedirectUriEmpty()
   {
     // Insert client without redirect_uri.
-    $client = new Clients();
+    $client = new $app['oauth2.entity']['Clients']();
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');

@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Tests\Extension\GrantType;
 
-use Pantarei\OAuth2\Entity\Codes;
 use Pantarei\OAuth2\Extension\GrantType\AuthorizationCodeGrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,7 +88,7 @@ class AuthorizationCodeGrantTypeTest extends OAuth2WebTestCase
    * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
    */
   public function testExpiredCode() {
-    $data = new Codes();
+    $data = new $app['oauth2.entity']['Codes']();
     $data->setCode('5ddaa68ac1805e728563dd7915441408')
       ->setClientId('http://democlient1.com/')
       ->setRedirectUri('http://democlient1.com/redirect_uri')

@@ -11,10 +11,9 @@
 
 namespace Pantarei\OAuth2\Tests\Provider;
 
-use Pantarei\OAuth2\Entity\Clients;
 use Pantarei\OAuth2\Extension\ResponseType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
-use Pantarei\OAuth2\Provider\AuthorizationControllerProvider;
+use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,13 +23,13 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationControllerProviderTest extends OAuth2WebTestCase
+class OAuth2ControllerProviderTest extends OAuth2WebTestCase
 {
   public function createApplication()
   {
     $app = parent::createApplication();
 
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     return $app;
   }
@@ -39,7 +38,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'code',
@@ -54,7 +53,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'token',
@@ -69,7 +68,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'code',
@@ -85,7 +84,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'token',
@@ -101,7 +100,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'client_id' => '1234',
@@ -114,7 +113,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   public function testExceptionCodeNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
-    $client = new Clients();
+    $client = new $app['oauth2.entity']['Clients']();
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
@@ -123,7 +122,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
 
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'code',
@@ -137,7 +136,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   public function testExceptionTokenNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
-    $client = new Clients();
+    $client = new $app['oauth2.entity']['Clients']();
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
@@ -146,7 +145,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
 
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'token',
@@ -161,7 +160,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'code',
@@ -177,7 +176,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'token',
@@ -193,7 +192,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'foo',
@@ -209,7 +208,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'code',
@@ -226,7 +225,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'code',
@@ -243,7 +242,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'token',
@@ -260,7 +259,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'token',
@@ -277,7 +276,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AuthorizationControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $parameters = array(
       'response_type' => 'code',
@@ -336,7 +335,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
 
   public function testGoodCodeNoPassedRedirectUri() {
     // Insert client with redirect_uri, test empty pass in.
-    $fixture = new Clients();
+    $fixture = new $app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('http://democlient4.com/redirect_uri');
@@ -354,7 +353,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
 
   public function testGoodCodeNoStoredRedirectUri() {
     // Insert client without redirect_uri, test valid pass in.
-    $fixture = new Clients();
+    $fixture = new $app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient5.com/')
       ->setClientSecret('demosecret5')
       ->setRedirectUri('');
@@ -416,7 +415,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
 
   public function testGoodTokenNoPassedRedirectUri() {
     // Insert client with redirect_uri, test empty pass in.
-    $fixture = new Clients();
+    $fixture = new $app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('http://democlient4.com/redirect_uri');
@@ -434,7 +433,7 @@ class AuthorizationControllerProviderTest extends OAuth2WebTestCase
 
   public function testGoodTokenNoStoredRedirectUri() {
     // Insert client without redirect_uri, test valid pass in.
-    $fixture = new Clients();
+    $fixture = new $app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient5.com/')
       ->setClientSecret('demosecret5')
       ->setRedirectUri('');

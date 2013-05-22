@@ -11,11 +11,8 @@
 
 namespace Pantarei\OAuth2\Tests\Provider;
 
-use Pantarei\OAuth2\Entity\Clients;
-use Pantarei\OAuth2\Entity\Codes;
-use Pantarei\OAuth2\Extension\GrantType;
 use Pantarei\OAuth2\OAuth2WebTestCase;
-use Pantarei\OAuth2\Provider\AccessTokenControllerProvider;
+use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,13 +22,13 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AccessTokenControllerProviderTest extends OAuth2WebTestCase
+class OAuth2ControllerProviderTest extends OAuth2WebTestCase
 {
   public function createApplication()
   {
     $app = parent::createApplication();
 
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     return $app;
   }
@@ -40,7 +37,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array();
     $server = array();
@@ -53,7 +50,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'foo',
@@ -68,7 +65,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'authorization_code',
@@ -83,7 +80,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'authorization_code',
@@ -103,7 +100,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'authorization_code',
@@ -121,7 +118,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'authorization_code',
@@ -137,14 +134,14 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
-    $client = new Clients();
+    $client = new $app['oauth2.entity']['Clients']();
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
     $this->app['oauth2.orm']->persist($client);
     $this->app['oauth2.orm']->flush();
 
-    $code = new Codes();
+    $code = new $app['oauth2.entity']['Codes']();
     $code->setCode('08fb55e26c84f8cb060b7803bc177af8')
       ->setClientId('http://democlient4.com/')
       ->setRedirectUri('')
@@ -158,7 +155,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
 
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'authorization_code',
@@ -177,7 +174,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'authorization_code',
@@ -197,7 +194,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $request = new Request();
     $post = array(
@@ -217,7 +214,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'client_credentials',
@@ -236,7 +233,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'client_credentials',
@@ -255,7 +252,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'password',
@@ -275,7 +272,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'password',
@@ -295,7 +292,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'password',
@@ -316,7 +313,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'password',
@@ -337,7 +334,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'refresh_token',
@@ -356,7 +353,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'refresh_token',
@@ -376,7 +373,7 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   {
     $app = new Application;
     $app['debug'] = TRUE;
-    $app->mount('/', new AccessTokenControllerProvider());
+    $app->mount('/', new OAuth2ControllerProvider());
 
     $post = array(
       'grant_type' => 'refresh_token',
@@ -437,14 +434,14 @@ class AccessTokenControllerProviderTest extends OAuth2WebTestCase
   public function testGoodAuthCodeNoStoredRedirectUri()
   {
     // Insert client without redirect_uri.
-    $fixture = new Clients();
+    $fixture = new $app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
     $this->app['oauth2.orm']->persist($fixture);
     $this->app['oauth2.orm']->flush();
 
-    $fixture = new Codes();
+    $fixture = new $app['oauth2.entity']['Codes']();
     $fixture->setCode('08fb55e26c84f8cb060b7803bc177af8')
       ->setClientId('http://democlient4.com/')
       ->setRedirectUri('')

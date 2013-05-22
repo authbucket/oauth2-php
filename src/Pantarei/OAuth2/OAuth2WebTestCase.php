@@ -13,14 +13,7 @@ namespace Pantarei\OAuth2;
 
 use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\Tools\SchemaTool;
-use Pantarei\OAuth2\Entity\AccessTokens;
-use Pantarei\OAuth2\Entity\Authorizes;
-use Pantarei\OAuth2\Entity\Clients;
-use Pantarei\OAuth2\Entity\Codes;
-use Pantarei\OAuth2\Entity\RefreshTokens;
-use Pantarei\OAuth2\Entity\Scopes;
-use Pantarei\OAuth2\Entity\Users;
-use Pantarei\OAuth2\Provider\DoctrineORMServiceProvider;
+use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\WebTestCase;
@@ -46,12 +39,7 @@ class OAuth2WebTestCase extends WebTestCase
         'memory' => TRUE,
       ),
     ));
-    $app->register(new DoctrineORMServiceProvider, array(
-      'oauth2.orm.options' => array(
-        'connection' => 'default',
-        'path' => __DIR__ . '/Entity',
-      ),
-    ));
+    $app->register(new OAuth2ServiceProvider, array();
 
     return $app;
   }
@@ -70,13 +58,13 @@ class OAuth2WebTestCase extends WebTestCase
   {
     // Generate testing database schema.
     $classes = array(
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\AccessTokens'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Authorizes'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Clients'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Codes'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\RefreshTokens'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Scopes'),
-      $this->app['oauth2.orm']->getClassMetadata('Pantarei\OAuth2\Entity\Users'),
+      $this->app['oauth2.orm']->getClassMetadata($app['oauth2.entity']['AccessTokens']),
+      $this->app['oauth2.orm']->getClassMetadata($app['oauth2.entity']['Authorizes']),
+      $this->app['oauth2.orm']->getClassMetadata($app['oauth2.entity']['Clients']),
+      $this->app['oauth2.orm']->getClassMetadata($app['oauth2.entity']['Codes']),
+      $this->app['oauth2.orm']->getClassMetadata($app['oauth2.entity']['RefreshTokens']),
+      $this->app['oauth2.orm']->getClassMetadata($app['oauth2.entity']['Scopes']),
+      $this->app['oauth2.orm']->getClassMetadata($app['oauth2.entity']['Users']),
     );
 
     PersistentObject::setObjectManager($this->app['oauth2.orm']);
@@ -87,8 +75,8 @@ class OAuth2WebTestCase extends WebTestCase
   function addSampleData()
   {
     // Add demo access token.
-    $access_token = new AccessTokens();
-    $access_token->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
+    $entity = new $app['oauth2.entity']['AccessTokens']();
+    $entity->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
       ->setTokenType('bearer')
       ->setClientId('http://democlient1.com/')
       ->setExpires(time() + 28800)
@@ -96,58 +84,58 @@ class OAuth2WebTestCase extends WebTestCase
       ->setScope(array(
         'demoscope1',
       ));
-    $this->app['oauth2.orm']->persist($access_token);
+    $this->app['oauth2.orm']->persist($entity);
 
     // Add demo authorizes.
-    $authorize = new Authorizes();
-    $authorize->setClientId('http://democlient1.com/')
+    $entity = new $app['oauth2.entity']['Authorizes']();
+    $entity->setClientId('http://democlient1.com/')
       ->setUsername('demousername1')
       ->setScope(array(
         'demoscope1',
       ));
-    $this->app['oauth2.orm']->persist($authorize);
+    $this->app['oauth2.orm']->persist($entity);
 
-    $authorize = new Authorizes();
-    $authorize->setClientId('http://democlient2.com/')
+    $entity = new $app['oauth2.entity']['Authorizes']();
+    $entity->setClientId('http://democlient2.com/')
       ->setUsername('demousername2')
       ->setScope(array(
         'demoscope1',
         'demoscope2',
       ));
-    $this->app['oauth2.orm']->persist($authorize);
+    $this->app['oauth2.orm']->persist($entity);
 
-    $authorize = new Authorizes();
-    $authorize->setClientId('http://democlient3.com/')
+    $entity = new $app['oauth2.entity']['Authorizes']();
+    $entity->setClientId('http://democlient3.com/')
       ->setUsername('demousername3')
       ->setScope(array(
         'demoscope1',
         'demoscope2',
         'demoscope3',
       ));
-    $this->app['oauth2.orm']->persist($authorize);
+    $this->app['oauth2.orm']->persist($entity);
 
     // Add demo clients.
-    $client = new Clients();
-    $client->setClientId('http://democlient1.com/')
+    $entity = new $app['oauth2.entity']['Clients']();
+    $entity->setClientId('http://democlient1.com/')
       ->setClientSecret('demosecret1')
       ->setRedirectUri('http://democlient1.com/redirect_uri');
-    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->persist($entity);
 
-    $client = new Clients();
-    $client->setClientId('http://democlient2.com/')
+    $entity = new $app['oauth2.entity']['Clients']();
+    $entity->setClientId('http://democlient2.com/')
       ->setClientSecret('demosecret2')
       ->setRedirectUri('http://democlient2.com/redirect_uri');
-    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->persist($entity);
 
-    $client = new Clients();
-    $client->setClientId('http://democlient3.com/')
+    $entity = new $app['oauth2.entity']['Clients']();
+    $entity->setClientId('http://democlient3.com/')
       ->setClientSecret('demosecret3')
       ->setRedirectUri('http://democlient3.com/redirect_uri');
-    $this->app['oauth2.orm']->persist($client);
+    $this->app['oauth2.orm']->persist($entity);
 
     // Add demo code.
-    $code = new Codes();
-    $code->setCode('f0c68d250bcc729eb780a235371a9a55')
+    $entity = new $app['oauth2.entity']['Codes']();
+    $entity->setCode('f0c68d250bcc729eb780a235371a9a55')
       ->setClientId('http://democlient2.com/')
       ->setRedirectUri('http://democlient2.com/redirect_uri')
       ->setExpires(time() + 3600)
@@ -156,11 +144,11 @@ class OAuth2WebTestCase extends WebTestCase
         'demoscope1',
         'demoscope2',
       ));
-    $this->app['oauth2.orm']->persist($code);
+    $this->app['oauth2.orm']->persist($entity);
 
     // Add demo refresh token.
-    $refresh_token = new RefreshTokens();
-    $refresh_token->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
+    $entity = new $app['oauth2.entity']['RefreshTokens']();
+    $entity->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
       ->setTokenType('bearer')
       ->setClientId('http://democlient3.com/')
       ->setExpires(time() + 86400)
@@ -170,36 +158,36 @@ class OAuth2WebTestCase extends WebTestCase
         'demoscope2',
         'demoscope3',
       ));
-    $this->app['oauth2.orm']->persist($refresh_token);
+    $this->app['oauth2.orm']->persist($entity);
 
     // Add demo scopes.
-    $scope = new Scopes();
-    $scope->setScope('demoscope1');
-    $this->app['oauth2.orm']->persist($scope);
+    $entity = new $app['oauth2.entity']['Scopes']();
+    $entity->setScope('demoscope1');
+    $this->app['oauth2.orm']->persist($entity);
 
-    $scope = new Scopes();
-    $scope->setScope('demoscope2');
-    $this->app['oauth2.orm']->persist($scope);
+    $entity = new $app['oauth2.entity']['Scopes']();
+    $entity->setScope('demoscope2');
+    $this->app['oauth2.orm']->persist($entity);
 
-    $scope = new Scopes();
-    $scope->setScope('demoscope3');
-    $this->app['oauth2.orm']->persist($scope);
+    $entity = new $app['oauth2.entity']['Scopes']();
+    $entity->setScope('demoscope3');
+    $this->app['oauth2.orm']->persist($entity);
 
     // Add demo users.
-    $user = new Users();
-    $user->setUsername('demousername1')
+    $entity = new $app['oauth2.entity']['Userss']();
+    $entity->setUsername('demousername1')
       ->setPassword('demopassword1');
-    $this->app['oauth2.orm']->persist($user);
+    $this->app['oauth2.orm']->persist($entity);
 
-    $user = new Users();
-    $user->setUsername('demousername2')
+    $entity = new $app['oauth2.entity']['Userss']();
+    $entity->setUsername('demousername2')
       ->setPassword('demopassword2');
-    $this->app['oauth2.orm']->persist($user);
+    $this->app['oauth2.orm']->persist($entity);
 
-    $user = new Users();
-    $user->setUsername('demousername3')
+    $entity = new $app['oauth2.entity']['Userss']();
+    $entity->setUsername('demousername3')
       ->setPassword('demopassword3');
-    $this->app['oauth2.orm']->persist($user);
+    $this->app['oauth2.orm']->persist($entity);
 
     // Flush all records to database
     $this->app['oauth2.orm']->flush();

@@ -15,6 +15,8 @@ use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Exception\UnauthorizedClientException;
+use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
+use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -100,6 +102,48 @@ abstract class ParameterUtils
     return $filtered_query;
   }
 
+  public static function checkResponseType(Request $request, Application $app)
+  {
+    // response_type should NEVER come from POST.
+    if ($request->request->get('response_type')) {
+      throw new InvalidRequestException();
+    }
+
+    // Validate and set response_type.
+    $response_type = self::filter($request->query->get('response_type'));
+    if (!$response_type || $response_type != $request->query->get('request_type')) {
+      throw new InvalidRequestException();
+    }
+
+    // Check if given response_type supported.
+    if (!isset($app['oauth2.response_type'][$response_type])) {
+      throw new UnsupportedResponseTypeException();
+    }
+
+    return $response_type;
+  }
+  
+  public static function checkGrantType(Request $request, Application $app)
+  {
+    // grant_type should NEVER come from GET.
+    if ($request->query->get('grant_type')) {
+      throw new InvalidRequestException();
+    }
+
+    // Validate and set grant_type.
+    $grant_type = self::filter($request->request->get('grant_type'));
+    if (!$grant_type || $grant_type != $request->request->get('grant_type')) {
+      throw new InvalidRequestException();
+    }
+
+    // Check if given response_type supported.
+    if (!isset($app['oauth2.grant_type'][$response_type])) {
+      throw new UnsupportedResponseTypeException();
+    }
+
+    return $response_type;
+  }
+
   public static function checkClientId(Request $request, Application $app)
   {
     // Fetch client_id from HTTP basic auth, POST, or GET.
@@ -112,7 +156,7 @@ abstract class ParameterUtils
       $client_id = $request->query->get('client_id');
 
     // Check client_id with database record.
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Clients'])->findOneBy(array(
       'client_id' => $client_id,
     ));
     if ($result === NULL) {
@@ -133,7 +177,7 @@ abstract class ParameterUtils
 
     if ($scope) {
       // Fetch and prepare all stored scopes.
-      $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Scopes')->findAll();
+      $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Scopes'])->findAll();
 
       $stored = array();
       foreach ($result as $row) {
@@ -155,7 +199,7 @@ abstract class ParameterUtils
   public static function checkScopeByCode(Request $request, Application $app)
   {
     // Fetch scope from pre-generated code.
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Codes'])->findOneBy(array(
       'code' => $request->request->get('code'),
       'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
     ));
@@ -170,7 +214,7 @@ abstract class ParameterUtils
   {
     // Fetch scope from pre-grnerated refresh_token.
     $stored = NULL;
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['RefreshTokens'])->findOneBy(array(
       'refresh_token' => $request->request->get('refresh_token'),
       'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
     ));
@@ -212,7 +256,7 @@ abstract class ParameterUtils
     // redirect_uri is not required if already established via other channels,
     // check an existing redirect URI against the one supplied.
     $stored = NULL;
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Clients')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Clients'])->findOneBy(array(
       'client_id' => $client_id,
     ));
     if ($result !== NULL && $result->getRedirectUri()) {
@@ -242,7 +286,7 @@ abstract class ParameterUtils
     $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
     // Check code with database record.
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Codes')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Codes'])->findOneBy(array(
       'client_id' => $client_id,
       'code' => $code,
     ));
@@ -261,7 +305,7 @@ abstract class ParameterUtils
     $username = $request->request->get('username');
 
     // Check username with database record.
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Users'])->findOneBy(array(
       'username' => $username,
     ));
     if ($result === NULL) {
@@ -277,7 +321,7 @@ abstract class ParameterUtils
     $password = $request->request->get('password');
 
     // Check username with database record.
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\Users')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Users'])->findOneBy(array(
       'username' => $username,
       'password' => $password,
     ));
@@ -294,7 +338,7 @@ abstract class ParameterUtils
     $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
     // Check refresh_token with database record.
-    $result = $app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\RefreshTokens')->findOneBy(array(
+    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['RefreshTokens'])->findOneBy(array(
       'client_id' => $client_id,
       'refresh_token' => $refresh_token,
     ));

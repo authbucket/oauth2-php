@@ -11,8 +11,6 @@
 
 namespace Pantarei\OAuth2\Extension\TokenType;
 
-use Pantarei\OAuth2\Entity\AccessTokens;
-use Pantarei\OAuth2\Entity\RefreshTokens;
 use Pantarei\OAuth2\Extension\TokenType;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Rhumsaa\Uuid\Uuid;
@@ -54,7 +52,7 @@ class BearerTokenType extends TokenType
 
   public function getResponse(Request $request, Application $app)
   {
-    $access_token = new AccessTokens();
+    $access_token = new $app['oauth2.entity']['AccessTokens']();
     $access_token->setAccessToken(md5(Uuid::uuid4()))
       ->setTokenType('bearer')
       ->setClientId($this->getClientId())
@@ -64,7 +62,7 @@ class BearerTokenType extends TokenType
     $app['oauth2.orm']->persist($access_token);
     $app['oauth2.orm']->flush();
 
-    $refresh_token = new RefreshTokens();
+    $refresh_token = new $app['oauth2.entity']['RefreshTokens']();
     $refresh_token->setRefreshToken(md5(Uuid::uuid4()))
       ->setTokenType('bearer')
       ->setClientId($this->getClientId())
