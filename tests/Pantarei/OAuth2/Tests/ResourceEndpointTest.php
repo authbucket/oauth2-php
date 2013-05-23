@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Provider;
+namespace Pantarei\OAuth2\Tests;
 
 use Pantarei\OAuth2\OAuth2WebTestCase;
 use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
