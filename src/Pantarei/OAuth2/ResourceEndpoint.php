@@ -16,13 +16,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Base OAuth2 type interface for response, grant and token type.
+ * OAuth2 resource endpoint.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-interface OAuth2TypeInterface
+class ResourceEndpoint
 {
-  public static function create(Request $request, Application $app);
+  public static function create(Request $request, Application $app)
+  {
+    return new self();
+  }
 
-  public function getResponse(Request $request, Application $app);
+  public function getResponse($username)
+  {
+    return new Response($username);
+  }
 }

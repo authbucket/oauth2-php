@@ -41,7 +41,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
 
     $post = array();
     $server = array();
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -56,7 +56,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'grant_type' => 'foo',
     );
     $server = array();
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -71,7 +71,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'grant_type' => 'authorization_code',
     );
     $server = array();
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -91,7 +91,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -109,7 +109,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://badclient1.com/',
       'PHP_AUTH_PW' => 'badsecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -126,7 +126,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'client_secret' => 'badsecret1',
     );
     $server = array();
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -134,14 +134,14 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
   public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
-    $client = new $app['oauth2.entity']['Clients']();
+    $client = new $this->app['oauth2.entity']['Clients']();
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
     $this->app['oauth2.orm']->persist($client);
     $this->app['oauth2.orm']->flush();
 
-    $code = new $app['oauth2.entity']['Codes']();
+    $code = new $this->app['oauth2.entity']['Codes']();
     $code->setCode('08fb55e26c84f8cb060b7803bc177af8')
       ->setClientId('http://democlient4.com/')
       ->setRedirectUri('')
@@ -165,7 +165,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient4.com/',
       'PHP_AUTH_PW' => 'demosecret4',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -185,7 +185,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient2.com/',
       'PHP_AUTH_PW' => 'demosecret2',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -205,7 +205,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -224,7 +224,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -243,7 +243,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -263,7 +263,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -283,7 +283,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -304,7 +304,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -325,7 +325,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -344,7 +344,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -364,7 +364,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient3.com/',
       'PHP_AUTH_PW' => 'demosecret3',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -384,7 +384,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_USER' => 'http://democlient1.com/',
       'PHP_AUTH_PW' => 'demosecret1',
     );
-    $request = Request::create('/', 'POST', $post, array(), array(), $server);
+    $request = Request::create('/token', 'POST', $post, array(), array(), $server);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -401,7 +401,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_PW' => 'demosecret2',
     );
     $client = $this->createClient();
-    $crawler = $client->request('POST', '/', $parameters, array(), $server);
+    $crawler = $client->request('POST', '/token', $parameters, array(), $server);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
     $parameters = array(
@@ -413,7 +413,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
     );
     $server = array();
     $client = $this->createClient();
-    $crawler = $client->request('POST', '/', $parameters, array(), $server);
+    $crawler = $client->request('POST', '/token', $parameters, array(), $server);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
@@ -427,21 +427,21 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
     );
     $server = array();
     $client = $this->createClient();
-    $crawler = $client->request('POST', '/', $parameters, array(), $server);
+    $crawler = $client->request('POST', '/token', $parameters, array(), $server);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodAuthCodeNoStoredRedirectUri()
   {
     // Insert client without redirect_uri.
-    $fixture = new $app['oauth2.entity']['Clients']();
+    $fixture = new $this->app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
     $this->app['oauth2.orm']->persist($fixture);
     $this->app['oauth2.orm']->flush();
 
-    $fixture = new $app['oauth2.entity']['Codes']();
+    $fixture = new $this->app['oauth2.entity']['Codes']();
     $fixture->setCode('08fb55e26c84f8cb060b7803bc177af8')
       ->setClientId('http://democlient4.com/')
       ->setRedirectUri('')
@@ -462,7 +462,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
     );
     $server = array();
     $client = $this->createClient();
-    $crawler = $client->request('POST', '/', $parameters, array(), $server);
+    $crawler = $client->request('POST', '/token', $parameters, array(), $server);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
@@ -477,7 +477,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_PW' => 'demosecret1',
     );
     $client = $this->createClient();
-    $crawler = $client->request('POST', '/', $parameters, array(), $server);
+    $crawler = $client->request('POST', '/token', $parameters, array(), $server);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
@@ -495,7 +495,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_PW' => 'demosecret1',
     );
     $client = $this->createClient();
-    $crawler = $client->request('POST', '/', $parameters, array(), $server);
+    $crawler = $client->request('POST', '/token', $parameters, array(), $server);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
@@ -511,7 +511,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'PHP_AUTH_PW' => 'demosecret3',
     );
     $client = $this->createClient();
-    $crawler = $client->request('POST', '/', $parameters, array(), $server);
+    $crawler = $client->request('POST', '/token', $parameters, array(), $server);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 }

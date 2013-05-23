@@ -11,9 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
-use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Extension\GrantType;
-use Pantarei\OAuth2\Extension\TokenType\BearerTokenType;
+use Pantarei\OAuth2\Extension\GrantTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,21 +24,47 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class PasswordGrantType extends GrantType
+class PasswordGrantType implements GrantTypeInterface
 {
   /**
    * REQUIRED. Value MUST be set to "password".
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
    */
-  protected $grant_type = 'password';
+  private $grant_type = 'password';
+
+  /**
+   * REQUIRED. The resource owner username.
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
+   */
+  private $username = '';
 
   /**
    * REQUIRED. The resource owner password.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
    */
-  protected $password = '';
+  private $password = '';
+
+  /**
+   * OPTIONAL. The scope of the access request as described by
+   * Section 3.3.
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4.3.2
+   */
+  private $scope = '';
+
+  public function setUsername($username)
+  {
+    $this->username = $username;
+    return $this;
+  }
+
+  public function getUsername()
+  {
+    return $this->username;
+  }
 
   public function setPassword($password)
   {
@@ -53,25 +77,26 @@ class PasswordGrantType extends GrantType
     return $this->password;
   }
 
+  public function setScope($scope)
+  {
+    $this->scope = $scope;
+    return $this;
+  }
+
+  public function getScope()
+  {
+    return $this->scope;
+  }
+
   public function __construct(Request $request, Application $app) {
-    // REQUIRED: username, password.
-    if (!$request->request->get('username') || !$request->request->get('password')) {
-      throw new InvalidRequestException();
-    }
-
-    // Validate and set client_id.
-    if ($client_id = ParameterUtils::checkClientId($request, $app)) {
-      $this->setClientId($client_id);
-    }
-
     // Validate and set username.
     if ($username = ParameterUtils::checkUsername($request, $app)) {
       $this->setUsername($username);
+    }
 
-      // Validate and set password.
-      if ($password = ParameterUtils::checkPassword($request, $app)) {
-        $this->setPassword($password);
-      }
+    // Validate and set password.
+    if ($password = ParameterUtils::checkPassword($request, $app)) {
+      $this->setPassword($password);
     }
 
     // Validate and set scope.
@@ -87,7 +112,7 @@ class PasswordGrantType extends GrantType
 
   public function getResponse(Request $request, Application $app)
   {
-    $response = BearerTokenType::create($request, $app);
+    $response = $app['oauth2.token_type.default']::create($request, $app);
     return $response->getResponse($request, $app);
   }
 }

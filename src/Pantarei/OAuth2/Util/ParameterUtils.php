@@ -110,10 +110,12 @@ abstract class ParameterUtils
     }
 
     // Validate and set response_type.
-    $response_type = self::filter($request->query->get('response_type'));
-    if (!$response_type || $response_type != $request->query->get('request_type')) {
+    $query = array('response_type' => $request->query->get('response_type'));
+    $filtered_query = self::filter($query);
+    if ($filtered_query != $query) {
       throw new InvalidRequestException();
     }
+    $response_type = $request->query->get('response_type');
 
     // Check if given response_type supported.
     if (!isset($app['oauth2.response_type'][$response_type])) {
@@ -122,7 +124,7 @@ abstract class ParameterUtils
 
     return $response_type;
   }
-  
+
   public static function checkGrantType(Request $request, Application $app)
   {
     // grant_type should NEVER come from GET.
@@ -131,17 +133,19 @@ abstract class ParameterUtils
     }
 
     // Validate and set grant_type.
-    $grant_type = self::filter($request->request->get('grant_type'));
-    if (!$grant_type || $grant_type != $request->request->get('grant_type')) {
+    $query = array('grant_type' => $request->request->get('grant_type'));
+    $filtered_query = self::filter($query);
+    if ($filtered_query != $query) {
       throw new InvalidRequestException();
     }
+    $grant_type = $request->request->get('grant_type');
 
     // Check if given response_type supported.
-    if (!isset($app['oauth2.grant_type'][$response_type])) {
-      throw new UnsupportedResponseTypeException();
+    if (!isset($app['oauth2.grant_type'][$grant_type])) {
+      throw new UnsupportedGrantTypeException();
     }
 
-    return $response_type;
+    return $grant_type;
   }
 
   public static function checkClientId(Request $request, Application $app)
@@ -282,6 +286,11 @@ abstract class ParameterUtils
 
   public static function checkCode(Request $request, Application $app)
   {
+    // code is required
+    if (!$request->request->get('code')) {
+      throw new InvalidRequestException();
+    }
+
     $code = $request->request->get('code');
     $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
@@ -302,6 +311,11 @@ abstract class ParameterUtils
 
   public static function checkUsername(Request $request, Application $app)
   {
+    // username is required
+    if (!$request->request->get('username')) {
+      throw new InvalidRequestException();
+    }
+
     $username = $request->request->get('username');
 
     // Check username with database record.
@@ -317,6 +331,11 @@ abstract class ParameterUtils
 
   public static function checkPassword(Request $request, Application $app)
   {
+    // password is required
+    if (!$request->request->get('password')) {
+      throw new InvalidRequestException();
+    }
+
     $username = $request->request->get('username');
     $password = $request->request->get('password');
 
@@ -334,6 +353,11 @@ abstract class ParameterUtils
 
   public static function checkRefreshToken(Request $request, Application $app)
   {
+    // refresh_token is required
+    if (!$request->request->get('refresh_token')) {
+      throw new InvalidRequestException();
+    }
+
     $refresh_token = $request->request->get('refresh_token');
     $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 

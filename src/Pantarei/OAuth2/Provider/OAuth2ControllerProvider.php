@@ -29,7 +29,7 @@ class OAuth2ControllerProvider implements ControllerProviderInterface
   public function connect(Application $app)
   {
     $controllers = $app['controllers_factory'];
-    
+
     // Authorization endpoint.
     $controllers->get('/authorize', function (Request $request, Application $app) {
       $endpoint = AuthorizationEndpoint::create($request, $app);

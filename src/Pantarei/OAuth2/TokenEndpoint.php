@@ -28,25 +28,28 @@ class TokenEndpoint
 
   private $app;
 
-  private $grant_type;
+  private $controller;
 
-  public function __construct($request, $app, $grant_type)
+  public function __construct($request, $app, $controller)
   {
     $this->request = $request;
     $this->app = $app;
-    $this->grant_type = $grant_type;
+    $this->controller = $controller;
   }
 
   public static function create(Request $request, Application $app)
   {
     CredentialUtils::check($request, $app);
-    $grant_type = ParameterUtils::checkGrantType($request, $app)::create($request, $app);
-    return new self($request, $app, $grant_type);
+    $grant_type = ParameterUtils::checkGrantType($request, $app);
+
+    $controller = $app['oauth2.grant_type'][$grant_type]::create($request, $app);
+    
+    return new self($request, $app, $controller);
 
   }
 
   public function getResponse()
   { 
-    return $this->grant_type->getResponse($this->request, $this->app);
+    return $this->controller->getResponse($this->request, $this->app);
   }
 }

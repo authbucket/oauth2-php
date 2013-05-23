@@ -35,13 +35,13 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         'path' => __DIR__ . '/Entity',
       ),
       'entity' => array(
-        'AccessTokens', => 'Pantarei\OAuth2\Entity\AccessTokens',
-        'Authorizes', => 'Pantarei\OAuth2\Entity\Authorizes',
-        'Clients', => 'Pantarei\OAuth2\Entity\Clients',
-        'Codes', => 'Pantarei\OAuth2\Entity\Codes',
-        'RefreshTokens', => 'Pantarei\OAuth2\Entity\RefreshTokens',
-        'Scopes', => 'Pantarei\OAuth2\Entity\Scopes',
-        'Users', => 'Pantarei\OAuth2\Entity\Users',
+        'AccessTokens' => 'Pantarei\OAuth2\Entity\AccessTokens',
+        'Authorizes' => 'Pantarei\OAuth2\Entity\Authorizes',
+        'Clients' => 'Pantarei\OAuth2\Entity\Clients',
+        'Codes' => 'Pantarei\OAuth2\Entity\Codes',
+        'RefreshTokens' => 'Pantarei\OAuth2\Entity\RefreshTokens',
+        'Scopes' => 'Pantarei\OAuth2\Entity\Scopes',
+        'Users' => 'Pantarei\OAuth2\Entity\Users',
       ),
       'response_type' => array(
         'code' => 'Pantarei\OAuth2\Extension\ResponseType\CodeResponseType',
@@ -82,28 +82,44 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
       $conn = $app['dbs'][$options['connection']];
       $config = Setup::createAnnotationMetadataConfiguration(array($options['path']), $options['dev']);
       $event_manager = $app['dbs.event_manager'][$options['connection']];
-      
+
       return EntityManager::create($conn, $config, $event_manager);
     });
 
     // Shortcut for entity.
     $app['oauth2.entity'] = $app->share(function ($app) {
+      $app['oauth2.options.initializer']();
+
       return $app['oauth2.options']['entity'];
     });
 
     // Shortcut for response_type.
     $app['oauth2.response_type'] = $app->share(function ($app) {
+      $app['oauth2.options.initializer']();
+
       return $app['oauth2.options']['response_type'];
     });
 
     // Shortcut for grant_type.
     $app['oauth2.grant_type'] = $app->share(function ($app) {
+      $app['oauth2.options.initializer']();
+
       return $app['oauth2.options']['grant_type'];
     });
 
     // Shortcut for token_type.
     $app['oauth2.token_type'] = $app->share(function ($app) {
+      $app['oauth2.options.initializer']();
+
       return $app['oauth2.options']['token_type'];
+    });
+
+    // Shortcut for default token_type.
+    $app['oauth2.token_type.default'] = $app->share(function ($app) {
+      $app['oauth2.options.initializer']();
+
+      $token_type = $app['oauth2.token_type'];
+      return array_shift($token_type);
     });
   }
 

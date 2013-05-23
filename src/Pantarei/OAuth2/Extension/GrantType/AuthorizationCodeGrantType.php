@@ -11,9 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension\GrantType;
 
-use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Extension\GrantType;
-use Pantarei\OAuth2\Extension\TokenType\BearerTokenType;
+use Pantarei\OAuth2\Extension\GrantTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,14 +24,14 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationCodeGrantType extends GrantType
+class AuthorizationCodeGrantType implements GrantTypeInterface
 {
   /**
    * REQUIRED. Value MUST be set to "authorization_code".
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  protected $grant_type = 'authorization_code';
+  private $grant_type = 'authorization_code';
 
   /**
    * REQUIRED. The authorization code received from the
@@ -41,7 +39,7 @@ class AuthorizationCodeGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  protected $code = '';
+  private $code = '';
 
   /**
    * REQUIRED, if the "redirect_uri" parameter was included in the
@@ -50,7 +48,15 @@ class AuthorizationCodeGrantType extends GrantType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
    */
-  protected $redirect_uri = '';
+  private $redirect_uri = '';
+
+  /**
+   * REQUIRED, if the client is not authenticating with the
+   * authorization server as described in Section 3.2.1.
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+   */
+  private $cilent_id = '';
 
   public function setCode($code)
   {
@@ -74,13 +80,19 @@ class AuthorizationCodeGrantType extends GrantType
     return $this->redirect_uri;
   }
 
+  public function setClientId($client_id)
+  {
+    $this->client_id = $client_id;
+    return $this;
+  }
+
+  public function getClientId()
+  {
+    return $this->client_id;
+  }
+
   public function __construct(Request $request, Application $app)
   {
-    // code is required.
-    if (!$request->request->get('code')) {
-      throw new InvalidRequestException();
-    }
-
     // Validate and set client_id.
     if ($client_id = ParameterUtils::checkClientId($request, $app)) {
       $this->setClientId($client_id);
@@ -94,11 +106,6 @@ class AuthorizationCodeGrantType extends GrantType
     // Validate and set code.
     if ($code = ParameterUtils::checkCode($request, $app)) {
       $this->setCode($code);
-
-    }
-    // Validate and set scope.
-    if ($scope = ParameterUtils::checkScopeByCode($request, $app)) {
-      $this->setScope($scope);
     }
   }
 
@@ -109,7 +116,7 @@ class AuthorizationCodeGrantType extends GrantType
 
   public function getResponse(Request $request, Application $app)
   {
-    $response = BearerTokenType::create($request, $app);
+    $response = $app['oauth2.token_type.default']::create($request, $app);
     return $response->getResponse($request, $app);
   }
 }

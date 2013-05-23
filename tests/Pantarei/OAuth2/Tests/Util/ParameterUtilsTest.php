@@ -43,6 +43,174 @@ class ParameterUtilsTest extends OAuth2WebTestCase
   }
 
   /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExceptionCheckResponseTypePost()
+  {
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'response_type' => 'code',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkResponseType($request, $this->app);
+    // This won't happened!!
+    $this->assertTrue($result);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExceptionCheckResponseTypeBadFormat()
+  {
+    $request = new Request();
+    $get = array(
+      'response_type' => "code\x20",
+    );
+    $post = array();
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkResponseType($request, $this->app);
+    // This won't happened!!
+    $this->assertTrue($result);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedResponseTypeException
+   */
+  public function testExceptionCheckResponseTypeUnsupported()
+  {
+    $request = new Request();
+    $get = array(
+      'response_type' => 'foo',
+    );
+    $post = array();
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkResponseType($request, $this->app);
+    // This won't happened!!
+    $this->assertTrue($result);
+  }
+
+  public function testGoodCheckResponseType()
+  {
+    $request = new Request();
+    $get = array(
+      'response_type' => 'code',
+    );
+    $post = array();
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkResponseType($request, $this->app);
+    $this->assertEquals('code', $result);
+
+    $request = new Request();
+    $get = array(
+      'response_type' => 'token',
+    );
+    $post = array();
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkResponseType($request, $this->app);
+    $this->assertEquals('token', $result);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExceptionCheckGrantTypePost()
+  {
+    $request = new Request();
+    $get = array(
+      'grant_type' => 'authorization_code',
+    );
+    $post = array();
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkGrantType($request, $this->app);
+    // This won't happened!!
+    $this->assertTrue($result);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+   */
+  public function testExceptionCheckGrantTypeBadFormat()
+  {
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'grant_type' => "authorization_code\x20",
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkGrantType($request, $this->app);
+    // This won't happened!!
+    $this->assertTrue($result);
+  }
+
+  /**
+   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedGrantTypeException
+   */
+  public function testExceptionCheckGrantTypeUnsupported()
+  {
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'grant_type' => 'foo',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkGrantType($request, $this->app);
+    // This won't happened!!
+    $this->assertTrue($result);
+  }
+
+  public function testGoodCheckGrantType()
+  {
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'grant_type' => 'authorization_code',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkGrantType($request, $this->app);
+    $this->assertEquals('authorization_code', $result);
+
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'grant_type' => 'client_credentials',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkGrantType($request, $this->app);
+    $this->assertEquals('client_credentials', $result);
+
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'grant_type' => 'password',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkGrantType($request, $this->app);
+    $this->assertEquals('password', $result);
+
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'grant_type' => 'refresh_token',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkGrantType($request, $this->app);
+    $this->assertEquals('refresh_token', $result);
+  }
+
+  /**
    * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
    */
   public function testBadCheckClientIdEmpty()
@@ -52,7 +220,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $post = array();
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkClientId($request, $this->app, 'GET');
+    $result = ParameterUtils::checkClientId($request, $this->app);
     // This won't happened!!
     $this->assertTrue($result);
   }
@@ -69,7 +237,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $post = array();
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkClientId($request, $this->app, 'GET');
+    $result = ParameterUtils::checkClientId($request, $this->app);
     // This won't happened!!
     $this->assertTrue($result);
   }
@@ -117,7 +285,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $post = array();
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkClientId($request, $this->app, 'GET');
+    $result = ParameterUtils::checkClientId($request, $this->app);
     $this->assertEquals($get['client_id'], $result);
 
     $request = new Request();
@@ -153,7 +321,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $post = array();
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkScope($request, $this->app, 'GET');
+    $result = ParameterUtils::checkScope($request, $this->app);
     // This won't happened!!
     $this->assertTrue($result);
   }
@@ -178,13 +346,21 @@ class ParameterUtilsTest extends OAuth2WebTestCase
   public function testGoodCheckScope()
   {
     $request = new Request();
+    $get = array();
+    $post = array();
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkScope($request, $this->app);
+    $this->assertFalse($result);
+
+    $request = new Request();
     $get = array(
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $post = array();
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkScope($request, $this->app, 'GET');
+    $result = ParameterUtils::checkScope($request, $this->app);
     $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
 
     $request = new Request();
@@ -228,7 +404,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
    */
   public function testBadCheckScopeByRefreshTokenNotSubset()
   {
-    $scope = new $app['oauth2.entity']['Scopes']();
+    $scope = new $this->app['oauth2.entity']['Scopes']();
     $scope->setScope('demoscope4');
     $this->app['oauth2.orm']->persist($scope);
     $this->app['oauth2.orm']->flush();
@@ -249,7 +425,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
 
   public function testGoodCheckScopeByRefreshToken()
   {
-    $refresh_token = new $app['oauth2.entity']['RefreshTokens']s();
+    $refresh_token = new $this->app['oauth2.entity']['RefreshTokens']();
     $refresh_token->setRefreshToken('13dcf9db36152fa322daf9deb7b0a22e')
       ->setTokenType('bearer')
       ->setClientId('http://democlient1.com/')
@@ -278,6 +454,18 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $request->initialize($get, $post, array(), array(), array(), $server);
     $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
     $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
+
+    $request = new Request();
+    $get = array();
+    $post = array(
+      'client_id' => 'http://democlient3.com/',
+      'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+      'scope' => 'demoscope1 demoscope2',
+    );
+    $server = array();
+    $request->initialize($get, $post, array(), array(), array(), $server);
+    $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
+    $this->assertTrue($result == array('demoscope1', 'demoscope2'));
   }
 
   /**
@@ -286,7 +474,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
   public function testBadCheckRedirectUriEmpty()
   {
     // Insert client without redirect_uri.
-    $client = new $app['oauth2.entity']['Clients']();
+    $client = new $this->app['oauth2.entity']['Clients']();
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
@@ -300,7 +488,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $post = array();
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkRedirectUri($request, $this->app, 'GET');
+    $result = ParameterUtils::checkRedirectUri($request, $this->app);
     // This won't happened!!
     $this->assertTrue($result);
   }
@@ -318,7 +506,7 @@ class ParameterUtilsTest extends OAuth2WebTestCase
     $post = array();
     $server = array();
     $request->initialize($get, $post, array(), array(), array(), $server);
-    $result = ParameterUtils::checkRedirectUri($request, $this->app, 'GET');
+    $result = ParameterUtils::checkRedirectUri($request, $this->app);
     // This won't happened!!
     $this->assertTrue($result);
   }

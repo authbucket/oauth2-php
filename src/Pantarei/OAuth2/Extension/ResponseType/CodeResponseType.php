@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Extension\ResponseType;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Extension\ResponseType;
+use Pantarei\OAuth2\Extension\ResponseTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Rhumsaa\Uuid\Uuid;
 use Silex\Application;
@@ -27,21 +27,35 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class CodeResponseType extends ResponseType
+class CodeResponseType implements ResponseTypeInterface
 {
   /**
    * REQUIRED. Value MUST be set to "code".
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  protected $response_type = 'code';
+  private $response_type = 'code';
+
+  /**
+   * REQUIRED. The client identifier as described in Section 2.2.
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
+   */
+  private $client_id = '';
 
   /**
    * OPTIONAL. As described in Section 3.1.2.
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  protected $redirect_uri = '';
+  private $redirect_uri = '';
+
+  /**
+   * OPTIONAL. The scope of the access request as described by Section 3.3.
+   *
+   * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
+   */
+  private $scope = array();
 
   /**
    * RECOMMENDED. An opaque value used by the client to maintain
@@ -52,7 +66,18 @@ class CodeResponseType extends ResponseType
    *
    * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
    */
-  protected $state = '';
+  private $state = '';
+
+  public function setClientId($client_id)
+  {
+    $this->client_id = $client_id;
+    return $this;
+  }
+
+  public function getClientId()
+  {
+    return $this->client_id;
+  }
 
   public function setRedirectUri($redirect_uri)
   {
@@ -65,12 +90,23 @@ class CodeResponseType extends ResponseType
     return $this->redirect_uri;
   }
 
+  public function setScope($scope)
+  {
+    $this->scope = $scope;
+    return $this;
+  }
+
+  public function getScope()
+  {
+    return $this->scope;
+  }
+
   public function setState($state)
   {
     $this->state = $state;
     return $this;
   }
-
+  
   public function getState()
   {
     return $this->state;
@@ -78,11 +114,6 @@ class CodeResponseType extends ResponseType
 
   public function __construct(Request $request, Application $app)
   {
-    // REQUIRED: client_id.
-    if (!$request->query->get('client_id')) {
-      throw new InvalidRequestException();
-    }
-
     // Validate and set client_id.
     if ($client_id = ParameterUtils::checkClientId($request, $app)) {
       $this->setClientId($client_id);

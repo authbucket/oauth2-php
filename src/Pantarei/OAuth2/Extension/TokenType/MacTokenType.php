@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension\TokenType;
 
-use Pantarei\OAuth2\Extension\TokenType;
+use Pantarei\OAuth2\Extension\TokenTypeInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class MacTokenType extends TokenType
+class MacTokenType implements TokenTypeInterface
 {
   public static function create(Request $request, Application $app)
   {

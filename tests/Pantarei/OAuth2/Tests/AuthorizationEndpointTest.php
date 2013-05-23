@@ -19,21 +19,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Test authorization code grant type functionality.
+ * Test authorization endpoint functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class OAuth2ControllerProviderTest extends OAuth2WebTestCase
+class AuthorizationEndpointTest extends OAuth2WebTestCase
 {
-  public function createApplication()
-  {
-    $app = parent::createApplication();
-
-    $app->mount('/', new OAuth2ControllerProvider());
-
-    return $app;
-  }
-
   public function testExceptionCodeNoClientId()
   {
     $app = new Application;
@@ -44,7 +35,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'response_type' => 'code',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -59,7 +50,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'response_type' => 'token',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -75,7 +66,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://badclient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -91,7 +82,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://badclient1.com/',
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -105,7 +96,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
     $parameters = array(
       'client_id' => '1234',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -113,7 +104,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
   public function testExceptionCodeNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
-    $client = new $app['oauth2.entity']['Clients']();
+    $client = new $this->app['oauth2.entity']['Clients']();
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
@@ -128,7 +119,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'response_type' => 'code',
       'client_id' => 'http://democlient4.com/',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -136,7 +127,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
   public function testExceptionTokenNoSavedNoPassedRedirectUri()
   {
     // Insert client without redirect_uri.
-    $client = new $app['oauth2.entity']['Clients']();
+    $client = new $this->app['oauth2.entity']['Clients']();
     $client->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('');
@@ -151,7 +142,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'response_type' => 'token',
       'client_id' => 'http://democlient4.com/',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -167,7 +158,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/wrong_uri',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -183,7 +174,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient1.com/',
       'redirect_uri' => 'http://democlient1.com/wrong_uri',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -199,7 +190,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'client_id' => '1234',
       'redirect_uri' => 'http://example.com/redirect_uri',
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -216,7 +207,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -233,7 +224,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "badscope1",
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -250,7 +241,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -267,7 +258,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
       'scope' => "badscope1",
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -285,7 +276,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'scope' => "demoscope1 demoscope2 demoscope3",
       'state' => "aaa\x19bbb\x7Fccc",
     );
-    $request = Request::create('/', 'GET', $parameters);
+    $request = Request::create('/authorize', 'GET', $parameters);
     $response = $app->handle($request);
     $this->assertEquals(500, $response->getStatusCode());
   }
@@ -298,7 +289,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertTrue($client->getResponse()->isRedirect());
 
     $parameters = array(
@@ -308,7 +299,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertTrue($client->getResponse()->isRedirect());
 
     $parameters = array(
@@ -318,7 +309,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertTrue($client->getResponse()->isRedirect());
 
     $parameters = array(
@@ -329,13 +320,13 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'state' => 'example state',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertTrue($client->getResponse()->isRedirect());
   }
 
   public function testGoodCodeNoPassedRedirectUri() {
     // Insert client with redirect_uri, test empty pass in.
-    $fixture = new $app['oauth2.entity']['Clients']();
+    $fixture = new $this->app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('http://democlient4.com/redirect_uri');
@@ -347,13 +338,13 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient4.com/',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertTrue($client->getResponse()->isRedirect());
   }
 
   public function testGoodCodeNoStoredRedirectUri() {
     // Insert client without redirect_uri, test valid pass in.
-    $fixture = new $app['oauth2.entity']['Clients']();
+    $fixture = new $this->app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient5.com/')
       ->setClientSecret('demosecret5')
       ->setRedirectUri('');
@@ -366,7 +357,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient5.com/redirect_uri',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertTrue($client->getResponse()->isRedirect());
   }
 
@@ -378,7 +369,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient1.com/redirect_uri',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
     $parameters = array(
@@ -388,7 +379,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
     $parameters = array(
@@ -398,7 +389,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'scope' => 'demoscope1 demoscope2 demoscope3',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
     $parameters = array(
@@ -409,13 +400,13 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'state' => 'example state',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodTokenNoPassedRedirectUri() {
     // Insert client with redirect_uri, test empty pass in.
-    $fixture = new $app['oauth2.entity']['Clients']();
+    $fixture = new $this->app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient4.com/')
       ->setClientSecret('demosecret4')
       ->setRedirectUri('http://democlient4.com/redirect_uri');
@@ -427,13 +418,13 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'client_id' => 'http://democlient4.com/',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 
   public function testGoodTokenNoStoredRedirectUri() {
     // Insert client without redirect_uri, test valid pass in.
-    $fixture = new $app['oauth2.entity']['Clients']();
+    $fixture = new $this->app['oauth2.entity']['Clients']();
     $fixture->setClientId('http://democlient5.com/')
       ->setClientSecret('demosecret5')
       ->setRedirectUri('');
@@ -446,7 +437,7 @@ class OAuth2ControllerProviderTest extends OAuth2WebTestCase
       'redirect_uri' => 'http://democlient5.com/redirect_uri',
     );
     $client = $this->createClient();
-    $crawler = $client->request('GET', '/', $parameters);
+    $crawler = $client->request('GET', '/authorize', $parameters);
     $this->assertNotNull(json_decode($client->getResponse()->getContent()));
   }
 }

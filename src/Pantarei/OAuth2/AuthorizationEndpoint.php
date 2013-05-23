@@ -27,24 +27,26 @@ class AuthorizationEndpoint
 
   private $app;
   
-  private $response_type;
+  private $controller;
 
-  public function __construct($request, $app, $response_type)
+  public function __construct($request, $app, $controller)
   {
     $this->request = $request;
     $this->app = $app;
-    $this->response_type = $response_type;
+    $this->controller = $controller;
   }
 
   public static function create(Request $request, Application $app)
   {
-    $response_type = ParameterUtils::checkResponseType($request, $app)::create($request, $app);
-    return new self($request, $app, $response_type);
+    $response_type = ParameterUtils::checkResponseType($request, $app);
 
+    $controller = $app['oauth2.response_type'][$response_type]::create($request, $app);
+    
+    return new self($request, $app, $controller);
   }
 
   public function getResponse()
   {
-    return $this->response_type->getResponse($this->request, $this->app);
+    return $this->controller->getResponse($this->request, $this->app);
   }
 }

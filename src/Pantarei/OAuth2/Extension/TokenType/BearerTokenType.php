@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Extension\TokenType;
 
-use Pantarei\OAuth2\Extension\TokenType;
+use Pantarei\OAuth2\Extension\TokenTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Rhumsaa\Uuid\Uuid;
 use Silex\Application;
@@ -24,8 +24,47 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class BearerTokenType extends TokenType
+class BearerTokenType implements TokenTypeInterface
 {
+  private $client_id = '';
+
+  private $username = '';
+
+  private $scope = array();
+
+  public function setClientId($client_id)
+  {
+    $this->client_id = $client_id;
+    return $this;
+  }
+
+  public function getClientId()
+  {
+    return $this->client_id;
+  }
+
+  public function setUsername($username)
+  {
+    $this->username = $username;
+    return $this;
+  }
+
+  public function getUsername()
+  {
+    return $this->username;
+  }
+
+  public function setScope($scope)
+  {
+    $this->scope = $scope;
+    return $this;
+  }
+
+  public function getScope()
+  {
+    return $this->scope;
+  }
+
   public function __construct(Request $request, Application $app)
   {
     // Validate and set client_id.
@@ -43,6 +82,9 @@ class BearerTokenType extends TokenType
     elseif ($scope = ParameterUtils::checkScope($request, $app)) {
       $this->setScope($scope);
     }
+
+    // @todo Update with real username checking.
+    $this->setUsername('');
   }
 
   public static function create(Request $request, Application $app)
