@@ -11,13 +11,15 @@
 
 namespace Pantarei\OAuth2\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * Users
  *
  * @Table(name="users")
  * @Entity(repositoryClass="Pantarei\OAuth2\Entity\UsersRepository")
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @var integer
@@ -41,6 +43,27 @@ class Users
      * @Column(name="password", type="string", length=255)
      */
     private $password;
+
+    /**
+     * @var string
+     *
+     * @Column(name="salt", type="string", length=255)
+     */
+    private $salt;
+
+    public function __construct()
+    {
+        $this->salt = md5(uniqid(null, true));
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
 
     /**
      * Get id
@@ -96,5 +119,28 @@ class Users
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return Users
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
     }
 }

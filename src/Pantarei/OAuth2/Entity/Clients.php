@@ -49,6 +49,11 @@ class Clients
      */
     private $redirect_uri;
 
+    public function __construct()
+    {
+        $this->redirect_uri = '';
+    }
+
     /**
      * Get id
      *

@@ -106,8 +106,7 @@ class AuthorizationEndpointTest extends WebTestCase
         // Insert client without redirect_uri.
         $client = new $this->app['oauth2.entity']['Clients']();
         $client->setClientId('http://democlient4.com/')
-            ->setClientSecret('demosecret4')
-            ->setRedirectUri('');
+            ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($client);
         $this->app['oauth2.orm']->flush();
 
@@ -129,8 +128,7 @@ class AuthorizationEndpointTest extends WebTestCase
         // Insert client without redirect_uri.
         $client = new $this->app['oauth2.entity']['Clients']();
         $client->setClientId('http://democlient4.com/')
-            ->setClientSecret('demosecret4')
-            ->setRedirectUri('');
+            ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($client);
         $this->app['oauth2.orm']->flush();
 
@@ -348,8 +346,7 @@ class AuthorizationEndpointTest extends WebTestCase
         // Insert client without redirect_uri, test valid pass in.
         $fixture = new $this->app['oauth2.entity']['Clients']();
         $fixture->setClientId('http://democlient5.com/')
-            ->setClientSecret('demosecret5')
-            ->setRedirectUri('');
+            ->setClientSecret('demosecret5');
         $this->app['oauth2.orm']->persist($fixture);
         $this->app['oauth2.orm']->flush();
 
@@ -430,8 +427,7 @@ class AuthorizationEndpointTest extends WebTestCase
         // Insert client without redirect_uri, test valid pass in.
         $fixture = new $this->app['oauth2.entity']['Clients']();
         $fixture->setClientId('http://democlient5.com/')
-            ->setClientSecret('demosecret5')
-            ->setRedirectUri('');
+            ->setClientSecret('demosecret5');
         $this->app['oauth2.orm']->persist($fixture);
         $this->app['oauth2.orm']->flush();
 

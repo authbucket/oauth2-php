@@ -70,6 +70,11 @@ class Codes
      */
     private $scope;
 
+    public function __construct()
+    {
+        $this->redirect_uri = '';
+    }
+
     /**
      * Get id
      *

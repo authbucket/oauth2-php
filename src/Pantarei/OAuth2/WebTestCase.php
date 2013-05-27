@@ -15,8 +15,10 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\Tools\SchemaTool;
 use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
+use Pantarei\OAuth2\Provider\UserProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\SecurityServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
 
 /**
@@ -34,15 +36,25 @@ class WebTestCase extends SilexWebTestCase
         $app['session'] = true;
         $app['exception_handler']->disable();
 
-        $app->register(new DoctrineServiceProvider, array(
-            'db.options' => array(
-                'driver' => 'pdo_sqlite',
-                'memory' => true,
-            ),
-        ));
+        $app->register(new DoctrineServiceProvider());
+        $app->register(new SecurityServiceProvider());
         $app->register(new OAuth2ServiceProvider());
 
         $app->mount('/', new OAuth2ControllerProvider());
+
+        $app['db.options'] = array(
+            'driver' => 'pdo_sqlite',
+            'memory' => true,
+        );
+        $app['security.firewalls'] = array(
+            'resource' => array(
+                'pattern' => '^/resource',
+                'http' => true,
+                'users' => $app->share(function () use ($app) {
+                    return new UserProvider($app);
+                }),
+            ),
+        );
 
         return $app;
     }
