@@ -47,8 +47,8 @@ class WebTestCase extends SilexWebTestCase
             'memory' => true,
         );
         $app['security.firewalls'] = array(
-            'resource' => array(
-                'pattern' => '^/resource',
+            'authorize' => array(
+                'pattern' => '^/authorize',
                 'http' => true,
                 'users' => $app->share(function () use ($app) {
                     return new UserProvider($app);

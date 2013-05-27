@@ -23,19 +23,21 @@ class UsersTest extends WebTestCase
 {
     public function testAbstract()
     {
-        $data = new Users();
-        $data->setUsername('demousername1')
-            ->setPassword('demopassword1');
-        $this->assertEquals('demousername1', $data->getUsername());
-        $this->assertEquals('demopassword1', $data->getPassword());
+        $entity = new Users();
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
+        $entity->setUsername('demousername1')
+            ->setPassword($encoder->encodePassword('demopassword1', $entity->getSalt()));
+        $this->assertEquals('demousername1', $entity->getUsername());
+        $this->assertEquals($encoder->encodePassword('demopassword1', $entity->getSalt()), $entity->getPassword());
     }
 
     public function testFind()
     {
-        $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Users', 1);
-        $this->assertEquals('Pantarei\OAuth2\Entity\Users', get_class($result));
-        $this->assertEquals(1, $result->getId());
-        $this->assertEquals('demousername1', $result->getUsername());
-        $this->assertEquals('demopassword1', $result->getPassword());
+        $entity = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Users', 1);
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
+        $this->assertEquals('Pantarei\OAuth2\Entity\Users', get_class($entity));
+        $this->assertEquals(1, $entity->getId());
+        $this->assertEquals('demousername1', $entity->getUsername());
+        $this->assertEquals($encoder->encodePassword('demopassword1', $entity->getSalt()), $entity->getPassword());
     }
 }

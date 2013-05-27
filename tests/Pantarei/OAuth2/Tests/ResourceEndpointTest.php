@@ -35,19 +35,11 @@ class ResourceEndpointTest extends WebTestCase
 
     public function testResourceEndpoint()
     {
-        $entity = new $this->app['oauth2.entity']['Users']();
-        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
-        $password = $encoder->encodePassword('demopassword4', $entity->getSalt());
-        $entity->setUsername('demousername4')
-            ->setPassword($password);
-        $this->app['oauth2.orm']->persist($entity);
-        $this->app['oauth2.orm']->flush();
-
         $parameters = array();
         $client = $this->createClient();
         $crawler = $client->request('GET', '/resource/foo', $parameters, array(), array(
-            'PHP_AUTH_USER' => 'demousername4',
-            'PHP_AUTH_PW' => 'demopassword4',
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
         ));
         $this->assertEquals('foo', $client->getResponse()->getContent());
     }

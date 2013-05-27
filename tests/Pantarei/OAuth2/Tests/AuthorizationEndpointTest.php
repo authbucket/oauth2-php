@@ -286,8 +286,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         $parameters = array(
@@ -336,8 +340,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'response_type' => 'code',
             'client_id' => 'http://democlient4.com/',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
@@ -355,8 +363,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => 'http://democlient5.com/',
             'redirect_uri' => 'http://democlient5.com/redirect_uri',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
@@ -367,8 +379,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         $parameters = array(
@@ -377,8 +393,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         $parameters = array(
@@ -387,8 +407,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         $parameters = array(
@@ -398,8 +422,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => 'example state',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
 
@@ -417,8 +445,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient4.com/',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
 
