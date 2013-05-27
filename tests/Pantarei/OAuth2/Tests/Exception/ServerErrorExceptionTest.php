@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\ServerErrorException;
  */
 class ServerErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\ServerErrorException
-   */
-  public function testServerErrorException()
-  {
-    throw new ServerErrorException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\ServerErrorException
+     */
+    public function testServerErrorException()
+    {
+        throw new ServerErrorException();
+    }
 }

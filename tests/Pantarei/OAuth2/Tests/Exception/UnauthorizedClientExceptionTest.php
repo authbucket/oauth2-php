@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\UnauthorizedClientException;
  */
 class UnauthorizedClientExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
-   */
-  public function testUnauthorizedClientException()
-  {
-    throw new UnauthorizedClientException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+     */
+    public function testUnauthorizedClientException()
+    {
+        throw new UnauthorizedClientException();
+    }
 }

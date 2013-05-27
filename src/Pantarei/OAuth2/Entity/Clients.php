@@ -19,112 +19,112 @@ namespace Pantarei\OAuth2\Entity;
  */
 class Clients
 {
-  /**
-   * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var integer
+     *
+     * @Column(name="id", type="integer")
+     * @Id
+     * @GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var string
-   *
-   * @Column(name="client_id", type="string", length=255)
-   */
-  private $client_id;
+    /**
+     * @var string
+     *
+     * @Column(name="client_id", type="string", length=255)
+     */
+    private $client_id;
 
-  /**
-   * @var string
-   *
-   * @Column(name="client_secret", type="string", length=255)
-   */
-  private $client_secret;
+    /**
+     * @var string
+     *
+     * @Column(name="client_secret", type="string", length=255)
+     */
+    private $client_secret;
 
-  /**
-   * @var string
-   *
-   * @Column(name="redirect_uri", type="text")
-   */
-  private $redirect_uri;
+    /**
+     * @var string
+     *
+     * @Column(name="redirect_uri", type="text")
+     */
+    private $redirect_uri;
 
-  /**
-   * Get id
-   *
-   * @return integer
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set client_id
-   *
-   * @param string $client_id
-   * @return Clients
-   */
-  public function setClientId($client_id)
-  {
-    $this->client_id = $client_id;
+    /**
+     * Set client_id
+     *
+     * @param string $client_id
+     * @return Clients
+     */
+    public function setClientId($client_id)
+    {
+        $this->client_id = $client_id;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get client_id
-   *
-   * @return string
-   */
-  public function getClientId()
-  {
-    return $this->client_id;
-  }
+    /**
+     * Get client_id
+     *
+     * @return string
+     */
+    public function getClientId()
+    {
+        return $this->client_id;
+    }
 
-  /**
-   * Set client_secret
-   *
-   * @param string $client_secret
-   * @return Clients
-   */
-  public function setClientSecret($client_secret)
-  {
-    $this->client_secret = $client_secret;
+    /**
+     * Set client_secret
+     *
+     * @param string $client_secret
+     * @return Clients
+     */
+    public function setClientSecret($client_secret)
+    {
+        $this->client_secret = $client_secret;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get client_secret
-   *
-   * @return string
-   */
-  public function getClientSecret()
-  {
-    return $this->client_secret;
-  }
+    /**
+     * Get client_secret
+     *
+     * @return string
+     */
+    public function getClientSecret()
+    {
+        return $this->client_secret;
+    }
 
-  /**
-   * Set redirect_uri
-   *
-   * @param string $redirect_uri
-   * @return Clients
-   */
-  public function setRedirectUri($redirect_uri)
-  {
-    $this->redirect_uri = $redirect_uri;
+    /**
+     * Set redirect_uri
+     *
+     * @param string $redirect_uri
+     * @return Clients
+     */
+    public function setRedirectUri($redirect_uri)
+    {
+        $this->redirect_uri = $redirect_uri;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get redirect_uri
-   *
-   * @return string
-   */
-  public function getRedirectUri()
-  {
-    return $this->redirect_uri;
-  }
+    /**
+     * Get redirect_uri
+     *
+     * @return string
+     */
+    public function getRedirectUri()
+    {
+        return $this->redirect_uri;
+    }
 }

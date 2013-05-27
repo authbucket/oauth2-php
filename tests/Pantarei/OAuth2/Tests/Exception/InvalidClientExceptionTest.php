@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\InvalidClientException;
  */
 class InvalidClientExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
-   */
-  public function testInvalidClientException()
-  {
-    throw new InvalidClientException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
+    public function testInvalidClientException()
+    {
+        throw new InvalidClientException();
+    }
 }

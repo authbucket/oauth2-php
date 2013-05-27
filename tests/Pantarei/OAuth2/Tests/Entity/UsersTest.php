@@ -12,30 +12,30 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Entity\Users;
-use Pantarei\OAuth2\OAuth2WebTestCase;
+use Pantarei\OAuth2\WebTestCase;
 
 /**
  * Test authorizes entity functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class UsersTest extends OAuth2WebTestCase
+class UsersTest extends WebTestCase
 {
-  public function testAbstract()
-  {
-    $data = new Users();
-    $data->setUsername('demousername1')
-      ->setPassword('demopassword1');
-    $this->assertEquals('demousername1', $data->getUsername());
-    $this->assertEquals('demopassword1', $data->getPassword());
-  }
+    public function testAbstract()
+    {
+        $data = new Users();
+        $data->setUsername('demousername1')
+            ->setPassword('demopassword1');
+        $this->assertEquals('demousername1', $data->getUsername());
+        $this->assertEquals('demopassword1', $data->getPassword());
+    }
 
-  public function testFind()
-  {
-    $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Users', 1);
-    $this->assertEquals('Pantarei\OAuth2\Entity\Users', get_class($result));
-    $this->assertEquals(1, $result->getId());
-    $this->assertEquals('demousername1', $result->getUsername());
-    $this->assertEquals('demopassword1', $result->getPassword());
-  }
+    public function testFind()
+    {
+        $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Users', 1);
+        $this->assertEquals('Pantarei\OAuth2\Entity\Users', get_class($result));
+        $this->assertEquals(1, $result->getId());
+        $this->assertEquals('demousername1', $result->getUsername());
+        $this->assertEquals('demopassword1', $result->getPassword());
+    }
 }

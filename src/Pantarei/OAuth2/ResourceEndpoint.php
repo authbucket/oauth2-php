@@ -22,13 +22,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ResourceEndpoint
 {
-  public static function create(Request $request, Application $app)
-  {
-    return new self();
-  }
+    public static function create(Request $request, Application $app)
+    {
+        return new self();
+    }
 
-  public function getResponse($username)
-  {
-    return new Response($username);
-  }
+    public function getResponse($username)
+    {
+        return new Response($username);
+    }
 }

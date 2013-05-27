@@ -26,28 +26,28 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OAuth2ControllerProvider implements ControllerProviderInterface
 {
-  public function connect(Application $app)
-  {
-    $controllers = $app['controllers_factory'];
+    public function connect(Application $app)
+    {
+        $controllers = $app['controllers_factory'];
 
-    // Authorization endpoint.
-    $controllers->get('/authorize', function (Request $request, Application $app) {
-      $endpoint = AuthorizationEndpoint::create($request, $app);
-      return $endpoint->getResponse();
-    });
+        // Authorization endpoint.
+        $controllers->get('/authorize', function (Request $request, Application $app) {
+            $endpoint = AuthorizationEndpoint::create($request, $app);
+            return $endpoint->getResponse();
+        });
 
-    // Token endpoint.
-    $controllers->post('/token', function (Request $request, Application $app) {
-      $endpoint = TokenEndpoint::create($request, $app);
-      return $endpoint->getResponse();
-    });
+        // Token endpoint.
+        $controllers->post('/token', function (Request $request, Application $app) {
+            $endpoint = TokenEndpoint::create($request, $app);
+            return $endpoint->getResponse();
+        });
 
-    // Resource endpoint.
-    $controllers->get('/resource/{username}', function (Request $request, Application $app, $username) {
-      $endpoint = ResourceEndpoint::create($request, $app);
-      return $endpoint->getResponse($username);
-    });
+        // Resource endpoint.
+        $controllers->get('/resource/{username}', function (Request $request, Application $app, $username) {
+            $endpoint = ResourceEndpoint::create($request, $app);
+            return $endpoint->getResponse($username);
+        });
 
-    return $controllers;
-  }
+        return $controllers;
+    }
 }

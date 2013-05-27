@@ -19,52 +19,52 @@ namespace Pantarei\OAuth2\Entity;
  */
 class Scopes
 {
-  /**
-   * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var integer
+     *
+     * @Column(name="id", type="integer")
+     * @Id
+     * @GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var string
-   *
-   * @Column(name="scope", type="string", length=255)
-   */
-  private $scope;
+    /**
+     * @var string
+     *
+     * @Column(name="scope", type="string", length=255)
+     */
+    private $scope;
 
-  /**
-   * Get id
-   *
-   * @return integer
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set scope
-   *
-   * @param string $scope
-   * @return Scopes
-   */
-  public function setScope($scope)
-  {
-    $this->scope = $scope;
+    /**
+     * Set scope
+     *
+     * @param string $scope
+     * @return Scopes
+     */
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get scope
-   *
-   * @return string
-   */
-  public function getScope()
-  {
-    return $this->scope;
-  }
+    /**
+     * Get scope
+     *
+     * @return string
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
 }

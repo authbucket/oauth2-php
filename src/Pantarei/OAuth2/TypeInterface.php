@@ -20,9 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-interface OAuth2TypeInterface
+interface TypeInterface
 {
-  public static function create(Request $request, Application $app);
+    public static function create(Request $request, Application $app);
 
-  public function getResponse(Request $request, Application $app);
+    public function getResponse(Request $request, Application $app);
 }

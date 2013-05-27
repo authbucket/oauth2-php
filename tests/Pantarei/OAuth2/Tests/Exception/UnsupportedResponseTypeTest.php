@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
  */
 class UnsupportedResponseTypeTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedResponseTypeException
-   */
-  public function testUnsupportedResponseTypeException()
-  {
-    throw new UnsupportedResponseTypeException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\UnsupportedResponseTypeException
+     */
+    public function testUnsupportedResponseTypeException()
+    {
+        throw new UnsupportedResponseTypeException();
+    }
 }

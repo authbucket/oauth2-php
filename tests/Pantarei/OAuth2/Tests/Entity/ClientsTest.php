@@ -12,34 +12,34 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Entity\Clients;
-use Pantarei\OAuth2\OAuth2WebTestCase;
+use Pantarei\OAuth2\WebTestCase;
 
 /**
  * Test authorizes entity functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ClientsTest extends OAuth2WebTestCase
+class ClientsTest extends WebTestCase
 {
 
-  public function testAbstract()
-  {
-    $data = new Clients();
-    $data->setClientId('http://democlient1.com/')
-      ->setClientSecret('demosecret1')
-      ->setRedirectUri('http://democlient1.com/redirect_uri');
-    $this->assertEquals('http://democlient1.com/', $data->getClientId());
-    $this->assertEquals('demosecret1', $data->getClientSecret());
-    $this->assertEquals('http://democlient1.com/redirect_uri', $data->getRedirectUri());
-  }
+    public function testAbstract()
+    {
+        $data = new Clients();
+        $data->setClientId('http://democlient1.com/')
+            ->setClientSecret('demosecret1')
+            ->setRedirectUri('http://democlient1.com/redirect_uri');
+        $this->assertEquals('http://democlient1.com/', $data->getClientId());
+        $this->assertEquals('demosecret1', $data->getClientSecret());
+        $this->assertEquals('http://democlient1.com/redirect_uri', $data->getRedirectUri());
+    }
 
-  public function testFind()
-  {
-    $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Clients', 1);
-    $this->assertEquals('Pantarei\OAuth2\Entity\Clients', get_class($result));
-    $this->assertEquals(1, $result->getId());
-    $this->assertEquals('http://democlient1.com/', $result->getClientId());
-    $this->assertEquals('demosecret1', $result->getClientSecret());
-    $this->assertEquals('http://democlient1.com/redirect_uri', $result->getRedirectUri());
-  }
+    public function testFind()
+    {
+        $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Clients', 1);
+        $this->assertEquals('Pantarei\OAuth2\Entity\Clients', get_class($result));
+        $this->assertEquals(1, $result->getId());
+        $this->assertEquals('http://democlient1.com/', $result->getClientId());
+        $this->assertEquals('demosecret1', $result->getClientSecret());
+        $this->assertEquals('http://democlient1.com/redirect_uri', $result->getRedirectUri());
+    }
 }

@@ -11,13 +11,13 @@
 
 namespace Pantarei\OAuth2\Extension;
 
-use Pantarei\OAuth2\OAuth2TypeInterface;
+use Pantarei\OAuth2\TypeInterface;
 
 /**
  * Defines the interface for grant type.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-interface GrantTypeInterface extends OAuth2TypeInterface
+interface GrantTypeInterface extends TypeInterface
 {
 }

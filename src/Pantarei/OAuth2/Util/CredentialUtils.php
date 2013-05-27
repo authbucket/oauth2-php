@@ -24,33 +24,32 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class CredentialUtils
 {
-  public static function check(Request $request, Application $app)
-  {
-    $query = $request->request->all();
+    public static function check(Request $request, Application $app)
+    {
+        $query = $request->request->all();
 
-    // At least one (and only one) of client credentials method required.
-    if (!$request->getUser() && !isset($query['client_id'])) {
-      throw new InvalidRequestException();
-    }
-    elseif ($request->getUser() && isset($query['client_id'])) {
-      throw new InvalidRequestException();
-    }
+        // At least one (and only one) of client credentials method required.
+        if (!$request->getUser() && !isset($query['client_id'])) {
+            throw new InvalidRequestException();
+        } elseif ($request->getUser() && isset($query['client_id'])) {
+            throw new InvalidRequestException();
+        }
 
-    // Check with HTTP basic auth if exists.
-    if ($request->getUser()) {
-      $query['client_id'] = $request->getUser();
-      $query['client_secret'] = $request->getPassword();
-    }
+        // Check with HTTP basic auth if exists.
+        if ($request->getUser()) {
+            $query['client_id'] = $request->getUser();
+            $query['client_secret'] = $request->getPassword();
+        }
 
-    // Check with database record.
-    $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Clients'])->findOneBy(array(
-      'client_id' => $query['client_id'],
-      'client_secret' => $query['client_secret'],
-    ));
-    if ($result === NULL) {
-      throw new InvalidClientException();
-    }
+        // Check with database record.
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Clients'])->findOneBy(array(
+            'client_id' => $query['client_id'],
+            'client_secret' => $query['client_secret'],
+        ));
+        if ($result === null) {
+            throw new InvalidClientException();
+        }
 
-    return TRUE;
-  }
+        return true;
+    }
 }

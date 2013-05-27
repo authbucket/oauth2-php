@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
  */
 class UnsupportedGrantTypeExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\UnsupportedGrantTypeException
-   */
-  public function testUnsupportedGrantTypeException()
-  {
-    throw new UnsupportedGrantTypeException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\UnsupportedGrantTypeException
+     */
+    public function testUnsupportedGrantTypeException()
+    {
+        throw new UnsupportedGrantTypeException();
+    }
 }

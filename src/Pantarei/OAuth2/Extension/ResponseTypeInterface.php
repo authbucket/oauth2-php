@@ -11,13 +11,13 @@
 
 namespace Pantarei\OAuth2\Extension;
 
-use Pantarei\OAuth2\OAuth2TypeInterface;
+use Pantarei\OAuth2\TypeInterface;
 
 /**
  * Defines the interface for response type.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-interface ResponseTypeInterface extends OAuth2TypeInterface
+interface ResponseTypeInterface extends TypeInterface
 {
 }

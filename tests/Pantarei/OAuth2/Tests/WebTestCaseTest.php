@@ -12,32 +12,39 @@
 namespace Pantarei\OAuth2\Tests;
 
 use Pantarei\OAuth2\WebTestCase;
-use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
-use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Test resource endpoint functionality.
+ * Test the WebTestCase wrapper functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ResourceEndpointTest extends WebTestCase
+class WebTestCaseTest extends WebTestCase
 {
     public function createApplication()
     {
         $app = parent::createApplication();
 
-        $app->mount('/', new OAuth2ControllerProvider());
+        $app->get('/foo/{name}', function ($name, Request $request) {
+            $request->overrideGlobals();
+            $controller = new WebTestCaseTest();
+            return $controller->bar($name);
+        });
 
         return $app;
     }
 
-    public function testResourceEndpoint()
+    public function bar($name)
     {
-        $parameters = array();
+        return 'Hello ' . $name;
+    }
+
+    public function testSilexPage()
+    {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/foo/bar', array('dummy' => 'content'));
+        $this->assertTrue($client->getResponse()->isOk());
+        $this->assertCount(1, $crawler->filter('html:contains("Hello bar")'));
     }
 }

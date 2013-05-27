@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\InvalidRequestException;
  */
 class InvalidRequestExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-   */
-  public function testInvalidRequestException()
-  {
-    throw new InvalidRequestException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
+    public function testInvalidRequestException()
+    {
+        throw new InvalidRequestException();
+    }
 }

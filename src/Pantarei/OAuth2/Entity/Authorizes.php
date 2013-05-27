@@ -19,112 +19,112 @@ namespace Pantarei\OAuth2\Entity;
  */
 class Authorizes
 {
-  /**
-   * @var integer
-   *
-   * @Column(name="id", type="integer")
-   * @Id
-   * @GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @var integer
+     *
+     * @Column(name="id", type="integer")
+     * @Id
+     * @GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @var string
-   *
-   * @Column(name="client_id", type="string", length=255)
-   */
-  private $client_id;
+    /**
+     * @var string
+     *
+     * @Column(name="client_id", type="string", length=255)
+     */
+    private $client_id;
 
-  /**
-   * @var string
-   *
-   * @Column(name="username", type="string", length=255)
-   */
-  private $username;
+    /**
+     * @var string
+     *
+     * @Column(name="username", type="string", length=255)
+     */
+    private $username;
 
-  /**
-   * @var array
-   *
-   * @Column(name="scope", type="array")
-   */
-  private $scope;
+    /**
+     * @var array
+     *
+     * @Column(name="scope", type="array")
+     */
+    private $scope;
 
-  /**
-   * Get id
-   *
-   * @return integer
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-  /**
-   * Set client_id
-   *
-   * @param string $client_id
-   * @return Authorizes
-   */
-  public function setClientId($client_id)
-  {
-    $this->client_id = $client_id;
+    /**
+     * Set client_id
+     *
+     * @param string $client_id
+     * @return Authorizes
+     */
+    public function setClientId($client_id)
+    {
+        $this->client_id = $client_id;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get client_id
-   *
-   * @return string
-   */
-  public function getClientId()
-  {
-    return $this->client_id;
-  }
+    /**
+     * Get client_id
+     *
+     * @return string
+     */
+    public function getClientId()
+    {
+        return $this->client_id;
+    }
 
-  /**
-   * Set username
-   *
-   * @param string $username
-   * @return Authorizes
-   */
-  public function setUsername($username)
-  {
-    $this->username = $username;
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return Authorizes
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get username
-   *
-   * @return string
-   */
-  public function getUsername()
-  {
-    return $this->username;
-  }
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
 
-  /**
-   * Set scope
-   *
-   * @param array $scope
-   * @return Authorizes
-   */
-  public function setScope($scope)
-  {
-    $this->scope = $scope;
+    /**
+     * Set scope
+     *
+     * @param array $scope
+     * @return Authorizes
+     */
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * Get scope
-   *
-   * @return array
-   */
-  public function getScope()
-  {
-    return $this->scope;
-  }
+    /**
+     * Get scope
+     *
+     * @return array
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
 }

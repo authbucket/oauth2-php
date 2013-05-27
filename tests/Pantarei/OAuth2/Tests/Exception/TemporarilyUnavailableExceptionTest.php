@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\TemporarilyUnavailableException;
  */
 class TemporarilyUnavailableExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\TemporarilyUnavailableException
-   */
-  public function testTemporarilyUnavailableException()
-  {
-    throw new TemporarilyUnavailableException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\TemporarilyUnavailableException
+     */
+    public function testTemporarilyUnavailableException()
+    {
+        throw new TemporarilyUnavailableException();
+    }
 }

@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Tests\Extension\TokenType;
 
 use Pantarei\OAuth2\Extension\TokenType\MacTokenType;
-use Pantarei\OAuth2\OAuth2WebTestCase;
+use Pantarei\OAuth2\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,12 +21,12 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class MacTokenTypeTest extends OAuth2WebTestCase
+class MacTokenTypeTest extends WebTestCase
 {
-  public function testTokenType()
-  {
-    $request = new Request();
-    $token_type = MacTokenType::create($request, $this->app);
-    $this->assertNull($token_type->getResponse($request, $this->app));
-  }
+    public function testTokenType()
+    {
+        $request = new Request();
+        $token_type = MacTokenType::create($request, $this->app);
+        $this->assertNull($token_type->getResponse($request, $this->app));
+    }
 }

@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\InvalidGrantException;
  */
 class InvalidGrantExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
-   */
-  public function testInvalidGrantException()
-  {
-    throw new InvalidGrantException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+     */
+    public function testInvalidGrantException()
+    {
+        throw new InvalidGrantException();
+    }
 }

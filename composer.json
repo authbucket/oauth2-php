@@ -28,7 +28,8 @@
         "doctrine/orm": "2.*",
         "php": ">=5.3.3",
         "rhumsaa/uuid": "~2.1",
-        "silex/silex": "1.0.*@dev"
+        "silex/silex": "1.0.*@dev",
+        "symfony/security": "~2.3"
     },
     "require-dev": {
         "satooshi/php-coveralls": "dev-master",

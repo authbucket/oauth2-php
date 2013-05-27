@@ -25,13 +25,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MacTokenType implements TokenTypeInterface
 {
-  public static function create(Request $request, Application $app)
-  {
-    return new static();
-  }
+    public static function create(Request $request, Application $app)
+    {
+        return new static();
+    }
 
-  public function getResponse(Request $request, Application $app)
-  {
-    return NULL;
-  }
+    public function getResponse(Request $request, Application $app)
+    {
+        return null;
+    }
 }

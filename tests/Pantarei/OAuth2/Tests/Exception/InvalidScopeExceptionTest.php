@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\InvalidScopeException;
  */
 class InvalidScopeExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
-   */
-  public function testInvalidScopeException()
-  {
-    throw new InvalidScopeException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     */
+    public function testInvalidScopeException()
+    {
+        throw new InvalidScopeException();
+    }
 }

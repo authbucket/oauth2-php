@@ -20,11 +20,11 @@ use Pantarei\OAuth2\Exception\AccessDeniedException;
  */
 class AccessDeniedExceptionTest extends \PHPUnit_Framework_TestCase
 {
-  /**
-   * @expectedException \Pantarei\OAuth2\Exception\AccessDeniedException
-   */
-  public function testAccessDeniedException()
-  {
-    throw new AccessDeniedException();
-  }
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\AccessDeniedException
+     */
+    public function testAccessDeniedException()
+    {
+        throw new AccessDeniedException();
+    }
 }

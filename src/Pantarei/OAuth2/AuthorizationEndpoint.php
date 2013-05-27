@@ -23,30 +23,30 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AuthorizationEndpoint
 {
-  private $request;
+    private $request;
 
-  private $app;
-  
-  private $controller;
+    private $app;
 
-  public function __construct($request, $app, $controller)
-  {
-    $this->request = $request;
-    $this->app = $app;
-    $this->controller = $controller;
-  }
+    private $controller;
 
-  public static function create(Request $request, Application $app)
-  {
-    $response_type = ParameterUtils::checkResponseType($request, $app);
+    public function __construct($request, $app, $controller)
+    {
+        $this->request = $request;
+        $this->app = $app;
+        $this->controller = $controller;
+    }
 
-    $controller = $app['oauth2.response_type'][$response_type]::create($request, $app);
-    
-    return new self($request, $app, $controller);
-  }
+    public static function create(Request $request, Application $app)
+    {
+        $response_type = ParameterUtils::checkResponseType($request, $app);
 
-  public function getResponse()
-  {
-    return $this->controller->getResponse($this->request, $this->app);
-  }
+        $controller = $app['oauth2.response_type'][$response_type]::create($request, $app);
+
+        return new self($request, $app, $controller);
+    }
+
+    public function getResponse()
+    {
+        return $this->controller->getResponse($this->request, $this->app);
+    }
 }
