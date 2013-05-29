@@ -234,12 +234,12 @@ abstract class ParameterUtils
     {
         // Fetch client_id from HTTP basic auth, POST, or GET.
         $client_id = null;
-        if ($request->getUser()) {
+        if ($request->query->get('client_id')) {
+            $client_id = $request->query->get('client_id');
+        } elseif ($request->getUser()) {
             $client_id = $request->getUser();
         } elseif ($request->request->get('client_id')) {
             $client_id = $request->request->get('client_id');
-        } elseif ($request->query->get('client_id')) {
-            $client_id = $request->query->get('client_id');
         }
 
         // Check client_id with database record.
@@ -332,9 +332,9 @@ abstract class ParameterUtils
         // Getch redirect_uri from POST, or GET.
         $redirect_uri = null;
         $client_id = null;
-        if ($request->request->get('redirect_uri') || $request->request->get('client_id') || $request->getUser()) {
+        if ($request->request->get('redirect_uri') || $request->request->get('client_id')) {
             $redirect_uri = $request->request->get('redirect_uri');
-            $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
+            $client_id = $request->request->get('client_id');
         } elseif ($request->query->get('redirect_uri') || $request->query->get('client_id')) {
             $redirect_uri = $request->query->get('redirect_uri');
             $client_id = $request->query->get('client_id');
@@ -424,9 +424,13 @@ abstract class ParameterUtils
         // Check username with database record.
         $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Users'])->findOneBy(array(
             'username' => $username,
-            'password' => $password,
         ));
         if ($result === null) {
+            throw new InvalidGrantException();
+        }
+
+        $encoder = $app['security.encoder_factory']->getEncoder($result);
+        if ($encoder->encodePassword($password, $result->getSalt()) !== $result->getPassword()) {
             throw new InvalidGrantException();
         }
 

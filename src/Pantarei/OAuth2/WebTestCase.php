@@ -190,18 +190,21 @@ class WebTestCase extends SilexWebTestCase
 
         // Add demo users.
         $entity = new $this->app['oauth2.entity']['Users']();
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setUsername('demousername1')
-            ->setPassword('demopassword1');
+            ->setPassword($encoder->encodePassword('demopassword1', $entity->getSalt()));
         $this->app['oauth2.orm']->persist($entity);
 
         $entity = new $this->app['oauth2.entity']['Users']();
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setUsername('demousername2')
-            ->setPassword('demopassword2');
+            ->setPassword($encoder->encodePassword('demopassword2', $entity->getSalt()));
         $this->app['oauth2.orm']->persist($entity);
 
         $entity = new $this->app['oauth2.entity']['Users']();
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setUsername('demousername3')
-            ->setPassword('demopassword3');
+            ->setPassword($encoder->encodePassword('demopassword3', $entity->getSalt()));
         $this->app['oauth2.orm']->persist($entity);
 
         // Flush all records to database

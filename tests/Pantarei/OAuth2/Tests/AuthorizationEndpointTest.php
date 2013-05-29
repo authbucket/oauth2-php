@@ -35,7 +35,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'response_type' => 'code',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -50,7 +54,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'response_type' => 'token',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -66,7 +74,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => 'http://badclient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -82,7 +94,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => 'http://badclient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -96,7 +112,11 @@ class AuthorizationEndpointTest extends WebTestCase
         $parameters = array(
             'client_id' => '1234',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -118,7 +138,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'response_type' => 'code',
             'client_id' => 'http://democlient4.com/',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -140,7 +164,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient4.com/',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -156,7 +184,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/wrong_uri',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -172,7 +204,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/wrong_uri',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -188,7 +224,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => '1234',
             'redirect_uri' => 'http://example.com/redirect_uri',
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -205,7 +245,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -222,7 +266,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "badscope1",
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -239,7 +287,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -256,7 +308,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "badscope1",
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -274,7 +330,11 @@ class AuthorizationEndpointTest extends WebTestCase
             'scope' => "demoscope1 demoscope2 demoscope3",
             'state' => "aaa\x19bbb\x7Fccc",
         );
-        $request = Request::create('/authorize', 'GET', $parameters);
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $request = Request::create('/authorize', 'GET', $parameters, array(), array(), $server);
         $response = $app->handle($request);
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -300,8 +360,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         $parameters = array(
@@ -310,8 +374,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         $parameters = array(
@@ -321,8 +389,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => 'example state',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
@@ -468,8 +540,12 @@ class AuthorizationEndpointTest extends WebTestCase
             'client_id' => 'http://democlient5.com/',
             'redirect_uri' => 'http://democlient5.com/redirect_uri',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
 }

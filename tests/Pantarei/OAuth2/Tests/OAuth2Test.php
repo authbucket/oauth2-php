@@ -34,8 +34,12 @@ class OAuth2Test extends WebTestCase
             'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => 'example state',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         // Check basic auth response that can simply compare.
@@ -104,8 +108,12 @@ class OAuth2Test extends WebTestCase
             'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => 'example state',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Check basic token response that can simply compare.
@@ -226,8 +234,12 @@ class OAuth2Test extends WebTestCase
             'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => 'example state',
         );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters);
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $token_response = json_decode($client->getResponse()->getContent(), true);
 
         // Check access token and refresh token with database record.
