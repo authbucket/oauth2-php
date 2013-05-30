@@ -134,13 +134,13 @@ class OAuth2ControllerProviderTest extends WebTestCase
     public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
-        $client = new $this->app['oauth2.entity']['Clients']();
+        $client = new $this->app['oauth2.entity.clients']();
         $client->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($client);
         $this->app['oauth2.orm']->flush();
 
-        $code = new $this->app['oauth2.entity']['Codes']();
+        $code = new $this->app['oauth2.entity.codes']();
         $code->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
             ->setExpires(time() + 3600)
@@ -432,13 +432,13 @@ class OAuth2ControllerProviderTest extends WebTestCase
     public function testGoodAuthCodeNoStoredRedirectUri()
     {
         // Insert client without redirect_uri.
-        $fixture = new $this->app['oauth2.entity']['Clients']();
+        $fixture = new $this->app['oauth2.entity.clients']();
         $fixture->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($fixture);
         $this->app['oauth2.orm']->flush();
 
-        $fixture = new $this->app['oauth2.entity']['Codes']();
+        $fixture = new $this->app['oauth2.entity.codes']();
         $fixture->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
             ->setExpires(time() + 3600)

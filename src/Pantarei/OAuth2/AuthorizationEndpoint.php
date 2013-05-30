@@ -40,7 +40,7 @@ class AuthorizationEndpoint
     {
         $response_type = ParameterUtils::checkResponseType($request, $app);
 
-        $controller = $app['oauth2.response_type'][$response_type]::create($request, $app);
+        $controller = $app['oauth2.response_type.' . $response_type]::create($request, $app);
 
         return new self($request, $app, $controller);
     }

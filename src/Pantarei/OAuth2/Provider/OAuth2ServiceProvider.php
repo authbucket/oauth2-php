@@ -34,29 +34,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
                 'dev' => true,
                 'path' => __DIR__ . '/Entity',
             ),
-            'entity' => array(
-                'AccessTokens' => 'Pantarei\OAuth2\Entity\AccessTokens',
-                'Authorizes' => 'Pantarei\OAuth2\Entity\Authorizes',
-                'Clients' => 'Pantarei\OAuth2\Entity\Clients',
-                'Codes' => 'Pantarei\OAuth2\Entity\Codes',
-                'RefreshTokens' => 'Pantarei\OAuth2\Entity\RefreshTokens',
-                'Scopes' => 'Pantarei\OAuth2\Entity\Scopes',
-                'Users' => 'Pantarei\OAuth2\Entity\Users',
-            ),
-            'response_type' => array(
-                'code' => 'Pantarei\OAuth2\Extension\ResponseType\CodeResponseType',
-                'token' => 'Pantarei\OAuth2\Extension\ResponseType\TokenResponseType',
-            ),
-            'grant_type' => array(
-                'authorization_code' => 'Pantarei\OAuth2\Extension\GrantType\AuthorizationCodeGrantType',
-                'client_credentials' => 'Pantarei\OAuth2\Extension\GrantType\ClientCredentialsGrantType',
-                'password' => 'Pantarei\OAuth2\Extension\GrantType\PasswordGrantType',
-                'refresh_token' => 'Pantarei\OAuth2\Extension\GrantType\RefreshTokenGrantType',
-            ),
-            'token_type' => array(
-                'bearer' => 'Pantarei\OAuth2\Extension\TokenType\BearerTokenType',
-                'mac' => 'Pantarei\OAuth2\Extension\TokenType\MacTokenType',
-            ),
         );
 
         // Initializer to merge supplied options with default options.
@@ -87,40 +64,51 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         });
 
         // Shortcut for entity.
-        $app['oauth2.entity'] = $app->share(function ($app) {
-            $app['oauth2.options.initializer']();
-
-            return $app['oauth2.options']['entity'];
-        });
+        $entity = array(
+            'access_tokens' => 'Pantarei\OAuth2\Entity\AccessTokens',
+            'authorizes' => 'Pantarei\OAuth2\Entity\Authorizes',
+            'clients' => 'Pantarei\OAuth2\Entity\Clients',
+            'codes' => 'Pantarei\OAuth2\Entity\Codes',
+            'refresh_tokens' => 'Pantarei\OAuth2\Entity\RefreshTokens',
+            'scopes' => 'Pantarei\OAuth2\Entity\Scopes',
+            'users' => 'Pantarei\OAuth2\Entity\Users',
+        );
+        foreach ($entity as $name => $class) {
+            $app['oauth2.entity.' . $name] = $class;
+        }
 
         // Shortcut for response_type.
-        $app['oauth2.response_type'] = $app->share(function ($app) {
-            $app['oauth2.options.initializer']();
+        $response_type = array(
+            'code' => 'Pantarei\OAuth2\Extension\ResponseType\CodeResponseType',
+            'token' => 'Pantarei\OAuth2\Extension\ResponseType\TokenResponseType',
+        );
+        foreach ($response_type as $name => $class) {
+            $app['oauth2.response_type.' . $name] = $class;
+        }
 
-            return $app['oauth2.options']['response_type'];
-        });
 
         // Shortcut for grant_type.
-        $app['oauth2.grant_type'] = $app->share(function ($app) {
-            $app['oauth2.options.initializer']();
-
-            return $app['oauth2.options']['grant_type'];
-        });
+        $grant_type = array(
+            'authorization_code' => 'Pantarei\OAuth2\Extension\GrantType\AuthorizationCodeGrantType',
+            'client_credentials' => 'Pantarei\OAuth2\Extension\GrantType\ClientCredentialsGrantType',
+            'password' => 'Pantarei\OAuth2\Extension\GrantType\PasswordGrantType',
+            'refresh_token' => 'Pantarei\OAuth2\Extension\GrantType\RefreshTokenGrantType',
+        );
+        foreach ($grant_type as $name => $class) {
+            $app['oauth2.grant_type.' . $name] = $class;
+        }
 
         // Shortcut for token_type.
-        $app['oauth2.token_type'] = $app->share(function ($app) {
-            $app['oauth2.options.initializer']();
-
-            return $app['oauth2.options']['token_type'];
-        });
+        $token_type = array(
+            'bearer' => 'Pantarei\OAuth2\Extension\TokenType\BearerTokenType',
+            'mac' => 'Pantarei\OAuth2\Extension\TokenType\MacTokenType',
+        );
+        foreach ($token_type as $name => $class) {
+            $app['oauth2.token_type.' . $name] = $class;
+        }
 
         // Shortcut for default token_type.
-        $app['oauth2.token_type.default'] = $app->share(function ($app) {
-            $app['oauth2.options.initializer']();
-
-            $token_type = $app['oauth2.token_type'];
-            return array_shift($token_type);
-        });
+        $app['oauth2.token_type.default'] = $app['oauth2.token_type.bearer'];
     }
 
     public function boot(Application $app)

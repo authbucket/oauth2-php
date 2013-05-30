@@ -142,7 +142,7 @@ class CodeResponseType implements ResponseTypeInterface
 
     public function getResponse(Request $request, Application $app)
     {
-        $code = new $app['oauth2.entity']['Codes']();
+        $code = new $app['oauth2.entity.codes']();
         $code->setCode(md5(Uuid::uuid4()))
             ->setClientId($this->getClientId())
             ->setUsername('')

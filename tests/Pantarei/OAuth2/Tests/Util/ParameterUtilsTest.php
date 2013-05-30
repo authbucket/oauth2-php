@@ -404,7 +404,7 @@ class ParameterUtilsTest extends WebTestCase
      */
     public function testBadCheckScopeByRefreshTokenNotSubset()
     {
-        $scope = new $this->app['oauth2.entity']['Scopes']();
+        $scope = new $this->app['oauth2.entity.scopes']();
         $scope->setScope('demoscope4');
         $this->app['oauth2.orm']->persist($scope);
         $this->app['oauth2.orm']->flush();
@@ -425,7 +425,7 @@ class ParameterUtilsTest extends WebTestCase
 
     public function testGoodCheckScopeByRefreshToken()
     {
-        $refresh_token = new $this->app['oauth2.entity']['RefreshTokens']();
+        $refresh_token = new $this->app['oauth2.entity.refresh_tokens']();
         $refresh_token->setRefreshToken('13dcf9db36152fa322daf9deb7b0a22e')
             ->setTokenType('bearer')
             ->setClientId('http://democlient1.com/')
@@ -474,7 +474,7 @@ class ParameterUtilsTest extends WebTestCase
     public function testBadCheckRedirectUriEmpty()
     {
         // Insert client without redirect_uri.
-        $client = new $this->app['oauth2.entity']['Clients']();
+        $client = new $this->app['oauth2.entity.clients']();
         $client->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($client);

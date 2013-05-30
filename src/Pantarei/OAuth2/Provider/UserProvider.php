@@ -34,7 +34,7 @@ class UserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         $user = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['Users'])
+            ->getRepository($this->app['oauth2.entity.users'])
             ->findOneBy(array(
                 'username' => $username,
             ));
@@ -57,6 +57,6 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === 'Pantarei\OAuth2\Entity\Users';
+        return $class === $this->app['oauth2.entity.users'];
     }
 }

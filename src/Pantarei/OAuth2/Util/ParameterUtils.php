@@ -200,7 +200,7 @@ abstract class ParameterUtils
         $response_type = $request->query->get('response_type');
 
         // Check if given response_type supported.
-        if (!isset($app['oauth2.response_type'][$response_type])) {
+        if (!isset($app['oauth2.response_type.' . $response_type])) {
             throw new UnsupportedResponseTypeException();
         }
 
@@ -223,7 +223,7 @@ abstract class ParameterUtils
         $grant_type = $request->request->get('grant_type');
 
         // Check if given response_type supported.
-        if (!isset($app['oauth2.grant_type'][$grant_type])) {
+        if (!isset($app['oauth2.grant_type.' . $grant_type])) {
             throw new UnsupportedGrantTypeException();
         }
 
@@ -243,7 +243,7 @@ abstract class ParameterUtils
         }
 
         // Check client_id with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Clients'])->findOneBy(array(
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.clients'])->findOneBy(array(
             'client_id' => $client_id,
         ));
         if ($result === null) {
@@ -265,7 +265,7 @@ abstract class ParameterUtils
 
         if ($scope) {
             // Fetch and prepare all stored scopes.
-            $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Scopes'])->findAll();
+            $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.scopes'])->findAll();
 
             $stored = array();
             foreach ($result as $row) {
@@ -287,7 +287,7 @@ abstract class ParameterUtils
     public static function checkScopeByCode(Request $request, Application $app)
     {
         // Fetch scope from pre-generated code.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Codes'])->findOneBy(array(
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.codes'])->findOneBy(array(
             'code' => $request->request->get('code'),
             'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
         ));
@@ -302,7 +302,7 @@ abstract class ParameterUtils
     {
         // Fetch scope from pre-grnerated refresh_token.
         $stored = null;
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['RefreshTokens'])->findOneBy(array(
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.refresh_tokens'])->findOneBy(array(
             'refresh_token' => $request->request->get('refresh_token'),
             'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
         ));
@@ -343,7 +343,7 @@ abstract class ParameterUtils
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Clients'])->findOneBy(array(
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.clients'])->findOneBy(array(
             'client_id' => $client_id,
         ));
         if ($result !== null && $result->getRedirectUri()) {
@@ -378,7 +378,7 @@ abstract class ParameterUtils
         $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
         // Check code with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Codes'])->findOneBy(array(
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.codes'])->findOneBy(array(
             'client_id' => $client_id,
             'code' => $code,
         ));
@@ -401,7 +401,7 @@ abstract class ParameterUtils
         $username = $request->request->get('username');
 
         // Check username with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Users'])->findOneBy(array(
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.users'])->findOneBy(array(
             'username' => $username,
         ));
         if ($result === null) {
@@ -422,7 +422,7 @@ abstract class ParameterUtils
         $password = $request->request->get('password');
 
         // Check username with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['Users'])->findOneBy(array(
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.users'])->findOneBy(array(
             'username' => $username,
         ));
         if ($result === null) {
@@ -448,7 +448,7 @@ abstract class ParameterUtils
         $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
         // Check refresh_token with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity']['RefreshTokens'])->findOneBy(array(
+        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.refresh_tokens'])->findOneBy(array(
             'client_id' => $client_id,
             'refresh_token' => $refresh_token,
         ));

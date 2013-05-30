@@ -95,7 +95,7 @@ class RefreshTokenGrantTypeTest extends WebTestCase
      */
     public function testExpiredRefreshToken()
     {
-        $refresh_token = new $this->app['oauth2.entity']['RefreshTokens']();
+        $refresh_token = new $this->app['oauth2.entity.refresh_tokens']();
         $refresh_token->setRefreshToken('5ddaa68ac1805e728563dd7915441408')
             ->setTokenType('bearer')
             ->setClientId('http://democlient1.com/')

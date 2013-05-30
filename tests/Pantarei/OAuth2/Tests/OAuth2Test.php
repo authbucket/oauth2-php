@@ -53,7 +53,7 @@ class OAuth2Test extends WebTestCase
         // Check code with database record.
         $code = $auth_response->query->get('code');
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['Codes'])
+            ->getRepository($this->app['oauth2.entity.codes'])
             ->findOneBy(array(
                 'client_id' => 'http://democlient1.com/',
                 'code' => $code,
@@ -80,7 +80,7 @@ class OAuth2Test extends WebTestCase
 
         // Check access token and refresh token with database record.
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['AccessTokens'])
+            ->getRepository($this->app['oauth2.entity.access_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -89,7 +89,7 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull($result);
 
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['RefreshTokens'])
+            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -123,7 +123,7 @@ class OAuth2Test extends WebTestCase
 
         // Check access token and refresh token with database record.
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['AccessTokens'])
+            ->getRepository($this->app['oauth2.entity.access_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -132,7 +132,7 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull($result);
 
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['RefreshTokens'])
+            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -166,7 +166,7 @@ class OAuth2Test extends WebTestCase
 
         // Check access token and refresh token with database record.
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['AccessTokens'])
+            ->getRepository($this->app['oauth2.entity.access_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -175,7 +175,7 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull($result);
 
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['RefreshTokens'])
+            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -206,7 +206,7 @@ class OAuth2Test extends WebTestCase
 
         // Check access token and refresh token with database record.
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['AccessTokens'])
+            ->getRepository($this->app['oauth2.entity.access_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -215,7 +215,7 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull($result);
 
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['RefreshTokens'])
+            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -244,7 +244,7 @@ class OAuth2Test extends WebTestCase
 
         // Check access token and refresh token with database record.
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['AccessTokens'])
+            ->getRepository($this->app['oauth2.entity.access_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -253,7 +253,7 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull($result);
 
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['RefreshTokens'])
+            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -281,7 +281,7 @@ class OAuth2Test extends WebTestCase
 
         // Check access token and refresh token with database record.
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['AccessTokens'])
+            ->getRepository($this->app['oauth2.entity.access_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',
@@ -290,7 +290,7 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull($result);
 
         $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity']['RefreshTokens'])
+            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
             ->findOneBy(array(
                 'token_type' => 'bearer',
                 'client_id' => 'http://democlient1.com/',

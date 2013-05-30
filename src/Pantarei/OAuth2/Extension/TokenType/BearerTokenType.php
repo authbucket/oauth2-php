@@ -92,7 +92,7 @@ class BearerTokenType implements TokenTypeInterface
 
     public function getResponse(Request $request, Application $app)
     {
-        $access_token = new $app['oauth2.entity']['AccessTokens']();
+        $access_token = new $app['oauth2.entity.access_tokens']();
         $access_token->setAccessToken(md5(Uuid::uuid4()))
             ->setTokenType('bearer')
             ->setClientId($this->getClientId())
@@ -102,7 +102,7 @@ class BearerTokenType implements TokenTypeInterface
         $app['oauth2.orm']->persist($access_token);
         $app['oauth2.orm']->flush();
 
-        $refresh_token = new $app['oauth2.entity']['RefreshTokens']();
+        $refresh_token = new $app['oauth2.entity.refresh_tokens']();
         $refresh_token->setRefreshToken(md5(Uuid::uuid4()))
             ->setTokenType('bearer')
             ->setClientId($this->getClientId())

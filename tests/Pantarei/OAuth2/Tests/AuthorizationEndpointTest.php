@@ -124,7 +124,7 @@ class AuthorizationEndpointTest extends WebTestCase
     public function testExceptionCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
-        $client = new $this->app['oauth2.entity']['Clients']();
+        $client = new $this->app['oauth2.entity.clients']();
         $client->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($client);
@@ -150,7 +150,7 @@ class AuthorizationEndpointTest extends WebTestCase
     public function testExceptionTokenNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
-        $client = new $this->app['oauth2.entity']['Clients']();
+        $client = new $this->app['oauth2.entity.clients']();
         $client->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($client);
@@ -401,7 +401,7 @@ class AuthorizationEndpointTest extends WebTestCase
     public function testGoodCodeNoPassedRedirectUri() 
     {
         // Insert client with redirect_uri, test empty pass in.
-        $fixture = new $this->app['oauth2.entity']['Clients']();
+        $fixture = new $this->app['oauth2.entity.clients']();
         $fixture->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4')
             ->setRedirectUri('http://democlient4.com/redirect_uri');
@@ -424,7 +424,7 @@ class AuthorizationEndpointTest extends WebTestCase
     public function testGoodCodeNoStoredRedirectUri() 
     {
         // Insert client without redirect_uri, test valid pass in.
-        $fixture = new $this->app['oauth2.entity']['Clients']();
+        $fixture = new $this->app['oauth2.entity.clients']();
         $fixture->setClientId('http://democlient5.com/')
             ->setClientSecret('demosecret5');
         $this->app['oauth2.orm']->persist($fixture);
@@ -506,7 +506,7 @@ class AuthorizationEndpointTest extends WebTestCase
     public function testGoodTokenNoPassedRedirectUri() 
     {
         // Insert client with redirect_uri, test empty pass in.
-        $fixture = new $this->app['oauth2.entity']['Clients']();
+        $fixture = new $this->app['oauth2.entity.clients']();
         $fixture->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4')
             ->setRedirectUri('http://democlient4.com/redirect_uri');
@@ -529,7 +529,7 @@ class AuthorizationEndpointTest extends WebTestCase
     public function testGoodTokenNoStoredRedirectUri() 
     {
         // Insert client without redirect_uri, test valid pass in.
-        $fixture = new $this->app['oauth2.entity']['Clients']();
+        $fixture = new $this->app['oauth2.entity.clients']();
         $fixture->setClientId('http://democlient5.com/')
             ->setClientSecret('demosecret5');
         $this->app['oauth2.orm']->persist($fixture);
