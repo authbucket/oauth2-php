@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Provider;
+namespace Pantarei\OAuth2\Security\User;
 
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,11 +18,11 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Silex\Application;
 
 /**
- * User provider for OAuth2.
+ * Client provider for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class UserProvider implements UserProviderInterface
+class ClientProvider implements UserProviderInterface
 {
     private $app;
 
@@ -34,9 +34,9 @@ class UserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         $user = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.users'])
+            ->getRepository($this->app['oauth2.entity.clients'])
             ->findOneBy(array(
-                'username' => $username,
+                'client_id' => $username,
             ));
         if ($user === null) {
             throw new UsernameNotFoundException();
@@ -57,6 +57,6 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === $this->app['oauth2.entity.users'];
+        return $class === $this->app['oauth2.entity.client_id'];
     }
 }

@@ -15,7 +15,10 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\Tools\SchemaTool;
 use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
-use Pantarei\OAuth2\Provider\UserProvider;
+use Pantarei\OAuth2\Security\Authentication\Provider\TokenProvider;
+use Pantarei\OAuth2\Security\Firewall\TokenListener;
+use Pantarei\OAuth2\Security\User\ClientProvider;
+use Pantarei\OAuth2\Security\User\UserProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
@@ -46,6 +49,23 @@ class WebTestCase extends SilexWebTestCase
             'driver' => 'pdo_sqlite',
             'memory' => true,
         );
+
+#        $app['security.authentication_listener.factory.token'] = $app->protect(function ($name, $options) use ($app) {
+#            $app['security.authentication_provider.' . $name . '.token'] = $app->share(function () use ($app) {
+#                return new TokenProvider($app['security.user_provider.default'], __DIR__ . '/security_cache');
+#            });
+#            $app['security.authentication_listener.' . $name . '.token'] = $app->share(function () use ($app) {
+#                return new TokenListener($app['security'], $app['security.authentication_manager']);
+#            });
+#
+#            return array(
+#                'security.authentication_provider.' . $name . '.token',
+#                'security.authentication_listener.' . $name . '.token',
+#                null,
+#                'pre_auth',
+#            );
+#        });
+
         $app['security.firewalls'] = array(
             'authorize' => array(
                 'pattern' => '^/authorize',
@@ -54,6 +74,13 @@ class WebTestCase extends SilexWebTestCase
                     return new UserProvider($app);
                 }),
             ),
+#            'token' => array(
+#                'pattern' => '^/token',
+#                'token' => true,
+#                'users' => $app->share(function () use ($app) {
+#                    return new ClientProvider($app);
+#                }),
+#            ),
         );
 
         return $app;
