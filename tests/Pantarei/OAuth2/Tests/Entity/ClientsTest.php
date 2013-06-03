@@ -24,22 +24,24 @@ class ClientsTest extends WebTestCase
 
     public function testAbstract()
     {
-        $data = new Clients();
-        $data->setClientId('http://democlient1.com/')
-            ->setClientSecret('demosecret1')
+        $entity = new Clients();
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
+        $entity->setClientId('http://democlient1.com/')
+            ->setClientSecret($encoder->encodePassword('demosecret1', $entity->getSalt()))
             ->setRedirectUri('http://democlient1.com/redirect_uri');
-        $this->assertEquals('http://democlient1.com/', $data->getClientId());
-        $this->assertEquals('demosecret1', $data->getClientSecret());
-        $this->assertEquals('http://democlient1.com/redirect_uri', $data->getRedirectUri());
+        $this->assertEquals('http://democlient1.com/', $entity->getClientId());
+        $this->assertEquals($encoder->encodePassword('demosecret1', $entity->getSalt()), $entity->getClientSecret());
+        $this->assertEquals('http://democlient1.com/redirect_uri', $entity->getRedirectUri());
     }
 
     public function testFind()
     {
-        $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Clients', 1);
-        $this->assertEquals('Pantarei\OAuth2\Entity\Clients', get_class($result));
-        $this->assertEquals(1, $result->getId());
-        $this->assertEquals('http://democlient1.com/', $result->getClientId());
-        $this->assertEquals('demosecret1', $result->getClientSecret());
-        $this->assertEquals('http://democlient1.com/redirect_uri', $result->getRedirectUri());
+        $entity = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Clients', 1);
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
+        $this->assertEquals('Pantarei\OAuth2\Entity\Clients', get_class($entity));
+        $this->assertEquals(1, $entity->getId());
+        $this->assertEquals('http://democlient1.com/', $entity->getClientId());
+        $this->assertEquals($encoder->encodePassword('demosecret1', $entity->getSalt()), $entity->getClientSecret());
+        $this->assertEquals('http://democlient1.com/redirect_uri', $entity->getRedirectUri());
     }
 }

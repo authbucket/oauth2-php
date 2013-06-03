@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2;
 
-use Pantarei\OAuth2\Util\CredentialUtils;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;

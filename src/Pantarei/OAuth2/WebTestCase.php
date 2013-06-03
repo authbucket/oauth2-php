@@ -173,20 +173,23 @@ class WebTestCase extends SilexWebTestCase
 
         // Add demo clients.
         $entity = new $this->app['oauth2.entity.clients']();
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient1.com/')
-            ->setClientSecret('demosecret1')
+            ->setClientSecret($encoder->encodePassword('demosecret1', $entity->getSalt()))
             ->setRedirectUri('http://democlient1.com/redirect_uri');
         $this->app['oauth2.orm']->persist($entity);
 
         $entity = new $this->app['oauth2.entity.clients']();
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient2.com/')
-            ->setClientSecret('demosecret2')
+            ->setClientSecret($encoder->encodePassword('demosecret2', $entity->getSalt()))
             ->setRedirectUri('http://democlient2.com/redirect_uri');
         $this->app['oauth2.orm']->persist($entity);
 
         $entity = new $this->app['oauth2.entity.clients']();
+        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient3.com/')
-            ->setClientSecret('demosecret3')
+            ->setClientSecret($encoder->encodePassword('demosecret3', $entity->getSalt()))
             ->setRedirectUri('http://democlient3.com/redirect_uri');
         $this->app['oauth2.orm']->persist($entity);
 
