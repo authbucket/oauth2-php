@@ -39,13 +39,11 @@ class TokenEndpoint
 
     public static function create(Request $request, Application $app)
     {
-        CredentialUtils::check($request, $app);
         $grant_type = ParameterUtils::checkGrantType($request, $app);
 
         $controller = $app['oauth2.grant_type.' . $grant_type]::create($request, $app);
 
         return new self($request, $app, $controller);
-
     }
 
     public function getResponse()

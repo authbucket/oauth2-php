@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * This file is part of the pantarei/oauth2 package.
  *
@@ -21,13 +20,14 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
+use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 /**
  * TokenEndpointListener implements OAuth2 token endpoint authentication.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class TokenEndpointListener implements ListenerInterface
+class TokenListener implements ListenerInterface
 {
     private $securityContext;
     private $authenticationManager;
@@ -36,7 +36,13 @@ class TokenEndpointListener implements ListenerInterface
     private $logger;
     private $ignoreFailure;
 
-    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager, $providerKey, AuthenticationEntryPointInterface $authenticationEntryPoint, LoggerInterface $logger = null)
+    public function __construct(
+        SecurityContextInterface $securityContext,
+        AuthenticationManagerInterface $authenticationManager,
+        $providerKey,
+        AuthenticationEntryPointInterface $authenticationEntryPoint,
+        LoggerInterface $logger = null
+    )
     {
         if (empty($providerKey)) {
             throw new \InvalidArgumentException('$providerKey must not be empty.');
@@ -50,12 +56,6 @@ class TokenEndpointListener implements ListenerInterface
         $this->ignoreFailure = false;
     }
 
-    /**
-     * Handles OAuth2 token endpoint  authentication.
-     *
-     * @param GetResponseEvent $event
-     *   A GetResponseEvent instance.
-     */
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
@@ -77,24 +77,21 @@ class TokenEndpointListener implements ListenerInterface
         }
 
         if (null !== $token = $this->securityContext->getToken()) {
-            if ($token instanceof UsernamePasswordToken && $token->isAuthenticated() && $token->getUsername() === $username) {
-                return;
-            }
-        }
-
-        if (null !== $this->logger) {
-            $this->logger->info(sprintf('Basic Authentication Authorization header found for user "%s"', $username));
+            if ($token instanceof UsernamePasswordToken
+                && $token->isAuthenticated()
+                && $token->getUsername() === $username) {
+                    return;
+                }
         }
 
         try {
-            $token = $this->authenticationManager->authenticate(new UsernamePasswordToken($username, $password, $this->providerKey));
+            $token = $this->authenticationManager
+                ->authenticate(new UsernamePasswordToken($username, $password, $this->providerKey));
             $this->securityContext->setToken($token);
+
+            return;
         } catch (AuthenticationException $failed) {
             $this->securityContext->setToken(null);
-
-            if (null !== $this->logger) {
-                $this->logger->info(sprintf('Authentication request failed for user "%s": %s', $username, $failed->getMessage()));
-            }
 
             if ($this->ignoreFailure) {
                 return;
