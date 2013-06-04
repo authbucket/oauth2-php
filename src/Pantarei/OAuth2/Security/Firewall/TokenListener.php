@@ -17,7 +17,6 @@ use Pantarei\OAuth2\Security\Authentication\Token\ClientToken;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
@@ -31,17 +30,14 @@ class TokenListener implements ListenerInterface
 {
     private $securityContext;
     private $authenticationManager;
-    private $providerKey;
 
     public function __construct(
         SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
-        $providerKey
+        AuthenticationManagerInterface $authenticationManager
     )
     {
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
-        $this->providerKey = $providerKey;
     }
 
     public function handle(GetResponseEvent $event)
@@ -57,24 +53,24 @@ class TokenListener implements ListenerInterface
 
         // Check with HTTP basic auth if exists.
         if ($request->headers->get('PHP_AUTH_USER', false)) {
-            $username = $request->headers->get('PHP_AUTH_USER', false);
-            $password = $request->headers->get('PHP_AUTH_PW', false);
+            $client_id = $request->headers->get('PHP_AUTH_USER', false);
+            $client_secret = $request->headers->get('PHP_AUTH_PW', false);
         } else {
-            $username = $request->request->get('client_id', false);
-            $password = $request->request->get('client_secret', false);
+            $client_id = $request->request->get('client_id', false);
+            $client_secret = $request->request->get('client_secret', false);
         }
 
         if (null !== $token = $this->securityContext->getToken()) {
-            if ($token instanceof UsernamePasswordToken
+            if ($token instanceof ClientToken
                 && $token->isAuthenticated()
-                && $token->getUsername() === $username) {
+                && $token->getUsername() === $client_id) {
                     return;
                 }
         }
 
         try {
             $token = $this->authenticationManager
-                ->authenticate(new UsernamePasswordToken($username, $password, $this->providerKey));
+                ->authenticate(new ClientToken($client_id, $client_secret));
             $this->securityContext->setToken($token);
         } catch (AuthenticationException $failed) {
             $response = new Response();

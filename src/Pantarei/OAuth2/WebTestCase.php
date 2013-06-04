@@ -49,16 +49,13 @@ class WebTestCase extends SilexWebTestCase
             $app['security.authentication_provider.' . $name . '.token'] = $app->share(function () use ($app, $name) {
                 return new TokenProvider(
                     $app['security.user_provider.' . $name],
-                    $app['security.user_checker'],
-                    $name,
                     $app['security.encoder_factory']
                 );
             });
             $app['security.authentication_listener.' . $name . '.token'] = $app->share(function () use ($app, $name) {
                 return new TokenListener(
                     $app['security'],
-                    $app['security.authentication_manager'],
-                    $name
+                    $app['security.authentication_manager']
                 );
             });
 
