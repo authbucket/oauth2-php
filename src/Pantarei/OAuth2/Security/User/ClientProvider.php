@@ -57,6 +57,6 @@ class ClientProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === $this->app['oauth2.entity.client_id'];
+        return $class === $this->app['oauth2.entity.clients'];
     }
 }

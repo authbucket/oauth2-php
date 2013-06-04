@@ -421,13 +421,11 @@ abstract class ParameterUtils
         $username = $request->request->get('username');
         $password = $request->request->get('password');
 
-        // Check username with database record.
+        // Fetch username with database record, we already confirm it is
+        // valid with checkUsername().
         $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.users'])->findOneBy(array(
             'username' => $username,
         ));
-        if ($result === null) {
-            throw new InvalidGrantException();
-        }
 
         $encoder = $app['security.encoder_factory']->getEncoder($result);
         if ($encoder->encodePassword($password, $result->getSalt()) !== $result->getPassword()) {

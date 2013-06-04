@@ -60,13 +60,28 @@ class Clients implements UserInterface
 
     public function __construct()
     {
-        $this->redirect_uri = '';
         $this->salt = md5(uniqid(null, true));
+        $this->redirect_uri = '';
     }
 
     public function getRoles()
     {
         return array('ROLE_USER');
+    }
+
+    public function getPassword()
+    {
+        return $this->getClientSecret();
+    }
+
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    public function getUsername()
+    {
+        return $this->getClientId();
     }
 
     public function eraseCredentials()
@@ -81,71 +96,6 @@ class Clients implements UserInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set username
-     *
-     * @param string $username
-     * @return Users
-     */
-    public function setUsername($username)
-    {
-        return $this->setClientId($username);
-    }
-
-    /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->getClientId();
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return Users
-     */
-    public function setPassword($password)
-    {
-        return $this->setClientSecret($password);
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->getClientSecret();
-    }
-
-    /**
-     * Set salt
-     *
-     * @param string $salt
-     * @return Users
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Get salt
-     *
-     * @return string
-     */
-    public function getSalt()
-    {
-        return $this->salt;
     }
 
     /**

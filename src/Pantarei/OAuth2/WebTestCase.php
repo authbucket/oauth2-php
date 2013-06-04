@@ -40,12 +40,6 @@ class WebTestCase extends SilexWebTestCase
         $app['session'] = true;
         $app['exception_handler']->disable();
 
-        $app->register(new DoctrineServiceProvider());
-        $app->register(new SecurityServiceProvider());
-        $app->register(new OAuth2ServiceProvider());
-
-        $app->mount('/', new OAuth2ControllerProvider());
-
         $app['db.options'] = array(
             'driver' => 'pdo_sqlite',
             'memory' => true,
@@ -97,6 +91,12 @@ class WebTestCase extends SilexWebTestCase
                 }),
             ),
         );
+
+        $app->register(new DoctrineServiceProvider());
+        $app->register(new SecurityServiceProvider());
+        $app->register(new OAuth2ServiceProvider());
+
+        $app->mount('/', new OAuth2ControllerProvider());
 
         return $app;
     }

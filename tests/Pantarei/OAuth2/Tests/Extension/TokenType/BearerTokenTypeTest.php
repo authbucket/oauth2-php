@@ -25,6 +25,9 @@ class BearerTokenTypeTest extends WebTestCase
 {
     public function testTokenType()
     {
+        // See https://github.com/fabpot/Silex/issues/473#issuecomment-10103129
+        $this->app->boot();
+
         $request = new Request();
         $post = array(
             'grant_type' => 'authorization_code',

@@ -29,8 +29,8 @@ class ClientsTest extends WebTestCase
         $entity->setClientId('http://democlient1.com/')
             ->setClientSecret($encoder->encodePassword('demosecret1', $entity->getSalt()))
             ->setRedirectUri('http://democlient1.com/redirect_uri');
-        $this->assertEquals('http://democlient1.com/', $entity->getClientId());
-        $this->assertEquals($encoder->encodePassword('demosecret1', $entity->getSalt()), $entity->getClientSecret());
+        $this->assertEquals('http://democlient1.com/', $entity->getUsername());
+        $this->assertEquals($encoder->encodePassword('demosecret1', $entity->getSalt()), $entity->getPassword());
         $this->assertEquals('http://democlient1.com/redirect_uri', $entity->getRedirectUri());
     }
 
@@ -40,8 +40,8 @@ class ClientsTest extends WebTestCase
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $this->assertEquals('Pantarei\OAuth2\Entity\Clients', get_class($entity));
         $this->assertEquals(1, $entity->getId());
-        $this->assertEquals('http://democlient1.com/', $entity->getClientId());
-        $this->assertEquals($encoder->encodePassword('demosecret1', $entity->getSalt()), $entity->getClientSecret());
+        $this->assertEquals('http://democlient1.com/', $entity->getUsername());
+        $this->assertEquals($encoder->encodePassword('demosecret1', $entity->getSalt()), $entity->getPassword());
         $this->assertEquals('http://democlient1.com/redirect_uri', $entity->getRedirectUri());
     }
 }

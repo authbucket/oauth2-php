@@ -81,8 +81,9 @@ class BearerTokenType implements TokenTypeInterface
             $this->setScope($scope);
         }
 
-        // @todo Update with real username checking.
-        $this->setUsername('');
+        // Fetch the current user.
+        $token = $app['security']->getToken();
+        $this->setUsername(null !== $token ? $token->getUser()->getUsername() : '');
     }
 
     public static function create(Request $request, Application $app)
