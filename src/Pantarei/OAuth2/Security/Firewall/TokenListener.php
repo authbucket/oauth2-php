@@ -13,13 +13,13 @@ namespace Pantarei\OAuth2\Security\Firewall;
 
 use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Psr\Log\LoggerInterface;
+use Pantarei\OAuth2\Security\Authentication\Token\ClientToken;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 /**
@@ -32,28 +32,16 @@ class TokenListener implements ListenerInterface
     private $securityContext;
     private $authenticationManager;
     private $providerKey;
-    private $authenticationEntryPoint;
-    private $logger;
-    private $ignoreFailure;
 
     public function __construct(
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
-        $providerKey,
-        AuthenticationEntryPointInterface $authenticationEntryPoint,
-        LoggerInterface $logger = null
+        $providerKey
     )
     {
-        if (empty($providerKey)) {
-            throw new \InvalidArgumentException('$providerKey must not be empty.');
-        }
-
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
         $this->providerKey = $providerKey;
-        $this->authenticationEntryPoint = $authenticationEntryPoint;
-        $this->logger = $logger;
-        $this->ignoreFailure = false;
     }
 
     public function handle(GetResponseEvent $event)
@@ -88,16 +76,10 @@ class TokenListener implements ListenerInterface
             $token = $this->authenticationManager
                 ->authenticate(new UsernamePasswordToken($username, $password, $this->providerKey));
             $this->securityContext->setToken($token);
-
-            return;
         } catch (AuthenticationException $failed) {
-            $this->securityContext->setToken(null);
-
-            if ($this->ignoreFailure) {
-                return;
-            }
-
-            $event->setResponse($this->authenticationEntryPoint->start($request, $failed));
+            $response = new Response();
+            $response->setStatusCode(403);
+            $event->setResponse($response);
         }
     }
 }

@@ -46,9 +46,6 @@ class WebTestCase extends SilexWebTestCase
         );
 
         $app['security.authentication_listener.factory.token'] = $app->protect(function ($name, $options) use ($app) {
-            $app['security.entry_point.' . $name . '.token'] = $app->share(function () use ($app, $name, $options) {
-                return new TokenEntryPoint(isset($options['real_name']) ? $options['real_name'] : 'Secured');
-            });
             $app['security.authentication_provider.' . $name . '.token'] = $app->share(function () use ($app, $name) {
                 return new TokenProvider(
                     $app['security.user_provider.' . $name],
@@ -61,17 +58,15 @@ class WebTestCase extends SilexWebTestCase
                 return new TokenListener(
                     $app['security'],
                     $app['security.authentication_manager'],
-                    $name,
-                    $app['security.entry_point.' . $name . '.token'],
-                    $app['logger']
+                    $name
                 );
             });
 
             return array(
                 'security.authentication_provider.' . $name . '.token',
                 'security.authentication_listener.' . $name . '.token',
-                'security.entry_point.' . $name . '.token',
-                'http',
+                null,
+                'pre_auth',
             );
         });
 
@@ -88,6 +83,13 @@ class WebTestCase extends SilexWebTestCase
                 'token' => true,
                 'users' => $app->share(function () use ($app) {
                     return new ClientProvider($app);
+                }),
+            ),
+            'resource' => array(
+                'pattern' => '^/resource',
+                'http' => true,
+                'users' => $app->share(function () use ($app) {
+                    return new UserProvider($app);
                 }),
             ),
         );
