@@ -12,22 +12,21 @@
 namespace Pantarei\OAuth2\Tests\Security\User;
 
 use Pantarei\OAuth2\WebTestCase;
-use Pantarei\Oauth2\Security\User\UserProvider;
 use Symfony\Component\Security\Core\User\User;
 
 /**
- * Test the UserProvider functionality.
+ * Test the UsersRepository functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class UserProviderTest extends WebTestCase
+class UsersRepositoryTest extends WebTestCase
 {
     /**
      * @expectedException Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testBadUsername()
     {
-        $provider = new UserProvider($this->app);
+        $provider = $this->app['oauth2.orm']->getRepository($this->app['oauth2.entity.users']);
         $user = $provider->loadUserByUsername('badusername1');
         // This won't happened!!
         $this->assertEquals($user->getUsername(), 'badusername1');
@@ -35,7 +34,7 @@ class UserProviderTest extends WebTestCase
 
     public function testGoodUsername()
     {
-        $provider = new UserProvider($this->app);
+        $provider = $this->app['oauth2.orm']->getRepository($this->app['oauth2.entity.users']);
         $user = $provider->loadUserByUsername('demousername1');
         $this->assertEquals($user->getUsername(), 'demousername1');
     }
@@ -45,7 +44,7 @@ class UserProviderTest extends WebTestCase
      */
     public function testBadRefreshUser()
     {
-        $provider = new UserProvider($this->app);
+        $provider = $this->app['oauth2.orm']->getRepository($this->app['oauth2.entity.users']);
         $user = new User('demousername1', 'demopassword1');
         $user = $provider->refreshUser($user);
         // This won't happened!!
@@ -54,7 +53,7 @@ class UserProviderTest extends WebTestCase
 
     public function testGoodRefreshUser()
     {
-        $provider = new UserProvider($this->app);
+        $provider = $this->app['oauth2.orm']->getRepository($this->app['oauth2.entity.users']);
         $user = $provider->loadUserByUsername('demousername1');
         $this->assertEquals($user->getUsername(), 'demousername1');
         $user = $provider->refreshUser($user);

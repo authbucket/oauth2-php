@@ -9,25 +9,24 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Security\User;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\WebTestCase;
-use Pantarei\Oauth2\Security\User\ClientProvider;
 use Symfony\Component\Security\Core\User\User;
 
 /**
- * Test the ClientProvider functionality.
+ * Test the ClientsRepository functionality.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ClientProviderTest extends WebTestCase
+class ClientsRepositoryTest extends WebTestCase
 {
     /**
      * @expectedException Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testBadUsername()
     {
-        $provider = new ClientProvider($this->app);
+        $provider = $this->app['oauth2.orm']->getRepository($this->app['oauth2.entity.clients']);
         $user = $provider->loadUserByUsername('http://badclient1.com/');
         // This won't happened!!
         $this->assertEquals($user->getUsername(), 'http://badclient1.com/');
@@ -35,7 +34,7 @@ class ClientProviderTest extends WebTestCase
 
     public function testGoodUsername()
     {
-        $provider = new ClientProvider($this->app);
+        $provider = $this->app['oauth2.orm']->getRepository($this->app['oauth2.entity.clients']);
         $user = $provider->loadUserByUsername('http://democlient1.com/');
         $this->assertEquals($user->getUsername(), 'http://democlient1.com/');
     }
@@ -45,7 +44,7 @@ class ClientProviderTest extends WebTestCase
      */
     public function testBadRefreshUser()
     {
-        $provider = new ClientProvider($this->app);
+        $provider = $this->app['oauth2.orm']->getRepository($this->app['oauth2.entity.clients']);
         $user = new User('http://democlient1.com/', 'demosecret1');
         $user = $provider->refreshUser($user);
         // This won't happened!!
@@ -54,7 +53,7 @@ class ClientProviderTest extends WebTestCase
 
     public function testGoodRefreshUser()
     {
-        $provider = new ClientProvider($this->app);
+        $provider = $this->app['oauth2.orm']->getRepository($this->app['oauth2.entity.clients']);
         $user = $provider->loadUserByUsername('http://democlient1.com/');
         $this->assertEquals($user->getUsername(), 'http://democlient1.com/');
         $user = $provider->refreshUser($user);
