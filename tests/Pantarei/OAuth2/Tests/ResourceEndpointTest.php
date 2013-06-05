@@ -33,14 +33,25 @@ class ResourceEndpointTest extends WebTestCase
         return $app;
     }
 
-    public function testResourceEndpoint()
+    public function testAuthorizationHeader()
     {
         $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        ));
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
+    }
+    
+    public function testGet()
+    {
+        $parameters = array(
+            'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
+        );
+        $server = array();
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
         $this->assertEquals('foo', $client->getResponse()->getContent());
     }
 }

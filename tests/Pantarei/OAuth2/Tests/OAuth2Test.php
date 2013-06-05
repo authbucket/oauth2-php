@@ -96,6 +96,15 @@ class OAuth2Test extends WebTestCase
                 'refresh_token' => $token_response['refresh_token'],
             ));
         $this->assertNotNull($result);
+
+        // Query resource endpoint with access_token.
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
     }
 
     public function testImplicitGrant()
@@ -139,6 +148,15 @@ class OAuth2Test extends WebTestCase
                 'refresh_token' => $token_response['refresh_token'],
             ));
         $this->assertNotNull($result);
+
+        // Query resource endpoint with access_token.
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
     }
 
     public function testResourceOwnerPasswordCredentialsGrant()
@@ -182,6 +200,15 @@ class OAuth2Test extends WebTestCase
                 'refresh_token' => $token_response['refresh_token'],
             ));
         $this->assertNotNull($result);
+
+        // Query resource endpoint with access_token.
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
     }
 
     public function testClientCredentialsGrant()
@@ -222,6 +249,15 @@ class OAuth2Test extends WebTestCase
                 'refresh_token' => $token_response['refresh_token'],
             ));
         $this->assertNotNull($result);
+
+        // Query resource endpoint with access_token.
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
     }
 
     public function testRefreshingAccessToken()
@@ -297,5 +333,14 @@ class OAuth2Test extends WebTestCase
                 'refresh_token' => $token_response['refresh_token'],
             ));
         $this->assertNotNull($result);
+
+        // Query resource endpoint with access_token.
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
     }
 }

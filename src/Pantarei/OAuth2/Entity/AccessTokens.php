@@ -11,13 +11,15 @@
 
 namespace Pantarei\OAuth2\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * AccessTokens
  *
  * @Table(name="access_tokens")
  * @Entity(repositoryClass="Pantarei\OAuth2\Entity\AccessTokensRepository")
  */
-class AccessTokens
+class AccessTokens implements UserInterface
 {
     /**
      * @var integer
@@ -216,5 +218,24 @@ class AccessTokens
     public function getScope()
     {
         return $this->scope;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function getPassword()
+    {
+        return '';
+    }
+
+    public function getSalt()
+    {
+        return '';
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

@@ -15,11 +15,10 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\Tools\SchemaTool;
 use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
+use Pantarei\OAuth2\Security\Authentication\Provider\BearerTokenProvider;
 use Pantarei\OAuth2\Security\Authentication\Provider\TokenProvider;
-use Pantarei\OAuth2\Security\EntryPoint\TokenEntryPoint;
+use Pantarei\OAuth2\Security\Firewall\BearerTokenListener;
 use Pantarei\OAuth2\Security\Firewall\TokenListener;
-use Pantarei\OAuth2\Security\User\ClientProvider;
-use Pantarei\OAuth2\Security\User\UserProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
@@ -66,27 +65,48 @@ class WebTestCase extends SilexWebTestCase
                 'pre_auth',
             );
         });
+        $app['security.authentication_listener.factory.resource'] = $app->protect(function ($name, $options) use ($app) {
+            $app['security.authentication_provider.' . $name . '.resource'] = $app->share(function () use ($app, $name) {
+                return new BearerTokenProvider(
+                    $app['security.user_provider.' . $name],
+                    $app['security.encoder_factory']
+                );
+            });
+            $app['security.authentication_listener.' . $name . '.resource'] = $app->share(function () use ($app, $name) {
+                return new BearerTokenListener(
+                    $app['security'],
+                    $app['security.authentication_manager']
+                );
+            });
+
+            return array(
+                'security.authentication_provider.' . $name . '.resource',
+                'security.authentication_listener.' . $name . '.resource',
+                null,
+                'pre_auth',
+            );
+        });
 
         $app['security.firewalls'] = array(
             'authorize' => array(
                 'pattern' => '^/authorize',
                 'http' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $this->app['oauth2.entity_repository.users'];
+                    return $app['oauth2.entity_repository.users'];
                 }),
             ),
             'token' => array(
                 'pattern' => '^/token',
                 'token' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $this->app['oauth2.entity_repository.clients'];
+                    return $app['oauth2.entity_repository.clients'];
                 }),
             ),
             'resource' => array(
                 'pattern' => '^/resource',
-                'http' => true,
+                'resource' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $this->app['oauth2.entity_repository.users'];
+                    return $app['oauth2.entity_repository.access_tokens'];
                 }),
             ),
         );
