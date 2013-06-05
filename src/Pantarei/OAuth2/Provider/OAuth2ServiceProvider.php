@@ -75,6 +75,7 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         );
         foreach ($entity as $name => $class) {
             $app['oauth2.entity.' . $name] = $class;
+            $app['oauth2.entity_repository.' . $name] = $app['oauth2.orm']->getRepository($class);
         }
 
         // Shortcut for response_type.

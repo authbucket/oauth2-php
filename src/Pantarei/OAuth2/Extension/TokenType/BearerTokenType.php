@@ -68,16 +68,16 @@ class BearerTokenType implements TokenTypeInterface
     public function __construct(Request $request, Application $app)
     {
         // Validate and set client_id.
-        if ($client_id = ParameterUtils::checkClientId($request, $app)) {
+        if ($client_id = ParameterUtils::checkClientId($request, $app['oauth2.entity_repository.clients'])) {
             $this->setClientId($client_id);
         }
 
         // Validate and set scope.
-        if ($scope = ParameterUtils::checkScopeByCode($request, $app)) {
+        if ($scope = ParameterUtils::checkScopeByCode($request, $app['oauth2.entity_repository.codes'])) {
             $this->setScope($scope);
-        } elseif ($scope = ParameterUtils::checkScopeByRefreshToken($request, $app)) {
+        } elseif ($scope = ParameterUtils::checkScopeByRefreshToken($request, $app['oauth2.entity_repository.refresh_tokens'])) {
             $this->setScope($scope);
-        } elseif ($scope = ParameterUtils::checkScope($request, $app)) {
+        } elseif ($scope = ParameterUtils::checkScope($request, $app['oauth2.entity_repository.scopes'])) {
             $this->setScope($scope);
         }
 

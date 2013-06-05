@@ -94,17 +94,17 @@ class AuthorizationCodeGrantType implements GrantTypeInterface
     public function __construct(Request $request, Application $app)
     {
         // Validate and set client_id.
-        if ($client_id = ParameterUtils::checkClientId($request, $app)) {
+        if ($client_id = ParameterUtils::checkClientId($request, $app['oauth2.entity_repository.clients'])) {
             $this->setClientId($client_id);
         }
 
         // Validate and set redirect_uri.
-        if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app)) {
+        if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app['oauth2.entity_repository.clients'])) {
             $this->setRedirectUri($redirect_uri);
         }
 
         // Validate and set code.
-        if ($code = ParameterUtils::checkCode($request, $app)) {
+        if ($code = ParameterUtils::checkCode($request, $app['oauth2.entity_repository.codes'])) {
             $this->setCode($code);
         }
     }

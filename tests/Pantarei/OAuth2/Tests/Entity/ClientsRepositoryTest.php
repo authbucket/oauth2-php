@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\User;
 class ClientsRepositoryTest extends WebTestCase
 {
     /**
-     * @expectedException Symfony\Component\Security\Core\Exception\UsernameNotFoundException
+     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testBadUsername()
     {
@@ -40,7 +40,7 @@ class ClientsRepositoryTest extends WebTestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Security\Core\Exception\UnsupportedUserException
+     * @expectedException \Symfony\Component\Security\Core\Exception\UnsupportedUserException
      */
     public function testBadRefreshUser()
     {

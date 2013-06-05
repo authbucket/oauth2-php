@@ -76,12 +76,12 @@ class RefreshTokenGrantType implements GrantTypeInterface
     public function __construct(Request $request, Application $app)
     {
         // Validate and set refresh_token.
-        if ($refresh_token = ParameterUtils::checkRefreshToken($request, $app)) {
+        if ($refresh_token = ParameterUtils::checkRefreshToken($request, $app['oauth2.entity_repository.refresh_tokens'])) {
             $this->setRefreshToken($refresh_token);
         }
 
         // Validate and set scope.
-        if ($scope = ParameterUtils::checkScopeByRefreshToken($request, $app)) {
+        if ($scope = ParameterUtils::checkScopeByRefreshToken($request, $app['oauth2.entity_repository.refresh_tokens'])) {
             $this->setScope($scope);
         }
     }

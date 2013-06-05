@@ -115,17 +115,17 @@ class CodeResponseType implements ResponseTypeInterface
     public function __construct(Request $request, Application $app)
     {
         // Validate and set client_id.
-        if ($client_id = ParameterUtils::checkClientId($request, $app)) {
+        if ($client_id = ParameterUtils::checkClientId($request, $app['oauth2.entity_repository.clients'])) {
             $this->setClientId($client_id);
         }
 
         // Validate and set redirect_uri.
-        if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app)) {
+        if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app['oauth2.entity_repository.clients'])) {
             $this->setRedirectUri($redirect_uri);
         }
 
         // Validate and set scope.
-        if ($scope = ParameterUtils::checkScope($request, $app)) {
+        if ($scope = ParameterUtils::checkScope($request, $app['oauth2.entity_repository.scopes'])) {
             $this->setScope($scope);
         }
 

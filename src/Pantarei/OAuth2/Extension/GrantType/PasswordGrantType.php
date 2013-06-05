@@ -91,17 +91,17 @@ class PasswordGrantType implements GrantTypeInterface
     public function __construct(Request $request, Application $app)
     {
         // Validate and set username.
-        if ($username = ParameterUtils::checkUsername($request, $app)) {
+        if ($username = ParameterUtils::checkUsername($request, $app['oauth2.entity_repository.users'])) {
             $this->setUsername($username);
         }
 
         // Validate and set password.
-        if ($password = ParameterUtils::checkPassword($request, $app)) {
+        if ($password = ParameterUtils::checkPassword($request, $app['oauth2.entity_repository.users'], $app['security.encoder_factory'])) {
             $this->setPassword($password);
         }
 
         // Validate and set scope.
-        if ($scope = ParameterUtils::checkScope($request, $app)) {
+        if ($scope = ParameterUtils::checkScope($request, $app['oauth2.entity_repository.scopes'])) {
             $this->setScope($scope);
         }
     }

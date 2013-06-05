@@ -73,7 +73,7 @@ class PasswordGrantTypeTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testBadUsername()
     {

@@ -211,7 +211,7 @@ class ParameterUtilsTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testBadCheckClientIdEmpty()
     {
@@ -220,13 +220,13 @@ class ParameterUtilsTest extends WebTestCase
         $post = array();
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkClientId($request, $this->app);
+        $result = ParameterUtils::checkClientId($request, $this->app['oauth2.entity_repository.clients']);
         // This won't happened!!
         $this->assertTrue($result);
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testBadCheckClientIdBadGet()
     {
@@ -237,13 +237,13 @@ class ParameterUtilsTest extends WebTestCase
         $post = array();
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkClientId($request, $this->app);
+        $result = ParameterUtils::checkClientId($request, $this->app['oauth2.entity_repository.clients']);
         // This won't happened!!
         $this->assertTrue($result);
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testBadCheckClientIdBadPost()
     {
@@ -254,13 +254,13 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkClientId($request, $this->app);
+        $result = ParameterUtils::checkClientId($request, $this->app['oauth2.entity_repository.clients']);
         // This won't happened!!
         $this->assertTrue($result);
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\UnauthorizedClientException
+     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
      */
     public function testBadCheckClientIdBadServer()
     {
@@ -271,7 +271,7 @@ class ParameterUtilsTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://badclient1.com/',
         );
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkClientId($request, $this->app);
+        $result = ParameterUtils::checkClientId($request, $this->app['oauth2.entity_repository.clients']);
         // This won't happened!!
         $this->assertTrue($result);
     }
@@ -285,7 +285,7 @@ class ParameterUtilsTest extends WebTestCase
         $post = array();
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkClientId($request, $this->app);
+        $result = ParameterUtils::checkClientId($request, $this->app['oauth2.entity_repository.clients']);
         $this->assertEquals($get['client_id'], $result);
 
         $request = new Request();
@@ -295,7 +295,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkClientId($request, $this->app);
+        $result = ParameterUtils::checkClientId($request, $this->app['oauth2.entity_repository.clients']);
         $this->assertEquals($post['client_id'], $result);
 
         $request = new Request();
@@ -305,7 +305,7 @@ class ParameterUtilsTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
         );
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkClientId($request, $this->app);
+        $result = ParameterUtils::checkClientId($request, $this->app['oauth2.entity_repository.clients']);
         $this->assertEquals($server['PHP_AUTH_USER'], $result);
     }
 
@@ -321,7 +321,7 @@ class ParameterUtilsTest extends WebTestCase
         $post = array();
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScope($request, $this->app);
+        $result = ParameterUtils::checkScope($request, $this->app['oauth2.entity_repository.scopes']);
         // This won't happened!!
         $this->assertTrue($result);
     }
@@ -338,7 +338,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScope($request, $this->app);
+        $result = ParameterUtils::checkScope($request, $this->app['oauth2.entity_repository.scopes']);
         // This won't happened!!
         $this->assertTrue($result);
     }
@@ -350,7 +350,7 @@ class ParameterUtilsTest extends WebTestCase
         $post = array();
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScope($request, $this->app);
+        $result = ParameterUtils::checkScope($request, $this->app['oauth2.entity_repository.scopes']);
         $this->assertFalse($result);
 
         $request = new Request();
@@ -360,7 +360,7 @@ class ParameterUtilsTest extends WebTestCase
         $post = array();
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScope($request, $this->app);
+        $result = ParameterUtils::checkScope($request, $this->app['oauth2.entity_repository.scopes']);
         $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
 
         $request = new Request();
@@ -370,7 +370,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScope($request, $this->app);
+        $result = ParameterUtils::checkScope($request, $this->app['oauth2.entity_repository.scopes']);
         $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
     }
 
@@ -384,7 +384,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScopeByCode($request, $this->app);
+        $result = ParameterUtils::checkScopeByCode($request, $this->app['oauth2.entity_repository.codes']);
         $this->assertTrue($result == array('demoscope1', 'demoscope2'));
 
         $request = new Request();
@@ -395,7 +395,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScopeByCode($request, $this->app);
+        $result = ParameterUtils::checkScopeByCode($request, $this->app['oauth2.entity_repository.codes']);
         $this->assertFalse($result);
     }
 
@@ -418,7 +418,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
+        $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app['oauth2.entity_repository.refresh_tokens']);
         // This wont' happened!!
         $this->assertTrue($result);
     }
@@ -441,7 +441,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
+        $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app['oauth2.entity_repository.refresh_tokens']);
         $this->assertFalse($result);
 
         $request = new Request();
@@ -452,7 +452,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
+        $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app['oauth2.entity_repository.refresh_tokens']);
         $this->assertTrue($result == array('demoscope1', 'demoscope2', 'demoscope3'));
 
         $request = new Request();
@@ -464,7 +464,7 @@ class ParameterUtilsTest extends WebTestCase
         );
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app);
+        $result = ParameterUtils::checkScopeByRefreshToken($request, $this->app['oauth2.entity_repository.refresh_tokens']);
         $this->assertTrue($result == array('demoscope1', 'demoscope2'));
     }
 
@@ -487,7 +487,7 @@ class ParameterUtilsTest extends WebTestCase
         $post = array();
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkRedirectUri($request, $this->app);
+        $result = ParameterUtils::checkRedirectUri($request, $this->app['oauth2.entity_repository.clients']);
         // This won't happened!!
         $this->assertTrue($result);
     }
@@ -505,7 +505,7 @@ class ParameterUtilsTest extends WebTestCase
         $post = array();
         $server = array();
         $request->initialize($get, $post, array(), array(), array(), $server);
-        $result = ParameterUtils::checkRedirectUri($request, $this->app);
+        $result = ParameterUtils::checkRedirectUri($request, $this->app['oauth2.entity_repository.clients']);
         // This won't happened!!
         $this->assertTrue($result);
     }

@@ -21,4 +21,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class ScopesRepository extends EntityRepository
 {
+    public function loadAllScopes()
+    {
+        $result = $this->findAll();
+
+        $stored = array();
+        foreach ($result as $row) {
+            $stored[] = $row->getScope();
+        }
+
+        return $stored;
+    }
 }

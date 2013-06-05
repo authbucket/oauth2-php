@@ -21,4 +21,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class RefreshTokensRepository extends EntityRepository
 {
+    public function loadByRefreshToken($refresh_token)
+    {
+        $result = $this->findOneBy(array(
+            'refresh_token' => $refresh_token,
+        ));
+        if ($result !== null) {
+            return $result;
+        }
+
+        return false;
+    }
 }

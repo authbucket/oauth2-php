@@ -72,24 +72,21 @@ class WebTestCase extends SilexWebTestCase
                 'pattern' => '^/authorize',
                 'http' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $this->app['oauth2.orm']
-                        ->getRepository($this->app['oauth2.entity.users']);
+                    return $this->app['oauth2.entity_repository.users'];
                 }),
             ),
             'token' => array(
                 'pattern' => '^/token',
                 'token' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $this->app['oauth2.orm']
-                        ->getRepository($this->app['oauth2.entity.clients']);
+                    return $this->app['oauth2.entity_repository.clients'];
                 }),
             ),
             'resource' => array(
                 'pattern' => '^/resource',
                 'http' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $this->app['oauth2.orm']
-                        ->getRepository($this->app['oauth2.entity.users']);
+                    return $this->app['oauth2.entity_repository.users'];
                 }),
             ),
         );

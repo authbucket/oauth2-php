@@ -21,4 +21,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class CodesRepository extends EntityRepository
 {
+    public function loadByCode($code)
+    {
+        $result = $this->findOneBy(array(
+            'code' => $code,
+        ));
+        if ($result !== null) {
+            return $result;
+        }
+
+        return false;
+    }
 }

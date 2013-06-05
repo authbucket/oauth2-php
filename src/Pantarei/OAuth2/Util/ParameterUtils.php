@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Util;
 
+use Doctrine\ORM\EntityRepository;
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
@@ -20,6 +21,8 @@ use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * A simple Doctrine ORM service provider for OAuth2.
@@ -230,7 +233,7 @@ abstract class ParameterUtils
         return $grant_type;
     }
 
-    public static function checkClientId(Request $request, Application $app)
+    public static function checkClientId(Request $request, EntityRepository $repo)
     {
         // Fetch client_id from HTTP basic auth, POST, or GET.
         $client_id = null;
@@ -243,17 +246,10 @@ abstract class ParameterUtils
         }
 
         // Check client_id with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.clients'])->findOneBy(array(
-            'client_id' => $client_id,
-        ));
-        if ($result === null) {
-            throw new UnauthorizedClientException();
-        }
-
-        return $client_id;
+        return $repo->loadUserByUsername($client_id)->getClientId();
     }
 
-    public static function checkScope(Request $request, Application $app)
+    public static function checkScope(Request $request, EntityRepository $repo)
     {
         // Fetch scope from POST, or GET.
         $scope = array();
@@ -264,15 +260,8 @@ abstract class ParameterUtils
         }
 
         if ($scope) {
-            // Fetch and prepare all stored scopes.
-            $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.scopes'])->findAll();
-
-            $stored = array();
-            foreach ($result as $row) {
-                $stored[] = $row->getScope();
-            }
-
             // Compare if given scope within all available stored scopes.
+            $stored = $repo->loadAllScopes();
             $scopes = preg_split('/\s+/', $scope);
             if (array_intersect($scopes, $stored) !== $scopes) {
                 throw new InvalidScopeException();
@@ -284,29 +273,30 @@ abstract class ParameterUtils
         return false;
     }
 
-    public static function checkScopeByCode(Request $request, Application $app)
+    public static function checkScopeByCode(Request $request, EntityRepository $repo)
     {
+        $code = $request->request->get('code');
+        $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
+
         // Fetch scope from pre-generated code.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.codes'])->findOneBy(array(
-            'code' => $request->request->get('code'),
-            'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
-        ));
-        if ($result !== null && $result->getScope()) {
-            return $result->getScope();
+        if ($result = $repo->loadByCode($code)) {
+            if ($result->getClientId() === $client_id) {
+                return $result->getScope();
+            }
         }
 
         return false;
     }
 
-    public static function checkScopeByRefreshToken(Request $request, Application $app)
+    public static function checkScopeByRefreshToken(Request $request, EntityRepository $repo)
     {
+        $refresh_token = $request->request->get('refresh_token');
+        $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
+
         // Fetch scope from pre-grnerated refresh_token.
         $stored = null;
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.refresh_tokens'])->findOneBy(array(
-            'refresh_token' => $request->request->get('refresh_token'),
-            'client_id' => $request->getUser() ? $request->getUser() : $request->request->get('client_id'),
-        ));
-        if ($result !== null && $result->getScope()) {
+        $result = $repo->loadByRefreshToken($refresh_token);
+        if ($result && $result->getClientId() == $client_id && $result->getScope()) {
             $stored = $result->getScope();
         }
 
@@ -327,14 +317,14 @@ abstract class ParameterUtils
         return false;
     }
 
-    public static function checkRedirectUri(Request $request, Application $app)
+    public static function checkRedirectUri(Request $request, EntityRepository $repo)
     {
         // Getch redirect_uri from POST, or GET.
         $redirect_uri = null;
         $client_id = null;
         if ($request->request->get('redirect_uri') || $request->request->get('client_id')) {
             $redirect_uri = $request->request->get('redirect_uri');
-            $client_id = $request->request->get('client_id');
+            $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
         } elseif ($request->query->get('redirect_uri') || $request->query->get('client_id')) {
             $redirect_uri = $request->query->get('redirect_uri');
             $client_id = $request->query->get('client_id');
@@ -343,9 +333,7 @@ abstract class ParameterUtils
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.clients'])->findOneBy(array(
-            'client_id' => $client_id,
-        ));
+        $result = $repo->loadUserByUsername($client_id);
         if ($result !== null && $result->getRedirectUri()) {
             $stored = $result->getRedirectUri();
         }
@@ -367,7 +355,7 @@ abstract class ParameterUtils
         return $redirect_uri ? $redirect_uri : $stored;
     }
 
-    public static function checkCode(Request $request, Application $app)
+    public static function checkCode(Request $request, EntityRepository $repo)
     {
         // code is required
         if (!$request->request->get('code')) {
@@ -378,11 +366,8 @@ abstract class ParameterUtils
         $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
         // Check code with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.codes'])->findOneBy(array(
-            'client_id' => $client_id,
-            'code' => $code,
-        ));
-        if ($result === null) {
+        $result = $repo->loadByCode($code);
+        if (!$result || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < time()) {
             throw new InvalidGrantException();
@@ -391,7 +376,7 @@ abstract class ParameterUtils
         return $code;
     }
 
-    public static function checkUsername(Request $request, Application $app)
+    public static function checkUsername(Request $request, EntityRepository $repo)
     {
         // username is required
         if (!$request->request->get('username')) {
@@ -401,17 +386,10 @@ abstract class ParameterUtils
         $username = $request->request->get('username');
 
         // Check username with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.users'])->findOneBy(array(
-            'username' => $username,
-        ));
-        if ($result === null) {
-            throw new InvalidGrantException();
-        }
-
-        return $username;
+        return $repo->loadUserByUsername($username)->getUsername();
     }
 
-    public static function checkPassword(Request $request, Application $app)
+    public static function checkPassword(Request $request, UserProviderInterface $provider, EncoderFactoryInterface $encoderFactory)
     {
         // password is required
         if (!$request->request->get('password')) {
@@ -423,11 +401,9 @@ abstract class ParameterUtils
 
         // Fetch username with database record, we already confirm it is
         // valid with checkUsername().
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.users'])->findOneBy(array(
-            'username' => $username,
-        ));
+        $result = $provider->loadUserByUsername($username);
 
-        $encoder = $app['security.encoder_factory']->getEncoder($result);
+        $encoder = $encoderFactory->getEncoder($result);
         if ($encoder->encodePassword($password, $result->getSalt()) !== $result->getPassword()) {
             throw new InvalidGrantException();
         }
@@ -435,7 +411,8 @@ abstract class ParameterUtils
         return $password;
     }
 
-    public static function checkRefreshToken(Request $request, Application $app)
+
+    public static function checkRefreshToken(Request $request, EntityRepository $repo)
     {
         // refresh_token is required
         if (!$request->request->get('refresh_token')) {
@@ -446,11 +423,8 @@ abstract class ParameterUtils
         $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
         // Check refresh_token with database record.
-        $result = $app['oauth2.orm']->getRepository($app['oauth2.entity.refresh_tokens'])->findOneBy(array(
-            'client_id' => $client_id,
-            'refresh_token' => $refresh_token,
-        ));
-        if ($result === null) {
+        $result = $repo->loadByRefreshToken($refresh_token);
+        if (!$result || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < time()) {
             throw new InvalidRequestException();
