@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Extension\GrantType;
+namespace Pantarei\OAuth2\Tests\GrantType;
 
-use Pantarei\OAuth2\Extension\GrantType\PasswordGrantType;
-use Pantarei\OAuth2\WebTestCase;
+use Pantarei\OAuth2\GrantType\PasswordGrantType;
+use Pantarei\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

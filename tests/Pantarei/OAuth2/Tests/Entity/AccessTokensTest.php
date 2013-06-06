@@ -12,7 +12,7 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Entity\AccessTokens;
-use Pantarei\OAuth2\WebTestCase;
+use Pantarei\OAuth2\Tests\WebTestCase;
 
 /**
  * Test access tokens entity functionality.

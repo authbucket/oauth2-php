@@ -9,15 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Extension;
+namespace Pantarei\OAuth2\ResponseType;
 
-use Pantarei\OAuth2\TypeInterface;
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Defines the interface for response type.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-interface ResponseTypeInterface extends TypeInterface
+interface ResponseTypeInterface
 {
+    public static function create(Request $request, Application $app);
+
+    public function getResponse(Request $request, Application $app);
 }

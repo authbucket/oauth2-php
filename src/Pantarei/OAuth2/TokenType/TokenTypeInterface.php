@@ -9,29 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Extension\TokenType;
+namespace Pantarei\OAuth2\TokenType;
 
-use Pantarei\OAuth2\Extension\TokenTypeInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * MAC token type implementation.
- *
- * TODO: This is not yet supported!
+ * Defines the interface for token type.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class MacTokenType implements TokenTypeInterface
+interface TokenTypeInterface
 {
-    public static function create(Request $request, Application $app)
-    {
-        return new static();
-    }
+    public static function create(Request $request, Application $app);
 
-    public function getResponse(Request $request, Application $app)
-    {
-        return null;
-    }
+    public function getResponse(Request $request, Application $app);
 }

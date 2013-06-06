@@ -11,9 +11,8 @@
 
 namespace Pantarei\OAuth2\Tests;
 
-use Pantarei\OAuth2\Extension\ResponseType;
-use Pantarei\OAuth2\WebTestCase;
 use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
+use Pantarei\OAuth2\Tests\WebTestCase;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

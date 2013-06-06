@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Extension\TokenType;
+namespace Pantarei\OAuth2\TokenType;
 
-use Pantarei\OAuth2\Extension\TokenTypeInterface;
+use Pantarei\OAuth2\TokenType\TokenTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Rhumsaa\Uuid\Uuid;
 use Silex\Application;

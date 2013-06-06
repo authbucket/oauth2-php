@@ -80,8 +80,8 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
 
         // Shortcut for response_type.
         $response_type = array(
-            'code' => 'Pantarei\OAuth2\Extension\ResponseType\CodeResponseType',
-            'token' => 'Pantarei\OAuth2\Extension\ResponseType\TokenResponseType',
+            'code' => 'Pantarei\OAuth2\ResponseType\CodeResponseType',
+            'token' => 'Pantarei\OAuth2\ResponseType\TokenResponseType',
         );
         foreach ($response_type as $name => $class) {
             $app['oauth2.response_type.' . $name] = $class;
@@ -90,10 +90,10 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
 
         // Shortcut for grant_type.
         $grant_type = array(
-            'authorization_code' => 'Pantarei\OAuth2\Extension\GrantType\AuthorizationCodeGrantType',
-            'client_credentials' => 'Pantarei\OAuth2\Extension\GrantType\ClientCredentialsGrantType',
-            'password' => 'Pantarei\OAuth2\Extension\GrantType\PasswordGrantType',
-            'refresh_token' => 'Pantarei\OAuth2\Extension\GrantType\RefreshTokenGrantType',
+            'authorization_code' => 'Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType',
+            'client_credentials' => 'Pantarei\OAuth2\GrantType\ClientCredentialsGrantType',
+            'password' => 'Pantarei\OAuth2\GrantType\PasswordGrantType',
+            'refresh_token' => 'Pantarei\OAuth2\GrantType\RefreshTokenGrantType',
         );
         foreach ($grant_type as $name => $class) {
             $app['oauth2.grant_type.' . $name] = $class;
@@ -101,8 +101,8 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
 
         // Shortcut for token_type.
         $token_type = array(
-            'bearer' => 'Pantarei\OAuth2\Extension\TokenType\BearerTokenType',
-            'mac' => 'Pantarei\OAuth2\Extension\TokenType\MacTokenType',
+            'bearer' => 'Pantarei\OAuth2\TokenType\BearerTokenType',
+            'mac' => 'Pantarei\OAuth2\TokenType\MacTokenType',
         );
         foreach ($token_type as $name => $class) {
             $app['oauth2.token_type.' . $name] = $class;

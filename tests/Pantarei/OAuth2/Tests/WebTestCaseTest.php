@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests;
 
-use Pantarei\OAuth2\WebTestCase;
+use Pantarei\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

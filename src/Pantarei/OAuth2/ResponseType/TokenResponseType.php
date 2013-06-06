@@ -9,51 +9,48 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Extension\ResponseType;
+namespace Pantarei\OAuth2\ResponseType;
 
-use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Extension\ResponseTypeInterface;
+use Pantarei\OAuth2\ResponseType\ResponseTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
-use Rhumsaa\Uuid\Uuid;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Code response type implementation.
+ * Token response type implementation.
  *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1
+ * @see http://tools.ietf.org/html/rfc6749#section-4.2
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class CodeResponseType implements ResponseTypeInterface
+class TokenResponseType implements ResponseTypeInterface
 {
     /**
-     * REQUIRED. Value MUST be set to "code".
+     * REQUIRED. Value MUST be set to "token".
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
+     * @see http://tools.ietf.org/html/rfc6749#section-4.2.1
      */
-    private $response_type = 'code';
+    private $response_type = 'token';
 
     /**
      * REQUIRED. The client identifier as described in Section 2.2.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
+     * @see http://tools.ietf.org/html/rfc6749#section-4.2.1
      */
     private $client_id = '';
 
     /**
      * OPTIONAL. As described in Section 3.1.2.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
+     * @see http://tools.ietf.org/html/rfc6749#section-4.2.1
      */
     private $redirect_uri = '';
 
     /**
      * OPTIONAL. The scope of the access request as described by Section 3.3.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
+     * @see http://tools.ietf.org/html/rfc6749#section-4.2.1
      */
     private $scope = array();
 
@@ -64,7 +61,7 @@ class CodeResponseType implements ResponseTypeInterface
      * to the client. The parameter SHOULD be used for preventing
      * cross-site request forgery as described in Section 10.12.
      *
-     * @see http://tools.ietf.org/html/rfc6749#section-4.1.1
+     * @see http://tools.ietf.org/html/rfc6749#section-4.2.1
      */
     private $state = '';
 
@@ -142,23 +139,7 @@ class CodeResponseType implements ResponseTypeInterface
 
     public function getResponse(Request $request, Application $app)
     {
-        $code = new $app['oauth2.entity.codes']();
-        $code->setCode(md5(Uuid::uuid4()))
-            ->setClientId($this->getClientId())
-            ->setUsername('')
-            ->setRedirectUri($this->getRedirectUri())
-            ->setExpires(time() + 600)
-            ->setScope($this->getScope());
-        $app['oauth2.orm']->persist($code);
-        $app['oauth2.orm']->flush();
-
-        $parameters = array(
-            'code' => $code->getCode(),
-            'state' => $this->getState(),
-        );
-        $redirect_uri = Request::create($this->getRedirectUri(), 'GET', array_filter($parameters))->getUri();
-        $response = new RedirectResponse($redirect_uri);
-
-        return $response;
+        $response = $app['oauth2.token_type.default']::create($request, $app);
+        return $response->getResponse($request, $app);
     }
 }

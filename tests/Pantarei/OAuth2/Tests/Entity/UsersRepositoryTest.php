@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Security\User;
 
-use Pantarei\OAuth2\WebTestCase;
+use Pantarei\OAuth2\Tests\WebTestCase;
 use Symfony\Component\Security\Core\User\User;
 
 /**

@@ -11,8 +11,8 @@
 
 namespace Pantarei\OAuth2\Tests\ResponseType;
 
-use Pantarei\OAuth2\Extension\ResponseType\CodeResponseType;
-use Pantarei\OAuth2\WebTestCase;
+use Pantarei\OAuth2\ResponseType\CodeResponseType;
+use Pantarei\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

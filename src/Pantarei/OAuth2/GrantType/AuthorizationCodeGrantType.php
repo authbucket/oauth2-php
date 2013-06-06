@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Extension\GrantType;
+namespace Pantarei\OAuth2\GrantType;
 
-use Pantarei\OAuth2\Extension\GrantTypeInterface;
+use Pantarei\OAuth2\GrantType\GrantTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;

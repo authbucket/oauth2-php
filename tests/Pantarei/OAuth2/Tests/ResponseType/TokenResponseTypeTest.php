@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Extension\ResponseType;
+namespace Pantarei\OAuth2\Tests\ResponseType;
 
-use Pantarei\OAuth2\Extension\ResponseType\TokenResponseType;
-use Pantarei\OAuth2\WebTestCase;
+use Pantarei\OAuth2\ResponseType\TokenResponseType;
+use Pantarei\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
