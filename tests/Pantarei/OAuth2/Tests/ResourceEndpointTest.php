@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Tests;
 
-use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Pantarei\OAuth2\Tests\WebTestCase;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,15 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ResourceEndpointTest extends WebTestCase
 {
-    public function createApplication()
-    {
-        $app = parent::createApplication();
-
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        return $app;
-    }
-
     public function testAuthorizationHeader()
     {
         $parameters = array();

@@ -131,6 +131,11 @@ class CodeResponseType implements ResponseTypeInterface
 
         // Validate and set state.
         if ($state = $request->query->get('state')) {
+            $query = array('state' => $state);
+            $filtered_query = ParameterUtils::filter($query);
+            if ($filtered_query != $query) {
+                throw new InvalidRequestException();
+            }
             $this->setState($state);
         }
     }

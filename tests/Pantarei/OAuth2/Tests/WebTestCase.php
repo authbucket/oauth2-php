@@ -19,10 +19,13 @@ use Pantarei\OAuth2\Security\Authentication\Provider\BearerTokenProvider;
 use Pantarei\OAuth2\Security\Authentication\Provider\TokenProvider;
 use Pantarei\OAuth2\Security\Firewall\BearerTokenListener;
 use Pantarei\OAuth2\Security\Firewall\TokenListener;
+use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Extend Silex\WebTestCase for test case require database and web interface
@@ -115,7 +118,24 @@ class WebTestCase extends SilexWebTestCase
         $app->register(new SecurityServiceProvider());
         $app->register(new OAuth2ServiceProvider());
 
-        $app->mount('/', new OAuth2ControllerProvider());
+        // Authorization endpoint.
+        $app->get('/authorize', function (Request $request, Application $app) {
+            $response_type = ParameterUtils::checkResponseType($request, $app);
+            $controller = $app['oauth2.response_type.' . $response_type]::create($request, $app);
+            return $controller->getResponse($request, $app);
+        });
+
+        // Token endpoint.
+        $app->post('/token', function (Request $request, Application $app) {
+            $grant_type = ParameterUtils::checkGrantType($request, $app);
+            $controller = $app['oauth2.grant_type.' . $grant_type]::create($request, $app);
+            return $controller->getResponse($request, $app);
+        });
+
+        // Resource endpoint.
+        $app->get('/resource/{username}', function (Request $request, Application $app, $username) {
+            return new Response($username);
+        });
 
         return $app;
     }

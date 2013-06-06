@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Tests;
 
-use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Pantarei\OAuth2\Tests\WebTestCase;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,67 +21,54 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class OAuth2ControllerProviderTest extends WebTestCase
+class TokenEndpointTest extends WebTestCase
 {
-    public function createApplication()
-    {
-        $app = parent::createApplication();
-
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        return $app;
-    }
-
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testExceptionNoGrantType()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array();
+        $parameters = array();
         $server = array();
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testExceptionBadGrantType()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'foo',
         );
         $server = array();
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testExceptionAuthCodeNoClientId()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'authorization_code',
         );
         $server = array();
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testExceptionAuthCodeBothClientId()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'authorization_code',
             'client_id' => 'http://democlient1.com/',
             'client_secret' => 'demosecret1',
@@ -91,44 +77,36 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
     public function testExceptionAuthCodeBadBasicClientId()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'authorization_code',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://badclient1.com/',
             'PHP_AUTH_PW' => 'badsecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     public function testExceptionAuthCodeBadPostClientId()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'authorization_code',
             'client_id' => 'http://badclient1.com/',
             'client_secret' => 'badsecret1',
         );
         $server = array();
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
@@ -151,11 +129,7 @@ class OAuth2ControllerProviderTest extends WebTestCase
         $this->app['oauth2.orm']->persist($code);
         $this->app['oauth2.orm']->flush();
 
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'authorization_code',
             'code' => '08fb55e26c84f8cb060b7803bc177af8',
         );
@@ -163,18 +137,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient4.com/',
             'PHP_AUTH_PW' => 'demosecret4',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testExceptionAuthCodeBadRedirectUri()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'authorization_code',
             'code' => 'f0c68d250bcc729eb780a235371a9a55',
             'redirect_uri' => 'http://democlient2.com/wrong_uri',
@@ -183,19 +156,18 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient2.com/',
             'PHP_AUTH_PW' => 'demosecret2',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
-    }
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+   }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testErrorAuthCodeNoCode()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
         $request = new Request();
-        $post = array(
+        $parameters = array(
             'grant_type' => 'authorization_code',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
@@ -203,18 +175,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
-    public function testErrorClientCredBadState()
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     */
+    public function testErrorClientCredBadScope()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'client_credentials',
             'scope' => "badscope1",
         );
@@ -222,18 +193,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
-    public function testErrorClientCredBadStateFormat()
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     */
+    public function testErrorClientCredBadScopeFormat()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'client_credentials',
             'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
         );
@@ -241,18 +211,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testErrorPasswordNoUsername()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'password',
             'password' => 'demopassword1',
             'scope' => 'demoscope1 demoscope2 demoscope3',
@@ -261,18 +230,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testErrorPasswordNoPassword()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'password',
             'username' => 'demousername1',
             'scope' => 'demoscope1 demoscope2 demoscope3',
@@ -281,18 +249,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     */
     public function testErrorPasswordBadScope()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'password',
             'username' => 'demousername1',
             'password' => 'demopassword1',
@@ -302,18 +269,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     */
     public function testErrorPasswordBadScopeFormat()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'password',
             'username' => 'demousername1',
             'password' => 'demopassword1',
@@ -323,18 +289,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testErrorRefreshTokenNoToken()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'refresh_token',
             'scope' => 'demoscope1 demoscope2 demoscope3',
         );
@@ -342,18 +307,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     */
     public function testErrorRefreshTokenBadScope()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
             'scope' => "badscope1",
@@ -362,18 +326,17 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient3.com/',
             'PHP_AUTH_PW' => 'demosecret3',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+     */
     public function testErrorRefreshTokenBadScopeFormat()
     {
-        $app = new Application;
-        $app['debug'] = true;
-        $app->mount('/', new OAuth2ControllerProvider());
-
-        $post = array(
+        $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
             'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
@@ -382,9 +345,9 @@ class OAuth2ControllerProviderTest extends WebTestCase
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
         );
-        $request = Request::create('/token', 'POST', $post, array(), array(), $server);
-        $response = $app->handle($request);
-        $this->assertEquals(500, $response->getStatusCode());
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
     public function testGoodAuthCode()

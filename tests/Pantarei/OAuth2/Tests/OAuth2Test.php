@@ -50,17 +50,8 @@ class OAuth2Test extends WebTestCase
         );
         $this->assertEquals('example state', $auth_response->query->get('state'));
 
-        // Check code with database record.
-        $code = $auth_response->query->get('code');
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.codes'])
-            ->findOneBy(array(
-                'client_id' => 'http://democlient1.com/',
-                'code' => $code,
-            ));
-        $this->assertNotNull($result);
-
         // Query token endpoint with grant_type = authorization_code.
+        $code = $auth_response->query->get('code');
         $parameters = array(
             'grant_type' => 'authorization_code',
             'code' => $code,
@@ -77,25 +68,6 @@ class OAuth2Test extends WebTestCase
         $token_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
-
-        // Check access token and refresh token with database record.
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.access_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'access_token' => $token_response['access_token'],
-            ));
-        $this->assertNotNull($result);
-
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'refresh_token' => $token_response['refresh_token'],
-            ));
-        $this->assertNotNull($result);
 
         // Query resource endpoint with access_token.
         $parameters = array();
@@ -130,25 +102,6 @@ class OAuth2Test extends WebTestCase
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
 
-        // Check access token and refresh token with database record.
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.access_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'access_token' => $token_response['access_token'],
-            ));
-        $this->assertNotNull($result);
-
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'refresh_token' => $token_response['refresh_token'],
-            ));
-        $this->assertNotNull($result);
-
         // Query resource endpoint with access_token.
         $parameters = array();
         $server = array(
@@ -182,25 +135,6 @@ class OAuth2Test extends WebTestCase
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
 
-        // Check access token and refresh token with database record.
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.access_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'access_token' => $token_response['access_token'],
-            ));
-        $this->assertNotNull($result);
-
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'refresh_token' => $token_response['refresh_token'],
-            ));
-        $this->assertNotNull($result);
-
         // Query resource endpoint with access_token.
         $parameters = array();
         $server = array(
@@ -231,25 +165,6 @@ class OAuth2Test extends WebTestCase
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
 
-        // Check access token and refresh token with database record.
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.access_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'access_token' => $token_response['access_token'],
-            ));
-        $this->assertNotNull($result);
-
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'refresh_token' => $token_response['refresh_token'],
-            ));
-        $this->assertNotNull($result);
-
         // Query resource endpoint with access_token.
         $parameters = array();
         $server = array(
@@ -278,25 +193,6 @@ class OAuth2Test extends WebTestCase
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $token_response = json_decode($client->getResponse()->getContent(), true);
 
-        // Check access token and refresh token with database record.
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.access_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'access_token' => $token_response['access_token'],
-            ));
-        $this->assertNotNull($result);
-
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'refresh_token' => $token_response['refresh_token'],
-            ));
-        $this->assertNotNull($result);
-
         // Query token endpoint with grant_type = refresh_token.
         $parameters = array(
             'grant_type' => 'refresh_token',
@@ -314,25 +210,6 @@ class OAuth2Test extends WebTestCase
         $token_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
-
-        // Check access token and refresh token with database record.
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.access_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'access_token' => $token_response['access_token'],
-            ));
-        $this->assertNotNull($result);
-
-        $result = $this->app['oauth2.orm']
-            ->getRepository($this->app['oauth2.entity.refresh_tokens'])
-            ->findOneBy(array(
-                'token_type' => 'bearer',
-                'client_id' => 'http://democlient1.com/',
-                'refresh_token' => $token_response['refresh_token'],
-            ));
-        $this->assertNotNull($result);
 
         // Query resource endpoint with access_token.
         $parameters = array();
