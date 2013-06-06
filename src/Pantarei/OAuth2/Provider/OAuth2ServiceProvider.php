@@ -63,21 +63,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
             return EntityManager::create($conn, $config, $event_manager);
         });
 
-        // Shortcut for entity.
-        $entity = array(
-            'access_tokens' => 'Pantarei\OAuth2\Entity\AccessTokens',
-            'authorizes' => 'Pantarei\OAuth2\Entity\Authorizes',
-            'clients' => 'Pantarei\OAuth2\Entity\Clients',
-            'codes' => 'Pantarei\OAuth2\Entity\Codes',
-            'refresh_tokens' => 'Pantarei\OAuth2\Entity\RefreshTokens',
-            'scopes' => 'Pantarei\OAuth2\Entity\Scopes',
-            'users' => 'Pantarei\OAuth2\Entity\Users',
-        );
-        foreach ($entity as $name => $class) {
-            $app['oauth2.entity.' . $name] = $class;
-            $app['oauth2.entity_repository.' . $name] = $app['oauth2.orm']->getRepository($class);
-        }
-
         // Shortcut for response_type.
         $response_type = array(
             'code' => 'Pantarei\OAuth2\ResponseType\CodeResponseType',

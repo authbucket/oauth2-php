@@ -42,10 +42,29 @@ class WebTestCase extends SilexWebTestCase
         $app['session'] = true;
         $app['exception_handler']->disable();
 
+        $app->register(new DoctrineServiceProvider());
+        $app->register(new SecurityServiceProvider());
+        $app->register(new OAuth2ServiceProvider());
+
         $app['db.options'] = array(
             'driver' => 'pdo_sqlite',
             'memory' => true,
         );
+
+        // Shortcut for entity.
+        $entity = array(
+            'access_tokens' => 'Pantarei\OAuth2\Tests\Entity\AccessTokens',
+            'authorizes' => 'Pantarei\OAuth2\Tests\Entity\Authorizes',
+            'clients' => 'Pantarei\OAuth2\Tests\Entity\Clients',
+            'codes' => 'Pantarei\OAuth2\Tests\Entity\Codes',
+            'refresh_tokens' => 'Pantarei\OAuth2\Tests\Entity\RefreshTokens',
+            'scopes' => 'Pantarei\OAuth2\Tests\Entity\Scopes',
+            'users' => 'Pantarei\OAuth2\Tests\Entity\Users',
+        );
+        foreach ($entity as $name => $class) {
+            $app['oauth2.entity.' . $name] = $class;
+            $app['oauth2.entity_repository.' . $name] = $app['oauth2.orm']->getRepository($class);
+        }
 
         $app['security.authentication_listener.factory.token'] = $app->protect(function ($name, $options) use ($app) {
             $app['security.authentication_provider.' . $name . '.token'] = $app->share(function () use ($app, $name) {
@@ -113,10 +132,6 @@ class WebTestCase extends SilexWebTestCase
                 }),
             ),
         );
-
-        $app->register(new DoctrineServiceProvider());
-        $app->register(new SecurityServiceProvider());
-        $app->register(new OAuth2ServiceProvider());
 
         // Authorization endpoint.
         $app->get('/authorize', function (Request $request, Application $app) {

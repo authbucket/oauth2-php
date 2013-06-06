@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Entity;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 /**
- * Authorizes
+ * RefreshTokens
  *
- * @Table(name="authorize")
- * @Entity(repositoryClass="Pantarei\OAuth2\Entity\AuthorizesRepository")
+ * @Table(name="refresh_tokens")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokensRepository")
  */
-class Authorizes
+class RefreshTokens
 {
     /**
      * @var integer
@@ -27,6 +27,20 @@ class Authorizes
      * @GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @Column(name="refresh_token", type="string", length=255)
+     */
+    private $refresh_token;
+
+    /**
+     * @var string
+     *
+     * @Column(name="token_type", type="string", length=255)
+     */
+    private $token_type;
 
     /**
      * @var string
@@ -43,11 +57,19 @@ class Authorizes
     private $username;
 
     /**
+     * @var integer
+     *
+     * @Column(name="expires", type="integer")
+     */
+    private $expires;
+
+    /**
      * @var array
      *
      * @Column(name="scope", type="array")
      */
     private $scope;
+
 
     /**
      * Get id
@@ -60,10 +82,56 @@ class Authorizes
     }
 
     /**
+     * Set refresh_token
+     *
+     * @param string $refresh_token
+     * @return RefreshTokens
+     */
+    public function setRefreshToken($refresh_token)
+    {
+        $this->refresh_token = $refresh_token;
+
+        return $this;
+    }
+
+    /**
+     * Get refresh_token
+     *
+     * @return string
+     */
+    public function getRefreshToken()
+    {
+        return $this->refresh_token;
+    }
+
+    /**
+     * Set token_type
+     *
+     * @param string $token_type
+     * @return TokenTypes
+     */
+    public function setTokenType($token_type)
+    {
+        $this->token_type = $token_type;
+
+        return $this;
+    }
+
+    /**
+     * Get token_type
+     *
+     * @return string
+     */
+    public function getTokenType()
+    {
+        return $this->token_type;
+    }
+
+    /**
      * Set client_id
      *
      * @param string $client_id
-     * @return Authorizes
+     * @return RefreshTokens
      */
     public function setClientId($client_id)
     {
@@ -83,10 +151,33 @@ class Authorizes
     }
 
     /**
+     * Set expires
+     *
+     * @param integer $expires
+     * @return RefreshTokens
+     */
+    public function setExpires($expires)
+    {
+        $this->expires = $expires;
+
+        return $this;
+    }
+
+    /**
+     * Get expires
+     *
+     * @return integer
+     */
+    public function getExpires()
+    {
+        return $this->expires;
+    }
+
+    /**
      * Set username
      *
      * @param string $username
-     * @return Authorizes
+     * @return RefreshTokens
      */
     public function setUsername($username)
     {
@@ -109,7 +200,7 @@ class Authorizes
      * Set scope
      *
      * @param array $scope
-     * @return Authorizes
+     * @return RefreshTokens
      */
     public function setScope($scope)
     {

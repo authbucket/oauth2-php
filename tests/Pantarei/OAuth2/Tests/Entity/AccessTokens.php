@@ -9,15 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Entity;
+namespace Pantarei\OAuth2\Tests\Entity;
+
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * RefreshTokens
+ * AccessTokens
  *
- * @Table(name="refresh_tokens")
- * @Entity(repositoryClass="Pantarei\OAuth2\Entity\RefreshTokensRepository")
+ * @Table(name="access_tokens")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokensRepository")
  */
-class RefreshTokens
+class AccessTokens implements UserInterface
 {
     /**
      * @var integer
@@ -31,9 +33,9 @@ class RefreshTokens
     /**
      * @var string
      *
-     * @Column(name="refresh_token", type="string", length=255)
+     * @Column(name="access_token", type="string", length=255)
      */
-    private $refresh_token;
+    private $access_token;
 
     /**
      * @var string
@@ -70,7 +72,6 @@ class RefreshTokens
      */
     private $scope;
 
-
     /**
      * Get id
      *
@@ -82,26 +83,26 @@ class RefreshTokens
     }
 
     /**
-     * Set refresh_token
+     * Set access_token
      *
-     * @param string $refresh_token
-     * @return RefreshTokens
+     * @param string $access_token
+     * @return AccessTokens
      */
-    public function setRefreshToken($refresh_token)
+    public function setAccessToken($access_token)
     {
-        $this->refresh_token = $refresh_token;
+        $this->access_token = $access_token;
 
         return $this;
     }
 
     /**
-     * Get refresh_token
+     * Get access_token
      *
      * @return string
      */
-    public function getRefreshToken()
+    public function getAccessToken()
     {
-        return $this->refresh_token;
+        return $this->access_token;
     }
 
     /**
@@ -131,7 +132,7 @@ class RefreshTokens
      * Set client_id
      *
      * @param string $client_id
-     * @return RefreshTokens
+     * @return AccessTokens
      */
     public function setClientId($client_id)
     {
@@ -154,7 +155,7 @@ class RefreshTokens
      * Set expires
      *
      * @param integer $expires
-     * @return RefreshTokens
+     * @return AccessTokens
      */
     public function setExpires($expires)
     {
@@ -177,7 +178,7 @@ class RefreshTokens
      * Set username
      *
      * @param string $username
-     * @return RefreshTokens
+     * @return AccessTokens
      */
     public function setUsername($username)
     {
@@ -200,7 +201,7 @@ class RefreshTokens
      * Set scope
      *
      * @param array $scope
-     * @return RefreshTokens
+     * @return AccessTokens
      */
     public function setScope($scope)
     {
@@ -217,5 +218,24 @@ class RefreshTokens
     public function getScope()
     {
         return $this->scope;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function getPassword()
+    {
+        return '';
+    }
+
+    public function getSalt()
+    {
+        return '';
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

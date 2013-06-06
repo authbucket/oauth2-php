@@ -9,17 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Entity;
-
-use Symfony\Component\Security\Core\User\UserInterface;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 /**
- * AccessTokens
+ * Codes
  *
- * @Table(name="access_tokens")
- * @Entity(repositoryClass="Pantarei\OAuth2\Entity\AccessTokensRepository")
+ * @Table(name="codes")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodesRepository")
  */
-class AccessTokens implements UserInterface
+class Codes
 {
     /**
      * @var integer
@@ -33,16 +31,9 @@ class AccessTokens implements UserInterface
     /**
      * @var string
      *
-     * @Column(name="access_token", type="string", length=255)
+     * @Column(name="code", type="string", length=255)
      */
-    private $access_token;
-
-    /**
-     * @var string
-     *
-     * @Column(name="token_type", type="string", length=255)
-     */
-    private $token_type;
+    private $code;
 
     /**
      * @var string
@@ -59,6 +50,13 @@ class AccessTokens implements UserInterface
     private $username;
 
     /**
+     * @var string
+     *
+     * @Column(name="redirect_uri", type="text")
+     */
+    private $redirect_uri;
+
+    /**
      * @var integer
      *
      * @Column(name="expires", type="integer")
@@ -72,6 +70,11 @@ class AccessTokens implements UserInterface
      */
     private $scope;
 
+    public function __construct()
+    {
+        $this->redirect_uri = '';
+    }
+
     /**
      * Get id
      *
@@ -83,56 +86,33 @@ class AccessTokens implements UserInterface
     }
 
     /**
-     * Set access_token
+     * Set code
      *
-     * @param string $access_token
-     * @return AccessTokens
+     * @param string $code
+     * @return Codes
      */
-    public function setAccessToken($access_token)
+    public function setCode($code)
     {
-        $this->access_token = $access_token;
+        $this->code = $code;
 
         return $this;
     }
 
     /**
-     * Get access_token
+     * Get code
      *
      * @return string
      */
-    public function getAccessToken()
+    public function getCode()
     {
-        return $this->access_token;
-    }
-
-    /**
-     * Set token_type
-     *
-     * @param string $token_type
-     * @return TokenTypes
-     */
-    public function setTokenType($token_type)
-    {
-        $this->token_type = $token_type;
-
-        return $this;
-    }
-
-    /**
-     * Get token_type
-     *
-     * @return string
-     */
-    public function getTokenType()
-    {
-        return $this->token_type;
+        return $this->code;
     }
 
     /**
      * Set client_id
      *
      * @param string $client_id
-     * @return AccessTokens
+     * @return Codes
      */
     public function setClientId($client_id)
     {
@@ -152,10 +132,33 @@ class AccessTokens implements UserInterface
     }
 
     /**
+     * Set redirect_uri
+     *
+     * @param string $redirect_uri
+     * @return Codes
+     */
+    public function setRedirectUri($redirect_uri)
+    {
+        $this->redirect_uri = $redirect_uri;
+
+        return $this;
+    }
+
+    /**
+     * Get redirect_uri
+     *
+     * @return string
+     */
+    public function getRedirectUri()
+    {
+        return $this->redirect_uri;
+    }
+
+    /**
      * Set expires
      *
      * @param integer $expires
-     * @return AccessTokens
+     * @return Codes
      */
     public function setExpires($expires)
     {
@@ -178,7 +181,7 @@ class AccessTokens implements UserInterface
      * Set username
      *
      * @param string $username
-     * @return AccessTokens
+     * @return Codes
      */
     public function setUsername($username)
     {
@@ -201,7 +204,7 @@ class AccessTokens implements UserInterface
      * Set scope
      *
      * @param array $scope
-     * @return AccessTokens
+     * @return Codes
      */
     public function setScope($scope)
     {
@@ -218,24 +221,5 @@ class AccessTokens implements UserInterface
     public function getScope()
     {
         return $this->scope;
-    }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function getPassword()
-    {
-        return '';
-    }
-
-    public function getSalt()
-    {
-        return '';
-    }
-
-    public function eraseCredentials()
-    {
     }
 }

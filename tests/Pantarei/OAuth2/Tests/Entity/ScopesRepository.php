@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Entity;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

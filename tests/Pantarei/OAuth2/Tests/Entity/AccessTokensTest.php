@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Entity\AccessTokens;
+use Pantarei\OAuth2\Tests\Entity\AccessTokens;
 use Pantarei\OAuth2\Tests\WebTestCase;
 
 /**
@@ -42,8 +42,8 @@ class AccessTokensTest extends WebTestCase
 
     public function testFind()
     {
-        $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\AccessTokens', 1);
-        $this->assertEquals('Pantarei\OAuth2\Entity\AccessTokens', get_class($result));
+        $result = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Tests\Entity\AccessTokens', 1);
+        $this->assertEquals('Pantarei\OAuth2\Tests\Entity\AccessTokens', get_class($result));
         $this->assertEquals(1, $result->getId());
         $this->assertEquals('eeb5aa92bbb4b56373b9e0d00bc02d93', $result->getAccessToken());
         $this->assertEquals('bearer', $result->getTokenType());
@@ -67,7 +67,7 @@ class AccessTokensTest extends WebTestCase
         $this->app['oauth2.orm']->persist($data);
         $this->app['oauth2.orm']->flush();
 
-        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Entity\AccessTokens')->findOneBy(array(
+        $result = $this->app['oauth2.orm']->getRepository('Pantarei\OAuth2\Tests\Entity\AccessTokens')->findOneBy(array(
             'access_token' => '5ddaa68ac1805e728563dd7915441408',
         ));
         $this->assertTrue($result !== null);

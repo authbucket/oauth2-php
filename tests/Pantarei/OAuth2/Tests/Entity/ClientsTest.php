@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Entity\Clients;
+use Pantarei\OAuth2\Tests\Entity\Clients;
 use Pantarei\OAuth2\Tests\WebTestCase;
 
 /**
@@ -36,9 +36,9 @@ class ClientsTest extends WebTestCase
 
     public function testFind()
     {
-        $entity = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Entity\Clients', 1);
+        $entity = $this->app['oauth2.orm']->find('Pantarei\OAuth2\Tests\Entity\Clients', 1);
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
-        $this->assertEquals('Pantarei\OAuth2\Entity\Clients', get_class($entity));
+        $this->assertEquals('Pantarei\OAuth2\Tests\Entity\Clients', get_class($entity));
         $this->assertEquals(1, $entity->getId());
         $this->assertEquals('http://democlient1.com/', $entity->getUsername());
         $this->assertEquals($encoder->encodePassword('demosecret1', $entity->getSalt()), $entity->getPassword());

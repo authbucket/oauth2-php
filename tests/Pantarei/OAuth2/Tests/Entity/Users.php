@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Entity;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Users
  *
  * @Table(name="users")
- * @Entity(repositoryClass="Pantarei\OAuth2\Entity\UsersRepository")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\UsersRepository")
  */
 class Users implements UserInterface
 {
