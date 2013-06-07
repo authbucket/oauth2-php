@@ -13,7 +13,6 @@ namespace Pantarei\OAuth2\TokenType;
 
 use Pantarei\OAuth2\TokenType\TokenTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
-use Rhumsaa\Uuid\Uuid;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,7 +93,7 @@ class BearerTokenType implements TokenTypeInterface
     public function getResponse(Request $request, Application $app)
     {
         $access_token = new $app['oauth2.entity.access_tokens']();
-        $access_token->setAccessToken(md5(Uuid::uuid4()))
+        $access_token->setAccessToken(md5(uniqid(null, true)))
             ->setTokenType('bearer')
             ->setClientId($this->getClientId())
             ->setUsername($this->getUsername())
@@ -104,8 +103,7 @@ class BearerTokenType implements TokenTypeInterface
         $app['oauth2.orm']->flush();
 
         $refresh_token = new $app['oauth2.entity.refresh_tokens']();
-        $refresh_token->setRefreshToken(md5(Uuid::uuid4()))
-            ->setTokenType('bearer')
+        $refresh_token->setRefreshToken(md5(uniqid(null, true)))
             ->setClientId($this->getClientId())
             ->setUsername($this->getUsername())
             ->setExpires(time() + 86400)

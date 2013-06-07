@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Pantarei\OAuth2\Model\AccessTokensInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -19,7 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @Table(name="access_tokens")
  * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokensRepository")
  */
-class AccessTokens implements UserInterface
+class AccessTokens implements AccessTokensInterface, UserInterface
 {
     /**
      * @var integer
@@ -109,7 +110,7 @@ class AccessTokens implements UserInterface
      * Set token_type
      *
      * @param string $token_type
-     * @return TokenTypes
+     * @return AccessTokens
      */
     public function setTokenType($token_type)
     {
@@ -152,29 +153,6 @@ class AccessTokens implements UserInterface
     }
 
     /**
-     * Set expires
-     *
-     * @param integer $expires
-     * @return AccessTokens
-     */
-    public function setExpires($expires)
-    {
-        $this->expires = $expires;
-
-        return $this;
-    }
-
-    /**
-     * Get expires
-     *
-     * @return integer
-     */
-    public function getExpires()
-    {
-        return $this->expires;
-    }
-
-    /**
      * Set username
      *
      * @param string $username
@@ -195,6 +173,29 @@ class AccessTokens implements UserInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set expires
+     *
+     * @param integer $expires
+     * @return AccessTokens
+     */
+    public function setExpires($expires)
+    {
+        $this->expires = $expires;
+
+        return $this;
+    }
+
+    /**
+     * Get expires
+     *
+     * @return integer
+     */
+    public function getExpires()
+    {
+        return $this->expires;
     }
 
     /**

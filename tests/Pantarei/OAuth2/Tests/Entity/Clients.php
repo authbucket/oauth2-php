@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Pantarei\OAuth2\Model\ClientsInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -19,7 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @Table(name="clients")
  * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ClientsRepository")
  */
-class Clients implements UserInterface
+class Clients implements ClientsInterface, UserInterface
 {
     /**
      * @var integer
@@ -50,43 +51,6 @@ class Clients implements UserInterface
      * @Column(name="redirect_uri", type="text")
      */
     private $redirect_uri;
-
-    /**
-     * @var string
-     *
-     * @Column(name="salt", type="string", length=255)
-     */
-    private $salt;
-
-    public function __construct()
-    {
-        $this->salt = md5(uniqid(null, true));
-        $this->redirect_uri = '';
-    }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function getPassword()
-    {
-        return $this->getClientSecret();
-    }
-
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    public function getUsername()
-    {
-        return $this->getClientId();
-    }
-
-    public function eraseCredentials()
-    {
-    }
 
     /**
      * Get id
@@ -166,4 +130,35 @@ class Clients implements UserInterface
     {
         return $this->redirect_uri;
     }
+
+    public function __construct()
+    {
+        $this->redirect_uri = '';
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function getPassword()
+    {
+        return $this->client_secret;
+    }
+
+    public function getSalt()
+    {
+        return '';
+    }
+
+    public function getUsername()
+    {
+        return $this->client_id;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+
 }

@@ -14,7 +14,6 @@ namespace Pantarei\OAuth2\ResponseType;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\ResponseType\ResponseTypeInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
-use Rhumsaa\Uuid\Uuid;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -148,7 +147,7 @@ class CodeResponseType implements ResponseTypeInterface
     public function getResponse(Request $request, Application $app)
     {
         $code = new $app['oauth2.entity.codes']();
-        $code->setCode(md5(Uuid::uuid4()))
+        $code->setCode(md5(uniqid(null, true)))
             ->setClientId($this->getClientId())
             ->setUsername('')
             ->setRedirectUri($this->getRedirectUri())

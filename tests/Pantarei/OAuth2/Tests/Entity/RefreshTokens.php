@@ -11,13 +11,15 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Pantarei\OAuth2\Model\RefreshTokensInterface;
+
 /**
  * RefreshTokens
  *
  * @Table(name="refresh_tokens")
  * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokensRepository")
  */
-class RefreshTokens
+class RefreshTokens implements RefreshTokensInterface
 {
     /**
      * @var integer
@@ -34,13 +36,6 @@ class RefreshTokens
      * @Column(name="refresh_token", type="string", length=255)
      */
     private $refresh_token;
-
-    /**
-     * @var string
-     *
-     * @Column(name="token_type", type="string", length=255)
-     */
-    private $token_type;
 
     /**
      * @var string
@@ -69,7 +64,6 @@ class RefreshTokens
      * @Column(name="scope", type="array")
      */
     private $scope;
-
 
     /**
      * Get id
@@ -105,29 +99,6 @@ class RefreshTokens
     }
 
     /**
-     * Set token_type
-     *
-     * @param string $token_type
-     * @return TokenTypes
-     */
-    public function setTokenType($token_type)
-    {
-        $this->token_type = $token_type;
-
-        return $this;
-    }
-
-    /**
-     * Get token_type
-     *
-     * @return string
-     */
-    public function getTokenType()
-    {
-        return $this->token_type;
-    }
-
-    /**
      * Set client_id
      *
      * @param string $client_id
@@ -151,29 +122,6 @@ class RefreshTokens
     }
 
     /**
-     * Set expires
-     *
-     * @param integer $expires
-     * @return RefreshTokens
-     */
-    public function setExpires($expires)
-    {
-        $this->expires = $expires;
-
-        return $this;
-    }
-
-    /**
-     * Get expires
-     *
-     * @return integer
-     */
-    public function getExpires()
-    {
-        return $this->expires;
-    }
-
-    /**
      * Set username
      *
      * @param string $username
@@ -194,6 +142,29 @@ class RefreshTokens
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set expires
+     *
+     * @param integer $expires
+     * @return RefreshTokens
+     */
+    public function setExpires($expires)
+    {
+        $this->expires = $expires;
+
+        return $this;
+    }
+
+    /**
+     * Get expires
+     *
+     * @return integer
+     */
+    public function getExpires()
+    {
+        return $this->expires;
     }
 
     /**

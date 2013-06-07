@@ -45,42 +45,6 @@ class Users implements UserInterface
     private $password;
 
     /**
-     * @var string
-     *
-     * @Column(name="salt", type="string", length=255)
-     */
-    private $salt;
-
-    public function __construct()
-    {
-        $this->salt = md5(uniqid(null, true));
-    }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    /**
      * Get id
      *
      * @return integer
@@ -104,6 +68,16 @@ class Users implements UserInterface
     }
 
     /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
      * Set password
      *
      * @param string $password
@@ -114,5 +88,29 @@ class Users implements UserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function getSalt()
+    {
+        return '';
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

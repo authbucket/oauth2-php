@@ -25,13 +25,12 @@
     "minimum-stability": "dev",
     "name": "pantarei/oauth2",
     "require": {
-        "doctrine/orm": "2.*",
         "php": ">=5.3.3",
-        "rhumsaa/uuid": "~2.1",
         "silex/silex": "1.0.*@dev",
         "symfony/security": "~2.3"
     },
     "require-dev": {
+        "doctrine/orm": "2.*",
         "satooshi/php-coveralls": "dev-master",
         "symfony/browser-kit": "2.3.*@dev",
         "symfony/css-selector": "2.3.*@dev"

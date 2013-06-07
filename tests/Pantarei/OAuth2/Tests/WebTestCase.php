@@ -263,7 +263,6 @@ class WebTestCase extends SilexWebTestCase
         // Add demo refresh token.
         $entity = new $this->app['oauth2.entity.refresh_tokens']();
         $entity->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
-            ->setTokenType('bearer')
             ->setClientId('http://democlient3.com/')
             ->setExpires(time() + 86400)
             ->setUsername('demousername3')

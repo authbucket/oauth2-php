@@ -427,7 +427,6 @@ class ParameterUtilsTest extends WebTestCase
     {
         $refresh_token = new $this->app['oauth2.entity.refresh_tokens']();
         $refresh_token->setRefreshToken('13dcf9db36152fa322daf9deb7b0a22e')
-            ->setTokenType('bearer')
             ->setClientId('http://democlient1.com/')
             ->setExpires(time() + 86400)
             ->setUsername('demousername1');

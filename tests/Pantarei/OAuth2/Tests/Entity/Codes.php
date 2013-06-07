@@ -11,13 +11,15 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Pantarei\OAuth2\Model\CodesInterface;
+
 /**
  * Codes
  *
  * @Table(name="codes")
  * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodesRepository")
  */
-class Codes
+class Codes implements CodesInterface
 {
     /**
      * @var integer
@@ -69,11 +71,6 @@ class Codes
      * @Column(name="scope", type="array")
      */
     private $scope;
-
-    public function __construct()
-    {
-        $this->redirect_uri = '';
-    }
 
     /**
      * Get id
@@ -132,6 +129,29 @@ class Codes
     }
 
     /**
+     * Set username
+     *
+     * @param string $username
+     * @return Codes
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
      * Set redirect_uri
      *
      * @param string $redirect_uri
@@ -178,29 +198,6 @@ class Codes
     }
 
     /**
-     * Set username
-     *
-     * @param string $username
-     * @return Codes
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
      * Set scope
      *
      * @param array $scope
@@ -221,5 +218,10 @@ class Codes
     public function getScope()
     {
         return $this->scope;
+    }
+
+    public function __construct()
+    {
+        $this->redirect_uri = '';
     }
 }
