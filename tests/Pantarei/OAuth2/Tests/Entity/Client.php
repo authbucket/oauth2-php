@@ -12,7 +12,6 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Model\ClientInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Client
@@ -20,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @Table(name="client")
  * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ClientRepository")
  */
-class Client implements ClientInterface, UserInterface
+class Client implements ClientInterface
 {
     /**
      * @var integer

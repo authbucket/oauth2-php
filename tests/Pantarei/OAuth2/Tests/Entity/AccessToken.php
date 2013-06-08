@@ -12,7 +12,6 @@
 namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Model\AccessTokenInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * AccessToken
@@ -20,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @Table(name="access_token")
  * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokenRepository")
  */
-class AccessToken implements AccessTokenInterface, UserInterface
+class AccessToken implements AccessTokenInterface
 {
     /**
      * @var integer
