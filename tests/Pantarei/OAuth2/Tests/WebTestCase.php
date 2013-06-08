@@ -72,8 +72,8 @@ class WebTestCase extends SilexWebTestCase
             'user' => 'Pantarei\OAuth2\Tests\Entity\User',
         );
         foreach ($entity as $name => $class) {
-            $app['oauth2.entity.' . $name] = $class;
-            $app['oauth2.entity_repository.' . $name] = $app['oauth2.orm']->getRepository($class);
+            $app['oauth2.model.' . $name] = $class;
+            $app['oauth2.model_manager.' . $name] = $app['oauth2.orm']->getRepository($class);
         }
 
         $app['security.authentication_listener.factory.token'] = $app->protect(function ($name, $options) use ($app) {
@@ -124,21 +124,21 @@ class WebTestCase extends SilexWebTestCase
                 'pattern' => '^/authorize',
                 'http' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $app['oauth2.entity_repository.user'];
+                    return $app['oauth2.model_manager.user'];
                 }),
             ),
             'token' => array(
                 'pattern' => '^/token',
                 'token' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $app['oauth2.entity_repository.client'];
+                    return $app['oauth2.model_manager.client'];
                 }),
             ),
             'resource' => array(
                 'pattern' => '^/resource',
                 'resource' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $app['oauth2.entity_repository.access_token'];
+                    return $app['oauth2.model_manager.access_token'];
                 }),
             ),
         );
@@ -179,13 +179,13 @@ class WebTestCase extends SilexWebTestCase
     {
         // Generate testing database schema.
         $classes = array(
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.entity.access_token']),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.entity.authorize']),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.entity.client']),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.entity.code']),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.entity.refresh_token']),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.entity.scope']),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.entity.user']),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model.access_token']),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model.authorize']),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model.client']),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model.code']),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model.refresh_token']),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model.scope']),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model.user']),
         );
 
         PersistentObject::setObjectManager($this->app['oauth2.orm']);
@@ -196,7 +196,7 @@ class WebTestCase extends SilexWebTestCase
     private function addSampleData()
     {
         // Add demo access token.
-        $entity = new $this->app['oauth2.entity.access_token']();
+        $entity = new $this->app['oauth2.model.access_token']();
         $entity->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
             ->setTokenType('bearer')
             ->setClientId('http://democlient1.com/')
@@ -208,7 +208,7 @@ class WebTestCase extends SilexWebTestCase
         $this->app['oauth2.orm']->persist($entity);
 
         // Add demo authorizes.
-        $entity = new $this->app['oauth2.entity.authorize']();
+        $entity = new $this->app['oauth2.model.authorize']();
         $entity->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setScope(array(
@@ -216,7 +216,7 @@ class WebTestCase extends SilexWebTestCase
             ));
         $this->app['oauth2.orm']->persist($entity);
 
-        $entity = new $this->app['oauth2.entity.authorize']();
+        $entity = new $this->app['oauth2.model.authorize']();
         $entity->setClientId('http://democlient2.com/')
             ->setUsername('demousername2')
             ->setScope(array(
@@ -225,7 +225,7 @@ class WebTestCase extends SilexWebTestCase
             ));
         $this->app['oauth2.orm']->persist($entity);
 
-        $entity = new $this->app['oauth2.entity.authorize']();
+        $entity = new $this->app['oauth2.model.authorize']();
         $entity->setClientId('http://democlient3.com/')
             ->setUsername('demousername3')
             ->setScope(array(
@@ -236,21 +236,21 @@ class WebTestCase extends SilexWebTestCase
         $this->app['oauth2.orm']->persist($entity);
 
         // Add demo clients.
-        $entity = new $this->app['oauth2.entity.client']();
+        $entity = new $this->app['oauth2.model.client']();
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient1.com/')
             ->setClientSecret($encoder->encodePassword('demosecret1', $entity->getSalt()))
             ->setRedirectUri('http://democlient1.com/redirect_uri');
         $this->app['oauth2.orm']->persist($entity);
 
-        $entity = new $this->app['oauth2.entity.client']();
+        $entity = new $this->app['oauth2.model.client']();
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient2.com/')
             ->setClientSecret($encoder->encodePassword('demosecret2', $entity->getSalt()))
             ->setRedirectUri('http://democlient2.com/redirect_uri');
         $this->app['oauth2.orm']->persist($entity);
 
-        $entity = new $this->app['oauth2.entity.client']();
+        $entity = new $this->app['oauth2.model.client']();
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient3.com/')
             ->setClientSecret($encoder->encodePassword('demosecret3', $entity->getSalt()))
@@ -258,7 +258,7 @@ class WebTestCase extends SilexWebTestCase
         $this->app['oauth2.orm']->persist($entity);
 
         // Add demo code.
-        $entity = new $this->app['oauth2.entity.code']();
+        $entity = new $this->app['oauth2.model.code']();
         $entity->setCode('f0c68d250bcc729eb780a235371a9a55')
             ->setClientId('http://democlient2.com/')
             ->setRedirectUri('http://democlient2.com/redirect_uri')
@@ -271,7 +271,7 @@ class WebTestCase extends SilexWebTestCase
         $this->app['oauth2.orm']->persist($entity);
 
         // Add demo refresh token.
-        $entity = new $this->app['oauth2.entity.refresh_token']();
+        $entity = new $this->app['oauth2.model.refresh_token']();
         $entity->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
             ->setClientId('http://democlient3.com/')
             ->setExpires(time() + 86400)
@@ -284,32 +284,32 @@ class WebTestCase extends SilexWebTestCase
         $this->app['oauth2.orm']->persist($entity);
 
         // Add demo scopes.
-        $entity = new $this->app['oauth2.entity.scope']();
+        $entity = new $this->app['oauth2.model.scope']();
         $entity->setScope('demoscope1');
         $this->app['oauth2.orm']->persist($entity);
 
-        $entity = new $this->app['oauth2.entity.scope']();
+        $entity = new $this->app['oauth2.model.scope']();
         $entity->setScope('demoscope2');
         $this->app['oauth2.orm']->persist($entity);
 
-        $entity = new $this->app['oauth2.entity.scope']();
+        $entity = new $this->app['oauth2.model.scope']();
         $entity->setScope('demoscope3');
         $this->app['oauth2.orm']->persist($entity);
 
         // Add demo users.
-        $entity = new $this->app['oauth2.entity.user']();
+        $entity = new $this->app['oauth2.model.user']();
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setUsername('demousername1')
             ->setPassword($encoder->encodePassword('demopassword1', $entity->getSalt()));
         $this->app['oauth2.orm']->persist($entity);
 
-        $entity = new $this->app['oauth2.entity.user']();
+        $entity = new $this->app['oauth2.model.user']();
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setUsername('demousername2')
             ->setPassword($encoder->encodePassword('demopassword2', $entity->getSalt()));
         $this->app['oauth2.orm']->persist($entity);
 
-        $entity = new $this->app['oauth2.entity.user']();
+        $entity = new $this->app['oauth2.model.user']();
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setUsername('demousername3')
             ->setPassword($encoder->encodePassword('demopassword3', $entity->getSalt()));

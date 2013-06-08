@@ -112,17 +112,17 @@ class TokenResponseType implements ResponseTypeInterface
     public function __construct(Request $request, Application $app)
     {
         // Validate and set client_id.
-        if ($client_id = ParameterUtils::checkClientId($request, $app['oauth2.entity_repository.client'])) {
+        if ($client_id = ParameterUtils::checkClientId($request, $app['oauth2.model_manager.client'])) {
             $this->setClientId($client_id);
         }
 
         // Validate and set redirect_uri.
-        if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app['oauth2.entity_repository.client'])) {
+        if ($redirect_uri = ParameterUtils::checkRedirectUri($request, $app['oauth2.model_manager.client'])) {
             $this->setRedirectUri($redirect_uri);
         }
 
         // Validate and set scope.
-        if ($scope = ParameterUtils::checkScope($request, $app['oauth2.entity_repository.scope'])) {
+        if ($scope = ParameterUtils::checkScope($request, $app['oauth2.model_manager.scope'])) {
             $this->setScope($scope);
         }
 

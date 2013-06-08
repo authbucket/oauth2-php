@@ -67,16 +67,16 @@ class BearerTokenType implements TokenTypeInterface
     public function __construct(Request $request, Application $app)
     {
         // Validate and set client_id.
-        if ($client_id = ParameterUtils::checkClientId($request, $app['oauth2.entity_repository.client'])) {
+        if ($client_id = ParameterUtils::checkClientId($request, $app['oauth2.model_manager.client'])) {
             $this->setClientId($client_id);
         }
 
         // Validate and set scope.
-        if ($scope = ParameterUtils::checkScopeByCode($request, $app['oauth2.entity_repository.code'])) {
+        if ($scope = ParameterUtils::checkScopeByCode($request, $app['oauth2.model_manager.code'])) {
             $this->setScope($scope);
-        } elseif ($scope = ParameterUtils::checkScopeByRefreshToken($request, $app['oauth2.entity_repository.refresh_token'])) {
+        } elseif ($scope = ParameterUtils::checkScopeByRefreshToken($request, $app['oauth2.model_manager.refresh_token'])) {
             $this->setScope($scope);
-        } elseif ($scope = ParameterUtils::checkScope($request, $app['oauth2.entity_repository.scope'])) {
+        } elseif ($scope = ParameterUtils::checkScope($request, $app['oauth2.model_manager.scope'])) {
             $this->setScope($scope);
         }
 
@@ -92,7 +92,7 @@ class BearerTokenType implements TokenTypeInterface
 
     public function getResponse(Request $request, Application $app)
     {
-        $access_token = new $app['oauth2.entity.access_token']();
+        $access_token = new $app['oauth2.model.access_token']();
         $access_token->setAccessToken(md5(uniqid(null, true)))
             ->setTokenType('bearer')
             ->setClientId($this->getClientId())
@@ -102,7 +102,7 @@ class BearerTokenType implements TokenTypeInterface
         $app['oauth2.orm']->persist($access_token);
         $app['oauth2.orm']->flush();
 
-        $refresh_token = new $app['oauth2.entity.refresh_token']();
+        $refresh_token = new $app['oauth2.model.refresh_token']();
         $refresh_token->setRefreshToken(md5(uniqid(null, true)))
             ->setClientId($this->getClientId())
             ->setUsername($this->getUsername())
