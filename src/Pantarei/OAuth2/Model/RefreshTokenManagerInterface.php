@@ -19,8 +19,6 @@ interface RefreshTokenManagerInterface
 
     public function findRefreshTokenByRefreshToken($refresh_token);
 
-    public function getClassName();
-
     public function reloadRefreshToken(RefreshTokenInterface $refresh_token);
 
     public function updateRefreshToken(RefreshTokenInterface $refresh_token);

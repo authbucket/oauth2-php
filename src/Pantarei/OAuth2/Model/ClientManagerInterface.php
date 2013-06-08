@@ -19,8 +19,6 @@ interface ClientManagerInterface
 
     public function findClientByClientId($client_id);
 
-    public function getClassName();
-
     public function reloadClient(ClientInterface $client);
 
     public function updateClient(ClientInterface $client);

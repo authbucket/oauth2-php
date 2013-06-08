@@ -19,8 +19,6 @@ interface ScopeManagerInterface
 
     public function findScopes();
 
-    public function getClassName();
-
     public function reloadScope(ScopeInterface $scope);
 
     public function updateScope(ScopeInterface $scope);

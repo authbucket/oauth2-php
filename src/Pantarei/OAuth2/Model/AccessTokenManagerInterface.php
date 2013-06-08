@@ -19,8 +19,6 @@ interface AccessTokenManagerInterface
 
     public function findAccessTokenByAccessToken($access_token);
 
-    public function getClassName();
-
     public function reloadAccessToken(AccessTokenInterface $access_token);
 
     public function updateAccessToken(AccessTokenInterface $access_token);

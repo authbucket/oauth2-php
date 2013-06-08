@@ -15,7 +15,6 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
-use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
 use Pantarei\OAuth2\Security\Authentication\Provider\BearerTokenProvider;
 use Pantarei\OAuth2\Security\Authentication\Provider\TokenProvider;
@@ -24,7 +23,6 @@ use Pantarei\OAuth2\Security\Firewall\TokenListener;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\SecurityServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,7 +43,6 @@ class WebTestCase extends SilexWebTestCase
         $app['exception_handler']->disable();
 
         $app->register(new DoctrineServiceProvider());
-        $app->register(new SecurityServiceProvider());
         $app->register(new OAuth2ServiceProvider());
 
         $app['db.options'] = array(

@@ -19,8 +19,6 @@ interface AuthorizeManagerInterface
 
     public function findAuthorizeByClientIdUsername($client_id, $username);
 
-    public function getClassName();
-
     public function reloadAuthorize(AuthorizeInterface $authorize);
 
     public function updateAuthorize(AuthorizeInterface $authorize);

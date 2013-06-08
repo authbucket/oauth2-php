@@ -11,38 +11,25 @@
 
 namespace Pantarei\OAuth2\Provider;
 
+use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
+use Pantarei\OAuth2\GrantType\ClientCredentialsGrantType;
+use Pantarei\OAuth2\GrantType\PasswordGrantType;
+use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
+use Pantarei\OAuth2\ResponseType\CodeResponseType;
+use Pantarei\OAuth2\ResponseType\TokenResponseType;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Silex\Provider\SecurityServiceProvider;
 
 /**
  * A simple Doctrine ORM service provider for OAuth2.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class OAuth2ServiceProvider implements ServiceProviderInterface
+class OAuth2ServiceProvider extends SecurityServiceProvider
 {
     public function register(Application $app)
     {
-        // OAuth2 default options.
-        $app['oauth2.default_options'] = array(
-            'expires_in' => 3600,
-            'refresh_token' => true,
-        );
-
-        // Initializer to merge supplied options with default options.
-        $app['oauth2.options.initializer'] = $app->protect(function () use ($app) {
-            static $initialized = false;
-
-            if ($initialized) {
-                return;
-            }
-            $initialized = true;
-
-            if (!isset($app['oauth2.options'])) {
-                $app['oauth2.options'] = $app['oauth2.default_options'];
-            }
-            $app['oauth2.options'] = array_replace($app['oauth2.default_options'], $app['oauth2.options']);
-        });
+        parent::register($app);
 
         // Shortcut for response_type.
         $response_type = array(
@@ -80,5 +67,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        parent::boot($app);
     }
 }

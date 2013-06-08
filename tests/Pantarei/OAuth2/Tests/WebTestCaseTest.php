@@ -47,10 +47,4 @@ class WebTestCaseTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isOk());
         $this->assertCount(1, $crawler->filter('html:contains("Hello bar")'));
     }
-
-    public function testDuplicateInitializer()
-    {
-        $this->app['oauth2.options.initializer']();
-        $this->app['oauth2.options.initializer']();
-    }
 }
