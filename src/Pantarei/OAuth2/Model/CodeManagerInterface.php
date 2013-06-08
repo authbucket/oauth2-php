@@ -19,8 +19,6 @@ interface CodeManagerInterface
 
     public function findCodeByCode($code);
 
-    public function getClassName();
-
     public function reloadCode(CodeInterface $code);
 
     public function updateCode(CodeInterface $code);
