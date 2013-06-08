@@ -11,8 +11,15 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface AuthorizesInterface
+interface RefreshTokenInterface
 {
+    /**
+     * Get refreshToken
+     *
+     * @return string
+     */
+    public function getRefreshToken();
+
     /**
      * Get clientId
      *
@@ -26,6 +33,13 @@ interface AuthorizesInterface
      * @return string
      */
     public function getUsername();
+
+    /**
+     * Get expires
+     *
+     * @return integer
+     */
+    public function getExpires();
 
     /**
      * Get scope

@@ -11,21 +11,14 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface AccessTokensInterface
+interface CodeInterface
 {
     /**
-     * Get accessToken
+     * Get code
      *
      * @return string
      */
-    public function getAccessToken();
-
-    /**
-     * Get tokenType
-     *
-     * @return string
-     */
-    public function getTokenType();
+    public function getCode();
 
     /**
      * Get clientId
@@ -40,6 +33,13 @@ interface AccessTokensInterface
      * @return string
      */
     public function getUsername();
+
+    /**
+     * Get redirectUri
+     *
+     * @return string
+     */
+    public function getRedirectUri();
 
     /**
      * Get expires

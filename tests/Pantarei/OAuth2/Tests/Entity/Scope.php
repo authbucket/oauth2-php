@@ -11,15 +11,15 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Model\ScopesInterface;
+use Pantarei\OAuth2\Model\ScopeInterface;
 
 /**
- * Scopes
+ * Scope
  *
- * @Table(name="scopes")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ScopesRepository")
+ * @Table(name="scope")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ScopeRepository")
  */
-class Scopes implements ScopesInterface
+class Scope implements ScopeInterface
 {
     /**
      * @var integer
@@ -51,7 +51,7 @@ class Scopes implements ScopesInterface
      * Set scope
      *
      * @param string $scope
-     * @return Scopes
+     * @return Scope
      */
     public function setScope($scope)
     {

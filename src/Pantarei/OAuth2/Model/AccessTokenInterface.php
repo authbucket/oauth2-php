@@ -11,14 +11,21 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface RefreshTokensInterface
+interface AccessTokenInterface
 {
     /**
-     * Get refreshToken
+     * Get accessToken
      *
      * @return string
      */
-    public function getRefreshToken();
+    public function getAccessToken();
+
+    /**
+     * Get tokenType
+     *
+     * @return string
+     */
+    public function getTokenType();
 
     /**
      * Get clientId

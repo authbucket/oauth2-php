@@ -14,12 +14,12 @@ namespace Pantarei\OAuth2\Tests\Entity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Users
+ * User
  *
- * @Table(name="users")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\UsersRepository")
+ * @Table(name="user")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\UserRepository")
  */
-class Users implements UserInterface
+class User implements UserInterface
 {
     /**
      * @var integer
@@ -58,7 +58,7 @@ class Users implements UserInterface
      * Set username
      *
      * @param string $username
-     * @return Users
+     * @return User
      */
     public function setUsername($username)
     {
@@ -81,7 +81,7 @@ class Users implements UserInterface
      * Set password
      *
      * @param string $password
-     * @return Users
+     * @return User
      */
     public function setPassword($password)
     {

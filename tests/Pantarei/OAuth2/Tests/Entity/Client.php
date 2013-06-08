@@ -11,16 +11,16 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Model\ClientsInterface;
+use Pantarei\OAuth2\Model\ClientInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Clients
+ * Client
  *
- * @Table(name="clients")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ClientsRepository")
+ * @Table(name="client")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ClientRepository")
  */
-class Clients implements ClientsInterface, UserInterface
+class Client implements ClientInterface, UserInterface
 {
     /**
      * @var integer
@@ -66,7 +66,7 @@ class Clients implements ClientsInterface, UserInterface
      * Set client_id
      *
      * @param string $client_id
-     * @return Clients
+     * @return Client
      */
     public function setClientId($client_id)
     {
@@ -89,7 +89,7 @@ class Clients implements ClientsInterface, UserInterface
      * Set client_secret
      *
      * @param string $client_secret
-     * @return Clients
+     * @return Client
      */
     public function setClientSecret($client_secret)
     {
@@ -112,7 +112,7 @@ class Clients implements ClientsInterface, UserInterface
      * Set redirect_uri
      *
      * @param string $redirect_uri
-     * @return Clients
+     * @return Client
      */
     public function setRedirectUri($redirect_uri)
     {

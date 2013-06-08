@@ -11,6 +11,12 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface CodesManagerInterface
+interface ScopeInterface
 {
+    /**
+     * Get scope
+     *
+     * @return string
+     */
+    public function getScope();
 }

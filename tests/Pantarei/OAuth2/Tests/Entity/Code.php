@@ -11,15 +11,15 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Model\AuthorizesInterface;
+use Pantarei\OAuth2\Model\CodeInterface;
 
 /**
- * Authorizes
+ * Code
  *
- * @Table(name="authorizes")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AuthorizesRepository")
+ * @Table(name="code")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodeRepository")
  */
-class Authorizes implements AuthorizesInterface
+class Code implements CodeInterface
 {
     /**
      * @var integer
@@ -29,6 +29,13 @@ class Authorizes implements AuthorizesInterface
      * @GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @Column(name="code", type="string", length=255)
+     */
+    private $code;
 
     /**
      * @var string
@@ -43,6 +50,20 @@ class Authorizes implements AuthorizesInterface
      * @Column(name="username", type="string", length=255)
      */
     private $username;
+
+    /**
+     * @var string
+     *
+     * @Column(name="redirect_uri", type="text")
+     */
+    private $redirect_uri;
+
+    /**
+     * @var integer
+     *
+     * @Column(name="expires", type="integer")
+     */
+    private $expires;
 
     /**
      * @var array
@@ -62,10 +83,33 @@ class Authorizes implements AuthorizesInterface
     }
 
     /**
+     * Set code
+     *
+     * @param string $code
+     * @return Code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
      * Set client_id
      *
      * @param string $client_id
-     * @return Authorizes
+     * @return Code
      */
     public function setClientId($client_id)
     {
@@ -88,7 +132,7 @@ class Authorizes implements AuthorizesInterface
      * Set username
      *
      * @param string $username
-     * @return Authorizes
+     * @return Code
      */
     public function setUsername($username)
     {
@@ -108,10 +152,56 @@ class Authorizes implements AuthorizesInterface
     }
 
     /**
+     * Set redirect_uri
+     *
+     * @param string $redirect_uri
+     * @return Code
+     */
+    public function setRedirectUri($redirect_uri)
+    {
+        $this->redirect_uri = $redirect_uri;
+
+        return $this;
+    }
+
+    /**
+     * Get redirect_uri
+     *
+     * @return string
+     */
+    public function getRedirectUri()
+    {
+        return $this->redirect_uri;
+    }
+
+    /**
+     * Set expires
+     *
+     * @param integer $expires
+     * @return Code
+     */
+    public function setExpires($expires)
+    {
+        $this->expires = $expires;
+
+        return $this;
+    }
+
+    /**
+     * Get expires
+     *
+     * @return integer
+     */
+    public function getExpires()
+    {
+        return $this->expires;
+    }
+
+    /**
      * Set scope
      *
      * @param array $scope
-     * @return Authorizes
+     * @return Code
      */
     public function setScope($scope)
     {
@@ -128,5 +218,10 @@ class Authorizes implements AuthorizesInterface
     public function getScope()
     {
         return $this->scope;
+    }
+
+    public function __construct()
+    {
+        $this->redirect_uri = '';
     }
 }

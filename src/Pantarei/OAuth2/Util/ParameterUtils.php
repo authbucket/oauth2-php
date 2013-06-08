@@ -261,7 +261,12 @@ abstract class ParameterUtils
 
         if ($scope) {
             // Compare if given scope within all available stored scopes.
-            $stored = $repo->loadAllScopes();
+            $stored = array();
+            $result = $repo->findScopes();
+            foreach ($result as $row) {
+                $stored[] = $row->getScope();
+            }
+
             $scopes = preg_split('/\s+/', $scope);
             if (array_intersect($scopes, $stored) !== $scopes) {
                 throw new InvalidScopeException();
@@ -279,8 +284,8 @@ abstract class ParameterUtils
         $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
         // Fetch scope from pre-generated code.
-        if ($result = $repo->loadByCode($code)) {
-            if ($result->getClientId() === $client_id) {
+        if ($result = $repo->findCodeByCode($code)) {
+            if ($result !== null && $result->getClientId() === $client_id) {
                 return $result->getScope();
             }
         }
@@ -295,8 +300,8 @@ abstract class ParameterUtils
 
         // Fetch scope from pre-grnerated refresh_token.
         $stored = null;
-        $result = $repo->loadByRefreshToken($refresh_token);
-        if ($result && $result->getClientId() == $client_id && $result->getScope()) {
+        $result = $repo->findRefreshTokenByRefreshToken($refresh_token);
+        if ($result !== null && $result->getClientId() == $client_id && $result->getScope()) {
             $stored = $result->getScope();
         }
 
@@ -366,8 +371,8 @@ abstract class ParameterUtils
         $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
         // Check code with database record.
-        $result = $repo->loadByCode($code);
-        if (!$result || $result->getClientId() !== $client_id) {
+        $result = $repo->findCodeByCode($code);
+        if ($result === null || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < time()) {
             throw new InvalidGrantException();
@@ -423,8 +428,8 @@ abstract class ParameterUtils
         $client_id = $request->getUser() ? $request->getUser() : $request->request->get('client_id');
 
         // Check refresh_token with database record.
-        $result = $repo->loadByRefreshToken($refresh_token);
-        if (!$result || $result->getClientId() !== $client_id) {
+        $result = $repo->findRefreshTokenByRefreshToken($refresh_token);
+        if ($result === null || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < time()) {
             throw new InvalidRequestException();

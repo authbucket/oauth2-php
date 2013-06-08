@@ -11,15 +11,8 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface CodesInterface
+interface AuthorizeInterface
 {
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode();
-
     /**
      * Get clientId
      *
@@ -33,20 +26,6 @@ interface CodesInterface
      * @return string
      */
     public function getUsername();
-
-    /**
-     * Get redirectUri
-     *
-     * @return string
-     */
-    public function getRedirectUri();
-
-    /**
-     * Get expires
-     *
-     * @return integer
-     */
-    public function getExpires();
 
     /**
      * Get scope

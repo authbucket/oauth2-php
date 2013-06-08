@@ -112,13 +112,13 @@ class TokenEndpointTest extends WebTestCase
     public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
-        $client = new $this->app['oauth2.entity.clients']();
+        $client = new $this->app['oauth2.entity.client']();
         $client->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($client);
         $this->app['oauth2.orm']->flush();
 
-        $code = new $this->app['oauth2.entity.codes']();
+        $code = new $this->app['oauth2.entity.code']();
         $code->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
             ->setExpires(time() + 3600)
@@ -395,7 +395,7 @@ class TokenEndpointTest extends WebTestCase
     public function testGoodAuthCodeNoStoredRedirectUri()
     {
         // Insert client without redirect_uri.
-        $entity = new $this->app['oauth2.entity.clients']();
+        $entity = new $this->app['oauth2.entity.client']();
         $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
 
         $entity->setClientId('http://democlient4.com/')
@@ -403,7 +403,7 @@ class TokenEndpointTest extends WebTestCase
         $this->app['oauth2.orm']->persist($entity);
         $this->app['oauth2.orm']->flush();
 
-        $entity = new $this->app['oauth2.entity.codes']();
+        $entity = new $this->app['oauth2.entity.code']();
         $entity->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
             ->setExpires(time() + 3600)

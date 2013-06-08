@@ -91,7 +91,7 @@ class AuthorizationCodeGrantTypeTest extends WebTestCase
      */
     public function testExpiredCode()
     {
-        $data = new $this->app['oauth2.entity.codes']();
+        $data = new $this->app['oauth2.entity.code']();
         $data->setCode('5ddaa68ac1805e728563dd7915441408')
             ->setClientId('http://democlient1.com/')
             ->setRedirectUri('http://democlient1.com/redirect_uri')

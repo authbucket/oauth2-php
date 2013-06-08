@@ -11,15 +11,15 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Model\CodesInterface;
+use Pantarei\OAuth2\Model\AuthorizeInterface;
 
 /**
- * Codes
+ * Authorize
  *
- * @Table(name="codes")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodesRepository")
+ * @Table(name="authorize")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AuthorizeRepository")
  */
-class Codes implements CodesInterface
+class Authorize implements AuthorizeInterface
 {
     /**
      * @var integer
@@ -29,13 +29,6 @@ class Codes implements CodesInterface
      * @GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @Column(name="code", type="string", length=255)
-     */
-    private $code;
 
     /**
      * @var string
@@ -50,20 +43,6 @@ class Codes implements CodesInterface
      * @Column(name="username", type="string", length=255)
      */
     private $username;
-
-    /**
-     * @var string
-     *
-     * @Column(name="redirect_uri", type="text")
-     */
-    private $redirect_uri;
-
-    /**
-     * @var integer
-     *
-     * @Column(name="expires", type="integer")
-     */
-    private $expires;
 
     /**
      * @var array
@@ -83,33 +62,10 @@ class Codes implements CodesInterface
     }
 
     /**
-     * Set code
-     *
-     * @param string $code
-     * @return Codes
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Get code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
      * Set client_id
      *
      * @param string $client_id
-     * @return Codes
+     * @return Authorize
      */
     public function setClientId($client_id)
     {
@@ -132,7 +88,7 @@ class Codes implements CodesInterface
      * Set username
      *
      * @param string $username
-     * @return Codes
+     * @return Authorize
      */
     public function setUsername($username)
     {
@@ -152,56 +108,10 @@ class Codes implements CodesInterface
     }
 
     /**
-     * Set redirect_uri
-     *
-     * @param string $redirect_uri
-     * @return Codes
-     */
-    public function setRedirectUri($redirect_uri)
-    {
-        $this->redirect_uri = $redirect_uri;
-
-        return $this;
-    }
-
-    /**
-     * Get redirect_uri
-     *
-     * @return string
-     */
-    public function getRedirectUri()
-    {
-        return $this->redirect_uri;
-    }
-
-    /**
-     * Set expires
-     *
-     * @param integer $expires
-     * @return Codes
-     */
-    public function setExpires($expires)
-    {
-        $this->expires = $expires;
-
-        return $this;
-    }
-
-    /**
-     * Get expires
-     *
-     * @return integer
-     */
-    public function getExpires()
-    {
-        return $this->expires;
-    }
-
-    /**
      * Set scope
      *
      * @param array $scope
-     * @return Codes
+     * @return Authorize
      */
     public function setScope($scope)
     {
@@ -218,10 +128,5 @@ class Codes implements CodesInterface
     public function getScope()
     {
         return $this->scope;
-    }
-
-    public function __construct()
-    {
-        $this->redirect_uri = '';
     }
 }

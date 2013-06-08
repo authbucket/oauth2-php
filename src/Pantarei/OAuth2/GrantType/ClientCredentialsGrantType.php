@@ -55,7 +55,7 @@ class ClientCredentialsGrantType implements GrantTypeInterface
     public function __construct(Request $request, Application $app)
     {
         // Validate and set scope.
-        if ($scope = ParameterUtils::checkScope($request, $app['oauth2.entity_repository.scopes'])) {
+        if ($scope = ParameterUtils::checkScope($request, $app['oauth2.entity_repository.scope'])) {
             $this->setScope($scope);
         }
     }

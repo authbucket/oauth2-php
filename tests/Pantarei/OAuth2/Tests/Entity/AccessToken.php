@@ -11,15 +11,16 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Model\RefreshTokensInterface;
+use Pantarei\OAuth2\Model\AccessTokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * RefreshTokens
+ * AccessToken
  *
- * @Table(name="refresh_tokens")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokensRepository")
+ * @Table(name="access_token")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokenRepository")
  */
-class RefreshTokens implements RefreshTokensInterface
+class AccessToken implements AccessTokenInterface, UserInterface
 {
     /**
      * @var integer
@@ -33,9 +34,16 @@ class RefreshTokens implements RefreshTokensInterface
     /**
      * @var string
      *
-     * @Column(name="refresh_token", type="string", length=255)
+     * @Column(name="access_token", type="string", length=255)
      */
-    private $refresh_token;
+    private $access_token;
+
+    /**
+     * @var string
+     *
+     * @Column(name="token_type", type="string", length=255)
+     */
+    private $token_type;
 
     /**
      * @var string
@@ -76,33 +84,56 @@ class RefreshTokens implements RefreshTokensInterface
     }
 
     /**
-     * Set refresh_token
+     * Set access_token
      *
-     * @param string $refresh_token
-     * @return RefreshTokens
+     * @param string $access_token
+     * @return AccessToken
      */
-    public function setRefreshToken($refresh_token)
+    public function setAccessToken($access_token)
     {
-        $this->refresh_token = $refresh_token;
+        $this->access_token = $access_token;
 
         return $this;
     }
 
     /**
-     * Get refresh_token
+     * Get access_token
      *
      * @return string
      */
-    public function getRefreshToken()
+    public function getAccessToken()
     {
-        return $this->refresh_token;
+        return $this->access_token;
+    }
+
+    /**
+     * Set token_type
+     *
+     * @param string $token_type
+     * @return AccessToken
+     */
+    public function setTokenType($token_type)
+    {
+        $this->token_type = $token_type;
+
+        return $this;
+    }
+
+    /**
+     * Get token_type
+     *
+     * @return string
+     */
+    public function getTokenType()
+    {
+        return $this->token_type;
     }
 
     /**
      * Set client_id
      *
      * @param string $client_id
-     * @return RefreshTokens
+     * @return AccessToken
      */
     public function setClientId($client_id)
     {
@@ -125,7 +156,7 @@ class RefreshTokens implements RefreshTokensInterface
      * Set username
      *
      * @param string $username
-     * @return RefreshTokens
+     * @return AccessToken
      */
     public function setUsername($username)
     {
@@ -148,7 +179,7 @@ class RefreshTokens implements RefreshTokensInterface
      * Set expires
      *
      * @param integer $expires
-     * @return RefreshTokens
+     * @return AccessToken
      */
     public function setExpires($expires)
     {
@@ -171,7 +202,7 @@ class RefreshTokens implements RefreshTokensInterface
      * Set scope
      *
      * @param array $scope
-     * @return RefreshTokens
+     * @return AccessToken
      */
     public function setScope($scope)
     {
@@ -188,5 +219,24 @@ class RefreshTokens implements RefreshTokensInterface
     public function getScope()
     {
         return $this->scope;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function getPassword()
+    {
+        return '';
+    }
+
+    public function getSalt()
+    {
+        return '';
+    }
+
+    public function eraseCredentials()
+    {
     }
 }
