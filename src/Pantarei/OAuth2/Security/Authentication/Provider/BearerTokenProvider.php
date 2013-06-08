@@ -11,12 +11,12 @@
 
 namespace Pantarei\OAuth2\Security\Authentication\Provider;
 
+use Pantarei\OAuth2\Exception\AccessDeniedException;
+use Pantarei\OAuth2\Model\AccessTokenInterface;
+use Pantarei\OAuth2\Model\AccessTokenManagerInterface;
 use Pantarei\OAuth2\Security\Authentication\Token\BearerToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * BearerTokenProvider implements OAuth2 token endpoint authentication.
@@ -25,16 +25,13 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class BearerTokenProvider implements AuthenticationProviderInterface
 {
-    private $userProvider;
-    private $encoderFactory;
+    private $accessTokenManager;
 
     public function __construct(
-        UserProviderInterface $userProvider,
-        EncoderFactoryInterface $encoderFactory
+        AccessTokenManagerInterface $accessTokenManager
     )
     {
-        $this->userProvider = $userProvider;
-        $this->encoderFactory = $encoderFactory;
+        $this->accessTokenManager = $accessTokenManager;
     }
 
     public function authenticate(TokenInterface $token)
@@ -43,12 +40,15 @@ class BearerTokenProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $access_token = $token->getCredentials();
+        $access_token = $token->getAccessToken();
 
-        $user = $this->userProvider->loadUserByAccessToken($access_token);
+        $user = $this->accessTokenManager->findAccessTokenByAccessToken($access_token);
+        if ($user === null) {
+            throw new AccessDeniedException();
+        }
 
         $authenticatedToken = new BearerToken($access_token, $token->getRoles());
-        $authenticatedToken->setUser($user);
+        $authenticatedToken->setAccessToken($user);
 
         return $authenticatedToken;
     }

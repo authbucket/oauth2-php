@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Security\Authentication\Token;
 
+use Pantarei\OAuth2\Model\ClientInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 /**
@@ -18,47 +19,46 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
  */
 class ClientToken extends AbstractToken
 {
+    private $client;
     private $client_secret;
 
     public function __construct($client_id, $client_secret, array $roles = array())
     {
         parent::__construct($roles);
 
-        $this->setUser($client_id);
+        $this->setClient($client_id);
         $this->client_secret = $client_secret;
 
         parent::setAuthenticated(count($roles) > 0);
     }
 
-    public function setAuthenticated($isAuthenticated)
+    public function setClient($client)
     {
-        if ($isAuthenticated) {
-            throw new \LogicException('Cannot set this token to trusted after instantiation.');
-        }
-
-        parent::setAuthenticated(false);
+        $this->client = $client;
+        return $this;
     }
 
-    public function getCredentials()
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    public function getClientId()
+    {
+        if ($this->client instanceof ClientInterface) {
+            return $this->client->getClientId();
+        }
+
+        return (string) $this->client;
+    }
+
+    public function getClientSecret()
     {
         return $this->client_secret;
     }
 
-    public function eraseCredentials()
+    public function getCredentials()
     {
-        parent::eraseCredentials();
-
-        $this->client_secret = null;
-    }
-
-    public function serialize()
-    {
-        return serialize(array($this->client_secret, parent::serialize()));
-    }
-
-    public function unserialize($serialized)
-    {
-        list($this->client_secret, $parent_string) = unserialize($serialized);
-        parent::unserialize($parent_string);
+        return '';
     }
 }

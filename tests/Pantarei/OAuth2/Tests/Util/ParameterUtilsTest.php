@@ -211,7 +211,7 @@ class ParameterUtilsTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
      */
     public function testBadCheckClientIdEmpty()
     {
@@ -226,7 +226,7 @@ class ParameterUtilsTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
      */
     public function testBadCheckClientIdBadGet()
     {
@@ -243,7 +243,7 @@ class ParameterUtilsTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
      */
     public function testBadCheckClientIdBadPost()
     {
@@ -260,7 +260,7 @@ class ParameterUtilsTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
      */
     public function testBadCheckClientIdBadServer()
     {

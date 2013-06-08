@@ -12,6 +12,7 @@
 namespace Pantarei\OAuth2\Util;
 
 use Doctrine\ORM\EntityRepository;
+use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
@@ -246,7 +247,11 @@ abstract class ParameterUtils
         }
 
         // Check client_id with database record.
-        return $repo->loadUserByUsername($client_id)->getClientId();
+        $result = $repo->findClientByClientId($client_id);
+        if ($result === null) {
+            throw new InvalidClientException();
+        }
+        return $result->getClientId();
     }
 
     public static function checkScope(Request $request, EntityRepository $repo)
@@ -338,7 +343,7 @@ abstract class ParameterUtils
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
-        $result = $repo->loadUserByUsername($client_id);
+        $result = $repo->findClientByClientId($client_id);
         if ($result !== null && $result->getRedirectUri()) {
             $stored = $result->getRedirectUri();
         }

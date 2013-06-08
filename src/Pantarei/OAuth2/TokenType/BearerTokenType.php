@@ -17,6 +17,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * Bearer token type implementation.
@@ -82,7 +83,7 @@ class BearerTokenType implements TokenTypeInterface
 
         // Fetch the current user.
         $token = $app['security']->getToken();
-        $this->setUsername(null !== $token ? $token->getUser()->getUsername() : '');
+        $this->setUsername($token instanceof UsernamePasswordToken ? $token->getUser()->getUsername() : '');
     }
 
     public static function create(Request $request, Application $app)

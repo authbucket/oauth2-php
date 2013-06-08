@@ -79,8 +79,7 @@ class WebTestCase extends SilexWebTestCase
         $app['security.authentication_listener.factory.token'] = $app->protect(function ($name, $options) use ($app) {
             $app['security.authentication_provider.' . $name . '.token'] = $app->share(function () use ($app, $name) {
                 return new TokenProvider(
-                    $app['security.user_provider.' . $name],
-                    $app['security.encoder_factory']
+                    $app['oauth2.model_manager.client']
                 );
             });
             $app['security.authentication_listener.' . $name . '.token'] = $app->share(function () use ($app, $name) {
@@ -100,8 +99,7 @@ class WebTestCase extends SilexWebTestCase
         $app['security.authentication_listener.factory.resource'] = $app->protect(function ($name, $options) use ($app) {
             $app['security.authentication_provider.' . $name . '.resource'] = $app->share(function () use ($app, $name) {
                 return new BearerTokenProvider(
-                    $app['security.user_provider.' . $name],
-                    $app['security.encoder_factory']
+                    $app['oauth2.model_manager.access_token']
                 );
             });
             $app['security.authentication_listener.' . $name . '.resource'] = $app->share(function () use ($app, $name) {
@@ -130,16 +128,10 @@ class WebTestCase extends SilexWebTestCase
             'token' => array(
                 'pattern' => '^/token',
                 'token' => true,
-                'users' => $app->share(function () use ($app) {
-                    return $app['oauth2.model_manager.client'];
-                }),
             ),
             'resource' => array(
                 'pattern' => '^/resource',
                 'resource' => true,
-                'users' => $app->share(function () use ($app) {
-                    return $app['oauth2.model_manager.access_token'];
-                }),
             ),
         );
 
@@ -237,23 +229,20 @@ class WebTestCase extends SilexWebTestCase
 
         // Add demo clients.
         $entity = new $this->app['oauth2.model.client']();
-        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient1.com/')
-            ->setClientSecret($encoder->encodePassword('demosecret1', $entity->getSalt()))
+            ->setClientSecret('demosecret1')
             ->setRedirectUri('http://democlient1.com/redirect_uri');
         $this->app['oauth2.orm']->persist($entity);
 
         $entity = new $this->app['oauth2.model.client']();
-        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient2.com/')
-            ->setClientSecret($encoder->encodePassword('demosecret2', $entity->getSalt()))
+            ->setClientSecret('demosecret2')
             ->setRedirectUri('http://democlient2.com/redirect_uri');
         $this->app['oauth2.orm']->persist($entity);
 
         $entity = new $this->app['oauth2.model.client']();
-        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
         $entity->setClientId('http://democlient3.com/')
-            ->setClientSecret($encoder->encodePassword('demosecret3', $entity->getSalt()))
+            ->setClientSecret('demosecret3')
             ->setRedirectUri('http://democlient3.com/redirect_uri');
         $this->app['oauth2.orm']->persist($entity);
 

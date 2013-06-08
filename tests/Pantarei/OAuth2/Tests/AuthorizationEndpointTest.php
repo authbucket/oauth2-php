@@ -23,6 +23,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AuthorizationEndpointTest extends WebTestCase
 {
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
     public function testExceptionCodeNoClientId()
     {
         $parameters = array(
@@ -38,6 +41,9 @@ class AuthorizationEndpointTest extends WebTestCase
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
     
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
     public function testExceptionTokenNoClientId()
     {
         $parameters = array(
@@ -53,6 +59,9 @@ class AuthorizationEndpointTest extends WebTestCase
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
     public function testExceptionCodeBadClientId()
     {
         $parameters = array(
@@ -69,6 +78,9 @@ class AuthorizationEndpointTest extends WebTestCase
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
     public function testExceptionTokenBadClientId()
     {
         $parameters = array(

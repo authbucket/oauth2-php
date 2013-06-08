@@ -11,12 +11,12 @@
 
 namespace Pantarei\OAuth2\Security\Authentication\Provider;
 
+use Pantarei\OAuth2\Exception\InvalidClientException;
+use Pantarei\OAuth2\Model\ClientInterface;
+use Pantarei\OAuth2\Model\ClientManagerInterface;
 use Pantarei\OAuth2\Security\Authentication\Token\ClientToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * TokenProvider implements OAuth2 token endpoint authentication.
@@ -25,16 +25,13 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class TokenProvider implements AuthenticationProviderInterface
 {
-    private $userProvider;
-    private $encoderFactory;
+    private $clientManager;
 
     public function __construct(
-        UserProviderInterface $userProvider,
-        EncoderFactoryInterface $encoderFactory
+        ClientManagerInterface $clientManager
     )
     {
-        $this->userProvider = $userProvider;
-        $this->encoderFactory = $encoderFactory;
+        $this->clientManager = $clientManager;
     }
 
     public function authenticate(TokenInterface $token)
@@ -43,25 +40,27 @@ class TokenProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $client_id = $token->getUsername();
-        $client_secret = $token->getCredentials();
+        $client_id = $token->getClientId();
+        $client_secret = $token->getClientSecret();
 
-        $client = $this->userProvider->loadUserByUsername($client_id);
-        $currentClient = $token->getUser();
+        $client = $this->clientManager->findClientByClientId($client_id);
+        if ($client === null) {
+            throw new InvalidClientException();
+        }
+        $currentClient = $token->getClient();
 
-        if ($currentClient instanceof UserInterface) {
-            if ($currentClient->getPassword() !== $client->getPassword()) {
-                throw new BadCredentialsException('The credentials were changed from another session.');
+        if ($currentClient instanceof ClientInterface) {
+            if ($client->getClientSecret() !== $currentClient->getClientSecret()) {
+                throw new InvalidClientException();
             }
         } else {
-            $encoder = $this->encoderFactory->getEncoder($client);
-            if (!$encoder->isPasswordValid($client->getPassword(), $client_secret, $client->getSalt())) {
-                throw new BadCredentialsException('The presented password is invalid.');
+            if ($client->getClientSecret() !== $client_secret) {
+                throw new InvalidClientException();
             }
         }
 
         $authenticatedToken = new ClientToken($client_id, $client_secret, $token->getRoles());
-        $authenticatedToken->setUser($client);
+        $authenticatedToken->setClient($client);
 
         return $authenticatedToken;
     }

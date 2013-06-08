@@ -82,6 +82,9 @@ class TokenEndpointTest extends WebTestCase
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
     public function testExceptionAuthCodeBadBasicClientId()
     {
         $parameters = array(
@@ -96,6 +99,9 @@ class TokenEndpointTest extends WebTestCase
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
     public function testExceptionAuthCodeBadPostClientId()
     {
         $parameters = array(
@@ -109,6 +115,9 @@ class TokenEndpointTest extends WebTestCase
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
     public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
@@ -396,10 +405,8 @@ class TokenEndpointTest extends WebTestCase
     {
         // Insert client without redirect_uri.
         $entity = new $this->app['oauth2.model.client']();
-        $encoder = $this->app['security.encoder_factory']->getEncoder($entity);
-
         $entity->setClientId('http://democlient4.com/')
-            ->setClientSecret($encoder->encodePassword('demosecret4', $entity->getSalt()));
+            ->setClientSecret('demosecret4');
         $this->app['oauth2.orm']->persist($entity);
         $this->app['oauth2.orm']->flush();
 

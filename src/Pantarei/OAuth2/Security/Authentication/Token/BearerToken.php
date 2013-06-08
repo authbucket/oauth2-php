@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Security\Authentication\Token;
 
+use Pantarei\OAuth2\Model\AccessTokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 /**
@@ -29,35 +30,23 @@ class BearerToken extends AbstractToken
         parent::setAuthenticated(count($roles) > 0);
     }
 
-    public function setAuthenticated($isAuthenticated)
+    public function setAccessToken($access_token)
     {
-        if ($isAuthenticated) {
-            throw new \LogicException('Cannot set this token to trusted after instantiation.');
+        $this->access_token = $access_token;
+        return $this;
+    }
+
+    public function getAccessToken()
+    {
+        if ($this->access_token instanceof AccessTokenInterface) {
+            return $this->access_token->getAccessToken();
         }
 
-        parent::setAuthenticated(false);
+        return (string) $this->access_token;
     }
 
     public function getCredentials()
     {
-        return $this->access_token;
-    }
-
-    public function eraseCredentials()
-    {
-        parent::eraseCredentials();
-
-        $this->access_token = null;
-    }
-
-    public function serialize()
-    {
-        return serialize(array($this->access_token, parent::serialize()));
-    }
-
-    public function unserialize($serialized)
-    {
-        list($this->access_token, $parent_string) = unserialize($serialized);
-        parent::unserialize($parent_string);
+        return '';
     }
 }
