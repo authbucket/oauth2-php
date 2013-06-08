@@ -11,8 +11,6 @@
 
 namespace Pantarei\OAuth2\Provider;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -29,11 +27,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $app['oauth2.default_options'] = array(
             'expires_in' => 3600,
             'refresh_token' => true,
-            'orm' => array(
-                'connection' => 'default',
-                'dev' => true,
-                'path' => __DIR__ . '/Entity',
-            ),
         );
 
         // Initializer to merge supplied options with default options.
@@ -49,18 +42,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
                 $app['oauth2.options'] = $app['oauth2.default_options'];
             }
             $app['oauth2.options'] = array_replace($app['oauth2.default_options'], $app['oauth2.options']);
-        });
-
-        // Return an instance of Doctrine ORM entity manager.
-        $app['oauth2.orm'] = $app->share(function ($app) {
-            $app['oauth2.options.initializer']();
-
-            $options = $app['oauth2.options']['orm'];
-            $conn = $app['dbs'][$options['connection']];
-            $config = Setup::createAnnotationMetadataConfiguration(array($options['path']), $options['dev']);
-            $event_manager = $app['dbs.event_manager'][$options['connection']];
-
-            return EntityManager::create($conn, $config, $event_manager);
         });
 
         // Shortcut for response_type.

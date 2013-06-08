@@ -13,11 +13,4 @@ namespace Pantarei\OAuth2\Model;
 
 interface ScopesManagerInterface
 {
-    public function find($id);
-
-    public function findAll();
-
-    public function findBy(array $criteria);
-
-    public function findOneBy(array $criteria);
 }

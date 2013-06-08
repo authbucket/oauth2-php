@@ -11,9 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
-interface AccessTokensInterface extends UserInterface
+interface AccessTokensInterface
 {
     /**
      * Get accessToken
@@ -35,6 +33,13 @@ interface AccessTokensInterface extends UserInterface
      * @return string
      */
     public function getClientId();
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername();
 
     /**
      * Get expires

@@ -12,7 +12,9 @@
 namespace Pantarei\OAuth2\Tests;
 
 use Doctrine\Common\Persistence\PersistentObject;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\Tools\Setup;
 use Pantarei\OAuth2\Provider\OAuth2ControllerProvider;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
 use Pantarei\OAuth2\Security\Authentication\Provider\BearerTokenProvider;
@@ -50,6 +52,14 @@ class WebTestCase extends SilexWebTestCase
             'driver' => 'pdo_sqlite',
             'memory' => true,
         );
+
+        // Return an instance of Doctrine ORM entity manager.
+        $app['oauth2.orm'] = $app->share(function ($app) {
+            $conn = $app['dbs']['default'];
+            $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/Entity'), true);
+            $event_manager = $app['dbs.event_manager']['default'];
+            return EntityManager::create($conn, $config, $event_manager);
+        });
 
         // Shortcut for entity.
         $entity = array(

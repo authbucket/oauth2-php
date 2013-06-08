@@ -11,9 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
-interface ClientsInterface extends UserInterface
+interface ClientsInterface
 {
     /**
      * Get clientId
