@@ -25,13 +25,14 @@ class AuthorizeRepository extends EntityRepository implements AuthorizeManagerIn
 {
     public function createAuthorize()
     {
-        return new $this->getClassName();
+        $class = $this->getClassName();
+        return new $class();
     }
 
     public function deleteAuthorize(AuthorizeInterface $authorize)
     {
-        $this->remove($authorize);
-        $this->flush();
+        $this->getEntityManager()->remove($authorize);
+        $this->getEntityManager()->flush();
     }
 
     public function findAuthorizeByClientIdUsername($client_id, $username)
@@ -44,12 +45,12 @@ class AuthorizeRepository extends EntityRepository implements AuthorizeManagerIn
 
     public function reloadAuthorize(AuthorizeInterface $authorize)
     {
-        $this->refresh($authorize);
+        $this->getEntityManager()->refresh($authorize);
     }
 
     public function updateAuthorize(AuthorizeInterface $authorize)
     {
-        $this->persist($authorize);
-        $this->flush();
+        $this->getEntityManager()->persist($authorize);
+        $this->getEntityManager()->flush();
     }
 }

@@ -25,13 +25,14 @@ class CodeRepository extends EntityRepository implements CodeManagerInterface
 {
     public function createCode()
     {
-        return new $this->getClassName();
+        $class = $this->getClassName();
+        return new $class();
     }
 
     public function deleteCode(CodeInterface $code)
     {
-        $this->remove($code);
-        $this->flush();
+        $this->getEntityManager()->remove($code);
+        $this->getEntityManager()->flush();
     }
 
     public function findCodeByCode($code)
@@ -43,12 +44,12 @@ class CodeRepository extends EntityRepository implements CodeManagerInterface
 
     public function reloadCode(CodeInterface $code)
     {
-        $this->refresh($code);
+        $this->getEntityManager()->refresh($code);
     }
 
     public function updateCode(CodeInterface $code)
     {
-        $this->persist($code);
-        $this->flush();
+        $this->getEntityManager()->persist($code);
+        $this->getEntityManager()->flush();
     }
 }

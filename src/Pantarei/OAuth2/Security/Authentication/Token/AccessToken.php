@@ -15,9 +15,9 @@ use Pantarei\OAuth2\Model\AccessTokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 /**
- * OAuth2 BearerToken for resource endpoint authentication.
+ * OAuth2 AccessToken for resource endpoint authentication.
  */
-class BearerToken extends AbstractToken
+class AccessToken extends AbstractToken
 {
     private $access_token;
 

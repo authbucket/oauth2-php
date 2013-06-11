@@ -16,13 +16,10 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
-use Pantarei\OAuth2\Security\Authentication\Provider\BearerTokenProvider;
-use Pantarei\OAuth2\Security\Authentication\Provider\TokenProvider;
-use Pantarei\OAuth2\Security\Firewall\BearerTokenListener;
-use Pantarei\OAuth2\Security\Firewall\TokenListener;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\SecurityServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +40,7 @@ class WebTestCase extends SilexWebTestCase
         $app['exception_handler']->disable();
 
         $app->register(new DoctrineServiceProvider());
+        $app->register(new SecurityServiceProvider());
         $app->register(new OAuth2ServiceProvider());
 
         $app['db.options'] = array(
@@ -72,46 +70,22 @@ class WebTestCase extends SilexWebTestCase
             $app['oauth2.model.' . $name] = $class;
             $app['oauth2.model_manager.' . $name] = $app['oauth2.orm']->getRepository($class);
         }
-
-        $app['security.authentication_listener.factory.token'] = $app->protect(function ($name, $options) use ($app) {
-            $app['security.authentication_provider.' . $name . '.token'] = $app->share(function () use ($app, $name) {
-                return new TokenProvider(
-                    $app['oauth2.model_manager.client']
-                );
-            });
-            $app['security.authentication_listener.' . $name . '.token'] = $app->share(function () use ($app, $name) {
-                return new TokenListener(
-                    $app['security'],
-                    $app['security.authentication_manager']
-                );
-            });
-
-            return array(
-                'security.authentication_provider.' . $name . '.token',
-                'security.authentication_listener.' . $name . '.token',
-                null,
-                'pre_auth',
+        $app['security.oauth2.model_manager'] = $app->share(function ($app) {
+            $entity = array(
+                'access_token' => 'Pantarei\OAuth2\Tests\Entity\AccessToken',
+                'authorize' => 'Pantarei\OAuth2\Tests\Entity\Authorize',
+                'client' => 'Pantarei\OAuth2\Tests\Entity\Client',
+                'code' => 'Pantarei\OAuth2\Tests\Entity\Code',
+                'refresh_token' => 'Pantarei\OAuth2\Tests\Entity\RefreshToken',
+                'scope' => 'Pantarei\OAuth2\Tests\Entity\Scope',
+                'user' => 'Pantarei\OAuth2\Tests\Entity\User',
             );
-        });
-        $app['security.authentication_listener.factory.resource'] = $app->protect(function ($name, $options) use ($app) {
-            $app['security.authentication_provider.' . $name . '.resource'] = $app->share(function () use ($app, $name) {
-                return new BearerTokenProvider(
-                    $app['oauth2.model_manager.access_token']
-                );
-            });
-            $app['security.authentication_listener.' . $name . '.resource'] = $app->share(function () use ($app, $name) {
-                return new BearerTokenListener(
-                    $app['security'],
-                    $app['security.authentication_manager']
-                );
-            });
 
-            return array(
-                'security.authentication_provider.' . $name . '.resource',
-                'security.authentication_listener.' . $name . '.resource',
-                null,
-                'pre_auth',
-            );
+            $manager = array();
+            foreach ($entity as $name => $class) {
+                $manager[$name] = $app['oauth2.orm']->getRepository($class);
+            }
+            return $manager;
         });
 
         $app['security.firewalls'] = array(
@@ -122,13 +96,12 @@ class WebTestCase extends SilexWebTestCase
                     return $app['oauth2.model_manager.user'];
                 }),
             ),
-            'token' => array(
-                'pattern' => '^/token',
-                'token' => true,
-            ),
             'resource' => array(
-                'pattern' => '^/resource',
-                'resource' => true,
+                'pattern' => '^/(token|resource)',
+                'oauth2' => true,
+                'users' => $app->share(function () use ($app) {
+                    return $app['oauth2.model_manager.user'];
+                }),
             ),
         );
 
@@ -139,16 +112,9 @@ class WebTestCase extends SilexWebTestCase
             return $controller->getResponse($request, $app);
         });
 
-        // Token endpoint.
-        $app->post('/token', function (Request $request, Application $app) {
-            $grant_type = ParameterUtils::checkGrantType($request, $app);
-            $controller = $app['oauth2.grant_type.' . $grant_type]::create($request, $app);
-            return $controller->getResponse($request, $app);
-        });
-
         // Resource endpoint.
-        $app->get('/resource/{username}', function (Request $request, Application $app, $username) {
-            return new Response($username);
+        $app->get('/resource/{echo}', function (Request $request, Application $app, $echo) {
+            return new Response($echo);
         });
 
         return $app;

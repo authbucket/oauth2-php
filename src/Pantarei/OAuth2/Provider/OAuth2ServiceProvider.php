@@ -11,25 +11,118 @@
 
 namespace Pantarei\OAuth2\Provider;
 
-use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType;
-use Pantarei\OAuth2\GrantType\ClientCredentialsGrantType;
-use Pantarei\OAuth2\GrantType\PasswordGrantType;
-use Pantarei\OAuth2\GrantType\RefreshTokenGrantType;
-use Pantarei\OAuth2\ResponseType\CodeResponseType;
-use Pantarei\OAuth2\ResponseType\TokenResponseType;
+use Pantarei\OAuth2\Exception\ServerErrorException;
+use Pantarei\OAuth2\Security\Authentication\Provider\OAuth2Provider;
+use Pantarei\OAuth2\Security\Firewall\OAuth2Listener;
+use Pantarei\OAuth2\Security\GrantType\AuthorizationCodeGrantTypeHandler;
+use Pantarei\OAuth2\Security\GrantType\ClientCredentialsGrantTypeHandler;
+use Pantarei\OAuth2\Security\GrantType\PasswordGrantTypeHandler;
+use Pantarei\OAuth2\Security\GrantType\RefreshTokenGrantTypeHandler;
+use Pantarei\OAuth2\Security\ResponseType\CodeResponseTypeHandler;
+use Pantarei\OAuth2\Security\ResponseType\TokenResponseTypeHandler;
+use Pantarei\OAuth2\Security\TokenType\BearerTokenTypeHandler;
+use Pantarei\OAuth2\Security\TokenType\MacTokenTypeHandler;
 use Silex\Application;
-use Silex\Provider\SecurityServiceProvider;
+use Silex\ServiceProviderInterface;
 
 /**
- * A simple Doctrine ORM service provider for OAuth2.
+ * OAuth2 service provider as plugin for Silex SecurityServiceProvider.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class OAuth2ServiceProvider extends SecurityServiceProvider
+class OAuth2ServiceProvider implements ServiceProviderInterface
 {
+    protected $fakeRoutes;
+
     public function register(Application $app)
     {
-        parent::register($app);
+        // Used to register routes for authorize_path and token_path.
+        $this->fakeRoutes = array();
+
+        $that = $this;
+
+        // Before execute we need to define the backend storage.
+        $app['security.oauth2.model_manager'] = $app->share(function ($app) {
+            throw new ServerErrorException();
+        });
+
+        $app['security.oauth2.response_type_handler'] = $app->share(function ($app) {
+            return array();
+            return array(
+                'code' => new CodeResponseTypeHandler(),
+                'token' => new TokenResponseTypeHandler(),
+            );
+        });
+
+        $app['security.oauth2.grant_type_handler'] = $app->share(function ($app) {
+            return array(
+                'authorization_code' => new AuthorizationCodeGrantTypeHandler(),
+                'client_credentials' => new ClientCredentialsGrantTypeHandler(),
+                'password' => new PasswordGrantTypeHandler(),
+                'refresh_token' => new RefreshTokenGrantTypeHandler(),
+            );
+        });
+
+        // Default to bearer token for all request.
+        $app['security.oauth2.token_type_handler'] = $app->share(function ($app){
+            return new BearerTokenTypeHandler();
+        });
+
+        $app['security.authentication_listener.factory.oauth2'] = $app->protect(function ($name, $options) use ($app) {
+            if (!isset($app['security.authentication_listener.' . $name . '.oauth2'])) {
+                $app['security.authentication_listener.' . $name . '.oauth2'] = $app['security.authentication_listener.oauth2._proto']($name, $options);
+            }
+
+            if (!isset($app['security.authentication_provider.' . $name . '.oauth2'])) {
+                $app['security.authentication_provider.' . $name . '.oauth2'] = $app['security.authentication_provider.dao._proto']($name, $options);
+            }
+
+            return array(
+                'security.authentication_provider.' . $name . '.oauth2',
+                'security.authentication_listener.' . $name . '.oauth2',
+                null,
+                'pre_auth',
+            );
+        });
+
+        $app['security.authentication_listener.oauth2._proto'] = $app->protect(function ($name, $options) use ($app, $that) {
+            return $app->share(function () use ($app, $name, $options, $that) {
+                $that->addFakeRoute(
+                    'get',
+                    $tmp = isset($options['authorize_path']) ? $options['authorize_path'] : '/authorize',
+                    str_replace('/', '_', ltrim($tmp, '/'))
+                );
+
+                $that->addFakeRoute(
+                    'post',
+                    $tmp = isset($options['token_path']) ? $options['token_path'] : '/token',
+                    str_replace('/', '_', ltrim($tmp, '/'))
+                );
+
+                if (!isset($options['listener_class'])) {
+                    $options['listener_class'] = 'Pantarei\\OAuth2\\Security\\Firewall\\OAuth2Listener';
+                }
+
+                return new OAuth2Listener(
+                    $app['security'],
+                    $app['security.authentication_manager'],
+                    $app['security.http_utils'],
+                    $name,
+                    $app['security.oauth2.model_manager'],
+                    $app['security.oauth2.response_type_handler'],
+                    $app['security.oauth2.grant_type_handler'],
+                    $app['security.oauth2.token_type_handler'],
+                    $options
+                );
+            });
+        });
+
+
+
+
+
+
+
 
         // Shortcut for response_type.
         $response_type = array(
@@ -39,7 +132,6 @@ class OAuth2ServiceProvider extends SecurityServiceProvider
         foreach ($response_type as $name => $class) {
             $app['oauth2.response_type.' . $name] = $class;
         }
-
 
         // Shortcut for grant_type.
         $grant_type = array(
@@ -67,6 +159,17 @@ class OAuth2ServiceProvider extends SecurityServiceProvider
 
     public function boot(Application $app)
     {
-        parent::boot($app);
+        $app['dispatcher']->addListener('kernel.request', array($app['security.firewall'], 'onKernelRequest'), 8);
+
+        foreach ($this->fakeRoutes as $route) {
+            list($method, $pattern, $name) = $route;
+
+            $app->$method($pattern, function() {})->bind($name);
+        }
+    }
+
+    public function addFakeRoute($method, $pattern, $name)
+    {
+        $this->fakeRoutes[] = array($method, $pattern, $name);
     }
 }

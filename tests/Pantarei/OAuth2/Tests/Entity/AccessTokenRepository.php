@@ -25,13 +25,14 @@ class AccessTokenRepository extends EntityRepository implements AccessTokenManag
 {
     public function createAccessToken()
     {
-        return new $this->getClassName();
+        $class = $this->getClassName();
+        return new $class();
     }
 
     public function deleteAccessToken(AccessTokenInterface $access_token)
     {
-        $this->remove($access_token);
-        $this->flush();
+        $this->getEntityManager()->remove($access_token);
+        $this->getEntityManager()->flush();
     }
 
     public function findAccessTokenByAccessToken($access_token)
@@ -43,12 +44,12 @@ class AccessTokenRepository extends EntityRepository implements AccessTokenManag
 
     public function reloadAccessToken(AccessTokenInterface $access_token)
     {
-        $this->refresh($access_token);
+        $this->getEntityManager()->refresh($access_token);
     }
 
     public function updateAccessToken(AccessTokenInterface $access_token)
     {
-        $this->persist($access_token);
-        $this->flush();
+        $this->getEntityManager()->persist($access_token);
+        $this->getEntityManager()->flush();
     }
 }

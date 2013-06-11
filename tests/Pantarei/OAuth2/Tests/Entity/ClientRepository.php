@@ -25,13 +25,14 @@ class ClientRepository extends EntityRepository implements ClientManagerInterfac
 {
     public function createClient()
     {
-        return new $this->getClassName();
+        $class = $this->getClassName();
+        return new $class();
     }
 
     public function deleteClient(ClientInterface $client)
     {
-        $this->remove($client);
-        $this->flush();
+        $this->getEntityManager()->remove($client);
+        $this->getEntityManager()->flush();
     }
 
     public function findClientByClientId($client_id)
@@ -43,12 +44,12 @@ class ClientRepository extends EntityRepository implements ClientManagerInterfac
 
     public function reloadClient(ClientInterface $client)
     {
-        $this->refresh($client);
+        $this->getEntityManager()->refresh($client);
     }
 
     public function updateClient(ClientInterface $client)
     {
-        $this->persist($client);
-        $this->flush();
+        $this->getEntityManager()->persist($client);
+        $this->getEntityManager()->flush();
     }
 }

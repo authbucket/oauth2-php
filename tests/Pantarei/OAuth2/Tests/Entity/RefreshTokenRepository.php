@@ -25,13 +25,14 @@ class RefreshTokenRepository extends EntityRepository implements RefreshTokenMan
 {
     public function createRefreshToken()
     {
-        return new $this->getClassName();
+        $class = $this->getClassName();
+        return new $class();
     }
 
     public function deleteRefreshToken(RefreshTokenInterface $refresh_token)
     {
-        $this->remove($refresh_toke);
-        $this->flush();
+        $this->getEntityManager()->remove($refresh_toke);
+        $this->getEntityManager()->flush();
     }
 
     public function findRefreshTokenByRefreshToken($refresh_token)
@@ -43,12 +44,12 @@ class RefreshTokenRepository extends EntityRepository implements RefreshTokenMan
 
     public function reloadRefreshToken(RefreshTokenInterface $refresh_token)
     {
-        $this->refresh($refresh_token);
+        $this->getEntityManager()->refresh($refresh_token);
     }
 
     public function updateRefreshToken(RefreshTokenInterface $refresh_token)
     {
-        $this->persist($refresh_token);
-        $this->flush($refresh_token);
+        $this->getEntityManager()->persist($refresh_token);
+        $this->getEntityManager()->flush($refresh_token);
     }
 }

@@ -284,7 +284,7 @@ class TokenEndpointTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
     public function testErrorPasswordBadScopeFormat()
     {
@@ -341,7 +341,7 @@ class TokenEndpointTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
     public function testErrorRefreshTokenBadScopeFormat()
     {
