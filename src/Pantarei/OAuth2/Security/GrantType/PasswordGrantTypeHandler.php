@@ -14,13 +14,16 @@ namespace Pantarei\OAuth2\Security\GrantType;
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Password grant type implementation.
@@ -29,18 +32,20 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class PasswordGrantTypeHandler implements GrantTypeHandlerInterface
+class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
     public function handle(
+        SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         GetResponseEvent $event,
-        $tokenTypeHandler,
+        TokenTypeHandlerInterface $tokenTypeHandler,
         array $modelManagers,
-        $client_id,
         $providerKey
     )
     {
         $request = $event->getRequest();
+
+        $client_id = $this->checkClientId($request);
 
         $query = array(
             'username' => $request->request->get('username'),
@@ -60,25 +65,15 @@ class PasswordGrantTypeHandler implements GrantTypeHandlerInterface
             throw new InvalidRequestException();
         }
 
-        // Compare if given scope within all available stored scopes.
-        $stored = array();
-        $result = $modelManagers['scope']->findScopes();
-        foreach ($result as $row) {
-            $stored[] = $row->getScope();
-        }
-
-        $scope = preg_split('/\s+/', $request->request->get('scope'));
-        if (array_intersect($scope, $stored) !== $scope) {
-            throw new InvalidScopeException();
-        }
+        $scope = $this->checkScope($request, $modelManagers);
 
         // Generate access_token, store to backend and set token response.
-        $tokenTypeHandler->setResponse(
-            $event,
+        $parameters = $tokenTypeHandler->createToken(
             $modelManagers,
             $client_id,
             $username,
             $scope
         );
+        $this->setResponse($event, $parameters);
     }
 }

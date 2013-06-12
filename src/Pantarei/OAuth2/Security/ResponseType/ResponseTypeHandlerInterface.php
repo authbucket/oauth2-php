@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\GrantType;
+namespace Pantarei\OAuth2\Security\TokenType;
 
 use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
-interface GrantTypeHandlerInterface
+interface ResponseTypeHandlerInterface
 {
     /**
      * Proxy for listener's handle().

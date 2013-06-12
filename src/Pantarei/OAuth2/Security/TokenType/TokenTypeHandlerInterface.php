@@ -11,9 +11,8 @@
 
 namespace Pantarei\OAuth2\Security\TokenType;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 interface TokenTypeHandlerInterface
 {
@@ -22,18 +21,19 @@ interface TokenTypeHandlerInterface
      */
     public function handle(
         SecurityContextInterface $securityContext,
-        Request $request,
+        GetResponseEvent $event,
         array $modelManagers
     );
 
     /**
      * Proxy for listener's setResponse().
      */
-    public function setResponse(
-        GetResponseEvent $event,
+    public function createToken(
         array $modelManagers,
         $client_id,
-        $username,
-        $scope
+        $username = '',
+        $scope = array(),
+        $state = null,
+        $withRefreshToken = true
     );
 }

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\GrantType;
+namespace Pantarei\OAuth2\Security\ResponseType;
 
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
@@ -17,7 +17,6 @@ use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -26,64 +25,17 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Authorization code grant type implementation.
+ * Token response type implementation.
  *
  * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
+abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterface
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
-        GetResponseEvent $event,
-        TokenTypeHandlerInterface $tokenTypeHandler,
-        array $modelManagers,
-        $providerKey
-    )
+    protected function checkRedirectUri(Request $request, array $modelManagers, $client_id)
     {
-        $request = $event->getRequest();
-
-        $client_id = $this->checkClientId($request);
-
-        $query = array(
-            'code' => $request->request->get('code'),
-        );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
-            throw new InvalidRequestException();
-        }
-
-        // Check and set redirect_uri.
-        $redirect_uri = $this->checkRedirectUri($request, $modelManagers, $client_id);
-
-        $code = $request->request->get('code');
-
-        // Check code with database record.
-        $result = $modelManagers['code']->findCodeByCode($code);
-        if ($result === null || $result->getClientId() !== $client_id) {
-            throw new InvalidGrantException();
-        } elseif ($result->getExpires() < time()) {
-            throw new InvalidGrantException();
-        }
-
-        $username = $result->getUsername();
-        $scope = $result->getScope();
-
-        // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandler->createToken(
-            $modelManagers,
-            $client_id,
-            $username,
-            $scope
-        );
-        $this->setResponse($event, $parameters);
-    }
-
-    private function checkRedirectUri(Request $request, array $modelManagers, $client_id)
-    {
-        $redirect_uri = $request->request->get('redirect_uri');
+        $redirect_uri = $request->query->get('redirect_uri');
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
@@ -108,5 +60,47 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         return $redirect_uri ? $redirect_uri : $stored;
+    }
+
+    protected function checkScope(Request $request, array $modelManagers)
+    {
+        $scope = $request->query->get('scope', array());
+
+        if ($scope) {
+            $stored = array();
+            $result = $modelManagers['scope']->findScopes();
+            foreach ($result as $row) {
+                $stored[] = $row->getScope();
+            }
+
+            $scope = preg_split('/\s+/', $request->query->get('scope'));
+            if (array_intersect($scope, $stored) !== $scope) {
+                throw new InvalidScopeException();
+            }
+        }
+
+        return $scope;
+    }
+
+    protected function checkState(Request $request)
+    {
+        $state = $request->query->get('state', null);
+
+        if ($state) {
+            $query = array('state' => $state);
+            $filtered_query = ParameterUtils::filter($query);
+            if ($filtered_query != $query) {
+                throw new InvalidRequestException();
+            }
+        }
+
+        return $state;
+    }
+
+    protected function setResponse(GetResponseEvent $event, $parameters)
+    {
+        $redirect_uri = Request::create($redirect_uri, 'GET', array_filter($parameters))->getUri();
+        $response = new RedirectResponse($redirect_uri);
+        $event->setResponse($response);
     }
 }

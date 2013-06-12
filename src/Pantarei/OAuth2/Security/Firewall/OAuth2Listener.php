@@ -73,64 +73,94 @@ class OAuth2Listener implements ListenerInterface
         $request = $event->getRequest();
 
         /*
-        if ($this->requestAuthorize($request)) {
-            // Fetch response_type from GET.
-            $response_type = $this->getResponseType($request);
-            if (!isset($this->ResponseTypeHandlers[$response_type])) {
-                throw new UnsupportedResponseTypeException();
-            }
+        if ($this->httpUtils->checkRequestPath($request, $this->options['authorize_path'])) {
+            // Authorization endpoint require a valid UsernamePasswordToken.
+            $token = $this->securityContext->getToken();
+            if ($token !== null && $token instanceof UsernamePasswordToken && $token->isAuthenticated()) {
+                // Fetch response_type from GET.
+                $response_type = $this->getResponseType($request);
 
-            // Handle authorization endpoint response.
-            $this->ResponseTypeHandlers[$response_type]->handle(
-            );
+                // Handle authorization endpoint response.
+                $this->ResponseTypeHandlers[$response_type]->handle(
+                    $this->securityContext,
+                    $this->authenticationManager,
+                    $event,
+                    $this->tokenTypeHandler,
+                    $this->modelManagers,
+                    $this->providerKey,
+                );
+            }
         } else
          */
-        if ($this->requestToken($request)) {
-            // Fetch client_id and client_secret from HTTP Basic Auth or POST.
-            list($client_id, $client_secret) = $this->getClientCredentials($request);
-
-            // Validate with client's model manager.
-            $this->checkClientCredentials($client_id, $client_secret);
+        if ($this->httpUtils->checkRequestPath($request, $this->options['token_path'])) {
+            // Check client credentials from HTTP Basic Auth or POST.
+            $this->checkClientCredentials($request);
 
             // Fetch grant_type from POST.
             $grant_type = $this->getGrantType($request);
-            if (!isset($this->grantTypeHandlers[$grant_type])) {
-                throw new UnsupportedGrantTypeException();
-            }
 
             // Handle token endpoint response.
             $this->grantTypeHandlers[$grant_type]->handle(
+                $this->securityContext,
                 $this->authenticationManager,
                 $event,
                 $this->tokenTypeHandler,
                 $this->modelManagers,
-                $client_id,
                 $this->providerKey
             );
         } else {
             // Handle resource endpoint validation.
             $this->tokenTypeHandler->handle(
                 $this->securityContext,
-                $request,
+                $event,
                 $this->modelManagers
             );
         }
     }
 
-    private function requestAuthorize(Request $request)
+    private function getResponseType(Request $request)
     {
-        return null !== $token = $this->securityContext->getToken()
-            && $token instanceof UsernamePasswordToken
-            && $token->isAuthenticated()
-            && $this->httpUtils->checkRequestPath($request, $this->options['token_path']);
+        // response_type should NEVER come from POST.
+        if ($request->request->get('response_type')) {
+            throw new InvalidRequestException();
+        }
+
+        // Validate and set response_type.
+        $response_type = $request->request->get('response_type');
+        $query = array('response_type' => $response_type);
+        $filtered_query = ParameterUtils::filter($query);
+        if ($filtered_query != $query) {
+            throw new InvalidRequestException();
+        }
+        if (!isset($this->responseTypeHandlers[$response_type])) {
+            throw new UnsupportedResponseTypeException();
+        }
+
+        return $response_type;
     }
 
-    private function requestToken(Request $request)
+    private function getGrantType(Request $request)
     {
-        return $this->httpUtils->checkRequestPath($request, $this->options['token_path']);
+        // grant_type should NEVER come from GET.
+        if ($request->query->get('grant_type')) {
+            throw new InvalidRequestException();
+        }
+
+        // Validate and set grant_type.
+        $grant_type = $request->request->get('grant_type');
+        $query = array('grant_type' => $grant_type);
+        $filtered_query = ParameterUtils::filter($query);
+        if ($filtered_query != $query) {
+            throw new InvalidRequestException();
+        }
+        if (!isset($this->grantTypeHandlers[$grant_type])) {
+            throw new UnsupportedGrantTypeException();
+        }
+
+        return $grant_type;
     }
 
-    private function getClientCredentials(Request $request)
+    private function checkClientCredentials(Request $request)
     {
         // At least one (and only one) of client credentials method required.
         if (!$request->headers->get('PHP_AUTH_USER', false) && !$request->request->get('client_id', false)) {
@@ -148,31 +178,9 @@ class OAuth2Listener implements ListenerInterface
             $client_secret = $request->request->get('client_secret', false);
         }
 
-        return array($client_id, $client_secret);
-    }
-
-    private function checkClientCredentials($client_id, $client_secret)
-    {
         $client = $this->modelManagers['client']->findClientByClientId($client_id);
         if ($client === null || $client->getClientSecret() !== $client_secret) {
             throw new InvalidClientException();
         }
-    }
-
-    private function getGrantType(Request $request)
-    {
-        // grant_type should NEVER come from GET.
-        if ($request->query->get('grant_type')) {
-            throw new InvalidRequestException();
-        }
-
-        // Validate and set grant_type.
-        $query = array('grant_type' => $request->request->get('grant_type'));
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
-            throw new InvalidRequestException();
-        }
-
-        return $request->request->get('grant_type');
     }
 }

@@ -13,8 +13,8 @@ namespace Pantarei\OAuth2\Security\TokenType;
 
 use Pantarei\OAuth2\Exception\AccessDeniedException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\TemporarilyUnavailableException;
 use Pantarei\OAuth2\Security\Authentication\Token\AccessToken;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -24,10 +24,12 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
 {
     public function handle(
         SecurityContextInterface $securityContext,
-        Request $request,
+        GetResponseEvent $event,
         array $modelManagers
     )
     {
+        $request = $event->getRequest();
+
         $headers_token = $request->headers->get('Authorization', false);
         if ($headers_token && preg_match('/Bearer\s*([^\s]+)/', $headers_token, $matches)) {
             $headers_token = $matches[1];
@@ -76,12 +78,13 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         }
     }
 
-    public function setResponse(
-        GetResponseEvent $event,
+    public function createToken(
         array $modelManagers,
         $client_id,
-        $username,
-        $scope
+        $username = '',
+        $scope = array(),
+        $state = null,
+        $withRefreshToken = true
     )
     {
         $access_token = $modelManagers['access_token']->createAccessToken();
@@ -93,27 +96,26 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             ->setScope($scope);
         $modelManagers['access_token']->updateAccessToken($access_token);
 
-        $refresh_token = $modelManagers['refresh_token']->createRefreshToken();
-        $refresh_token->setRefreshToken(md5(uniqid(null, true)))
-            ->setClientId($client_id)
-            ->setUsername($username)
-            ->setExpires(time() + 86400)
-            ->setScope($scope);
-        $modelManagers['refresh_token']->updateRefreshToken($refresh_token);
-
         $parameters = array(
             'access_token' => $access_token->getAccessToken(),
             'token_type' => $access_token->getTokenType(),
             'expires_in' => $access_token->getExpires() - time(),
-            'refresh_token' => $refresh_token->getRefreshToken(),
             'scope' => implode(' ', $scope),
-        );
-        $headers = array(
-            'Cache-Control' => 'no-store',
-            'Pragma' => 'no-cache',
+            'state' => $state,
         );
 
-        $response = JsonResponse::create(array_filter($parameters), 200, $headers);
-        $event->setResponse($response);
+        if ($withRefreshToken) {
+            $refresh_token = $modelManagers['refresh_token']->createRefreshToken();
+            $refresh_token->setRefreshToken(md5(uniqid(null, true)))
+                ->setClientId($client_id)
+                ->setUsername($username)
+                ->setExpires(time() + 86400)
+                ->setScope($scope);
+            $modelManagers['refresh_token']->updateRefreshToken($refresh_token);
+
+            $parameters['refresh_token'] = $refresh_token->getRefreshToken();
+        }
+
+        return $parameters;
     }
 }

@@ -13,8 +13,8 @@ namespace Pantarei\OAuth2\Security\TokenType;
 
 use Pantarei\OAuth2\Exception\AccessDeniedException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Exception\TemporarilyUnavailableException;
 use Pantarei\OAuth2\Security\Authentication\Token\AccessToken;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -24,21 +24,22 @@ class MacTokenTypeHandler implements TokenTypeHandlerInterface
 {
     public function handle(
         SecurityContextInterface $securityContext,
-        Request $request,
+        GetResponseEvent $event,
         array $modelManagers
     )
     {
-        return;
+        throw new TemporarilyUnavailableException();
     }
 
     public function setResponse(
-        GetResponseEvent $event,
         array $modelManagers,
         $client_id,
-        $username,
-        $scope
+        $username = '',
+        $scope = array(),
+        $state = null,
+        $withRefreshToken = true
     )
     {
-        return;
+        throw new TemporarilyUnavailableException();
     }
 }

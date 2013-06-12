@@ -26,46 +26,45 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Client credentials grant type implementation.
+ * Abstract grant type implementation.
  *
  * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
+abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
-        GetResponseEvent $event,
-        TokenTypeHandlerInterface $tokenTypeHandler,
-        array $modelManagers,
-        $providerKey
-    )
+    protected function checkClientId(Request $request)
     {
-        $request = $event->getRequest();
+        return $request->headers->get('PHP_AUTH_USER', false)
+            ? $request->headers->get('PHP_AUTH_USER', false)
+            : $request->request->get('client_id', false);
+    }
 
-        $client_id = $this->checkClientId($request);
+    protected function checkScope(Request $request, $modelManagers)
+    {
+        // Compare if given scope within all available stored scopes.
+        $stored = array();
+        $result = $modelManagers['scope']->findScopes();
+        foreach ($result as $row) {
+            $stored[] = $row->getScope();
+        }
 
-        $query = array(
-            'scope' => $request->request->get('scope'),
-        );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
+        $scope = preg_split('/\s+/', $request->request->get('scope'));
+        if (array_intersect($scope, $stored) !== $scope) {
             throw new InvalidScopeException();
         }
 
-        $username = '';
+        return $scope;
+    }
 
-        $scope = $this->checkScope($request, $modelManagers);
-
-        // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandler->createToken(
-            $modelManagers,
-            $client_id,
-            $username,
-            $scope
+    protected function setResponse(GetResponseEvent $event, $parameters)
+    {
+        $headers = array(
+            'Cache-Control' => 'no-store',
+            'Pragma' => 'no-cache',
         );
-        $this->setResponse($event, $parameters);
+        $response = JsonResponse::create(array_filter($parameters), 200, $headers);
+        $event->setResponse($response);
     }
 }
