@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface CodeManagerInterface
+interface CodeManagerInterface extends ModelManagerInterface
 {
     public function createCode();
 

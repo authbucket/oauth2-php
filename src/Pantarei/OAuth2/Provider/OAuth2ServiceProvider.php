@@ -16,12 +16,16 @@ use Pantarei\OAuth2\Security\Authentication\Provider\OAuth2Provider;
 use Pantarei\OAuth2\Security\Firewall\OAuth2Listener;
 use Pantarei\OAuth2\Security\GrantType\AuthorizationCodeGrantTypeHandler;
 use Pantarei\OAuth2\Security\GrantType\ClientCredentialsGrantTypeHandler;
+use Pantarei\OAuth2\Security\GrantType\GrantTypeHandlerFactory;
 use Pantarei\OAuth2\Security\GrantType\PasswordGrantTypeHandler;
 use Pantarei\OAuth2\Security\GrantType\RefreshTokenGrantTypeHandler;
 use Pantarei\OAuth2\Security\ResponseType\CodeResponseTypeHandler;
+use Pantarei\OAuth2\Security\ResponseType\ResponseTypeHandlerFactory;
 use Pantarei\OAuth2\Security\ResponseType\TokenResponseTypeHandler;
 use Pantarei\OAuth2\Security\TokenType\BearerTokenTypeHandler;
 use Pantarei\OAuth2\Security\TokenType\MacTokenTypeHandler;
+use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactory;
+use Pantarei\Oauth2\Model\ModelManagerFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -42,30 +46,31 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $that = $this;
 
         // Before execute we need to define the backend storage.
-        $app['security.oauth2.model_manager'] = $app->share(function ($app) {
-            throw new ServerErrorException();
+        $app['security.oauth2.model_manager.factory'] = $app->share(function ($app) {
+            return new ModelManagerFactory();
         });
 
-        $app['security.oauth2.response_type_handler'] = $app->share(function ($app) {
-            return array();
-            return array(
+        $app['security.oauth2.response_type_handler.factory'] = $app->share(function ($app) {
+            return new ResponseTypeHandlerFactory(array(
                 'code' => new CodeResponseTypeHandler(),
                 'token' => new TokenResponseTypeHandler(),
-            );
+            ));
         });
 
-        $app['security.oauth2.grant_type_handler'] = $app->share(function ($app) {
-            return array(
+        $app['security.oauth2.grant_type_handler.factory'] = $app->share(function ($app) {
+            return new GrantTypeHandlerFactory(array(
                 'authorization_code' => new AuthorizationCodeGrantTypeHandler(),
                 'client_credentials' => new ClientCredentialsGrantTypeHandler(),
                 'password' => new PasswordGrantTypeHandler(),
                 'refresh_token' => new RefreshTokenGrantTypeHandler(),
-            );
+            ));
         });
 
         // Default to bearer token for all request.
-        $app['security.oauth2.token_type_handler'] = $app->share(function ($app){
-            return new BearerTokenTypeHandler();
+        $app['security.oauth2.token_type_handler.factory'] = $app->share(function ($app){
+            return new TokenTypeHandlerFactory(array(
+                'bearer' => new BearerTokenTypeHandler(),
+            ));
         });
 
         $app['security.authentication_listener.factory.oauth2'] = $app->protect(function ($name, $options) use ($app) {
@@ -99,30 +104,19 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
                     str_replace('/', '_', ltrim($tmp, '/'))
                 );
 
-                if (!isset($options['listener_class'])) {
-                    $options['listener_class'] = 'Pantarei\\OAuth2\\Security\\Firewall\\OAuth2Listener';
-                }
-
                 return new OAuth2Listener(
                     $app['security'],
                     $app['security.authentication_manager'],
                     $app['security.http_utils'],
+                    $app['security.oauth2.model_manager.factory'],
+                    $app['security.oauth2.response_type_handler.factory'],
+                    $app['security.oauth2.grant_type_handler.factory'],
+                    $app['security.oauth2.token_type_handler.factory'],
                     $name,
-                    $app['security.oauth2.model_manager'],
-                    $app['security.oauth2.response_type_handler'],
-                    $app['security.oauth2.grant_type_handler'],
-                    $app['security.oauth2.token_type_handler'],
                     $options
                 );
             });
         });
-
-
-
-
-
-
-
 
         // Shortcut for response_type.
         $response_type = array(
@@ -131,17 +125,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         );
         foreach ($response_type as $name => $class) {
             $app['oauth2.response_type.' . $name] = $class;
-        }
-
-        // Shortcut for grant_type.
-        $grant_type = array(
-            'authorization_code' => 'Pantarei\OAuth2\GrantType\AuthorizationCodeGrantType',
-            'client_credentials' => 'Pantarei\OAuth2\GrantType\ClientCredentialsGrantType',
-            'password' => 'Pantarei\OAuth2\GrantType\PasswordGrantType',
-            'refresh_token' => 'Pantarei\OAuth2\GrantType\RefreshTokenGrantType',
-        );
-        foreach ($grant_type as $name => $class) {
-            $app['oauth2.grant_type.' . $name] = $class;
         }
 
         // Shortcut for token_type.

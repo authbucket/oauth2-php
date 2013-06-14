@@ -11,18 +11,8 @@
 
 namespace Pantarei\OAuth2\Security\ResponseType;
 
-use Pantarei\OAuth2\Exception\InvalidGrantException;
-use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
-use Pantarei\OAuth2\Util\ParameterUtils;
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Code response type implementation.
@@ -31,59 +21,11 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class CodeResponseTypeHandler extends AbstractTokenResponseTypeHandler
+class CodeResponseTypeHandler extends AbstractResponseTypeHandler
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
-        GetResponseEvent $event,
-        TokenTypeHandlerInterface $tokenTypeHandler,
-        array $modelManagers,
-        $providerKey
-    )
-    {
-        $request = $event->getRequest();
-
-        $query = array(
-            'client_id' => $request->query->get('client_id'),
-            'redirect_uri' => $request->query->get('redirect_uri'),
-            'scope' => $request->query->get('scope'),
-            'state' => $request->query->get('state'),
-        );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
-            throw new InvalidScopeException();
-        }
-
-        // Set client_id from GET.
-        $client_id = $request->query->get('client_id');
-
-        // Check and set redirect_uri.
-        $redirect_uri = $this->checkRedirectUri($request, $modelManagers, $client_id);
-
-        // Set username from token.
-        $username = $securityContext->getToken()->getUsername();
-        
-        // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagers);
-
-        // Check and set state.
-        $state = $this->checkState($request);
-
-        // Generate code, store to backend and set token response.
-        $parameters = $this->createCode(
-            $modelManagers,
-            $client_id,
-            $redirect_uri,
-            $username,
-            $scope,
-            $state
-        );
-        $this->setResponse($event, $parameters);
-    }
-
-    private function createCode(
-        array $modelManagers,
+    private function generateParameters(
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $client_id,
         $redirect_uri,
         $username = '',
@@ -91,14 +33,16 @@ class CodeResponseTypeHandler extends AbstractTokenResponseTypeHandler
         $state = null
     )
     {
-        $code = $modelManagers['code']->createCode();
+        $codeManager =  $modelManagerFactory->getModelManager('code');
+
+        $code = $codeManager->createCode();
         $code->setCode(md5(uniqid(null, true)))
             ->setClientId($client_id)
             ->setRedirectUri($redirect_uri)
             ->setUsername($username)
             ->setExpires(time() + 600)
             ->setScope($scope);
-        $modelManagers['code']->upateCode($code);
+        $codeManager->upateCode($code);
 
         $parameters = array(
             'code' => $code->getCode(),

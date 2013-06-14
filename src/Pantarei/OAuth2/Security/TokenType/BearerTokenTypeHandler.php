@@ -13,9 +13,8 @@ namespace Pantarei\OAuth2\Security\TokenType;
 
 use Pantarei\OAuth2\Exception\AccessDeniedException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\TemporarilyUnavailableException;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\Authentication\Token\AccessToken;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -25,7 +24,7 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
     public function handle(
         SecurityContextInterface $securityContext,
         GetResponseEvent $event,
-        array $modelManagers
+        ModelManagerFactoryInterface $modelManagerFactory
     )
     {
         $request = $event->getRequest();
@@ -67,7 +66,8 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         }
 
         try {
-            if (null === $modelManagers['access_token']->findAccessTokenByAccessToken($access_token)) {
+            $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
+            if (null === $accessTokenManager->findAccessTokenByAccessToken($access_token)) {
                 throw new AccessDeniedException();
             }
             $securityContext->setToken(new AccessToken($access_token));
@@ -79,7 +79,7 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
     }
 
     public function createToken(
-        array $modelManagers,
+        ModelManagerFactoryInterface $modelManagerFactory,
         $client_id,
         $username = '',
         $scope = array(),
@@ -87,14 +87,15 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         $withRefreshToken = true
     )
     {
-        $access_token = $modelManagers['access_token']->createAccessToken();
+        $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
+        $access_token = $accessTokenManager->createAccessToken();
         $access_token->setAccessToken(md5(uniqid(null, true)))
             ->setTokenType('bearer')
             ->setClientId($client_id)
             ->setUsername($username)
             ->setExpires(time() + 3600)
             ->setScope($scope);
-        $modelManagers['access_token']->updateAccessToken($access_token);
+        $accessTokenManager->updateAccessToken($access_token);
 
         $parameters = array(
             'access_token' => $access_token->getAccessToken(),
@@ -104,14 +105,15 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             'state' => $state,
         );
 
-        if ($withRefreshToken) {
-            $refresh_token = $modelManagers['refresh_token']->createRefreshToken();
+        if ($withRefreshToken === true) {
+            $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
+            $refresh_token = $refreshTokenManager->createRefreshToken();
             $refresh_token->setRefreshToken(md5(uniqid(null, true)))
                 ->setClientId($client_id)
                 ->setUsername($username)
                 ->setExpires(time() + 86400)
                 ->setScope($scope);
-            $modelManagers['refresh_token']->updateRefreshToken($refresh_token);
+            $refreshTokenManager->updateRefreshToken($refresh_token);
 
             $parameters['refresh_token'] = $refresh_token->getRefreshToken();
         }

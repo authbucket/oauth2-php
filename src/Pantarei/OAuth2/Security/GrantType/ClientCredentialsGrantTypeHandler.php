@@ -11,18 +11,13 @@
 
 namespace Pantarei\OAuth2\Security\GrantType;
 
-use Pantarei\OAuth2\Exception\InvalidGrantException;
-use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
+use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -38,8 +33,8 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         GetResponseEvent $event,
-        TokenTypeHandlerInterface $tokenTypeHandler,
-        array $modelManagers,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
     )
     {
@@ -57,11 +52,11 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
 
         $username = '';
 
-        $scope = $this->checkScope($request, $modelManagers);
+        $scope = $this->checkScope($request, $modelManagerFactory);
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandler->createToken(
-            $modelManagers,
+        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
+            $modelManagerFactory,
             $client_id,
             $username,
             $scope

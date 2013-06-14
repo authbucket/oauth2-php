@@ -9,14 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Model;
+namespace Pantarei\OAuth2\Security\TokenType;
 
-interface ScopeInterface extends ModelInterface
+interface TokenTypeHandlerFactoryInterface
 {
-    /**
-     * Get scope
-     *
-     * @return string
-     */
-    public function getScope();
+    public function getTokenTypeHandler($type = null);
 }

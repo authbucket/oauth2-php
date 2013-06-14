@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface AuthorizeManagerInterface
+interface AuthorizeManagerInterface extends ModelManagerInterface
 {
     public function createAuthorize();
 

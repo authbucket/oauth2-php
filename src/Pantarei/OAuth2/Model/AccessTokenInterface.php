@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface AccessTokenInterface
+interface AccessTokenInterface extends ModelInterface
 {
     /**
      * Get accessToken

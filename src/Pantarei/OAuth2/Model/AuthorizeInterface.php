@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface AuthorizeInterface
+interface AuthorizeInterface extends ModelInterface
 {
     /**
      * Get clientId

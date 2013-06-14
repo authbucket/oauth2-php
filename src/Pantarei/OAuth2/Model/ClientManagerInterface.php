@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface ClientManagerInterface
+interface ClientManagerInterface extends ModelManagerInterface
 {
     public function createClient();
 

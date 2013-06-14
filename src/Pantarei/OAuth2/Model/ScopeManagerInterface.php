@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface ScopeManagerInterface
+interface ScopeManagerInterface extends ModelManagerInterface
 {
     public function createScope();
 

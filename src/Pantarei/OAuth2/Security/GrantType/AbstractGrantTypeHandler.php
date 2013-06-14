@@ -11,19 +11,14 @@
 
 namespace Pantarei\OAuth2\Security\GrantType;
 
-use Pantarei\OAuth2\Exception\InvalidGrantException;
-use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Abstract grant type implementation.
@@ -41,11 +36,16 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
             : $request->request->get('client_id', false);
     }
 
-    protected function checkScope(Request $request, $modelManagers)
+    protected function checkScope(
+        Request $request,
+        ModelManagerFactoryInterface $modelManagerFactory
+    )
     {
+        $scopeManager = $modelManagerFactory->getModelManager('scope');
+
         // Compare if given scope within all available stored scopes.
         $stored = array();
-        $result = $modelManagers['scope']->findScopes();
+        $result = $scopeManager->findScopes();
         foreach ($result as $row) {
             $stored[] = $row->getScope();
         }

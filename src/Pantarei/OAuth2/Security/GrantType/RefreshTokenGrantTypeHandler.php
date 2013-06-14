@@ -14,15 +14,12 @@ namespace Pantarei\OAuth2\Security\GrantType;
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
+use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -38,8 +35,8 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         GetResponseEvent $event,
-        TokenTypeHandlerInterface $tokenTypeHandler,
-        array $modelManagers,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
     )
     {
@@ -59,7 +56,8 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         $refresh_token = $request->request->get('refresh_token');
 
         // Check refresh_token with database record.
-        $result = $modelManagers['refresh_token']->findRefreshTokenByRefreshToken($refresh_token);
+        $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
+        $result = $refreshTokenManager->findRefreshTokenByRefreshToken($refresh_token);
         if ($result === null || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < time()) {
@@ -88,8 +86,8 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         $username = $result->getUsername();
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandler->createToken(
-            $modelManagers,
+        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
+            $modelManagerFactory,
             $client_id,
             $username,
             $scope

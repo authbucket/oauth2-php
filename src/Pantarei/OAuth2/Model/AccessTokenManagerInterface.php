@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface AccessTokenManagerInterface
+interface AccessTokenManagerInterface extends ModelManagerInterface
 {
     public function createAccessToken();
 

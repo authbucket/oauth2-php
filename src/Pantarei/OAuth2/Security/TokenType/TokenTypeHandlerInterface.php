@@ -13,6 +13,7 @@ namespace Pantarei\OAuth2\Security\TokenType;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 
 interface TokenTypeHandlerInterface
 {
@@ -22,14 +23,14 @@ interface TokenTypeHandlerInterface
     public function handle(
         SecurityContextInterface $securityContext,
         GetResponseEvent $event,
-        array $modelManagers
+        ModelManagerFactoryInterface $modelManagerFactory
     );
 
     /**
      * Proxy for listener's setResponse().
      */
     public function createToken(
-        array $modelManagers,
+        ModelManagerFactoryInterface $modelManagerFactory,
         $client_id,
         $username = '',
         $scope = array(),

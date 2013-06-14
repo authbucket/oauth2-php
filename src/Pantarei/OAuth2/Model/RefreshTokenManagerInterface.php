@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface RefreshTokenManagerInterface
+interface RefreshTokenManagerInterface extends ModelManagerInterface
 {
     public function createRefreshToken();
 

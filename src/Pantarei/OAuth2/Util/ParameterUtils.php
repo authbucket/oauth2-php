@@ -204,9 +204,7 @@ abstract class ParameterUtils
         $response_type = $request->query->get('response_type');
 
         // Check if given response_type supported.
-        if (!isset($app['oauth2.response_type.' . $response_type])) {
-            throw new UnsupportedResponseTypeException();
-        }
+        $responseTypeHalder = $app['security.oauth2.response_type_handler.factory']->getResponseTypeHandler($response_type);
 
         return $response_type;
     }

@@ -13,9 +13,11 @@ namespace Pantarei\OAuth2\Security\Firewall;
 
 use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
-use Pantarei\OAuth2\Exception\UnsupportedRequestTypeException;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\Authentication\Token\ClientToken;
+use Pantarei\OAuth2\Security\GrantType\GrantTypeHandlerFactoryInterface;
+use Pantarei\OAuth2\Security\ResponseType\ResponseTypeHandlerFactoryInterface;
+use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,20 +39,20 @@ class OAuth2Listener implements ListenerInterface
     private $authenticationManager;
     private $httpUtils;
     private $providerKey;
-    private $modelManagers;
-    private $responseTypeHandlers;
-    private $grantTypeHandlers;
-    private $tokenTypeHandler;
+    private $modelManagerFactory;
+    private $responseTypeHandlerFactory;
+    private $grantTypeHandlerFactory;
+    private $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         HttpUtils $httpUtils,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
+        GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey,
-        array $modelManagers,
-        array $responseTypeHandlers,
-        array $grantTypeHandlers,
-        $tokenTypeHandler,
         array $options
     )
     {
@@ -58,10 +60,10 @@ class OAuth2Listener implements ListenerInterface
         $this->authenticationManager = $authenticationManager;
         $this->httpUtils = $httpUtils;
         $this->providerKey = $providerKey;
-        $this->modelManagers = $modelManagers;
-        $this->responseTypeHandlers = $responseTypeHandlers;
-        $this->grantTypeHandlers = $grantTypeHandlers;
-        $this->tokenTypeHandler = $tokenTypeHandler;
+        $this->modelManagerFactory = $modelManagerFactory;
+        $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
+        $this->grantTypeHandlerFactory = $grantTypeHandlerFactory;
+        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
         $this->options = array_merge(array(
             'authorize_path' => '/authorize',
             'token_path' => '/token',
@@ -85,8 +87,8 @@ class OAuth2Listener implements ListenerInterface
                     $this->securityContext,
                     $this->authenticationManager,
                     $event,
-                    $this->tokenTypeHandler,
-                    $this->modelManagers,
+                    $this->tokenTypeHandlerFactory,
+                    $this->modelManagerFactory,
                     $this->providerKey,
                 );
             }
@@ -100,20 +102,20 @@ class OAuth2Listener implements ListenerInterface
             $grant_type = $this->getGrantType($request);
 
             // Handle token endpoint response.
-            $this->grantTypeHandlers[$grant_type]->handle(
+            $this->grantTypeHandlerFactory->getGrantTypeHandler($grant_type)->handle(
                 $this->securityContext,
                 $this->authenticationManager,
                 $event,
-                $this->tokenTypeHandler,
-                $this->modelManagers,
+                $this->modelManagerFactory,
+                $this->tokenTypeHandlerFactory,
                 $this->providerKey
             );
         } else {
             // Handle resource endpoint validation.
-            $this->tokenTypeHandler->handle(
+            $this->tokenTypeHandlerFactory->getTokenTypeHandler()->handle(
                 $this->securityContext,
                 $event,
-                $this->modelManagers
+                $this->modelManagerFactory
             );
         }
     }
@@ -132,9 +134,6 @@ class OAuth2Listener implements ListenerInterface
         if ($filtered_query != $query) {
             throw new InvalidRequestException();
         }
-        if (!isset($this->responseTypeHandlers[$response_type])) {
-            throw new UnsupportedResponseTypeException();
-        }
 
         return $response_type;
     }
@@ -152,9 +151,6 @@ class OAuth2Listener implements ListenerInterface
         $filtered_query = ParameterUtils::filter($query);
         if ($filtered_query != $query) {
             throw new InvalidRequestException();
-        }
-        if (!isset($this->grantTypeHandlers[$grant_type])) {
-            throw new UnsupportedGrantTypeException();
         }
 
         return $grant_type;
@@ -178,7 +174,8 @@ class OAuth2Listener implements ListenerInterface
             $client_secret = $request->request->get('client_secret', false);
         }
 
-        $client = $this->modelManagers['client']->findClientByClientId($client_id);
+        $clientManager = $this->modelManagerFactory->getModelManager('client');
+        $client = $clientManager->findClientByClientId($client_id);
         if ($client === null || $client->getClientSecret() !== $client_secret) {
             throw new InvalidClientException();
         }

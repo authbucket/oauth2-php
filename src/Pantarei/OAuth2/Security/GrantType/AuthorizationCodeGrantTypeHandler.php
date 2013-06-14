@@ -13,16 +13,13 @@ namespace Pantarei\OAuth2\Security\GrantType;
 
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Exception\InvalidScopeException;
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
+use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -38,8 +35,8 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         GetResponseEvent $event,
-        TokenTypeHandlerInterface $tokenTypeHandler,
-        array $modelManagers,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
     )
     {
@@ -56,12 +53,13 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         // Check and set redirect_uri.
-        $redirect_uri = $this->checkRedirectUri($request, $modelManagers, $client_id);
+        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
 
         $code = $request->request->get('code');
 
         // Check code with database record.
-        $result = $modelManagers['code']->findCodeByCode($code);
+        $codeManager = $modelManagerFactory->getModelManager('code');
+        $result = $codeManager->findCodeByCode($code);
         if ($result === null || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < time()) {
@@ -72,8 +70,8 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $scope = $result->getScope();
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandler->createToken(
-            $modelManagers,
+        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
+            $modelManagerFactory,
             $client_id,
             $username,
             $scope
@@ -81,14 +79,19 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $this->setResponse($event, $parameters);
     }
 
-    private function checkRedirectUri(Request $request, array $modelManagers, $client_id)
+    private function checkRedirectUri(
+        Request $request,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        $client_id
+    )
     {
         $redirect_uri = $request->request->get('redirect_uri');
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
-        $result = $modelManagers['client']->findClientByClientId($client_id);
+        $clientManager = $modelManagerFactory->getModelManager('client');
+        $result = $clientManager->findClientByClientId($client_id);
         if ($result !== null && $result->getRedirectUri()) {
             $stored = $result->getRedirectUri();
         }

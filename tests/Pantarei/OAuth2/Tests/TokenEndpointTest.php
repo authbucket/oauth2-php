@@ -121,22 +121,22 @@ class TokenEndpointTest extends WebTestCase
     public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
-        $client = new $this->app['oauth2.model.client']();
-        $client->setClientId('http://democlient4.com/')
+        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $model = $modelManager->createClient();
+        $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
-        $this->app['oauth2.orm']->persist($client);
-        $this->app['oauth2.orm']->flush();
+        $modelManager->updateClient($model);
 
-        $code = new $this->app['oauth2.model.code']();
-        $code->setCode('08fb55e26c84f8cb060b7803bc177af8')
+        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
+        $model = $modelManager->createCode();
+        $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
             ->setExpires(time() + 3600)
             ->setUsername('demousername4')
             ->setScope(array(
                 'demoscope1',
             ));
-        $this->app['oauth2.orm']->persist($code);
-        $this->app['oauth2.orm']->flush();
+        $modelManager->updateCode($model);
 
         $parameters = array(
             'grant_type' => 'authorization_code',
@@ -404,22 +404,22 @@ class TokenEndpointTest extends WebTestCase
     public function testGoodAuthCodeNoStoredRedirectUri()
     {
         // Insert client without redirect_uri.
-        $entity = new $this->app['oauth2.model.client']();
-        $entity->setClientId('http://democlient4.com/')
+        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $model = $modelManager->createClient();
+        $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
-        $this->app['oauth2.orm']->persist($entity);
-        $this->app['oauth2.orm']->flush();
+        $modelManager->updateClient($model);
 
-        $entity = new $this->app['oauth2.model.code']();
-        $entity->setCode('08fb55e26c84f8cb060b7803bc177af8')
+        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
+        $model = $modelManager->createCode();
+        $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
             ->setExpires(time() + 3600)
             ->setUsername('demousername4')
             ->setScope(array(
                 'demoscope1',
             ));
-        $this->app['oauth2.orm']->persist($entity);
-        $this->app['oauth2.orm']->flush();
+        $modelManager->updateCode($model);
 
         $parameters = array(
             'grant_type' => 'authorization_code',

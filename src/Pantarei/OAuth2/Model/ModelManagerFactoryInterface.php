@@ -11,12 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface ScopeInterface extends ModelInterface
+interface ModelManagerFactoryInterface
 {
-    /**
-     * Get scope
-     *
-     * @return string
-     */
-    public function getScope();
+    public function getModelManager($type);
 }

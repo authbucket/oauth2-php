@@ -9,14 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Model;
+namespace Pantarei\OAuth2\Security\ResponseType;
 
-interface ScopeInterface extends ModelInterface
+interface ResponseTypeHandlerFactoryInterface
 {
-    /**
-     * Get scope
-     *
-     * @return string
-     */
-    public function getScope();
+    public function getResponseTypeHandler($type);
 }

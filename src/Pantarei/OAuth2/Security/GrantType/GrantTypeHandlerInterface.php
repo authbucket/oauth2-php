@@ -11,7 +11,8 @@
 
 namespace Pantarei\OAuth2\Security\GrantType;
 
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
+use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -25,8 +26,8 @@ interface GrantTypeHandlerInterface
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         GetResponseEvent $event,
-        TokenTypeHandlerInterface $tokenTypeHandler,
-        array $modelManagers,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
     );
 }

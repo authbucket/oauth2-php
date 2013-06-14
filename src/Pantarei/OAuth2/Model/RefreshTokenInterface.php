@@ -11,7 +11,7 @@
 
 namespace Pantarei\OAuth2\Model;
 
-interface RefreshTokenInterface
+interface RefreshTokenInterface extends ModelInterface
 {
     /**
      * Get refreshToken

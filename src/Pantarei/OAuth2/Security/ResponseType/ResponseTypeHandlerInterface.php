@@ -9,9 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\TokenType;
+namespace Pantarei\OAuth2\Security\ResponseType;
 
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
+use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -25,8 +26,8 @@ interface ResponseTypeHandlerInterface
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         GetResponseEvent $event,
-        TokenTypeHandlerInterface $tokenTypeHandler,
-        array $modelManagers,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
     );
 }
