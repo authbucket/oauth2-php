@@ -18,7 +18,6 @@ use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -34,28 +33,47 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     public function handle(
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
-        GetResponseEvent $event,
+        Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
     )
     {
-        $request = $event->getRequest();
+        // Check and set client_id.
+        $client_id = $this->checkClientId($request, $modelManagerFactory);
 
-        $client_id = $this->checkClientId($request);
+        // Fetch username and scope from stored code.
+        list($username, $scope) = $this->checkCode($request, $modelManagerFactory, $client_id);
 
+        // Check and set redirect_uri.
+        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
+
+        // Generate access_token, store to backend and set token response.
+        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
+            $modelManagerFactory,
+            $client_id,
+            $username,
+            $scope
+        );
+        return $this->setResponse($parameters);
+    }
+
+    private function checkCode(
+        Request $request,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        $client_id
+    )
+    {
+        $code = $request->request->get('code');
+
+        // code is required and must in valid format.
         $query = array(
-            'code' => $request->request->get('code'),
+            'code' => $code,
         );
         $filtered_query = ParameterUtils::filter($query);
         if ($filtered_query != $query) {
             throw new InvalidRequestException();
         }
-
-        // Check and set redirect_uri.
-        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
-
-        $code = $request->request->get('code');
 
         // Check code with database record.
         $codeManager = $modelManagerFactory->getModelManager('code');
@@ -66,17 +84,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
             throw new InvalidGrantException();
         }
 
-        $username = $result->getUsername();
-        $scope = $result->getScope();
-
-        // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
-            $modelManagerFactory,
-            $client_id,
-            $username,
-            $scope
-        );
-        $this->setResponse($event, $parameters);
+        return array($result->getUsername(), $result->getScope());
     }
 
     private function checkRedirectUri(

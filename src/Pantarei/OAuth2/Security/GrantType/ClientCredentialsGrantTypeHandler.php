@@ -16,7 +16,7 @@ use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -32,27 +32,20 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
     public function handle(
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
-        GetResponseEvent $event,
+        Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
     )
     {
-        $request = $event->getRequest();
+        // Check and set client_id.
+        $client_id = $this->checkClientId($request, $modelManagerFactory);
 
-        $client_id = $this->checkClientId($request);
-
-        $query = array(
-            'scope' => $request->request->get('scope'),
-        );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
-            throw new InvalidScopeException();
-        }
-
-        $username = '';
-
+        // Check and set scope.
         $scope = $this->checkScope($request, $modelManagerFactory);
+
+        // No (and not possible to have) username, set as empty string.
+        $username = '';
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
@@ -61,6 +54,6 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
             $username,
             $scope
         );
-        $this->setResponse($event, $parameters);
+        return $this->setResponse($parameters);
     }
 }

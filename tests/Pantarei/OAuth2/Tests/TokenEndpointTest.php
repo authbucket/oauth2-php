@@ -208,7 +208,7 @@ class TokenEndpointTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
     public function testErrorClientCredBadScopeFormat()
     {
@@ -351,8 +351,8 @@ class TokenEndpointTest extends WebTestCase
             'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
         );
         $server = array(
-            'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
+            'PHP_AUTH_USER' => 'http://democlient3.com/',
+            'PHP_AUTH_PW' => 'demosecret3',
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);

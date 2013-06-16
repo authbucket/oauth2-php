@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Security\GrantType;
 
+use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
@@ -18,7 +19,6 @@ use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
  * Abstract grant type implementation.
@@ -29,11 +29,32 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
  */
 abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
-    protected function checkClientId(Request $request)
+    protected function checkClientId(
+        Request $request,
+        ModelManagerFactoryInterface $modelManagerFactory
+    )
     {
-        return $request->headers->get('PHP_AUTH_USER', false)
-            ? $request->headers->get('PHP_AUTH_USER', false)
-            : $request->request->get('client_id', false);
+        $client_id = $request->headers->get('PHP_AUTH_USER', null)
+            ? $request->headers->get('PHP_AUTH_USER', null)
+            : $request->request->get('client_id', null);
+
+        // client_id is required and in valid format.
+        $query = array(
+            'client_id' => $client_id,
+        );
+        $filtered_query = ParameterUtils::filter($query);
+        if ($filtered_query != $query) {
+            throw new InvalidRequestException();
+        }
+
+        // Compare client_id with database record.
+        $clientManager = $modelManagerFactory->getModelManager('client');
+        $result = $clientManager->findClientByClientId($client_id);
+        if ($result === null) {
+            throw new InvalidClientException();
+        }
+
+        return $client_id;
     }
 
     protected function checkScope(
@@ -41,30 +62,43 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         ModelManagerFactoryInterface $modelManagerFactory
     )
     {
+        $scope = $request->request->get('scope', null);
         $scopeManager = $modelManagerFactory->getModelManager('scope');
 
-        // Compare if given scope within all available stored scopes.
-        $stored = array();
-        $result = $scopeManager->findScopes();
-        foreach ($result as $row) {
-            $stored[] = $row->getScope();
-        }
+        // scope may not exists.
+        if ($scope) {
+            // scope must be in valid format.
+            $query = array(
+                'scope' => $scope,
+            );
+            $filtered_query = ParameterUtils::filter($query);
+            if ($filtered_query != $query) {
+                throw new InvalidRequestException();
+            }
 
-        $scope = preg_split('/\s+/', $request->request->get('scope'));
-        if (array_intersect($scope, $stored) !== $scope) {
-            throw new InvalidScopeException();
+            // Compare if given scope within all available stored scopes.
+            $stored = array();
+            $result = $scopeManager->findScopes();
+            foreach ($result as $row) {
+                $stored[] = $row->getScope();
+            }
+
+            $scope = preg_split('/\s+/', $scope);
+            if (array_intersect($scope, $stored) !== $scope) {
+                throw new InvalidScopeException();
+            }
         }
 
         return $scope;
     }
 
-    protected function setResponse(GetResponseEvent $event, $parameters)
+    protected function setResponse($parameters)
     {
         $headers = array(
             'Cache-Control' => 'no-store',
             'Pragma' => 'no-cache',
         );
-        $response = JsonResponse::create(array_filter($parameters), 200, $headers);
-        $event->setResponse($response);
+
+        return JsonResponse::create(array_filter($parameters), 200, $headers);
     }
 }

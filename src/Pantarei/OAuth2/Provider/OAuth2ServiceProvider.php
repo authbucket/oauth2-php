@@ -36,18 +36,12 @@ use Silex\ServiceProviderInterface;
  */
 class OAuth2ServiceProvider implements ServiceProviderInterface
 {
-    protected $fakeRoutes;
 
     public function register(Application $app)
     {
-        // Used to register routes for authorize_path and token_path.
-        $this->fakeRoutes = array();
-
-        $that = $this;
-
         // Before execute we need to define the backend storage.
         $app['security.oauth2.model_manager.factory'] = $app->share(function ($app) {
-            return new ModelManagerFactory();
+            throw new ServerErrorException();
         });
 
         $app['security.oauth2.response_type_handler.factory'] = $app->share(function ($app) {
@@ -74,12 +68,12 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         });
 
         $app['security.authentication_listener.factory.oauth2'] = $app->protect(function ($name, $options) use ($app) {
-            if (!isset($app['security.authentication_listener.' . $name . '.oauth2'])) {
-                $app['security.authentication_listener.' . $name . '.oauth2'] = $app['security.authentication_listener.oauth2._proto']($name, $options);
-            }
-
             if (!isset($app['security.authentication_provider.' . $name . '.oauth2'])) {
                 $app['security.authentication_provider.' . $name . '.oauth2'] = $app['security.authentication_provider.dao._proto']($name, $options);
+            }
+
+            if (!isset($app['security.authentication_listener.' . $name . '.oauth2'])) {
+                $app['security.authentication_listener.' . $name . '.oauth2'] = $app['security.authentication_listener.oauth2._proto']($name, $options);
             }
 
             return array(
@@ -90,29 +84,13 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
             );
         });
 
-        $app['security.authentication_listener.oauth2._proto'] = $app->protect(function ($name, $options) use ($app, $that) {
-            return $app->share(function () use ($app, $name, $options, $that) {
-                $that->addFakeRoute(
-                    'get',
-                    $tmp = isset($options['authorize_path']) ? $options['authorize_path'] : '/authorize',
-                    str_replace('/', '_', ltrim($tmp, '/'))
-                );
-
-                $that->addFakeRoute(
-                    'post',
-                    $tmp = isset($options['token_path']) ? $options['token_path'] : '/token',
-                    str_replace('/', '_', ltrim($tmp, '/'))
-                );
-
+        $app['security.authentication_listener.oauth2._proto'] = $app->protect(function ($name, $options) use ($app) {
+            return $app->share(function () use ($app, $name, $options) {
                 return new OAuth2Listener(
                     $app['security'],
-                    $app['security.authentication_manager'],
                     $app['security.http_utils'],
                     $app['security.oauth2.model_manager.factory'],
-                    $app['security.oauth2.response_type_handler.factory'],
-                    $app['security.oauth2.grant_type_handler.factory'],
                     $app['security.oauth2.token_type_handler.factory'],
-                    $name,
                     $options
                 );
             });
@@ -142,17 +120,5 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $app['dispatcher']->addListener('kernel.request', array($app['security.firewall'], 'onKernelRequest'), 8);
-
-        foreach ($this->fakeRoutes as $route) {
-            list($method, $pattern, $name) = $route;
-
-            $app->$method($pattern, function() {})->bind($name);
-        }
-    }
-
-    public function addFakeRoute($method, $pattern, $name)
-    {
-        $this->fakeRoutes[] = array($method, $pattern, $name);
     }
 }

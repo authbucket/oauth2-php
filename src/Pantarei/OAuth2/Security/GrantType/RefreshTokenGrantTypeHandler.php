@@ -18,7 +18,7 @@ use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\ParameterUtils;
 use Silex\Application;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -34,35 +34,58 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     public function handle(
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
-        GetResponseEvent $event,
+        Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
     )
     {
-        $request = $event->getRequest();
+        // Check and set client_id.
+        $client_id = $this->checkClientId($request, $modelManagerFactory);
 
-        $client_id = $this->checkClientId($request);
+        // Check refresh_token, then fetch username and scope.
+        list($username, $scope) = $this->checkRefreshToken($request, $modelManagerFactory, $client_id);
 
+        // Generate access_token, store to backend and set token response.
+        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
+            $modelManagerFactory,
+            $client_id,
+            $username,
+            $scope
+        );
+        return $this->setResponse($parameters);
+    }
+
+    private function checkRefreshToken(
+        Request $request,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        $client_id
+    )
+    {
+        $refresh_token = $request->request->get('refresh_token');
+        $scope = $request->request->get('scope', null);
+
+        $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
+
+        // refresh_token must exists and in valid format.
         $query = array(
-            'refresh_token' => $request->request->get('refresh_token'),
-            'scope' => $request->request->get('scope'),
+            'refresh_token' => $refresh_token,
         );
         $filtered_query = ParameterUtils::filter($query);
         if ($filtered_query != $query) {
             throw new InvalidRequestException();
         }
 
-        $refresh_token = $request->request->get('refresh_token');
-
         // Check refresh_token with database record.
-        $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
         $result = $refreshTokenManager->findRefreshTokenByRefreshToken($refresh_token);
         if ($result === null || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < time()) {
-            throw new InvalidRequestException();
+            throw new InvalidGrantException();
         }
+
+        // Fetch username from stored refresh_token.
+        $username = $result->getUsername();
 
         // Fetch scope from pre-grnerated refresh_token.
         $stored = null;
@@ -71,9 +94,18 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         // Compare if given scope is subset of original refresh_token's scope.
-        $scope = null;
-        if ($request->request->get('scope') && $stored !== null) {
-            $scope = preg_split('/\s+/', $request->request->get('scope'));
+        if ($scope !== null && $stored !== null) {
+            // scope must be in valid format.
+            $query = array(
+                'scope' => $scope,
+            );
+            $filtered_query = ParameterUtils::filter($query);
+            if ($filtered_query != $query) {
+                throw new InvalidRequestException();
+            }
+
+            // Compare if given scope within all available stored scopes.
+            $scope = preg_split('/\s+/', $scope);
             if (array_intersect($scope, $stored) != $scope) {
                 throw new InvalidScopeException();
             }
@@ -83,15 +115,6 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             $scope = $stored;
         }
 
-        $username = $result->getUsername();
-
-        // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
-            $modelManagerFactory,
-            $client_id,
-            $username,
-            $scope
-        );
-        $this->setResponse($event, $parameters);
+        return array($username, $scope);
     }
 }

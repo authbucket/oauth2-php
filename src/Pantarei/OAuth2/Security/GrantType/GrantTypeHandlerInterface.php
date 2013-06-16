@@ -13,19 +13,19 @@ namespace Pantarei\OAuth2\Security\GrantType;
 
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 interface GrantTypeHandlerInterface
 {
     /**
-     * Proxy for listener's handle().
+     * Proxy for endpoint handler's handle().
      */
     public function handle(
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
-        GetResponseEvent $event,
+        Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         $providerKey
