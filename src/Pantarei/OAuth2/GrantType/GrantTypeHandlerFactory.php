@@ -17,9 +17,18 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 {
     private $grantTypeHandlers;
 
-    public function __construct(array $grantTypeHandlers)
+    public function __construct()
     {
-        $this->grantTypeHandlers = $grantTypeHandlers;
+        $this->grantTypeHandlers = array();
+    }
+
+    public function addGrantTypeHandler($type, $handler)
+    {
+        if (!$handler instanceof GrantTypeHandlerInterface) {
+            throw new ServerErrorException();
+        }
+
+        $this->grantTypeHandlers[$type] = $handler;
     }
 
     public function getGrantTypeHandler($type)
@@ -33,5 +42,14 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         }
 
         return $this->grantTypeHandlers[$type];
+    }
+
+    public function removeGrantTypeHandler($type)
+    {
+        if (!isset($this->grantTypeHandlers[$type])) {
+            return;
+        }
+
+        unset($this->grantTypeHandlers[$type]);
     }
 }

@@ -18,9 +18,18 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
 {
     private $responseTypeHandlers;
 
-    public function __construct(array $responseTypeHandlers)
+    public function __construct()
     {
-        $this->responseTypeHandlers = $responseTypeHandlers;
+        $this->responseTypeHandlers = array();
+    }
+
+    public function addResponseTypeHandler($type, $handler)
+    {
+        if (!$handler instanceof ResponseTypeHandlerInterface) {
+            throw new ServerErrorException();
+        }
+
+        $this->responseTypeHandlers[$type] = $handler;
     }
 
     public function getResponseTypeHandler($type)
@@ -34,5 +43,14 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
         }
 
         return $this->responseTypeHandlers[$type];
+    }
+
+    public function removeResponseTypeHandler($type)
+    {
+        if (!isset($this->responseTypeHandlers[$type])) {
+            return;
+        }
+
+        unset($this->responseTypeHandlers[$type]);
     }
 }

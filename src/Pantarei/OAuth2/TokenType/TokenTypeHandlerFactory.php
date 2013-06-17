@@ -17,9 +17,18 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
 {
     private $tokenTypeHandlers;
 
-    public function __construct(array $tokenTypeHandlers)
+    public function __construct()
     {
-        $this->tokenTypeHandlers = $tokenTypeHandlers;
+        $this->tokenTypeHandlers = array();
+    }
+
+    public function addTokenTypeHandler($type, $handler)
+    {
+        if (!$handler instanceof TokenTypeHandlerInterface) {
+            throw new ServerErrorException();
+        }
+
+        $this->tokenTypeHandlers[$type] = $handler;
     }
 
     public function getTokenTypeHandler($type = null)
@@ -41,5 +50,14 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
         }
 
         return $tokenTypeHandler;
+    }
+
+    public function removeTokenTypeHandler($type)
+    {
+        if (!isset($this->tokenTypeHandlers[$type])) {
+            return;
+        }
+
+        unset($this->tokenTypeHandlers[$type]);
     }
 }

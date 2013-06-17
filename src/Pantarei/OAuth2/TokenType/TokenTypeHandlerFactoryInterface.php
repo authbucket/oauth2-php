@@ -13,5 +13,9 @@ namespace Pantarei\OAuth2\TokenType;
 
 interface TokenTypeHandlerFactoryInterface
 {
+    public function addTokenTypeHandler($type, $handler);
+
     public function getTokenTypeHandler($type = null);
+
+    public function removeTokenTypeHandler($type);
 }

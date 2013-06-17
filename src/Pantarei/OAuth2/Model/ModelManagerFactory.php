@@ -24,6 +24,10 @@ class ModelManagerFactory implements ModelManagerFactoryInterface
 
     public function addModelManager($type, $manager)
     {
+        if (!$manager instanceof ModelManagerInterface) {
+            throw new ServerErrorException();
+        }
+
         $this->modelManagers[$type] = $manager;
     }
 

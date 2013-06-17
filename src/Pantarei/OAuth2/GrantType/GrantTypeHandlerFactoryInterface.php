@@ -13,5 +13,9 @@ namespace Pantarei\OAuth2\GrantType;
 
 interface GrantTypeHandlerFactoryInterface
 {
+    public function addGrantTypeHandler($type, $handler);
+
     public function getGrantTypeHandler($type);
+
+    public function removeGrantTypeHandler($type);
 }
