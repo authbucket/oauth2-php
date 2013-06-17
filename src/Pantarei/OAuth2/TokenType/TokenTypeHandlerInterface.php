@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\TokenType;
+namespace Pantarei\OAuth2\TokenType;
 
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;

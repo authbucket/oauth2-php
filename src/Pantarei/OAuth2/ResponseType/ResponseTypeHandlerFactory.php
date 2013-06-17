@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\ResponseType;
+namespace Pantarei\OAuth2\ResponseType;
 
 use Pantarei\OAuth2\Exception\ServerErrorException;
 use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;

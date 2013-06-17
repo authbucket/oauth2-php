@@ -9,20 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\ResponseType;
+namespace Pantarei\OAuth2\ResponseType;
 
+use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
-use Pantarei\OAuth2\Util\ParameterUtils;
+use Pantarei\OAuth2\Util\Filter;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Token response type implementation.
@@ -33,54 +29,29 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterface
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
-        GetResponseEvent $event,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $providerKey
+    protected function checkClientId(
+        Request $request,
+        ModelManagerFactoryInterface $modelManagerFactory
     )
     {
-        $request = $event->getRequest();
-
-        $query = array(
-            'client_id' => $request->query->get('client_id'),
-            'redirect_uri' => $request->query->get('redirect_uri'),
-            'scope' => $request->query->get('scope'),
-            'state' => $request->query->get('state'),
-        );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
-            throw new InvalidScopeException();
-        }
-
-        // Set username from token.
-        $username = $securityContext->getToken()->getUsername();
-
-        // Set client_id from GET.
         $client_id = $request->query->get('client_id');
 
-        // Check and set redirect_uri.
-        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
-
-        // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagerFactory);
-
-        // Check and set state.
-        $state = $this->checkState($request);
-
-        // Generate parameters, store to backend and set response.
-        $parameters = $this->generateParameters(
-            $modelManagerFactory,
-            $tokenTypeHandlerFactory,
-            $client_id,
-            $redirect_uri,
-            $username,
-            $scope,
-            $state
+        // client_id is required and in valid format.
+        $query = array(
+            'client_id' => $client_id,
         );
-        $this->setResponse($event, $parameters);
+        if (!Filter::filter($query)) {
+            throw new InvalidRequestException();
+        }
+
+        // Compare client_id with database record.
+        $clientManager = $modelManagerFactory->getModelManager('client');
+        $result = $clientManager->findClientByClientId($client_id);
+        if ($result === null) {
+            throw new InvalidClientException();
+        }
+
+        return $client_id;
     }
 
     protected function checkRedirectUri(
@@ -123,18 +94,27 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         ModelManagerFactoryInterface $modelManagerFactory
     )
     {
+        $scope = $request->query->get('scope', array());
         $scopeManager = $modelManagerFactory->getModelManager('scope');
 
-        $scope = $request->query->get('scope', array());
-
+        // scope may not exists.
         if ($scope) {
+            // scope must be in valid format.
+            $query = array(
+                'scope' => $scope,
+            );
+            if (!Filter::filter($query)) {
+                throw new InvalidRequestException();
+            }
+
+            // Compare if given scope within all available stored scopes.
             $stored = array();
             $result = $scopeManager->findScopes();
             foreach ($result as $row) {
                 $stored[] = $row->getScope();
             }
 
-            $scope = preg_split('/\s+/', $request->query->get('scope'));
+            $scope = preg_split('/\s+/', $scope);
             if (array_intersect($scope, $stored) !== $scope) {
                 throw new InvalidScopeException();
             }
@@ -147,10 +127,13 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     {
         $state = $request->query->get('state', null);
 
+        // state may not exists.
         if ($state) {
-            $query = array('state' => $state);
-            $filtered_query = ParameterUtils::filter($query);
-            if ($filtered_query != $query) {
+            // state must be in valid format.
+            $query = array(
+                'state' => $state,
+            );
+            if (!Filter::filter($query)) { 
                 throw new InvalidRequestException();
             }
         }
@@ -158,10 +141,9 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         return $state;
     }
 
-    protected function setResponse(GetResponseEvent $event, $parameters)
+    protected function setResponse($redirect_uri, $parameters)
     {
         $redirect_uri = Request::create($redirect_uri, 'GET', array_filter($parameters))->getUri();
-        $response = new RedirectResponse($redirect_uri);
-        $event->setResponse($response);
+        return new RedirectResponse($redirect_uri);
     }
 }

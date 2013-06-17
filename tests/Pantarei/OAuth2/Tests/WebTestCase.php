@@ -17,8 +17,8 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use Pantarei\OAuth2\Model\ModelManagerFactory;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
-use Pantarei\OAuth2\Security\Endpoint\TokenEndpointHandler;
-use Pantarei\OAuth2\Util\ParameterUtils;
+use Pantarei\OAuth2\Controller\AuthorizeController;
+use Pantarei\OAuth2\Controller\TokenController;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
@@ -110,14 +110,21 @@ class WebTestCase extends SilexWebTestCase
 
         // Authorization endpoint.
         $app->get('/authorize', function (Request $request, Application $app) {
-            $response_type = ParameterUtils::checkResponseType($request, $app);
-            $controller = $app['oauth2.response_type.' . $response_type]::create($request, $app);
-            return $controller->getResponse($request, $app);
+            $handler = new AuthorizeController(
+                $app['security'],
+                $app['security.authentication_manager'],
+                $app['security.oauth2.model_manager.factory'],
+                $app['security.oauth2.response_type_handler.factory'],
+                $app['security.oauth2.grant_type_handler.factory'],
+                $app['security.oauth2.token_type_handler.factory'],
+                'resource'
+            );
+            return $handler->handle($request);
         });
 
         // Token endpoint.
         $app->post('/token', function (Request $request, Application $app) {
-            $handler = new TokenEndpointHandler(
+            $handler = new TokenController(
                 $app['security'],
                 $app['security.authentication_manager'],
                 $app['security.oauth2.model_manager.factory'],

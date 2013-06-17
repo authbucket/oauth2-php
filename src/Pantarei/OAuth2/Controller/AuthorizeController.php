@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\Endpoint;
+namespace Pantarei\OAuth2\Controller;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Util\ParameterUtils;
+use Pantarei\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
 
-class AuthorizeEndpointHandler implements EndpointHandlerInterface
+class AuthorizeController extends AbstractController
 {
     public function handle(Request $request)
     {
@@ -41,12 +41,11 @@ class AuthorizeEndpointHandler implements EndpointHandlerInterface
         }
 
         // Validate and set response_type.
-        $response_type = $request->request->get('response_type');
+        $response_type = $request->query->get('response_type');
         $query = array(
             'response_type' => $response_type
         );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
+        if (!Filter::filter($query)) {
             throw new InvalidRequestException();
         }
 

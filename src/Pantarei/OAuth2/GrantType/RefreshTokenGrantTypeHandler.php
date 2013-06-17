@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\GrantType;
+namespace Pantarei\OAuth2\GrantType;
 
 use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
-use Pantarei\OAuth2\Util\ParameterUtils;
+use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
+use Pantarei\OAuth2\Util\Filter;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
@@ -71,8 +71,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         $query = array(
             'refresh_token' => $refresh_token,
         );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
+        if (!Filter::filter($query)) {
             throw new InvalidRequestException();
         }
 
@@ -99,8 +98,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             $query = array(
                 'scope' => $scope,
             );
-            $filtered_query = ParameterUtils::filter($query);
-            if ($filtered_query != $query) {
+            if (!Filter::filter($query)) {
                 throw new InvalidRequestException();
             }
 

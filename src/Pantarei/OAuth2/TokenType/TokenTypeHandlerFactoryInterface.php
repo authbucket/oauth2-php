@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\GrantType;
+namespace Pantarei\OAuth2\TokenType;
 
-interface GrantTypeHandlerFactoryInterface
+interface TokenTypeHandlerFactoryInterface
 {
-    public function getGrantTypeHandler($type);
+    public function getTokenTypeHandler($type = null);
 }

@@ -48,13 +48,12 @@ class OAuth2Test extends WebTestCase
             'http://democlient1.com/redirect_uri',
             $auth_response->getSchemeAndHttpHost() . $auth_response->getBaseUrl() . $auth_response->getPathInfo()
         );
-        $this->assertEquals('example state', $auth_response->query->get('state'));
 
         // Query token endpoint with grant_type = authorization_code.
-        $code = $auth_response->query->get('code');
+        $code_response = $auth_response->query->all();
         $parameters = array(
             'grant_type' => 'authorization_code',
-            'code' => $code,
+            'code' => $code_response['code'],
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'client_id' => 'http://democlient1.com/',
             'client_secret' => 'demosecret1',
@@ -95,10 +94,17 @@ class OAuth2Test extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertTrue($client->getResponse()->isRedirect());
+
+        // Check basic auth response that can simply compare.
+        $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $this->assertEquals(
+            'http://democlient1.com/redirect_uri',
+            $auth_response->getSchemeAndHttpHost() . $auth_response->getBaseUrl() . $auth_response->getPathInfo()
+        );
 
         // Check basic token response that can simply compare.
-        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $token_response = $auth_response->query->all();
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
 
@@ -179,7 +185,7 @@ class OAuth2Test extends WebTestCase
     {
         // Query authorization endpoint with response_type = token.
         $parameters = array(
-            'response_type' => 'token',
+            'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
@@ -191,9 +197,31 @@ class OAuth2Test extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue($client->getResponse()->isRedirect());
+
+        // Check basic auth response that can simply compare.
+        $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $this->assertEquals(
+            'http://democlient1.com/redirect_uri',
+            $auth_response->getSchemeAndHttpHost() . $auth_response->getBaseUrl() . $auth_response->getPathInfo()
+        );
+
+        // Query token endpoint with grant_type = authorization_code.
+        $code_response = $auth_response->query->all();
+        $parameters = array(
+            'grant_type' => 'authorization_code',
+            'code' => $code_response['code'],
+            'redirect_uri' => 'http://democlient1.com/redirect_uri',
+            'client_id' => 'http://democlient1.com/',
+            'client_secret' => 'demosecret1',
+        );
+        $server = array();
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Query token endpoint with grant_type = refresh_token.
+        $token_response = json_decode($client->getResponse()->getContent(), true);
         $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => $token_response['refresh_token'],

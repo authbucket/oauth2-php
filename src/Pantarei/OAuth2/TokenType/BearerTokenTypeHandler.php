@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\TokenType;
+namespace Pantarei\OAuth2\TokenType;
 
 use Pantarei\OAuth2\Exception\AccessDeniedException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
@@ -44,9 +44,10 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             throw new InvalidRequestException();
         } elseif (($headers_token && $request_token)
             || ($request_token && $query_token)
-            || ($query_token && $headers_token)) {
-                throw new InvalidRequestException();
-            }
+            || ($query_token && $headers_token)
+        ) {
+            throw new InvalidRequestException();
+        }
 
         // Check with HTTP basic auth if exists.
         if ($headers_token) {
@@ -60,9 +61,10 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         if (null !== $token = $securityContext->getToken()) {
             if ($token instanceof AccessToken
                 && $token->isAuthenticated()
-                && $token->getCredentials() === $access_token) {
-                    return;
-                }
+                && $token->getAccessToken() === $access_token
+            ) {
+                return;
+            }
         }
 
         try {

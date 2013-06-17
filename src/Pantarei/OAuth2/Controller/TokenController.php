@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\Endpoint;
+namespace Pantarei\OAuth2\Controller;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
-use Pantarei\OAuth2\Util\ParameterUtils;
+use Pantarei\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
 
-class TokenEndpointHandler extends AbstractEndpointHandler
+class TokenController extends AbstractController
 {
     public function handle(Request $request)
     {
@@ -45,8 +45,7 @@ class TokenEndpointHandler extends AbstractEndpointHandler
         $query = array(
             'grant_type' => $grant_type
         );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
+        if (!Filter::filter($query)) {
             throw new InvalidRequestException();
         }
 

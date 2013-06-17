@@ -9,11 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\Endpoint;
+namespace Pantarei\OAuth2\GrantType;
 
-use Symfony\Component\HttpFoundation\Request;
-
-interface EndpointHandlerInterface
+interface GrantTypeHandlerFactoryInterface
 {
-    public function handle(Request $request);
+    public function getGrantTypeHandler($type);
 }

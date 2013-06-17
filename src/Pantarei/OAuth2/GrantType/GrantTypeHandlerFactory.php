@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\GrantType;
+namespace Pantarei\OAuth2\GrantType;
 
 use Pantarei\OAuth2\Exception\ServerErrorException;
 

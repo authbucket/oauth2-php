@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\Endpoint;
+namespace Pantarei\OAuth2\Controller;
 
+use Pantarei\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
-use Pantarei\OAuth2\Security\GrantType\GrantTypeHandlerFactoryInterface;
-use Pantarei\OAuth2\Security\ResponseType\ResponseTypeHandlerFactoryInterface;
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerFactoryInterface;
+use Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
+use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
-abstract class AbstractEndpointHandler implements EndpointHandlerInterface
+abstract class AbstractController implements ControllerInterface
 {
     protected $securityContext;
     protected $authenticationManager;

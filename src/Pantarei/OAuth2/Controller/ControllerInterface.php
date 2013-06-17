@@ -9,9 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\TokenType;
+namespace Pantarei\OAuth2\Controller;
 
-interface TokenTypeHandlerFactoryInterface
+use Symfony\Component\HttpFoundation\Request;
+
+interface ControllerInterface
 {
-    public function getTokenTypeHandler($type = null);
+    public function handle(Request $request);
 }

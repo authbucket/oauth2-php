@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthorizationEndpointTest extends WebTestCase
 {
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
     public function testExceptionCodeNoClientId()
     {
@@ -42,7 +42,7 @@ class AuthorizationEndpointTest extends WebTestCase
     }
     
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
     public function testExceptionTokenNoClientId()
     {
@@ -222,7 +222,7 @@ class AuthorizationEndpointTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
     public function testErrorCodeBadScopeFormat()
     {
@@ -262,7 +262,7 @@ class AuthorizationEndpointTest extends WebTestCase
     }
 
     /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidScopeException
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
     public function testErrorTokenBadScopeFormat()
     {
@@ -440,7 +440,7 @@ class AuthorizationEndpointTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertTrue($client->getResponse()->isRedirect());
 
         $parameters = array(
             'response_type' => 'token',
@@ -454,7 +454,7 @@ class AuthorizationEndpointTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertTrue($client->getResponse()->isRedirect());
 
         $parameters = array(
             'response_type' => 'token',
@@ -468,7 +468,7 @@ class AuthorizationEndpointTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertTrue($client->getResponse()->isRedirect());
 
         $parameters = array(
             'response_type' => 'token',
@@ -483,7 +483,7 @@ class AuthorizationEndpointTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertTrue($client->getResponse()->isRedirect());
     }
 
     public function testGoodTokenNoPassedRedirectUri() 
@@ -506,7 +506,7 @@ class AuthorizationEndpointTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertTrue($client->getResponse()->isRedirect());
     }
 
     public function testGoodTokenNoStoredRedirectUri() 
@@ -529,6 +529,6 @@ class AuthorizationEndpointTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertTrue($client->getResponse()->isRedirect());
     }
 }

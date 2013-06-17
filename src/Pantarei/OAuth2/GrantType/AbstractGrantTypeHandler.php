@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Security\GrantType;
+namespace Pantarei\OAuth2\GrantType;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
-use Pantarei\OAuth2\Security\TokenType\TokenTypeHandlerInterface;
-use Pantarei\OAuth2\Util\ParameterUtils;
+use Pantarei\OAuth2\TokenType\TokenTypeHandlerInterface;
+use Pantarei\OAuth2\Util\Filter;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,8 +42,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         $query = array(
             'client_id' => $client_id,
         );
-        $filtered_query = ParameterUtils::filter($query);
-        if ($filtered_query != $query) {
+        if (!Filter::filter($query)) {
             throw new InvalidRequestException();
         }
 
@@ -71,8 +70,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
             $query = array(
                 'scope' => $scope,
             );
-            $filtered_query = ParameterUtils::filter($query);
-            if ($filtered_query != $query) {
+            if (!Filter::filter($query)) {
                 throw new InvalidRequestException();
             }
 
