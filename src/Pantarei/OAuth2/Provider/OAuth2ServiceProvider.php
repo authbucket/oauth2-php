@@ -23,7 +23,8 @@ use Pantarei\OAuth2\Model\ModelManagerFactory;
 use Pantarei\OAuth2\ResponseType\CodeResponseTypeHandler;
 use Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use Pantarei\OAuth2\ResponseType\TokenResponseTypeHandler;
-use Pantarei\OAuth2\Security\Firewall\OAuth2Listener;
+use Pantarei\OAuth2\Security\Firewall\ResourceListener;
+use Pantarei\OAuth2\Security\Firewall\TokenListener;
 use Pantarei\OAuth2\TokenType\BearerTokenTypeHandler;
 use Pantarei\OAuth2\TokenType\MacTokenTypeHandler;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactory;
@@ -94,33 +95,58 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
             return $handler->handle($request);
         });
 
-        $app['security.authentication_listener.factory.oauth2'] = $app->protect(function ($name, $options) use ($app) {
-            if (!isset($app['security.authentication_provider.' . $name . '.oauth2'])) {
-                $app['security.authentication_provider.' . $name . '.oauth2'] = $app['security.authentication_provider.dao._proto']($name, $options);
+        $app['security.authentication_listener.token._proto'] = $app->protect(function ($name, $options) use ($app) {
+            return $app->share(function () use ($app, $name, $options) {
+                return new TokenListener(
+                    $app['security'],
+                    $app['security.oauth2.model_manager.factory'],
+                    $app['security.oauth2.token_type_handler.factory']
+                );
+            });
+        });
+
+        $app['security.authentication_listener.resource._proto'] = $app->protect(function ($name, $options) use ($app) {
+            return $app->share(function () use ($app, $name, $options) {
+                return new ResourceListener(
+                    $app['security'],
+                    $app['security.oauth2.model_manager.factory'],
+                    $app['security.oauth2.token_type_handler.factory']
+                );
+            });
+        });
+
+        $app['security.authentication_listener.factory.token'] = $app->protect(function ($name, $options) use ($app) {
+            if (!isset($app['security.authentication_provider.' . $name . '.token'])) {
+                $app['security.authentication_provider.' . $name . '.token'] = $app['security.authentication_provider.dao._proto']($name, $options);
             }
 
-            if (!isset($app['security.authentication_listener.' . $name . '.oauth2'])) {
-                $app['security.authentication_listener.' . $name . '.oauth2'] = $app['security.authentication_listener.oauth2._proto']($name, $options);
+            if (!isset($app['security.authentication_listener.' . $name . '.token'])) {
+                $app['security.authentication_listener.' . $name . '.token'] = $app['security.authentication_listener.token._proto']($name, $options);
             }
 
             return array(
-                'security.authentication_provider.' . $name . '.oauth2',
-                'security.authentication_listener.' . $name . '.oauth2',
+                'security.authentication_provider.' . $name . '.token',
+                'security.authentication_listener.' . $name . '.token',
                 null,
                 'pre_auth',
             );
         });
 
-        $app['security.authentication_listener.oauth2._proto'] = $app->protect(function ($name, $options) use ($app) {
-            return $app->share(function () use ($app, $name, $options) {
-                return new OAuth2Listener(
-                    $app['security'],
-                    $app['security.http_utils'],
-                    $app['security.oauth2.model_manager.factory'],
-                    $app['security.oauth2.token_type_handler.factory'],
-                    $options
-                );
-            });
+        $app['security.authentication_listener.factory.resource'] = $app->protect(function ($name, $options) use ($app) {
+            if (!isset($app['security.authentication_provider.' . $name . '.resource'])) {
+                $app['security.authentication_provider.' . $name . '.resource'] = $app['security.authentication_provider.dao._proto']($name, $options);
+            }
+
+            if (!isset($app['security.authentication_listener.' . $name . '.resource'])) {
+                $app['security.authentication_listener.' . $name . '.resource'] = $app['security.authentication_listener.resource._proto']($name, $options);
+            }
+
+            return array(
+                'security.authentication_provider.' . $name . '.resource',
+                'security.authentication_listener.' . $name . '.resource',
+                null,
+                'pre_auth',
+            );
         });
     }
 

@@ -80,14 +80,14 @@ class WebTestCase extends SilexWebTestCase
             ),
             'token' => array(
                 'pattern' => '^/token',
-                'oauth2' => true,
+                'token' => true,
                 'users' => $app->share(function () use ($app) {
                     return $app['security.oauth2.model_manager.factory']->getModelManager('user');
                 }),
             ),
             'resource' => array(
                 'pattern' => '^/resource',
-                'oauth2' => true,
+                'resource' => true,
             ),
         );
 
