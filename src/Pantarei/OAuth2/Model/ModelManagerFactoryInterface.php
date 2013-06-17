@@ -13,5 +13,9 @@ namespace Pantarei\OAuth2\Model;
 
 interface ModelManagerFactoryInterface
 {
+    public function addModelManager($type, $manager);
+
     public function getModelManager($type);
+
+    public function removeModelManager($type);
 }

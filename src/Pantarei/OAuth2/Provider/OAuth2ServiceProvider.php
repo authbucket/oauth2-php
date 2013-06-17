@@ -11,12 +11,15 @@
 
 namespace Pantarei\OAuth2\Provider;
 
+use Pantarei\OAuth2\Controller\AuthorizeController;
+use Pantarei\OAuth2\Controller\TokenController;
 use Pantarei\OAuth2\Exception\ServerErrorException;
 use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantTypeHandler;
 use Pantarei\OAuth2\GrantType\ClientCredentialsGrantTypeHandler;
 use Pantarei\OAuth2\GrantType\GrantTypeHandlerFactory;
 use Pantarei\OAuth2\GrantType\PasswordGrantTypeHandler;
 use Pantarei\OAuth2\GrantType\RefreshTokenGrantTypeHandler;
+use Pantarei\OAuth2\Model\ModelManagerFactory;
 use Pantarei\OAuth2\ResponseType\CodeResponseTypeHandler;
 use Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use Pantarei\OAuth2\ResponseType\TokenResponseTypeHandler;
@@ -24,7 +27,6 @@ use Pantarei\OAuth2\Security\Firewall\OAuth2Listener;
 use Pantarei\OAuth2\TokenType\BearerTokenTypeHandler;
 use Pantarei\OAuth2\TokenType\MacTokenTypeHandler;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactory;
-use Pantarei\Oauth2\Model\ModelManagerFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -38,9 +40,9 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
 
     public function register(Application $app)
     {
-        // Before execute we need to define the backend storage.
-        $app['security.oauth2.model_manager.factory'] = $app->share(function ($app) {
-            throw new ServerErrorException();
+        // Before execute we need to define the backend storage with addModelManager().
+        $app['security.oauth2.model_manager.factory'] = $app->share(function () {
+            return new ModelManagerFactory();
         });
 
         $app['security.oauth2.response_type_handler.factory'] = $app->share(function ($app) {
@@ -64,6 +66,32 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
             return new TokenTypeHandlerFactory(array(
                 'bearer' => new BearerTokenTypeHandler(),
             ));
+        });
+
+        $app['security.oauth2.authorize_controller'] = $app->protect(function ($request, $app) {
+            $handler = new AuthorizeController(
+                $app['security'],
+                $app['security.authentication_manager'],
+                $app['security.oauth2.model_manager.factory'],
+                $app['security.oauth2.response_type_handler.factory'],
+                $app['security.oauth2.grant_type_handler.factory'],
+                $app['security.oauth2.token_type_handler.factory'],
+                'authorize'
+            );
+            return $handler->handle($request);
+        });
+
+        $app['security.oauth2.token_controller'] = $app->protect(function ($request, $app) {
+            $handler = new TokenController(
+                $app['security'],
+                $app['security.authentication_manager'],
+                $app['security.oauth2.model_manager.factory'],
+                $app['security.oauth2.response_type_handler.factory'],
+                $app['security.oauth2.grant_type_handler.factory'],
+                $app['security.oauth2.token_type_handler.factory'],
+                'token'
+            );
+            return $handler->handle($request);
         });
 
         $app['security.authentication_listener.factory.oauth2'] = $app->protect(function ($name, $options) use ($app) {
@@ -94,27 +122,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
                 );
             });
         });
-
-        // Shortcut for response_type.
-        $response_type = array(
-            'code' => 'Pantarei\OAuth2\ResponseType\CodeResponseType',
-            'token' => 'Pantarei\OAuth2\ResponseType\TokenResponseType',
-        );
-        foreach ($response_type as $name => $class) {
-            $app['oauth2.response_type.' . $name] = $class;
-        }
-
-        // Shortcut for token_type.
-        $token_type = array(
-            'bearer' => 'Pantarei\OAuth2\TokenType\BearerTokenType',
-            'mac' => 'Pantarei\OAuth2\TokenType\MacTokenType',
-        );
-        foreach ($token_type as $name => $class) {
-            $app['oauth2.token_type.' . $name] = $class;
-        }
-
-        // Shortcut for default token_type.
-        $app['oauth2.token_type.default'] = $app['oauth2.token_type.bearer'];
     }
 
     public function boot(Application $app)

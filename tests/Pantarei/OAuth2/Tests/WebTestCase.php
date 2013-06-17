@@ -15,10 +15,7 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
-use Pantarei\OAuth2\Model\ModelManagerFactory;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
-use Pantarei\OAuth2\Controller\AuthorizeController;
-use Pantarei\OAuth2\Controller\TokenController;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
@@ -57,39 +54,21 @@ class WebTestCase extends SilexWebTestCase
             $event_manager = $app['dbs.event_manager']['default'];
             return EntityManager::create($conn, $config, $event_manager);
         });
-        $app['oauth2.orm'] = $app['security.oauth2.orm'];
 
-        $entity = array(
-            'access_token' => 'Pantarei\OAuth2\Tests\Entity\AccessToken',
-            'authorize' => 'Pantarei\OAuth2\Tests\Entity\Authorize',
-            'client' => 'Pantarei\OAuth2\Tests\Entity\Client',
-            'code' => 'Pantarei\OAuth2\Tests\Entity\Code',
-            'refresh_token' => 'Pantarei\OAuth2\Tests\Entity\RefreshToken',
-            'scope' => 'Pantarei\OAuth2\Tests\Entity\Scope',
-            'user' => 'Pantarei\OAuth2\Tests\Entity\User',
+        // Add model managers from ORM.
+        $model = array(
+            'access_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\AccessToken',
+            'authorize' => 'Pantarei\\OAuth2\\Tests\\Entity\\Authorize',
+            'client' => 'Pantarei\\OAuth2\\Tests\\Entity\\Client',
+            'code' => 'Pantarei\\OAuth2\\Tests\\Entity\\Code',
+            'refresh_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\RefreshToken',
+            'scope' => 'Pantarei\\OAuth2\\Tests\\Entity\\Scope',
+            'user' => 'Pantarei\\OAuth2\\Tests\\Entity\\User',
         );
-        foreach ($entity as $name => $class) {
-            $app['oauth2.model.' . $name] = $class;
-            $app['oauth2.model_manager.' . $name] = $app['oauth2.orm']->getRepository($class);
+        $factory = $app['security.oauth2.model_manager.factory'];
+        foreach ($model as $name => $class) {
+            $factory->addModelManager($name, $app['security.oauth2.orm']->getRepository($class));
         }
-
-        $app['security.oauth2.model_manager.factory'] = $app->share(function ($app) {
-            $model = array(
-                'access_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\AccessToken',
-                'authorize' => 'Pantarei\\OAuth2\\Tests\\Entity\\Authorize',
-                'client' => 'Pantarei\\OAuth2\\Tests\\Entity\\Client',
-                'code' => 'Pantarei\\OAuth2\\Tests\\Entity\\Code',
-                'refresh_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\RefreshToken',
-                'scope' => 'Pantarei\\OAuth2\\Tests\\Entity\\Scope',
-                'user' => 'Pantarei\\OAuth2\\Tests\\Entity\\User',
-            );
-
-            $modelManagers = array();
-            foreach ($model as $name => $class) {
-                $modelManagers[$name] = $app['security.oauth2.orm']->getRepository($class);
-            }
-            return new ModelManagerFactory($modelManagers);
-        });
 
         $app['security.firewalls'] = array(
             'authorize' => array(
@@ -99,41 +78,27 @@ class WebTestCase extends SilexWebTestCase
                     return $app['security.oauth2.model_manager.factory']->getModelManager('user');
                 }),
             ),
-            'resource' => array(
-                'pattern' => '^/(token|resource)',
+            'token' => array(
+                'pattern' => '^/token',
                 'oauth2' => true,
                 'users' => $app->share(function () use ($app) {
                     return $app['security.oauth2.model_manager.factory']->getModelManager('user');
                 }),
             ),
+            'resource' => array(
+                'pattern' => '^/resource',
+                'oauth2' => true,
+            ),
         );
 
         // Authorization endpoint.
         $app->get('/authorize', function (Request $request, Application $app) {
-            $handler = new AuthorizeController(
-                $app['security'],
-                $app['security.authentication_manager'],
-                $app['security.oauth2.model_manager.factory'],
-                $app['security.oauth2.response_type_handler.factory'],
-                $app['security.oauth2.grant_type_handler.factory'],
-                $app['security.oauth2.token_type_handler.factory'],
-                'resource'
-            );
-            return $handler->handle($request);
+            return $app['security.oauth2.authorize_controller']($request, $app);
         });
 
         // Token endpoint.
         $app->post('/token', function (Request $request, Application $app) {
-            $handler = new TokenController(
-                $app['security'],
-                $app['security.authentication_manager'],
-                $app['security.oauth2.model_manager.factory'],
-                $app['security.oauth2.response_type_handler.factory'],
-                $app['security.oauth2.grant_type_handler.factory'],
-                $app['security.oauth2.token_type_handler.factory'],
-                'resource'
-            );
-            return $handler->handle($request);
+            return $app['security.oauth2.token_controller']($request, $app);
         });
 
         // Resource endpoint.

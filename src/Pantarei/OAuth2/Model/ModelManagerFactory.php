@@ -17,9 +17,14 @@ class ModelManagerFactory implements ModelManagerFactoryInterface
 {
     private $modelManagers;
 
-    public function __construct(array $modelManagers)
+    public function __construct()
     {
-        $this->modelManagers = $modelManagers;
+        $this->modelManagers = array();
+    }
+
+    public function addModelManager($type, $manager)
+    {
+        $this->modelManagers[$type] = $manager;
     }
 
     public function getModelManager($type)
@@ -33,5 +38,14 @@ class ModelManagerFactory implements ModelManagerFactoryInterface
         }
 
         return $this->modelManagers[$type];
+    }
+
+    public function removeModelManager($type)
+    {
+        if (!isset($this->modelManagers[$type])) {
+            return;
+        }
+
+        unset($this->modelManagers[$type]);
     }
 }
