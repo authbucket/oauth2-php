@@ -15,35 +15,28 @@ use Pantarei\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 abstract class AbstractController implements ControllerInterface
 {
     protected $securityContext;
-    protected $authenticationManager;
     protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
     protected $grantTypeHandlerFactory;
     protected $tokenTypeHandlerFactory;
-    protected $providerKey;
 
     public function __construct(
         SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
         ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
         GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $providerKey
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         $this->securityContext = $securityContext;
-        $this->authenticationManager = $authenticationManager;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
         $this->grantTypeHandlerFactory = $grantTypeHandlerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
-        $this->providerKey = $providerKey;
     }
 }

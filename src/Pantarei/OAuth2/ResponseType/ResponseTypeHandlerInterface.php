@@ -14,7 +14,6 @@ namespace Pantarei\OAuth2\ResponseType;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 interface ResponseTypeHandlerInterface
@@ -24,10 +23,8 @@ interface ResponseTypeHandlerInterface
      */
     public function handle(
         SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $providerKey
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     );
 }

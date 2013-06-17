@@ -58,12 +58,10 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $app['security.oauth2.authorize_controller'] = $app->protect(function ($request, $app) {
             $handler = new AuthorizeController(
                 $app['security'],
-                $app['security.authentication_manager'],
                 $app['security.oauth2.model_manager.factory'],
                 $app['security.oauth2.response_type_handler.factory'],
                 $app['security.oauth2.grant_type_handler.factory'],
-                $app['security.oauth2.token_type_handler.factory'],
-                'authorize'
+                $app['security.oauth2.token_type_handler.factory']
             );
             return $handler->handle($request);
         });
@@ -71,12 +69,10 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $app['security.oauth2.token_controller'] = $app->protect(function ($request, $app) {
             $handler = new TokenController(
                 $app['security'],
-                $app['security.authentication_manager'],
                 $app['security.oauth2.model_manager.factory'],
                 $app['security.oauth2.response_type_handler.factory'],
                 $app['security.oauth2.grant_type_handler.factory'],
-                $app['security.oauth2.token_type_handler.factory'],
-                'authorize'
+                $app['security.oauth2.token_type_handler.factory']
             );
             return $handler->handle($request);
         });

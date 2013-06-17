@@ -30,6 +30,7 @@ use Silex\Provider\SecurityServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 
 /**
  * Extend Silex\WebTestCase for test case require database and web interface
@@ -88,10 +89,16 @@ class WebTestCase extends SilexWebTestCase
         }
 
         // Add grant type handler.
+        $authenticationProvider = new DaoAuthenticationProvider(
+            $app['security.oauth2.model_manager.factory']->getModelManager('user'),
+            $app['security.user_checker'],
+            'oauth2',
+            $app['security.encoder_factory']
+        );
         $handlers = array(
             'authorization_code' => new AuthorizationCodeGrantTypeHandler(),
             'client_credentials' => new ClientCredentialsGrantTypeHandler(),
-            'password' => new PasswordGrantTypeHandler(),
+            'password' => new PasswordGrantTypeHandler($authenticationProvider),
             'refresh_token' => new RefreshTokenGrantTypeHandler(),
         );
         foreach ($handlers as $type => $handler) {
@@ -117,9 +124,6 @@ class WebTestCase extends SilexWebTestCase
             'token' => array(
                 'pattern' => '^/token',
                 'token' => true,
-                'users' => $app->share(function () use ($app) {
-                    return $app['security.oauth2.model_manager.factory']->getModelManager('user');
-                }),
             ),
             'resource' => array(
                 'pattern' => '^/resource',

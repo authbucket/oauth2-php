@@ -25,11 +25,9 @@ class TokenController extends AbstractController
         // Handle token endpoint response.
         return $this->grantTypeHandlerFactory->getGrantTypeHandler($grant_type)->handle(
             $this->securityContext,
-            $this->authenticationManager,
             $request,
             $this->modelManagerFactory,
-            $this->tokenTypeHandlerFactory,
-            $this->providerKey
+            $this->tokenTypeHandlerFactory
         );
     }
 

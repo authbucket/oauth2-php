@@ -25,11 +25,9 @@ class AuthorizeController extends AbstractController
         // Handle authorize endpoint response.
         return $this->responseTypeHandlerFactory->getResponseTypeHandler($response_type)->handle(
             $this->securityContext,
-            $this->authenticationManager,
             $request,
             $this->modelManagerFactory,
-            $this->tokenTypeHandlerFactory,
-            $this->providerKey
+            $this->tokenTypeHandlerFactory
         );
     }
 

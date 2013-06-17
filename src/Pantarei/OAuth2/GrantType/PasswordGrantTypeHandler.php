@@ -17,7 +17,7 @@ use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\Filter;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -30,25 +30,27 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
+    private $authenticationProvider;
+
+    public function __construct(
+        AuthenticationProviderInterface $authenticationProvider
+    )
+    {
+        $this->authenticationProvider = $authenticationProvider;
+    }
+
     public function handle(
         SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $providerKey
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         // Check and set client_id.
         $client_id = $this->checkClientId($request, $modelManagerFactory);
 
         // Check resource owner credentials
-        $username = $this->checkUsername(
-            $request,
-            $modelManagerFactory,
-            $authenticationManager,
-            $providerKey
-        );
+        $username = $this->checkUsername($request, $modelManagerFactory);
 
         // Check and set scope.
         $scope = $this->checkScope($request, $modelManagerFactory);
@@ -65,9 +67,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 
     private function checkUsername(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        AuthenticationManagerInterface $authenticationManager,
-        $providerKey
+        ModelManagerFactoryInterface $modelManagerFactory
     )
     {
         $username = $request->request->get('username');
@@ -83,8 +83,8 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         // Validate credentials with authentication manager.
-        $token = new UsernamePasswordToken($username, $password, $providerKey);
-        if (null === $authenticationManager->authenticate($token)) {
+        $token = new UsernamePasswordToken($username, $password, 'oauth2');
+        if (null === $this->authenticationProvider->authenticate($token)) {
             throw new InvalidGrantException();
         }
 

@@ -19,7 +19,6 @@ use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\Filter;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -33,11 +32,9 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 {
     public function handle(
         SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $providerKey
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         // Check and set client_id.
