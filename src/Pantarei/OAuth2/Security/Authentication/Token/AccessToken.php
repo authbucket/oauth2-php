@@ -11,7 +11,6 @@
 
 namespace Pantarei\OAuth2\Security\Authentication\Token;
 
-use Pantarei\OAuth2\Model\AccessTokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 /**
@@ -38,11 +37,7 @@ class AccessToken extends AbstractToken
 
     public function getAccessToken()
     {
-        if ($this->access_token instanceof AccessTokenInterface) {
-            return $this->access_token->getAccessToken();
-        }
-
-        return (string) $this->access_token;
+        return $this->access_token;
     }
 
     public function getCredentials()

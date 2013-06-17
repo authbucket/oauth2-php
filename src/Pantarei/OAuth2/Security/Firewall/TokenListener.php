@@ -19,6 +19,7 @@ use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
@@ -30,16 +31,19 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 class TokenListener implements ListenerInterface
 {
     private $securityContext;
+    private $authenticationManager;
     private $modelManagerFactory;
     private $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,
+        AuthenticationManagerInterface $authenticationManager,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         $this->securityContext = $securityContext;
+        $this->authenticationManager = $authenticationManager;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
@@ -74,12 +78,9 @@ class TokenListener implements ListenerInterface
         }
 
         try {
-            $clientManager = $this->modelManagerFactory->getModelManager('client');
-            $client = $clientManager->findClientByClientId($client_id);
-            if ($client === null || $client->getClientSecret() !== $client_secret) {
-                throw new InvalidClientException();
-            }
-            $this->securityContext->setToken(new ClientToken($client_id, $client_secret));
+            $token = new ClientToken($client_id, $client_secret);
+            $authenticatedToken = $this->authenticationManager->authenticate($token);
+            $this->securityContext->setToken($authenticatedToken);
         } catch (Exception $failed) {
             $response = new Response();
             $response->setStatusCode(403);

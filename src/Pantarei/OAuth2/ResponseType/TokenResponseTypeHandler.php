@@ -51,7 +51,7 @@ class TokenResponseTypeHandler extends AbstractResponseTypeHandler
         $state = $this->checkState($request);
 
         // Generate parameters, store to backend and set response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
+        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
             $modelManagerFactory,
             $client_id,
             $username,

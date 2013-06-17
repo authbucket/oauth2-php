@@ -46,7 +46,7 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
         $username = '';
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
+        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
             $modelManagerFactory,
             $client_id,
             $username,

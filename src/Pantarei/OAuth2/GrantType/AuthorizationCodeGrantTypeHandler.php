@@ -49,7 +49,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createToken(
+        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
             $modelManagerFactory,
             $client_id,
             $username,

@@ -14,11 +14,13 @@ namespace Pantarei\OAuth2\Security\Firewall;
 use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
+use Pantarei\OAuth2\Security\Authentication\Token\AccessToken;
 use Pantarei\OAuth2\Security\Authentication\Token\ClientToken;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
@@ -30,16 +32,19 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 class ResourceListener implements ListenerInterface
 {
     private $securityContext;
+    private $authenticationManager;
     private $modelManagerFactory;
     private $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,
+        AuthenticationManagerInterface $authenticationManager,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         $this->securityContext = $securityContext;
+        $this->authenticationManager = $authenticationManager;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
@@ -48,11 +53,34 @@ class ResourceListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        // Handle resource endpoint validation.
-        $this->tokenTypeHandlerFactory->getTokenTypeHandler()->handle(
-            $this->securityContext,
-            $event,
-            $this->modelManagerFactory
-        );
+        // Fetch access_token by token type handler.
+        $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
+        $access_token = $tokenTypeHandler->getAccessToken($request);
+
+        if (null !== $token = $this->securityContext->getToken()) {
+            if ($token instanceof AccessToken
+                && $token->isAuthenticated()
+                && $token->getAccessToken() === $access_token
+            ) {
+                return;
+            }
+        }
+
+        try {
+            $token = new AccessToken($access_token);
+            $authenticatedToken = $this->authenticationManager->authenticate($token);
+            $this->securityContext->setToken($authenticatedToken);
+            /*
+            $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
+            if (null === $accessTokenManager->findAccessTokenByAccessToken($access_token)) {
+                throw new AccessDeniedException();
+            }
+            $this->securityContext->setToken(new AccessToken($access_token));
+             */
+        } catch (AccessDeniedException $failed) {
+            $response = new Response();
+            $response->setStatusCode(403);
+            $event->setResponse($response);
+        }
     }
 }

@@ -14,21 +14,13 @@ namespace Pantarei\OAuth2\TokenType;
 use Pantarei\OAuth2\Exception\AccessDeniedException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
-use Pantarei\OAuth2\Security\Authentication\Token\AccessToken;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class BearerTokenTypeHandler implements TokenTypeHandlerInterface
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        GetResponseEvent $event,
-        ModelManagerFactoryInterface $modelManagerFactory
-    )
+    public function getAccessToken(Request $request)
     {
-        $request = $event->getRequest();
-
         $headers_token = $request->headers->get('Authorization', false);
         if ($headers_token && preg_match('/Bearer\s*([^\s]+)/', $headers_token, $matches)) {
             $headers_token = $matches[1];
@@ -58,29 +50,10 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             $access_token = $query_token;
         }
 
-        if (null !== $token = $securityContext->getToken()) {
-            if ($token instanceof AccessToken
-                && $token->isAuthenticated()
-                && $token->getAccessToken() === $access_token
-            ) {
-                return;
-            }
-        }
-
-        try {
-            $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
-            if (null === $accessTokenManager->findAccessTokenByAccessToken($access_token)) {
-                throw new AccessDeniedException();
-            }
-            $securityContext->setToken(new AccessToken($access_token));
-        } catch (AccessDeniedException $failed) {
-            $response = new Response();
-            $response->setStatusCode(403);
-            $event->setResponse($response);
-        }
+        return $access_token;
     }
 
-    public function createToken(
+    public function createAccessToken(
         ModelManagerFactoryInterface $modelManagerFactory,
         $client_id,
         $username = '',
