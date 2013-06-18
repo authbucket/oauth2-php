@@ -35,8 +35,8 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        // Check and set client_id.
-        $client_id = $this->checkClientId($request);
+        // Fetch client_id from authenticated token.
+        $client_id = $this->checkClientId($securityContext);
 
         // Check refresh_token, then fetch username and scope.
         list($username, $scope) = $this->checkRefreshToken($request, $modelManagerFactory, $client_id);

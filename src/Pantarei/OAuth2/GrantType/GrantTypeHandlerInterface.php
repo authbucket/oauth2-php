@@ -16,10 +16,28 @@ use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
+/**
+ * OAuth2 grant type handler interface.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 interface GrantTypeHandlerInterface
 {
     /**
-     * Proxy for endpoint handler's handle().
+     * Handle corresponding grant type logic.
+     *
+     * @param SecurityContextInterface $securityContext
+     *   The security object that hold the current live token.
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+     *   Token type handler that will generate the correct response
+     *   parameters.
+     *
+     * @return JsonResponse
+     *   The json response object for token endpoint.
      */
     public function handle(
         SecurityContextInterface $securityContext,

@@ -13,12 +13,15 @@ namespace Pantarei\OAuth2\GrantType;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Pantarei\OAuth2\Exception\ServerErrorException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
+use Pantarei\OAuth2\Security\Authentication\Token\ClientToken;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerInterface;
 use Pantarei\OAuth2\Util\Filter;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Shared grant type implementation.
@@ -28,26 +31,29 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
     /**
-     * Fetch client_id from HTTP Basic Auth or POST.
+     * Fetch client_id from authenticated token.
      *
-     * Note that since token endpoint (should) already protected by firewall,
-     * where client_id and client_secret already confirm as exist and valid,
-     * here we just need to fetch it out.
-     *
-     * @param Request $request
+     * @param SecurityContextInterface $securityContext
      *   Incoming request object.
      *
      * @return string
-     *   Supplied client_id from incoming request.
+     *   Supplied client_id from authenticated token.
+     *
+     * @throw ServerErrorException
+     *   If supplied token is not a ClientToken instance.
      */
     protected function checkClientId(
-        Request $request
+        SecurityContextInterface $securityContext
     )
     {
-        return $request->headers->get('PHP_AUTH_USER', null)
-            ? $request->headers->get('PHP_AUTH_USER', null)
-            : $request->request->get('client_id', null);
+        $token = $securityContext->getToken();
+        if (!$token instanceof ClientToken) {
+            throw new ServerErrorException();
+        }
+
+        return $token->getClientId();
     }
+
 
     /**
      * Fetch scope from POST.

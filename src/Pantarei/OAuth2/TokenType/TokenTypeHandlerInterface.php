@@ -14,15 +14,42 @@ namespace Pantarei\OAuth2\TokenType;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * OAuth2 token type handler interface.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 interface TokenTypeHandlerInterface
 {
     /**
-     * Proxy for listener's handle().
+     * Fetch access_token from given request.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     *
+     * @return string
+     *   Fetched access_token from incoming request.
      */
     public function getAccessToken(Request $request);
 
     /**
-     * Proxy for listener's setResponse().
+     * Create and save access_token parameters for generate response.
+     *
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for storing record into database.
+     * @param string $client_id
+     *   client_id this access token should belongs to.
+     * @param string $username
+     *   username this access token should belongs to.
+     * @param array $scope
+     *   All scope that this access token grant.
+     * @param string state
+     *   Original state which should preserve.
+     * @param bool $withRefreshToken
+     *   False for response_type=token.
+     *
+     * @return array
+     *   All parameters for generate response.
      */
     public function createAccessToken(
         ModelManagerFactoryInterface $modelManagerFactory,

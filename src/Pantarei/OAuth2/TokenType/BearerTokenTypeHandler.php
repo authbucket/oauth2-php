@@ -17,6 +17,11 @@ use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Bearer token type handler implementation.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class BearerTokenTypeHandler implements TokenTypeHandlerInterface
 {
     public function getAccessToken(Request $request)
@@ -27,7 +32,6 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         } else {
             $headers_token = false;
         }
-
         $request_token = $request->request->get('access_token', false);
         $query_token = $request->query->get('access_token', false);
 

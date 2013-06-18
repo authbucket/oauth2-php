@@ -49,8 +49,8 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        // Check and set client_id.
-        $client_id = $this->checkClientId($request);
+        // Fetch client_id from authenticated token.
+        $client_id = $this->checkClientId($securityContext);
 
         // Check resource owner credentials
         $username = $this->checkUsername($request, $modelManagerFactory);

@@ -117,7 +117,7 @@ class WebTestCase extends SilexWebTestCase
         });
 
         // Resource endpoint.
-        $app->get('/resource/{echo}', function (Request $request, Application $app, $echo) {
+        $app->match('/resource/{echo}', function (Request $request, Application $app, $echo) {
             return new Response($echo);
         });
 

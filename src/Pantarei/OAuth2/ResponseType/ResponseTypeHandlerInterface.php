@@ -16,10 +16,28 @@ use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
+/**
+ * OAuth2 response type handler interface.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 interface ResponseTypeHandlerInterface
 {
     /**
-     * Proxy for endpoint handler's handle().
+     * Handle corresponding response type logic.
+     *
+     * @param SecurityContextInterface $securityContext
+     *   The security object that hold the current live token.
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+     *   Token type handler that will generate the correct response
+     *   parameters.
+     *
+     * @return RedirectResponse
+     *   The redirect response object for authorize endpoint.
      */
     public function handle(
         SecurityContextInterface $securityContext,

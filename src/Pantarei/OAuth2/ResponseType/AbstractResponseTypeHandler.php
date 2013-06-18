@@ -14,21 +14,62 @@ namespace Pantarei\OAuth2\ResponseType;
 use Pantarei\OAuth2\Exception\InvalidClientException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Exception\InvalidScopeException;
+use Pantarei\OAuth2\Exception\ServerErrorException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Util\Filter;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Token response type implementation.
- *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+ * Shared response type implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
 abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterface
 {
+    /**
+     * Fetch username from authenticated token.
+     *
+     * @param SecurityContextInterface $securityContext
+     *   Incoming request object.
+     *
+     * @return string
+     *   Supplied username from authenticated token.
+     *
+     * @throw ServerErrorException
+     *   If supplied token is not a standard TokenInterface instance.
+     */
+    protected function checkUsername(
+        SecurityContextInterface $securityContext
+    )
+    {
+        $token = $securityContext->getToken();
+        if (!$token instanceof TokenInterface) {
+            throw new ServerErrorException();
+        }
+
+        return $token->getUsername();
+    }
+
+    /**
+     * Fetch cliend_id from GET.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     *
+     * @return string
+     *   Supplied client_id from incoming request.
+     *
+     * @throw InvalidRequestException
+     *   If supplied client_id in bad format.
+     * @throw InvalidClientException
+     *   If client_id not found from database record.
+     */
     protected function checkClientId(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory
@@ -54,6 +95,24 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         return $client_id;
     }
 
+    /**
+     * Fetch redirect_uri from GET.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     * @param string client_id
+     *   Corresponding client_id that code should belongs to.
+     * 
+     * @return string
+     *   The supplied redirect_uri from incoming request, or from stored
+     *   record.
+     *
+     * @throw InvalidRequestException
+     *   If redirect_uri not exists in both incoming request and database
+     *   record, or supplied value not match with stord record.  
+     */
     protected function checkRedirectUri(
         Request $request, 
         ModelManagerFactoryInterface $modelManagerFactory,

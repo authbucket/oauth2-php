@@ -18,6 +18,34 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BearerTokenTypeHandlerTest extends WebTestCase
 {
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
+    public function testExceptionNoToken()
+    {
+        $parameters = array();
+        $server = array();
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
+    }
+
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
+    public function testExceptionDuplicateToken()
+    {
+        $parameters = array(
+            'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
+        );
+        $server = array(
+            'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
+    }
+
     public function testAuthorizationHeader()
     {
         $parameters = array();
@@ -26,6 +54,14 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
+
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/resource/foo', $parameters, array(), $server);
         $this->assertEquals('foo', $client->getResponse()->getContent());
     }
 
@@ -37,6 +73,17 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $server = array();
         $client = $this->createClient();
         $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $this->assertEquals('foo', $client->getResponse()->getContent());
+    }
+
+    public function testPost()
+    {
+        $parameters = array(
+            'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
+        );
+        $server = array();
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/resource/foo', $parameters, array(), $server);
         $this->assertEquals('foo', $client->getResponse()->getContent());
     }
 }

@@ -19,8 +19,6 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Token response type implementation.
  *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
- *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
 class TokenResponseTypeHandler extends AbstractResponseTypeHandler
@@ -32,8 +30,8 @@ class TokenResponseTypeHandler extends AbstractResponseTypeHandler
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        // Set username from token.
-        $username = $securityContext->getToken()->getUsername();
+        // Fetch username from authenticated token.
+        $username = $this->checkUsername($securityContext);
 
         // Set client_id from GET.
         $client_id = $this->checkClientId($request, $modelManagerFactory);
@@ -56,7 +54,7 @@ class TokenResponseTypeHandler extends AbstractResponseTypeHandler
             $state,
             $withRefreshToken = false
         );
-        
+
         return $this->setResponse($redirect_uri, $parameters);
     }
 }

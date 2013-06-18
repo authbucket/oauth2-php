@@ -17,9 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Code response type implementation.
- *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+ * Code response type handler implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
@@ -32,8 +30,8 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        // Set username from token.
-        $username = $securityContext->getToken()->getUsername();
+        // Fetch username from authenticated token.
+        $username = $this->checkUsername($securityContext);
 
         // Set client_id from GET.
         $client_id = $this->checkClientId($request, $modelManagerFactory);

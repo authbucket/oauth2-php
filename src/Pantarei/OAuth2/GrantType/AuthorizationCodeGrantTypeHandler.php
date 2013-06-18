@@ -34,8 +34,8 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        // Check and set client_id.
-        $client_id = $this->checkClientId($request);
+        // Fetch client_id from authenticated token.
+        $client_id = $this->checkClientId($securityContext);
 
         // Fetch username and scope from stored code.
         list($username, $scope) = $this->checkCode($request, $modelManagerFactory, $client_id);
