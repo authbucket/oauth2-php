@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\GrantType;
 
+use Pantarei\OAuth2\Exception\InvalidGrantException;
 use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
@@ -19,12 +20,14 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Password grant type implementation.
  *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+ * Note this is a Symfony based specific implementation, 3rd party
+ * integration should override this with its own logic.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
@@ -47,7 +50,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     )
     {
         // Check and set client_id.
-        $client_id = $this->checkClientId($request, $modelManagerFactory);
+        $client_id = $this->checkClientId($request);
 
         // Check resource owner credentials
         $username = $this->checkUsername($request, $modelManagerFactory);
@@ -65,6 +68,22 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         return $this->setResponse($parameters);
     }
 
+    /**
+     * Fetch username from POST.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     *
+     * @return string
+     *   The supplied username.
+     *
+     * @throw InvalidRequestException
+     *   If username or password in invalid format.
+     * @throw InvalidGrantException
+     *   If reported as bad credentials from authentication provider.
+     */
     private function checkUsername(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory
@@ -83,8 +102,10 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         // Validate credentials with authentication manager.
-        $token = new UsernamePasswordToken($username, $password, 'oauth2');
-        if (null === $this->authenticationProvider->authenticate($token)) {
+        try {
+            $token = new UsernamePasswordToken($username, $password, 'oauth2');
+            $this->authenticationProvider->authenticate($token);
+        } catch (BadCredentialsException $e) {
             throw new InvalidGrantException();
         }
 

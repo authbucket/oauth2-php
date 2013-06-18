@@ -23,8 +23,6 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Authorization code grant type implementation.
  *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
- *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
 class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
@@ -37,7 +35,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     )
     {
         // Check and set client_id.
-        $client_id = $this->checkClientId($request, $modelManagerFactory);
+        $client_id = $this->checkClientId($request);
 
         // Fetch username and scope from stored code.
         list($username, $scope) = $this->checkCode($request, $modelManagerFactory, $client_id);
@@ -55,6 +53,25 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         return $this->setResponse($parameters);
     }
 
+    /**
+     * Fetch code from POST.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     * @param string client_id
+     *   Corresponding client_id that code should belongs to.
+     *
+     * @return array
+     *   A list with stored username and scope, originally grant in authorize
+     *   endpoint.
+     *
+     * @throw InvalidRequestException
+     *   If code in invalid format.
+     * @throw InvalidGrantException
+     *   If code provided is no longer valid.
+     */
     private function checkCode(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
@@ -83,6 +100,24 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         return array($result->getUsername(), $result->getScope());
     }
 
+    /**
+     * Fetch redirect_uri from POST, or stored record.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     * @param string client_id
+     *   Corresponding client_id that code should belongs to.
+     *
+     * @return string
+     *   The supplied redirect_uri from incoming request, or from stored
+     *   record.
+     *
+     * @throw InvalidRequestException
+     *   If redirect_uri not exists in both incoming request and database
+     *   record, or supplied value not match with stord record.
+     */
     private function checkRedirectUri(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,

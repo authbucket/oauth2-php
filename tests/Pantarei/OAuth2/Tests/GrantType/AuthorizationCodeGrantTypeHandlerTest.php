@@ -9,40 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Controller;
+namespace Pantarei\OAuth2\Tests\GrantType;
 
 use Pantarei\OAuth2\Tests\WebTestCase;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TokenControllerTest extends WebTestCase
+class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
 {
     /**
      * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
-    public function testExceptionNoGrantType()
+    public function testExceptionAuthCodeNoClientId()
     {
         $parameters = array(
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
-            'redirect_uri' => 'http://democlient2.com/redirect_uri',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW' => 'demosecret2',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-    }
-
-    /**
-     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
-     */
-    public function testExceptionBadGrantType()
-    {
-        $parameters = array(
-            'grant_type' => 'foo',
+            'grant_type' => 'authorization_code',
         );
         $server = array();
         $client = $this->createClient();
@@ -50,49 +32,62 @@ class TokenControllerTest extends WebTestCase
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
-    public function testGoodAuthCode()
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
+    public function testExceptionAuthCodeBothClientId()
     {
         $parameters = array(
             'grant_type' => 'authorization_code',
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
-            'redirect_uri' => 'http://democlient2.com/redirect_uri',
+            'client_id' => 'http://democlient1.com/',
+            'client_secret' => 'demosecret1',
         );
         $server = array(
-            'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW' => 'demosecret2',
+            'PHP_AUTH_USER' => 'http://democlient1.com/',
+            'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-
-        $parameters = array(
-            'grant_type' => 'authorization_code',
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
-            'redirect_uri' => 'http://democlient2.com/redirect_uri',
-            'client_id' => 'http://democlient2.com/',
-            'client_secret' => 'demosecret2',
-        );
-        $server = array();
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
-    public function testGoodAuthCodeNoPassedRedirectUri()
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
+    public function testExceptionAuthCodeBadBasicClientId()
     {
         $parameters = array(
             'grant_type' => 'authorization_code',
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
-            'client_id' => 'http://democlient2.com/',
-            'client_secret' => 'demosecret2',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://badclient1.com/',
+            'PHP_AUTH_PW' => 'badsecret1',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidClientException
+     */
+    public function testExceptionAuthCodeBadPostClientId()
+    {
+        $parameters = array(
+            'grant_type' => 'authorization_code',
+            'client_id' => 'http://badclient1.com/',
+            'client_secret' => 'badsecret1',
         );
         $server = array();
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
-    public function testGoodAuthCodeNoStoredRedirectUri()
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
+    public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
@@ -115,21 +110,44 @@ class TokenControllerTest extends WebTestCase
         $parameters = array(
             'grant_type' => 'authorization_code',
             'code' => '08fb55e26c84f8cb060b7803bc177af8',
-            'redirect_uri' => 'http://democlient4.com/redirect_uri',
-            'client_id' => 'http://democlient4.com/',
-            'client_secret' => 'demosecret4',
         );
-        $server = array();
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient4.com/',
+            'PHP_AUTH_PW' => 'demosecret4',
+        );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
-    public function testGoodClientCred()
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
+    public function testExceptionAuthCodeBadRedirectUri()
     {
         $parameters = array(
-            'grant_type' => 'client_credentials',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'redirect_uri' => 'http://democlient2.com/wrong_uri',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient2.com/',
+            'PHP_AUTH_PW' => 'demosecret2',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
+     */
+    public function testErrorAuthCodeNoCode()
+    {
+        $request = new Request();
+        $parameters = array(
+            'grant_type' => 'authorization_code',
+            'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -137,33 +155,18 @@ class TokenControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
-    public function testGoodPassword()
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+     */
+    public function testExceptionWrongClientIdAuthCode()
     {
         $parameters = array(
-            'grant_type' => 'password',
-            'username' => 'demousername1',
-            'password' => 'demopassword1',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => 'demostate1',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-    }
-
-    public function testGoodRefreshToken()
-    {
-        $parameters = array(
-            'grant_type' => 'refresh_token',
-            'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'redirect_uri' => 'http://democlient2.com/redirect_uri',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient3.com/',
@@ -172,14 +175,32 @@ class TokenControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+    }
+
+    /**
+     * @expectedException \Pantarei\OAuth2\Exception\InvalidGrantException
+     */
+    public function testExceptionExpiredAuthCode()
+    {
+        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
+        $model = $modelManager->createCode();
+        $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
+            ->setClientId('http://democlient1.com/')
+            ->setExpires(time() - 3600)
+            ->setUsername('demousername1')
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $modelManager->updateCode($model);
 
         $parameters = array(
-            'grant_type' => 'refresh_token',
-            'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+            'grant_type' => 'authorization_code',
+            'code' => '08fb55e26c84f8cb060b7803bc177af8',
+            'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
         $server = array(
-            'PHP_AUTH_USER' => 'http://democlient3.com/',
-            'PHP_AUTH_PW' => 'demosecret3',
+            'PHP_AUTH_USER' => 'http://democlient1.com/',
+            'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);

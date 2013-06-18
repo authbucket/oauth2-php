@@ -21,41 +21,50 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Abstract grant type implementation.
- *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
+ * Shared grant type implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
 abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
+    /**
+     * Fetch client_id from HTTP Basic Auth or POST.
+     *
+     * Note that since token endpoint (should) already protected by firewall,
+     * where client_id and client_secret already confirm as exist and valid,
+     * here we just need to fetch it out.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     *
+     * @return string
+     *   Supplied client_id from incoming request.
+     */
     protected function checkClientId(
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory
+        Request $request
     )
     {
-        $client_id = $request->headers->get('PHP_AUTH_USER', null)
+        return $request->headers->get('PHP_AUTH_USER', null)
             ? $request->headers->get('PHP_AUTH_USER', null)
             : $request->request->get('client_id', null);
-
-        // client_id is required and in valid format.
-        $query = array(
-            'client_id' => $client_id,
-        );
-        if (!Filter::filter($query)) {
-            throw new InvalidRequestException();
-        }
-
-        // Compare client_id with database record.
-        $clientManager = $modelManagerFactory->getModelManager('client');
-        $result = $clientManager->findClientByClientId($client_id);
-        if ($result === null) {
-            throw new InvalidClientException();
-        }
-
-        return $client_id;
     }
 
+    /**
+     * Fetch scope from POST.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     *
+     * @return array|null
+     *   Supplied scope in array from incoming request, or null if none given.
+     *
+     * @throw InvalidRequestException
+     *   If supplied scope in bad format.
+     * @throw InvalidScopeException
+     *   If supplied scope outside supported scope range.
+     */
     protected function checkScope(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory
@@ -90,7 +99,16 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         return $scope;
     }
 
-    protected function setResponse($parameters)
+    /**
+     * Convert given paramenters into JSON as token endpoint response.
+     *
+     * @param array $parameters
+     *   Parameters going to be response in JSON format.
+     *
+     * @return JsonResponse
+     *   JsonResponse object as token endpoint response.
+     */
+    protected function setResponse(array $parameters)
     {
         $headers = array(
             'Cache-Control' => 'no-store',

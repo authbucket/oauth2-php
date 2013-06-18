@@ -20,8 +20,6 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Client credentials grant type implementation.
  *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
- *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
 class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
@@ -34,7 +32,7 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
     )
     {
         // Check and set client_id.
-        $client_id = $this->checkClientId($request, $modelManagerFactory);
+        $client_id = $this->checkClientId($request);
 
         // Check and set scope.
         $scope = $this->checkScope($request, $modelManagerFactory);

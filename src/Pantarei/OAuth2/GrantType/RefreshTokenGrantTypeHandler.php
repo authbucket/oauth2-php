@@ -24,8 +24,6 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Refresh token grant type implementation.
  *
- * @see http://tools.ietf.org/html/rfc6749#section-4.1.3
- *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
 class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
@@ -38,7 +36,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     )
     {
         // Check and set client_id.
-        $client_id = $this->checkClientId($request, $modelManagerFactory);
+        $client_id = $this->checkClientId($request);
 
         // Check refresh_token, then fetch username and scope.
         list($username, $scope) = $this->checkRefreshToken($request, $modelManagerFactory, $client_id);
@@ -53,6 +51,27 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         return $this->setResponse($parameters);
     }
 
+    /**
+     * Check refresh_token supplied, return stored username and scope.
+     *
+     * @param Request $request
+     *   Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory
+     *   Model manager factory for compare with database record.
+     * @param string client_id
+     *   Corresponding client_id that refresh_token should belongs to.
+     *
+     * @return array
+     *   A list with stored username and scope, originally grant in authorize
+     *   endpoint.
+     *
+     * @throw InvalidRequestException
+     *   If supplied refresh_token or scope in invalid format.
+     * @throw InvalidGrantException
+     *   If refresh_token not belongs to give client_id, or already expired.
+     * @throw InvalidScopeException
+     *   If supplied scope outside supported scope range.
+     */
     private function checkRefreshToken(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
