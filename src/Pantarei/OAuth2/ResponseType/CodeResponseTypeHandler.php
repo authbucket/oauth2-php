@@ -40,7 +40,7 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
 
         // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagerFactory);
+        $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
 
         // Check and set state.
         $state = $this->checkState($request);

@@ -73,11 +73,13 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
      */
     protected function checkScope(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory
+        ModelManagerFactoryInterface $modelManagerFactory,
+        $client_id,
+        $username
     )
     {
         $scope = $request->request->get('scope', null);
-        $scopeManager = $modelManagerFactory->getModelManager('scope');
+        $authorizeManager = $modelManagerFactory->getModelManager('authorize');
 
         // scope may not exists.
         if ($scope) {
@@ -91,9 +93,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 
             // Compare if given scope within all available stored scopes.
             $stored = array();
-            $result = $scopeManager->findScopes();
-            foreach ($result as $row) {
-                $stored[] = $row->getScope();
+            $result = $authorizeManager->findAuthorizeByClientIdUsername($client_id, $username);
+            if ($result !== null) {
+                $stored = $result->getScope();
             }
 
             $scope = preg_split('/\s+/', $scope);

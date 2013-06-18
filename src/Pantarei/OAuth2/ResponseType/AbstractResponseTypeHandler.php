@@ -150,11 +150,13 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
     protected function checkScope(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory
+        ModelManagerFactoryInterface $modelManagerFactory,
+        $client_id,
+        $username
     )
     {
         $scope = $request->query->get('scope', array());
-        $scopeManager = $modelManagerFactory->getModelManager('scope');
+        $authorizeManager = $modelManagerFactory->getModelManager('authorize');
 
         // scope may not exists.
         if ($scope) {
@@ -168,9 +170,9 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
             // Compare if given scope within all available stored scopes.
             $stored = array();
-            $result = $scopeManager->findScopes();
-            foreach ($result as $row) {
-                $stored[] = $row->getScope();
+            $result = $authorizeManager->findAuthorizeByClientIdUsername($client_id, $username);
+            if ($result !== null) {
+                $stored = $result->getScope();
             }
 
             $scope = preg_split('/\s+/', $scope);

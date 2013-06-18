@@ -56,7 +56,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         $username = $this->checkUsername($request, $modelManagerFactory);
 
         // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagerFactory);
+        $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(

@@ -34,11 +34,11 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
         // Fetch client_id from authenticated token.
         $client_id = $this->checkClientId($securityContext);
 
-        // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagerFactory);
-
         // No (and not possible to have) username, set as empty string.
         $username = '';
+
+        // Check and set scope.
+        $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(

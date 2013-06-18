@@ -144,14 +144,14 @@ class TokenControllerTest extends WebTestCase
     {
         $parameters = array(
             'grant_type' => 'password',
-            'username' => 'demousername1',
-            'password' => 'demopassword1',
+            'username' => 'demousername3',
+            'password' => 'demopassword3',
             'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => 'demostate1',
         );
         $server = array(
-            'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
+            'PHP_AUTH_USER' => 'http://democlient3.com/',
+            'PHP_AUTH_PW' => 'demosecret3',
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);

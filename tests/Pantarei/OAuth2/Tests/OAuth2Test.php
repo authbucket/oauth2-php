@@ -31,7 +31,7 @@ class OAuth2Test extends WebTestCase
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1',
             'state' => 'example state',
         );
         $server = array(
@@ -66,7 +66,7 @@ class OAuth2Test extends WebTestCase
         // Check basic token response that can simply compare.
         $token_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
+        $this->assertEquals('demoscope1', $token_response['scope']);
 
         // Query resource endpoint with access_token.
         $parameters = array();
@@ -85,7 +85,7 @@ class OAuth2Test extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1',
             'state' => 'example state',
         );
         $server = array(
@@ -106,7 +106,7 @@ class OAuth2Test extends WebTestCase
         // Check basic token response that can simply compare.
         $token_response = $auth_response->query->all();
         $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
+        $this->assertEquals('demoscope1', $token_response['scope']);
 
         // Query resource endpoint with access_token.
         $parameters = array();
@@ -125,7 +125,7 @@ class OAuth2Test extends WebTestCase
             'grant_type' => 'password',
             'username' => 'demousername1',
             'password' => 'demopassword1',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1',
             'state' => 'demostate1',
         );
         $server = array(
@@ -139,7 +139,7 @@ class OAuth2Test extends WebTestCase
         // Check basic token response that can simply compare.
         $token_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
+        $this->assertEquals('demoscope1', $token_response['scope']);
 
         // Query resource endpoint with access_token.
         $parameters = array();
@@ -188,7 +188,7 @@ class OAuth2Test extends WebTestCase
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1',
             'state' => 'example state',
         );
         $server = array(
@@ -225,7 +225,7 @@ class OAuth2Test extends WebTestCase
         $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => $token_response['refresh_token'],
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -237,7 +237,7 @@ class OAuth2Test extends WebTestCase
         // Check basic token response that can simply compare.
         $token_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
+        $this->assertEquals('demoscope1', $token_response['scope']);
 
         // Query resource endpoint with access_token.
         $parameters = array();
