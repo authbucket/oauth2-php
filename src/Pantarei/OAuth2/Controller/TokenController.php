@@ -15,6 +15,11 @@ use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * OAuth2 token endpoint controller implementation.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class TokenController extends AbstractController
 {
     public function handle(Request $request)
@@ -33,11 +38,6 @@ class TokenController extends AbstractController
 
     private function getGrantType(Request $request)
     {
-        // grant_type should NEVER come from GET.
-        if ($request->query->get('grant_type')) {
-            throw new InvalidRequestException();
-        }
-
         // grant_type must set and in valid format.
         $grant_type = $request->request->get('grant_type');
         $query = array(

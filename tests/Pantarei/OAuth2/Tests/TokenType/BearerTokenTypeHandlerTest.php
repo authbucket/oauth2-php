@@ -9,19 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests;
+namespace Pantarei\OAuth2\Tests\TokenType;
 
 use Pantarei\OAuth2\Tests\WebTestCase;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Test resource endpoint functionality.
- *
- * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
- */
-class ResourceEndpointTest extends WebTestCase
+class BearerTokenTypeHandlerTest extends WebTestCase
 {
     public function testAuthorizationHeader()
     {
@@ -33,7 +28,7 @@ class ResourceEndpointTest extends WebTestCase
         $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
         $this->assertEquals('foo', $client->getResponse()->getContent());
     }
-    
+
     public function testGet()
     {
         $parameters = array(

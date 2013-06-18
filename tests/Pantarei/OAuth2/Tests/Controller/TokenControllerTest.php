@@ -9,30 +9,31 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests;
+namespace Pantarei\OAuth2\Tests\Controller;
 
 use Pantarei\OAuth2\Tests\WebTestCase;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Test authorization code grant type functionality.
- *
- * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
- */
-class TokenEndpointTest extends WebTestCase
+class TokenControllerTest extends WebTestCase
 {
     /**
      * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
     public function testExceptionNoGrantType()
     {
-        $parameters = array();
-        $server = array();
+        $parameters = array(
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'redirect_uri' => 'http://democlient2.com/redirect_uri',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient2.com/',
+            'PHP_AUTH_PW' => 'demosecret2',
+        );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
 
     /**

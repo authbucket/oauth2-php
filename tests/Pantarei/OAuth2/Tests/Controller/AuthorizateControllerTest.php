@@ -9,19 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests;
+namespace Pantarei\OAuth2\Tests\Controller;
 
 use Pantarei\OAuth2\Tests\WebTestCase;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Pantarei\OAuth2\Controller\AuthorizeController;
 
-/**
- * Test authorization endpoint functionality.
- *
- * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
- */
-class AuthorizationEndpointTest extends WebTestCase
+class AuthorizateControllerTest extends WebTestCase
 {
     /**
      * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
@@ -40,7 +36,7 @@ class AuthorizationEndpointTest extends WebTestCase
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
-    
+
     /**
      * @expectedException \Pantarei\OAuth2\Exception\InvalidRequestException
      */
@@ -381,7 +377,7 @@ class AuthorizationEndpointTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
-    public function testGoodCodeNoPassedRedirectUri() 
+    public function testGoodCodeNoPassedRedirectUri()
     {
         // Insert client with redirect_uri, test empty pass in.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
@@ -404,7 +400,7 @@ class AuthorizationEndpointTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
-    public function testGoodCodeNoStoredRedirectUri() 
+    public function testGoodCodeNoStoredRedirectUri()
     {
         // Insert client without redirect_uri, test valid pass in.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
@@ -486,7 +482,7 @@ class AuthorizationEndpointTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
-    public function testGoodTokenNoPassedRedirectUri() 
+    public function testGoodTokenNoPassedRedirectUri()
     {
         // Insert client with redirect_uri, test empty pass in.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
@@ -509,7 +505,7 @@ class AuthorizationEndpointTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
-    public function testGoodTokenNoStoredRedirectUri() 
+    public function testGoodTokenNoStoredRedirectUri()
     {
         // Insert client without redirect_uri, test valid pass in.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');

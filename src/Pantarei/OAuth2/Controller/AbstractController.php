@@ -17,6 +17,11 @@ use Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
+/**
+ * Shared controller implementation.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 abstract class AbstractController implements ControllerInterface
 {
     protected $securityContext;

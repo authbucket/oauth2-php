@@ -15,6 +15,11 @@ use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * OAuth2 authorization endpoint controller implementation.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class AuthorizeController extends AbstractController
 {
     public function handle(Request $request)
@@ -33,11 +38,6 @@ class AuthorizeController extends AbstractController
 
     private function getResponseType(Request $request)
     {
-        // response_type should NEVER come from POST.
-        if ($request->request->get('response_type')) {
-            throw new InvalidRequestException();
-        }
-
         // Validate and set response_type.
         $response_type = $request->query->get('response_type');
         $query = array(
