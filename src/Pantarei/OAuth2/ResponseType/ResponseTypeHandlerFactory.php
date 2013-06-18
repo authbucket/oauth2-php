@@ -11,9 +11,13 @@
 
 namespace Pantarei\OAuth2\ResponseType;
 
-use Pantarei\OAuth2\Exception\ServerErrorException;
 use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
 
+/**
+ * OAuth2 grant type handler factory implemention.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
 {
     private $responseTypeHandlers;
@@ -23,12 +27,8 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
         $this->responseTypeHandlers = array();
     }
 
-    public function addResponseTypeHandler($type, $handler)
+    public function addResponseTypeHandler($type, ResponseTypeHandlerInterface $handler)
     {
-        if (!$handler instanceof ResponseTypeHandlerInterface) {
-            throw new ServerErrorException();
-        }
-
         $this->responseTypeHandlers[$type] = $handler;
     }
 
@@ -36,10 +36,6 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
     {
         if (!isset($this->responseTypeHandlers[$type])) {
             throw new UnsupportedResponseTypeException();
-        }
-
-        if (!$this->responseTypeHandlers[$type] instanceof ResponseTypeHandlerInterface) {
-            throw new ServerErrorException();
         }
 
         return $this->responseTypeHandlers[$type];

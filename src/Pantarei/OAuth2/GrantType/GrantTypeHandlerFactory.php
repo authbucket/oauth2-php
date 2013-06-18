@@ -11,8 +11,13 @@
 
 namespace Pantarei\OAuth2\GrantType;
 
-use Pantarei\OAuth2\Exception\ServerErrorException;
+use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
 
+/**
+ * OAuth2 grant type handler factory implemention.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 {
     private $grantTypeHandlers;
@@ -22,23 +27,15 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         $this->grantTypeHandlers = array();
     }
 
-    public function addGrantTypeHandler($type, $handler)
+    public function addGrantTypeHandler($type, GrantTypeHandlerInterface $handler)
     {
-        if (!$handler instanceof GrantTypeHandlerInterface) {
-            throw new ServerErrorException();
-        }
-
         $this->grantTypeHandlers[$type] = $handler;
     }
 
     public function getGrantTypeHandler($type)
     {
         if (!isset($this->grantTypeHandlers[$type])) {
-            throw new ServerErrorException();
-        }
-
-        if (!$this->grantTypeHandlers[$type] instanceof GrantTypeHandlerInterface) {
-            throw new ServerErrorException();
+            throw new UnsupportedGrantTypeException();
         }
 
         return $this->grantTypeHandlers[$type];

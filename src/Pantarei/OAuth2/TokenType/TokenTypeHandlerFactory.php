@@ -13,6 +13,11 @@ namespace Pantarei\OAuth2\TokenType;
 
 use Pantarei\OAuth2\Exception\ServerErrorException;
 
+/**
+ * OAuth2 grant type handler factory implemention.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
 {
     private $tokenTypeHandlers;
@@ -22,34 +27,31 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
         $this->tokenTypeHandlers = array();
     }
 
-    public function addTokenTypeHandler($type, $handler)
+    public function addTokenTypeHandler($type, TokenTypeHandlerInterface $handler)
     {
-        if (!$handler instanceof TokenTypeHandlerInterface) {
-            throw new ServerErrorException();
-        }
-
         $this->tokenTypeHandlers[$type] = $handler;
     }
 
     public function getTokenTypeHandler($type = null)
     {
-        if ($type !== null) {
-            if (!isset($this->tokenTypeHandlers[$type])) {
+        if ($type === null) {
+            if (count($this->tokenTypeHandlers) < 1) {
                 throw new ServerErrorException();
             }
-            $tokenTypeHandler = $this->tokenTypeHandlers[$type];
-        } else {
+
+            $tokenTypeHandler = null;
             foreach ($this->tokenTypeHandlers as $handler) {
                 $tokenTypeHandler = $handler;
                 break;
             }
+            return $tokenTypeHandler;
         }
 
-        if (!$tokenTypeHandler instanceof TokenTypeHandlerInterface) {
+        if (!isset($this->tokenTypeHandlers[$type])) {
             throw new ServerErrorException();
         }
 
-        return $tokenTypeHandler;
+        return $this->tokenTypeHandlers[$type];
     }
 
     public function removeTokenTypeHandler($type)

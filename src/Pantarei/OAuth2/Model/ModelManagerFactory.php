@@ -13,6 +13,11 @@ namespace Pantarei\OAuth2\Model;
 
 use Pantarei\OAuth2\Exception\ServerErrorException;
 
+/**
+ * OAuth2 model manager factory implemention.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class ModelManagerFactory implements ModelManagerFactoryInterface
 {
     private $modelManagers;
@@ -22,22 +27,14 @@ class ModelManagerFactory implements ModelManagerFactoryInterface
         $this->modelManagers = array();
     }
 
-    public function addModelManager($type, $manager)
+    public function addModelManager($type, ModelManagerInterface $manager)
     {
-        if (!$manager instanceof ModelManagerInterface) {
-            throw new ServerErrorException();
-        }
-
         $this->modelManagers[$type] = $manager;
     }
 
     public function getModelManager($type)
     {
         if (!isset($this->modelManagers[$type])) {
-            throw new ServerErrorException();
-        }
-
-        if (!$this->modelManagers[$type] instanceof ModelManagerInterface) {
             throw new ServerErrorException();
         }
 
