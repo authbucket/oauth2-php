@@ -15,22 +15,13 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
-use Pantarei\OAuth2\GrantType\AuthorizationCodeGrantTypeHandler;
-use Pantarei\OAuth2\GrantType\ClientCredentialsGrantTypeHandler;
-use Pantarei\OAuth2\GrantType\PasswordGrantTypeHandler;
-use Pantarei\OAuth2\GrantType\RefreshTokenGrantTypeHandler;
 use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
-use Pantarei\OAuth2\ResponseType\CodeResponseTypeHandler;
-use Pantarei\OAuth2\ResponseType\TokenResponseTypeHandler;
-use Pantarei\OAuth2\TokenType\BearerTokenTypeHandler;
-use Pantarei\OAuth2\TokenType\MacTokenTypeHandler;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 
 /**
  * Extend Silex\WebTestCase for test case require database and web interface
@@ -80,37 +71,21 @@ class WebTestCase extends SilexWebTestCase
         }
 
         // Add response type handler.
-        $handlers = array(
-            'code' => new CodeResponseTypeHandler(),
-            'token' => new TokenResponseTypeHandler(),
-        );
-        foreach ($handlers as $type => $handler) {
-            $app['security.oauth2.response_type_handler.factory']->addResponseTypeHandler($type, $handler);
+        foreach (array('code', 'token') as $type) {
+            $app['security.oauth2.response_handler.factory']
+                ->addResponseTypeHandler($type, $app['security.oauth2.response_handler.' . $type]);
         }
 
         // Add grant type handler.
-        $authenticationProvider = new DaoAuthenticationProvider(
-            $app['security.oauth2.model_manager.factory']->getModelManager('user'),
-            $app['security.user_checker'],
-            'oauth2',
-            $app['security.encoder_factory']
-        );
-        $handlers = array(
-            'authorization_code' => new AuthorizationCodeGrantTypeHandler(),
-            'client_credentials' => new ClientCredentialsGrantTypeHandler(),
-            'password' => new PasswordGrantTypeHandler($authenticationProvider),
-            'refresh_token' => new RefreshTokenGrantTypeHandler(),
-        );
-        foreach ($handlers as $type => $handler) {
-            $app['security.oauth2.grant_type_handler.factory']->addGrantTypeHandler($type, $handler);
+        foreach (array('authorization_code', 'client_credentials', 'password', 'refresh_token') as $type) {
+            $app['security.oauth2.grant_handler.factory']
+                ->addGrantTypeHandler($type, $app['security.oauth2.grant_handler.' . $type]);
         }
 
         // Add token type handler.
-        $handlers = array(
-            'bearer' => new BearerTokenTypeHandler(),
-        );
-        foreach ($handlers as $type => $handler) {
-            $app['security.oauth2.token_type_handler.factory']->addTokenTypeHandler($type, $handler);
+        foreach (array('bearer', 'mac') as $type) {
+            $app['security.oauth2.token_handler.factory']
+                ->addTokenTypeHandler($type, $app['security.oauth2.token_handler.' . $type]);
         }
 
         $app['security.firewalls'] = array(

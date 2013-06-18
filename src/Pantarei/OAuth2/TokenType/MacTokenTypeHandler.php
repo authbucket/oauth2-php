@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class MacTokenTypeHandler implements TokenTypeHandlerInterface
 {
-    public function getAccessToken(Request $request);
+    public function getAccessToken(Request $request)
     {
         throw new TemporarilyUnavailableException();
     }
