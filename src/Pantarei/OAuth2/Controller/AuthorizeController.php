@@ -12,17 +12,39 @@
 namespace Pantarei\OAuth2\Controller;
 
 use Pantarei\OAuth2\Exception\InvalidRequestException;
+use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
+use Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
+use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * OAuth2 authorization endpoint controller implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizeController extends AbstractController
+class AuthorizeController
 {
-    public function handle(Request $request)
+    private $securityContext;
+    private $modelManagerFactory;
+    private $responseTypeHandlerFactory;
+    private $tokenTypeHandlerFactory;
+
+    public function __construct(
+        SecurityContextInterface $securityContext,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+    )
+    {
+        $this->securityContext = $securityContext;
+        $this->modelManagerFactory = $modelManagerFactory;
+        $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
+        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
+    }
+
+    public function indexAction(Request $request)
     {
         // Fetch response_type from GET.
         $response_type = $this->getResponseType($request);

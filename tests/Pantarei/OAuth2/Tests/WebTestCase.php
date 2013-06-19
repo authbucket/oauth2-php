@@ -62,6 +62,7 @@ class WebTestCase extends SilexWebTestCase
             'client' => 'Pantarei\\OAuth2\\Tests\\Entity\\Client',
             'code' => 'Pantarei\\OAuth2\\Tests\\Entity\\Code',
             'refresh_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\RefreshToken',
+            'scope' => 'Pantarei\\OAuth2\\Tests\\Entity\\Scope',
             'user' => 'Pantarei\\OAuth2\\Tests\\Entity\\User',
         );
         foreach ($models as $type => $model) {
@@ -107,12 +108,12 @@ class WebTestCase extends SilexWebTestCase
 
         // Authorization endpoint.
         $app->get('/authorize', function (Request $request, Application $app) {
-            return $app['security.oauth2.authorize_controller']($request, $app);
+            return $app['security.oauth2.authorize_controller']->indexAction($request);
         });
 
         // Token endpoint.
         $app->post('/token', function (Request $request, Application $app) {
-            return $app['security.oauth2.token_controller']($request, $app);
+            return $app['security.oauth2.token_controller']->indexAction($request);
         });
 
         // Resource endpoint.
@@ -142,6 +143,7 @@ class WebTestCase extends SilexWebTestCase
             $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('client')->getClassName()),
             $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('code')->getClassName()),
             $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('refresh_token')->getClassName()),
+            $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('scope')->getClassName()),
             $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('user')->getClassName()),
         );
 
@@ -251,6 +253,20 @@ class WebTestCase extends SilexWebTestCase
                 'demoscope3',
             ));
         $modelManager->updateRefreshToken($model);
+
+        // Add demo scopes.
+        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('scope');
+        $model = $modelManager->createScope();
+        $model->setScope('demoscope1');
+        $modelManager->updateScope($model);
+
+        $model = $modelManager->createScope();
+        $model->setScope('demoscope2');
+        $modelManager->updateScope($model);
+
+        $model = $modelManager->createScope();
+        $model->setScope('demoscope3');
+        $modelManager->updateScope($model);
 
         // Add demo users.
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('user');

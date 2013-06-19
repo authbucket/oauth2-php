@@ -79,7 +79,6 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     )
     {
         $scope = $request->request->get('scope', null);
-        $authorizeManager = $modelManagerFactory->getModelManager('authorize');
 
         // scope may not exists.
         if ($scope) {
@@ -91,15 +90,25 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
                 throw new InvalidRequestException();
             }
 
-            // Compare if given scope within all available stored scopes.
-            $stored = array();
+            // Compare if given scope within all available authorized scopes.
+            $authorized_scope = array();
+            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
             $result = $authorizeManager->findAuthorizeByClientIdUsername($client_id, $username);
             if ($result !== null) {
-                $stored = $result->getScope();
+                $authorized_scope = $result->getScope();
+            }
+
+            $supported_scope = array();
+            $scopeManager = $modelManagerFactory->getModelManager('scope');
+            $result = $scopeManager->findScopes();
+            if ($result !== null) {
+                foreach ($result as $row) {
+                    $supported_scope[] = $row->getScope();
+                }
             }
 
             $scope = preg_split('/\s+/', $scope);
-            if (array_intersect($scope, $stored) !== $scope) {
+            if (array_intersect($scope, $authorized_scope, $supported_scope) != $scope) {
                 throw new InvalidScopeException();
             }
         }

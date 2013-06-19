@@ -101,26 +101,22 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
             return new MacTokenTypeHandler();
         });
 
-        $app['security.oauth2.authorize_controller'] = $app->protect(function ($request, $app) {
-            $handler = new AuthorizeController(
+        $app['security.oauth2.authorize_controller'] = $app->share(function () use ($app) {
+            return new AuthorizeController(
                 $app['security'],
                 $app['security.oauth2.model_manager.factory'],
                 $app['security.oauth2.response_handler.factory'],
-                $app['security.oauth2.grant_handler.factory'],
                 $app['security.oauth2.token_handler.factory']
             );
-            return $handler->handle($request);
         });
 
-        $app['security.oauth2.token_controller'] = $app->protect(function ($request, $app) {
-            $handler = new TokenController(
+        $app['security.oauth2.token_controller'] = $app->share(function () use ($app) {
+            return new TokenController(
                 $app['security'],
                 $app['security.oauth2.model_manager.factory'],
-                $app['security.oauth2.response_handler.factory'],
                 $app['security.oauth2.grant_handler.factory'],
                 $app['security.oauth2.token_handler.factory']
             );
-            return $handler->handle($request);
         });
 
         $app['security.authentication_provider.token._proto'] = $app->protect(function ($name, $options) use ($app) {
