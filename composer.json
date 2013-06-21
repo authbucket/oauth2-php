@@ -11,7 +11,7 @@
             "Pantarei\\OAuth2": "src/"
         }
     },
-    "description": "Standards compliant OAuth2.0 library, based on Symfony core components",
+    "description": "The standard compliant OAuth2.0 library based on the Symfony2 Components",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
