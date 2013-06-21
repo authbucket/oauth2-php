@@ -134,30 +134,4 @@ class Client implements ClientInterface
     {
         $this->redirect_uri = '';
     }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function getPassword()
-    {
-        return $this->client_secret;
-    }
-
-    public function getSalt()
-    {
-        return '';
-    }
-
-    public function getUsername()
-    {
-        return $this->client_id;
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-
 }

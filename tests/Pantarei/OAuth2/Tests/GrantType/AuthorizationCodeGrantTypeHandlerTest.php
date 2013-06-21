@@ -91,13 +91,13 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     {
         // Insert client without redirect_uri.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createClient();
+        $model = $modelManager->createModel();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
-        $modelManager->updateClient($model);
+        $modelManager->updateModel($model);
 
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
-        $model = $modelManager->createCode();
+        $model = $modelManager->createModel();
         $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
             ->setExpires(time() + 3600)
@@ -105,7 +105,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
             ->setScope(array(
                 'demoscope1',
             ));
-        $modelManager->updateCode($model);
+        $modelManager->updateModel($model);
 
         $parameters = array(
             'grant_type' => 'authorization_code',
@@ -183,7 +183,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testExceptionExpiredAuthCode()
     {
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
-        $model = $modelManager->createCode();
+        $model = $modelManager->createModel();
         $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient1.com/')
             ->setExpires(time() - 3600)
@@ -191,7 +191,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
             ->setScope(array(
                 'demoscope1',
             ));
-        $modelManager->updateCode($model);
+        $modelManager->updateModel($model);
 
         $parameters = array(
             'grant_type' => 'authorization_code',

@@ -13,13 +13,5 @@ namespace Pantarei\OAuth2\Model;
 
 interface CodeManagerInterface extends ModelManagerInterface
 {
-    public function createCode();
-
-    public function deleteCode(CodeInterface $code);
-
     public function findCodeByCode($code);
-
-    public function reloadCode(CodeInterface $code);
-
-    public function updateCode(CodeInterface $code);
 }

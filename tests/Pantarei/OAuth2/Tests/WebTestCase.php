@@ -156,7 +156,7 @@ class WebTestCase extends SilexWebTestCase
     {
         // Add demo access token.
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('access_token');
-        $model = $modelManager->createAccessToken();
+        $model = $modelManager->createModel();
         $model->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
             ->setTokenType('bearer')
             ->setClientId('http://democlient1.com/')
@@ -165,28 +165,28 @@ class WebTestCase extends SilexWebTestCase
             ->setScope(array(
                 'demoscope1',
             ));
-        $modelManager->updateAccessToken($model);
+        $modelManager->updateModel($model);
 
         // Add demo authorizes.
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('authorize');
-        $model = $modelManager->createAuthorize();
+        $model = $modelManager->createModel();
         $model->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
             ));
-        $modelManager->updateAuthorize($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createAuthorize();
+        $model = $modelManager->createModel();
         $model->setClientId('http://democlient2.com/')
             ->setUsername('demousername2')
             ->setScope(array(
                 'demoscope1',
                 'demoscope2',
             ));
-        $modelManager->updateAuthorize($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createAuthorize();
+        $model = $modelManager->createModel();
         $model->setClientId('http://democlient3.com/')
             ->setUsername('demousername3')
             ->setScope(array(
@@ -194,9 +194,9 @@ class WebTestCase extends SilexWebTestCase
                 'demoscope2',
                 'demoscope3',
             ));
-        $modelManager->updateAuthorize($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createAuthorize();
+        $model = $modelManager->createModel();
         $model->setClientId('http://democlient1.com/')
             ->setUsername('')
             ->setScope(array(
@@ -204,31 +204,31 @@ class WebTestCase extends SilexWebTestCase
                 'demoscope2',
                 'demoscope3',
             ));
-        $modelManager->updateAuthorize($model);
+        $modelManager->updateModel($model);
 
         // Add demo clients.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createClient();
+        $model = $modelManager->createModel();
         $model->setClientId('http://democlient1.com/')
             ->setClientSecret('demosecret1')
             ->setRedirectUri('http://democlient1.com/redirect_uri');
-        $modelManager->updateClient($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createClient();
+        $model = $modelManager->createModel();
         $model->setClientId('http://democlient2.com/')
             ->setClientSecret('demosecret2')
             ->setRedirectUri('http://democlient2.com/redirect_uri');
-        $modelManager->updateClient($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createClient();
+        $model = $modelManager->createModel();
         $model->setClientId('http://democlient3.com/')
             ->setClientSecret('demosecret3')
             ->setRedirectUri('http://democlient3.com/redirect_uri');
-        $modelManager->updateClient($model);
+        $modelManager->updateModel($model);
 
         // Add demo code.
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
-        $model = $modelManager->createCode();
+        $model = $modelManager->createModel();
         $model->setCode('f0c68d250bcc729eb780a235371a9a55')
             ->setClientId('http://democlient2.com/')
             ->setRedirectUri('http://democlient2.com/redirect_uri')
@@ -238,11 +238,11 @@ class WebTestCase extends SilexWebTestCase
                 'demoscope1',
                 'demoscope2',
             ));
-        $modelManager->updateCode($model);
+        $modelManager->updateModel($model);
 
         // Add demo refresh token.
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('refresh_token');
-        $model = $modelManager->createRefreshToken();
+        $model = $modelManager->createModel();
         $model->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
             ->setClientId('http://democlient3.com/')
             ->setExpires(time() + 86400)
@@ -252,40 +252,40 @@ class WebTestCase extends SilexWebTestCase
                 'demoscope2',
                 'demoscope3',
             ));
-        $modelManager->updateRefreshToken($model);
+        $modelManager->updateModel($model);
 
         // Add demo scopes.
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('scope');
-        $model = $modelManager->createScope();
+        $model = $modelManager->createModel();
         $model->setScope('demoscope1');
-        $modelManager->updateScope($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createScope();
+        $model = $modelManager->createModel();
         $model->setScope('demoscope2');
-        $modelManager->updateScope($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createScope();
+        $model = $modelManager->createModel();
         $model->setScope('demoscope3');
-        $modelManager->updateScope($model);
+        $modelManager->updateModel($model);
 
         // Add demo users.
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('user');
-        $model = $modelManager->createUser();
+        $model = $modelManager->createModel();
         $encoder = $this->app['security.encoder_factory']->getEncoder($model);
         $model->setUsername('demousername1')
             ->setPassword($encoder->encodePassword('demopassword1', $model->getSalt()));
-        $modelManager->updateUser($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createUser();
+        $model = $modelManager->createModel();
         $encoder = $this->app['security.encoder_factory']->getEncoder($model);
         $model->setUsername('demousername2')
             ->setPassword($encoder->encodePassword('demopassword2', $model->getSalt()));
-        $modelManager->updateUser($model);
+        $modelManager->updateModel($model);
 
-        $model = $modelManager->createUser();
+        $model = $modelManager->createModel();
         $encoder = $this->app['security.encoder_factory']->getEncoder($model);
         $model->setUsername('demousername3')
             ->setPassword($encoder->encodePassword('demopassword3', $model->getSalt()));
-        $modelManager->updateUser($model);
+        $modelManager->updateModel($model);
     }
 }

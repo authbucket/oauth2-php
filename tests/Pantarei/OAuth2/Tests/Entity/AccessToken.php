@@ -219,23 +219,4 @@ class AccessToken implements AccessTokenInterface
     {
         return $this->scope;
     }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function getPassword()
-    {
-        return '';
-    }
-
-    public function getSalt()
-    {
-        return '';
-    }
-
-    public function eraseCredentials()
-    {
-    }
 }

@@ -18,7 +18,6 @@ use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\Security\Authentication\Token\ClientToken;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerInterface;
 use Pantarei\OAuth2\Util\Filter;
-use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;

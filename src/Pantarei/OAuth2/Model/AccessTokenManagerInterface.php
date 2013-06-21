@@ -13,13 +13,5 @@ namespace Pantarei\OAuth2\Model;
 
 interface AccessTokenManagerInterface extends ModelManagerInterface
 {
-    public function createAccessToken();
-
-    public function deleteAccessToken(AccessTokenInterface $access_token);
-
     public function findAccessTokenByAccessToken($access_token);
-
-    public function reloadAccessToken(AccessTokenInterface $access_token);
-
-    public function updateAccessToken(AccessTokenInterface $access_token);
 }

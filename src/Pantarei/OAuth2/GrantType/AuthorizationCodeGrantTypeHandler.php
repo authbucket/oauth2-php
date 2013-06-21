@@ -16,7 +16,6 @@ use Pantarei\OAuth2\Exception\InvalidRequestException;
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\OAuth2\Util\Filter;
-use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 

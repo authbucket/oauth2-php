@@ -11,6 +11,7 @@
 
 namespace Pantarei\OAuth2\Tests\Model;
 
+use Pantarei\OAuth2\Model\ModelInterface;
 use Pantarei\OAuth2\Model\ModelManagerFactory;
 use Pantarei\OAuth2\Model\ModelManagerInterface;
 
@@ -20,6 +21,25 @@ class FooModelManager
 
 class BarModelManager implements ModelManagerInterface
 {
+    public function getModelName()
+    {
+    }
+
+    public function createModel()
+    {
+    }
+
+    public function deleteModel(ModelInterface $model)
+    {
+    }
+
+    public function reloadModel(ModelInterface $model)
+    {
+    }
+
+    public function updatemodel(ModelInterface $model)
+    {
+    }
 }
 
 class ModelManagerFactoryTest extends \PHPUnit_Framework_TestCase

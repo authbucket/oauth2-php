@@ -13,13 +13,5 @@ namespace Pantarei\OAuth2\Model;
 
 interface RefreshTokenManagerInterface extends ModelManagerInterface
 {
-    public function createRefreshToken();
-
-    public function deleteRefreshToken(RefreshTokenInterface $refresh_token);
-
     public function findRefreshTokenByRefreshToken($refresh_token);
-
-    public function reloadRefreshToken(RefreshTokenInterface $refresh_token);
-
-    public function updateRefreshToken(RefreshTokenInterface $refresh_token);
 }

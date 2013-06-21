@@ -13,7 +13,6 @@ namespace Pantarei\OAuth2\GrantType;
 
 use Pantarei\OAuth2\Model\ModelManagerFactoryInterface;
 use Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
