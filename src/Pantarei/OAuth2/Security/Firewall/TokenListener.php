@@ -30,10 +30,10 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
  */
 class TokenListener implements ListenerInterface
 {
-    private $securityContext;
-    private $authenticationManager;
-    private $modelManagerFactory;
-    private $tokenTypeHandlerFactory;
+    protected $securityContext;
+    protected $authenticationManager;
+    protected $modelManagerFactory;
+    protected $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,

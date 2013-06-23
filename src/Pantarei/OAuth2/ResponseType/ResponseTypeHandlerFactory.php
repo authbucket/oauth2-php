@@ -20,7 +20,7 @@ use Pantarei\OAuth2\Exception\UnsupportedResponseTypeException;
  */
 class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
 {
-    private $responseTypeHandlers;
+    protected $responseTypeHandlers;
 
     public function __construct()
     {

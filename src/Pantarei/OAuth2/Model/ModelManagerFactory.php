@@ -20,7 +20,7 @@ use Pantarei\OAuth2\Exception\ServerErrorException;
  */
 class ModelManagerFactory implements ModelManagerFactoryInterface
 {
-    private $modelManagers;
+    protected $modelManagers;
 
     public function __construct()
     {

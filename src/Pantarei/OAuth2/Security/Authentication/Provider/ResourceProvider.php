@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ResourceProvider implements AuthenticationProviderInterface
 {
-    private $accessTokenManager;
+    protected $accessTokenManager;
 
     public function __construct(
         AccessTokenManagerInterface $accessTokenManager

@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Tests\Model;
 
-use Pantarei\OAuth2\Model\CodeInterface;
+use Pantarei\OAuth2\Model\AccessTokenInterface;
 
 /**
- * Code
+ * AccessToken
  *
- * @Table(name="code")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodeRepository")
+ * @Table(name="access_token")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Model\AccessTokenManager")
  */
-class Code implements CodeInterface
+class AccessToken implements AccessTokenInterface
 {
     /**
      * @var integer
@@ -28,49 +28,49 @@ class Code implements CodeInterface
      * @Id
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
-     * @Column(name="code", type="string", length=255)
+     * @Column(name="access_token", type="string", length=255)
      */
-    private $code;
+    protected $access_token;
+
+    /**
+     * @var string
+     *
+     * @Column(name="token_type", type="string", length=255)
+     */
+    protected $token_type;
 
     /**
      * @var string
      *
      * @Column(name="client_id", type="string", length=255)
      */
-    private $client_id;
+    protected $client_id;
 
     /**
      * @var string
      *
      * @Column(name="username", type="string", length=255)
      */
-    private $username;
-
-    /**
-     * @var string
-     *
-     * @Column(name="redirect_uri", type="text")
-     */
-    private $redirect_uri;
+    protected $username;
 
     /**
      * @var integer
      *
      * @Column(name="expires", type="integer")
      */
-    private $expires;
+    protected $expires;
 
     /**
      * @var array
      *
      * @Column(name="scope", type="array")
      */
-    private $scope;
+    protected $scope;
 
     /**
      * Get id
@@ -83,33 +83,56 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set code
+     * Set access_token
      *
-     * @param string $code
-     * @return Code
+     * @param string $access_token
+     * @return AccessToken
      */
-    public function setCode($code)
+    public function setAccessToken($access_token)
     {
-        $this->code = $code;
+        $this->access_token = $access_token;
 
         return $this;
     }
 
     /**
-     * Get code
+     * Get access_token
      *
      * @return string
      */
-    public function getCode()
+    public function getAccessToken()
     {
-        return $this->code;
+        return $this->access_token;
+    }
+
+    /**
+     * Set token_type
+     *
+     * @param string $token_type
+     * @return AccessToken
+     */
+    public function setTokenType($token_type)
+    {
+        $this->token_type = $token_type;
+
+        return $this;
+    }
+
+    /**
+     * Get token_type
+     *
+     * @return string
+     */
+    public function getTokenType()
+    {
+        return $this->token_type;
     }
 
     /**
      * Set client_id
      *
      * @param string $client_id
-     * @return Code
+     * @return AccessToken
      */
     public function setClientId($client_id)
     {
@@ -132,7 +155,7 @@ class Code implements CodeInterface
      * Set username
      *
      * @param string $username
-     * @return Code
+     * @return AccessToken
      */
     public function setUsername($username)
     {
@@ -152,33 +175,10 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set redirect_uri
-     *
-     * @param string $redirect_uri
-     * @return Code
-     */
-    public function setRedirectUri($redirect_uri)
-    {
-        $this->redirect_uri = $redirect_uri;
-
-        return $this;
-    }
-
-    /**
-     * Get redirect_uri
-     *
-     * @return string
-     */
-    public function getRedirectUri()
-    {
-        return $this->redirect_uri;
-    }
-
-    /**
      * Set expires
      *
      * @param integer $expires
-     * @return Code
+     * @return AccessToken
      */
     public function setExpires($expires)
     {
@@ -201,7 +201,7 @@ class Code implements CodeInterface
      * Set scope
      *
      * @param array $scope
-     * @return Code
+     * @return AccessToken
      */
     public function setScope($scope)
     {
@@ -218,10 +218,5 @@ class Code implements CodeInterface
     public function getScope()
     {
         return $this->scope;
-    }
-
-    public function __construct()
-    {
-        $this->redirect_uri = '';
     }
 }

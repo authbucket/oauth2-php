@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class TokenProvider implements AuthenticationProviderInterface
 {
-    private $clientManager;
+    protected $clientManager;
 
     public function __construct(
         ClientManagerInterface $clientManager

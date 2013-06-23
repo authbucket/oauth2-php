@@ -20,7 +20,7 @@ use Pantarei\OAuth2\Exception\ServerErrorException;
  */
 class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
 {
-    private $tokenTypeHandlers;
+    protected $tokenTypeHandlers;
 
     public function __construct()
     {

@@ -26,10 +26,10 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class TokenController
 {
-    private $securityContext;
-    private $modelManagerFactory;
-    private $grantTypeHandlerFactory;
-    private $tokenTypeHandlerFactory;
+    protected $securityContext;
+    protected $modelManagerFactory;
+    protected $grantTypeHandlerFactory;
+    protected $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,

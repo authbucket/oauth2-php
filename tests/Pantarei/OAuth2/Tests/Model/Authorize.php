@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Tests\Model;
 
-use Pantarei\OAuth2\Model\ClientInterface;
+use Pantarei\OAuth2\Model\AuthorizeInterface;
 
 /**
- * Client
+ * Authorize
  *
- * @Table(name="client")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ClientRepository")
+ * @Table(name="authorize")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Model\AuthorizeManager")
  */
-class Client implements ClientInterface
+class Authorize implements AuthorizeInterface
 {
     /**
      * @var integer
@@ -28,28 +28,28 @@ class Client implements ClientInterface
      * @Id
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @Column(name="client_id", type="string", length=255)
      */
-    private $client_id;
+    protected $client_id;
 
     /**
      * @var string
      *
-     * @Column(name="client_secret", type="string", length=255)
+     * @Column(name="username", type="string", length=255)
      */
-    private $client_secret;
+    protected $username;
 
     /**
-     * @var string
+     * @var array
      *
-     * @Column(name="redirect_uri", type="text")
+     * @Column(name="scope", type="array")
      */
-    private $redirect_uri;
+    protected $scope;
 
     /**
      * Get id
@@ -65,7 +65,7 @@ class Client implements ClientInterface
      * Set client_id
      *
      * @param string $client_id
-     * @return Client
+     * @return Authorize
      */
     public function setClientId($client_id)
     {
@@ -85,53 +85,48 @@ class Client implements ClientInterface
     }
 
     /**
-     * Set client_secret
+     * Set username
      *
-     * @param string $client_secret
-     * @return Client
+     * @param string $username
+     * @return Authorize
      */
-    public function setClientSecret($client_secret)
+    public function setUsername($username)
     {
-        $this->client_secret = $client_secret;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get client_secret
+     * Get username
      *
      * @return string
      */
-    public function getClientSecret()
+    public function getUsername()
     {
-        return $this->client_secret;
+        return $this->username;
     }
 
     /**
-     * Set redirect_uri
+     * Set scope
      *
-     * @param string $redirect_uri
-     * @return Client
+     * @param array $scope
+     * @return Authorize
      */
-    public function setRedirectUri($redirect_uri)
+    public function setScope($scope)
     {
-        $this->redirect_uri = $redirect_uri;
+        $this->scope = $scope;
 
         return $this;
     }
 
     /**
-     * Get redirect_uri
+     * Get scope
      *
-     * @return string
+     * @return array
      */
-    public function getRedirectUri()
+    public function getScope()
     {
-        return $this->redirect_uri;
-    }
-
-    public function __construct()
-    {
-        $this->redirect_uri = '';
+        return $this->scope;
     }
 }

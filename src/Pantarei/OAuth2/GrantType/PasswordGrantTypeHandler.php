@@ -32,7 +32,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
-    private $authenticationProvider;
+    protected $authenticationProvider;
 
     public function __construct(
         AuthenticationProviderInterface $authenticationProvider

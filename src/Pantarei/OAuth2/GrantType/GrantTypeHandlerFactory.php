@@ -20,7 +20,7 @@ use Pantarei\OAuth2\Exception\UnsupportedGrantTypeException;
  */
 class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 {
-    private $grantTypeHandlers;
+    protected $grantTypeHandlers;
 
     public function __construct()
     {

@@ -26,10 +26,10 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class AuthorizeController
 {
-    private $securityContext;
-    private $modelManagerFactory;
-    private $responseTypeHandlerFactory;
-    private $tokenTypeHandlerFactory;
+    protected $securityContext;
+    protected $modelManagerFactory;
+    protected $responseTypeHandlerFactory;
+    protected $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,

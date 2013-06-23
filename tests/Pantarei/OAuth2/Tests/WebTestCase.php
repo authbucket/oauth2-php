@@ -50,20 +50,20 @@ class WebTestCase extends SilexWebTestCase
         // Return an instance of Doctrine ORM entity manager.
         $app['security.oauth2.orm'] = $app->share(function ($app) {
             $conn = $app['dbs']['default'];
-            $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/Entity'), true);
+            $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/Model'), true);
             $event_manager = $app['dbs.event_manager']['default'];
             return EntityManager::create($conn, $config, $event_manager);
         });
 
         // Add model managers from ORM.
         $models = array(
-            'access_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\AccessToken',
-            'authorize' => 'Pantarei\\OAuth2\\Tests\\Entity\\Authorize',
-            'client' => 'Pantarei\\OAuth2\\Tests\\Entity\\Client',
-            'code' => 'Pantarei\\OAuth2\\Tests\\Entity\\Code',
-            'refresh_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\RefreshToken',
-            'scope' => 'Pantarei\\OAuth2\\Tests\\Entity\\Scope',
-            'user' => 'Pantarei\\OAuth2\\Tests\\Entity\\User',
+            'access_token' => 'Pantarei\\OAuth2\\Tests\\Model\\AccessToken',
+            'authorize' => 'Pantarei\\OAuth2\\Tests\\Model\\Authorize',
+            'client' => 'Pantarei\\OAuth2\\Tests\\Model\\Client',
+            'code' => 'Pantarei\\OAuth2\\Tests\\Model\\Code',
+            'refresh_token' => 'Pantarei\\OAuth2\\Tests\\Model\\RefreshToken',
+            'scope' => 'Pantarei\\OAuth2\\Tests\\Model\\Scope',
+            'user' => 'Pantarei\\OAuth2\\Tests\\Model\\User',
         );
         foreach ($models as $type => $model) {
             $modelManager = $app['security.oauth2.orm']->getRepository($model);

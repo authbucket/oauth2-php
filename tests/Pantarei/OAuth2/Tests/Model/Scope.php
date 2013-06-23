@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Tests\Model;
 
 use Pantarei\OAuth2\Model\ScopeInterface;
 
@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\ScopeInterface;
  * Scope
  *
  * @Table(name="scope")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ScopeRepository")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Model\ScopeManager")
  */
 class Scope implements ScopeInterface
 {
@@ -28,14 +28,14 @@ class Scope implements ScopeInterface
      * @Id
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @Column(name="scope", type="string", length=255)
      */
-    private $scope;
+    protected $scope;
 
     /**
      * Get id

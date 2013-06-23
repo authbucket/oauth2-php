@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Entity;
+namespace Pantarei\OAuth2\Tests\Model;
 
 use Pantarei\OAuth2\Model\ModelInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * User
  *
  * @Table(name="user")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\UserRepository")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Model\UserManager")
  */
 class User implements UserInterface, ModelInterface
 {
@@ -29,21 +29,21 @@ class User implements UserInterface, ModelInterface
      * @Id
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @Column(name="username", type="string", length=255)
      */
-    private $username;
+    protected $username;
 
     /**
      * @var string
      *
      * @Column(name="password", type="string", length=255)
      */
-    private $password;
+    protected $password;
 
     /**
      * Get id
