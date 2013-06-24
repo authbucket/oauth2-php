@@ -103,17 +103,17 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      *   Model manager factory for compare with database record.
      * @param string client_id
      *   Corresponding client_id that code should belongs to.
-     * 
+     *
      * @return string
      *   The supplied redirect_uri from incoming request, or from stored
      *   record.
      *
      * @throw InvalidRequestException
      *   If redirect_uri not exists in both incoming request and database
-     *   record, or supplied value not match with stord record.  
+     *   record, or supplied value not match with stord record.
      */
     protected function checkRedirectUri(
-        Request $request, 
+        Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         $client_id
     )
@@ -169,7 +169,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             // Compare if given scope within all available authorized scopes.
             $authorized_scope = array();
             $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdUsername($client_id, $username);
+            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($client_id, $username);
             if ($result !== null) {
                 $authorized_scope = $result->getScope();
             }
@@ -202,7 +202,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             $query = array(
                 'state' => $state,
             );
-            if (!Filter::filter($query)) { 
+            if (!Filter::filter($query)) {
                 throw new InvalidRequestException();
             }
         }

@@ -54,7 +54,7 @@ class Code implements CodeInterface
     /**
      * @var string
      *
-     * @Column(name="redirect_uri", type="text")
+     * @Column(name="redirect_uri", type="blob")
      */
     protected $redirect_uri;
 

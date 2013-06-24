@@ -117,10 +117,10 @@ class AuthorizateControllerTest extends WebTestCase
     {
         // Insert client without redirect_uri.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createModel();
+        $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
-        $modelManager->updateModel($model);
+        $modelManager->updateClient($model);
 
         $parameters = array(
             'response_type' => 'code',
@@ -142,10 +142,10 @@ class AuthorizateControllerTest extends WebTestCase
     {
         // Insert client without redirect_uri.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createModel();
+        $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
-        $modelManager->updateModel($model);
+        $modelManager->updateClient($model);
 
         $parameters = array(
             'response_type' => 'token',
@@ -381,11 +381,11 @@ class AuthorizateControllerTest extends WebTestCase
     {
         // Insert client with redirect_uri, test empty pass in.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createModel();
+        $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4')
             ->setRedirectUri('http://democlient4.com/redirect_uri');
-        $modelManager->updateModel($model);
+        $modelManager->updateClient($model);
 
         $parameters = array(
             'response_type' => 'code',
@@ -404,10 +404,10 @@ class AuthorizateControllerTest extends WebTestCase
     {
         // Insert client without redirect_uri, test valid pass in.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createModel();
+        $model = $modelManager->createClient();
         $model->setClientId('http://democlient5.com/')
             ->setClientSecret('demosecret5');
-        $modelManager->updateModel($model);
+        $modelManager->updateClient($model);
 
         $parameters = array(
             'response_type' => 'code',
@@ -486,11 +486,11 @@ class AuthorizateControllerTest extends WebTestCase
     {
         // Insert client with redirect_uri, test empty pass in.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createModel();
+        $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4')
             ->setRedirectUri('http://democlient4.com/redirect_uri');
-        $modelManager->updateModel($model);
+        $modelManager->updateClient($model);
 
         $parameters = array(
             'response_type' => 'token',
@@ -509,10 +509,10 @@ class AuthorizateControllerTest extends WebTestCase
     {
         // Insert client without redirect_uri, test valid pass in.
         $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createModel();
+        $model = $modelManager->createClient();
         $model->setClientId('http://democlient5.com/')
             ->setClientSecret('demosecret5');
-        $modelManager->updateModel($model);
+        $modelManager->updateClient($model);
 
         $parameters = array(
             'response_type' => 'token',

@@ -13,13 +13,5 @@ namespace Pantarei\OAuth2\Model;
 
 interface ModelManagerInterface
 {
-    public function getModelName();
-
-    public function createModel();
-
-    public function deleteModel(ModelInterface $model);
-
-    public function reloadModel(ModelInterface $model);
-
-    public function updatemodel(ModelInterface $model);
+    public function getClass();
 }

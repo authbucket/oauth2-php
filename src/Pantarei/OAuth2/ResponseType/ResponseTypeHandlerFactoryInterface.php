@@ -18,7 +18,7 @@ namespace Pantarei\OAuth2\ResponseType;
  */
 interface ResponseTypeHandlerFactoryInterface
 {
-    /** 
+    /**
      * Adds a response type handler.
      *
      * @param string $type
@@ -28,7 +28,7 @@ interface ResponseTypeHandlerFactoryInterface
      */
     public function addResponseTypeHandler($type, ResponseTypeHandlerInterface $handler);
 
-    /** 
+    /**
      * Gets a stored response type handler.
      *
      * @param string $type
@@ -42,7 +42,7 @@ interface ResponseTypeHandlerFactoryInterface
      */
     public function getResponseTypeHandler($type);
 
-    /** 
+    /**
      * Removes a stored response type handler.
      *
      * @param string $type

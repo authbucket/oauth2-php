@@ -100,7 +100,7 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     {
         // Add demo refresh token.
         $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('refresh_token');
-        $model = $modelManager->createModel();
+        $model = $modelManager->createRefreshToken();
         $model->setRefreshToken('5ff43cbc27b54202c6fd8bb9c2a308ce')
             ->setClientId('http://democlient1.com/')
             ->setExpires(time() - 86400)
@@ -108,7 +108,7 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
             ->setScope(array(
                 'demoscope1',
             ));
-        $modelManager->updateModel($model);
+        $modelManager->updateRefreshToken($model);
 
         $parameters = array(
             'grant_type' => 'refresh_token',
