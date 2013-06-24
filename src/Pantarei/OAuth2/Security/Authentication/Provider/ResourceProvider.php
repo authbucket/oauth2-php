@@ -48,7 +48,7 @@ class ResourceProvider implements AuthenticationProviderInterface
         $storedAccessToken = $this->accessTokenManager->findAccessTokenByAccessToken($access_token);
         if ($storedAccessToken === null) {
             throw new AccessDeniedException();
-        } elseif ($storedAccessToken->getExpires() < time()) {
+        } elseif ($storedAccessToken->getExpires() < new \DateTime()) {
             throw new AccessDeniedException();
         }
 

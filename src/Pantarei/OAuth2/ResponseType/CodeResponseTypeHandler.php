@@ -53,7 +53,7 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
             ->setClientId($client_id)
             ->setRedirectUri($redirect_uri)
             ->setUsername($username)
-            ->setExpires(time() + 600)
+            ->setExpires(new \DateTime('+10 minutes'))
             ->setScope($scope);
         $modelManager->updateCode($code);
 

@@ -105,7 +105,7 @@ class TokenControllerTest extends WebTestCase
         $model = $modelManager->createCode();
         $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
-            ->setExpires(time() + 3600)
+            ->setExpires(new \DateTime('+10 minutes'))
             ->setUsername('demousername4')
             ->setScope(array(
                 'demoscope1',

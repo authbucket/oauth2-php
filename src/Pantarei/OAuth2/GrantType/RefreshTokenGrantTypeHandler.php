@@ -93,7 +93,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         $result = $refreshTokenManager->findRefreshTokenByRefreshToken($refresh_token);
         if ($result === null || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
-        } elseif ($result->getExpires() < time()) {
+        } elseif ($result->getExpires() < new \DateTime()) {
             throw new InvalidGrantException();
         }
 

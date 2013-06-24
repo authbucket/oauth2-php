@@ -52,9 +52,9 @@ class RefreshToken implements RefreshTokenInterface
     protected $username;
 
     /**
-     * @var integer
+     * @var \DateTime
      *
-     * @Column(name="expires", type="integer")
+     * @Column(name="expires", type="datetime")
      */
     protected $expires;
 

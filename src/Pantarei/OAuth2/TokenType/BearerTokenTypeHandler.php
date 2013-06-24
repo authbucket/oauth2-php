@@ -72,14 +72,14 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             ->setTokenType('bearer')
             ->setClientId($client_id)
             ->setUsername($username)
-            ->setExpires(time() + 3600)
+            ->setExpires(new \DateTime('+1 hours'))
             ->setScope($scope);
         $modelManager->updateAccessToken($access_token);
 
         $parameters = array(
             'access_token' => $access_token->getAccessToken(),
             'token_type' => $access_token->getTokenType(),
-            'expires_in' => $access_token->getExpires() - time(),
+            'expires_in' => $access_token->getExpires()->getTimestamp() - time(),
             'scope' => implode(' ', $scope),
             'state' => $state,
         );
@@ -90,7 +90,7 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             $refresh_token->setRefreshToken(md5(uniqid(null, true)))
                 ->setClientId($client_id)
                 ->setUsername($username)
-                ->setExpires(time() + 86400)
+                ->setExpires(new \DateTime('+1 days'))
                 ->setScope($scope);
             $modelManager->updateRefreshToken($refresh_token);
 

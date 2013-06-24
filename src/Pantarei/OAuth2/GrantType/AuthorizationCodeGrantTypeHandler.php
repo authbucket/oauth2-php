@@ -92,7 +92,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $result = $codeManager->findCodeByCode($code);
         if ($result === null || $result->getClientId() !== $client_id) {
             throw new InvalidGrantException();
-        } elseif ($result->getExpires() < time()) {
+        } elseif ($result->getExpires() < new \DateTime()) {
             throw new InvalidGrantException();
         }
 

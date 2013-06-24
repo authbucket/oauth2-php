@@ -160,7 +160,7 @@ class WebTestCase extends SilexWebTestCase
         $model->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
             ->setTokenType('bearer')
             ->setClientId('http://democlient1.com/')
-            ->setExpires(time() + 28800)
+            ->setExpires(new \DateTime('+1 hours'))
             ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
@@ -232,7 +232,7 @@ class WebTestCase extends SilexWebTestCase
         $model->setCode('f0c68d250bcc729eb780a235371a9a55')
             ->setClientId('http://democlient2.com/')
             ->setRedirectUri('http://democlient2.com/redirect_uri')
-            ->setExpires(time() + 3600)
+            ->setExpires(new \DateTime('+10 minutes'))
             ->setUsername('demousername2')
             ->setScope(array(
                 'demoscope1',
@@ -245,7 +245,7 @@ class WebTestCase extends SilexWebTestCase
         $model = $modelManager->createRefreshToken();
         $model->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
             ->setClientId('http://democlient3.com/')
-            ->setExpires(time() + 86400)
+            ->setExpires(new \DateTime('+1 days'))
             ->setUsername('demousername3')
             ->setScope(array(
                 'demoscope1',
