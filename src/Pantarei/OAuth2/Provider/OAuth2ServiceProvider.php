@@ -44,85 +44,85 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         // Define backend storage manager before execute with addModelManager().
-        $app['security.oauth2.model_manager.factory'] = $app->share(function () {
+        $app['oauth2.model_manager.factory'] = $app->share(function () {
             return new ModelManagerFactory();
         });
 
         // Define response type handler before execute with addResponseTypeHandler().
-        $app['security.oauth2.response_handler.factory'] = $app->share(function ($app) {
+        $app['oauth2.response_handler.factory'] = $app->share(function ($app) {
             return new ResponseTypeHandlerFactory();
         });
 
         // Define grant type handler before execute with addGrantTypeHandler().
-        $app['security.oauth2.grant_handler.factory'] = $app->share(function ($app) {
+        $app['oauth2.grant_handler.factory'] = $app->share(function ($app) {
             return new GrantTypeHandlerFactory();
         });
 
         // Default to bearer token for all request.
-        $app['security.oauth2.token_handler.factory'] = $app->share(function ($app){
+        $app['oauth2.token_handler.factory'] = $app->share(function ($app){
             return new TokenTypeHandlerFactory();
         });
 
         // Response type handler shared services.
-        $app['security.oauth2.response_handler.code'] = $app->share(function () {
+        $app['oauth2.response_handler.code'] = $app->share(function () {
             return new CodeResponseTypeHandler();
         });
-        $app['security.oauth2.response_handler.token'] = $app->share(function () {
+        $app['oauth2.response_handler.token'] = $app->share(function () {
             return new TokenResponseTypeHandler();
         });
 
         // Grant type handler shared services.
-        $app['security.oauth2.grant_handler.authorization_code'] = $app->share(function () {
+        $app['oauth2.grant_handler.authorization_code'] = $app->share(function () {
             return new AuthorizationCodeGrantTypeHandler();
         });
-        $app['security.oauth2.grant_handler.client_credentials'] = $app->share(function () {
+        $app['oauth2.grant_handler.client_credentials'] = $app->share(function () {
             return new ClientCredentialsGrantTypeHandler();
         });
-        $app['security.oauth2.grant_handler.password'] = $app->share(function ($app) {
+        $app['oauth2.grant_handler.password'] = $app->share(function ($app) {
             // Symfony specific implementation, 3rd party integration should
             // override this setup with its own user credentials handling.
             $authenticationProvider = new DaoAuthenticationProvider(
-                $app['security.oauth2.model_manager.factory']->getModelManager('user'),
+                $app['oauth2.model_manager.factory']->getModelManager('user'),
                 $app['security.user_checker'],
                 'oauth2',
                 $app['security.encoder_factory']
             );
             return new PasswordGrantTypeHandler($authenticationProvider);
         });
-        $app['security.oauth2.grant_handler.refresh_token'] = $app->share(function () {
+        $app['oauth2.grant_handler.refresh_token'] = $app->share(function () {
             return new RefreshTokenGrantTypeHandler();
         });
 
         // Token type handler shared services.
-        $app['security.oauth2.token_handler.bearer'] = $app->share(function () {
+        $app['oauth2.token_handler.bearer'] = $app->share(function () {
             return new BearerTokenTypeHandler();
         });
-        $app['security.oauth2.token_handler.mac'] = $app->share(function () {
+        $app['oauth2.token_handler.mac'] = $app->share(function () {
             return new MacTokenTypeHandler();
         });
 
-        $app['security.oauth2.authorize_controller'] = $app->share(function () use ($app) {
+        $app['oauth2.authorize_controller'] = $app->share(function () use ($app) {
             return new AuthorizeController(
                 $app['security'],
-                $app['security.oauth2.model_manager.factory'],
-                $app['security.oauth2.response_handler.factory'],
-                $app['security.oauth2.token_handler.factory']
+                $app['oauth2.model_manager.factory'],
+                $app['oauth2.response_handler.factory'],
+                $app['oauth2.token_handler.factory']
             );
         });
 
-        $app['security.oauth2.token_controller'] = $app->share(function () use ($app) {
+        $app['oauth2.token_controller'] = $app->share(function () use ($app) {
             return new TokenController(
                 $app['security'],
-                $app['security.oauth2.model_manager.factory'],
-                $app['security.oauth2.grant_handler.factory'],
-                $app['security.oauth2.token_handler.factory']
+                $app['oauth2.model_manager.factory'],
+                $app['oauth2.grant_handler.factory'],
+                $app['oauth2.token_handler.factory']
             );
         });
 
         $app['security.authentication_provider.token._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new TokenProvider(
-                    $app['security.oauth2.model_manager.factory']->getModelManager('client')
+                    $app['oauth2.model_manager.factory']->getModelManager('client')
                 );
             });
         });
@@ -132,8 +132,8 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
                 return new TokenListener(
                     $app['security'],
                     $app['security.authentication_manager'],
-                    $app['security.oauth2.model_manager.factory'],
-                    $app['security.oauth2.token_handler.factory']
+                    $app['oauth2.model_manager.factory'],
+                    $app['oauth2.token_handler.factory']
                 );
             });
         });
@@ -141,7 +141,7 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $app['security.authentication_provider.resource._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new ResourceProvider(
-                    $app['security.oauth2.model_manager.factory']->getModelManager('access_token')
+                    $app['oauth2.model_manager.factory']->getModelManager('access_token')
                 );
             });
         });
@@ -151,8 +151,8 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
                 return new ResourceListener(
                     $app['security'],
                     $app['security.authentication_manager'],
-                    $app['security.oauth2.model_manager.factory'],
-                    $app['security.oauth2.token_handler.factory']
+                    $app['oauth2.model_manager.factory'],
+                    $app['oauth2.token_handler.factory']
                 );
             });
         });

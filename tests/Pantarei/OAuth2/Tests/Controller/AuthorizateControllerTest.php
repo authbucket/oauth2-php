@@ -116,7 +116,7 @@ class AuthorizateControllerTest extends WebTestCase
     public function testExceptionCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
-        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
@@ -141,7 +141,7 @@ class AuthorizateControllerTest extends WebTestCase
     public function testExceptionTokenNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
-        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
@@ -380,7 +380,7 @@ class AuthorizateControllerTest extends WebTestCase
     public function testGoodCodeNoPassedRedirectUri()
     {
         // Insert client with redirect_uri, test empty pass in.
-        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4')
@@ -403,7 +403,7 @@ class AuthorizateControllerTest extends WebTestCase
     public function testGoodCodeNoStoredRedirectUri()
     {
         // Insert client without redirect_uri, test valid pass in.
-        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient5.com/')
             ->setClientSecret('demosecret5');
@@ -485,7 +485,7 @@ class AuthorizateControllerTest extends WebTestCase
     public function testGoodTokenNoPassedRedirectUri()
     {
         // Insert client with redirect_uri, test empty pass in.
-        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4')
@@ -508,7 +508,7 @@ class AuthorizateControllerTest extends WebTestCase
     public function testGoodTokenNoStoredRedirectUri()
     {
         // Insert client without redirect_uri, test valid pass in.
-        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient5.com/')
             ->setClientSecret('demosecret5');

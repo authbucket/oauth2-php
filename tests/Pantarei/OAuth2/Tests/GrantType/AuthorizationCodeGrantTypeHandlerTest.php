@@ -90,13 +90,13 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
-        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4');
         $modelManager->updateClient($model);
 
-        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
+        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('code');
         $model = $modelManager->createCode();
         $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
@@ -182,7 +182,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
      */
     public function testExceptionExpiredAuthCode()
     {
-        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
+        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('code');
         $model = $modelManager->createCode();
         $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient1.com/')

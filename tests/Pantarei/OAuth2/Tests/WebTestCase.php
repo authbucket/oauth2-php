@@ -48,7 +48,7 @@ class WebTestCase extends SilexWebTestCase
         );
 
         // Return an instance of Doctrine ORM entity manager.
-        $app['security.oauth2.orm'] = $app->share(function ($app) {
+        $app['oauth2.orm'] = $app->share(function ($app) {
             $conn = $app['dbs']['default'];
             $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/Model'), true);
             $event_manager = $app['dbs.event_manager']['default'];
@@ -66,26 +66,26 @@ class WebTestCase extends SilexWebTestCase
             'user' => 'Pantarei\\OAuth2\\Tests\\Model\\User',
         );
         foreach ($models as $type => $model) {
-            $modelManager = $app['security.oauth2.orm']->getRepository($model);
-            $app['security.oauth2.model_manager.factory']->addModelManager($type, $modelManager);
+            $modelManager = $app['oauth2.orm']->getRepository($model);
+            $app['oauth2.model_manager.factory']->addModelManager($type, $modelManager);
         }
 
         // Add response type handler.
         foreach (array('code', 'token') as $type) {
-            $app['security.oauth2.response_handler.factory']
-                ->addResponseTypeHandler($type, $app['security.oauth2.response_handler.' . $type]);
+            $app['oauth2.response_handler.factory']
+                ->addResponseTypeHandler($type, $app['oauth2.response_handler.' . $type]);
         }
 
         // Add grant type handler.
         foreach (array('authorization_code', 'client_credentials', 'password', 'refresh_token') as $type) {
-            $app['security.oauth2.grant_handler.factory']
-                ->addGrantTypeHandler($type, $app['security.oauth2.grant_handler.' . $type]);
+            $app['oauth2.grant_handler.factory']
+                ->addGrantTypeHandler($type, $app['oauth2.grant_handler.' . $type]);
         }
 
         // Add token type handler.
         foreach (array('bearer', 'mac') as $type) {
-            $app['security.oauth2.token_handler.factory']
-                ->addTokenTypeHandler($type, $app['security.oauth2.token_handler.' . $type]);
+            $app['oauth2.token_handler.factory']
+                ->addTokenTypeHandler($type, $app['oauth2.token_handler.' . $type]);
         }
 
         $app['security.firewalls'] = array(
@@ -93,7 +93,7 @@ class WebTestCase extends SilexWebTestCase
                 'pattern' => '^/authorize',
                 'http' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $app['security.oauth2.model_manager.factory']->getModelManager('user');
+                    return $app['oauth2.model_manager.factory']->getModelManager('user');
                 }),
             ),
             'token' => array(
@@ -108,12 +108,12 @@ class WebTestCase extends SilexWebTestCase
 
         // Authorization endpoint.
         $app->get('/authorize', function (Request $request, Application $app) {
-            return $app['security.oauth2.authorize_controller']->indexAction($request);
+            return $app['oauth2.authorize_controller']->indexAction($request);
         });
 
         // Token endpoint.
         $app->post('/token', function (Request $request, Application $app) {
-            return $app['security.oauth2.token_controller']->indexAction($request);
+            return $app['oauth2.token_controller']->indexAction($request);
         });
 
         // Resource endpoint.
@@ -138,24 +138,24 @@ class WebTestCase extends SilexWebTestCase
     {
         // Generate testing database schema.
         $classes = array(
-            $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('access_token')->getClassName()),
-            $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('authorize')->getClassName()),
-            $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('client')->getClassName()),
-            $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('code')->getClassName()),
-            $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('refresh_token')->getClassName()),
-            $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('scope')->getClassName()),
-            $this->app['security.oauth2.orm']->getClassMetadata($this->app['security.oauth2.model_manager.factory']->getModelManager('user')->getClassName()),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('access_token')->getClassName()),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('authorize')->getClassName()),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('client')->getClassName()),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('code')->getClassName()),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('refresh_token')->getClassName()),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('scope')->getClassName()),
+            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('user')->getClassName()),
         );
 
-        PersistentObject::setObjectManager($this->app['security.oauth2.orm']);
-        $tool = new SchemaTool($this->app['security.oauth2.orm']);
+        PersistentObject::setObjectManager($this->app['oauth2.orm']);
+        $tool = new SchemaTool($this->app['oauth2.orm']);
         $tool->createSchema($classes);
     }
 
     private function addSampleData()
     {
         // Add demo access token.
-        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('access_token');
+        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('access_token');
         $model = $modelManager->createAccessToken();
         $model->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
             ->setTokenType('bearer')
@@ -168,7 +168,7 @@ class WebTestCase extends SilexWebTestCase
         $modelManager->updateAccessToken($model);
 
         // Add demo authorizes.
-        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('authorize');
+        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('authorize');
         $model = $modelManager->createAuthorize();
         $model->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
@@ -207,7 +207,7 @@ class WebTestCase extends SilexWebTestCase
         $modelManager->updateAuthorize($model);
 
         // Add demo clients.
-        $modelManager =  $this->app['security.oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient1.com/')
             ->setClientSecret('demosecret1')
@@ -227,7 +227,7 @@ class WebTestCase extends SilexWebTestCase
         $modelManager->updateClient($model);
 
         // Add demo code.
-        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('code');
+        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('code');
         $model = $modelManager->createCode();
         $model->setCode('f0c68d250bcc729eb780a235371a9a55')
             ->setClientId('http://democlient2.com/')
@@ -241,7 +241,7 @@ class WebTestCase extends SilexWebTestCase
         $modelManager->updateCode($model);
 
         // Add demo refresh token.
-        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('refresh_token');
+        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('refresh_token');
         $model = $modelManager->createRefreshToken();
         $model->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
             ->setClientId('http://democlient3.com/')
@@ -255,7 +255,7 @@ class WebTestCase extends SilexWebTestCase
         $modelManager->updateRefreshToken($model);
 
         // Add demo scopes.
-        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('scope');
+        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('scope');
         $model = $modelManager->createScope();
         $model->setScope('demoscope1');
         $modelManager->updateScope($model);
@@ -269,7 +269,7 @@ class WebTestCase extends SilexWebTestCase
         $modelManager->updateScope($model);
 
         // Add demo users.
-        $modelManager = $this->app['security.oauth2.model_manager.factory']->getModelManager('user');
+        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('user');
         $model = $modelManager->createUser();
         $encoder = $this->app['security.encoder_factory']->getEncoder($model);
         $model->setUsername('demousername1')
