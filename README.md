@@ -48,12 +48,9 @@ found from https://travis-ci.org/pantarei/oauth2.
 Code coverage CI result can be found from
 https://coveralls.io/r/pantarei/oauth2.
 
-The package dependency status can be from from
-https://www.versioneye.com/package/php--pantarei--oauth2.
-
 If you hope to run the test cases locally, please execute
 `phpunit -c phpunit.xml.dist`. Coverage report can be found from
-`build/html` folder.
+`build/logs/html` folder.
 
 References
 ----------
@@ -63,7 +60,6 @@ References
 -   https://github.com/pantarei/oauth2
 -   https://packagist.org/packages/pantarei/oauth2
 -   https://travis-ci.org/pantarei/oauth2
--   https://www.versioneye.com/package/php--pantarei--oauth2
 
 License
 -------
