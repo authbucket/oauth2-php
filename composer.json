@@ -8,7 +8,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "Pantarei\\OAuth2": "src/"
+            "PantaRei\\OAuth2": "src/"
         }
     },
     "description": "The standard compliant OAuth2.0 library based on the Symfony2 Components",
