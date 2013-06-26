@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class WebTestCase extends SilexWebTestCase
+abstract class WebTestCase extends SilexWebTestCase
 {
     public function createApplication()
     {
