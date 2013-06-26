@@ -136,26 +136,31 @@ abstract class WebTestCase extends SilexWebTestCase
 
     private function createSchema()
     {
+        $em = $this->app['oauth2.orm'];
+        $modelManagerFactory = $this->app['oauth2.model_manager.factory'];
+
         // Generate testing database schema.
         $classes = array(
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('access_token')->getClassName()),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('authorize')->getClassName()),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('client')->getClassName()),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('code')->getClassName()),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('refresh_token')->getClassName()),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('scope')->getClassName()),
-            $this->app['oauth2.orm']->getClassMetadata($this->app['oauth2.model_manager.factory']->getModelManager('user')->getClassName()),
+            $em->getClassMetadata($modelManagerFactory->getModelManager('access_token')->getClassName()),
+            $em->getClassMetadata($modelManagerFactory->getModelManager('authorize')->getClassName()),
+            $em->getClassMetadata($modelManagerFactory->getModelManager('client')->getClassName()),
+            $em->getClassMetadata($modelManagerFactory->getModelManager('code')->getClassName()),
+            $em->getClassMetadata($modelManagerFactory->getModelManager('refresh_token')->getClassName()),
+            $em->getClassMetadata($modelManagerFactory->getModelManager('scope')->getClassName()),
+            $em->getClassMetadata($modelManagerFactory->getModelManager('user')->getClassName()),
         );
 
-        PersistentObject::setObjectManager($this->app['oauth2.orm']);
-        $tool = new SchemaTool($this->app['oauth2.orm']);
+        PersistentObject::setObjectManager($em);
+        $tool = new SchemaTool($em);
         $tool->createSchema($classes);
     }
 
     private function addSampleData()
     {
+        $modelManagerFactory = $this->app['oauth2.model_manager.factory'];
+
         // Add demo access token.
-        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('access_token');
+        $modelManager = $modelManagerFactory->getModelManager('access_token');
         $model = $modelManager->createAccessToken();
         $model->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
             ->setTokenType('bearer')
@@ -168,7 +173,7 @@ abstract class WebTestCase extends SilexWebTestCase
         $modelManager->updateAccessToken($model);
 
         // Add demo authorizes.
-        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('authorize');
+        $modelManager = $modelManagerFactory->getModelManager('authorize');
         $model = $modelManager->createAuthorize();
         $model->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
@@ -207,7 +212,7 @@ abstract class WebTestCase extends SilexWebTestCase
         $modelManager->updateAuthorize($model);
 
         // Add demo clients.
-        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
+        $modelManager =  $modelManagerFactory->getModelManager('client');
         $model = $modelManager->createClient();
         $model->setClientId('http://democlient1.com/')
             ->setClientSecret('demosecret1')
@@ -227,7 +232,7 @@ abstract class WebTestCase extends SilexWebTestCase
         $modelManager->updateClient($model);
 
         // Add demo code.
-        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('code');
+        $modelManager = $modelManagerFactory->getModelManager('code');
         $model = $modelManager->createCode();
         $model->setCode('f0c68d250bcc729eb780a235371a9a55')
             ->setClientId('http://democlient2.com/')
@@ -241,7 +246,7 @@ abstract class WebTestCase extends SilexWebTestCase
         $modelManager->updateCode($model);
 
         // Add demo refresh token.
-        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('refresh_token');
+        $modelManager = $modelManagerFactory->getModelManager('refresh_token');
         $model = $modelManager->createRefreshToken();
         $model->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
             ->setClientId('http://democlient3.com/')
@@ -255,7 +260,7 @@ abstract class WebTestCase extends SilexWebTestCase
         $modelManager->updateRefreshToken($model);
 
         // Add demo scopes.
-        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('scope');
+        $modelManager = $modelManagerFactory->getModelManager('scope');
         $model = $modelManager->createScope();
         $model->setScope('demoscope1');
         $modelManager->updateScope($model);
@@ -269,7 +274,7 @@ abstract class WebTestCase extends SilexWebTestCase
         $modelManager->updateScope($model);
 
         // Add demo users.
-        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('user');
+        $modelManager = $modelManagerFactory->getModelManager('user');
         $model = $modelManager->createUser();
         $encoder = $this->app['security.encoder_factory']->getEncoder($model);
         $model->setUsername('demousername1')

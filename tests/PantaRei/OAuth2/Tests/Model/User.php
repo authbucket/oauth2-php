@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * User
  *
- * @Table(name="user")
+ * @Table(name="users")
  * @Entity(repositoryClass="PantaRei\OAuth2\Tests\Model\UserManager")
  */
 class User implements UserInterface, ModelInterface
