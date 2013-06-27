@@ -31,7 +31,6 @@ use PantaRei\OAuth2\TokenType\MacTokenTypeHandler;
 use PantaRei\OAuth2\TokenType\TokenTypeHandlerFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 
 /**
  * OAuth2 service provider as plugin for Silex SecurityServiceProvider.
@@ -79,15 +78,10 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
             return new ClientCredentialsGrantTypeHandler();
         });
         $app['oauth2.grant_handler.password'] = $app->share(function ($app) {
-            // Symfony specific implementation, 3rd party integration should
-            // override this setup with its own user credentials handling.
-            $authenticationProvider = new DaoAuthenticationProvider(
-                $app['oauth2.model_manager.factory']->getModelManager('user'),
+            return new PasswordGrantTypeHandler(
                 $app['security.user_checker'],
-                'oauth2',
                 $app['security.encoder_factory']
             );
-            return new PasswordGrantTypeHandler($authenticationProvider);
         });
         $app['oauth2.grant_handler.refresh_token'] = $app->share(function () {
             return new RefreshTokenGrantTypeHandler();
@@ -122,7 +116,7 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $app['security.authentication_provider.oauth2_token._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new TokenProvider(
-                    $app['oauth2.model_manager.factory']->getModelManager('client')
+                    $app['oauth2.model_manager.factory']
                 );
             });
         });
@@ -141,7 +135,7 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $app['security.authentication_provider.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new ResourceProvider(
-                    $app['oauth2.model_manager.factory']->getModelManager('access_token')
+                    $app['oauth2.model_manager.factory']
                 );
             });
         });

@@ -13,7 +13,7 @@ namespace PantaRei\OAuth2\Security\Authentication\Provider;
 
 use PantaRei\OAuth2\Exception\AccessDeniedException;
 use PantaRei\OAuth2\Model\AccessTokenInterface;
-use PantaRei\OAuth2\Model\AccessTokenManagerInterface;
+use PantaRei\OAuth2\Model\ModelManagerFactoryInterface;
 use PantaRei\OAuth2\Security\Authentication\Token\AccessToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -25,13 +25,13 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ResourceProvider implements AuthenticationProviderInterface
 {
-    protected $accessTokenManager;
+    protected $modelManagerFactory;
 
     public function __construct(
-        AccessTokenManagerInterface $accessTokenManager
+        ModelManagerFactoryInterface $modelManagerFactory
     )
     {
-        $this->accessTokenManager = $accessTokenManager;
+        $this->modelManagerFactory = $modelManagerFactory;
     }
 
     public function authenticate(TokenInterface $token)
@@ -45,7 +45,8 @@ class ResourceProvider implements AuthenticationProviderInterface
             $access_token->getAccessToken();
         }
 
-        $storedAccessToken = $this->accessTokenManager->findAccessTokenByAccessToken($access_token);
+        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
+        $storedAccessToken = $accessTokenManager->findAccessTokenByAccessToken($access_token);
         if ($storedAccessToken === null) {
             throw new AccessDeniedException();
         } elseif ($storedAccessToken->getExpires() < new \DateTime()) {

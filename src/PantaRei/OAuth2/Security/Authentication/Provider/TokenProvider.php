@@ -13,7 +13,7 @@ namespace PantaRei\OAuth2\Security\Authentication\Provider;
 
 use PantaRei\OAuth2\Exception\InvalidClientException;
 use PantaRei\OAuth2\Model\ClientInterface;
-use PantaRei\OAuth2\Model\ClientManagerInterface;
+use PantaRei\OAuth2\Model\ModelManagerFactoryInterface;
 use PantaRei\OAuth2\Security\Authentication\Token\ClientToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -25,13 +25,13 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class TokenProvider implements AuthenticationProviderInterface
 {
-    protected $clientManager;
+    protected $modelManagerFactory;
 
     public function __construct(
-        ClientManagerInterface $clientManager
+        ModelManagerFactoryInterface $modelManagerFactory
     )
     {
-        $this->clientManager = $clientManager;
+        $this->modelManagerFactory = $modelManagerFactory;
     }
 
     public function authenticate(TokenInterface $token)
@@ -43,7 +43,8 @@ class TokenProvider implements AuthenticationProviderInterface
         $client_id = $token->getClientId();
         $client_secret = $token->getClientSecret();
 
-        $client = $this->clientManager->findClientByClientId($client_id);
+        $clientManager = $this->modelManagerFactory->getModelManager('client');
+        $client = $clientManager->findClientByClientId($client_id);
         if ($client === null) {
             throw new InvalidClientException();
         }

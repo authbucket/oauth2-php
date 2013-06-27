@@ -17,10 +17,12 @@ use PantaRei\OAuth2\Model\ModelManagerFactoryInterface;
 use PantaRei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use PantaRei\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
+use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
 
 /**
  * Password grant type implementation.
@@ -32,13 +34,17 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
-    protected $authenticationProvider;
+    protected $userChecker;
+
+    protected $encoderFactory;
 
     public function __construct(
-        AuthenticationProviderInterface $authenticationProvider
+        UserCheckerInterface $userChecker,
+        EncoderFactoryInterface $encoderFactory
     )
     {
-        $this->authenticationProvider = $authenticationProvider;
+        $this->userChecker = $userChecker;
+        $this->encoderFactory = $encoderFactory;
     }
 
     public function handle(
@@ -103,7 +109,13 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         // Validate credentials with authentication manager.
         try {
             $token = new UsernamePasswordToken($username, $password, 'oauth2');
-            $this->authenticationProvider->authenticate($token);
+            $authenticationProvider = new DaoAuthenticationProvider(
+                $modelManagerFactory->getModelManager('user'),
+                $this->userChecker,
+                'oauth2',
+                $this->encoderFactory
+            );
+            $authenticationProvider->authenticate($token);
         } catch (BadCredentialsException $e) {
             throw new InvalidGrantException();
         }
