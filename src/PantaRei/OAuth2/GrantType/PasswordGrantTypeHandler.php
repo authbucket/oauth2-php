@@ -109,8 +109,9 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         // Validate credentials with authentication manager.
         try {
             $token = new UsernamePasswordToken($username, $password, 'oauth2');
+            $userManager = $modelManagerFactory->getModelManager('user');
             $authenticationProvider = new DaoAuthenticationProvider(
-                $modelManagerFactory->getModelManager('user'),
+                $userManager,
                 $this->userChecker,
                 'oauth2',
                 $this->encoderFactory

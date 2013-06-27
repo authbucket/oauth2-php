@@ -103,6 +103,7 @@ abstract class WebTestCase extends SilexWebTestCase
             'resource' => array(
                 'pattern' => '^/resource',
                 'oauth2_resource' => true,
+                'stateless' => true,
             ),
         );
 
