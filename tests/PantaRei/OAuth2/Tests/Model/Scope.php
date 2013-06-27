@@ -11,7 +11,7 @@
 
 namespace PantaRei\OAuth2\Tests\Model;
 
-use PantaRei\OAuth2\Model\AbstractScope;
+use PantaRei\OAuth2\Model\ScopeInterface;
 
 /**
  * Scope
@@ -19,7 +19,7 @@ use PantaRei\OAuth2\Model\AbstractScope;
  * @Table(name="scope")
  * @Entity(repositoryClass="PantaRei\OAuth2\Tests\Model\ScopeManager")
  */
-class Scope extends AbstractScope
+class Scope implements ScopeInterface
 {
     /**
      * @var integer
@@ -45,5 +45,28 @@ class Scope extends AbstractScope
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set scope
+     *
+     * @param string $scope
+     * @return Scope
+     */
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
+
+        return $this;
+    }
+
+    /**
+     * Get scope
+     *
+     * @return string
+     */
+    public function getScope()
+    {
+        return $this->scope;
     }
 }

@@ -98,11 +98,11 @@ abstract class WebTestCase extends SilexWebTestCase
             ),
             'token' => array(
                 'pattern' => '^/token',
-                'token' => true,
+                'oauth2_token' => true,
             ),
             'resource' => array(
                 'pattern' => '^/resource',
-                'resource' => true,
+                'oauth2_resource' => true,
             ),
         );
 
