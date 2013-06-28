@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# OAuth2 documentation build configuration file, created by
+# Oauth2 documentation build configuration file, created by
 # sphinx-quickstart on Sat Jun  8 23:18:08 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'OAuth2'
-copyright = u'2013, OAuth2'
+project = u'Oauth2'
+copyright = u'2013, Oauth2'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -164,7 +164,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OAuth2doc'
+htmlhelp_basename = 'Oauth2doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -183,8 +183,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'OAuth2.tex', u'OAuth2 Documentation',
-   u'OAuth2', 'manual'),
+  ('index', 'Oauth2.tex', u'Oauth2 Documentation',
+   u'Oauth2', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -213,8 +213,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'oauth2', u'OAuth2 Documentation',
-     [u'OAuth2'], 1)
+    ('index', 'oauth2', u'Oauth2 Documentation',
+     [u'Oauth2'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -227,8 +227,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'OAuth2', u'OAuth2 Documentation',
-   u'OAuth2', 'OAuth2', 'One line description of project.',
+  ('index', 'Oauth2', u'Oauth2 Documentation',
+   u'Oauth2', 'Oauth2', 'One line description of project.',
    'Miscellaneous'),
 ]
 

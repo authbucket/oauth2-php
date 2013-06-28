@@ -9,5 +9,13 @@
  * file that was distributed with this source code.
  */
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->add('Pantarei\Oauth2\Tests', __DIR__);
+namespace Pantarei\Oauth2\Exception;
+
+/**
+ * UnauthorizedClientException
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
+class UnauthorizedClientException extends \LogicException implements ExceptionInterface
+{
+}

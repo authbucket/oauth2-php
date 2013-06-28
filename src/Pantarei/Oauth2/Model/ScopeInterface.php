@@ -9,5 +9,14 @@
  * file that was distributed with this source code.
  */
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->add('Pantarei\Oauth2\Tests', __DIR__);
+namespace Pantarei\Oauth2\Model;
+
+interface ScopeInterface extends ModelInterface
+{
+    /**
+     * Get scope
+     *
+     * @return string
+     */
+    public function getScope();
+}
