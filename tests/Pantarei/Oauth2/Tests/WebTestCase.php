@@ -22,6 +22,7 @@ use Silex\Provider\SecurityServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 
 /**
  * Extend Silex\WebTestCase for test case require database and web interface
@@ -55,6 +56,18 @@ abstract class WebTestCase extends SilexWebTestCase
             return EntityManager::create($conn, $config, $event_manager);
         });
 
+        // Fake the oauth2.user_provider with InMemoryUserProvider.
+        $users = array(
+            'demousername1' => array('ROLE_USER', 'demopassword1'),
+            'demousername2' => array('ROLE_USER', 'demopassword2'),
+            'demousername3' => array('ROLE_USER', 'demopassword3'),
+        );
+        $app['oauth2.user_provider'] = $app['security.user_provider.inmemory._proto']($users);
+
+        $app['security.encoder.digest'] = $app->share(function ($app) {
+            return new PlaintextPasswordEncoder();
+        });
+
         // Add model managers from ORM.
         $models = array(
             'access_token' => 'Pantarei\\Oauth2\\Tests\\Model\\AccessToken',
@@ -63,7 +76,6 @@ abstract class WebTestCase extends SilexWebTestCase
             'code' => 'Pantarei\\Oauth2\\Tests\\Model\\Code',
             'refresh_token' => 'Pantarei\\Oauth2\\Tests\\Model\\RefreshToken',
             'scope' => 'Pantarei\\Oauth2\\Tests\\Model\\Scope',
-            'user' => 'Pantarei\\Oauth2\\Tests\\Model\\User',
         );
         foreach ($models as $type => $model) {
             $modelManager = $app['oauth2.orm']->getRepository($model);
@@ -93,7 +105,7 @@ abstract class WebTestCase extends SilexWebTestCase
                 'pattern' => '^/authorize',
                 'http' => true,
                 'users' => $app->share(function () use ($app) {
-                    return $app['oauth2.model_manager.factory']->getModelManager('user');
+                    return $app['oauth2.user_provider'];
                 }),
             ),
             'token' => array(
@@ -148,7 +160,6 @@ abstract class WebTestCase extends SilexWebTestCase
             $em->getClassMetadata($modelManagerFactory->getModelManager('code')->getClassName()),
             $em->getClassMetadata($modelManagerFactory->getModelManager('refresh_token')->getClassName()),
             $em->getClassMetadata($modelManagerFactory->getModelManager('scope')->getClassName()),
-            $em->getClassMetadata($modelManagerFactory->getModelManager('user')->getClassName()),
         );
 
         PersistentObject::setObjectManager($em);
@@ -273,25 +284,5 @@ abstract class WebTestCase extends SilexWebTestCase
         $model = $modelManager->createScope();
         $model->setScope('demoscope3');
         $modelManager->updateScope($model);
-
-        // Add demo users.
-        $modelManager = $modelManagerFactory->getModelManager('user');
-        $model = $modelManager->createUser();
-        $encoder = $this->app['security.encoder_factory']->getEncoder($model);
-        $model->setUsername('demousername1')
-            ->setPassword($encoder->encodePassword('demopassword1', $model->getSalt()));
-        $modelManager->updateUser($model);
-
-        $model = $modelManager->createUser();
-        $encoder = $this->app['security.encoder_factory']->getEncoder($model);
-        $model->setUsername('demousername2')
-            ->setPassword($encoder->encodePassword('demopassword2', $model->getSalt()));
-        $modelManager->updateUser($model);
-
-        $model = $modelManager->createUser();
-        $encoder = $this->app['security.encoder_factory']->getEncoder($model);
-        $model->setUsername('demousername3')
-            ->setPassword($encoder->encodePassword('demopassword3', $model->getSalt()));
-        $modelManager->updateUser($model);
     }
 }

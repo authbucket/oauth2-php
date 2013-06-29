@@ -13,6 +13,7 @@ namespace Pantarei\Oauth2\Provider;
 
 use Pantarei\Oauth2\Controller\AuthorizeController;
 use Pantarei\Oauth2\Controller\TokenController;
+use Pantarei\Oauth2\Exception\ServerErrorException;
 use Pantarei\Oauth2\GrantType\AuthorizationCodeGrantTypeHandler;
 use Pantarei\Oauth2\GrantType\ClientCredentialsGrantTypeHandler;
 use Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory;
@@ -42,6 +43,13 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
     public function register(Application $app)
     {
+        // For using grant_type = password, override this user provider with
+        // your own backend manually, e.g. using InMemoryUserProvider or a
+        // doctrine EntityRepository that implements UserProviderInterface.
+        $app['oauth2.user_provider'] = $app->share(function () {
+            throw new ServerErrorException();
+        });
+
         // Define backend storage manager before execute with addModelManager().
         $app['oauth2.model_manager.factory'] = $app->share(function () {
             return new ModelManagerFactory();
@@ -79,6 +87,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
         });
         $app['oauth2.grant_handler.password'] = $app->share(function ($app) {
             return new PasswordGrantTypeHandler(
+                $app['oauth2.user_provider'],
                 $app['security.user_checker'],
                 $app['security.encoder_factory']
             );

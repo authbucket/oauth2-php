@@ -23,6 +23,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * Password grant type implementation.
@@ -34,15 +35,19 @@ use Symfony\Component\Security\Core\User\UserCheckerInterface;
  */
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
+    protected $userProvider;
+
     protected $userChecker;
 
     protected $encoderFactory;
 
     public function __construct(
+        UserProviderInterface $userProvider,
         UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory
     )
     {
+        $this->userProvider = $userProvider;
         $this->userChecker = $userChecker;
         $this->encoderFactory = $encoderFactory;
     }
@@ -109,9 +114,8 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         // Validate credentials with authentication manager.
         try {
             $token = new UsernamePasswordToken($username, $password, 'oauth2');
-            $userManager = $modelManagerFactory->getModelManager('user');
             $authenticationProvider = new DaoAuthenticationProvider(
-                $userManager,
+                $this->userProvider,
                 $this->userChecker,
                 'oauth2',
                 $this->encoderFactory
