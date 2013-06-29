@@ -209,10 +209,4 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         return $state;
     }
-
-    protected function setResponse($redirect_uri, $parameters)
-    {
-        $redirect_uri = Request::create($redirect_uri, 'GET', array_filter($parameters))->getUri();
-        return new RedirectResponse($redirect_uri);
-    }
 }

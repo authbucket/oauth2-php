@@ -18,7 +18,6 @@ use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\Security\Authentication\Token\ClientToken;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerInterface;
 use Pantarei\Oauth2\Util\Filter;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -113,24 +112,5 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         }
 
         return $scope;
-    }
-
-    /**
-     * Convert given paramenters into JSON as token endpoint response.
-     *
-     * @param array $parameters
-     *   Parameters going to be response in JSON format.
-     *
-     * @return JsonResponse
-     *   JsonResponse object as token endpoint response.
-     */
-    protected function setResponse(array $parameters)
-    {
-        $headers = array(
-            'Cache-Control' => 'no-store',
-            'Pragma' => 'no-cache',
-        );
-
-        return JsonResponse::create(array_filter($parameters), 200, $headers);
     }
 }

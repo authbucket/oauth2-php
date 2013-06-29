@@ -16,6 +16,7 @@ use Pantarei\Oauth2\Exception\InvalidRequestException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Util\Filter;
+use Pantarei\Oauth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -75,7 +76,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             $username,
             $scope
         );
-        return $this->setResponse($parameters);
+        return JsonResponse::create($parameters);
     }
 
     /**

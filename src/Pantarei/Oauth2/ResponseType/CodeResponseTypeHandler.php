@@ -13,6 +13,7 @@ namespace Pantarei\Oauth2\ResponseType;
 
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
+use Pantarei\Oauth2\Util\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -62,6 +63,6 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
             'state' => $state,
         );
 
-        return $this->setResponse($redirect_uri, $parameters);
+        return RedirectResponse::create($redirect_uri, $parameters);
     }
 }
