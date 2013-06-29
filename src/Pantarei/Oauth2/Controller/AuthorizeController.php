@@ -12,11 +12,13 @@
 namespace Pantarei\Oauth2\Controller;
 
 use Pantarei\Oauth2\Exception\InvalidRequestException;
+use Pantarei\Oauth2\Exception\UnsupportedResponseTypeException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -44,18 +46,24 @@ class AuthorizeController
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
-    public function indexAction(Request $request)
+    public function authorizeAction(Request $request)
     {
-        // Fetch response_type from GET.
-        $response_type = $this->getResponseType($request);
+        try {
+            // Fetch response_type from GET.
+            $response_type = $this->getResponseType($request);
 
-        // Handle authorize endpoint response.
-        return $this->responseTypeHandlerFactory->getResponseTypeHandler($response_type)->handle(
-            $this->securityContext,
-            $request,
-            $this->modelManagerFactory,
-            $this->tokenTypeHandlerFactory
-        );
+            // Handle authorize endpoint response.
+            return $this->responseTypeHandlerFactory->getResponseTypeHandler($response_type)->handle(
+                $this->securityContext,
+                $request,
+                $this->modelManagerFactory,
+                $this->tokenTypeHandlerFactory
+            );
+        } catch (InvalidRequestException $e) {
+            return Response::create('invalid_request', 500);
+        } catch (UnsupportedResponseTypeException $e) {
+            return Response::create('unsupported_response_type', 500);
+        }
     }
 
     private function getResponseType(Request $request)

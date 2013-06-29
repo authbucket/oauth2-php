@@ -83,9 +83,6 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionAuthCodeNoSavedNoPassedRedirectUri()
     {
         // Insert client without redirect_uri.
@@ -116,12 +113,11 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionAuthCodeBadRedirectUri()
     {
         $parameters = array(
@@ -135,12 +131,11 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testErrorAuthCodeNoCode()
     {
         $request = new Request();
@@ -154,12 +149,11 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidGrantException
-     */
     public function testExceptionWrongClientIdAuthCode()
     {
         $parameters = array(
@@ -174,11 +168,10 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_grant', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidGrantException
-     */
     public function testExceptionExpiredAuthCode()
     {
         $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('code');
@@ -204,5 +197,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_grant', $token_response['error']);
     }
 }

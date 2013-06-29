@@ -44,7 +44,7 @@ class TokenController
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
-    public function indexAction(Request $request)
+    public function tokenAction(Request $request)
     {
         // Fetch grant_type from POST.
         $grant_type = $this->getGrantType($request);

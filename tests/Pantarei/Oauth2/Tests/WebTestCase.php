@@ -121,12 +121,12 @@ abstract class WebTestCase extends SilexWebTestCase
 
         // Authorization endpoint.
         $app->get('/authorize', function (Request $request, Application $app) {
-            return $app['oauth2.authorize_controller']->indexAction($request);
+            return $app['oauth2.authorize_controller']->authorizeAction($request);
         });
 
         // Token endpoint.
         $app->post('/token', function (Request $request, Application $app) {
-            return $app['oauth2.token_controller']->indexAction($request);
+            return $app['oauth2.token_controller']->tokenAction($request);
         });
 
         // Resource endpoint.

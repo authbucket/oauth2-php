@@ -12,86 +12,10 @@
 namespace Pantarei\Oauth2\Tests\Controller;
 
 use Pantarei\Oauth2\Tests\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class AuthorizateControllerTest extends WebTestCase
 {
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testExceptionCodeNoClientId()
-    {
-        $parameters = array(
-            'response_type' => 'code',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testExceptionTokenNoClientId()
-    {
-        $parameters = array(
-            'response_type' => 'token',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidClientException
-     */
-    public function testExceptionCodeBadClientId()
-    {
-        $parameters = array(
-            'response_type' => 'code',
-            'client_id' => 'http://badclient1.com/',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidClientException
-     */
-    public function testExceptionTokenBadClientId()
-    {
-        $parameters = array(
-            'response_type' => 'token',
-            'client_id' => 'http://badclient1.com/',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionNoResponseType()
     {
         $parameters = array(
@@ -103,100 +27,10 @@ class AuthorizateControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertEquals('invalid_request', $client->getResponse()->getContent());
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testExceptionCodeNoSavedNoPassedRedirectUri()
-    {
-        // Insert client without redirect_uri.
-        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createClient();
-        $model->setClientId('http://democlient4.com/')
-            ->setClientSecret('demosecret4');
-        $modelManager->updateClient($model);
-
-        $parameters = array(
-            'response_type' => 'code',
-            'client_id' => 'http://democlient4.com/',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testExceptionTokenNoSavedNoPassedRedirectUri()
-    {
-        // Insert client without redirect_uri.
-        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createClient();
-        $model->setClientId('http://democlient4.com/')
-            ->setClientSecret('demosecret4');
-        $modelManager->updateClient($model);
-
-        $parameters = array(
-            'response_type' => 'token',
-            'client_id' => 'http://democlient4.com/',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testExceptionCodeBadRedirectUri()
-    {
-        $parameters = array(
-            'response_type' => 'code',
-            'client_id' => 'http://democlient1.com/',
-            'redirect_uri' => 'http://democlient1.com/wrong_uri',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testExceptionTokenBadRedirectUri()
-    {
-        $parameters = array(
-            'response_type' => 'token',
-            'client_id' => 'http://democlient1.com/',
-            'redirect_uri' => 'http://democlient1.com/wrong_uri',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\UnsupportedResponseTypeException
-     */
     public function testErrorBadResponseType()
     {
         $parameters = array(
@@ -210,108 +44,8 @@ class AuthorizateControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testErrorCodeBadScopeFormat()
-    {
-        $parameters = array(
-            'response_type' => 'code',
-            'client_id' => 'http://democlient1.com/',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidScopeException
-     */
-    public function testErrorCodeBadScope()
-    {
-        $parameters = array(
-            'response_type' => 'code',
-            'client_id' => 'http://democlient1.com/',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => "badscope1",
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testErrorTokenBadScopeFormat()
-    {
-        $parameters = array(
-            'response_type' => 'token',
-            'client_id' => 'http://democlient1.com/',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidScopeException
-     */
-    public function testErrorTokenBadScope()
-    {
-        $parameters = array(
-            'response_type' => 'token',
-            'client_id' => 'http://democlient1.com/',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => "badscope1",
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
-    public function testErrorCodeBadStateFormat()
-    {
-        $parameters = array(
-            'response_type' => 'code',
-            'client_id' => 'http://democlient3.com/',
-            'redirect_uri' => 'http://democlient3.com/redirect_uri',
-            'scope' => "demoscope1 demoscope2 demoscope3",
-            'state' => "aaa\x19bbb\x7Fccc",
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'demousername3',
-            'PHP_AUTH_PW' => 'demopassword3',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertEquals('unsupported_response_type', $client->getResponse()->getContent());
     }
 
     public function testGoodCode()
