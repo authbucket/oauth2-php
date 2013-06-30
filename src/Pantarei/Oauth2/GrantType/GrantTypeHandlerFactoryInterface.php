@@ -19,16 +19,6 @@ namespace Pantarei\Oauth2\GrantType;
 interface GrantTypeHandlerFactoryInterface
 {
     /**
-     * Adds a grant type handler.
-     *
-     * @param string $type
-     *   Type of grant type handler, as refer to RFC6749.
-     * @param GrantTypeHandlerInterface $handler
-     *   A grant type handler instance.
-     */
-    public function addGrantTypeHandler($type, GrantTypeHandlerInterface $handler);
-
-    /**
      * Gets a stored grant type handler.
      *
      * @param string $type
@@ -41,12 +31,4 @@ interface GrantTypeHandlerFactoryInterface
      *   If supplied grant type not found.
      */
     public function getGrantTypeHandler($type);
-
-    /**
-     * Removes a stored grant type handler.
-     *
-     * @param string $type
-     *   Type of grant type handler, as refer to RFC6749.
-     */
-    public function removeGrantTypeHandler($type);
 }

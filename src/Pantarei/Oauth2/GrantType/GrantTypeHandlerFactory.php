@@ -20,33 +20,25 @@ use Pantarei\Oauth2\Exception\UnsupportedGrantTypeException;
  */
 class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 {
-    protected $grantTypeHandlers;
+    protected $classes;
 
-    public function __construct()
+    public function __construct(array $classes = array())
     {
-        $this->grantTypeHandlers = array();
-    }
+        foreach ($classes as $class) {
+            if (!class_exists($class) || !is_subclass_of($class, 'Pantarei\\Oauth2\\GrantType\\GrantTypeHandlerInterface')) {
+                throw new UnsupportedGrantTypeException();
+            }
+        }
 
-    public function addGrantTypeHandler($type, GrantTypeHandlerInterface $handler)
-    {
-        $this->grantTypeHandlers[$type] = $handler;
+        $this->classes = $classes;
     }
 
     public function getGrantTypeHandler($type)
     {
-        if (!isset($this->grantTypeHandlers[$type])) {
+        if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
             throw new UnsupportedGrantTypeException();
         }
 
-        return $this->grantTypeHandlers[$type];
-    }
-
-    public function removeGrantTypeHandler($type)
-    {
-        if (!isset($this->grantTypeHandlers[$type])) {
-            return;
-        }
-
-        unset($this->grantTypeHandlers[$type]);
+        return new $this->classes[$type];
     }
 }

@@ -82,12 +82,6 @@ abstract class WebTestCase extends SilexWebTestCase
             $app['oauth2.model_manager.factory']->addModelManager($type, $modelManager);
         }
 
-        // Add grant type handler.
-        foreach (array('authorization_code', 'client_credentials', 'password', 'refresh_token') as $type) {
-            $app['oauth2.grant_handler.factory']
-                ->addGrantTypeHandler($type, $app['oauth2.grant_handler.' . $type]);
-        }
-
         $app['security.firewalls'] = array(
             'authorize' => array(
                 'pattern' => '^/authorize',

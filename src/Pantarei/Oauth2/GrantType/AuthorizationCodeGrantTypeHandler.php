@@ -19,7 +19,10 @@ use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Util\Filter;
 use Pantarei\Oauth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * Authorization code grant type implementation.
@@ -30,9 +33,12 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 {
     public function handle(
         SecurityContextInterface $securityContext,
+        UserCheckerInterface $userChecker,
+        EncoderFactoryInterface $encoderFactory,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        UserProviderInterface $userProvider = null
     )
     {
         try {

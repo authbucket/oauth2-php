@@ -14,11 +14,7 @@ namespace Pantarei\Oauth2\Provider;
 use Pantarei\Oauth2\Controller\AuthorizeController;
 use Pantarei\Oauth2\Controller\TokenController;
 use Pantarei\Oauth2\Exception\ServerErrorException;
-use Pantarei\Oauth2\GrantType\AuthorizationCodeGrantTypeHandler;
-use Pantarei\Oauth2\GrantType\ClientCredentialsGrantTypeHandler;
 use Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory;
-use Pantarei\Oauth2\GrantType\PasswordGrantTypeHandler;
-use Pantarei\Oauth2\GrantType\RefreshTokenGrantTypeHandler;
 use Pantarei\Oauth2\Model\ModelManagerFactory;
 use Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactory;
 use Pantarei\Oauth2\Security\Authentication\Provider\ResourceProvider;
@@ -47,6 +43,16 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             );
         }
 
+        // add default grant type handler.
+        if (!isset($app['oauth2.grant_handler'])) {
+            $app['oauth2.grant_handler'] = array(
+                'authorization_code' => 'Pantarei\\Oauth2\\GrantType\\AuthorizationCodeGrantTypeHandler',
+                'client_credentials' => 'Pantarei\\Oauth2\\GrantType\\ClientCredentialsGrantTypeHandler',
+                'password' => 'Pantarei\\Oauth2\\GrantType\\PasswordGrantTypeHandler',
+                'refresh_token' => 'Pantarei\\Oauth2\\GrantType\\RefreshTokenGrantTypeHandler',
+            );
+        }
+
         // Add default token type handler.
         if (!isset($app['oauth2.token_handler'])) {
             $app['oauth2.token_handler'] = array(
@@ -62,7 +68,6 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             throw new ServerErrorException();
         });
 
-        // Define backend storage manager before execute with addModelManager().
         $app['oauth2.model_manager.factory'] = $app->share(function () {
             return new ModelManagerFactory();
         });
@@ -71,32 +76,12 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             return new ResponseTypeHandlerFactory($app['oauth2.response_handler']);
         });
 
-        // Define grant type handler before execute with addGrantTypeHandler().
         $app['oauth2.grant_handler.factory'] = $app->share(function ($app) {
-            return new GrantTypeHandlerFactory();
+            return new GrantTypeHandlerFactory($app['oauth2.grant_handler']);
         });
 
-        // Default to bearer token for all request.
         $app['oauth2.token_handler.factory'] = $app->share(function ($app){
             return new TokenTypeHandlerFactory($app['oauth2.token_handler']);
-        });
-
-        // Grant type handler shared services.
-        $app['oauth2.grant_handler.authorization_code'] = $app->share(function () {
-            return new AuthorizationCodeGrantTypeHandler();
-        });
-        $app['oauth2.grant_handler.client_credentials'] = $app->share(function () {
-            return new ClientCredentialsGrantTypeHandler();
-        });
-        $app['oauth2.grant_handler.password'] = $app->share(function ($app) {
-            return new PasswordGrantTypeHandler(
-                $app['oauth2.user_provider'],
-                $app['security.user_checker'],
-                $app['security.encoder_factory']
-            );
-        });
-        $app['oauth2.grant_handler.refresh_token'] = $app->share(function () {
-            return new RefreshTokenGrantTypeHandler();
         });
 
         $app['oauth2.authorize_controller'] = $app->share(function () use ($app) {
@@ -111,9 +96,12 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
         $app['oauth2.token_controller'] = $app->share(function () use ($app) {
             return new TokenController(
                 $app['security'],
+                $app['security.user_checker'],
+                $app['security.encoder_factory'],
                 $app['oauth2.model_manager.factory'],
                 $app['oauth2.grant_handler.factory'],
-                $app['oauth2.token_handler.factory']
+                $app['oauth2.token_handler.factory'],
+                $app['oauth2.user_provider']
             );
         });
 

@@ -11,12 +11,15 @@
 
 namespace Pantarei\Oauth2\Tests\GrantType;
 
-use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory;
 use Pantarei\Oauth2\GrantType\GrantTypeHandlerInterface;
+use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class FooGrantTypeHandler
 {
@@ -26,9 +29,12 @@ class BarGrantTypeHandler implements GrantTypeHandlerInterface
 {
     public function handle(
         SecurityContextInterface $securityContext,
+        UserCheckerInterface $userChecker,
+        EncoderFactoryInterface $encoderFactory,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        UserProviderInterface $userProvider = null
     )
     {
     }
@@ -37,19 +43,13 @@ class BarGrantTypeHandler implements GrantTypeHandlerInterface
 class GrantTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \Pantarei\Oauth2\Exception\UnsupportedGrantTypeException
      */
     public function testBadAddGrantTypeHandler()
     {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory();
-        $grantTypeHandler = new FooGrantTypeHandler();
-        $grantTypeHandlerFactory->addGrantTypeHandler('foo', $grantTypeHandler);
-    }
-
-    public function testGoodAddGrantTypeHandler()
-    {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory();
-        $grantTypeHandler = new BarGrantTypeHandler();
+        $grantTypeHandlerFactory = new GrantTypeHandlerFactory(array(
+            'foo' => 'Pantarei\\Oauth2\\Tests\\GrantType\\FooGrantTypeHandler',
+        ));
         $grantTypeHandlerFactory->addGrantTypeHandler('foo', $grantTypeHandler);
     }
 
@@ -58,39 +58,17 @@ class GrantTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadGetGrantTypeHandler()
     {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory();
-        $grantTypeHandler = new BarGrantTypeHandler();
-        $grantTypeHandlerFactory->addGrantTypeHandler('bar', $grantTypeHandler);
+        $grantTypeHandlerFactory = new GrantTypeHandlerFactory(array(
+            'bar' => 'Pantarei\\Oauth2\\Tests\\GrantType\\BarGrantTypeHandler',
+        ));
         $grantTypeHandlerFactory->getGrantTypeHandler('foo');
     }
 
     public function testGoodGetGrantTypeHandler()
     {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory();
-        $grantTypeHandler = new BarGrantTypeHandler();
-        $grantTypeHandlerFactory->addGrantTypeHandler('bar', $grantTypeHandler);
-        $grantTypeHandlerFactory->getGrantTypeHandler('bar');
-    }
-
-    public function testBadRemoveGrantTypeHandler()
-    {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory();
-        $grantTypeHandler = new BarGrantTypeHandler();
-        $grantTypeHandlerFactory->addGrantTypeHandler('bar', $grantTypeHandler);
-        $grantTypeHandlerFactory->getGrantTypeHandler('bar');
-        $grantTypeHandlerFactory->removeGrantTypeHandler('foo');
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\UnsupportedGrantTypeException
-     */
-    public function testGoodRemoveGrantTypeHandler()
-    {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory();
-        $grantTypeHandler = new BarGrantTypeHandler();
-        $grantTypeHandlerFactory->addGrantTypeHandler('bar', $grantTypeHandler);
-        $grantTypeHandlerFactory->getGrantTypeHandler('bar');
-        $grantTypeHandlerFactory->removeGrantTypeHandler('bar');
+        $grantTypeHandlerFactory = new GrantTypeHandlerFactory(array(
+            'bar' => 'Pantarei\\Oauth2\\Tests\\GrantType\\BarGrantTypeHandler',
+        ));
         $grantTypeHandlerFactory->getGrantTypeHandler('bar');
     }
 }

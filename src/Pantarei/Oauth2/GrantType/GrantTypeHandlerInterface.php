@@ -14,7 +14,10 @@ namespace Pantarei\Oauth2\GrantType;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * Oauth2 grant type handler interface.
@@ -28,6 +31,10 @@ interface GrantTypeHandlerInterface
      *
      * @param SecurityContextInterface $securityContext
      *   The security object that hold the current live token.
+     * @param UserCheckerInterface $userChecker
+     *   For grant_type = password.
+     * @param EncoderFactoryInterface $encoderFactory
+     *   For grant_type = password.
      * @param Request $request
      *   Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
@@ -35,14 +42,19 @@ interface GrantTypeHandlerInterface
      * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
      *   Token type handler that will generate the correct response
      *   parameters.
+     * @param UserProviderInterface $userProvider
+     *   For grant_type = password.
      *
      * @return JsonResponse
      *   The json response object for token endpoint.
      */
     public function handle(
         SecurityContextInterface $securityContext,
+        UserCheckerInterface $userChecker,
+        EncoderFactoryInterface $encoderFactory,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        UserProviderInterface $userProvider = null
     );
 }

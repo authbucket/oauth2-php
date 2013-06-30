@@ -38,36 +38,32 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
-    protected $userProvider;
-
-    protected $userChecker;
-
-    protected $encoderFactory;
-
-    public function __construct(
-        UserProviderInterface $userProvider,
-        UserCheckerInterface $userChecker,
-        EncoderFactoryInterface $encoderFactory
-    )
-    {
-        $this->userProvider = $userProvider;
-        $this->userChecker = $userChecker;
-        $this->encoderFactory = $encoderFactory;
-    }
-
     public function handle(
         SecurityContextInterface $securityContext,
+        UserCheckerInterface $userChecker,
+        EncoderFactoryInterface $encoderFactory,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        UserProviderInterface $userProvider = null
     )
     {
         try {
+            if ($userProvider === null) {
+                throw new ServerErrorException();
+            }
+
             // Fetch client_id from authenticated token.
             $client_id = $this->checkClientId($securityContext);
 
             // Check resource owner credentials
-            $username = $this->checkUsername($request, $modelManagerFactory);
+            $username = $this->checkUsername(
+                $request,
+                $modelManagerFactory,
+                $userProvider,
+                $userChecker,
+                $encoderFactory
+            );
 
             // Check and set scope.
             $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
@@ -86,6 +82,10 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         } catch (InvalidScopeException $e) {
             return JsonResponse::create(array(
                 'error' => 'invalid_scope',
+            ), 400);
+        } catch (ServerErrorException $e) {
+            return JsonResponse::create(array(
+                'error' => 'server_error',
             ), 400);
         }
 
@@ -117,7 +117,10 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
      */
     private function checkUsername(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory
+        ModelManagerFactoryInterface $modelManagerFactory,
+        UserProviderInterface $userProvider,
+        UserCheckerInterface $userChecker,
+        EncoderFactoryInterface $encoderFactory
     )
     {
         $username = $request->request->get('username');
@@ -136,10 +139,10 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         try {
             $token = new UsernamePasswordToken($username, $password, 'oauth2');
             $authenticationProvider = new DaoAuthenticationProvider(
-                $this->userProvider,
-                $this->userChecker,
+                $userProvider,
+                $userChecker,
                 'oauth2',
-                $this->encoderFactory
+                $encoderFactory
             );
             $authenticationProvider->authenticate($token);
         } catch (BadCredentialsException $e) {
