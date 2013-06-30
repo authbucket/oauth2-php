@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RefreshTokenGrantTypeHandlerTest extends WebTestCase
 {
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testErrorRefreshTokenNoToken()
     {
         $parameters = array(
@@ -32,12 +29,11 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidScopeException
-     */
     public function testErrorRefreshTokenBadScope()
     {
         $parameters = array(
@@ -51,12 +47,11 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_scope', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testErrorRefreshTokenBadScopeFormat()
     {
         $parameters = array(
@@ -70,12 +65,11 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidGrantException
-     */
     public function testExceptionRefreshTokenBadClientId()
     {
         $parameters = array(
@@ -90,11 +84,10 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_grant', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidGrantException
-     */
     public function testExceptionRefreshTokenExpired()
     {
         // Add demo refresh token.
@@ -117,6 +110,36 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
             'PHP_AUTH_PW' => 'demosecret1',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_grant', $token_response['error']);
+    }
+
+    public function testGoodRefreshToken()
+    {
+        $parameters = array(
+            'grant_type' => 'refresh_token',
+            'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient3.com/',
+            'PHP_AUTH_PW' => 'demosecret3',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+
+        $parameters = array(
+            'grant_type' => 'refresh_token',
+            'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient3.com/',
+            'PHP_AUTH_PW' => 'demosecret3',
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);

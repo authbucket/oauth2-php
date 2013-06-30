@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
 {
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidScopeException
-     */
     public function testErrorClientCredBadScope()
     {
         $parameters = array(
@@ -32,12 +29,11 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_scope', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testErrorClientCredBadScopeFormat()
     {
         $parameters = array(
@@ -50,6 +46,23 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
+    }
+
+    public function testGoodClientCred()
+    {
+        $parameters = array(
+            'grant_type' => 'client_credentials',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient1.com/',
+            'PHP_AUTH_PW' => 'demosecret1',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/token', $parameters, array(), $server);
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
 }

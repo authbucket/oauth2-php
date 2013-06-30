@@ -11,9 +11,9 @@
 
 namespace Pantarei\Oauth2\GrantType;
 
+use Pantarei\Oauth2\Exception\InvalidClientException;
 use Pantarei\Oauth2\Exception\InvalidRequestException;
 use Pantarei\Oauth2\Exception\InvalidScopeException;
-use Pantarei\Oauth2\Exception\ServerErrorException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\Security\Authentication\Token\ClientToken;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerInterface;
@@ -46,7 +46,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     {
         $token = $securityContext->getToken();
         if (!$token instanceof ClientToken) {
-            throw new ServerErrorException();
+            throw new InvalidClientException();
         }
 
         return $token->getClientId();

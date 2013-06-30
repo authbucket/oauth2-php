@@ -11,6 +11,7 @@
 
 namespace Pantarei\Oauth2\GrantType;
 
+use Pantarei\Oauth2\Exception\InvalidClientException;
 use Pantarei\Oauth2\Exception\InvalidGrantException;
 use Pantarei\Oauth2\Exception\InvalidRequestException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
@@ -43,6 +44,8 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
             // Check and set redirect_uri.
             $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
+        } catch (InvalidClientException $e) {
+            return JsonResponse::create(array('error' => 'invalid_client'), 401);
         } catch (InvalidGrantException $e) {
             return JsonResponse::create(array('error' => 'invalid_grant'), 400);
         } catch (InvalidRequestException $e) {

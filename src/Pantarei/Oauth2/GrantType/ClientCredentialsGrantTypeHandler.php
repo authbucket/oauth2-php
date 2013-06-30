@@ -11,6 +11,9 @@
 
 namespace Pantarei\Oauth2\GrantType;
 
+use Pantarei\Oauth2\Exception\InvalidClientException;
+use Pantarei\Oauth2\Exception\InvalidRequestException;
+use Pantarei\Oauth2\Exception\InvalidScopeException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Util\JsonResponse;
@@ -31,14 +34,22 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        // Fetch client_id from authenticated token.
-        $client_id = $this->checkClientId($securityContext);
+        try {
+            // Fetch client_id from authenticated token.
+            $client_id = $this->checkClientId($securityContext);
 
-        // No (and not possible to have) username, set as empty string.
-        $username = '';
+            // No (and not possible to have) username, set as empty string.
+            $username = '';
 
-        // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
+            // Check and set scope.
+            $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
+        } catch (InvalidClientException $e) {
+            return JsonResponse::create(array('error' => 'invalid_client'), 401);
+        } catch (InvalidRequestException $e) {
+            return JsonResponse::create(array('error' => 'invalid_request'), 400);
+        } catch (InvalidScopeException $e) {
+            return JsonResponse::create(array('error' => 'invalid_scope'), 400);
+        }
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
