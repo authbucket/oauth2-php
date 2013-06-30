@@ -29,19 +29,13 @@ class BarModelManager implements ModelManagerInterface
 class ModelManagerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \Pantarei\Oauth2\Exception\ServerErrorException
      */
     public function testBadAddModelManager()
     {
-        $modelManagerFactory = new ModelManagerFactory();
-        $modelManager = new FooModelManager();
-        $modelManagerFactory->addModelManager('foo', $modelManager);
-    }
-
-    public function testGoodAddModelManager()
-    {
-        $modelManagerFactory = new ModelManagerFactory();
-        $modelManager = new BarModelManager();
+        $modelManagerFactory = new ModelManagerFactory(array(
+            'foo' => new FooModelManager(),
+        ));
         $modelManagerFactory->addModelManager('foo', $modelManager);
     }
 
@@ -50,39 +44,17 @@ class ModelManagerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadGetModelManager()
     {
-        $modelManagerFactory = new ModelManagerFactory();
-        $modelManager = new BarModelManager();
-        $modelManagerFactory->addModelManager('bar', $modelManager);
+        $modelManagerFactory = new ModelManagerFactory(array(
+            'bar' => new BarModelManager(),
+        ));
         $modelManagerFactory->getModelManager('foo');
     }
 
     public function testGoodGetModelManager()
     {
-        $modelManagerFactory = new ModelManagerFactory();
-        $modelManager = new BarModelManager();
-        $modelManagerFactory->addModelManager('bar', $modelManager);
-        $modelManagerFactory->getModelManager('bar');
-    }
-
-    public function testBadRemoveModelManager()
-    {
-        $modelManagerFactory = new ModelManagerFactory();
-        $modelManager = new BarModelManager();
-        $modelManagerFactory->addModelManager('bar', $modelManager);
-        $modelManagerFactory->getModelManager('bar');
-        $modelManagerFactory->removeModelManager('foo');
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\ServerErrorException
-     */
-    public function testGoodRemoveModelManager()
-    {
-        $modelManagerFactory = new ModelManagerFactory();
-        $modelManager = new BarModelManager();
-        $modelManagerFactory->addModelManager('bar', $modelManager);
-        $modelManagerFactory->getModelManager('bar');
-        $modelManagerFactory->removeModelManager('bar');
+        $modelManagerFactory = new ModelManagerFactory(array(
+            'bar' => new BarModelManager(),
+        ));
         $modelManagerFactory->getModelManager('bar');
     }
 }

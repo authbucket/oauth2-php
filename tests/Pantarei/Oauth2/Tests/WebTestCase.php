@@ -15,6 +15,7 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
+use Pantarei\Oauth2\Model\ModelManagerFactory;
 use Pantarei\Oauth2\Provider\Oauth2ServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
@@ -69,18 +70,21 @@ abstract class WebTestCase extends SilexWebTestCase
         });
 
         // Add model managers from ORM.
-        $models = array(
-            'access_token' => 'Pantarei\\Oauth2\\Tests\\Model\\AccessToken',
-            'authorize' => 'Pantarei\\Oauth2\\Tests\\Model\\Authorize',
-            'client' => 'Pantarei\\Oauth2\\Tests\\Model\\Client',
-            'code' => 'Pantarei\\Oauth2\\Tests\\Model\\Code',
-            'refresh_token' => 'Pantarei\\Oauth2\\Tests\\Model\\RefreshToken',
-            'scope' => 'Pantarei\\Oauth2\\Tests\\Model\\Scope',
-        );
-        foreach ($models as $type => $model) {
-            $modelManager = $app['oauth2.orm']->getRepository($model);
-            $app['oauth2.model_manager.factory']->addModelManager($type, $modelManager);
-        }
+        $app['oauth2.model_manager.factory'] = $app->share(function($app) {
+            $models = array(
+                'access_token' => 'Pantarei\\Oauth2\\Tests\\Model\\AccessToken',
+                'authorize' => 'Pantarei\\Oauth2\\Tests\\Model\\Authorize',
+                'client' => 'Pantarei\\Oauth2\\Tests\\Model\\Client',
+                'code' => 'Pantarei\\Oauth2\\Tests\\Model\\Code',
+                'refresh_token' => 'Pantarei\\Oauth2\\Tests\\Model\\RefreshToken',
+                'scope' => 'Pantarei\\Oauth2\\Tests\\Model\\Scope',
+            );
+            $managers = array();
+            foreach ($models as $type => $model) {
+                $managers[$type] = $app['oauth2.orm']->getRepository($model);
+            }
+            return new ModelManagerFactory($managers);
+        });
 
         $app['security.firewalls'] = array(
             'authorize' => array(

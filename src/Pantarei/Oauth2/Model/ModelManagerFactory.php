@@ -20,33 +20,25 @@ use Pantarei\Oauth2\Exception\ServerErrorException;
  */
 class ModelManagerFactory implements ModelManagerFactoryInterface
 {
-    protected $modelManagers;
+    protected $classes;
 
-    public function __construct()
+    public function __construct(array $classes = array())
     {
-        $this->modelManagers = array();
-    }
+        foreach ($classes as $class) {
+            if (!$class instanceof ModelManagerInterface) {
+                throw new ServerErrorException();
+            }
+        }
 
-    public function addModelManager($type, ModelManagerInterface $manager)
-    {
-        $this->modelManagers[$type] = $manager;
+        $this->classes = $classes;
     }
 
     public function getModelManager($type)
     {
-        if (!isset($this->modelManagers[$type])) {
+        if (!isset($this->classes[$type])) {
             throw new ServerErrorException();
         }
 
-        return $this->modelManagers[$type];
-    }
-
-    public function removeModelManager($type)
-    {
-        if (!isset($this->modelManagers[$type])) {
-            return;
-        }
-
-        unset($this->modelManagers[$type]);
+        return $this->classes[$type];
     }
 }

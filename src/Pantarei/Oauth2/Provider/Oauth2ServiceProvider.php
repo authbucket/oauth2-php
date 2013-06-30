@@ -68,6 +68,8 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             throw new ServerErrorException();
         });
 
+        // Override this with your backend model managers, e.g. Doctrine ORM
+        // EntityRepository.
         $app['oauth2.model_manager.factory'] = $app->share(function () {
             return new ModelManagerFactory();
         });

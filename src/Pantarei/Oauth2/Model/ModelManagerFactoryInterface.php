@@ -19,16 +19,6 @@ namespace Pantarei\Oauth2\Model;
 interface ModelManagerFactoryInterface
 {
     /**
-     * Adds a model manager.
-     *
-     * @param string $type
-     *   Type of model manager.
-     * @param ModelManagerInterface $handler
-     *   A model manager instance.
-     */
-    public function addModelManager($type, ModelManagerInterface $manager);
-
-    /**
      * Gets a stored model manager.
      *
      * @param string $type
@@ -41,12 +31,4 @@ interface ModelManagerFactoryInterface
      *   If supplied model not found.
      */
     public function getModelManager($type);
-
-    /**
-     * Removes a stored model manager.
-     *
-     * @param string $type
-     *   Type of model manager.
-     */
-    public function removeModelManager($type);
 }
