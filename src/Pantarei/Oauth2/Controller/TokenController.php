@@ -12,10 +12,12 @@
 namespace Pantarei\Oauth2\Controller;
 
 use Pantarei\Oauth2\Exception\InvalidRequestException;
+use Pantarei\Oauth2\Exception\UnsupportedGrantTypeException;
 use Pantarei\Oauth2\GrantType\GrantTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Util\Filter;
+use Pantarei\Oauth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -46,16 +48,22 @@ class TokenController
 
     public function tokenAction(Request $request)
     {
-        // Fetch grant_type from POST.
-        $grant_type = $this->getGrantType($request);
+        try {
+            // Fetch grant_type from POST.
+            $grant_type = $this->getGrantType($request);
 
-        // Handle token endpoint response.
-        return $this->grantTypeHandlerFactory->getGrantTypeHandler($grant_type)->handle(
-            $this->securityContext,
-            $request,
-            $this->modelManagerFactory,
-            $this->tokenTypeHandlerFactory
-        );
+            // Handle token endpoint response.
+            return $this->grantTypeHandlerFactory->getGrantTypeHandler($grant_type)->handle(
+                $this->securityContext,
+                $request,
+                $this->modelManagerFactory,
+                $this->tokenTypeHandlerFactory
+            );
+        } catch (InvalidRequestException $e) {
+            return JsonResponse::create(array('error' => 'invalid_request'), 400);
+        } catch (UnsupportedGrantTypeException $e) {
+            return JsonResponse::create(array('error' => 'unsupported_grant_type'), 400);
+        }
     }
 
     private function getGrantType(Request $request)

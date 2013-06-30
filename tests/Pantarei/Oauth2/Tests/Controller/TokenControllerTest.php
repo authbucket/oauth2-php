@@ -17,9 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TokenControllerTest extends WebTestCase
 {
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionNoGrantType()
     {
         $parameters = array(
@@ -33,11 +30,10 @@ class TokenControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionBadGrantType()
     {
         $parameters = array(
@@ -46,12 +42,11 @@ class TokenControllerTest extends WebTestCase
         $server = array();
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionAuthCodeNoClientId()
     {
         $parameters = array(
@@ -60,12 +55,11 @@ class TokenControllerTest extends WebTestCase
         $server = array();
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionAuthCodeBothClientId()
     {
         $parameters = array(
@@ -79,13 +73,11 @@ class TokenControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidClientException
-     */
     public function testExceptionAuthCodeBadBasicClientId()
     {
         $parameters = array(
@@ -97,12 +89,11 @@ class TokenControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_client', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidClientException
-     */
     public function testExceptionAuthCodeBadPostClientId()
     {
         $parameters = array(
@@ -113,6 +104,8 @@ class TokenControllerTest extends WebTestCase
         $server = array();
         $client = $this->createClient();
         $crawler = $client->request('POST', '/token', $parameters, array(), $server);
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_client', $token_response['error']);
     }
 }

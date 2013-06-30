@@ -16,6 +16,7 @@ use Pantarei\Oauth2\Exception\InvalidRequestException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\Security\Authentication\Token\ClientToken;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
+use Pantarei\Oauth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -52,39 +53,39 @@ class TokenListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        // At least one (and only one) of client credentials method required.
-        if (!$request->headers->get('PHP_AUTH_USER', false) && !$request->request->get('client_id', false)) {
-            throw new InvalidRequestException();
-        } elseif ($request->headers->get('PHP_AUTH_USER', false) && $request->request->get('client_id', false)) {
-            throw new InvalidRequestException();
-        }
-
-        // Check with HTTP basic auth if exists.
-        if ($request->headers->get('PHP_AUTH_USER', false)) {
-            $client_id = $request->headers->get('PHP_AUTH_USER', false);
-            $client_secret = $request->headers->get('PHP_AUTH_PW', false);
-        } else {
-            $client_id = $request->request->get('client_id', false);
-            $client_secret = $request->request->get('client_secret', false);
-        }
-
-        if (null !== $token = $this->securityContext->getToken()) {
-            if ($token instanceof ClientToken
-                && $token->isAuthenticated()
-                && $token->getClientId() === $client_id
-            ) {
-                return;
-            }
-        }
-
         try {
+            // At least one (and only one) of client credentials method required.
+            if (!$request->headers->get('PHP_AUTH_USER', false) && !$request->request->get('client_id', false)) {
+                throw new InvalidRequestException();
+            } elseif ($request->headers->get('PHP_AUTH_USER', false) && $request->request->get('client_id', false)) {
+                throw new InvalidRequestException();
+            }
+
+            // Check with HTTP basic auth if exists.
+            if ($request->headers->get('PHP_AUTH_USER', false)) {
+                $client_id = $request->headers->get('PHP_AUTH_USER', false);
+                $client_secret = $request->headers->get('PHP_AUTH_PW', false);
+            } else {
+                $client_id = $request->request->get('client_id', false);
+                $client_secret = $request->request->get('client_secret', false);
+            }
+
+            if (null !== $token = $this->securityContext->getToken()) {
+                if ($token instanceof ClientToken
+                    && $token->isAuthenticated()
+                    && $token->getClientId() === $client_id
+                ) {
+                    return;
+                }
+            }
+
             $token = new ClientToken($client_id, $client_secret);
             $authenticatedToken = $this->authenticationManager->authenticate($token);
             $this->securityContext->setToken($authenticatedToken);
-        } catch (Exception $failed) {
-            $response = new Response();
-            $response->setStatusCode(403);
-            $event->setResponse($response);
+        } catch (InvalidClientException $e) {
+            $event->setResponse(JsonResponse::create(array('error' => 'invalid_client'), 401));
+        } catch (InvalidRequestException $e) {
+            $event->setResponse(JsonResponse::create(array('error' => 'invalid_request'), 400));
         }
     }
 }
