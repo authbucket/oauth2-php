@@ -17,8 +17,8 @@ use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Util\Filter;
+use Pantarei\Oauth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -60,9 +60,13 @@ class AuthorizeController
                 $this->tokenTypeHandlerFactory
             );
         } catch (InvalidRequestException $e) {
-            return Response::create('invalid_request', 500);
+            return JsonResponse::create(array(
+                'error' => 'invalid_request',
+            ), 400);
         } catch (UnsupportedResponseTypeException $e) {
-            return Response::create('unsupported_response_type', 500);
+            return JsonResponse::create(array(
+                'error' => 'unsupported_response_type',
+            ), 400);
         }
     }
 

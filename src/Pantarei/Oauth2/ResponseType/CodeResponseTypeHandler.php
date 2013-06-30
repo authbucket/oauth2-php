@@ -17,9 +17,9 @@ use Pantarei\Oauth2\Exception\InvalidScopeException;
 use Pantarei\Oauth2\Exception\ServerErrorException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
+use Pantarei\Oauth2\Util\JsonResponse;
 use Pantarei\Oauth2\Util\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -46,23 +46,41 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
             // Check and set redirect_uri.
             $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
         } catch (InvalidClientException $e) {
-            return Response::create('invalid_client', 500);
+            return JsonResponse::create(array(
+                'error' => 'invalid_client',
+            ), 400);
         } catch (InvalidRequestException $e) {
-            return Response::create('invalid_request', 500);
+            return JsonResponse::create(array(
+                'error' => 'invalid_request',
+            ), 400);
         } catch (ServerErrorException $e) {
-            return Response::create('server_error', 500);
+            return JsonResponse::create(array(
+                'error' => 'server_error',
+            ), 400);
         }
 
         try {
-            // Check and set scope.
-            $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
-
             // Check and set state.
             $state = $this->checkState($request);
         } catch (InvalidRequestException $e) {
-            return RedirectResponse::create($redirect_uri, array('error' => 'invalid_request'));
+            return RedirectResponse::create($redirect_uri, array(
+                'error' => 'invalid_request',
+            ));
+        }
+        
+        try {
+            // Check and set scope.
+            $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
+        } catch (InvalidRequestException $e) {
+            return RedirectResponse::create($redirect_uri, array(
+                'error' => 'invalid_request',
+                'state' => $state,
+            ));
         } catch (InvalidScopeException $e) {
-            return RedirectResponse::create($redirect_uri, array('error' => 'invalid_scope'));
+            return RedirectResponse::create($redirect_uri, array(
+                'error' => 'invalid_scope',
+                'state' => $state,
+            ));
         }
 
         // Generate parameters, store to backend and set response.

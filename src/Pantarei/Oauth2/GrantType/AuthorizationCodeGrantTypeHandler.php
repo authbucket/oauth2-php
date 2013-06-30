@@ -45,11 +45,17 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
             // Check and set redirect_uri.
             $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
         } catch (InvalidClientException $e) {
-            return JsonResponse::create(array('error' => 'invalid_client'), 401);
+            return JsonResponse::create(array(
+                'error' => 'invalid_client',
+            ), 401);
         } catch (InvalidGrantException $e) {
-            return JsonResponse::create(array('error' => 'invalid_grant'), 400);
+            return JsonResponse::create(array(
+                'error' => 'invalid_grant',
+            ), 400);
         } catch (InvalidRequestException $e) {
-            return JsonResponse::create(array('error' => 'invalid_request'), 400);
+            return JsonResponse::create(array(
+                'error' => 'invalid_request',
+            ), 400);
         }
 
         // Generate access_token, store to backend and set token response.

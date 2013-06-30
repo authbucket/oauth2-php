@@ -27,8 +27,10 @@ class AuthorizateControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
-        $this->assertEquals('invalid_request', $client->getResponse()->getContent());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
     public function testErrorBadResponseType()
@@ -44,7 +46,9 @@ class AuthorizateControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
-        $this->assertEquals('unsupported_response_type', $client->getResponse()->getContent());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('unsupported_response_type', $token_response['error']);
     }
 }

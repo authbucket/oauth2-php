@@ -83,9 +83,13 @@ class TokenListener implements ListenerInterface
             $authenticatedToken = $this->authenticationManager->authenticate($token);
             $this->securityContext->setToken($authenticatedToken);
         } catch (InvalidClientException $e) {
-            $event->setResponse(JsonResponse::create(array('error' => 'invalid_client'), 401));
+            $event->setResponse(JsonResponse::create(array(
+                'error' => 'invalid_client',
+            ), 401));
         } catch (InvalidRequestException $e) {
-            $event->setResponse(JsonResponse::create(array('error' => 'invalid_request'), 400));
+            $event->setResponse(JsonResponse::create(array(
+                'error' => 'invalid_request',
+            ), 400));
         }
     }
 }

@@ -60,9 +60,13 @@ class TokenController
                 $this->tokenTypeHandlerFactory
             );
         } catch (InvalidRequestException $e) {
-            return JsonResponse::create(array('error' => 'invalid_request'), 400);
+            return JsonResponse::create(array(
+                'error' => 'invalid_request',
+            ), 400);
         } catch (UnsupportedGrantTypeException $e) {
-            return JsonResponse::create(array('error' => 'unsupported_grant_type'), 400);
+            return JsonResponse::create(array(
+                'error' => 'unsupported_grant_type',
+            ), 400);
         }
     }
 

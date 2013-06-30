@@ -11,14 +11,13 @@
 
 namespace Pantarei\Oauth2\Security\Firewall;
 
-use Pantarei\Oauth2\Exception\InvalidClientException;
 use Pantarei\Oauth2\Exception\InvalidRequestException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\Security\Authentication\Token\AccessToken;
 use Pantarei\Oauth2\Security\Authentication\Token\ClientToken;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
+use Pantarei\Oauth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -53,34 +52,27 @@ class ResourceListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        // Fetch access_token by token type handler.
-        $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
-        $access_token = $tokenTypeHandler->getAccessToken($request);
-
-        if (null !== $token = $this->securityContext->getToken()) {
-            if ($token instanceof AccessToken
-                && $token->isAuthenticated()
-                && $token->getAccessToken() === $access_token
-            ) {
-                return;
-            }
-        }
-
         try {
+            // Fetch access_token by token type handler.
+            $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
+            $access_token = $tokenTypeHandler->getAccessToken($request);
+
+            if (null !== $token = $this->securityContext->getToken()) {
+                if ($token instanceof AccessToken
+                    && $token->isAuthenticated()
+                    && $token->getAccessToken() === $access_token
+                ) {
+                    return;
+                }
+            }
+
             $token = new AccessToken($access_token);
             $authenticatedToken = $this->authenticationManager->authenticate($token);
             $this->securityContext->setToken($authenticatedToken);
-            /*
-            $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-            if (null === $accessTokenManager->findAccessTokenByAccessToken($access_token)) {
-                throw new AccessDeniedException();
-            }
-            $this->securityContext->setToken(new AccessToken($access_token));
-             */
-        } catch (AccessDeniedException $failed) {
-            $response = new Response();
-            $response->setStatusCode(403);
-            $event->setResponse($response);
+        } catch (InvalidRequestException $e) {
+            $event->setResponse(JsonResponse::create(array(
+                'error' => 'invalid_request',
+            ), 400));
         }
     }
 }

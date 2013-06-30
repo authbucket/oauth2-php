@@ -43,13 +43,21 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             // Check refresh_token, then fetch username and scope.
             list($username, $scope) = $this->checkRefreshToken($request, $modelManagerFactory, $client_id);
         } catch (InvalidClientException $e) {
-            return JsonResponse::create(array('error' => 'invalid_client'), 401);
+            return JsonResponse::create(array(
+                'error' => 'invalid_client',
+            ), 401);
         } catch (InvalidGrantException $e) {
-            return JsonResponse::create(array('error' => 'invalid_grant'), 400);
+            return JsonResponse::create(array(
+                'error' => 'invalid_grant',
+            ), 400);
         } catch (InvalidRequestException $e) {
-            return JsonResponse::create(array('error' => 'invalid_request'), 400);
+            return JsonResponse::create(array(
+                'error' => 'invalid_request',
+            ), 400);
         } catch (InvalidScopeException $e) {
-            return JsonResponse::create(array('error' => 'invalid_scope'), 400);
+            return JsonResponse::create(array(
+                'error' => 'invalid_scope',
+            ), 400);
         }
 
         // Generate access_token, store to backend and set token response.

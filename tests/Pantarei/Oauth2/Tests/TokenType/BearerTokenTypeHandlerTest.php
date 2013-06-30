@@ -17,21 +17,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BearerTokenTypeHandlerTest extends WebTestCase
 {
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionNoToken()
     {
         $parameters = array();
         $server = array();
         $client = $this->createClient();
         $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\InvalidRequestException
-     */
     public function testExceptionDuplicateToken()
     {
         $parameters = array(
@@ -42,7 +39,10 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
     public function testAuthorizationHeader()
