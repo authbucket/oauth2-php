@@ -2,9 +2,9 @@ Pantarei/Oauth2
 ===============
 
 [![Build
-Status](https://travis-ci.org/pantarei/oauth2.png?branch=1.0)](https://travis-ci.org/pantarei/oauth2)
+Status](https://travis-ci.org/pantarei/oauth2.png?branch=master)](https://travis-ci.org/pantarei/oauth2)
 [![Coverage
-Status](https://coveralls.io/repos/pantarei/oauth2/badge.png?branch=1.0)](https://coveralls.io/r/pantarei/oauth2?branch=1.0)
+Status](https://coveralls.io/repos/pantarei/oauth2/badge.png?branch=master)](https://coveralls.io/r/pantarei/oauth2?branch=master)
 [![Latest Stable
 Version](https://poser.pugx.org/pantarei/oauth2/v/stable.png)](https://packagist.org/packages/pantarei/oauth2)
 [![Total
