@@ -42,19 +42,13 @@ class BarTokenTypeHandler implements TokenTypeHandlerInterface
 class TokenTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \Pantarei\Oauth2\Exception\ServerErrorException
      */
     public function testBadAddTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory();
-        $tokenTypeHandler = new FooTokenTypeHandler();
-        $tokenTypeHandlerFactory->addTokenTypeHandler('foo', $tokenTypeHandler);
-    }
-
-    public function testGoodAddTokenTypeHandler()
-    {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory();
-        $tokenTypeHandler = new BarTokenTypeHandler();
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
+            'foo' => 'Pantarei\\Oauth2\\Tests\\TokenType\\FooTokenTypeHandler',
+        ));
         $tokenTypeHandlerFactory->addTokenTypeHandler('foo', $tokenTypeHandler);
     }
 
@@ -72,39 +66,17 @@ class TokenTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadGetTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory();
-        $tokenTypeHandler = new BarTokenTypeHandler();
-        $tokenTypeHandlerFactory->addTokenTypeHandler('bar', $tokenTypeHandler);
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
+            'bar' => 'Pantarei\\Oauth2\\Tests\\TokenType\\BarTokenTypeHandler',
+        ));
         $tokenTypeHandlerFactory->getTokenTypeHandler('foo');
     }
 
     public function testGoodGetTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory();
-        $tokenTypeHandler = new BarTokenTypeHandler();
-        $tokenTypeHandlerFactory->addTokenTypeHandler('bar', $tokenTypeHandler);
-        $tokenTypeHandlerFactory->getTokenTypeHandler('bar');
-    }
-
-    public function testBadRemoveTokenTypeHandler()
-    {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory();
-        $tokenTypeHandler = new BarTokenTypeHandler();
-        $tokenTypeHandlerFactory->addTokenTypeHandler('bar', $tokenTypeHandler);
-        $tokenTypeHandlerFactory->getTokenTypeHandler('bar');
-        $tokenTypeHandlerFactory->removeTokenTypeHandler('foo');
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\ServerErrorException
-     */
-    public function testGoodRemoveTokenTypeHandler()
-    {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory();
-        $tokenTypeHandler = new BarTokenTypeHandler();
-        $tokenTypeHandlerFactory->addTokenTypeHandler('bar', $tokenTypeHandler);
-        $tokenTypeHandlerFactory->getTokenTypeHandler('bar');
-        $tokenTypeHandlerFactory->removeTokenTypeHandler('bar');
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
+            'bar' => 'Pantarei\\Oauth2\\Tests\\TokenType\\BarTokenTypeHandler',
+        ));
         $tokenTypeHandlerFactory->getTokenTypeHandler('bar');
     }
 }

@@ -20,46 +20,38 @@ use Pantarei\Oauth2\Exception\ServerErrorException;
  */
 class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
 {
-    protected $tokenTypeHandlers;
+    protected $classes;
 
-    public function __construct()
+    public function __construct(array $classes = array())
     {
-        $this->tokenTypeHandlers = array();
-    }
+        foreach ($classes as $class) {
+            if (!class_exists($class) || !is_subclass_of($class, 'Pantarei\\Oauth2\\TokenType\\TokenTypeHandlerInterface')) {
+                throw new ServerErrorException();
+            }
+        }
 
-    public function addTokenTypeHandler($type, TokenTypeHandlerInterface $handler)
-    {
-        $this->tokenTypeHandlers[$type] = $handler;
+        $this->classes = $classes;
     }
 
     public function getTokenTypeHandler($type = null)
     {
         if ($type === null) {
-            if (count($this->tokenTypeHandlers) < 1) {
+            if (count($this->classes) < 1) {
                 throw new ServerErrorException();
             }
 
-            $tokenTypeHandler = null;
-            foreach ($this->tokenTypeHandlers as $handler) {
-                $tokenTypeHandler = $handler;
+            $handler = null;
+            foreach ($this->classes as $class) {
+                $handler = new $class;
                 break;
             }
-            return $tokenTypeHandler;
+            return $handler;
         }
 
-        if (!isset($this->tokenTypeHandlers[$type])) {
+        if (!isset($this->classes[$type])) {
             throw new ServerErrorException();
         }
 
-        return $this->tokenTypeHandlers[$type];
-    }
-
-    public function removeTokenTypeHandler($type)
-    {
-        if (!isset($this->tokenTypeHandlers[$type])) {
-            return;
-        }
-
-        unset($this->tokenTypeHandlers[$type]);
+        return new $this->classes[$type];
     }
 }

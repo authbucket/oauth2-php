@@ -20,15 +20,11 @@ use Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory;
 use Pantarei\Oauth2\GrantType\PasswordGrantTypeHandler;
 use Pantarei\Oauth2\GrantType\RefreshTokenGrantTypeHandler;
 use Pantarei\Oauth2\Model\ModelManagerFactory;
-use Pantarei\Oauth2\ResponseType\CodeResponseTypeHandler;
 use Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactory;
-use Pantarei\Oauth2\ResponseType\TokenResponseTypeHandler;
 use Pantarei\Oauth2\Security\Authentication\Provider\ResourceProvider;
 use Pantarei\Oauth2\Security\Authentication\Provider\TokenProvider;
 use Pantarei\Oauth2\Security\Firewall\ResourceListener;
 use Pantarei\Oauth2\Security\Firewall\TokenListener;
-use Pantarei\Oauth2\TokenType\BearerTokenTypeHandler;
-use Pantarei\Oauth2\TokenType\MacTokenTypeHandler;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -43,6 +39,22 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
     public function register(Application $app)
     {
+        // Add default response type handler.
+        if (!isset($app['oauth2.response_handler'])) {
+            $app['oauth2.response_handler'] = array(
+                'code' => 'Pantarei\\Oauth2\\ResponseType\\CodeResponseTypeHandler',
+                'token' => 'Pantarei\\Oauth2\\ResponseType\\TokenResponseTypeHandler',
+            );
+        }
+
+        // Add default token type handler.
+        if (!isset($app['oauth2.token_handler'])) {
+            $app['oauth2.token_handler'] = array(
+                'bearer' => 'Pantarei\\Oauth2\\TokenType\\BearerTokenTypeHandler',
+                'mac' => 'Pantarei\\Oauth2\\TokenType\\MacTokenTypeHandler',
+            );
+        }
+
         // For using grant_type = password, override this user provider with
         // your own backend manually, e.g. using InMemoryUserProvider or a
         // doctrine EntityRepository that implements UserProviderInterface.
@@ -55,9 +67,8 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             return new ModelManagerFactory();
         });
 
-        // Define response type handler before execute with addResponseTypeHandler().
         $app['oauth2.response_handler.factory'] = $app->share(function ($app) {
-            return new ResponseTypeHandlerFactory();
+            return new ResponseTypeHandlerFactory($app['oauth2.response_handler']);
         });
 
         // Define grant type handler before execute with addGrantTypeHandler().
@@ -67,15 +78,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
         // Default to bearer token for all request.
         $app['oauth2.token_handler.factory'] = $app->share(function ($app){
-            return new TokenTypeHandlerFactory();
-        });
-
-        // Response type handler shared services.
-        $app['oauth2.response_handler.code'] = $app->share(function () {
-            return new CodeResponseTypeHandler();
-        });
-        $app['oauth2.response_handler.token'] = $app->share(function () {
-            return new TokenResponseTypeHandler();
+            return new TokenTypeHandlerFactory($app['oauth2.token_handler']);
         });
 
         // Grant type handler shared services.
@@ -94,14 +97,6 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
         });
         $app['oauth2.grant_handler.refresh_token'] = $app->share(function () {
             return new RefreshTokenGrantTypeHandler();
-        });
-
-        // Token type handler shared services.
-        $app['oauth2.token_handler.bearer'] = $app->share(function () {
-            return new BearerTokenTypeHandler();
-        });
-        $app['oauth2.token_handler.mac'] = $app->share(function () {
-            return new MacTokenTypeHandler();
         });
 
         $app['oauth2.authorize_controller'] = $app->share(function () use ($app) {

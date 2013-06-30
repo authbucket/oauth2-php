@@ -20,33 +20,25 @@ use Pantarei\Oauth2\Exception\UnsupportedResponseTypeException;
  */
 class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
 {
-    protected $responseTypeHandlers;
+    protected $classes;
 
-    public function __construct()
+    public function __construct(array $classes = array())
     {
-        $this->responseTypeHandlers = array();
-    }
+        foreach ($classes as $class) {
+            if (!class_exists($class) || !is_subclass_of($class, 'Pantarei\\Oauth2\\ResponseType\\ResponseTypeHandlerInterface')) {
+                throw new UnsupportedResponseTypeException();
+            }
+        }
 
-    public function addResponseTypeHandler($type, ResponseTypeHandlerInterface $handler)
-    {
-        $this->responseTypeHandlers[$type] = $handler;
+        $this->classes = $classes;
     }
 
     public function getResponseTypeHandler($type)
     {
-        if (!isset($this->responseTypeHandlers[$type])) {
+        if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
             throw new UnsupportedResponseTypeException();
         }
 
-        return $this->responseTypeHandlers[$type];
-    }
-
-    public function removeResponseTypeHandler($type)
-    {
-        if (!isset($this->responseTypeHandlers[$type])) {
-            return;
-        }
-
-        unset($this->responseTypeHandlers[$type]);
+        return new $this->classes[$type];
     }
 }

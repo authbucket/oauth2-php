@@ -36,20 +36,15 @@ class BarResponseTypeHandler implements ResponseTypeHandlerInterface
 
 class ResponseTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException \Pantarei\Oauth2\Exception\UnsupportedResponseTypeException
      */
     public function testBadAddResponseTypeHandler()
     {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory();
-        $responseTypeHandler = new FooResponseTypeHandler();
-        $responseTypeHandlerFactory->addResponseTypeHandler('foo', $responseTypeHandler);
-    }
-
-    public function testGoodAddResponseTypeHandler()
-    {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory();
-        $responseTypeHandler = new BarResponseTypeHandler();
+        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory(array(
+            'foo' => 'Pantarei\\Oauth2\\Tests\\ResponseType\\FooResponseTypeHandler',
+        ));
         $responseTypeHandlerFactory->addResponseTypeHandler('foo', $responseTypeHandler);
     }
 
@@ -58,39 +53,17 @@ class ResponseTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadGetResponseTypeHandler()
     {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory();
-        $responseTypeHandler = new BarResponseTypeHandler();
-        $responseTypeHandlerFactory->addResponseTypeHandler('bar', $responseTypeHandler);
+        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory(array(
+            'bar' => 'Pantarei\\Oauth2\\Tests\\ResponseType\\BarResponseTypeHandler',
+        ));
         $responseTypeHandlerFactory->getResponseTypeHandler('foo');
     }
 
     public function testGoodGetResponseTypeHandler()
     {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory();
-        $responseTypeHandler = new BarResponseTypeHandler();
-        $responseTypeHandlerFactory->addResponseTypeHandler('bar', $responseTypeHandler);
-        $responseTypeHandlerFactory->getResponseTypeHandler('bar');
-    }
-
-    public function testBadRemoveResponseTypeHandler()
-    {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory();
-        $responseTypeHandler = new BarResponseTypeHandler();
-        $responseTypeHandlerFactory->addResponseTypeHandler('bar', $responseTypeHandler);
-        $responseTypeHandlerFactory->getResponseTypeHandler('bar');
-        $responseTypeHandlerFactory->removeResponseTypeHandler('foo');
-    }
-
-    /**
-     * @expectedException \Pantarei\Oauth2\Exception\UnsupportedResponseTypeException
-     */
-    public function testGoodRemoveResponseTypeHandler()
-    {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory();
-        $responseTypeHandler = new BarResponseTypeHandler();
-        $responseTypeHandlerFactory->addResponseTypeHandler('bar', $responseTypeHandler);
-        $responseTypeHandlerFactory->getResponseTypeHandler('bar');
-        $responseTypeHandlerFactory->removeResponseTypeHandler('bar');
+        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory(array(
+            'bar' => 'Pantarei\\Oauth2\\Tests\\ResponseType\\BarResponseTypeHandler',
+        ));
         $responseTypeHandlerFactory->getResponseTypeHandler('bar');
     }
 }

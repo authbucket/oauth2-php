@@ -19,16 +19,6 @@ namespace Pantarei\Oauth2\TokenType;
 interface TokenTypeHandlerFactoryInterface
 {
     /**
-     * Adds a token type handler.
-     *
-     * @param string $type
-     *   Type of token type handler, as refer to RFC6749.
-     * @param GrantTypeHandlerInterface $handler
-     *   A token type handler instance.
-     */
-    public function addTokenTypeHandler($type, TokenTypeHandlerInterface $handler);
-
-    /**
      * Gets a stored token type handler.
      *
      * @param string $type
@@ -41,12 +31,4 @@ interface TokenTypeHandlerFactoryInterface
      *   If supplied token type not found.
      */
     public function getTokenTypeHandler($type = null);
-
-    /**
-     * Removes a stored token type handler.
-     *
-     * @param string $type
-     *   Type of token type handler, as refer to RFC6749.
-     */
-    public function removeTokenTypeHandler($type);
 }

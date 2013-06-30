@@ -19,16 +19,6 @@ namespace Pantarei\Oauth2\ResponseType;
 interface ResponseTypeHandlerFactoryInterface
 {
     /**
-     * Adds a response type handler.
-     *
-     * @param string $type
-     *   Type of response type handler, as refer to RFC6749.
-     * @param ResponseTypeHandlerInterface $handler
-     *   A response type handler instance.
-     */
-    public function addResponseTypeHandler($type, ResponseTypeHandlerInterface $handler);
-
-    /**
      * Gets a stored response type handler.
      *
      * @param string $type
@@ -41,12 +31,4 @@ interface ResponseTypeHandlerFactoryInterface
      *   If supplied response type not found.
      */
     public function getResponseTypeHandler($type);
-
-    /**
-     * Removes a stored response type handler.
-     *
-     * @param string $type
-     *   Type of response type handler, as refer to RFC6749.
-     */
-    public function removeResponseTypeHandler($type);
 }
