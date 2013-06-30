@@ -25,7 +25,12 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
     public function __construct(array $classes = array())
     {
         foreach ($classes as $class) {
-            if (!class_exists($class) || !is_subclass_of($class, 'Pantarei\\Oauth2\\GrantType\\GrantTypeHandlerInterface')) {
+            if (!class_exists($class)) {
+                throw new UnsupportedGrantTypeException();
+            }
+
+            $reflection = new \ReflectionClass($class);
+            if (!$reflection->implementsInterface('Pantarei\\Oauth2\\GrantType\\GrantTypeHandlerInterface')) {
                 throw new UnsupportedGrantTypeException();
             }
         }

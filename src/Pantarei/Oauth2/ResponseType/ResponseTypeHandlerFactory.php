@@ -25,7 +25,12 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
     public function __construct(array $classes = array())
     {
         foreach ($classes as $class) {
-            if (!class_exists($class) || !is_subclass_of($class, 'Pantarei\\Oauth2\\ResponseType\\ResponseTypeHandlerInterface')) {
+            if (!class_exists($class)) {
+                throw new UnsupportedResponseTypeException();
+            }
+
+            $reflection = new \ReflectionClass($class);
+            if (!$reflection->implementsInterface('Pantarei\\Oauth2\\ResponseType\\ResponseTypeHandlerInterface')) {
                 throw new UnsupportedResponseTypeException();
             }
         }

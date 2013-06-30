@@ -25,7 +25,12 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
     public function __construct(array $classes = array())
     {
         foreach ($classes as $class) {
-            if (!class_exists($class) || !is_subclass_of($class, 'Pantarei\\Oauth2\\TokenType\\TokenTypeHandlerInterface')) {
+            if (!class_exists($class)) {
+                throw new ServerErrorException();
+            }
+
+            $reflection = new \ReflectionClass($class);
+            if (!$reflection->implementsInterface('Pantarei\\Oauth2\\TokenType\\TokenTypeHandlerInterface')) {
                 throw new ServerErrorException();
             }
         }
