@@ -15,6 +15,7 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
+use Pantarei\Oauth2\Controller\TokenController;
 use Pantarei\Oauth2\Provider\Oauth2ServiceProvider;
 use Pantarei\Oauth2\Tests\Model\ModelManagerFactory;
 use Silex\Application;
@@ -57,14 +58,7 @@ abstract class WebTestCase extends SilexWebTestCase
             return EntityManager::create($conn, $config, $event_manager);
         });
 
-        // Fake the oauth2.user_provider with InMemoryUserProvider.
-        $users = array(
-            'demousername1' => array('ROLE_USER', 'demopassword1'),
-            'demousername2' => array('ROLE_USER', 'demopassword2'),
-            'demousername3' => array('ROLE_USER', 'demopassword3'),
-        );
-        $app['oauth2.user_provider'] = $app['security.user_provider.inmemory._proto']($users);
-
+        // Fake lib dev, simply use plain text encoder.
         $app['security.encoder.digest'] = $app->share(function ($app) {
             return new PlaintextPasswordEncoder();
         });
@@ -82,13 +76,29 @@ abstract class WebTestCase extends SilexWebTestCase
             return new ModelManagerFactory($app['oauth2.orm'], $app['oauth2.model']);
         });
 
+        // We simply reuse the user provider that already created for
+        // authorize firewall here.
+        $app['oauth2.token_controller'] = $app->share(function () use ($app) {
+            return new TokenController(
+                $app['security'],
+                $app['security.user_checker'],
+                $app['security.encoder_factory'],
+                $app['oauth2.model_manager.factory'],
+                $app['oauth2.grant_handler.factory'],
+                $app['oauth2.token_handler.factory'],
+                $app['security.user_provider.authorize']
+            );
+        });
+
         $app['security.firewalls'] = array(
             'authorize' => array(
                 'pattern' => '^/authorize',
                 'http' => true,
-                'users' => $app->share(function () use ($app) {
-                    return $app['oauth2.user_provider'];
-                }),
+                'users' => array(
+                    'demousername1' => array('ROLE_USER', 'demopassword1'),
+                    'demousername2' => array('ROLE_USER', 'demopassword2'),
+                    'demousername3' => array('ROLE_USER', 'demopassword3'),
+                ),
             ),
             'token' => array(
                 'pattern' => '^/token',

@@ -60,13 +60,6 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             );
         }
 
-        // For using grant_type = password, override this user provider with
-        // your own backend manually, e.g. using InMemoryUserProvider or a
-        // doctrine EntityRepository that implements UserProviderInterface.
-        $app['oauth2.user_provider'] = $app->share(function () {
-            throw new ServerErrorException();
-        });
-
         // Override this with your backend model managers, e.g. Doctrine ORM
         // EntityRepository.
         $app['oauth2.model_manager.factory'] = $app->share(function () {
@@ -94,6 +87,9 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             );
         });
 
+        // For using grant_type = password, override the last parameter
+        // with your own user provider, e.g. using InMemoryUserProvider or
+        // a doctrine EntityRepository that implements UserProviderInterface.
         $app['oauth2.token_controller'] = $app->share(function () use ($app) {
             return new TokenController(
                 $app['security'],
@@ -102,7 +98,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
                 $app['oauth2.model_manager.factory'],
                 $app['oauth2.grant_handler.factory'],
                 $app['oauth2.token_handler.factory'],
-                $app['oauth2.user_provider']
+                null
             );
         });
 
