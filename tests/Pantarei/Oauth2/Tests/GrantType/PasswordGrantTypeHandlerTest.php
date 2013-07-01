@@ -13,7 +13,6 @@ namespace Pantarei\Oauth2\Tests\GrantType;
 
 use Pantarei\Oauth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class PasswordGrantTypeHandlerTest extends WebTestCase
 {

@@ -15,6 +15,7 @@ use Pantarei\Oauth2\Exception\InvalidClientException;
 use Pantarei\Oauth2\Exception\InvalidGrantException;
 use Pantarei\Oauth2\Exception\InvalidRequestException;
 use Pantarei\Oauth2\Exception\InvalidScopeException;
+use Pantarei\Oauth2\Exception\ServerErrorException;
 use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Util\Filter;

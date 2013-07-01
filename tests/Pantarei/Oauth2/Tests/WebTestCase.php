@@ -254,6 +254,26 @@ abstract class WebTestCase extends SilexWebTestCase
             ));
         $modelManager->updateCode($model);
 
+        $model = $modelManager->createCode();
+        $model->setCode('1e5aa97ddaf4b0228dfb4223010d4417')
+            ->setClientId('http://democlient1.com/')
+            ->setExpires(new \DateTime('-10 minutes'))
+            ->setUsername('demousername1')
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $modelManager->updateCode($model);
+
+        $model = $modelManager->createCode();
+        $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
+            ->setClientId('http://democlient4.com/')
+            ->setExpires(new \DateTime('+10 minutes'))
+            ->setUsername('demousername4')
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $modelManager->updateCode($model);
+
         // Add demo refresh token.
         $modelManager = $modelManagerFactory->getModelManager('refresh_token');
         $model = $modelManager->createRefreshToken();
@@ -265,6 +285,16 @@ abstract class WebTestCase extends SilexWebTestCase
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
+            ));
+        $modelManager->updateRefreshToken($model);
+
+        $model = $modelManager->createRefreshToken();
+        $model->setRefreshToken('5ff43cbc27b54202c6fd8bb9c2a308ce')
+            ->setClientId('http://democlient1.com/')
+            ->setExpires(new \DateTime('-1 days'))
+            ->setUsername('demousername1')
+            ->setScope(array(
+                'demoscope1',
             ));
         $modelManager->updateRefreshToken($model);
 

@@ -94,18 +94,6 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
 
     public function testExceptionRefreshTokenExpired()
     {
-        // Add demo refresh token.
-        $modelManager = $this->app['oauth2.model_manager.factory']->getModelManager('refresh_token');
-        $model = $modelManager->createRefreshToken();
-        $model->setRefreshToken('5ff43cbc27b54202c6fd8bb9c2a308ce')
-            ->setClientId('http://democlient1.com/')
-            ->setExpires(new \DateTime('-1 days'))
-            ->setUsername('demousername1')
-            ->setScope(array(
-                'demoscope1',
-            ));
-        $modelManager->updateRefreshToken($model);
-
         $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => '5ff43cbc27b54202c6fd8bb9c2a308ce',
