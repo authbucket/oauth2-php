@@ -42,7 +42,7 @@ class ResourceProvider implements AuthenticationProviderInterface
 
         $access_token = $token->getAccessToken();
         if ($access_token instanceof AccessTokenInterface) {
-            $access_token->getAccessToken();
+            $access_token = $access_token->getAccessToken();
         }
 
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
