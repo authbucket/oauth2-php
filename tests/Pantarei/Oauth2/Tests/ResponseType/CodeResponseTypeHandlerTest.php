@@ -55,13 +55,6 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testExceptionCodeNoSavedNoPassedRedirectUri()
     {
-        // Insert client without redirect_uri.
-        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createClient();
-        $model->setClientId('http://democlient4.com/')
-            ->setClientSecret('demosecret4');
-        $modelManager->updateClient($model);
-
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'http://democlient4.com/',
@@ -219,17 +212,9 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodCodeNoPassedRedirectUri()
     {
-        // Insert client with redirect_uri, test empty pass in.
-        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createClient();
-        $model->setClientId('http://democlient4.com/')
-            ->setClientSecret('demosecret4')
-            ->setRedirectUri('http://democlient4.com/redirect_uri');
-        $modelManager->updateClient($model);
-
         $parameters = array(
             'response_type' => 'code',
-            'client_id' => 'http://democlient4.com/',
+            'client_id' => 'http://democlient1.com/',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -242,17 +227,10 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodCodeNoStoredRedirectUri()
     {
-        // Insert client without redirect_uri, test valid pass in.
-        $modelManager =  $this->app['oauth2.model_manager.factory']->getModelManager('client');
-        $model = $modelManager->createClient();
-        $model->setClientId('http://democlient5.com/')
-            ->setClientSecret('demosecret5');
-        $modelManager->updateClient($model);
-
         $parameters = array(
             'response_type' => 'code',
-            'client_id' => 'http://democlient5.com/',
-            'redirect_uri' => 'http://democlient5.com/redirect_uri',
+            'client_id' => 'http://democlient4.com/',
+            'redirect_uri' => 'http://democlient4.com/redirect_uri',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',

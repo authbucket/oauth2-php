@@ -12,7 +12,6 @@
 namespace Pantarei\Oauth2\Tests\Controller;
 
 use Pantarei\Oauth2\Tests\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 class AuthorizateControllerTest extends WebTestCase
 {

@@ -225,6 +225,11 @@ abstract class WebTestCase extends SilexWebTestCase
             ->setRedirectUri('http://democlient3.com/redirect_uri');
         $modelManager->updateClient($model);
 
+        $model = $modelManager->createClient();
+        $model->setClientId('http://democlient4.com/')
+            ->setClientSecret('demosecret4');
+        $modelManager->updateClient($model);
+
         // Add demo code.
         $modelManager = $modelManagerFactory->getModelManager('code');
         $model = $modelManager->createCode();
