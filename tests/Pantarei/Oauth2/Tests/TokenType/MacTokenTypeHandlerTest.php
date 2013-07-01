@@ -11,10 +11,17 @@
 
 namespace Pantarei\Oauth2\Tests\TokenType;
 
-use Pantarei\Oauth2\Model\ModelManagerFactory;
+use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\Tests\WebTestCase;
 use Pantarei\Oauth2\TokenType\MacTokenTypeHandler;
 use Symfony\Component\HttpFoundation\Request;
+
+class FooModelManagerFactory implements ModelManagerFactoryInterface
+{
+    public function getModelManager($type)
+    {
+    }
+}
 
 class MacTokenTypeHandlerTest extends WebTestCase
 {
@@ -33,7 +40,7 @@ class MacTokenTypeHandlerTest extends WebTestCase
      */
     public function testExceptionCreateAccessToken()
     {
-        $modelManagerFactory = new ModelManagerFactory();
+        $modelManagerFactory = new FooModelManagerFactory();
         $handler = new MacTokenTypeHandler();
         $handler->createAccessToken($modelManagerFactory, 'foo');
     }

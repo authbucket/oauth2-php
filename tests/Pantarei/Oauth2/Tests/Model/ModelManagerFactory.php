@@ -9,9 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\Oauth2\Model;
+namespace Pantarei\Oauth2\Tests\Model;
 
+use Doctrine\ORM\EntityManager;
 use Pantarei\Oauth2\Exception\ServerErrorException;
+use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
+use Pantarei\Oauth2\Model\ModelManagerInterface;
 
 /**
  * Oauth2 model manager factory implemention.
@@ -20,25 +23,28 @@ use Pantarei\Oauth2\Exception\ServerErrorException;
  */
 class ModelManagerFactory implements ModelManagerFactoryInterface
 {
-    protected $classes;
+    protected $managers;
 
-    public function __construct(array $classes = array())
+    public function __construct(EntityManager $em, array $models = array())
     {
-        foreach ($classes as $class) {
-            if (!$class instanceof ModelManagerInterface) {
+        $managers = array();
+        foreach ($models as $type => $model) {
+            $manager = $em->getRepository($model);
+            if (!$manager instanceof ModelManagerInterface) {
                 throw new ServerErrorException();
             }
+            $managers[$type] = $manager;
         }
 
-        $this->classes = $classes;
+        $this->managers = $managers;
     }
 
     public function getModelManager($type)
     {
-        if (!isset($this->classes[$type])) {
+        if (!isset($this->managers[$type])) {
             throw new ServerErrorException();
         }
 
-        return $this->classes[$type];
+        return $this->managers[$type];
     }
 }

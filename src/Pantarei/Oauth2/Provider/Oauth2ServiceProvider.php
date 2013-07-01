@@ -15,7 +15,6 @@ use Pantarei\Oauth2\Controller\AuthorizeController;
 use Pantarei\Oauth2\Controller\TokenController;
 use Pantarei\Oauth2\Exception\ServerErrorException;
 use Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory;
-use Pantarei\Oauth2\Model\ModelManagerFactory;
 use Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactory;
 use Pantarei\Oauth2\Security\Authentication\Provider\ResourceProvider;
 use Pantarei\Oauth2\Security\Authentication\Provider\TokenProvider;
@@ -43,7 +42,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             );
         }
 
-        // add default grant type handler.
+        // Add default grant type handler.
         if (!isset($app['oauth2.grant_handler'])) {
             $app['oauth2.grant_handler'] = array(
                 'authorization_code' => 'Pantarei\\Oauth2\\GrantType\\AuthorizationCodeGrantTypeHandler',
@@ -71,7 +70,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
         // Override this with your backend model managers, e.g. Doctrine ORM
         // EntityRepository.
         $app['oauth2.model_manager.factory'] = $app->share(function () {
-            return new ModelManagerFactory();
+            throw new ServerErrorException();
         });
 
         $app['oauth2.response_handler.factory'] = $app->share(function ($app) {

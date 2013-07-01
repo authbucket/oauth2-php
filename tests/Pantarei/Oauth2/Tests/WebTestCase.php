@@ -15,8 +15,8 @@ use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
-use Pantarei\Oauth2\Model\ModelManagerFactory;
 use Pantarei\Oauth2\Provider\Oauth2ServiceProvider;
+use Pantarei\Oauth2\Tests\Model\ModelManagerFactory;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
@@ -70,20 +70,16 @@ abstract class WebTestCase extends SilexWebTestCase
         });
 
         // Add model managers from ORM.
+        $app['oauth2.model'] = array(
+            'access_token' => 'Pantarei\\Oauth2\\Tests\\Model\\AccessToken',
+            'authorize' => 'Pantarei\\Oauth2\\Tests\\Model\\Authorize',
+            'client' => 'Pantarei\\Oauth2\\Tests\\Model\\Client',
+            'code' => 'Pantarei\\Oauth2\\Tests\\Model\\Code',
+            'refresh_token' => 'Pantarei\\Oauth2\\Tests\\Model\\RefreshToken',
+            'scope' => 'Pantarei\\Oauth2\\Tests\\Model\\Scope',
+        );
         $app['oauth2.model_manager.factory'] = $app->share(function($app) {
-            $models = array(
-                'access_token' => 'Pantarei\\Oauth2\\Tests\\Model\\AccessToken',
-                'authorize' => 'Pantarei\\Oauth2\\Tests\\Model\\Authorize',
-                'client' => 'Pantarei\\Oauth2\\Tests\\Model\\Client',
-                'code' => 'Pantarei\\Oauth2\\Tests\\Model\\Code',
-                'refresh_token' => 'Pantarei\\Oauth2\\Tests\\Model\\RefreshToken',
-                'scope' => 'Pantarei\\Oauth2\\Tests\\Model\\Scope',
-            );
-            $managers = array();
-            foreach ($models as $type => $model) {
-                $managers[$type] = $app['oauth2.orm']->getRepository($model);
-            }
-            return new ModelManagerFactory($managers);
+            return new ModelManagerFactory($app['oauth2.orm'], $app['oauth2.model']);
         });
 
         $app['security.firewalls'] = array(
