@@ -229,8 +229,8 @@ class CodeResponseTypeHandlerTest extends WebTestCase
     {
         $parameters = array(
             'response_type' => 'code',
-            'client_id' => 'http://democlient4.com/',
-            'redirect_uri' => 'http://democlient4.com/redirect_uri',
+            'client_id' => 'http://democlient1.com/',
+            'redirect_uri' => 'http://democlient1.com/redirect_uri',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',

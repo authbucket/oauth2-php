@@ -13,9 +13,7 @@ namespace Pantarei\Oauth2\Security\Firewall;
 
 use Pantarei\Oauth2\Exception\InvalidClientException;
 use Pantarei\Oauth2\Exception\InvalidRequestException;
-use Pantarei\Oauth2\Model\ModelManagerFactoryInterface;
 use Pantarei\Oauth2\Security\Authentication\Token\ClientToken;
-use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Pantarei\Oauth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,20 +31,14 @@ class TokenListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;
-    protected $modelManagerFactory;
-    protected $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        AuthenticationManagerInterface $authenticationManager
     )
     {
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
-        $this->modelManagerFactory = $modelManagerFactory;
-        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     public function handle(GetResponseEvent $event)

@@ -114,9 +114,7 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
             return $app->share(function () use ($app, $name, $options) {
                 return new TokenListener(
                     $app['security'],
-                    $app['security.authentication_manager'],
-                    $app['oauth2.model_manager.factory'],
-                    $app['oauth2.token_handler.factory']
+                    $app['security.authentication_manager']
                 );
             });
         });
@@ -134,7 +132,6 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
                 return new ResourceListener(
                     $app['security'],
                     $app['security.authentication_manager'],
-                    $app['oauth2.model_manager.factory'],
                     $app['oauth2.token_handler.factory']
                 );
             });
