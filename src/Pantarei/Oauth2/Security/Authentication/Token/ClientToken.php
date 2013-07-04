@@ -68,11 +68,11 @@ class ClientToken extends AbstractToken
 
     public function serialize()
     {
-        return serialize(array($this->client_id, $this->client_secret, $this->providerKey, parent::serialize()));
+        return serialize(array($this->client, $this->client_secret, $this->providerKey, parent::serialize()));
     }
 
     public function unserialize($str)
     {
-        list($this->client_id, $this->client_secret, $this->providerKey, $parentStr) = unserialize($str);
+        list($this->client, $this->client_secret, $this->providerKey, $parentStr) = unserialize($str);
     }
 }
