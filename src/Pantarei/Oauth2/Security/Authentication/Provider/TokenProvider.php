@@ -27,11 +27,15 @@ class TokenProvider implements AuthenticationProviderInterface
 {
     protected $modelManagerFactory;
 
+    protected $providerKey;
+
     public function __construct(
-        ModelManagerFactoryInterface $modelManagerFactory
+        ModelManagerFactoryInterface $modelManagerFactory,
+        $providerKey
     )
     {
         $this->modelManagerFactory = $modelManagerFactory;
+        $this->providerKey = $providerKey;
     }
 
     public function authenticate(TokenInterface $token)
@@ -60,7 +64,7 @@ class TokenProvider implements AuthenticationProviderInterface
             }
         }
 
-        $authenticatedToken = new ClientToken($client_id, $client_secret, $token->getRoles());
+        $authenticatedToken = new ClientToken($client_id, $client_secret, $this->providerKey, $token->getRoles());
         $authenticatedToken->setClient($client);
         $authenticatedToken->setUser($client->getClientId());
 

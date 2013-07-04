@@ -30,15 +30,20 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 class TokenListener implements ListenerInterface
 {
     protected $securityContext;
+
     protected $authenticationManager;
+
+    protected $providerKey;
 
     public function __construct(
         SecurityContextInterface $securityContext,
-        AuthenticationManagerInterface $authenticationManager
+        AuthenticationManagerInterface $authenticationManager,
+        $providerKey
     )
     {
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
+        $this->providerKey = $providerKey;
     }
 
     public function handle(GetResponseEvent $event)
@@ -71,7 +76,7 @@ class TokenListener implements ListenerInterface
                 }
             }
 
-            $token = new ClientToken($client_id, $client_secret);
+            $token = new ClientToken($client_id, $client_secret, $this->providerKey);
             $authenticatedToken = $this->authenticationManager->authenticate($token);
             $this->securityContext->setToken($authenticatedToken);
         } catch (InvalidClientException $e) {

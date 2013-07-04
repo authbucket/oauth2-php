@@ -27,11 +27,15 @@ class ResourceProvider implements AuthenticationProviderInterface
 {
     protected $modelManagerFactory;
 
+    protected $providerKey;
+
     public function __construct(
-        ModelManagerFactoryInterface $modelManagerFactory
+        ModelManagerFactoryInterface $modelManagerFactory,
+        $providerKey
     )
     {
         $this->modelManagerFactory = $modelManagerFactory;
+        $this->providerKey = $providerKey;
     }
 
     public function authenticate(TokenInterface $token)
@@ -53,7 +57,7 @@ class ResourceProvider implements AuthenticationProviderInterface
             throw new AccessDeniedException();
         }
 
-        $authenticatedToken = new AccessToken($storedAccessToken);
+        $authenticatedToken = new AccessToken($storedAccessToken, $this->providerKey);
         $authenticatedToken->setUser($storedAccessToken->getUsername());
 
         return $authenticatedToken;

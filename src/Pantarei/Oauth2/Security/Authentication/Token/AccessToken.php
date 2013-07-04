@@ -20,11 +20,14 @@ class AccessToken extends AbstractToken
 {
     protected $access_token;
 
-    public function __construct($access_token, array $roles = array())
+    protected $providerKey;
+
+    public function __construct($access_token, $providerKey, array $roles = array())
     {
         parent::__construct($roles);
 
         $this->access_token = $access_token;
+        $this->providerKey = $providerKey;
 
         parent::setAuthenticated(count($roles) > 0);
     }
@@ -43,5 +46,15 @@ class AccessToken extends AbstractToken
     public function getCredentials()
     {
         return '';
+    }
+
+    public function serialize()
+    {
+        return serialize(array($this->access_token, $this->providerKey, parent::serialize()));
+    }
+
+    public function unserialize($str)
+    {
+        list($this->access_token, $this->providerKey, $parentStr) = unserialize($str);
     }
 }

@@ -30,17 +30,23 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 class ResourceListener implements ListenerInterface
 {
     protected $securityContext;
+
     protected $authenticationManager;
+
+    protected $providerKey;
+
     protected $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
+        $providerKey,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
+        $this->providerKey = $providerKey;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
@@ -62,7 +68,7 @@ class ResourceListener implements ListenerInterface
                 }
             }
 
-            $token = new AccessToken($access_token);
+            $token = new AccessToken($access_token, $this->providerKey);
             $authenticatedToken = $this->authenticationManager->authenticate($token);
             $this->securityContext->setToken($authenticatedToken);
         } catch (InvalidRequestException $e) {
