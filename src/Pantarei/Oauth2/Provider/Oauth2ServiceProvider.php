@@ -12,6 +12,7 @@
 namespace Pantarei\Oauth2\Provider;
 
 use Pantarei\Oauth2\Controller\AuthorizeController;
+use Pantarei\Oauth2\Controller\ResourceController;
 use Pantarei\Oauth2\Controller\TokenController;
 use Pantarei\Oauth2\Exception\ServerErrorException;
 use Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory;
@@ -99,6 +100,12 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
                 $app['oauth2.grant_handler.factory'],
                 $app['oauth2.token_handler.factory'],
                 null
+            );
+        });
+
+        $app['oauth2.resource_controller'] = $app->share(function () use ($app) {
+            return new ResourceController(
+                $app['security']
             );
         });
 

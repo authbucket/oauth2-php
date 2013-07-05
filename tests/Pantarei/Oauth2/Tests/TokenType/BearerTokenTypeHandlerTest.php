@@ -22,7 +22,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $parameters = array();
         $server = array();
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $token_response = json_decode($client->getResponse()->getContent(), true);
@@ -38,7 +38,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
             'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $token_response = json_decode($client->getResponse()->getContent(), true);
@@ -52,16 +52,18 @@ class BearerTokenTypeHandlerTest extends WebTestCase
             'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
 
         $parameters = array();
         $server = array(
             'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('POST', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
     }
 
     public function testGet()
@@ -71,8 +73,9 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         );
         $server = array();
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
     }
 
     public function testPost()
@@ -82,7 +85,8 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         );
         $server = array();
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('POST', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
     }
 }

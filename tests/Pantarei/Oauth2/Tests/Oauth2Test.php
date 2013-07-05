@@ -72,8 +72,9 @@ class Oauth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
     }
 
     public function testImplicitGrant()
@@ -112,8 +113,9 @@ class Oauth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
     }
 
     public function testResourceOwnerPasswordCredentialsGrant()
@@ -145,8 +147,9 @@ class Oauth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
     }
 
     public function testClientCredentialsGrant()
@@ -175,8 +178,9 @@ class Oauth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('', $resource_response['username']);
     }
 
     public function testRefreshingAccessToken()
@@ -243,7 +247,8 @@ class Oauth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/foo', $parameters, array(), $server);
-        $this->assertEquals('foo', $client->getResponse()->getContent());
+        $crawler = $client->request('GET', '/resource/username', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
     }
 }

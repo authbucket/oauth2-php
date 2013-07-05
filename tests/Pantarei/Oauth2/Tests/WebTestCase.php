@@ -122,8 +122,8 @@ abstract class WebTestCase extends SilexWebTestCase
         });
 
         // Resource endpoint.
-        $app->match('/resource/{echo}', function (Request $request, Application $app, $echo) {
-            return new Response($echo);
+        $app->match('/resource/username', function (Request $request, Application $app) {
+            return $app['oauth2.resource_controller']->usernameAction($request);
         });
 
         return $app;
