@@ -49,46 +49,24 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         UserProviderInterface $userProvider = null
     )
     {
-        try {
-            if ($userProvider === null) {
-                throw new ServerErrorException();
-            }
-
-            // Fetch client_id from authenticated token.
-            $client_id = $this->checkClientId($securityContext);
-
-            // Check resource owner credentials
-            $username = $this->checkUsername(
-                $request,
-                $modelManagerFactory,
-                $userProvider,
-                $userChecker,
-                $encoderFactory
-            );
-
-            // Check and set scope.
-            $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
-        } catch (InvalidClientException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_client',
-            ), 401);
-        } catch (InvalidGrantException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_grant',
-            ), 400);
-        } catch (InvalidRequestException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_request',
-            ), 400);
-        } catch (InvalidScopeException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_scope',
-            ), 400);
-        } catch (ServerErrorException $e) {
-            return JsonResponse::create(array(
-                'error' => 'server_error',
-            ), 400);
+        if ($userProvider === null) {
+            throw new ServerErrorException();
         }
+
+        // Fetch client_id from authenticated token.
+        $client_id = $this->checkClientId($securityContext);
+
+        // Check resource owner credentials
+        $username = $this->checkUsername(
+            $request,
+            $modelManagerFactory,
+            $userProvider,
+            $userChecker,
+            $encoderFactory
+        );
+
+        // Check and set scope.
+        $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(

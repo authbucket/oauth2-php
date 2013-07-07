@@ -20,7 +20,10 @@ use Pantarei\Oauth2\Provider\Oauth2ServiceProvider;
 use Pantarei\Oauth2\Tests\Model\ModelManagerFactory;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\FormServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
+use Silex\Provider\SessionServiceProvider;
+use Silex\Provider\TwigServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,12 +41,15 @@ abstract class WebTestCase extends SilexWebTestCase
     {
         $app = new Application();
         $app['debug'] = true;
-        $app['session'] = true;
+#        $app['session.test'] = true;
         $app['exception_handler']->disable();
 
         $app->register(new DoctrineServiceProvider());
-        $app->register(new SecurityServiceProvider());
+#        $app->register(new FormServiceProvider());
         $app->register(new Oauth2ServiceProvider());
+        $app->register(new SecurityServiceProvider());
+#        $app->register(new SessionServiceProvider());
+#        $app->register(new TwigServiceProvider());
 
         $app['db.options'] = array(
             'driver' => 'pdo_sqlite',
@@ -93,7 +99,12 @@ abstract class WebTestCase extends SilexWebTestCase
         $app['security.firewalls'] = array(
             'authorize' => array(
                 'pattern' => '^/authorize',
+#                'form' => array(
+#                    'login_path' => '/authorize/login',
+#                    'check_path' => '/authorize/login_check',
+#                ),
                 'http' => true,
+#                'anonymous' => true,
                 'users' => array(
                     'demousername1' => array('ROLE_USER', 'demopassword1'),
                     'demousername2' => array('ROLE_USER', 'demopassword2'),
@@ -115,6 +126,12 @@ abstract class WebTestCase extends SilexWebTestCase
         $app->get('/authorize', function (Request $request, Application $app) {
             return $app['oauth2.authorize_controller']->authorizeAction($request);
         });
+#        $app->get('/authorize/login', function (Request $request) use ($app) {
+#            return $app['twig']->render('login.html.twig', array(
+#                'error' => $app['security.last_error']($request),
+#                'last_username' => $app['session']->get('_security.last_username'),
+#            ));
+#        });
 
         // Token endpoint.
         $app->post('/token', function (Request $request, Application $app) {

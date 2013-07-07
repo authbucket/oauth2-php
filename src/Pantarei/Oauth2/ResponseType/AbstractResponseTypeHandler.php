@@ -147,11 +147,36 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         return $redirect_uri ? $redirect_uri : $stored;
     }
 
+    protected function checkState(
+        Request $request,
+        $redirect_uri
+    )
+    {
+        $state = $request->query->get('state', null);
+
+        // state may not exists.
+        if ($state) {
+            // state must be in valid format.
+            $query = array(
+                'state' => $state,
+            );
+            if (!Filter::filter($query)) {
+                throw new InvalidRequestException(array(
+                    'redirect_uri' => $redirect_uri
+                ));
+            }
+        }
+
+        return $state;
+    }
+
     protected function checkScope(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         $client_id,
-        $username
+        $username,
+        $redirect_uri,
+        $state
     )
     {
         $scope = $request->query->get('scope', array());
@@ -163,7 +188,10 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
                 'scope' => $scope,
             );
             if (!Filter::filter($query)) {
-                throw new InvalidRequestException();
+                throw new InvalidRequestException(array(
+                    'redirect_uri' => $redirect_uri,
+                    'state' => $state,
+                ));
             }
 
             // Compare if given scope within all available authorized scopes.
@@ -185,28 +213,13 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
             $scope = preg_split('/\s+/', $scope);
             if (array_intersect($scope, $authorized_scope, $supported_scope) != $scope) {
-                throw new InvalidScopeException();
+                throw new InvalidScopeException(array(
+                    'redirect_uri' => $redirect_uri,
+                    'state' => $state,
+                ));
             }
         }
 
         return $scope;
-    }
-
-    protected function checkState(Request $request)
-    {
-        $state = $request->query->get('state', null);
-
-        // state may not exists.
-        if ($state) {
-            // state must be in valid format.
-            $query = array(
-                'state' => $state,
-            );
-            if (!Filter::filter($query)) {
-                throw new InvalidRequestException();
-            }
-        }
-
-        return $state;
     }
 }

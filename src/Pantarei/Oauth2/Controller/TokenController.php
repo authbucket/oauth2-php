@@ -57,29 +57,19 @@ class TokenController
 
     public function tokenAction(Request $request)
     {
-        try {
-            // Fetch grant_type from POST.
-            $grant_type = $this->getGrantType($request);
+        // Fetch grant_type from POST.
+        $grant_type = $this->getGrantType($request);
 
-            // Handle token endpoint response.
-            return $this->grantTypeHandlerFactory->getGrantTypeHandler($grant_type)->handle(
-                $this->securityContext,
-                $this->userChecker,
-                $this->encoderFactory,
-                $request,
-                $this->modelManagerFactory,
-                $this->tokenTypeHandlerFactory,
-                $this->userProvider
-            );
-        } catch (InvalidRequestException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_request',
-            ), 400);
-        } catch (UnsupportedGrantTypeException $e) {
-            return JsonResponse::create(array(
-                'error' => 'unsupported_grant_type',
-            ), 400);
-        }
+        // Handle token endpoint response.
+        return $this->grantTypeHandlerFactory->getGrantTypeHandler($grant_type)->handle(
+            $this->securityContext,
+            $this->userChecker,
+            $this->encoderFactory,
+            $request,
+            $this->modelManagerFactory,
+            $this->tokenTypeHandlerFactory,
+            $this->userProvider
+        );
     }
 
     private function getGrantType(Request $request)

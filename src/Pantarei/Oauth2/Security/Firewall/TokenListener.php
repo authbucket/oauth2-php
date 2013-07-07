@@ -50,43 +50,33 @@ class TokenListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        try {
-            // At least one (and only one) of client credentials method required.
-            if (!$request->headers->get('PHP_AUTH_USER', false) && !$request->request->get('client_id', false)) {
-                throw new InvalidRequestException();
-            } elseif ($request->headers->get('PHP_AUTH_USER', false) && $request->request->get('client_id', false)) {
-                throw new InvalidRequestException();
-            }
-
-            // Check with HTTP basic auth if exists.
-            if ($request->headers->get('PHP_AUTH_USER', false)) {
-                $client_id = $request->headers->get('PHP_AUTH_USER', false);
-                $client_secret = $request->headers->get('PHP_AUTH_PW', false);
-            } else {
-                $client_id = $request->request->get('client_id', false);
-                $client_secret = $request->request->get('client_secret', false);
-            }
-
-            if (null !== $token = $this->securityContext->getToken()) {
-                if ($token instanceof ClientToken
-                    && $token->isAuthenticated()
-                    && $token->getClientId() === $client_id
-                ) {
-                    return;
-                }
-            }
-
-            $token = new ClientToken($client_id, $client_secret, $this->providerKey);
-            $authenticatedToken = $this->authenticationManager->authenticate($token);
-            $this->securityContext->setToken($authenticatedToken);
-        } catch (InvalidClientException $e) {
-            $event->setResponse(JsonResponse::create(array(
-                'error' => 'invalid_client',
-            ), 401));
-        } catch (InvalidRequestException $e) {
-            $event->setResponse(JsonResponse::create(array(
-                'error' => 'invalid_request',
-            ), 400));
+        // At least one (and only one) of client credentials method required.
+        if (!$request->headers->get('PHP_AUTH_USER', false) && !$request->request->get('client_id', false)) {
+            throw new InvalidRequestException();
+        } elseif ($request->headers->get('PHP_AUTH_USER', false) && $request->request->get('client_id', false)) {
+            throw new InvalidRequestException();
         }
+
+        // Check with HTTP basic auth if exists.
+        if ($request->headers->get('PHP_AUTH_USER', false)) {
+            $client_id = $request->headers->get('PHP_AUTH_USER', false);
+            $client_secret = $request->headers->get('PHP_AUTH_PW', false);
+        } else {
+            $client_id = $request->request->get('client_id', false);
+            $client_secret = $request->request->get('client_secret', false);
+        }
+
+        if (null !== $token = $this->securityContext->getToken()) {
+            if ($token instanceof ClientToken
+                && $token->isAuthenticated()
+                && $token->getClientId() === $client_id
+            ) {
+                return;
+            }
+        }
+
+        $token = new ClientToken($client_id, $client_secret, $this->providerKey);
+        $authenticatedToken = $this->authenticationManager->authenticate($token);
+        $this->securityContext->setToken($authenticatedToken);
     }
 }

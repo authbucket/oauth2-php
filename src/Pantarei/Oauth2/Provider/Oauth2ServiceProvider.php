@@ -14,6 +14,7 @@ namespace Pantarei\Oauth2\Provider;
 use Pantarei\Oauth2\Controller\AuthorizeController;
 use Pantarei\Oauth2\Controller\ResourceController;
 use Pantarei\Oauth2\Controller\TokenController;
+use Pantarei\Oauth2\EventListener\ExceptionListener;
 use Pantarei\Oauth2\Exception\ServerErrorException;
 use Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory;
 use Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactory;
@@ -24,6 +25,7 @@ use Pantarei\Oauth2\Security\Firewall\TokenListener;
 use Pantarei\Oauth2\TokenType\TokenTypeHandlerFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Oauth2 service provider as plugin for Silex SecurityServiceProvider.
@@ -60,6 +62,10 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
                 'mac' => 'Pantarei\\Oauth2\\TokenType\\MacTokenTypeHandler',
             );
         }
+
+        $app['oauth2.exception_listener'] = $app->share(function () {
+            return new ExceptionListener();
+        });
 
         // Override this with your backend model managers, e.g. Doctrine ORM
         // EntityRepository.
@@ -185,5 +191,6 @@ class Oauth2ServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
+        $app['dispatcher']->addListener(KernelEvents::EXCEPTION, array($app['oauth2.exception_listener'], 'onKernelException'), -8);
     }
 }

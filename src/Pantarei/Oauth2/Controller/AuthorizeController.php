@@ -48,26 +48,16 @@ class AuthorizeController
 
     public function authorizeAction(Request $request)
     {
-        try {
-            // Fetch response_type from GET.
-            $response_type = $this->getResponseType($request);
+        // Fetch response_type from GET.
+        $response_type = $this->getResponseType($request);
 
-            // Handle authorize endpoint response.
-            return $this->responseTypeHandlerFactory->getResponseTypeHandler($response_type)->handle(
-                $this->securityContext,
-                $request,
-                $this->modelManagerFactory,
-                $this->tokenTypeHandlerFactory
-            );
-        } catch (InvalidRequestException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_request',
-            ), 400);
-        } catch (UnsupportedResponseTypeException $e) {
-            return JsonResponse::create(array(
-                'error' => 'unsupported_response_type',
-            ), 400);
-        }
+        // Handle authorize endpoint response.
+        return $this->responseTypeHandlerFactory->getResponseTypeHandler($response_type)->handle(
+            $this->securityContext,
+            $request,
+            $this->modelManagerFactory,
+            $this->tokenTypeHandlerFactory
+        );
     }
 
     private function getResponseType(Request $request)

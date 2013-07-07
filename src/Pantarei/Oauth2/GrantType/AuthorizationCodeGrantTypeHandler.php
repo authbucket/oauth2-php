@@ -41,28 +41,14 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         UserProviderInterface $userProvider = null
     )
     {
-        try {
-            // Fetch client_id from authenticated token.
-            $client_id = $this->checkClientId($securityContext);
+        // Fetch client_id from authenticated token.
+        $client_id = $this->checkClientId($securityContext);
 
-            // Fetch username and scope from stored code.
-            list($username, $scope) = $this->checkCode($request, $modelManagerFactory, $client_id);
+        // Fetch username and scope from stored code.
+        list($username, $scope) = $this->checkCode($request, $modelManagerFactory, $client_id);
 
-            // Check and set redirect_uri.
-            $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
-        } catch (InvalidClientException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_client',
-            ), 401);
-        } catch (InvalidGrantException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_grant',
-            ), 400);
-        } catch (InvalidRequestException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_request',
-            ), 400);
-        }
+        // Check and set redirect_uri.
+        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(

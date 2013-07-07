@@ -36,52 +36,27 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        try {
-            // Fetch username from authenticated token.
-            $username = $this->checkUsername($securityContext);
+        // Fetch username from authenticated token.
+        $username = $this->checkUsername($securityContext);
 
-            // Set client_id from GET.
-            $client_id = $this->checkClientId($request, $modelManagerFactory);
+        // Set client_id from GET.
+        $client_id = $this->checkClientId($request, $modelManagerFactory);
 
-            // Check and set redirect_uri.
-            $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
-        } catch (InvalidClientException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_client',
-            ), 400);
-        } catch (InvalidRequestException $e) {
-            return JsonResponse::create(array(
-                'error' => 'invalid_request',
-            ), 400);
-        } catch (ServerErrorException $e) {
-            return JsonResponse::create(array(
-                'error' => 'server_error',
-            ), 400);
-        }
+        // Check and set redirect_uri.
+        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
 
-        try {
-            // Check and set state.
-            $state = $this->checkState($request);
-        } catch (InvalidRequestException $e) {
-            return RedirectResponse::create($redirect_uri, array(
-                'error' => 'invalid_request',
-            ));
-        }
-        
-        try {
-            // Check and set scope.
-            $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
-        } catch (InvalidRequestException $e) {
-            return RedirectResponse::create($redirect_uri, array(
-                'error' => 'invalid_request',
-                'state' => $state,
-            ));
-        } catch (InvalidScopeException $e) {
-            return RedirectResponse::create($redirect_uri, array(
-                'error' => 'invalid_scope',
-                'state' => $state,
-            ));
-        }
+        // Check and set state.
+        $state = $this->checkState($request, $redirect_uri);
+
+        // Check and set scope.
+        $scope = $this->checkScope(
+            $request,
+            $modelManagerFactory,
+            $client_id,
+            $username,
+            $redirect_uri,
+            $state
+        );
 
         // Generate parameters, store to backend and set response.
         $modelManager =  $modelManagerFactory->getModelManager('code');

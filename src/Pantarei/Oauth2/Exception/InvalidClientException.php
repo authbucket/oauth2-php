@@ -18,4 +18,9 @@ namespace Pantarei\Oauth2\Exception;
  */
 class InvalidClientException extends \InvalidArgumentException implements ExceptionInterface
 {
+    public function __construct($message = array(), $code = 401, Exception $previous = null)
+    {
+        $message['error'] = 'invalid_client';
+        parent::__construct(serialize($message), $code, $previous);
+    }
 }

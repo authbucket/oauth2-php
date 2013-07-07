@@ -47,7 +47,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $token_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_client', $token_response['error']);
@@ -128,6 +128,27 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
         $token_response = $auth_response->query->all();
         $this->assertEquals('invalid_scope', $token_response['error']);
+    }
+
+    public function testErrorTokenBadStateFormat()
+    {
+        $parameters = array(
+            'response_type' => 'token',
+            'client_id' => 'http://democlient3.com/',
+            'redirect_uri' => 'http://democlient3.com/redirect_uri',
+            'scope' => "demoscope1 demoscope2 demoscope3",
+            'state' => "aaa\x19bbb\x7Fccc",
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername3',
+            'PHP_AUTH_PW' => 'demopassword3',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $token_response = $auth_response->query->all();
+        $this->assertEquals('invalid_request', $token_response['error']);
     }
 
     public function testGoodToken()

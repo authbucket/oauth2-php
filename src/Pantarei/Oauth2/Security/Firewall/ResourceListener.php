@@ -54,27 +54,21 @@ class ResourceListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        try {
-            // Fetch access_token by token type handler.
-            $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
-            $access_token = $tokenTypeHandler->getAccessToken($request);
+        // Fetch access_token by token type handler.
+        $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
+        $access_token = $tokenTypeHandler->getAccessToken($request);
 
-            if (null !== $token = $this->securityContext->getToken()) {
-                if ($token instanceof AccessToken
-                    && $token->isAuthenticated()
-                    && $token->getAccessToken() === $access_token
-                ) {
-                    return;
-                }
+        if (null !== $token = $this->securityContext->getToken()) {
+            if ($token instanceof AccessToken
+                && $token->isAuthenticated()
+                && $token->getAccessToken() === $access_token
+            ) {
+                return;
             }
-
-            $token = new AccessToken($access_token, $this->providerKey);
-            $authenticatedToken = $this->authenticationManager->authenticate($token);
-            $this->securityContext->setToken($authenticatedToken);
-        } catch (InvalidRequestException $e) {
-            $event->setResponse(JsonResponse::create(array(
-                'error' => 'invalid_request',
-            ), 400));
         }
+
+        $token = new AccessToken($access_token, $this->providerKey);
+        $authenticatedToken = $this->authenticationManager->authenticate($token);
+        $this->securityContext->setToken($authenticatedToken);
     }
 }

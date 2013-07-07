@@ -47,7 +47,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $token_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_client', $token_response['error']);
@@ -229,8 +229,8 @@ class CodeResponseTypeHandlerTest extends WebTestCase
     {
         $parameters = array(
             'response_type' => 'code',
-            'client_id' => 'http://democlient1.com/',
-            'redirect_uri' => 'http://democlient1.com/redirect_uri',
+            'client_id' => 'http://democlient4.com/',
+            'redirect_uri' => 'http://democlient4.com/redirect_uri',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -240,4 +240,28 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
+
+#    public function testGoodCodeFormSubmit()
+#    {
+#        $client = $this->createClient();
+#        $crawler = $client->request('GET', '/authorize/login');
+#        $buttonCrawlerNode = $crawler->selectButton('submit');
+#        $form = $buttonCrawlerNode->form(array(
+#            '_username' => 'demousername3',
+#            '_password' => 'demopassword3',
+#        ));
+#        $client->submit($form);
+#
+#        $parameters = array(
+#            'response_type' => 'code',
+#            'client_id' => 'http://democlient3.com/',
+#            'redirect_uri' => 'http://democlient3.com/redirect_uri',
+#            'scope' => 'demoscope1 demoscope2 demoscope3',
+#            'state' => 'example state',
+#        );
+#        $server = array();
+#        $client = $this->createClient();
+#        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
+#        $this->assertTrue($client->getResponse()->isRedirect());
+#    }
 }
