@@ -240,4 +240,28 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
+
+    public function testGoodTokenFormSubmit()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/authorize/login');
+        $buttonCrawlerNode = $crawler->selectButton('submit');
+        $form = $buttonCrawlerNode->form(array(
+            '_username' => 'demousername3',
+            '_password' => 'demopassword3',
+        ));
+        $client->submit($form);
+
+        $parameters = array(
+            'response_type' => 'token',
+            'client_id' => 'http://democlient3.com/',
+            'redirect_uri' => 'http://democlient3.com/redirect_uri',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'state' => 'example state',
+        );
+        $server = array();
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/authorize', $parameters, array(), $server);
+        $this->assertTrue($client->getResponse()->isRedirect());
+    }
 }

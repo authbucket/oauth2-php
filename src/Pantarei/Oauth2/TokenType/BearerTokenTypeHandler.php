@@ -80,9 +80,15 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             'access_token' => $access_token->getAccessToken(),
             'token_type' => $access_token->getTokenType(),
             'expires_in' => $access_token->getExpires()->getTimestamp() - time(),
-            'scope' => implode(' ', $scope),
-            'state' => $state,
         );
+
+        if (!empty($scope) && is_array($scope)) {
+            $parameters['scope'] = implode(' ', $scope);
+        }
+
+        if (!empty($state)) {
+            $parameters['state'] = $state;
+        }
 
         if ($withRefreshToken === true) {
             $modelManager = $modelManagerFactory->getModelManager('refresh_token');
