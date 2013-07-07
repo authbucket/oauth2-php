@@ -24,6 +24,7 @@ use Silex\Provider\FormServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
+use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,19 +42,25 @@ abstract class WebTestCase extends SilexWebTestCase
     {
         $app = new Application();
         $app['debug'] = true;
-#        $app['session.test'] = true;
         $app['exception_handler']->disable();
 
         $app->register(new DoctrineServiceProvider());
-#        $app->register(new FormServiceProvider());
+        $app->register(new FormServiceProvider());
         $app->register(new Oauth2ServiceProvider());
         $app->register(new SecurityServiceProvider());
-#        $app->register(new SessionServiceProvider());
-#        $app->register(new TwigServiceProvider());
+        $app->register(new SessionServiceProvider());
+        $app->register(new TwigServiceProvider());
+        $app->register(new UrlGeneratorServiceProvider());
 
         $app['db.options'] = array(
             'driver' => 'pdo_sqlite',
             'memory' => true,
+        );
+
+        $app['session.test'] = true;
+
+        $app['twig.path'] = array(
+            __DIR__ . '/views',
         );
 
         // Return an instance of Doctrine ORM entity manager.
@@ -99,12 +106,12 @@ abstract class WebTestCase extends SilexWebTestCase
         $app['security.firewalls'] = array(
             'authorize' => array(
                 'pattern' => '^/authorize',
-#                'form' => array(
-#                    'login_path' => '/authorize/login',
-#                    'check_path' => '/authorize/login_check',
-#                ),
+                'form' => array(
+                    'login_path' => '/authorize/login',
+                    'check_path' => '/authorize/login_check',
+                ),
                 'http' => true,
-#                'anonymous' => true,
+                'anonymous' => true,
                 'users' => array(
                     'demousername1' => array('ROLE_USER', 'demopassword1'),
                     'demousername2' => array('ROLE_USER', 'demopassword2'),
@@ -126,12 +133,12 @@ abstract class WebTestCase extends SilexWebTestCase
         $app->get('/authorize', function (Request $request, Application $app) {
             return $app['oauth2.authorize_controller']->authorizeAction($request);
         });
-#        $app->get('/authorize/login', function (Request $request) use ($app) {
-#            return $app['twig']->render('login.html.twig', array(
-#                'error' => $app['security.last_error']($request),
-#                'last_username' => $app['session']->get('_security.last_username'),
-#            ));
-#        });
+        $app->get('/authorize/login', function (Request $request) use ($app) {
+            return $app['twig']->render('login.html.twig', array(
+                'error' => $app['security.last_error']($request),
+                'last_username' => $app['session']->get('_security.last_username'),
+            ));
+        });
 
         // Token endpoint.
         $app->post('/token', function (Request $request, Application $app) {
