@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * This file is part of the pantarei/oauth2 package.
+ *
+ * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace PantaRei\OAuth2\Model;
+
+interface CodeManagerInterface extends ModelManagerInterface
+{
+    public function createCode();
+
+    public function deleteCode(Codeinterface $code);
+
+    public function reloadCode(Codeinterface $code);
+
+    public function updateCode(Codeinterface $code);
+
+    public function findCodeByCode($code);
+}

@@ -9,8 +9,8 @@
  * file that was distributed with this source code.
  */
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
+namespace PantaRei\OAuth2\Model;
 
-$loader->add('PantaRei\OAuth2\Tests', __DIR__);
-
-return $loader;
+interface ModelInterface
+{
+}

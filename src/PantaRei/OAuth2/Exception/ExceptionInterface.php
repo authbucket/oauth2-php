@@ -9,8 +9,13 @@
  * file that was distributed with this source code.
  */
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
+namespace PantaRei\OAuth2\Exception;
 
-$loader->add('PantaRei\OAuth2\Tests', __DIR__);
-
-return $loader;
+/**
+ * Base ExceptionInterface for the OAuth2 component.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
+interface ExceptionInterface
+{
+}

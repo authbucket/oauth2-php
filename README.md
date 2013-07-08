@@ -1,4 +1,4 @@
-Pantarei/Oauth2
+PantaRei/OAuth2
 ===============
 
 [![Build
@@ -11,9 +11,9 @@ Version](https://poser.pugx.org/pantarei/oauth2/v/stable.png)](https://packagist
 Downloads](https://poser.pugx.org/pantarei/oauth2/downloads.png)](https://packagist.org/packages/pantarei/oauth2)
 
 The primary goal of
-[Pantarei/Oauth2](https://github.com/pantarei/oauth2) is to develop a
+[PantaRei/OAuth2](https://github.com/pantarei/oauth2) is to develop a
 standards compliant [RFC6749
-Oauth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
+OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://www.symfony.com) and [Drupal module](http://drupal.org).
 
