@@ -2,7 +2,7 @@
 
 <phpunit bootstrap="./tests/bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="PantaRei/OAuth2 Test Suite">
+        <testsuite name="PantaRei\OAuth2 Test Suite">
             <directory>./tests/PantaRei/OAuth2</directory>
         </testsuite>
     </testsuites>
