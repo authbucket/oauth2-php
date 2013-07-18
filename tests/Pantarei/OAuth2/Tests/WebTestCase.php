@@ -105,10 +105,10 @@ abstract class WebTestCase extends SilexWebTestCase
 
         $app['security.firewalls'] = array(
             'authorize' => array(
-                'pattern' => '^/authorize',
+                'pattern' => '^/oauth2/authorize',
                 'form' => array(
-                    'login_path' => '/authorize/login',
-                    'check_path' => '/authorize/login_check',
+                    'login_path' => '/oauth2/authorize/login',
+                    'check_path' => '/oauth2/authorize/login_check',
                 ),
                 'http' => true,
                 'anonymous' => true,
@@ -119,21 +119,21 @@ abstract class WebTestCase extends SilexWebTestCase
                 ),
             ),
             'token' => array(
-                'pattern' => '^/token',
+                'pattern' => '^/oauth2/token',
                 'oauth2_token' => true,
             ),
             'resource' => array(
-                'pattern' => '^/resource',
+                'pattern' => '^/oauth2/resource',
                 'oauth2_resource' => true,
                 'stateless' => true,
             ),
         );
 
         // Authorization endpoint.
-        $app->get('/authorize', function (Request $request, Application $app) {
+        $app->get('/oauth2/authorize', function (Request $request, Application $app) {
             return $app['pantarei_oauth2.authorize_controller']->authorizeAction($request);
         });
-        $app->get('/authorize/login', function (Request $request) use ($app) {
+        $app->get('/oauth2/authorize/login', function (Request $request) use ($app) {
             return $app['twig']->render('login.html.twig', array(
                 'error' => $app['security.last_error']($request),
                 'last_username' => $app['session']->get('_security.last_username'),
@@ -141,12 +141,12 @@ abstract class WebTestCase extends SilexWebTestCase
         });
 
         // Token endpoint.
-        $app->post('/token', function (Request $request, Application $app) {
+        $app->post('/oauth2/token', function (Request $request, Application $app) {
             return $app['pantarei_oauth2.token_controller']->tokenAction($request);
         });
 
         // Resource endpoint.
-        $app->match('/resource/username', function (Request $request, Application $app) {
+        $app->match('/oauth2/resource/username', function (Request $request, Application $app) {
             return $app['pantarei_oauth2.resource_controller']->usernameAction($request);
         });
 
