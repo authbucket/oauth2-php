@@ -38,16 +38,16 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         // Add default response type handler.
-        if (!isset($app['oauth2.response_handler'])) {
-            $app['oauth2.response_handler'] = array(
+        if (!isset($app['pantarei_oauth2.response_handler'])) {
+            $app['pantarei_oauth2.response_handler'] = array(
                 'code' => 'Pantarei\\OAuth2\\ResponseType\\CodeResponseTypeHandler',
                 'token' => 'Pantarei\\OAuth2\\ResponseType\\TokenResponseTypeHandler',
             );
         }
 
         // Add default grant type handler.
-        if (!isset($app['oauth2.grant_handler'])) {
-            $app['oauth2.grant_handler'] = array(
+        if (!isset($app['pantarei_oauth2.grant_handler'])) {
+            $app['pantarei_oauth2.grant_handler'] = array(
                 'authorization_code' => 'Pantarei\\OAuth2\\GrantType\\AuthorizationCodeGrantTypeHandler',
                 'client_credentials' => 'Pantarei\\OAuth2\\GrantType\\ClientCredentialsGrantTypeHandler',
                 'password' => 'Pantarei\\OAuth2\\GrantType\\PasswordGrantTypeHandler',
@@ -56,60 +56,60 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         }
 
         // Add default token type handler.
-        if (!isset($app['oauth2.token_handler'])) {
-            $app['oauth2.token_handler'] = array(
+        if (!isset($app['pantarei_oauth2.token_handler'])) {
+            $app['pantarei_oauth2.token_handler'] = array(
                 'bearer' => 'Pantarei\\OAuth2\\TokenType\\BearerTokenTypeHandler',
                 'mac' => 'Pantarei\\OAuth2\\TokenType\\MacTokenTypeHandler',
             );
         }
 
-        $app['oauth2.exception_listener'] = $app->share(function () {
+        $app['pantarei_oauth2.exception_listener'] = $app->share(function () {
             return new ExceptionListener();
         });
 
         // Override this with your backend model managers, e.g. Doctrine ORM
         // EntityRepository.
-        $app['oauth2.model_manager.factory'] = $app->share(function () {
+        $app['pantarei_oauth2.model_manager.factory'] = $app->share(function () {
             throw new ServerErrorException();
         });
 
-        $app['oauth2.response_handler.factory'] = $app->share(function ($app) {
-            return new ResponseTypeHandlerFactory($app['oauth2.response_handler']);
+        $app['pantarei_oauth2.response_handler.factory'] = $app->share(function ($app) {
+            return new ResponseTypeHandlerFactory($app['pantarei_oauth2.response_handler']);
         });
 
-        $app['oauth2.grant_handler.factory'] = $app->share(function ($app) {
-            return new GrantTypeHandlerFactory($app['oauth2.grant_handler']);
+        $app['pantarei_oauth2.grant_handler.factory'] = $app->share(function ($app) {
+            return new GrantTypeHandlerFactory($app['pantarei_oauth2.grant_handler']);
         });
 
-        $app['oauth2.token_handler.factory'] = $app->share(function ($app){
-            return new TokenTypeHandlerFactory($app['oauth2.token_handler']);
+        $app['pantarei_oauth2.token_handler.factory'] = $app->share(function ($app){
+            return new TokenTypeHandlerFactory($app['pantarei_oauth2.token_handler']);
         });
 
-        $app['oauth2.authorize_controller'] = $app->share(function () use ($app) {
+        $app['pantarei_oauth2.authorize_controller'] = $app->share(function () use ($app) {
             return new AuthorizeController(
                 $app['security'],
-                $app['oauth2.model_manager.factory'],
-                $app['oauth2.response_handler.factory'],
-                $app['oauth2.token_handler.factory']
+                $app['pantarei_oauth2.model_manager.factory'],
+                $app['pantarei_oauth2.response_handler.factory'],
+                $app['pantarei_oauth2.token_handler.factory']
             );
         });
 
         // For using grant_type = password, override the last parameter
         // with your own user provider, e.g. using InMemoryUserProvider or
         // a doctrine EntityRepository that implements UserProviderInterface.
-        $app['oauth2.token_controller'] = $app->share(function () use ($app) {
+        $app['pantarei_oauth2.token_controller'] = $app->share(function () use ($app) {
             return new TokenController(
                 $app['security'],
                 $app['security.user_checker'],
                 $app['security.encoder_factory'],
-                $app['oauth2.model_manager.factory'],
-                $app['oauth2.grant_handler.factory'],
-                $app['oauth2.token_handler.factory'],
+                $app['pantarei_oauth2.model_manager.factory'],
+                $app['pantarei_oauth2.grant_handler.factory'],
+                $app['pantarei_oauth2.token_handler.factory'],
                 null
             );
         });
 
-        $app['oauth2.resource_controller'] = $app->share(function () use ($app) {
+        $app['pantarei_oauth2.resource_controller'] = $app->share(function () use ($app) {
             return new ResourceController(
                 $app['security']
             );
@@ -118,7 +118,7 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $app['security.authentication_provider.oauth2_token._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new TokenProvider(
-                    $app['oauth2.model_manager.factory'],
+                    $app['pantarei_oauth2.model_manager.factory'],
                     $name
                 );
             });
@@ -137,7 +137,7 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
         $app['security.authentication_provider.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new ResourceProvider(
-                    $app['oauth2.model_manager.factory'],
+                    $app['pantarei_oauth2.model_manager.factory'],
                     $name
                 );
             });
@@ -149,7 +149,7 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
                     $app['security'],
                     $app['security.authentication_manager'],
                     $name,
-                    $app['oauth2.token_handler.factory']
+                    $app['pantarei_oauth2.token_handler.factory']
                 );
             });
         });
@@ -191,6 +191,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $app['dispatcher']->addListener(KernelEvents::EXCEPTION, array($app['oauth2.exception_listener'], 'onKernelException'), -8);
+        $app['dispatcher']->addListener(KernelEvents::EXCEPTION, array($app['pantarei_oauth2.exception_listener'], 'onKernelException'), -8);
     }
 }

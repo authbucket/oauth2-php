@@ -64,7 +64,7 @@ abstract class WebTestCase extends SilexWebTestCase
         );
 
         // Return an instance of Doctrine ORM entity manager.
-        $app['oauth2.orm'] = $app->share(function ($app) {
+        $app['pantarei_oauth2.orm'] = $app->share(function ($app) {
             $conn = $app['dbs']['default'];
             $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/Model'), true);
             $event_manager = $app['dbs.event_manager']['default'];
@@ -77,7 +77,7 @@ abstract class WebTestCase extends SilexWebTestCase
         });
 
         // Add model managers from ORM.
-        $app['oauth2.model'] = array(
+        $app['pantarei_oauth2.model'] = array(
             'access_token' => 'Pantarei\\OAuth2\\Tests\\Model\\AccessToken',
             'authorize' => 'Pantarei\\OAuth2\\Tests\\Model\\Authorize',
             'client' => 'Pantarei\\OAuth2\\Tests\\Model\\Client',
@@ -85,20 +85,20 @@ abstract class WebTestCase extends SilexWebTestCase
             'refresh_token' => 'Pantarei\\OAuth2\\Tests\\Model\\RefreshToken',
             'scope' => 'Pantarei\\OAuth2\\Tests\\Model\\Scope',
         );
-        $app['oauth2.model_manager.factory'] = $app->share(function($app) {
-            return new ModelManagerFactory($app['oauth2.orm'], $app['oauth2.model']);
+        $app['pantarei_oauth2.model_manager.factory'] = $app->share(function($app) {
+            return new ModelManagerFactory($app['pantarei_oauth2.orm'], $app['pantarei_oauth2.model']);
         });
 
         // We simply reuse the user provider that already created for
         // authorize firewall here.
-        $app['oauth2.token_controller'] = $app->share(function () use ($app) {
+        $app['pantarei_oauth2.token_controller'] = $app->share(function () use ($app) {
             return new TokenController(
                 $app['security'],
                 $app['security.user_checker'],
                 $app['security.encoder_factory'],
-                $app['oauth2.model_manager.factory'],
-                $app['oauth2.grant_handler.factory'],
-                $app['oauth2.token_handler.factory'],
+                $app['pantarei_oauth2.model_manager.factory'],
+                $app['pantarei_oauth2.grant_handler.factory'],
+                $app['pantarei_oauth2.token_handler.factory'],
                 $app['security.user_provider.authorize']
             );
         });
@@ -131,7 +131,7 @@ abstract class WebTestCase extends SilexWebTestCase
 
         // Authorization endpoint.
         $app->get('/authorize', function (Request $request, Application $app) {
-            return $app['oauth2.authorize_controller']->authorizeAction($request);
+            return $app['pantarei_oauth2.authorize_controller']->authorizeAction($request);
         });
         $app->get('/authorize/login', function (Request $request) use ($app) {
             return $app['twig']->render('login.html.twig', array(
@@ -142,12 +142,12 @@ abstract class WebTestCase extends SilexWebTestCase
 
         // Token endpoint.
         $app->post('/token', function (Request $request, Application $app) {
-            return $app['oauth2.token_controller']->tokenAction($request);
+            return $app['pantarei_oauth2.token_controller']->tokenAction($request);
         });
 
         // Resource endpoint.
         $app->match('/resource/username', function (Request $request, Application $app) {
-            return $app['oauth2.resource_controller']->usernameAction($request);
+            return $app['pantarei_oauth2.resource_controller']->usernameAction($request);
         });
 
         return $app;
@@ -165,8 +165,8 @@ abstract class WebTestCase extends SilexWebTestCase
 
     private function createSchema()
     {
-        $em = $this->app['oauth2.orm'];
-        $modelManagerFactory = $this->app['oauth2.model_manager.factory'];
+        $em = $this->app['pantarei_oauth2.orm'];
+        $modelManagerFactory = $this->app['pantarei_oauth2.model_manager.factory'];
 
         // Generate testing database schema.
         $classes = array(
@@ -185,7 +185,7 @@ abstract class WebTestCase extends SilexWebTestCase
 
     private function addSampleData()
     {
-        $modelManagerFactory = $this->app['oauth2.model_manager.factory'];
+        $modelManagerFactory = $this->app['pantarei_oauth2.model_manager.factory'];
 
         // Add demo access token.
         $modelManager = $modelManagerFactory->getModelManager('access_token');
