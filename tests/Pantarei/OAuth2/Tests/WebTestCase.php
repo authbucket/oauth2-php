@@ -99,16 +99,25 @@ abstract class WebTestCase extends SilexWebTestCase
                 $app['pantarei_oauth2.model_manager.factory'],
                 $app['pantarei_oauth2.grant_handler.factory'],
                 $app['pantarei_oauth2.token_handler.factory'],
-                $app['security.user_provider.authorize']
+                $app['security.user_provider.default']
             );
         });
 
         $app['security.firewalls'] = array(
-            'authorize' => array(
-                'pattern' => '^/oauth2/authorize',
+            'resource' => array(
+                'pattern' => '^/oauth2/resource',
+                'oauth2_resource' => true,
+                'stateless' => true,
+            ),
+            'token' => array(
+                'pattern' => '^/oauth2/token',
+                'oauth2_token' => true,
+            ),
+            'default' => array(
+                'pattern' => '^/',
                 'form' => array(
-                    'login_path' => '/oauth2/authorize/login',
-                    'check_path' => '/oauth2/authorize/login_check',
+                    'login_path' => '/login',
+                    'check_path' => '/login_check',
                 ),
                 'http' => true,
                 'anonymous' => true,
@@ -118,36 +127,29 @@ abstract class WebTestCase extends SilexWebTestCase
                     'demousername3' => array('ROLE_USER', 'demopassword3'),
                 ),
             ),
-            'token' => array(
-                'pattern' => '^/oauth2/token',
-                'oauth2_token' => true,
-            ),
-            'resource' => array(
-                'pattern' => '^/oauth2/resource',
-                'oauth2_resource' => true,
-                'stateless' => true,
-            ),
         );
 
-        // Authorization endpoint.
-        $app->get('/oauth2/authorize', function (Request $request, Application $app) {
-            return $app['pantarei_oauth2.authorize_controller']->authorizeAction($request);
-        });
-        $app->get('/oauth2/authorize/login', function (Request $request) use ($app) {
-            return $app['twig']->render('login.html.twig', array(
-                'error' => $app['security.last_error']($request),
-                'last_username' => $app['session']->get('_security.last_username'),
-            ));
+        // Resource endpoint.
+        $app->match('/oauth2/resource/username', function (Request $request, Application $app) {
+            return $app['pantarei_oauth2.resource_controller']->usernameAction($request);
         });
 
         // Token endpoint.
         $app->post('/oauth2/token', function (Request $request, Application $app) {
             return $app['pantarei_oauth2.token_controller']->tokenAction($request);
         });
+        
+        // Authorization endpoint.
+        $app->get('/oauth2/authorize', function (Request $request, Application $app) {
+            return $app['pantarei_oauth2.authorize_controller']->authorizeAction($request);
+        });
 
-        // Resource endpoint.
-        $app->match('/oauth2/resource/username', function (Request $request, Application $app) {
-            return $app['pantarei_oauth2.resource_controller']->usernameAction($request);
+        // Form login.
+        $app->get('/login', function (Request $request) use ($app) {
+            return $app['twig']->render('login.html.twig', array(
+                'error' => $app['security.last_error']($request),
+                'last_username' => $app['session']->get('_security.last_username'),
+            ));
         });
 
         return $app;

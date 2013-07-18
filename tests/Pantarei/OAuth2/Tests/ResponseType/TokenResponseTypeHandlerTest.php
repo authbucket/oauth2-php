@@ -244,7 +244,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
     public function testGoodTokenFormSubmit()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/authorize/login');
+        $crawler = $client->request('GET', '/login');
         $buttonCrawlerNode = $crawler->selectButton('submit');
         $form = $buttonCrawlerNode->form(array(
             '_username' => 'demousername3',
