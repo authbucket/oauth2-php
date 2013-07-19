@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Model;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Model\ScopeInterface;
 
@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\ScopeInterface;
  * Scope
  *
  * @Table(name="scope")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Model\ScopeManager")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ScopeRepository")
  */
 class Scope implements ScopeInterface
 {
@@ -37,27 +37,11 @@ class Scope implements ScopeInterface
      */
     protected $scope;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set scope
-     *
-     * @param string $scope
-     * @return Scope
-     */
-    public function setScope($scope)
+    public function __construct(
+        $scope
+    )
     {
         $this->scope = $scope;
-
-        return $this;
     }
 
     /**

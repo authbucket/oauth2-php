@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Model;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 use Pantarei\OAuth2\Model\CodeInterface;
 
@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\CodeInterface;
  * Code
  *
  * @Table(name="code")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Model\CodeManager")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodeRepository")
  */
 class Code implements CodeInterface
 {
@@ -72,27 +72,21 @@ class Code implements CodeInterface
      */
     protected $scope;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set code
-     *
-     * @param string $code
-     * @return Code
-     */
-    public function setCode($code)
+    public function __construct(
+        $code,
+        $client_id,
+        $username,
+        $redirect_uri,
+        $expires,
+        $scope = array()
+    )
     {
         $this->code = $code;
-
-        return $this;
+        $this->client_id = $client_id;
+        $this->username = $username;
+        $this->redirect_uri = $redirect_uri;
+        $this->expires = $expires;
+        $this->scope = $scope;
     }
 
     /**
@@ -106,19 +100,6 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set client_id
-     *
-     * @param string $client_id
-     * @return Code
-     */
-    public function setClientId($client_id)
-    {
-        $this->client_id = $client_id;
-
-        return $this;
-    }
-
-    /**
      * Get client_id
      *
      * @return string
@@ -126,19 +107,6 @@ class Code implements CodeInterface
     public function getClientId()
     {
         return $this->client_id;
-    }
-
-    /**
-     * Set username
-     *
-     * @param string $username
-     * @return Code
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     /**
@@ -152,19 +120,6 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set redirect_uri
-     *
-     * @param string $redirect_uri
-     * @return Code
-     */
-    public function setRedirectUri($redirect_uri)
-    {
-        $this->redirect_uri = $redirect_uri;
-
-        return $this;
-    }
-
-    /**
      * Get redirect_uri
      *
      * @return string
@@ -172,19 +127,6 @@ class Code implements CodeInterface
     public function getRedirectUri()
     {
         return $this->redirect_uri;
-    }
-
-    /**
-     * Set expires
-     *
-     * @param integer $expires
-     * @return Code
-     */
-    public function setExpires($expires)
-    {
-        $this->expires = $expires;
-
-        return $this;
     }
 
     /**
@@ -198,19 +140,6 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set scope
-     *
-     * @param array $scope
-     * @return Code
-     */
-    public function setScope($scope)
-    {
-        $this->scope = $scope;
-
-        return $this;
-    }
-
-    /**
      * Get scope
      *
      * @return array
@@ -218,10 +147,5 @@ class Code implements CodeInterface
     public function getScope()
     {
         return $this->scope;
-    }
-
-    public function __construct()
-    {
-        $this->redirect_uri = '';
     }
 }

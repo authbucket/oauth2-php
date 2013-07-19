@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Model;
+namespace Pantarei\OAuth2\Tests\Entity;
 
 use Doctrine\ORM\EntityManager;
 use Pantarei\OAuth2\Exception\ServerErrorException;

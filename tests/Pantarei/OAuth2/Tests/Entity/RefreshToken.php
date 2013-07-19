@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Pantarei\OAuth2\Tests\Model;
+namespace Pantarei\OAuth2\Tests\Entity;
 
-use Pantarei\OAuth2\Model\AuthorizeInterface;
+use Pantarei\OAuth2\Model\RefreshTokenInterface;
 
 /**
- * Authorize
+ * RefreshToken
  *
- * @Table(name="authorize")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Model\AuthorizeManager")
+ * @Table(name="refresh_token")
+ * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokenRepository")
  */
-class Authorize implements AuthorizeInterface
+class RefreshToken implements RefreshTokenInterface
 {
     /**
      * @var integer
@@ -29,6 +29,13 @@ class Authorize implements AuthorizeInterface
      * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @Column(name="refresh_token", type="string", length=255)
+     */
+    protected $refresh_token;
 
     /**
      * @var string
@@ -45,33 +52,42 @@ class Authorize implements AuthorizeInterface
     protected $username;
 
     /**
+     * @var \DateTime
+     *
+     * @Column(name="expires", type="datetime")
+     */
+    protected $expires;
+
+    /**
      * @var array
      *
      * @Column(name="scope", type="array")
      */
     protected $scope;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function __construct(
+        $refresh_token,
+        $client_id,
+        $username,
+        $expires,
+        $scope = array()
+    )
     {
-        return $this->id;
+        $this->refresh_token = $refresh_token;
+        $this->client_id = $client_id;
+        $this->username = $username;
+        $this->expires = $expires;
+        $this->scope = $scope;
     }
 
     /**
-     * Set client_id
+     * Get refresh_token
      *
-     * @param string $client_id
-     * @return Authorize
+     * @return string
      */
-    public function setClientId($client_id)
+    public function getRefreshToken()
     {
-        $this->client_id = $client_id;
-
-        return $this;
+        return $this->refresh_token;
     }
 
     /**
@@ -85,19 +101,6 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
-     * Set username
-     *
-     * @param string $username
-     * @return Authorize
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
      * Get username
      *
      * @return string
@@ -108,16 +111,13 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
-     * Set scope
+     * Get expires
      *
-     * @param array $scope
-     * @return Authorize
+     * @return integer
      */
-    public function setScope($scope)
+    public function getExpires()
     {
-        $this->scope = $scope;
-
-        return $this;
+        return $this->expires;
     }
 
     /**

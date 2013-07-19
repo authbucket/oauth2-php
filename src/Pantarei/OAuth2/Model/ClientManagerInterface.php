@@ -13,7 +13,11 @@ namespace Pantarei\OAuth2\Model;
 
 interface ClientManagerInterface extends ModelManagerInterface
 {
-    public function createClient();
+    public function createClient(
+        $client_id,
+        $client_secret,
+        $redirect_uri = ''
+    );
 
     public function deleteClient(ClientInterface $client);
 
