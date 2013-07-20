@@ -191,159 +191,143 @@ abstract class WebTestCase extends SilexWebTestCase
 
         // Add demo access token.
         $modelManager = $modelManagerFactory->getModelManager('access_token');
-        $model = $modelManager->createAccessToken(
-            'eeb5aa92bbb4b56373b9e0d00bc02d93',
-            'bearer',
-            'http://democlient1.com/',
-            'demousername1',
-            new \DateTime('+1 hours'),
-            array(
+        $model = $modelManager->createAccessToken()
+            ->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
+            ->setTokenType('bearer')
+            ->setClientId('http://democlient1.com/')
+            ->setUsername('demousername1')
+            ->setExpires(new \DateTime('+1 hours'))
+            ->setScope(array(
                 'demoscope1',
-            )
-        );
+            ));
         $modelManager->updateAccessToken($model);
 
         // Add demo authorizes.
         $modelManager = $modelManagerFactory->getModelManager('authorize');
-        $model = $modelManager->createAuthorize(
-            'http://democlient1.com/',
-            'demousername1',
-            array(
+        $model = $modelManager->createAuthorize()
+            ->setClientId('http://democlient1.com/')
+            ->setUsername('demousername1')
+            ->setScope(array(
                 'demoscope1',
-            )
-        );
+            ));
         $modelManager->updateAuthorize($model);
-        $model = $modelManager->createAuthorize(
-            'http://democlient2.com/',
-            'demousername2',
-            array(
+        $model = $modelManager->createAuthorize()
+            ->setClientId('http://democlient2.com/')
+            ->setUsername('demousername2')
+            ->setScope(array(
                 'demoscope1',
                 'demoscope2',
-            )
-        );
+            ));
         $modelManager->updateAuthorize($model);
-        $model = $modelManager->createAuthorize(
-            'http://democlient3.com/',
-            'demousername3',
-            array(
+        $model = $modelManager->createAuthorize()
+            ->setClientId('http://democlient3.com/')
+            ->setUsername('demousername3')
+            ->setScope(array(
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
-            )
-        );
+            ));
         $modelManager->updateAuthorize($model);
-        $model = $modelManager->createAuthorize(
-            'http://democlient1.com/',
-            '',
-            array(
+        $model = $modelManager->createAuthorize()
+            ->setClientId('http://democlient1.com/')
+            ->setUsername('')
+            ->setScope(array(
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
-            )
-        );
+            ));
         $modelManager->updateAuthorize($model);
 
         // Add demo clients.
         $modelManager =  $modelManagerFactory->getModelManager('client');
-        $model = $modelManager->createClient(
-            'http://democlient1.com/',
-            'demosecret1',
-            'http://democlient1.com/redirect_uri'
-        );
+        $model = $modelManager->createClient()
+            ->setClientId('http://democlient1.com/')
+            ->setClientSecret('demosecret1')
+            ->setRedirectUri('http://democlient1.com/redirect_uri');
         $modelManager->updateClient($model);
-        $model = $modelManager->createClient(
-            'http://democlient2.com/',
-            'demosecret2',
-            'http://democlient2.com/redirect_uri'
-        );
+        $model = $modelManager->createClient()
+            ->setClientId('http://democlient2.com/')
+            ->setClientSecret('demosecret2')
+            ->setRedirectUri('http://democlient2.com/redirect_uri');
         $modelManager->updateClient($model);
-        $model = $modelManager->createClient(
-            'http://democlient3.com/',
-            'demosecret3',
-            'http://democlient3.com/redirect_uri'
-        );
+        $model = $modelManager->createClient()
+            ->setClientId('http://democlient3.com/')
+            ->setClientSecret('demosecret3')
+            ->setRedirectUri('http://democlient3.com/redirect_uri');
         $modelManager->updateClient($model);
-        $model = $modelManager->createClient(
-            'http://democlient4.com/',
-            'demosecret4'
-        );
+        $model = $modelManager->createClient()
+            ->setClientId('http://democlient4.com/')
+            ->setClientSecret('demosecret4')
+            ->setRedirectUri('');
         $modelManager->updateClient($model);
 
         // Add demo code.
         $modelManager = $modelManagerFactory->getModelManager('code');
-        $model = $modelManager->createCode(
-            'f0c68d250bcc729eb780a235371a9a55',
-            'http://democlient2.com/',
-            'demousername2',
-            'http://democlient2.com/redirect_uri',
-            new \DateTime('+10 minutes'),
-            array(
+        $model = $modelManager->createCode()
+            ->setCode('f0c68d250bcc729eb780a235371a9a55')
+            ->setClientId('http://democlient2.com/')
+            ->setUsername('demousername2')
+            ->setRedirectUri('http://democlient2.com/redirect_uri')
+            ->setExpires(new \DateTime('+10 minutes'))
+            ->setScope(array(
                 'demoscope1',
                 'demoscope2',
-            )
-        );
+            ));
         $modelManager->updateCode($model);
-        $model = $modelManager->createCode(
-            '1e5aa97ddaf4b0228dfb4223010d4417',
-            'http://democlient1.com/',
-            'demousername1',
-            'http://democlient1.com/redirect_uri',
-            new \DateTime('-10 minutes'),
-            array(
+        $model = $modelManager->createCode()
+            ->setCode('1e5aa97ddaf4b0228dfb4223010d4417')
+            ->setClientId('http://democlient1.com/')
+            ->setUsername('demousername1')
+            ->setRedirectUri('http://democlient1.com/redirect_uri')
+            ->setExpires(new \DateTime('-10 minutes'))
+            ->setScope(array(
                 'demoscope1',
-            )
-        );
+            ));
         $modelManager->updateCode($model);
-        $model = $modelManager->createCode(
-            '08fb55e26c84f8cb060b7803bc177af8',
-            'http://democlient4.com/',
-            'demousername4',
-            'http://democlient4.com/redirect_uri',
-            new \DateTime('+10 minutes'),
-            array(
+        $model = $modelManager->createCode()
+            ->setCode('08fb55e26c84f8cb060b7803bc177af8')
+            ->setClientId('http://democlient4.com/')
+            ->setUsername('demousername4')
+            ->setRedirectUri('http://democlient4.com/redirect_uri')
+            ->setExpires(new \DateTime('+10 minutes'))
+            ->setScope(array(
                 'demoscope1',
-            )
-        );
+            ));
         $modelManager->updateCode($model);
 
         // Add demo refresh token.
         $modelManager = $modelManagerFactory->getModelManager('refresh_token');
-        $model = $modelManager->createRefreshToken(
-            '288b5ea8e75d2b24368a79ed5ed9593b',
-            'http://democlient3.com/',
-            'demousername3',
-            new \DateTime('+1 days'),
-            array(
+        $model = $modelManager->createRefreshToken()
+            ->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
+            ->setClientId('http://democlient3.com/')
+            ->setUsername('demousername3')
+            ->setExpires(new \DateTime('+1 days'))
+            ->setScope(array(
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
-            )
-        );
+            ));
         $modelManager->updateRefreshToken($model);
-        $model = $modelManager->createRefreshToken(
-            '5ff43cbc27b54202c6fd8bb9c2a308ce',
-            'http://democlient1.com/',
-            'demousername1',
-            new \DateTime('-1 days'),
-            array(
+        $model = $modelManager->createRefreshToken()
+            ->setRefreshToken('5ff43cbc27b54202c6fd8bb9c2a308ce')
+            ->setClientId('http://democlient1.com/')
+            ->setUsername('demousername1')
+            ->setExpires(new \DateTime('-1 days'))
+            ->setScope(array(
                 'demoscope1',
-            )
-        );
+            ));
         $modelManager->updateRefreshToken($model);
 
         // Add demo scopes.
         $modelManager = $modelManagerFactory->getModelManager('scope');
-        $model = $modelManager->createScope(
-            'demoscope1'
-        );
+        $model = $modelManager->createScope()
+            ->setScope('demoscope1');
         $modelManager->updateScope($model);
-        $model = $modelManager->createScope(
-            'demoscope2'
-        );
+        $model = $modelManager->createScope()
+            ->setScope('demoscope2');
         $modelManager->updateScope($model);
-        $model = $modelManager->createScope(
-            'demoscope3'
-        );
+        $model = $modelManager->createScope()
+            ->setScope('demoscope3');
         $modelManager->updateScope($model);
     }
 }

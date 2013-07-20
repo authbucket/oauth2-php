@@ -51,15 +51,27 @@ class Authorize implements AuthorizeInterface
      */
     protected $scope;
 
-    public function __construct(
-        $client_id,
-        $username,
-        $scope = array()
-    )
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set client_id
+     *
+     * @param string $client_id
+     * @return Authorize
+     */
+    public function setClientId($client_id)
     {
         $this->client_id = $client_id;
-        $this->username = $username;
-        $this->scope = $scope;
+
+        return $this;
     }
 
     /**
@@ -73,6 +85,19 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
+     * Set username
+     *
+     * @param string $username
+     * @return Authorize
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
      * Get username
      *
      * @return string
@@ -80,6 +105,19 @@ class Authorize implements AuthorizeInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set scope
+     *
+     * @param array $scope
+     * @return Authorize
+     */
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
+
+        return $this;
     }
 
     /**

@@ -65,19 +65,27 @@ class RefreshToken implements RefreshTokenInterface
      */
     protected $scope;
 
-    public function __construct(
-        $refresh_token,
-        $client_id,
-        $username,
-        $expires,
-        $scope = array()
-    )
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set refresh_token
+     *
+     * @param string $refresh_token
+     * @return RefreshToken
+     */
+    public function setRefreshToken($refresh_token)
     {
         $this->refresh_token = $refresh_token;
-        $this->client_id = $client_id;
-        $this->username = $username;
-        $this->expires = $expires;
-        $this->scope = $scope;
+
+        return $this;
     }
 
     /**
@@ -91,6 +99,19 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
+     * Set client_id
+     *
+     * @param string $client_id
+     * @return RefreshToken
+     */
+    public function setClientId($client_id)
+    {
+        $this->client_id = $client_id;
+
+        return $this;
+    }
+
+    /**
      * Get client_id
      *
      * @return string
@@ -98,6 +119,19 @@ class RefreshToken implements RefreshTokenInterface
     public function getClientId()
     {
         return $this->client_id;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return RefreshToken
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -111,6 +145,19 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
+     * Set expires
+     *
+     * @param integer $expires
+     * @return RefreshToken
+     */
+    public function setExpires($expires)
+    {
+        $this->expires = $expires;
+
+        return $this;
+    }
+
+    /**
      * Get expires
      *
      * @return integer
@@ -118,6 +165,19 @@ class RefreshToken implements RefreshTokenInterface
     public function getExpires()
     {
         return $this->expires;
+    }
+
+    /**
+     * Set scope
+     *
+     * @param array $scope
+     * @return RefreshToken
+     */
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
+
+        return $this;
     }
 
     /**

@@ -13,11 +13,7 @@ namespace Pantarei\OAuth2\Model;
 
 interface AuthorizeManagerInterface extends ModelManagerInterface
 {
-    public function createAuthorize(
-        $client_id,
-        $username,
-        $scope = array()
-    );
+    public function createAuthorize();
 
     public function deleteAuthorize(AuthorizeInterface $authorize);
 

@@ -14,21 +14,45 @@ namespace Pantarei\OAuth2\Model;
 interface ClientInterface extends ModelInterface
 {
     /**
-     * Get clientId
+     * Set client_id
+     *
+     * @param string $client_id
+     * @return Client
+     */
+    public function setClientId($client_id);
+
+    /**
+     * Get client_id
      *
      * @return string
      */
     public function getClientId();
 
     /**
-     * Get clientSecret
+     * Set client_secret
+     *
+     * @param string $client_secret
+     * @return Client
+     */
+    public function setClientSecret($client_secret);
+
+    /**
+     * Get client_secret
      *
      * @return string
      */
     public function getClientSecret();
 
     /**
-     * Get redirectUri
+     * Set redirect_uri
+     *
+     * @param string $redirect_uri
+     * @return Client
+     */
+    public function setRedirectUri($redirect_uri);
+
+    /**
+     * Get redirect_uri
      *
      * @return string
      */

@@ -28,24 +28,10 @@ class CodeRepository extends EntityRepository implements CodeManagerInterface
         return $this->getClassName();
     }
 
-    public function createCode(
-        $code,
-        $client_id,
-        $username,
-        $redirect_uri,
-        $expires,
-        $scope = array()
-    )
+    public function createCode()
     {
         $class = $this->getClass();
-        return new $class(
-            $code,
-            $client_id,
-            $username,
-            $redirect_uri,
-            $expires,
-            $scope
-        );
+        return new $class();
     }
 
     public function deleteCode(CodeInterface $code)

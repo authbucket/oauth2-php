@@ -13,9 +13,7 @@ namespace Pantarei\OAuth2\Model;
 
 interface ScopeManagerInterface extends ModelManagerInterface
 {
-    public function createScope(
-        $scope
-    );
+    public function createScope();
 
     public function deleteScope(ScopeInterface $scope);
 

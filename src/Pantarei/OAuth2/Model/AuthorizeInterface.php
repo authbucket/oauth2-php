@@ -14,11 +14,27 @@ namespace Pantarei\OAuth2\Model;
 interface AuthorizeInterface extends ModelInterface
 {
     /**
-     * Get clientId
+     * Set client_id
+     *
+     * @param string $client_id
+     * @return Authorize
+     */
+    public function setClientId($client_id);
+
+    /**
+     * Get client_id
      *
      * @return string
      */
     public function getClientId();
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return Authorize
+     */
+    public function setUsername($username);
 
     /**
      * Get username
@@ -26,6 +42,14 @@ interface AuthorizeInterface extends ModelInterface
      * @return string
      */
     public function getUsername();
+
+    /**
+     * Set scope
+     *
+     * @param array $scope
+     * @return Authorize
+     */
+    public function setScope($scope);
 
     /**
      * Get scope

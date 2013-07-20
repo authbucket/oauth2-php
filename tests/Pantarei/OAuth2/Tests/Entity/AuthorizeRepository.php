@@ -28,18 +28,10 @@ class AuthorizeRepository extends EntityRepository implements AuthorizeManagerIn
         return $this->getClassName();
     }
 
-    public function createAuthorize(
-        $client_id,
-        $username,
-        $scope = array()
-    )
+    public function createAuthorize()
     {
         $class = $this->getClass();
-        return new $class(
-            $client_id,
-            $username,
-            $scope
-        );
+        return new $class();
     }
 
     public function deleteAuthorize(AuthorizeInterface $authorize)

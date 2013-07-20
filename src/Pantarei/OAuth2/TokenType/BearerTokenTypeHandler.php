@@ -67,14 +67,13 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
     )
     {
         $modelManager = $modelManagerFactory->getModelManager('access_token');
-        $access_token = $modelManager->createAccessToken(
-            md5(uniqid(null, true)),
-            'bearer',
-            $client_id,
-            $username,
-            new \DateTime('+1 hours'),
-            $scope
-        );
+        $access_token = $modelManager->createAccessToken()
+            ->setAccessToken(md5(uniqid(null, true)))
+            ->setTokenType('bearer')
+            ->setClientId($client_id)
+            ->setUsername($username)
+            ->setExpires(new \DateTime('+1 hours'))
+            ->setScope($scope);
         $modelManager->updateAccessToken($access_token);
 
         $parameters = array(
@@ -93,13 +92,12 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
 
         if ($withRefreshToken === true) {
             $modelManager = $modelManagerFactory->getModelManager('refresh_token');
-            $refresh_token = $modelManager->createRefreshToken(
-                md5(uniqid(null, true)),
-                $client_id,
-                $username,
-                new \DateTime('+1 days'),
-                $scope
-            );
+            $refresh_token = $modelManager->createRefreshToken()
+                ->setRefreshToken(md5(uniqid(null, true)))
+                ->setClientId($client_id)
+                ->setUsername($username)
+                ->setExpires(new \DateTime('+1 days'))
+                ->setScope($scope);
             $modelManager->updateRefreshToken($refresh_token);
 
             $parameters['refresh_token'] = $refresh_token->getRefreshToken();

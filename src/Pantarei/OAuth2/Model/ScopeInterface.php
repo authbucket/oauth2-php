@@ -14,6 +14,14 @@ namespace Pantarei\OAuth2\Model;
 interface ScopeInterface extends ModelInterface
 {
     /**
+     * Set scope
+     *
+     * @param string $scope
+     * @return Scope
+     */
+    public function setScope($scope);
+
+    /**
      * Get scope
      *
      * @return string

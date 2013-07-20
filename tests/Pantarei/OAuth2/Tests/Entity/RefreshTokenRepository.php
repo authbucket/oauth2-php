@@ -28,22 +28,10 @@ class RefreshTokenRepository extends EntityRepository implements RefreshTokenMan
         return $this->getClassName();
     }
 
-    public function createRefreshToken(
-        $refresh_token,
-        $client_id,
-        $username,
-        $expires,
-        $scope = array()
-    )
+    public function createRefreshToken()
     {
         $class = $this->getClass();
-        return new $class(
-            $refresh_token,
-            $client_id,
-            $username,
-            $expires,
-            $scope 
-        );
+        return new $class();
     }
 
     public function deleteRefreshToken(RefreshTokenInterface $refresh_token)
