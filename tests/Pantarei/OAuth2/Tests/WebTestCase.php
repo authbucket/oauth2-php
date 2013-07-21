@@ -13,7 +13,6 @@ namespace Pantarei\OAuth2\Tests;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -75,7 +74,6 @@ abstract class WebTestCase extends SilexWebTestCase
             $config = Setup::createConfiguration(false);
             $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Entity'));
             $config->setMetadataDriverImpl($driver);
-            $config->setMetadataCacheImpl(new ApcCache());
 
             return EntityManager::create($conn, $config, $event_manager);
         });
