@@ -11,57 +11,58 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Pantarei\OAuth2\Model\RefreshTokenInterface;
 
 /**
  * RefreshToken
  *
- * @Table(name="refresh_token")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokenRepository")
+ * @ORM\Table(name="refresh_token")
+ * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokenRepository")
  */
 class RefreshToken implements RefreshTokenInterface
 {
     /**
      * @var integer
      *
-     * @Column(name="id", type="integer")
-     * @Id
-     * @GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @Column(name="refresh_token", type="string", length=255)
+     * @ORM\Column(name="refresh_token", type="string", length=255)
      */
     protected $refresh_token;
 
     /**
      * @var string
      *
-     * @Column(name="client_id", type="string", length=255)
+     * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $client_id;
 
     /**
      * @var string
      *
-     * @Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
      * @var \DateTime
      *
-     * @Column(name="expires", type="datetime")
+     * @ORM\Column(name="expires", type="datetime")
      */
     protected $expires;
 
     /**
      * @var array
      *
-     * @Column(name="scope", type="array")
+     * @ORM\Column(name="scope", type="array")
      */
     protected $scope;
 
@@ -147,7 +148,7 @@ class RefreshToken implements RefreshTokenInterface
     /**
      * Set expires
      *
-     * @param integer $expires
+     * @param \DateTime $expires
      * @return RefreshToken
      */
     public function setExpires($expires)
@@ -160,7 +161,7 @@ class RefreshToken implements RefreshTokenInterface
     /**
      * Get expires
      *
-     * @return integer
+     * @return \DateTime
      */
     public function getExpires()
     {

@@ -11,8 +11,12 @@
 
 namespace Pantarei\OAuth2\Tests;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use Pantarei\OAuth2\Controller\TokenController;
@@ -66,8 +70,13 @@ abstract class WebTestCase extends SilexWebTestCase
         // Return an instance of Doctrine ORM entity manager.
         $app['pantarei_oauth2.orm'] = $app->share(function ($app) {
             $conn = $app['dbs']['default'];
-            $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . '/Entity'), true);
             $event_manager = $app['dbs.event_manager']['default'];
+
+            $config = Setup::createConfiguration(false);
+            $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Entity'));
+            $config->setMetadataDriverImpl($driver);
+            $config->setMetadataCacheImpl(new ApcCache());
+
             return EntityManager::create($conn, $config, $event_manager);
         });
 

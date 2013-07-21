@@ -11,64 +11,65 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Pantarei\OAuth2\Model\CodeInterface;
 
 /**
  * Code
  *
- * @Table(name="code")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodeRepository")
+ * @ORM\Table(name="code")
+ * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodeRepository")
  */
 class Code implements CodeInterface
 {
     /**
      * @var integer
      *
-     * @Column(name="id", type="integer")
-     * @Id
-     * @GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @Column(name="code", type="string", length=255)
+     * @ORM\Column(name="code", type="string", length=255)
      */
     protected $code;
 
     /**
      * @var string
      *
-     * @Column(name="client_id", type="string", length=255)
+     * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $client_id;
 
     /**
      * @var string
      *
-     * @Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
      * @var string
      *
-     * @Column(name="redirect_uri", type="text")
+     * @ORM\Column(name="redirect_uri", type="text")
      */
     protected $redirect_uri;
 
     /**
      * @var \DateTime
      *
-     * @Column(name="expires", type="datetime")
+     * @ORM\Column(name="expires", type="datetime")
      */
     protected $expires;
 
     /**
      * @var array
      *
-     * @Column(name="scope", type="array")
+     * @ORM\Column(name="scope", type="array")
      */
     protected $scope;
 
@@ -177,7 +178,7 @@ class Code implements CodeInterface
     /**
      * Set expires
      *
-     * @param integer $expires
+     * @param \DateTime $expires
      * @return Code
      */
     public function setExpires($expires)
@@ -190,7 +191,7 @@ class Code implements CodeInterface
     /**
      * Get expires
      *
-     * @return integer
+     * @return \DateTime
      */
     public function getExpires()
     {

@@ -9,8 +9,12 @@
  * file that was distributed with this source code.
  */
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
 $loader = require __DIR__ . '/../vendor/autoload.php';
 
 $loader->add('Pantarei\OAuth2\Tests', __DIR__);
+
+AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
 return $loader;

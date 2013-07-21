@@ -11,64 +11,65 @@
 
 namespace Pantarei\OAuth2\Tests\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Pantarei\OAuth2\Model\AccessTokenInterface;
 
 /**
  * AccessToken
  *
- * @Table(name="access_token")
- * @Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokenRepository")
+ * @ORM\Table(name="access_token")
+ * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokenRepository")
  */
 class AccessToken implements AccessTokenInterface
 {
     /**
      * @var integer
      *
-     * @Column(name="id", type="integer")
-     * @Id
-     * @GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
      * @var string
      *
-     * @Column(name="access_token", type="string", length=255)
+     * @ORM\Column(name="access_token", type="string", length=255)
      */
     protected $access_token;
 
     /**
      * @var string
      *
-     * @Column(name="token_type", type="string", length=255)
+     * @ORM\Column(name="token_type", type="string", length=255)
      */
     protected $token_type;
 
     /**
      * @var string
      *
-     * @Column(name="client_id", type="string", length=255)
+     * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $client_id;
 
     /**
      * @var string
      *
-     * @Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
      * @var \DateTime
      *
-     * @Column(name="expires", type="datetime")
+     * @ORM\Column(name="expires", type="datetime")
      */
     protected $expires;
 
     /**
      * @var array
      *
-     * @Column(name="scope", type="array")
+     * @ORM\Column(name="scope", type="array")
      */
     protected $scope;
 
@@ -177,7 +178,7 @@ class AccessToken implements AccessTokenInterface
     /**
      * Set expires
      *
-     * @param integer $expires
+     * @param \DateTime $expires
      * @return AccessToken
      */
     public function setExpires($expires)
@@ -190,7 +191,7 @@ class AccessToken implements AccessTokenInterface
     /**
      * Get expires
      *
-     * @return integer
+     * @return \DateTime
      */
     public function getExpires()
     {
