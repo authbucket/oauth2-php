@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\RefreshTokenInterface;
 /**
  * RefreshToken
  *
- * @ORM\Table(name="refresh_token")
+ * @ORM\Table(name="test_refresh_token")
  * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\RefreshTokenRepository")
  */
 class RefreshToken implements RefreshTokenInterface

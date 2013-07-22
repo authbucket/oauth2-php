@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\ClientInterface;
 /**
  * Client
  *
- * @ORM\Table(name="client")
+ * @ORM\Table(name="test_client")
  * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ClientRepository")
  */
 class Client implements ClientInterface

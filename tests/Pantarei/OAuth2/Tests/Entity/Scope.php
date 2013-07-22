@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\ScopeInterface;
 /**
  * Scope
  *
- * @ORM\Table(name="scope")
+ * @ORM\Table(name="test_scope")
  * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\ScopeRepository")
  */
 class Scope implements ScopeInterface

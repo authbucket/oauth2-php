@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\AccessTokenInterface;
 /**
  * AccessToken
  *
- * @ORM\Table(name="access_token")
+ * @ORM\Table(name="test_access_token")
  * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AccessTokenRepository")
  */
 class AccessToken implements AccessTokenInterface

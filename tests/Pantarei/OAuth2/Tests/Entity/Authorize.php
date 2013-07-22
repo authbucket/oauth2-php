@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\AuthorizeInterface;
 /**
  * Authorize
  *
- * @ORM\Table(name="authorize")
+ * @ORM\Table(name="test_authorize")
  * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\AuthorizeRepository")
  */
 class Authorize implements AuthorizeInterface

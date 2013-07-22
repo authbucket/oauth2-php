@@ -17,7 +17,7 @@ use Pantarei\OAuth2\Model\CodeInterface;
 /**
  * Code
  *
- * @ORM\Table(name="code")
+ * @ORM\Table(name="test_code")
  * @ORM\Entity(repositoryClass="Pantarei\OAuth2\Tests\Entity\CodeRepository")
  */
 class Code implements CodeInterface
