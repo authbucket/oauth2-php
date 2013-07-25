@@ -178,17 +178,12 @@ abstract class WebTestCase extends SilexWebTestCase
     private function createSchema()
     {
         $em = $this->app['pantarei_oauth2.orm'];
-        $modelManagerFactory = $this->app['pantarei_oauth2.model_manager.factory'];
 
         // Generate testing database schema.
-        $classes = array(
-            $em->getClassMetadata($modelManagerFactory->getModelManager('access_token')->getClassName()),
-            $em->getClassMetadata($modelManagerFactory->getModelManager('authorize')->getClassName()),
-            $em->getClassMetadata($modelManagerFactory->getModelManager('client')->getClassName()),
-            $em->getClassMetadata($modelManagerFactory->getModelManager('code')->getClassName()),
-            $em->getClassMetadata($modelManagerFactory->getModelManager('refresh_token')->getClassName()),
-            $em->getClassMetadata($modelManagerFactory->getModelManager('scope')->getClassName()),
-        );
+        $classes = array();
+        foreach ($this->app['pantarei_oauth2.model'] as $class) {
+            $classes[] = $em->getClassMetadata($class);
+        }
 
         PersistentObject::setObjectManager($em);
         $tool = new SchemaTool($em);
