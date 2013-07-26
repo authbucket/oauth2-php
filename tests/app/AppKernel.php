@@ -50,7 +50,7 @@ $app['pantarei_oauth2.orm'] = $app->share(function ($app) {
     $event_manager = $app['dbs.event_manager']['default'];
 
     $config = Setup::createConfiguration(false);
-    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/Entity'));
+    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../src/Pantarei/OAuth2/Tests/Entity'));
     $config->setMetadataDriverImpl($driver);
 
     return EntityManager::create($conn, $config, $event_manager);
@@ -78,27 +78,4 @@ $app['pantarei_oauth2.token_controller'] = $app->share(function () use ($app) {
         $app['pantarei_oauth2.token_handler.factory'],
         $app['security.user_provider.default']
     );
-});
-
-// Resource endpoint.
-$app->match('/oauth2/resource/username', function (Request $request, Application $app) {
-    return $app['pantarei_oauth2.resource_controller']->usernameAction($request);
-});
-
-// Token endpoint.
-$app->post('/oauth2/token', function (Request $request, Application $app) {
-    return $app['pantarei_oauth2.token_controller']->tokenAction($request);
-});
-
-// Authorization endpoint.
-$app->get('/oauth2/authorize', function (Request $request, Application $app) {
-    return $app['pantarei_oauth2.authorize_controller']->authorizeAction($request);
-});
-
-// Form login.
-$app->get('/login', function (Request $request) use ($app) {
-    return $app['twig']->render('login.html.twig', array(
-        'error' => $app['security.last_error']($request),
-        'last_username' => $app['session']->get('_security.last_username'),
-    ));
 });

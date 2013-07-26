@@ -9,12 +9,11 @@
  * file that was distributed with this source code.
  */
 
-use Silex\Application;
+require __DIR__ . '/config_dev.php';
 
-require __DIR__ . '/../app/bootstrap.php';
+$app['db.options'] = array(
+    'driver' => 'pdo_sqlite',
+    'path' => __DIR__ . '/../cache/test/.ht.sqlite',
+);
 
-require __DIR__ . '/../app/AppKernel.php';
-require __DIR__ . '/../app/config/config.php';
-require __DIR__ . '/../app/config/routing.php';
-
-$app->run();
+$app['session.test'] = true;

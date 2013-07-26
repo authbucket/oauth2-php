@@ -11,8 +11,10 @@
 
 use Silex\Application;
 
-require_once __DIR__ . '/../bootstrap.php';
+require __DIR__ . '/../app/bootstrap.php';
 
-require_once __DIR__ . '/../app/AppKernel.php';
+require __DIR__ . '/../app/AppKernel.php';
+require __DIR__ . '/../app/config/config_dev.php';
+require __DIR__ . '/../app/config/routing.php';
 
 $app->run();

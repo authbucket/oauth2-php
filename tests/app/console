@@ -1,0 +1,275 @@
+#!/usr/bin/env php
+
+<?php
+
+/**
+ * This file is part of the pantarei/oauth2 package.
+ *
+ * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\Persistence\PersistentObject;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\Tools\SchemaTool;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Debug\Debug;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+
+umask(0000);
+
+set_time_limit(0);
+
+require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/AppKernel.php';
+
+$console = new Application('OAuth2', '0.1');
+$console->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', 'prod'));
+$console->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
+
+$input = new ArgvInput();
+$env = $input->getParameterOption(array('--env', '-e'), 'dev');
+$debug = !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
+
+if ($debug) {
+    Debug::enable();
+}
+
+require __DIR__ . "/config/config_$env.php";
+
+$app->boot();
+
+$console
+    ->register('doctrine:database:drop')
+    ->setName('doctrine:database:drop')
+    ->setDescription('Drops the configured databases')
+    ->addOption('connection', null, InputOption::VALUE_OPTIONAL, 'The connection to use for this command')
+    ->addOption('force', null, InputOption::VALUE_NONE, 'Set this parameter to execute this action')
+    ->setHelp(<<<EOT
+The <info>doctrine:database:drop</info> command drops the default connections
+database:
+
+<info>php app/console doctrine:database:drop</info>
+
+The --force parameter has to be used to actually drop the database.
+
+You can also optionally specify the name of a connection to drop the database
+for:
+
+<info>php app/console doctrine:database:drop --connection=default</info>
+
+<error>Be careful: All data in a given database will be lost when executing
+this command.</error>
+EOT
+)
+    ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
+        $connection = $app['db'];
+
+        $params = $connection->getParams();
+        if (isset($params['master'])) {
+            $params = $params['master'];
+        }
+
+        $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
+        if (!$name) {
+            throw new \InvalidArgumentException("Connection does not contain a 'path' or 'dbname' parameter and cannot be dropped.");
+        }
+        unset($params['dbname']);
+
+        if ($input->getOption('force')) {
+            // Only quote if we don't have a path
+            if (!isset($params['path'])) {
+                $name = $connection->getDatabasePlatform()->quoteSingleIdentifier($name);
+            }
+
+            try {
+                $connection->getSchemaManager()->dropDatabase($name);
+                $output->writeln(sprintf('<info>Dropped database for connection named <comment>%s</comment></info>', $name));
+            } catch (\Exception $e) {
+                $output->writeln(sprintf('<error>Could not drop database for connection named <comment>%s</comment></error>', $name));
+                $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
+
+                return 1;
+            }
+        } else {
+            $output->writeln('<error>ATTENTION:</error> This operation should not be executed in a production environment.');
+            $output->writeln('');
+            $output->writeln(sprintf('<info>Would drop the database named <comment>%s</comment>.</info>', $name));
+            $output->writeln('Please run the operation with --force to execute');
+            $output->writeln('<error>All data will be lost!</error>');
+
+            return 2;
+        }
+    });
+
+$console
+    ->register('doctrine:database:create')
+    ->setName('doctrine:database:create')
+    ->setDescription('Creates the configured databases')
+    ->addOption('connection', null, InputOption::VALUE_OPTIONAL, 'The connection to use for this command')
+    ->setHelp(<<<EOT
+The <info>doctrine:database:create</info> command creates the default
+connections database:
+
+<info>php app/console doctrine:database:create</info>
+
+You can also optionally specify the name of a connection to create the
+database for:
+
+<info>php app/console doctrine:database:create --connection=default</info>
+EOT
+)
+    ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
+        $connection = $app['db'];
+
+        $params = $connection->getParams();
+        if (isset($params['master'])) {
+            $params = $params['master'];
+        }
+
+        $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
+        if (!$name) {
+            throw new \InvalidArgumentException("Connection does not contain a 'path' or 'dbname' parameter and cannot be dropped.");
+        }
+        unset($params['dbname']);
+
+        $tmpConnection = DriverManager::getConnection($params);
+
+        // Only quote if we don't have a path
+        if (!isset($params['path'])) {
+            $name = $tmpConnection->getDatabasePlatform()->quoteSingleIdentifier($name);
+        }
+
+        $error = false;
+        try {
+            $tmpConnection->getSchemaManager()->createDatabase($name);
+            $output->writeln(sprintf('<info>Created database for connection named <comment>%s</comment></info>', $name));
+        } catch (\Exception $e) {
+            $output->writeln(sprintf('<error>Could not create database for connection named <comment>%s</comment></error>', $name));
+            $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
+            $error = true;
+        }
+
+        $tmpConnection->close();
+
+        return $error ? 1 : 0;
+    });
+
+$console
+    ->register('doctrine:schema:drop')
+    ->setName('doctrine:schema:drop')
+    ->setDescription('Executes (or dumps) the SQL needed to drop the current database schema')
+    ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command')
+    ->setHelp(<<<EOT
+The <info>doctrine:schema:drop</info> command generates the SQL needed to
+    drop the database schema of the default entity manager:
+
+    <info>php app/console doctrine:schema:drop --dump-sql</info>
+
+    Alternatively, you can execute the generated queries:
+
+<info>php app/console doctrine:schema:drop --force</info>
+
+You can also optionally specify the name of a entity manager to drop the
+schema for:
+
+<info>php app/console doctrine:schema:drop --em=default</info>
+EOT
+)
+    ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
+        $em = $app['pantarei_oauth2.orm'];
+
+        // Generate testing database schema.
+        $classes = array();
+        foreach ($app['pantarei_oauth2.model'] as $class) {
+            $classes[] = $em->getClassMetadata($class);
+        }
+
+        PersistentObject::setObjectManager($em);
+        $tool = new SchemaTool($em);
+        $tool->dropSchema($classes);
+    });
+
+$console
+    ->register('doctrine:schema:create')
+    ->setName('doctrine:schema:create')
+    ->setDescription('Executes (or dumps) the SQL needed to generate the database schema')
+    ->addOption('em', null, InputOption::VALUE_OPTIONAL, 'The entity manager to use for this command')
+    ->setHelp(<<<EOT
+The <info>doctrine:schema:create</info> command executes the SQL needed to
+generate the database schema for the default entity manager:
+
+<info>php app/console doctrine:schema:create</info>
+
+You can also generate the database schema for a specific entity manager:
+
+<info>php app/console doctrine:schema:create --em=default</info>
+
+Finally, instead of executing the SQL, you can output the SQL:
+
+<info>php app/console doctrine:schema:create --dump-sql</info>
+EOT
+)
+    ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
+        $em = $app['pantarei_oauth2.orm'];
+
+        // Generate testing database schema.
+        $classes = array();
+        foreach ($app['pantarei_oauth2.model'] as $class) {
+            $classes[] = $em->getClassMetadata($class);
+        }
+
+        PersistentObject::setObjectManager($em);
+        $tool = new SchemaTool($em);
+        $tool->createSchema($classes);
+    });
+
+$console
+    ->register('doctrine:fixtures:load')
+    ->setName('doctrine:fixtures:load')
+    ->setDescription('Load data fixtures to your database.')
+    ->addOption('fixtures', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'The directory or file to load data fixtures from.')
+    ->addOption('append', null, InputOption::VALUE_NONE, 'Append the data fixtures instead of deleting all data from the database first.')
+    ->addOption('em', null, InputOption::VALUE_REQUIRED, 'The entity manager to use for this command.')
+    ->addOption('purge-with-truncate', null, InputOption::VALUE_NONE, 'Purge data by using a database-level TRUNCATE statement')
+    ->setHelp(<<<EOT
+The <info>doctrine:fixtures:load</info> command loads data fixtures from your bundles:
+
+  <info>./app/console doctrine:fixtures:load</info>
+
+You can also optionally specify the path to fixtures with the <info>--fixtures</info> option:
+
+  <info>./app/console doctrine:fixtures:load --fixtures=/path/to/fixtures1 --fixtures=/path/to/fixtures2</info>
+
+If you want to append the fixtures instead of flushing the database first you can use the <info>--append</info> option:
+
+  <info>./app/console doctrine:fixtures:load --append</info>
+
+  By default Doctrine Data Fixtures uses DELETE statements to drop the existing rows from
+  the database. If you want to use a TRUNCATE statement instead you can use the <info>--purge-with-truncate</info> flag:
+
+    <info>./app/console doctrine:fixtures:load --purge-with-truncate</info>
+EOT
+)
+    ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
+        $em = $app['pantarei_oauth2.orm'];
+
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($em, $purger);
+
+        $loader = new Loader();
+        $loader->loadFromDirectory(__DIR__ . '/../src/Pantarei/OAuth2/Tests/DataFixtures/ORM');
+        $executor->execute($loader->getFixtures());
+    });
+
+$console->run($input);

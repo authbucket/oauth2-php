@@ -9,15 +9,10 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/security.php';
-
-$app['db.options'] = array(
-    'driver' => 'pdo_sqlite',
-    'path' => sys_get_temp_dir() . '.ht.sqlite',
-);
+require __DIR__ . '/security.php';
 
 $app['twig.path'] = array(
-    __DIR__ . '../Resources/views',
+    __DIR__ . '/../Resources/views',
 );
 
 $app['pantarei_oauth2.model'] = array(

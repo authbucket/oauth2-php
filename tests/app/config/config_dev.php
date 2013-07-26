@@ -9,8 +9,12 @@
  * file that was distributed with this source code.
  */
 
-require_once __DIR__ . '/config.php';
+require __DIR__ . '/config_prod.php';
+
+$app['db.options'] = array(
+    'driver' => 'pdo_sqlite',
+    'path' => __DIR__ . '/../cache/dev/.ht.sqlite',
+);
 
 $app['debug'] = true;
 $app['exception_handler']->disable();
-$app['session.test'] = true;
