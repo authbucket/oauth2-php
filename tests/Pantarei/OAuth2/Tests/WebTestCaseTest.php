@@ -42,8 +42,13 @@ class WebTestCaseTest extends WebTestCase
 
     public function testSilexPage()
     {
+        $parameters = array();
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/foo/bar', array('dummy' => 'content'));
+        $crawler = $client->request('GET', '/foo/bar', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isOk());
         $this->assertCount(1, $crawler->filter('html:contains("Hello bar")'));
     }
