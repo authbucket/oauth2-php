@@ -1,0 +1,6 @@
+<form action="{{ path('login_check') }}" method="post">
+    {{ error }}
+    <input type="text" name="_username" value="{{ last_username }}" />
+    <input type="password" name="_password" value="" />
+    <input type="submit" name="submit" />
+</form>

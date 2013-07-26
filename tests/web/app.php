@@ -9,12 +9,10 @@
  * file that was distributed with this source code.
  */
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
+use Silex\Application;
 
-$loader = require __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../bootstrap.php';
 
-$loader->add('Pantarei\OAuth2\Tests', __DIR__ . '/../src');
+require_once __DIR__ . '/../app/AppKernel.php';
 
-AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-
-return $loader;
+$app->run();

@@ -9,12 +9,8 @@
  * file that was distributed with this source code.
  */
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
+require_once __DIR__ . '/config.php';
 
-$loader = require __DIR__ . '/../../vendor/autoload.php';
-
-$loader->add('Pantarei\OAuth2\Tests', __DIR__ . '/../src');
-
-AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-
-return $loader;
+$app['debug'] = true;
+$app['exception_handler']->disable();
+$app['session.test'] = true;

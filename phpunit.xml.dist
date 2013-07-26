@@ -3,12 +3,12 @@
 <phpunit bootstrap="./tests/app/bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="Pantarei\OAuth2 Test Suite">
-            <directory>./tests/Pantarei/OAuth2</directory>
+            <directory>./tests/src</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory>./src/Pantarei/OAuth2</directory>
+            <directory>./src</directory>
         </whitelist>
     </filter>
     <logging>
