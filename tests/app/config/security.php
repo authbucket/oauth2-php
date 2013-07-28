@@ -25,6 +25,9 @@ $app['security.firewalls'] = array(
     ),
     'default' => array(
         'pattern' => '^/',
+        'logout' => array(
+            'logout_path' => '/logout',
+        ),
         'form' => array(
             'login_path' => '/login',
             'check_path' => '/login_check',

@@ -12,6 +12,19 @@
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
+// Hello world.
+$app->get('/', function (Request $request) use ($app) {
+    return 'Hello Wolrd!!';
+});
+
+// Form login.
+$app->get('/login', function (Request $request) use ($app) {
+    return $app['twig']->render('login.html.twig', array(
+        'error' => $app['security.last_error']($request),
+        'last_username' => $app['session']->get('_security.last_username'),
+    ));
+});
+
 // Resource endpoint.
 $app->match('/oauth2/resource/username', function (Request $request, Application $app) {
     return $app['pantarei_oauth2.resource_controller']->usernameAction($request);
@@ -25,12 +38,4 @@ $app->post('/oauth2/token', function (Request $request, Application $app) {
 // Authorization endpoint.
 $app->get('/oauth2/authorize', function (Request $request, Application $app) {
     return $app['pantarei_oauth2.authorize_controller']->authorizeAction($request);
-});
-
-// Form login.
-$app->get('/login', function (Request $request) use ($app) {
-    return $app['twig']->render('login.html.twig', array(
-        'error' => $app['security.last_error']($request),
-        'last_username' => $app['session']->get('_security.last_username'),
-    ));
 });

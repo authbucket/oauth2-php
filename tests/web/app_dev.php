@@ -9,8 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use Silex\Application;
-
 require __DIR__ . '/../app/bootstrap.php';
 
 require __DIR__ . '/../app/AppKernel.php';
