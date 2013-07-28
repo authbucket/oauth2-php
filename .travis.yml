@@ -8,6 +8,8 @@ php:
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar --dev --prefer-source install
+  - echo "extension = apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "apc.rfc1867 = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
   - mkdir -p build/logs
