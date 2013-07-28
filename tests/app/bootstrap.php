@@ -18,7 +18,13 @@ $loader->add('Pantarei\OAuth2\Tests', __DIR__ . '/../src');
 // See http://symfony.com/doc/current/cookbook/testing/bootstrap.html
 if (isset($_ENV['BOOTSTRAP_ENV'])) {
     passthru(sprintf(
-        'php "%s/console" cache:clear --env=%s -q --no-warmup',
+        'php "%s/console" doctrine:database:drop --env=%s -q --force',
+        __DIR__,
+        $_ENV['BOOTSTRAP_ENV']
+    ));
+
+    passthru(sprintf(
+        'php "%s/console" doctrine:database:create --env=%s -q',
         __DIR__,
         $_ENV['BOOTSTRAP_ENV']
     ));

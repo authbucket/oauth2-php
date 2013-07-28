@@ -11,6 +11,7 @@
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -49,9 +50,12 @@ $app['pantarei_oauth2.orm'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
     $event_manager = $app['dbs.event_manager']['default'];
 
-    $config = Setup::createConfiguration(false);
     $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../src/Pantarei/OAuth2/Tests/Entity'));
+
+    $config = Setup::createConfiguration(false);
     $config->setMetadataDriverImpl($driver);
+    $config->setMetadataCacheImpl(new ApcCache());
+    $config->setQueryCacheImpl(new ApcCache());
 
     return EntityManager::create($conn, $config, $event_manager);
 });
