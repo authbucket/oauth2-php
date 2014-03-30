@@ -3,7 +3,7 @@
 <?php
 
 /**
- * This file is part of the pantarei/oauth2 package.
+ * This file is part of the authbucket/oauth2 package.
  *
  * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  *
@@ -187,11 +187,11 @@ schema for:
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $em = $app['pantarei_oauth2.orm'];
+        $em = $app['authbucket_oauth2.orm'];
 
         // Generate testing database schema.
         $classes = array();
-        foreach ($app['pantarei_oauth2.model'] as $class) {
+        foreach ($app['authbucket_oauth2.model'] as $class) {
             $classes[] = $em->getClassMetadata($class);
         }
 
@@ -221,11 +221,11 @@ Finally, instead of executing the SQL, you can output the SQL:
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $em = $app['pantarei_oauth2.orm'];
+        $em = $app['authbucket_oauth2.orm'];
 
         // Generate testing database schema.
         $classes = array();
-        foreach ($app['pantarei_oauth2.model'] as $class) {
+        foreach ($app['authbucket_oauth2.model'] as $class) {
             $classes[] = $em->getClassMetadata($class);
         }
 
@@ -262,13 +262,13 @@ If you want to append the fixtures instead of flushing the database first you ca
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $em = $app['pantarei_oauth2.orm'];
+        $em = $app['authbucket_oauth2.orm'];
 
         $purger = new ORMPurger();
         $executor = new ORMExecutor($em, $purger);
 
         $loader = new Loader();
-        $loader->loadFromDirectory(__DIR__ . '/../src/Pantarei/OAuth2/Tests/DataFixtures/ORM');
+        $loader->loadFromDirectory(__DIR__ . '/../src/AuthBucket/OAuth2/Tests/DataFixtures/ORM');
         $executor->execute($loader->getFixtures());
     });
 

@@ -13,7 +13,7 @@
     bootstrap                   = "./tests/app/bootstrap.php">
 
     <testsuites>
-        <testsuite name="Pantarei\OAuth2 Test Suite">
+        <testsuite name="AuthBucket\OAuth2 Test Suite">
             <directory>./tests/src</directory>
         </testsuite>
     </testsuites>

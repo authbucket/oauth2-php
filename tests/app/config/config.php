@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the pantarei/oauth2 package.
+ * This file is part of the authbucket/oauth2 package.
  *
  * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  *
@@ -15,11 +15,11 @@ $app['twig.path'] = array(
     __DIR__ . '/../Resources/views',
 );
 
-$app['pantarei_oauth2.model'] = array(
-    'access_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\AccessToken',
-    'authorize' => 'Pantarei\\OAuth2\\Tests\\Entity\\Authorize',
-    'client' => 'Pantarei\\OAuth2\\Tests\\Entity\\Client',
-    'code' => 'Pantarei\\OAuth2\\Tests\\Entity\\Code',
-    'refresh_token' => 'Pantarei\\OAuth2\\Tests\\Entity\\RefreshToken',
-    'scope' => 'Pantarei\\OAuth2\\Tests\\Entity\\Scope',
+$app['authbucket_oauth2.model'] = array(
+    'access_token' => 'AuthBucket\\OAuth2\\Tests\\Entity\\AccessToken',
+    'authorize' => 'AuthBucket\\OAuth2\\Tests\\Entity\\Authorize',
+    'client' => 'AuthBucket\\OAuth2\\Tests\\Entity\\Client',
+    'code' => 'AuthBucket\\OAuth2\\Tests\\Entity\\Code',
+    'refresh_token' => 'AuthBucket\\OAuth2\\Tests\\Entity\\RefreshToken',
+    'scope' => 'AuthBucket\\OAuth2\\Tests\\Entity\\Scope',
 );

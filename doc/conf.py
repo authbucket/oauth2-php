@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # OAuth2 documentation build configuration file, created by
-# sphinx-quickstart on Sat Jun  8 23:18:08 2013.
+# sphinx-quickstart on Sat Jun  8 23:18:08 2014.
 #
 # This file is execfile()d with the current directory set to its containing dir.
 #
@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'OAuth2'
-copyright = u'2013, OAuth2'
+copyright = u'2014, OAuth2'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

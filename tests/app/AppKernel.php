@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the pantarei/oauth2 package.
+ * This file is part of the authbucket/oauth2 package.
  *
  * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  *
@@ -20,9 +20,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
-use Pantarei\OAuth2\Controller\TokenController;
-use Pantarei\OAuth2\Provider\OAuth2ServiceProvider;
-use Pantarei\OAuth2\Tests\Entity\ModelManagerFactory;
+use AuthBucket\OAuth2\Controller\TokenController;
+use AuthBucket\OAuth2\Provider\OAuth2ServiceProvider;
+use AuthBucket\OAuth2\Tests\Entity\ModelManagerFactory;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
@@ -46,11 +46,11 @@ $app->register(new TwigServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 
 // Return an instance of Doctrine ORM entity manager.
-$app['pantarei_oauth2.orm'] = $app->share(function ($app) {
+$app['authbucket_oauth2.orm'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
     $event_manager = $app['dbs.event_manager']['default'];
 
-    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../src/Pantarei/OAuth2/Tests/Entity'));
+    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../src/AuthBucket/OAuth2/Tests/Entity'));
 
     $config = Setup::createConfiguration(false);
     $config->setMetadataDriverImpl($driver);
@@ -66,20 +66,20 @@ $app['security.encoder.digest'] = $app->share(function ($app) {
 });
 
 // Add model managers from ORM.
-$app['pantarei_oauth2.model_manager.factory'] = $app->share(function($app) {
-    return new ModelManagerFactory($app['pantarei_oauth2.orm'], $app['pantarei_oauth2.model']);
+$app['authbucket_oauth2.model_manager.factory'] = $app->share(function($app) {
+    return new ModelManagerFactory($app['authbucket_oauth2.orm'], $app['authbucket_oauth2.model']);
 });
 
 // We simply reuse the user provider that already created for
 // authorize firewall here.
-$app['pantarei_oauth2.token_controller'] = $app->share(function () use ($app) {
+$app['authbucket_oauth2.token_controller'] = $app->share(function () use ($app) {
     return new TokenController(
         $app['security'],
         $app['security.user_checker'],
         $app['security.encoder_factory'],
-        $app['pantarei_oauth2.model_manager.factory'],
-        $app['pantarei_oauth2.grant_handler.factory'],
-        $app['pantarei_oauth2.token_handler.factory'],
+        $app['authbucket_oauth2.model_manager.factory'],
+        $app['authbucket_oauth2.grant_handler.factory'],
+        $app['authbucket_oauth2.token_handler.factory'],
         $app['security.user_provider.default']
     );
 });

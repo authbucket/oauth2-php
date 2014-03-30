@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the pantarei/oauth2 package.
+ * This file is part of the authbucket/oauth2 package.
  *
  * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  *
@@ -13,7 +13,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 
 $loader = require __DIR__ . '/../../vendor/autoload.php';
 
-$loader->add('Pantarei\OAuth2\Tests', __DIR__ . '/../src');
+$loader->add('AuthBucket\OAuth2\Tests', __DIR__ . '/../src');
 
 // See http://symfony.com/doc/current/cookbook/testing/bootstrap.html
 if (isset($_ENV['BOOTSTRAP_ENV'])) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the pantarei/oauth2 package.
+ * This file is part of the authbucket/oauth2 package.
  *
  * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  *
@@ -27,15 +27,15 @@ $app->get('/login', function (Request $request) use ($app) {
 
 // Resource endpoint.
 $app->match('/oauth2/resource/username', function (Request $request, Application $app) {
-    return $app['pantarei_oauth2.resource_controller']->usernameAction($request);
+    return $app['authbucket_oauth2.resource_controller']->usernameAction($request);
 });
 
 // Token endpoint.
 $app->post('/oauth2/token', function (Request $request, Application $app) {
-    return $app['pantarei_oauth2.token_controller']->tokenAction($request);
+    return $app['authbucket_oauth2.token_controller']->tokenAction($request);
 });
 
 // Authorization endpoint.
 $app->get('/oauth2/authorize', function (Request $request, Application $app) {
-    return $app['pantarei_oauth2.authorize_controller']->authorizeAction($request);
+    return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
 });

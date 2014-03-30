@@ -2,13 +2,13 @@
     "authors": [
         {
             "email": "hswong3i@pantarei-design.com",
-            "homepage": "http://edin.no-ip.com",
+            "homepage": "http://hswong3i.net",
             "name": "Wong Hoi Sing Edison"
         }
     ],
     "autoload": {
         "psr-0": {
-            "Pantarei\\OAuth2": "src/"
+            "AuthBucket\\OAuth2": "src/"
         }
     },
     "description": "The standard compliant OAuth2.0 library based on the Symfony2 Components",
@@ -17,13 +17,13 @@
             "dev-master": "1.0.x-dev"
         }
     },
-    "homepage": "https://github.com/pantarei/oauth2",
+    "homepage": "https://github.com/authbucket/oauth2",
     "keywords": [
         "oauth2"
     ],
     "license": "MIT",
     "minimum-stability": "dev",
-    "name": "pantarei/oauth2",
+    "name": "authbucket/oauth2",
     "require": {
         "php": ">=5.3.3",
         "symfony/http-foundation": ">=2.1,<2.4-dev",
@@ -33,6 +33,7 @@
     "require-dev": {
         "doctrine/data-fixtures": "*",
         "doctrine/orm": "~2.2,>=2.2.3",
+        "phpunit/phpunit": "3.7.*",
         "satooshi/php-coveralls": "dev-master",
         "silex/silex": "1.0.*@dev",
         "symfony/browser-kit": ">=2.1,<2.4-dev",
