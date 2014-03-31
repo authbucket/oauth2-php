@@ -1,18 +1,16 @@
-AuthBucket\OAuth2
-===============
+AuthBucket\\OAuth2
+==================
 
-[![Build
-Status](https://travis-ci.org/authbucket/oauth2.png?branch=master)](https://travis-ci.org/authbucket/oauth2)
-[![Coverage
-Status](https://coveralls.io/repos/authbucket/oauth2/badge.png?branch=master)](https://coveralls.io/r/authbucket/oauth2?branch=master)
-[![Latest Stable
-Version](https://poser.pugx.org/authbucket/oauth2/v/stable.png)](https://packagist.org/packages/authbucket/oauth2)
-[![Total
-Downloads](https://poser.pugx.org/authbucket/oauth2/downloads.png)](https://packagist.org/packages/authbucket/oauth2)
+[![Build Status](https://travis-ci.org/authbucket/oauth2.svg?branch=master)](https://travis-ci.org/authbucket/oauth2)
+[![Coverage Status](https://coveralls.io/repos/authbucket/oauth2/badge.png?branch=master)](https://coveralls.io/r/authbucket/oauth2?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/5338d5457bae4b06600000b7/badge.png)](https://www.versioneye.com/user/projects/5338d5457bae4b06600000b7)
+[![Latest Stable Version](https://poser.pugx.org/authbucket/oauth2/v/stable.png)](https://packagist.org/packages/authbucket/oauth2)
+[![Total Downloads](https://poser.pugx.org/authbucket/oauth2/downloads.png)](https://packagist.org/packages/authbucket/oauth2)
+[![License](https://poser.pugx.org/authbucket/oauth2/license.png)](https://packagist.org/packages/authbucket/oauth2)
 
 The primary goal of
-[AuthBucket\OAuth2](https://github.com/authbucket/oauth2) is to develop a
-standards compliant [RFC6749
+[AuthBucket\\OAuth2](https://github.com/authbucket/oauth2) is to
+develop a standards compliant [RFC6749
 OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://www.symfony.com) and [Drupal module](http://drupal.org).
