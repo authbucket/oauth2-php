@@ -24,6 +24,7 @@ class RedirectResponse extends BaseRedirectResponse
     public static function create($url = '', $data = array(), $status = 302, $headers = array())
     {
         $url = Request::create($url, 'GET', $data)->getUri();
+
         return BaseRedirectResponse::create($url, $status, $headers);
     }
 }

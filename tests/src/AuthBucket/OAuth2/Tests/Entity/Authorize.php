@@ -65,7 +65,7 @@ class Authorize implements AuthorizeInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param  string    $client_id
      * @return Authorize
      */
     public function setClientId($client_id)
@@ -88,7 +88,7 @@ class Authorize implements AuthorizeInterface
     /**
      * Set username
      *
-     * @param string $username
+     * @param  string    $username
      * @return Authorize
      */
     public function setUsername($username)
@@ -111,7 +111,7 @@ class Authorize implements AuthorizeInterface
     /**
      * Set scope
      *
-     * @param array $scope
+     * @param  array     $scope
      * @return Authorize
      */
     public function setScope($scope)

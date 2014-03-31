@@ -22,10 +22,10 @@ interface GrantTypeHandlerFactoryInterface
      * Gets a stored grant type handler.
      *
      * @param string $type
-     *   Type of grant type handler, as refer to RFC6749.
+     *                     Type of grant type handler, as refer to RFC6749.
      *
      * @return GrantTypeHandlerInterface
-     *   The stored grant type handler.
+     *                                   The stored grant type handler.
      *
      * @throw UnsupportedGrantTypeException
      *   If supplied grant type not found.

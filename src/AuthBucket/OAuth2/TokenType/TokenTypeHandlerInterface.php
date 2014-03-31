@@ -25,10 +25,10 @@ interface TokenTypeHandlerInterface
      * Fetch access_token from given request.
      *
      * @param Request $request
-     *   Incoming request object.
+     *                         Incoming request object.
      *
      * @return string
-     *   Fetched access_token from incoming request.
+     *                Fetched access_token from incoming request.
      */
     public function getAccessToken(Request $request);
 
@@ -36,20 +36,20 @@ interface TokenTypeHandlerInterface
      * Create and save access_token parameters for generate response.
      *
      * @param ModelManagerFactoryInterface $modelManagerFactory
-     *   Model manager factory for storing record into database.
-     * @param string $client_id
-     *   client_id this access token should belongs to.
-     * @param string $username
-     *   username this access token should belongs to.
-     * @param array $scope
-     *   All scope that this access token grant.
-     * @param string state
-     *   Original state which should preserve.
-     * @param bool $withRefreshToken
-     *   False for response_type=token.
+     *                                                          Model manager factory for storing record into database.
+     * @param string                       $client_id
+     *                                                          client_id this access token should belongs to.
+     * @param string                       $username
+     *                                                          username this access token should belongs to.
+     * @param array                        $scope
+     *                                                          All scope that this access token grant.
+     *                                                          @param string state
+     *                                                          Original state which should preserve.
+     * @param bool                         $withRefreshToken
+     *                                                          False for response_type=token.
      *
      * @return array
-     *   All parameters for generate response.
+     *               All parameters for generate response.
      */
     public function createAccessToken(
         ModelManagerFactoryInterface $modelManagerFactory,

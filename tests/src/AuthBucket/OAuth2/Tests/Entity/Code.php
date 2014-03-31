@@ -86,7 +86,7 @@ class Code implements CodeInterface
     /**
      * Set code
      *
-     * @param string $code
+     * @param  string $code
      * @return Code
      */
     public function setCode($code)
@@ -109,7 +109,7 @@ class Code implements CodeInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param  string $client_id
      * @return Code
      */
     public function setClientId($client_id)
@@ -132,7 +132,7 @@ class Code implements CodeInterface
     /**
      * Set username
      *
-     * @param string $username
+     * @param  string $username
      * @return Code
      */
     public function setUsername($username)
@@ -155,7 +155,7 @@ class Code implements CodeInterface
     /**
      * Set redirect_uri
      *
-     * @param string $redirect_uri
+     * @param  string $redirect_uri
      * @return Code
      */
     public function setRedirectUri($redirect_uri)
@@ -178,7 +178,7 @@ class Code implements CodeInterface
     /**
      * Set expires
      *
-     * @param \DateTime $expires
+     * @param  \DateTime $expires
      * @return Code
      */
     public function setExpires($expires)
@@ -201,7 +201,7 @@ class Code implements CodeInterface
     /**
      * Set scope
      *
-     * @param array $scope
+     * @param  array $scope
      * @return Code
      */
     public function setScope($scope)

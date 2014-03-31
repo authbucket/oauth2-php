@@ -11,11 +11,9 @@
 
 namespace AuthBucket\OAuth2\TokenType;
 
-use AuthBucket\OAuth2\Exception\AccessDeniedException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Bearer token type handler implementation.

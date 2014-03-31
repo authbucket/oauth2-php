@@ -16,7 +16,6 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface;
 use AuthBucket\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -32,10 +31,10 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
      * Fetch client_id from authenticated token.
      *
      * @param SecurityContextInterface $securityContext
-     *   Incoming request object.
+     *                                                  Incoming request object.
      *
      * @return string
-     *   Supplied client_id from authenticated token.
+     *                Supplied client_id from authenticated token.
      *
      * @throw ServerErrorException
      *   If supplied token is not a ClientToken instance.
@@ -52,17 +51,16 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         return $token->getClientId();
     }
 
-
     /**
      * Fetch scope from POST.
      *
-     * @param Request $request
-     *   Incoming request object.
+     * @param Request                      $request
+     *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
-     *   Model manager factory for compare with database record.
+     *                                                          Model manager factory for compare with database record.
      *
      * @return array|null
-     *   Supplied scope in array from incoming request, or null if none given.
+     *                    Supplied scope in array from incoming request, or null if none given.
      *
      * @throw InvalidRequestException
      *   If supplied scope in bad format.

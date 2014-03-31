@@ -14,7 +14,6 @@ namespace AuthBucket\OAuth2\TokenType;
 use Symfony\Component\HttpFoundation\Request;
 use AuthBucket\OAuth2\Exception\TemporarilyUnavailableException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class MacTokenTypeHandler implements TokenTypeHandlerInterface
 {

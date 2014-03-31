@@ -16,7 +16,7 @@ interface ScopeInterface extends ModelInterface
     /**
      * Set scope
      *
-     * @param string $scope
+     * @param  string $scope
      * @return Scope
      */
     public function setScope($scope);

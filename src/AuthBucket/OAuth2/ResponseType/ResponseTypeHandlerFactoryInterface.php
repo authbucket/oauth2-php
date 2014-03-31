@@ -22,10 +22,10 @@ interface ResponseTypeHandlerFactoryInterface
      * Gets a stored response type handler.
      *
      * @param string $type
-     *   Type of response type handler, as refer to RFC6749.
+     *                     Type of response type handler, as refer to RFC6749.
      *
      * @return ResponseTypeHandlerInterface
-     *   The stored response type handler.
+     *                                      The stored response type handler.
      *
      * @throw UnsupportedResponseTypeException
      *   If supplied response type not found.

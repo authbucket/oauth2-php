@@ -16,7 +16,7 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set access_token
      *
-     * @param string $access_token
+     * @param  string      $access_token
      * @return AccessToken
      */
     public function setAccessToken($access_token);
@@ -31,7 +31,7 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set token_type
      *
-     * @param string $token_type
+     * @param  string      $token_type
      * @return AccessToken
      */
     public function setTokenType($token_type);
@@ -46,7 +46,7 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param  string      $client_id
      * @return AccessToken
      */
     public function setClientId($client_id);
@@ -61,7 +61,7 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set username
      *
-     * @param string $username
+     * @param  string      $username
      * @return AccessToken
      */
     public function setUsername($username);
@@ -76,7 +76,7 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set expires
      *
-     * @param integer $expires
+     * @param  integer     $expires
      * @return AccessToken
      */
     public function setExpires($expires);
@@ -91,7 +91,7 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set scope
      *
-     * @param array $scope
+     * @param  array       $scope
      * @return AccessToken
      */
     public function setScope($scope);

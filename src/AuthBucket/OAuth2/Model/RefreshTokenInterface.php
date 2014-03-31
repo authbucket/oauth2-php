@@ -16,7 +16,7 @@ interface RefreshTokenInterface extends ModelInterface
     /**
      * Set refresh_token
      *
-     * @param string $refresh_token
+     * @param  string       $refresh_token
      * @return RefreshToken
      */
     public function setRefreshToken($refresh_token);
@@ -31,7 +31,7 @@ interface RefreshTokenInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param  string       $client_id
      * @return RefreshToken
      */
     public function setClientId($client_id);
@@ -46,7 +46,7 @@ interface RefreshTokenInterface extends ModelInterface
     /**
      * Set username
      *
-     * @param string $username
+     * @param  string       $username
      * @return RefreshToken
      */
     public function setUsername($username);
@@ -61,7 +61,7 @@ interface RefreshTokenInterface extends ModelInterface
     /**
      * Set expires
      *
-     * @param integer $expires
+     * @param  integer      $expires
      * @return RefreshToken
      */
     public function setExpires($expires);
@@ -76,7 +76,7 @@ interface RefreshTokenInterface extends ModelInterface
     /**
      * Set scope
      *
-     * @param array $scope
+     * @param  array        $scope
      * @return RefreshToken
      */
     public function setScope($scope);

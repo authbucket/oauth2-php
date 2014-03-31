@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
@@ -57,22 +56,23 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
             $username,
             $scope
         );
+
         return JsonResponse::create($parameters);
     }
 
     /**
      * Fetch code from POST.
      *
-     * @param Request $request
-     *   Incoming request object.
+     * @param Request                      $request
+     *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
-     *   Model manager factory for compare with database record.
-     * @param string client_id
-     *   Corresponding client_id that code should belongs to.
+     *                                                          Model manager factory for compare with database record.
+     *                                                          @param string client_id
+     *                                                          Corresponding client_id that code should belongs to.
      *
      * @return array
-     *   A list with stored username and scope, originally grant in authorize
-     *   endpoint.
+     *               A list with stored username and scope, originally grant in authorize
+     *               endpoint.
      *
      * @throw InvalidRequestException
      *   If code in invalid format.
@@ -110,16 +110,16 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     /**
      * Fetch redirect_uri from POST, or stored record.
      *
-     * @param Request $request
-     *   Incoming request object.
+     * @param Request                      $request
+     *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
-     *   Model manager factory for compare with database record.
-     * @param string client_id
-     *   Corresponding client_id that code should belongs to.
+     *                                                          Model manager factory for compare with database record.
+     *                                                          @param string client_id
+     *                                                          Corresponding client_id that code should belongs to.
      *
      * @return string
-     *   The supplied redirect_uri from incoming request, or from stored
-     *   record.
+     *                The supplied redirect_uri from incoming request, or from stored
+     *                record.
      *
      * @throw InvalidRequestException
      *   If redirect_uri not exists in both incoming request and database

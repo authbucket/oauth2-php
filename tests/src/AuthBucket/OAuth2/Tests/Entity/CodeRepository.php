@@ -31,6 +31,7 @@ class CodeRepository extends EntityRepository implements CodeManagerInterface
     public function createCode()
     {
         $class = $this->getClass();
+
         return new $class();
     }
 

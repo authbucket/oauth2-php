@@ -13,7 +13,6 @@ namespace AuthBucket\OAuth2\Tests\GrantType;
 
 use AuthBucket\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
 {

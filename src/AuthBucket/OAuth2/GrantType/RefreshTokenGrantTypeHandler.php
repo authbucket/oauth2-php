@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
@@ -55,22 +54,23 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             $username,
             $scope
         );
+
         return JsonResponse::create($parameters);
     }
 
     /**
      * Check refresh_token supplied, return stored username and scope.
      *
-     * @param Request $request
-     *   Incoming request object.
+     * @param Request                      $request
+     *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
-     *   Model manager factory for compare with database record.
-     * @param string client_id
-     *   Corresponding client_id that refresh_token should belongs to.
+     *                                                          Model manager factory for compare with database record.
+     *                                                          @param string client_id
+     *                                                          Corresponding client_id that refresh_token should belongs to.
      *
      * @return array
-     *   A list with stored username and scope, originally grant in authorize
-     *   endpoint.
+     *               A list with stored username and scope, originally grant in authorize
+     *               endpoint.
      *
      * @throw InvalidRequestException
      *   If supplied refresh_token or scope in invalid format.

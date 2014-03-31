@@ -11,9 +11,7 @@
 
 namespace AuthBucket\OAuth2\Tests;
 
-use AuthBucket\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Test the WebTestCase wrapper functionality.
@@ -29,6 +27,7 @@ class WebTestCaseTest extends WebTestCase
         $app->get('/foo/{name}', function ($name, Request $request) {
             $request->overrideGlobals();
             $controller = new WebTestCaseTest();
+
             return $controller->bar($name);
         });
 

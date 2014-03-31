@@ -26,7 +26,6 @@ class BarTokenTypeHandler implements TokenTypeHandlerInterface
     {
     }
 
-
     public function createAccessToken(
         ModelManagerFactoryInterface $modelManagerFactory,
         $client_id,

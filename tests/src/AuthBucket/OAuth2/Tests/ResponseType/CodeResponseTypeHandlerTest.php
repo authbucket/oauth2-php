@@ -243,7 +243,9 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodCodeFormSubmit()
     {
+        // Must use single shared client for continue session.
         $client = $this->createClient();
+
         $crawler = $client->request('GET', '/login');
         $buttonCrawlerNode = $crawler->selectButton('submit');
         $form = $buttonCrawlerNode->form(array(
@@ -260,7 +262,6 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'state' => 'example state',
         );
         $server = array();
-        $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }

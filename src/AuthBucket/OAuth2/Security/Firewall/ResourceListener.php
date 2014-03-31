@@ -11,11 +11,8 @@
 
 namespace AuthBucket\OAuth2\Security\Firewall;
 
-use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
-use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;

@@ -17,7 +17,6 @@ use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Util\Filter;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -33,10 +32,10 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      * Fetch username from authenticated token.
      *
      * @param SecurityContextInterface $securityContext
-     *   Incoming request object.
+     *                                                  Incoming request object.
      *
      * @return string
-     *   Supplied username from authenticated token.
+     *                Supplied username from authenticated token.
      *
      * @throw ServerErrorException
      *   If supplied token is not a standard TokenInterface instance.
@@ -56,13 +55,13 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch cliend_id from GET.
      *
-     * @param Request $request
-     *   Incoming request object.
+     * @param Request                      $request
+     *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
-     *   Model manager factory for compare with database record.
+     *                                                          Model manager factory for compare with database record.
      *
      * @return string
-     *   Supplied client_id from incoming request.
+     *                Supplied client_id from incoming request.
      *
      * @throw InvalidRequestException
      *   If supplied client_id in bad format.
@@ -97,16 +96,16 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch redirect_uri from GET.
      *
-     * @param Request $request
-     *   Incoming request object.
+     * @param Request                      $request
+     *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
-     *   Model manager factory for compare with database record.
-     * @param string client_id
-     *   Corresponding client_id that code should belongs to.
+     *                                                          Model manager factory for compare with database record.
+     *                                                          @param string client_id
+     *                                                          Corresponding client_id that code should belongs to.
      *
      * @return string
-     *   The supplied redirect_uri from incoming request, or from stored
-     *   record.
+     *                The supplied redirect_uri from incoming request, or from stored
+     *                record.
      *
      * @throw InvalidRequestException
      *   If redirect_uri not exists in both incoming request and database

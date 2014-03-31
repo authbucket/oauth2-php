@@ -39,6 +39,7 @@ class ClientToken extends AbstractToken
     public function setClient($client)
     {
         $this->client = $client;
+
         return $this;
     }
 

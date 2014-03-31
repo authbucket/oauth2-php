@@ -36,6 +36,7 @@ class ResourceController
         $data = array(
             'username' => $this->securityContext->getToken()->getUser(),
         );
+
         return JsonResponse::create($data);
     }
 }

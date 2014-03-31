@@ -22,10 +22,10 @@ interface TokenTypeHandlerFactoryInterface
      * Gets a stored token type handler.
      *
      * @param string $type
-     *   Type of token type handler, as refer to RFC6749.
+     *                     Type of token type handler, as refer to RFC6749.
      *
      * @return GrantTypeHandlerInterface
-     *   The stored token type handler.
+     *                                   The stored token type handler.
      *
      * @throw UnsupportedGrantTypeException
      *   If supplied token type not found.

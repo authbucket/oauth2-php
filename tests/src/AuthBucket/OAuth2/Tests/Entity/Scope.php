@@ -51,7 +51,7 @@ class Scope implements ScopeInterface
     /**
      * Set scope
      *
-     * @param string $scope
+     * @param  string $scope
      * @return Scope
      */
     public function setScope($scope)

@@ -11,9 +11,6 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Exception\InvalidClientException;
-use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Util\JsonResponse;
@@ -56,6 +53,7 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
             $username,
             $scope
         );
+
         return JsonResponse::create($parameters);
     }
 }

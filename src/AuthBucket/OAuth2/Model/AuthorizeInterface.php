@@ -16,7 +16,7 @@ interface AuthorizeInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param  string    $client_id
      * @return Authorize
      */
     public function setClientId($client_id);
@@ -31,7 +31,7 @@ interface AuthorizeInterface extends ModelInterface
     /**
      * Set username
      *
-     * @param string $username
+     * @param  string    $username
      * @return Authorize
      */
     public function setUsername($username);
@@ -46,7 +46,7 @@ interface AuthorizeInterface extends ModelInterface
     /**
      * Set scope
      *
-     * @param array $scope
+     * @param  array     $scope
      * @return Authorize
      */
     public function setScope($scope);

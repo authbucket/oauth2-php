@@ -31,6 +31,7 @@ class AccessTokenRepository extends EntityRepository implements AccessTokenManag
     public function createAccessToken()
     {
         $class = $this->getClass();
+
         return new $class();
     }
 

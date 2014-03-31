@@ -10,15 +10,9 @@
  */
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\Common\Persistence\PersistentObject;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\Provider\OAuth2ServiceProvider;
@@ -30,9 +24,6 @@ use Silex\Provider\SecurityServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
-use Silex\WebTestCase as SilexWebTestCase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 
 $app = new Application();
@@ -66,7 +57,7 @@ $app['security.encoder.digest'] = $app->share(function ($app) {
 });
 
 // Add model managers from ORM.
-$app['authbucket_oauth2.model_manager.factory'] = $app->share(function($app) {
+$app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
     return new ModelManagerFactory($app['authbucket_oauth2.orm'], $app['authbucket_oauth2.model']);
 });
 

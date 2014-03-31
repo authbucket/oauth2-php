@@ -79,7 +79,7 @@ class RefreshToken implements RefreshTokenInterface
     /**
      * Set refresh_token
      *
-     * @param string $refresh_token
+     * @param  string       $refresh_token
      * @return RefreshToken
      */
     public function setRefreshToken($refresh_token)
@@ -102,7 +102,7 @@ class RefreshToken implements RefreshTokenInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param  string       $client_id
      * @return RefreshToken
      */
     public function setClientId($client_id)
@@ -125,7 +125,7 @@ class RefreshToken implements RefreshTokenInterface
     /**
      * Set username
      *
-     * @param string $username
+     * @param  string       $username
      * @return RefreshToken
      */
     public function setUsername($username)
@@ -148,7 +148,7 @@ class RefreshToken implements RefreshTokenInterface
     /**
      * Set expires
      *
-     * @param \DateTime $expires
+     * @param  \DateTime    $expires
      * @return RefreshToken
      */
     public function setExpires($expires)
@@ -171,7 +171,7 @@ class RefreshToken implements RefreshTokenInterface
     /**
      * Set scope
      *
-     * @param array $scope
+     * @param  array        $scope
      * @return RefreshToken
      */
     public function setScope($scope)

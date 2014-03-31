@@ -11,13 +11,8 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
-use AuthBucket\OAuth2\Exception\InvalidClientException;
-use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Exception\InvalidScopeException;
-use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Util\JsonResponse;
 use AuthBucket\OAuth2\Util\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;

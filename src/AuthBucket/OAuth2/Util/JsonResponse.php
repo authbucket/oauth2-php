@@ -26,6 +26,7 @@ class JsonResponse extends BaseJsonResponse
             'Cache-Control' => 'no-store',
             'Pragma' => 'no-cache',
         ));
+
         return BaseJsonResponse::create($data, $status, $headers);
     }
 }

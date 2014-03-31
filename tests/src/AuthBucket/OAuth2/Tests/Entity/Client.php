@@ -65,7 +65,7 @@ class Client implements ClientInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param  string $client_id
      * @return Client
      */
     public function setClientId($client_id)
@@ -88,7 +88,7 @@ class Client implements ClientInterface
     /**
      * Set client_secret
      *
-     * @param string $client_secret
+     * @param  string $client_secret
      * @return Client
      */
     public function setClientSecret($client_secret)
@@ -111,7 +111,7 @@ class Client implements ClientInterface
     /**
      * Set redirect_uri
      *
-     * @param string $redirect_uri
+     * @param  string $redirect_uri
      * @return Client
      */
     public function setRedirectUri($redirect_uri)

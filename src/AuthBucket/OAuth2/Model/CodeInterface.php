@@ -16,7 +16,7 @@ interface CodeInterface extends ModelInterface
     /**
      * Set code
      *
-     * @param string $code
+     * @param  string $code
      * @return Code
      */
     public function setCode($code);
@@ -31,7 +31,7 @@ interface CodeInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param  string $client_id
      * @return Code
      */
     public function setClientId($client_id);
@@ -46,7 +46,7 @@ interface CodeInterface extends ModelInterface
     /**
      * Set username
      *
-     * @param string $username
+     * @param  string $username
      * @return Code
      */
     public function setUsername($username);
@@ -61,7 +61,7 @@ interface CodeInterface extends ModelInterface
     /**
      * Set redirect_uri
      *
-     * @param string $redirect_uri
+     * @param  string $redirect_uri
      * @return Code
      */
     public function setRedirectUri($redirect_uri);
@@ -76,7 +76,7 @@ interface CodeInterface extends ModelInterface
     /**
      * Set expires
      *
-     * @param integer $expires
+     * @param  integer $expires
      * @return Code
      */
     public function setExpires($expires);
@@ -91,7 +91,7 @@ interface CodeInterface extends ModelInterface
     /**
      * Set scope
      *
-     * @param array $scope
+     * @param  array $scope
      * @return Code
      */
     public function setScope($scope);

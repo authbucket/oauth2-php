@@ -11,10 +11,8 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
@@ -75,19 +73,20 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             $username,
             $scope
         );
+
         return JsonResponse::create($parameters);
     }
 
     /**
      * Fetch username from POST.
      *
-     * @param Request $request
-     *   Incoming request object.
+     * @param Request                      $request
+     *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
-     *   Model manager factory for compare with database record.
+     *                                                          Model manager factory for compare with database record.
      *
      * @return string
-     *   The supplied username.
+     *                The supplied username.
      *
      * @throw InvalidRequestException
      *   If username or password in invalid format.

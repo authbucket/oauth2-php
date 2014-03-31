@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\Tests;
 
-use AuthBucket\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -50,6 +50,7 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
                 $handler = new $class;
                 break;
             }
+
             return $handler;
         }
 
