@@ -11,7 +11,7 @@
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Cache\ApcCache;
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -54,8 +54,8 @@ $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
 
     $config = Setup::createConfiguration(false);
     $config->setMetadataDriverImpl($driver);
-    $config->setMetadataCacheImpl(new ApcCache());
-    $config->setQueryCacheImpl(new ApcCache());
+    $config->setMetadataCacheImpl(new ArrayCache());
+    $config->setQueryCacheImpl(new ArrayCache());
 
     return EntityManager::create($conn, $config, $event_manager);
 });
