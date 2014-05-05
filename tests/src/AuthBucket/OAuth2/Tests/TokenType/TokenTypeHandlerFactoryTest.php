@@ -43,6 +43,17 @@ class TokenTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \AuthBucket\OAuth2\Exception\ServerErrorException
      */
+    public function testNonExistsTokenTypeHandler()
+    {
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
+            'foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\NonExistsTokenTypeHandler',
+        ));
+        $tokenTypeHandlerFactory->addTokenTypeHandler('foo', $tokenTypeHandler);
+    }
+
+    /**
+     * @expectedException \AuthBucket\OAuth2\Exception\ServerErrorException
+     */
     public function testBadAddTokenTypeHandler()
     {
         $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
