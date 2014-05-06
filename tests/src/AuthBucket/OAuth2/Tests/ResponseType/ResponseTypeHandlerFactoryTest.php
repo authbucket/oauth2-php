@@ -36,6 +36,16 @@ class BarResponseTypeHandler implements ResponseTypeHandlerInterface
 
 class ResponseTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @expectedException \AuthBucket\OAuth2\Exception\UnsupportedResponseTypeException
+     */
+    public function testNonExistsResponseTypeHandler()
+    {
+        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory(array(
+            'foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\NonExistsResponseTypeHandler',
+        ));
+        $responseTypeHandlerFactory->addResponseTypeHandler('foo', $responseTypeHandler);
+    }
 
     /**
      * @expectedException \AuthBucket\OAuth2\Exception\UnsupportedResponseTypeException
