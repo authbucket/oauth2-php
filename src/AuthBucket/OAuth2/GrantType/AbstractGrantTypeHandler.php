@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
@@ -43,12 +42,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         SecurityContextInterface $securityContext
     )
     {
-        $token = $securityContext->getToken();
-        if (!$token instanceof ClientToken) {
-            throw new InvalidClientException();
-        }
+        $client_id = $securityContext->getToken()->getClientId();
 
-        return $token->getClientId();
+        return $client_id;
     }
 
     /**

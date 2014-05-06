@@ -44,12 +44,9 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         SecurityContextInterface $securityContext
     )
     {
-        $token = $securityContext->getToken();
-        if (!$token instanceof TokenInterface) {
-            throw new ServerErrorException();
-        }
+        $username = $securityContext->getToken()->getUsername();
 
-        return $token->getUsername();
+        return $username;
     }
 
     /**
