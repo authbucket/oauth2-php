@@ -45,6 +45,17 @@ class GrantTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException
      */
+    public function testNonExistsGrantTypeHandler()
+    {
+        $grantTypeHandlerFactory = new GrantTypeHandlerFactory(array(
+            'foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\NonExistsGrantTypeHandler',
+        ));
+        $grantTypeHandlerFactory->addGrantTypeHandler('foo', $grantTypeHandler);
+    }
+
+    /**
+     * @expectedException \AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException
+     */
     public function testBadAddGrantTypeHandler()
     {
         $grantTypeHandlerFactory = new GrantTypeHandlerFactory(array(
