@@ -21,34 +21,29 @@ class ExceptionListener
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-
-        // determine the actual cause for the exception
-        while (null !== $previous = $exception->getPrevious()) {
-            $exception = $previous;
-        }
-
-        if ($exception instanceof ExceptionInterface) {
-            $response = $this->getResponse($exception);
-        } else {
-            return;
-        }
-
-        $event->setResponse($response);
+        do {
+            if ($exception instanceof ExceptionInterface) {
+                return $this->handleException($event, $exception);
+            }
+        } while (null !== $exception = $exception->getPrevious());
     }
 
-    private function getResponse(ExceptionInterface $exception)
+    private function handleException(
+        GetResponseForExceptionEvent $event,
+        ExceptionInterface $exception
+    )
     {
         $message = unserialize($exception->getMessage());
-        $code = $exception->getCode();
 
         if (isset($message['redirect_uri'])) {
             $redirect_uri = $message['redirect_uri'];
             unset($message['redirect_uri']);
             $response = RedirectResponse::create($redirect_uri, $message);
         } else {
+            $code = $exception->getCode();
             $response = JsonResponse::create($message, $code);
         }
 
-        return $response;
+        $event->setResponse($response);
     }
 }
