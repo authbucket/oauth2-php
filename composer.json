@@ -31,11 +31,11 @@
         "symfony/security": ">=2.3,<2.6-dev"
     },
     "require-dev": {
-        "doctrine/data-fixtures": "~1.0",
-        "doctrine/orm": "~2.2",
+        "doctrine/data-fixtures": "1.0.*",
+        "doctrine/orm": "~2.2,>=2.2.3",
         "phpunit/phpunit": "4.0.*",
         "satooshi/php-coveralls": "dev-master",
-        "silex/silex": "~1.1",
+        "silex/silex": "~1.2",
         "symfony/browser-kit": ">=2.3,<2.6-dev",
         "symfony/config": ">=2.3,<2.6-dev",
         "symfony/css-selector": ">=2.3,<2.6-dev",
