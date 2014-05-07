@@ -33,7 +33,7 @@
     "require-dev": {
         "doctrine/data-fixtures": "1.0.*",
         "doctrine/orm": "~2.2,>=2.2.3",
-        "phpunit/phpunit": "4.0.*",
+        "phpunit/phpunit": "4.1.*",
         "satooshi/php-coveralls": "dev-master",
         "silex/silex": "~1.2",
         "symfony/browser-kit": ">=2.3,<2.6-dev",
