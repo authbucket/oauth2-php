@@ -29,7 +29,12 @@ use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 
-class NullUserProviderTest extends SilexWebTestCase
+/**
+ * Test Silex service provider without user provider initialization.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
+class WebTestCaseNullUserProviderTest extends SilexWebTestCase
 {
     public function createApplication()
     {
