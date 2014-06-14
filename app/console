@@ -268,7 +268,7 @@ EOT
         $executor = new ORMExecutor($em, $purger);
 
         $loader = new Loader();
-        $loader->loadFromDirectory(__DIR__ . '/../src/AuthBucket/OAuth2/Tests/DataFixtures/ORM');
+        $loader->loadFromDirectory(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/DataFixtures/ORM');
         $executor->execute($loader->getFixtures());
     });
 

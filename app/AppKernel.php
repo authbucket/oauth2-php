@@ -41,7 +41,7 @@ $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
     $event_manager = $app['dbs.event_manager']['default'];
 
-    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../src/AuthBucket/OAuth2/Tests/Entity'));
+    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/Entity'));
 
     $config = Setup::createConfiguration(false);
     $config->setMetadataDriverImpl($driver);

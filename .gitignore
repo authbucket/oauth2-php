@@ -2,4 +2,4 @@ build/
 composer.lock
 composer.phar
 vendor/
-tests/app/cache/*/.ht*
+app/cache/*/.ht*
