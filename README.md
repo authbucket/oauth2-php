@@ -1,4 +1,4 @@
-AuthBucket\\OAuth2
+AuthBucket\OAuth2
 ==================
 
 [![Build Status](https://travis-ci.org/authbucket/oauth2.svg?branch=master)](https://travis-ci.org/authbucket/oauth2)
@@ -9,7 +9,7 @@ AuthBucket\\OAuth2
 [![License](https://poser.pugx.org/authbucket/oauth2/license.png)](https://packagist.org/packages/authbucket/oauth2)
 
 The primary goal of
-[AuthBucket\\OAuth2](https://github.com/authbucket/oauth2) is to
+[AuthBucket\OAuth2](https://github.com/authbucket/oauth2) is to
 develop a standards compliant [RFC6749
 OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
