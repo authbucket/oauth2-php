@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__ . '/config_prod.php';
+require __DIR__ . '/config.php';
 
 $app['db.options'] = array(
     'driver' => 'pdo_sqlite',
