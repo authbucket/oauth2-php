@@ -1,4 +1,4 @@
-AuthBucket\OAuth2
+AuthBucket\\OAuth2
 ==================
 
 [![Build Status](https://travis-ci.org/authbucket/oauth2.svg?branch=master)](https://travis-ci.org/authbucket/oauth2)
@@ -9,8 +9,8 @@ AuthBucket\OAuth2
 [![License](https://poser.pugx.org/authbucket/oauth2/license.png)](https://packagist.org/packages/authbucket/oauth2)
 
 The primary goal of
-[AuthBucket\OAuth2](https://github.com/authbucket/oauth2) is to
-develop a standards compliant [RFC6749
+[AuthBucket\\OAuth2](https://github.com/authbucket/oauth2) is to develop
+a standards compliant [RFC6749
 OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://www.symfony.com) and [Drupal module](http://drupal.org).
@@ -31,11 +31,12 @@ installed by adding the package to your `composer.json`:
 Documentation
 -------------
 
-The automatically generated doxygen can be found from
-http://authbucket.github.io/oauth2.
+The automatically generated [Sami](https://github.com/fabpot/Sami) can
+be found from http://authbucket.github.io/oauth2.
 
 If you hope to build the document locally, please execute
-`doxygen config.doxygen` and it will goes to `build/_gh_pages` folder.
+`sami.php update app/config/sami.php` and it will goes to `build/oauth2`
+folder.
 
 Continuous Integration
 ----------------------
