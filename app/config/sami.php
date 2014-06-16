@@ -18,7 +18,7 @@ $versions = GitVersionCollection::create($dir)
 return new Sami($iterator, array(
     'theme' => 'enhanced',
     'versions' => $versions,
-    'title' => ' AuthBucket\OAuth2',
+    'title' => ' AuthBucket\\OAuth2',
     'build_dir' => __DIR__ . '/../../build/oauth2/%version%',
     'cache_dir' => __DIR__ . '/../../build/cache/oauth2/%version%',
     'include_parent_data' => false,
