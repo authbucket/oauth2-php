@@ -11,6 +11,11 @@
 
 namespace AuthBucket\OAuth2\Model;
 
+/**
+ * OAuth2 authorize manager interface.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 interface AuthorizeManagerInterface extends ModelManagerInterface
 {
     public function createAuthorize();

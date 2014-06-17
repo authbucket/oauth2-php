@@ -11,6 +11,11 @@
 
 namespace AuthBucket\OAuth2\Model;
 
+/**
+ * OAuth2 client manager interface.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 interface ClientManagerInterface extends ModelManagerInterface
 {
     public function createClient();

@@ -15,6 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
 use AuthBucket\OAuth2\Exception\TemporarilyUnavailableException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 
+/**
+ * MAC token type handler implementation.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class MacTokenTypeHandler implements TokenTypeHandlerInterface
 {
     public function getAccessToken(Request $request)

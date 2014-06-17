@@ -16,6 +16,11 @@ use AuthBucket\OAuth2\Util\JsonResponse;
 use AuthBucket\OAuth2\Util\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
+/**
+ * ExceptionListener.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 class ExceptionListener
 {
     public function onKernelException(GetResponseForExceptionEvent $event)
