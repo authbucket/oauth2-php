@@ -11,11 +11,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
-// Hello World!!
-$app->get('/', function (Request $request) use ($app) {
-    return 'Hello World!!';
+// Client.
+$app->get('/client', function (Request $request) use ($app) {
+    return 'client';
 });
-
-require __DIR__ . '/routing_auth.php';
-require __DIR__ . '/routing_client.php';
-require __DIR__ . '/routing_resource.php';

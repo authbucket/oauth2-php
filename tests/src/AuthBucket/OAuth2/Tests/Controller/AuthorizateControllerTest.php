@@ -25,7 +25,7 @@ class AuthorizateControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/auth/oauth2/authorize', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $token_response = json_decode($client->getResponse()->getContent(), true);
@@ -44,7 +44,7 @@ class AuthorizateControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/auth/oauth2/authorize', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $token_response = json_decode($client->getResponse()->getContent(), true);
