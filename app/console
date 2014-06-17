@@ -274,14 +274,15 @@ EOT
         $executor->execute($loader->getFixtures());
     });
 
-$console
-    ->register('server:run')
-    ->setName('server:run')
-    ->setDescription('Runs PHP built-in web server')
-    ->addArgument('address', InputArgument::OPTIONAL, 'Address:port', '127.0.0.1:8000')
-    ->addOption('docroot', 'd', InputOption::VALUE_REQUIRED, 'Document root', 'web/')
-    ->addOption('router', 'r', InputOption::VALUE_REQUIRED, 'Path to custom router script')
-    ->setHelp(<<<EOF
+if (version_compare(phpversion(), '5.4.0', '>') && !defined('HHVM_VERSION')) {
+    $console
+        ->register('server:run')
+        ->setName('server:run')
+        ->setDescription('Runs PHP built-in web server')
+        ->addArgument('address', InputArgument::OPTIONAL, 'Address:port', '127.0.0.1:8000')
+        ->addOption('docroot', 'd', InputOption::VALUE_REQUIRED, 'Document root', 'web/')
+        ->addOption('router', 'r', InputOption::VALUE_REQUIRED, 'Path to custom router script')
+        ->setHelp(<<<EOF
 The <info>%command.name%</info> runs PHP built-in web server:
 
 <info>%command.full_name%</info>
@@ -305,21 +306,22 @@ Specifing a router script is required when the used environment is not "dev" or
 See also: http://www.php.net/manual/en/features.commandline.webserver.php
 
 EOF
-)
-    ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $output->writeln(sprintf("Server running on <info>http://%s</info>\n", $input->getArgument('address')));
+    )
+        ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
+            $output->writeln(sprintf("Server running on <info>http://%s</info>\n", $input->getArgument('address')));
 
-        $env = $input->getParameterOption(array('--env', '-e'), 'dev');
-        $router = $input->getOption('router') ?: __DIR__ . sprintf('/config/router_%s.php', $env);
+            $env = $input->getParameterOption(array('--env', '-e'), 'dev');
+            $router = $input->getOption('router') ?: __DIR__ . sprintf('/config/router_%s.php', $env);
 
-        $builder = new ProcessBuilder(array(PHP_BINARY, '-S', $input->getArgument('address'), $router));
-        $builder->setWorkingDirectory($input->getOption('docroot'));
-        $builder->setTimeout(null);
-        $builder->getProcess()->run(function ($type, $buffer) use ($output) {
-            if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-                $output->write($buffer);
-            }
+            $builder = new ProcessBuilder(array(PHP_BINARY, '-S', $input->getArgument('address'), $router));
+            $builder->setWorkingDirectory($input->getOption('docroot'));
+            $builder->setTimeout(null);
+            $builder->getProcess()->run(function ($type, $buffer) use ($output) {
+                if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+                    $output->write($buffer);
+                }
+            });
         });
-    });
+}
 
 $console->run($input);

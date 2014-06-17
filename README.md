@@ -28,6 +28,31 @@ installed by adding the package to your `composer.json`:
       }
     }
 
+Demo Application
+----------------
+
+This library also bundle with a demo application that can be run
+locally. Open a console and execute the following command to install the
+latest version in the oauth2/ directory:
+
+    $ composer create-project authbucket/oauth2 oauth2/ dev-master
+
+Then use the PHP built-in web server to run the demo application:
+
+    $ cd oauth2/
+    $ php app/console server:run
+
+If you get the error There are no commands defined in the "server"
+namespace., then you are probably using PHP 5.3. That's ok! But the
+built-in web server is only available for PHP 5.4.0 or higher. If you
+have an older version of PHP or if you prefer a traditional web server
+such as Apache or Nginx, read the [Configuring a web
+server](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html)
+article.
+
+Open your browser and access the http://localhost:8000 URL to see the
+Welcome page of demo application.
+
 Documentation
 -------------
 
