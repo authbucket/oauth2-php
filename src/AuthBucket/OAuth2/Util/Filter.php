@@ -12,7 +12,7 @@
 namespace AuthBucket\OAuth2\Util;
 
 /**
- * A simple Doctrine ORM service provider for OAuth2.
+ * Filter input POST/GET parameters in OAuth2 style.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
