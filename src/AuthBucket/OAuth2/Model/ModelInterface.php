@@ -11,6 +11,11 @@
 
 namespace AuthBucket\OAuth2\Model;
 
+/**
+ * OAuth2 model interface.
+ *
+ * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
+ */
 interface ModelInterface
 {
 }
