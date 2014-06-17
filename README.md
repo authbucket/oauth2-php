@@ -1,11 +1,16 @@
 AuthBucket\\OAuth2
 ==================
 
-[![Build Status](https://travis-ci.org/authbucket/oauth2.svg?branch=master)](https://travis-ci.org/authbucket/oauth2)
-[![Coverage Status](https://coveralls.io/repos/authbucket/oauth2/badge.png?branch=master)](https://coveralls.io/r/authbucket/oauth2?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/5338d5457bae4b06600000b7/badge.svg)](https://www.versioneye.com/user/projects/5338d5457bae4b06600000b7)
-[![Latest Stable Version](https://poser.pugx.org/authbucket/oauth2/v/stable.png)](https://packagist.org/packages/authbucket/oauth2)
-[![Total Downloads](https://poser.pugx.org/authbucket/oauth2/downloads.png)](https://packagist.org/packages/authbucket/oauth2)
+[![Build
+Status](https://travis-ci.org/authbucket/oauth2.svg?branch=master)](https://travis-ci.org/authbucket/oauth2)
+[![Coverage
+Status](https://coveralls.io/repos/authbucket/oauth2/badge.png?branch=master)](https://coveralls.io/r/authbucket/oauth2?branch=master)
+[![Dependency
+Status](https://www.versioneye.com/user/projects/5338d5457bae4b06600000b7/badge.svg)](https://www.versioneye.com/user/projects/5338d5457bae4b06600000b7)
+[![Latest Stable
+Version](https://poser.pugx.org/authbucket/oauth2/v/stable.png)](https://packagist.org/packages/authbucket/oauth2)
+[![Total
+Downloads](https://poser.pugx.org/authbucket/oauth2/downloads.png)](https://packagist.org/packages/authbucket/oauth2)
 [![License](https://poser.pugx.org/authbucket/oauth2/license.png)](https://packagist.org/packages/authbucket/oauth2)
 
 The primary goal of
@@ -56,12 +61,21 @@ Welcome page of demo application.
 Documentation
 -------------
 
-The automatically generated [Sami](https://github.com/fabpot/Sami) can
-be found from http://authbucket.github.io/oauth2.
+OAuth2's documentation is built with
+[Sami](https://github.com/fabpot/Sami) and publicly hosted on GitHub
+Pages at http://authbucket.github.io/oauth2. The docs may also built
+locally.
 
-If you hope to build the document locally, please execute
-`sami.php update app/config/sami.php` and it will goes to `build/oauth2`
-folder.
+### Built documentation locally
+
+-   If necessary, [install
+    Sami](https://github.com/fabpot/Sami#installation).
+-   From the root directory, run `sami.php update app/config/sami.php`
+    in the command line.
+-   Open `build/oauth2/index.html` in your browser.
+
+Learn more about using Sami by reading its
+[documentation](https://github.com/fabpot/Sami/blob/master/README.rst).
 
 Continuous Integration
 ----------------------
