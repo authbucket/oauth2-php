@@ -10,27 +10,26 @@
  */
 
 $app['security.firewalls'] = array(
-    'auth_login' => array(
-        'pattern' => '^/auth/login$',
+    'login' => array(
+        'pattern' => '^/login$',
         'anonymous' => true,
     ),
-    'auth_token' => array(
-        'pattern' => '^/auth/oauth2/token$',
+    'token' => array(
+        'pattern' => '^/oauth2/token$',
         'oauth2_token' => true,
     ),
-    'auth_debug' => array(
-        'pattern' => '^/auth/oauth2/debug$',
+    'debug' => array(
+        'pattern' => '^/oauth2/debug$',
         'oauth2_resource' => true,
-        'stateless' => true,
     ),
-    'auth_default' => array(
-        'pattern' => '^/auth/',
+    'default' => array(
+        'pattern' => '^/oauth2/',
         'logout' => array(
-            'logout_path' => '/auth/logout',
+            'logout_path' => '/logout',
         ),
         'form' => array(
-            'login_path' => '/auth/login',
-            'check_path' => '/auth/login_check',
+            'login_path' => '/login',
+            'check_path' => '/oauth2/login_check',
         ),
         'http' => true,
         'users' => array(

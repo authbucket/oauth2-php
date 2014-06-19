@@ -103,7 +103,7 @@ class WebTestCaseNullModelManagerTest extends SilexWebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/auth/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Check basic token response that can simply compare.
@@ -119,7 +119,7 @@ class WebTestCaseNullModelManagerTest extends SilexWebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/auth/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('', $resource_response['username']);
     }
