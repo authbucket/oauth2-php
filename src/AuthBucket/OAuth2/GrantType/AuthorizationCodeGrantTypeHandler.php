@@ -156,6 +156,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
             }
         }
 
-        return $redirect_uri ? $redirect_uri : $stored;
+        return $redirect_uri
+            ?: $stored;
     }
 }

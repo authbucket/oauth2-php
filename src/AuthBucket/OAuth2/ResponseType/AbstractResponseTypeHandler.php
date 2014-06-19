@@ -140,7 +140,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             }
         }
 
-        return $redirect_uri ? $redirect_uri : $stored;
+        return $redirect_uri
+            ?: $stored;
     }
 
     protected function checkState(

@@ -65,15 +65,17 @@ class OAuth2Test extends WebTestCase
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1', $token_response['scope']);
 
-        // Query resource endpoint with access_token.
-        $parameters = array();
+        // Query debug endpoint with access_token.
+        $parameters = array(
+            'debug' => $token_response['access_token'],
+        );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/auth/oauth2/resource/username', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $crawler = $client->request('GET', '/auth/oauth2/debug', $parameters, array(), $server);
+        $debug_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $debug_response['username']);
     }
 
     public function testImplicitGrant()
@@ -106,13 +108,15 @@ class OAuth2Test extends WebTestCase
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1', $token_response['scope']);
 
-        // Query resource endpoint with access_token.
-        $parameters = array();
+        // Query debug endpoint with access_token.
+        $parameters = array(
+            'debug' => $token_response['access_token'],
+        );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/auth/oauth2/resource/username', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/auth/oauth2/debug', $parameters, array(), $server);
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $resource_response['username']);
     }
@@ -140,13 +144,15 @@ class OAuth2Test extends WebTestCase
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1', $token_response['scope']);
 
-        // Query resource endpoint with access_token.
-        $parameters = array();
+        // Query debug endpoint with access_token.
+        $parameters = array(
+            'debug' => $token_response['access_token'],
+        );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/auth/oauth2/resource/username', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/auth/oauth2/debug', $parameters, array(), $server);
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $resource_response['username']);
     }
@@ -171,13 +177,15 @@ class OAuth2Test extends WebTestCase
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
 
-        // Query resource endpoint with access_token.
-        $parameters = array();
+        // Query debug endpoint with access_token.
+        $parameters = array(
+            'debug' => $token_response['access_token'],
+        );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/auth/oauth2/resource/username', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/auth/oauth2/debug', $parameters, array(), $server);
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('', $resource_response['username']);
     }
@@ -240,13 +248,15 @@ class OAuth2Test extends WebTestCase
         $this->assertEquals('bearer', $token_response['token_type']);
         $this->assertEquals('demoscope1', $token_response['scope']);
 
-        // Query resource endpoint with access_token.
-        $parameters = array();
+        // Query debug endpoint with access_token.
+        $parameters = array(
+            'debug' => $token_response['access_token'],
+        );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/auth/oauth2/resource/username', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/auth/oauth2/debug', $parameters, array(), $server);
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $resource_response['username']);
     }

@@ -25,9 +25,9 @@ $app->get('/auth/login', function (Request $request) use ($app) {
     ));
 });
 
-// Resource endpoint.
-$app->match('/auth/oauth2/resource/username', function (Request $request, Application $app) {
-    return $app['authbucket_oauth2.resource_controller']->usernameAction($request);
+// Authorization endpoint.
+$app->get('/auth/oauth2/authorize', function (Request $request, Application $app) {
+    return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
 });
 
 // Token endpoint.
@@ -35,7 +35,7 @@ $app->post('/auth/oauth2/token', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.token_controller']->tokenAction($request);
 });
 
-// Authorization endpoint.
-$app->get('/auth/oauth2/authorize', function (Request $request, Application $app) {
-    return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
+// Debug endpoint.
+$app->match('/auth/oauth2/debug', function (Request $request, Application $app) {
+    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
 });

@@ -14,14 +14,14 @@ $app['security.firewalls'] = array(
         'pattern' => '^/auth/login$',
         'anonymous' => true,
     ),
-    'auth_resource' => array(
-        'pattern' => '^/auth/oauth2/resource/username',
+    'auth_token' => array(
+        'pattern' => '^/auth/oauth2/token$',
+        'oauth2_token' => true,
+    ),
+    'auth_debug' => array(
+        'pattern' => '^/auth/oauth2/debug$',
         'oauth2_resource' => true,
         'stateless' => true,
-    ),
-    'auth_token' => array(
-        'pattern' => '^/auth/oauth2/token',
-        'oauth2_token' => true,
     ),
     'auth_default' => array(
         'pattern' => '^/auth/',

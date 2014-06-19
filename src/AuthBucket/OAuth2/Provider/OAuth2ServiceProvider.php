@@ -12,7 +12,7 @@
 namespace AuthBucket\OAuth2\Provider;
 
 use AuthBucket\OAuth2\Controller\AuthorizeController;
-use AuthBucket\OAuth2\Controller\ResourceController;
+use AuthBucket\OAuth2\Controller\DebugController;
 use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\EventListener\ExceptionListener;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
@@ -109,9 +109,9 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
             );
         });
 
-        $app['authbucket_oauth2.resource_controller'] = $app->share(function () use ($app) {
-            return new ResourceController(
-                $app['security']
+        $app['authbucket_oauth2.debug_controller'] = $app->share(function () use ($app) {
+            return new DebugController(
+                $app['authbucket_oauth2.model_manager.factory']
             );
         });
 
