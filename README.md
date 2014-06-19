@@ -24,7 +24,7 @@ Installation
 ------------
 
 This library is provided as a [Composer
-package](https://packagist.org/packages/authbucket/oauth2) which cna be
+package](https://packagist.org/packages/authbucket/oauth2) which can be
 installed by adding the package to your `composer.json`:
 
     {
@@ -36,9 +36,10 @@ installed by adding the package to your `composer.json`:
 Demo Application
 ----------------
 
-This library also bundle with a demo application that can be run
-locally. Open a console and execute the following command to install the
-latest version in the oauth2/ directory:
+This library bundle with a [Silex](https://github.com/silexphp/Silex)
+based demo application that can be run locally. Open a console and
+execute the following command to install the latest version in the
+oauth2/ directory:
 
     $ composer create-project authbucket/oauth2 oauth2/ dev-master
 
@@ -47,15 +48,16 @@ Then use the PHP built-in web server to run the demo application:
     $ cd oauth2/
     $ php app/console server:run
 
-If you get the error There are no commands defined in the "server"
-namespace., then you are probably using PHP 5.3. That's ok! But the
-built-in web server is only available for PHP 5.4.0 or higher. If you
-have an older version of PHP or if you prefer a traditional web server
-such as Apache or Nginx, read the [Configuring a web
+If you get the error
+`There are no commands defined in the "server" namespace.`, then you are
+probably using PHP 5.3. That's ok! But the built-in web server is only
+available for PHP 5.4.0 or higher. If you have an older version of PHP
+or if you prefer a traditional web server such as Apache or Nginx, read
+the [Configuring a web
 server](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html)
 article.
 
-Open your browser and access the http://localhost:8000 URL to see the
+Open your browser and access the <http://localhost:8000> URL to see the
 Welcome page of demo application.
 
 Documentation
@@ -63,32 +65,30 @@ Documentation
 
 OAuth2's documentation is built with
 [Sami](https://github.com/fabpot/Sami) and publicly hosted on GitHub
-Pages at http://authbucket.github.io/oauth2. The docs may also built
-locally.
+Pages at http://authbucket.github.io/oauth2. The documents may also
+built locally.
 
-### Built documentation locally
+To built the documents locally, execute the following command:
 
--   If necessary, [install
-    Sami](https://github.com/fabpot/Sami#installation).
--   From the root directory, run `sami.php update app/config/sami.php`
-    in the command line.
--   Open `build/oauth2/index.html` in your browser.
+    $ vendor/bin/sami.php update app/config/sami.php
 
-Learn more about using Sami by reading its
-[documentation](https://github.com/fabpot/Sami/blob/master/README.rst).
+Open `build/oauth2/index.html` with your browser for the documents.
 
-Continuous Integration
-----------------------
+Tests
+-----
 
-This project is coverage with phpunit test cases, where CI result can be
-found from https://travis-ci.org/authbucket/oauth2.
+This project is coverage with [PHPUnit](http://phpunit.de/) test cases,
+where CI result can be found from
+<https://travis-ci.org/authbucket/oauth2>.
 
 Code coverage CI result can be found from
-https://coveralls.io/r/authbucket/oauth2.
+<https://coveralls.io/r/authbucket/oauth2>.
 
-If you hope to run the test cases locally, please execute
-`phpunit -c phpunit.xml.dist`. Coverage report can be found from
-`build/logs/html` folder.
+To run the test suite, execute the following command:
+
+    $ vendor/bin/phpunit
+
+Open `build/logs/html` with your browser for the coverage report.
 
 References
 ----------

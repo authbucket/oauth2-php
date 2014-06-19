@@ -24,7 +24,7 @@ $app['security.firewalls'] = array(
         'oauth2_token' => true,
     ),
     'auth_default' => array(
-        'pattern' => '^/auth',
+        'pattern' => '^/auth/',
         'logout' => array(
             'logout_path' => '/auth/logout',
         ),
