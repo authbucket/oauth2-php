@@ -24,7 +24,7 @@ $app['security.firewalls'] = array(
     'authorize' => array(
         'pattern' => '^/oauth2/authorize',
         'logout' => array(
-            'logout_path' => '/logout',
+            'logout_path' => '/oauth2/authorize/logout',
         ),
         'form' => array(
             'login_path' => '/login',

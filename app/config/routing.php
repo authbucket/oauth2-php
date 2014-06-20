@@ -14,14 +14,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 // Hello World!!
 $app->get('/', function (Request $request) use ($app) {
-    return 'Hello World!!';
+    return $app['twig']->render('html.html.twig', array(
+        'head_title' => 'Hello World!!',
+        'page' => $app['twig']->render('index.html.twig'),
+    ));
 });
 
 // Form login.
 $app->get('/login', function (Request $request) use ($app) {
-    return $app['twig']->render('login.html.twig', array(
-        'error' => $app['security.last_error']($request),
-        'last_username' => $app['session']->get('_security.last_username'),
+    return $app['twig']->render('html.html.twig', array(
+        'head_title' => 'Form login',
+        'page' => $app['twig']->render('login.html.twig', array(
+            'error' => $app['security.last_error']($request),
+            'last_username' => $app['session']->get('_security.last_username'),
+        )),
     ));
 });
 
