@@ -71,6 +71,6 @@ $app['authbucket_oauth2.token_controller'] = $app->share(function () use ($app) 
         $app['authbucket_oauth2.model_manager.factory'],
         $app['authbucket_oauth2.grant_handler.factory'],
         $app['authbucket_oauth2.token_handler.factory'],
-        $app['security.user_provider.default']
+        $app['security.user_provider.authorize']
     );
 });
