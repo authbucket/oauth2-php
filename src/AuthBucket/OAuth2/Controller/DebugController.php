@@ -40,6 +40,11 @@ class DebugController
         // Fetch access_token from GET.
         $debug = $this->getDebug($request);
         $access_token = $accessTokenManager->findAccessTokenByAccessToken($debug);
+        if (null === $access_token) {
+            throw new InvalidRequestException();
+        } elseif ($access_token->getExpires() < new \DateTime()) {
+            throw new InvalidRequestException();
+        }
 
         // Handle debug endpoint response.
         $parameters = array(
@@ -56,11 +61,16 @@ class DebugController
 
     private function getDebug(Request $request)
     {
-        // Validate and set access_token.
+        // Fetch debug token from GET/POST.
         $debug = $request->query->get('debug')
             ?: $request->request->get('debug');
+        if (null === $debug) {
+            throw new InvalidRequestException();
+        }
+
+        // Validate debug token.
         $query = array(
-            'access_token' => $debug
+            'access_token' => $debug,
         );
         if (!Filter::filter($query)) {
             throw new InvalidRequestException();

@@ -30,6 +30,17 @@ class AccessTokenFixture implements FixtureInterface
             ));
         $manager->persist($model);
 
+        $model = new AccessToken();
+        $model->setAccessToken('d2b58c4c6bc0cc9fefca2d558f1221a5')
+            ->setTokenType('bearer')
+            ->setClientId('http://democlient1.com/')
+            ->setUsername('demousername1')
+            ->setExpires(new \DateTime('-1 hours'))
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $manager->persist($model);
+
         $manager->flush();
     }
 }
