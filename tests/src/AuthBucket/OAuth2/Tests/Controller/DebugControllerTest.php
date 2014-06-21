@@ -27,7 +27,7 @@ class DebugControllerTest extends WebTestCase
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $resource_response['error']);
     }
-    
+
     public function testExceptionBadDebugToken()
     {
         $parameters = array(
@@ -41,7 +41,7 @@ class DebugControllerTest extends WebTestCase
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $resource_response['error']);
     }
-    
+
     public function testExceptionNotExistsDebugToken()
     {
         $parameters = array(
@@ -55,7 +55,7 @@ class DebugControllerTest extends WebTestCase
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $resource_response['error']);
     }
-    
+
     public function testExceptionExpiredDebugToken()
     {
         $parameters = array(
@@ -69,7 +69,7 @@ class DebugControllerTest extends WebTestCase
         $resource_response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $resource_response['error']);
     }
-    
+
     public function testGoodDebug()
     {
         $parameters = array(

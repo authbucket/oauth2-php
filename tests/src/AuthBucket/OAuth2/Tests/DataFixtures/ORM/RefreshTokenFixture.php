@@ -28,6 +28,7 @@ class RefreshTokenFixture implements FixtureInterface
                 'demoscope1',
             ));
         $manager->persist($model);
+
         $model = new RefreshToken();
         $model->setRefreshToken('302a7e7af27a25a6c052302d0dcac2c0')
             ->setClientId('http://democlient2.com/')
@@ -37,6 +38,7 @@ class RefreshTokenFixture implements FixtureInterface
                 'badscope',
             ));
         $manager->persist($model);
+
         $model = new RefreshToken();
         $model->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593b')
             ->setClientId('http://democlient3.com/')

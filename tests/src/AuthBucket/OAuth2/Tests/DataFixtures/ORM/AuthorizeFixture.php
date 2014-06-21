@@ -20,12 +20,21 @@ class AuthorizeFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $model = new Authorize();
+        $model->setClientId('authorization_code')
+            ->setUsername('demousername1')
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $manager->persist($model);
+
+        $model = new Authorize();
         $model->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
             ));
         $manager->persist($model);
+
         $model = new Authorize();
         $model->setClientId('http://democlient2.com/')
             ->setUsername('demousername2')
@@ -34,6 +43,7 @@ class AuthorizeFixture implements FixtureInterface
                 'demoscope2',
             ));
         $manager->persist($model);
+
         $model = new Authorize();
         $model->setClientId('http://democlient3.com/')
             ->setUsername('demousername3')
@@ -43,6 +53,7 @@ class AuthorizeFixture implements FixtureInterface
                 'demoscope3',
             ));
         $manager->persist($model);
+
         $model = new Authorize();
         $model->setClientId('http://democlient1.com/')
             ->setUsername('')

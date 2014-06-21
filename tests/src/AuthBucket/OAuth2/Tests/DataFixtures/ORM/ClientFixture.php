@@ -20,20 +20,29 @@ class ClientFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $model = new Client();
+        $model->setClientId('authorization_code')
+            ->setClientSecret('aeH8moiC')
+            ->setRedirectUri('http://localhost:8000/authorization_code');
+        $manager->persist($model);
+
+        $model = new Client();
         $model->setClientId('http://democlient1.com/')
             ->setClientSecret('demosecret1')
             ->setRedirectUri('http://democlient1.com/redirect_uri');
         $manager->persist($model);
+
         $model = new Client();
         $model->setClientId('http://democlient2.com/')
             ->setClientSecret('demosecret2')
             ->setRedirectUri('http://democlient2.com/redirect_uri');
         $manager->persist($model);
+
         $model = new Client();
         $model->setClientId('http://democlient3.com/')
             ->setClientSecret('demosecret3')
             ->setRedirectUri('http://democlient3.com/redirect_uri');
         $manager->persist($model);
+
         $model = new Client();
         $model->setClientId('http://democlient4.com/')
             ->setClientSecret('demosecret4')

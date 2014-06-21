@@ -30,6 +30,7 @@ class CodeFixture implements FixtureInterface
                 'demoscope2',
             ));
         $manager->persist($model);
+
         $model = new Code();
         $model->setCode('1e5aa97ddaf4b0228dfb4223010d4417')
             ->setClientId('http://democlient1.com/')
@@ -40,6 +41,7 @@ class CodeFixture implements FixtureInterface
                 'demoscope1',
             ));
         $manager->persist($model);
+
         $model = new Code();
         $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')

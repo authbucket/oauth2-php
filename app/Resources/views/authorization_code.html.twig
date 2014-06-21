@@ -1,0 +1,13 @@
+<div class="container">
+    <p>Authorization code: {{ authorization_code }}</p>
+    <form action="{{ path('oauth2_token') }}" method="post" role="form">
+        {{ error }}
+        <input class="form-control" type="hidden" name="grant_type" value="authorization_code" />
+        <input class="form-control" type="hidden" name="code" value="{{ authorization_code }}" />
+        <input class="form-control" type="hidden" name="redirect_uri" value="http://localhost:8000/authorization_code" />
+        <input class="form-control" type="hidden" name="client_id" value="authorization_code" />
+        <input class="form-control" type="hidden" name="client_secret" value="aeH8moiC" />
+        <button class="btn btn-primary" type="submit" name="submit">Get token</button>
+    </form>
+    <p><a href="{{ path('index') }}">Return</a></p>
+</div>

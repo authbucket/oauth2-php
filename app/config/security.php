@@ -13,7 +13,7 @@ $app['security.user_provider.default'] = $app['security.user_provider.inmemory._
     'demousername1' => array('ROLE_USER', 'demopassword1'),
     'demousername2' => array('ROLE_USER', 'demopassword2'),
     'demousername3' => array('ROLE_USER', 'demopassword3'),
-)); 
+));
 
 $app['security.firewalls'] = array(
     // The login_path path must always be defined outside the secured area.
