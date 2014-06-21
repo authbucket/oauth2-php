@@ -43,7 +43,7 @@ interface TokenTypeHandlerInterface
      *                                                          username this access token should belongs to.
      * @param array                        $scope
      *                                                          All scope that this access token grant.
-     *                                                          @param string state
+     * @param string state
      *                                                          Original state which should preserve.
      * @param bool                         $withRefreshToken
      *                                                          False for response_type=token.

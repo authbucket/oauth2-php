@@ -65,7 +65,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
      *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
      *                                                          Model manager factory for compare with database record.
-     *                                                          @param string client_id
+     * @param string client_id
      *                                                          Corresponding client_id that refresh_token should belongs to.
      *
      * @return array

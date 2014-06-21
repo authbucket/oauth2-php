@@ -33,6 +33,7 @@
     "require-dev": {
         "doctrine/data-fixtures": "1.0.*",
         "doctrine/orm": "~2.2,>=2.2.3",
+        "fabpot/php-cs-fixer": "@stable",
         "phpunit/phpunit": "4.1.*",
         "sami/sami": "dev-master",
         "satooshi/php-coveralls": "dev-master",

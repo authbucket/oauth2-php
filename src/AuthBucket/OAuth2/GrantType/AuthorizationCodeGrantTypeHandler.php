@@ -67,7 +67,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
      *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
      *                                                          Model manager factory for compare with database record.
-     *                                                          @param string client_id
+     * @param string client_id
      *                                                          Corresponding client_id that code should belongs to.
      *
      * @return array
@@ -114,7 +114,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
      *                                                          Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory
      *                                                          Model manager factory for compare with database record.
-     *                                                          @param string client_id
+     * @param string client_id
      *                                                          Corresponding client_id that code should belongs to.
      *
      * @return string
