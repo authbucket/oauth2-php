@@ -32,7 +32,10 @@ $app->get('/login', function (Request $request) use ($app) {
 });
 
 // Authorization endpoint.
-$app->get('/oauth2/authorize', function (Request $request, Application $app) {
+$app->get('/oauth2/authorize/http', function (Request $request, Application $app) {
+    return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
+});
+$app->get('/oauth2/authorize/form', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
 });
 

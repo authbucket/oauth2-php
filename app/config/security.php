@@ -9,6 +9,12 @@
  * file that was distributed with this source code.
  */
 
+$app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto'](array(
+    'demousername1' => array('ROLE_USER', 'demopassword1'),
+    'demousername2' => array('ROLE_USER', 'demopassword2'),
+    'demousername3' => array('ROLE_USER', 'demopassword3'),
+)); 
+
 $app['security.firewalls'] = array(
     // The login_path path must always be defined outside the secured area.
     // @link http://silex.sensiolabs.org/doc/providers/security.html#securing-a-path-with-a-form
@@ -21,21 +27,21 @@ $app['security.firewalls'] = array(
     // resource owner (e.g., username and password login, session cookies) is
     // beyond the scope of this specification.
     // @link http://tools.ietf.org/html/rfc6749#section-3.1
-    'authorize' => array(
-        'pattern' => '^/oauth2/authorize',
-        'logout' => array(
-            'logout_path' => '/oauth2/authorize/logout',
-        ),
+    'authorize_http' => array(
+        'pattern' => '^/oauth2/authorize/http$',
+        'http' => true,
+        'users' => $app['security.user_provider.default'],
+    ),
+    'authorize_form' => array(
+        'pattern' => '^/oauth2/authorize/form',
         'form' => array(
             'login_path' => '/login',
-            'check_path' => '/oauth2/authorize/login_check',
+            'check_path' => '/oauth2/authorize/form/login_check',
         ),
-        'http' => true,
-        'users' => array(
-            'demousername1' => array('ROLE_USER', 'demopassword1'),
-            'demousername2' => array('ROLE_USER', 'demopassword2'),
-            'demousername3' => array('ROLE_USER', 'demopassword3'),
+        'logout' => array(
+            'logout_path' => '/oauth2/authorize/form/logout',
         ),
+        'users' => $app['security.user_provider.default'],
     ),
     // The authorization server MUST support the HTTP Basic authentication
     // scheme for authenticating clients that were issued a client password.

@@ -36,7 +36,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         // Check basic auth response that can simply compare.
@@ -93,7 +93,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         // Check basic auth response that can simply compare.
@@ -205,7 +205,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         // Check basic auth response that can simply compare.
