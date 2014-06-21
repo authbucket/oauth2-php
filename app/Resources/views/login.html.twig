@@ -1,9 +1,21 @@
+{% extends "html.html.twig" %}
+
+{% block page %}
 <div class="container">
     <form action="{{ path('oauth2_authorize_form_login_check') }}" method="post" role="form">
         {{ error }}
-        <input class="form-control" type="text" name="_username" value="{{ last_username }}" />
-        <input class="form-control" type="password" name="_password" value="" />
-        <button class="btn btn-primary" type="submit" name="submit">Login</button>
+        <div class="form-group">
+            <label>Username</label>
+            <input class="form-control" type="text" name="_username" value="{{ last_username }}" />
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" type="password" name="_password" value="" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit" name="submit">Login</button>
+        </div>
     </form>
     <p><a href="{{ path('index') }}">Return</a></p>
 </div>
+{% endblock %}

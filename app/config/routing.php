@@ -14,20 +14,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 // Hello World!!
 $app->get('/', function (Request $request) use ($app) {
-    return $app['twig']->render('html.html.twig', array(
-        'head_title' => 'Hello World!!',
-        'page' => $app['twig']->render('index.html.twig'),
-    ));
+    return $app['twig']->render('index.html.twig');
 })->bind('index');
 
 // Form login.
 $app->get('/login', function (Request $request) use ($app) {
-    return $app['twig']->render('html.html.twig', array(
-        'head_title' => 'Form login',
-        'page' => $app['twig']->render('login.html.twig', array(
-            'error' => $app['security.last_error']($request),
-            'last_username' => $app['session']->get('_security.last_username'),
-        )),
+    return $app['twig']->render('login.html.twig', array(
+        'error' => $app['security.last_error']($request),
+        'last_username' => $app['session']->get('_security.last_username'),
     ));
 })->bind('login');
 
@@ -50,11 +44,8 @@ $app->match('/oauth2/debug', function (Request $request, Application $app) {
 })->bind('oauth2_debug');
 
 $app->get('/authorization_code', function (Request $request, Application $app) {
-    return $app['twig']->render('html.html.twig', array(
-        'head_title' => 'Authorization code',
-        'page' => $app['twig']->render('authorization_code.html.twig', array(
-            'authorization_code' => $request->query->get('code'),
-            'error' => $app['security.last_error']($request),
-        )),
+    return $app['twig']->render('authorization_code.html.twig', array(
+        'authorization_code' => $request->query->get('code'),
+        'error' => $app['security.last_error']($request),
     ));
 })->bind('authorization_code');

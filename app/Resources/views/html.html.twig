@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{{ head_title }}</title>
+        <title>{% block head_title %}AuthBucket\OAuth2 Demo Application{% endblock %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,6 +19,8 @@
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     </head>
     <body>
-        {{ page | raw }}
+        {% block page %}
+        <p>Hello World!!</p>
+        {% endblock %}
     </body>
 </html>

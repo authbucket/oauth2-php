@@ -311,7 +311,13 @@ EOF
             $output->writeln(sprintf("Server running on <info>http://%s</info>\n", $input->getArgument('address')));
 
             $env = $input->getParameterOption(array('--env', '-e'), 'dev');
-            $router = $input->getOption('router') ?: __DIR__ . sprintf('/config/router_%s.php', $env);
+            $router = $input->getOption('router') ?: sprintf('%s/config/router_%s.php', __DIR__, $env);
+
+            passthru(sprintf('php "%s/console" doctrine:database:drop --env=%s -q --force', __DIR__, $env));
+            passthru(sprintf('php "%s/console" doctrine:database:create --env=%s -q', __DIR__, $env));
+            passthru(sprintf('php "%s/console" doctrine:schema:drop --env=%s -q --force', __DIR__, $env));
+            passthru(sprintf('php "%s/console" doctrine:schema:create --env=%s -q', __DIR__, $env));
+            passthru(sprintf('php "%s/console" doctrine:fixtures:load --env=%s -q --no-interaction --purge-with-truncate', __DIR__, $env));
 
             $builder = new ProcessBuilder(array(PHP_BINARY, '-S', $input->getArgument('address'), $router));
             $builder->setWorkingDirectory($input->getOption('docroot'));
