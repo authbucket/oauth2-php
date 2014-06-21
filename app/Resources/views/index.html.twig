@@ -4,9 +4,10 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Hello, world!</h1>
-        <p><a class="btn btn-primary" role="button" href="{{ path('oauth2_authorize_http') }}">HTTP Basic Login</a></p>
+        <p><a class="btn btn-info" role="button" href="{{ path('oauth2_authorize_http') }}">HTTP Basic Login</a></p>
         <p><a class="btn btn-primary" role="button" href="{{ response_type_code }}">Authorization Code Grant</a></p>
-        <p><a class="btn btn-primary" role="button" href="{{ path('oauth2_authorize_form_logout') }}">Form Logout</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ response_type_token }}">Implicit Grant</a></p>
+        <p><a class="btn btn-warning" role="button" href="{{ path('oauth2_authorize_form_logout') }}">Form Logout</a></p>
     </div>
 </div>
 {% endblock %}

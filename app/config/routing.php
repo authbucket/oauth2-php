@@ -27,8 +27,17 @@ $app->get('/', function (Request $request) use ($app) {
         'state' => $app['session']->getId(),
     ));
 
+    $response_type_token = $app['url_generator']->generate('oauth2_authorize_form', array(
+        'response_type' => 'token',
+        'client_id' => 'ig',
+        'redirect_uri' => 'http://localhost:8000/response_type/token',
+        'scope' => 'demoscope1',
+        'state' => $app['session']->getId(),
+    ));
+
     return $app['twig']->render('index.html.twig', array(
         'response_type_code' => $response_type_code,
+        'response_type_token' => $response_type_token,
     ));
 })->bind('index');
 
@@ -88,11 +97,31 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
     $token_response = json_decode($client->getResponse()->getContent(), true);
 
+    $access_token = $token_response['access_token'];
+    $resource_path = $app['url_generator']->generate('resource', array(
+        'access_token' => $access_token,
+    ));
+
     return $app['twig']->render('grant_type/authorization_code.html.twig', array(
         'error' => $app['security.last_error']($request),
-        'access_token' => $token_response['access_token'],
+        'access_token' => $access_token,
+        'resource_path' => $resource_path,
     ));
 })->bind('grant_type_authorization_code');
+
+// Debug, implicit grant, token endpoint.
+$app->get('/response_type/token', function (Request $request, Application $app) {
+    $access_token = $request->query->get('access_token');
+    $resource_path = $app['url_generator']->generate('resource', array(
+        'access_token' => $access_token,
+    ));
+
+    return $app['twig']->render('response_type/token.html.twig', array(
+        'error' => $app['security.last_error']($request),
+        'access_token' => $access_token,
+        'resource_path' => $resource_path,
+    ));
+})->bind('response_type_token');
 
 // Debug, shared, resource endpoint.
 $app->get('resource', function (Request $request, Application $app) {

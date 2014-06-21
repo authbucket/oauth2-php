@@ -26,6 +26,12 @@ class ClientFixture implements FixtureInterface
         $manager->persist($model);
 
         $model = new Client();
+        $model->setClientId('ig')
+            ->setClientSecret('Ac1chee1')
+            ->setRedirectUri('http://localhost:8000/response_type/token');
+        $manager->persist($model);
+
+        $model = new Client();
         $model->setClientId('http://democlient1.com/')
             ->setClientSecret('demosecret1')
             ->setRedirectUri('http://democlient1.com/redirect_uri');
