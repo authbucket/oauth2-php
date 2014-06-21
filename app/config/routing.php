@@ -19,7 +19,7 @@ $app->get('/', function (Request $request) use ($app) {
         $app['session']->start();
     }
 
-    $response_type_code = $app['url_generator']->generate('oauth2_authorize_form', array(
+    $acg_path = $app['url_generator']->generate('oauth2_authorize_form', array(
         'response_type' => 'code',
         'client_id' => 'acg',
         'redirect_uri' => 'http://localhost:8000/response_type/code',
@@ -27,17 +27,19 @@ $app->get('/', function (Request $request) use ($app) {
         'state' => $app['session']->getId(),
     ));
 
-    $response_type_token = $app['url_generator']->generate('oauth2_authorize_form', array(
+    $ig_path = $app['url_generator']->generate('oauth2_authorize_form', array(
         'response_type' => 'token',
         'client_id' => 'ig',
         'redirect_uri' => 'http://localhost:8000/response_type/token',
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     ));
+    $ropcg_path = $app['url_generator']->generate('grant_type_password');
 
     return $app['twig']->render('index.html.twig', array(
-        'response_type_code' => $response_type_code,
-        'response_type_token' => $response_type_token,
+        'acg_path' => $acg_path,
+        'ig_path' => $ig_path,
+        'ropcg_path' => $ropcg_path,
     ));
 })->bind('index');
 
@@ -109,7 +111,7 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
     ));
 })->bind('grant_type_authorization_code');
 
-// Debug, implicit grant, token endpoint.
+// Debug, implicit grant, authorize endpoint.
 $app->get('/response_type/token', function (Request $request, Application $app) {
     $access_token = $request->query->get('access_token');
     $resource_path = $app['url_generator']->generate('resource', array(
@@ -122,6 +124,35 @@ $app->get('/response_type/token', function (Request $request, Application $app) 
         'resource_path' => $resource_path,
     ));
 })->bind('response_type_token');
+
+// Debug, resource owner password credentials grant, token endpoint.
+$app->get('/grant_type/password', function (Request $request, Application $app) {
+    $parameters = array(
+        'grant_type' => 'password',
+        'username' => 'demousername1',
+        'password' => 'demopassword1',
+        'scope' => 'demoscope1',
+        'state' => $app['session']->getId(),
+    );
+    $server = array(
+        'PHP_AUTH_USER' => 'ropcg',
+        'PHP_AUTH_PW' => 'Eevahph6',
+    );
+    $client = new Client($app);
+    $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+    $token_response = json_decode($client->getResponse()->getContent(), true);
+
+    $access_token = $token_response['access_token'];
+    $resource_path = $app['url_generator']->generate('resource', array(
+        'access_token' => $access_token,
+    ));
+
+    return $app['twig']->render('grant_type/password.html.twig', array(
+        'error' => $app['security.last_error']($request),
+        'access_token' => $access_token,
+        'resource_path' => $resource_path,
+    ));
+})->bind('grant_type_password');
 
 // Debug, shared, resource endpoint.
 $app->get('resource', function (Request $request, Application $app) {
