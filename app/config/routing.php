@@ -11,10 +11,25 @@
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Client;
 
 // Hello World!!
 $app->get('/', function (Request $request) use ($app) {
-    return $app['twig']->render('index.html.twig');
+    if (!$app['session']->isStarted()) {
+        $app['session']->start();
+    }
+
+    $response_type_code = $app['url_generator']->generate('oauth2_authorize_form', array(
+        'response_type' => 'code',
+        'client_id' => 'acg',
+        'redirect_uri' => 'http://localhost:8000/response_type/code',
+        'scope' => 'demoscope1',
+        'state' => $app['session']->getId(),
+    ));
+
+    return $app['twig']->render('index.html.twig', array(
+        'response_type_code' => $response_type_code,
+    ));
 })->bind('index');
 
 // Form login.
@@ -25,10 +40,12 @@ $app->get('/login', function (Request $request) use ($app) {
     ));
 })->bind('login');
 
-// Authorization endpoint.
+// Authorization endpoint, HTTP Basic authentication.
 $app->get('/oauth2/authorize/http', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
 })->bind('oauth2_authorize_http');
+
+// Authorization endpoint, form login.
 $app->get('/oauth2/authorize/form', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
 })->bind('oauth2_authorize_form');
@@ -43,9 +60,54 @@ $app->match('/oauth2/debug', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.debug_controller']->debugAction($request);
 })->bind('oauth2_debug');
 
-$app->get('/authorization_code', function (Request $request, Application $app) {
-    return $app['twig']->render('authorization_code.html.twig', array(
-        'authorization_code' => $request->query->get('code'),
-        'error' => $app['security.last_error']($request),
+// Debug, authorization code grant, authorization endpoint.
+$app->get('/response_type/code', function (Request $request, Application $app) {
+    $code = $request->query->get('code');
+    $submit_path = $app['url_generator']->generate('grant_type_authorization_code', array(
+        'code' => $code,
     ));
-})->bind('authorization_code');
+
+    return $app['twig']->render('response_type/code.html.twig', array(
+        'error' => $app['security.last_error']($request),
+        'code' => $code,
+        'submit_path' => $submit_path,
+    ));
+})->bind('response_type_code');
+
+// Debug, authorization code grant, token endpoint.
+$app->get('/grant_type/authorization_code', function (Request $request, Application $app) {
+    $parameters = array(
+        'grant_type' => 'authorization_code',
+        'code' => $request->query->get('code'),
+        'redirect_uri' => 'http://localhost:8000/response_type/code',
+        'client_id' => 'acg',
+        'client_secret' => 'uoce8AeP',
+    );
+    $server = array();
+    $client = new Client($app);
+    $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+    $token_response = json_decode($client->getResponse()->getContent(), true);
+
+    return $app['twig']->render('grant_type/authorization_code.html.twig', array(
+        'error' => $app['security.last_error']($request),
+        'access_token' => $token_response['access_token'],
+    ));
+})->bind('grant_type_authorization_code');
+
+// Debug, shared, resource endpoint.
+$app->get('resource', function (Request $request, Application $app) {
+    $parameters = array(
+        'debug' => $request->query->get('access_token'),
+    );
+    $server = array(
+        'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
+    );
+    $client = new Client($app);
+    $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+    $debug_response = json_decode($client->getResponse()->getContent(), true);
+
+    return $app['twig']->render('resource.html.twig', array(
+        'error' => $app['security.last_error']($request),
+        'debug' => $debug_response,
+    ));
+})->bind('resource');

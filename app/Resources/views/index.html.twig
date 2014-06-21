@@ -4,9 +4,9 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Hello, world!</h1>
-        <p><a class="btn btn-primary btn-lg" role="button" href="/oauth2/authorize/http">HTTP Basic Login</a></p>
-        <p><a class="btn btn-primary btn-lg" role="button" href="/oauth2/authorize/form?response_type=code&client_id=authorization_code&redirect_uri=http://localhost:8000/authorization_code&scope=demoscope1&state=example state">Form Login</a></p>
-        <p><a class="btn btn-primary btn-lg" role="button" href="/oauth2/authorize/form/logout">Form Logout</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ path('oauth2_authorize_http') }}">HTTP Basic Login</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ response_type_code }}">Authorization Code Grant</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ path('oauth2_authorize_form_logout') }}">Form Logout</a></p>
     </div>
 </div>
 {% endblock %}

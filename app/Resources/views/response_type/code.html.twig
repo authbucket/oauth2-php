@@ -1,0 +1,9 @@
+{% extends "html.html.twig" %}
+
+{% block page %}
+<div class="container">
+    <p>Authorization code: {{ code }}</p>
+    <p><a class="btn btn-primary" role="button" href="{{ submit_path }}">Get Access Token</a></p>
+    <p><a href="{{ path('index') }}">Return</a></p>
+</div>
+{% endblock %}

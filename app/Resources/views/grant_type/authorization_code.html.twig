@@ -1,0 +1,9 @@
+{% extends "html.html.twig" %}
+
+{% block page %}
+<div class="container">
+    <p>Access Token: {{ access_token }}</p>
+    <p><a class="btn btn-primary" role="button" href="{{ path('resource', { 'access_token': access_token } ) }}">Get Protected Resource</a></p>
+    <p><a href="{{ path('index') }}">Return</a></p>
+</div>
+{% endblock %}
