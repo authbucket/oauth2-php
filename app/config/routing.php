@@ -102,14 +102,21 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
     $token_response = json_decode($client->getResponse()->getContent(), true);
 
     $access_token = $token_response['access_token'];
+    $refresh_token = $token_response['refresh_token'];
     $resource_path = $app['url_generator']->generate('resource', array(
         'access_token' => $access_token,
+        'refresh_token' => $refresh_token,
+    ));
+    $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
+        'refresh_token' => $refresh_token,
     ));
 
     return $app['twig']->render('grant_type/authorization_code.html.twig', array(
         'error' => $app['security.last_error']($request),
         'access_token' => $access_token,
+        'refresh_token' => $refresh_token,
         'resource_path' => $resource_path,
+        'refresh_path' => $refresh_path,
     ));
 })->bind('grant_type_authorization_code');
 
@@ -181,6 +188,39 @@ $app->get('/grant_type/client_credentials', function (Request $request, Applicat
         'resource_path' => $resource_path,
     ));
 })->bind('grant_type_client_credentials');
+
+// Debug, refresh token grant, token endpoint.
+$app->get('/grant_type/refresh_token', function (Request $request, Application $app) {
+    $parameters = array(
+        'grant_type' => 'refresh_token',
+        'refresh_token' => $request->query->get('refresh_token'),
+    );
+    $server = array(
+        'PHP_AUTH_USER' => 'acg',
+        'PHP_AUTH_PW' => 'uoce8AeP',
+    );
+    $client = new Client($app);
+    $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+    $token_response = json_decode($client->getResponse()->getContent(), true);
+
+    $access_token = $token_response['access_token'];
+    $refresh_token = $token_response['refresh_token'];
+    $resource_path = $app['url_generator']->generate('resource', array(
+        'access_token' => $access_token,
+        'refresh_token' => $refresh_token,
+    ));
+    $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
+        'refresh_token' => $refresh_token,
+    ));
+
+    return $app['twig']->render('grant_type/refresh_token.html.twig', array(
+        'error' => $app['security.last_error']($request),
+        'access_token' => $access_token,
+        'refresh_token' => $refresh_token,
+        'resource_path' => $resource_path,
+        'refresh_path' => $refresh_path,
+    ));
+})->bind('grant_type_refresh_token');
 
 // Debug, shared, resource endpoint.
 $app->get('resource', function (Request $request, Application $app) {
