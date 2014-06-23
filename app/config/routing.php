@@ -22,14 +22,14 @@ $app->get('/', function (Request $request) use ($app) {
     $acg_http_path = $app['url_generator']->generate('oauth2_authorize_http', array(
         'response_type' => 'code',
         'client_id' => 'acg',
-        'redirect_uri' => 'http://localhost:8000/response_type/code',
+        'redirect_uri' => $request->getUriForPath('/response_type/code'),
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     ));
     $acg_form_path = $app['url_generator']->generate('oauth2_authorize_form', array(
         'response_type' => 'code',
         'client_id' => 'acg',
-        'redirect_uri' => 'http://localhost:8000/response_type/code',
+        'redirect_uri' => $request->getUriForPath('/response_type/code'),
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     ));
@@ -37,14 +37,14 @@ $app->get('/', function (Request $request) use ($app) {
     $ig_http_path = $app['url_generator']->generate('oauth2_authorize_http', array(
         'response_type' => 'token',
         'client_id' => 'ig',
-        'redirect_uri' => 'http://localhost:8000/response_type/token',
+        'redirect_uri' => $request->getUriForPath('/response_type/token'),
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     ));
     $ig_form_path = $app['url_generator']->generate('oauth2_authorize_form', array(
         'response_type' => 'token',
         'client_id' => 'ig',
-        'redirect_uri' => 'http://localhost:8000/response_type/token',
+        'redirect_uri' => $request->getUriForPath('/response_type/token'),
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     ));
@@ -108,7 +108,7 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
     $parameters = array(
         'grant_type' => 'authorization_code',
         'code' => $request->query->get('code'),
-        'redirect_uri' => 'http://localhost:8000/response_type/code',
+        'redirect_uri' => $request->getUriForPath('/response_type/code'),
         'client_id' => 'acg',
         'client_secret' => 'uoce8AeP',
     );
