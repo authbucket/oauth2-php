@@ -16,6 +16,14 @@ $app['security.user_provider.default'] = $app['security.user_provider.inmemory._
 ));
 
 $app['security.firewalls'] = array(
+    // Protect admin related links, e.g. refresh database.
+    'admin' => array(
+        'pattern' => '^/admin',
+        'http' => true,
+        'users' => array(
+            'admin' => array('ROLE_USER', 'secrete'),
+        ),
+    ),
     // The login_path path must always be defined outside the secured area.
     // @link http://silex.sensiolabs.org/doc/providers/security.html#securing-a-path-with-a-form
     'login' => array(

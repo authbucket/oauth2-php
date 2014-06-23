@@ -37,9 +37,12 @@ Demo Application
 ----------------
 
 This library bundle with a [Silex](https://github.com/silexphp/Silex)
-based demo application that can be run locally. Open a console and
-execute the following command to install the latest version in the
-oauth2/ directory:
+based demo application that can access from
+<http://oauth2.demo.authbucket.com/>.
+
+You may also run the demo locally. Open a console and execute the
+following command to install the latest version in the oauth2/
+directory:
 
     $ composer create-project authbucket/oauth2 oauth2/ dev-master
 
@@ -94,6 +97,7 @@ References
 ----------
 
 -   http://authbucket.github.io/oauth2/
+-   http://oauth2.demo.authbucket.com/
 -   https://coveralls.io/r/authbucket/oauth2
 -   https://github.com/authbucket/oauth2
 -   https://packagist.org/packages/authbucket/oauth2
