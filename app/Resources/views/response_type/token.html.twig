@@ -1,10 +1,23 @@
 {% extends "html.html.twig" %}
 
+{% block head_title %}
+Authorization Endpoint
+{% endblock %}
+
+{% block page_top %}
+<h1 class="page-header">Authorization Endpoint <small>(response_type = token)</small></h1>
+{% endblock %}
+
 {% block page %}
-<div class="container">
-    <p>Access Token Response:</p>
-    {{ dump(access_token_response) }}
-    <p><a class="btn btn-primary" role="button" href="{{ resource_path }}">Accessing Protected Resources</a></p>
-    <p><a class="btn btn-primary" role="button" href="{{ path('index') }}">Return</a></p>
+<div class="row">
+    <div class="col-md-9">
+        <h2 class="page-header">Access Token Response</h2>
+        {{ dump(access_token_response) }}
+    </div>
+    <div class="col-md-3">
+        <h2 class="page-header">Actions</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ resource_path }}">Accessing Protected Resources</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ path('index') }}">Return</a></p>
+    </div>
 </div>
 {% endblock %}

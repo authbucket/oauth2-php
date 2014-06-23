@@ -1,28 +1,25 @@
 {% extends "html.html.twig" %}
 
 {% block page %}
-<div class="container">
-    <h1>AuthBucket\OAuth2 Demo Application</h1>
-    <hr>
+<div class="row">
+    <div class="col-md-9">
+        <h2 class="page-header">Authorization Code Grant</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ acg_http_path }}">Authorization Request (HTTP Basic Authentication)</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ acg_form_path }}">Authorization Request (Form Login)</a></p>
 
-    <h2>Authorization Code Grant</h2>
-    <p><a class="btn btn-primary" role="button" href="{{ acg_http_path }}">Authorization Request (HTTP Basic Authentication)</a></p>
-    <p><a class="btn btn-primary" role="button" href="{{ acg_form_path }}">Authorization Request (Form Login)</a></p>
-    <hr>
+        <h2 class="page-header">Implicit Grant</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ ig_http_path }}">Authorization Request (HTTP Basic Authentication)</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ ig_form_path }}">Authorization Request (Form Login)</a></p>
 
-    <h2>Implicit Grant</h2>
-    <p><a class="btn btn-primary" role="button" href="{{ ig_http_path }}">Authorization Request (HTTP Basic Authentication)</a></p>
-    <p><a class="btn btn-primary" role="button" href="{{ ig_form_path }}">Authorization Request (Form Login)</a></p>
-    <hr>
+        <h2 class="page-header">Resource Owner Password Credentials Grant</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ ropcg_path }}">Access Token Request</a></p>
 
-    <h2>Resource Owner Password Credentials Grant</h2>
-    <p><a class="btn btn-primary" role="button" href="{{ ropcg_path }}">Access Token Request</a></p>
-    <hr>
-
-    <h2>Client Credentials Grant</h2>
-    <p><a class="btn btn-primary" role="button" href="{{ ccg_path }}">Access Token Request</a></p>
-    <hr>
-
-    <p><a class="btn btn-primary" role="button" href="{{ path('oauth2_authorize_form_logout') }}">Form Logout</a></p>
+        <h2 class="page-header">Client Credentials Grant</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ ccg_path }}">Access Token Request</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2 class="page-header">Actions</h2>
+        <p><a class="btn btn-success" role="button" href="{{ path('oauth2_authorize_form_logout') }}">Logout Demo Authorization Server</a></p>
+    </div>
 </div>
 {% endblock %}
