@@ -122,6 +122,8 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
         'access_token' => $access_token_response['access_token'],
     ));
     $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
+        'username' => 'acg',
+        'password' => 'uoce8AeP',
         'refresh_token' => $access_token_response['refresh_token'],
     ));
 
@@ -168,6 +170,8 @@ $app->get('/grant_type/password', function (Request $request, Application $app) 
         'access_token' => $access_token_response['access_token'],
     ));
     $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
+        'username' => 'ropcg',
+        'password' => 'Eevahph6',
         'refresh_token' => $access_token_response['refresh_token'],
     ));
 
@@ -197,6 +201,8 @@ $app->get('/grant_type/client_credentials', function (Request $request, Applicat
         'access_token' => $access_token_response['access_token'],
     ));
     $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
+        'username' => 'ccg',
+        'password' => 'yib6aiFe',
         'refresh_token' => $access_token_response['refresh_token'],
     ));
 
@@ -210,13 +216,14 @@ $app->get('/grant_type/client_credentials', function (Request $request, Applicat
 
 // Debug, refresh token grant, token endpoint.
 $app->get('/grant_type/refresh_token', function (Request $request, Application $app) {
+    $resource_request = $request->query->all();
     $parameters = array(
         'grant_type' => 'refresh_token',
-        'refresh_token' => $request->query->get('refresh_token'),
+        'refresh_token' => $resource_request['refresh_token'],
     );
     $server = array(
-        'PHP_AUTH_USER' => 'acg',
-        'PHP_AUTH_PW' => 'uoce8AeP',
+        'PHP_AUTH_USER' => $resource_request['username'],
+        'PHP_AUTH_PW' => $resource_request['password'],
     );
     $client = new Client($app);
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
@@ -226,6 +233,8 @@ $app->get('/grant_type/refresh_token', function (Request $request, Application $
         'access_token' => $access_token_response['access_token'],
     ));
     $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
+        'username' => $resource_request['username'],
+        'password' => $resource_request['password'],
         'refresh_token' => $access_token_response['refresh_token'],
     ));
 
