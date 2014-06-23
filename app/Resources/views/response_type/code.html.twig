@@ -2,8 +2,9 @@
 
 {% block page %}
 <div class="container">
-    <p>Authorization code: {{ code }}</p>
-    <p><a class="btn btn-primary" role="button" href="{{ submit_path }}">Access Token Request</a></p>
+    <p>Authorization response:</p>
+    {{ dump(authorization_response) }}
+    <p><a class="btn btn-primary" role="button" href="{{ token_path }}">Access Token Request</a></p>
     <p><a class="btn btn-primary" role="button" href="{{ path('index') }}">Return</a></p>
 </div>
 {% endblock %}

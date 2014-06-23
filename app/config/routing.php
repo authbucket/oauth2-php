@@ -19,7 +19,14 @@ $app->get('/', function (Request $request) use ($app) {
         $app['session']->start();
     }
 
-    $acg_path = $app['url_generator']->generate('oauth2_authorize_form', array(
+    $acg_http_path = $app['url_generator']->generate('oauth2_authorize_http', array(
+        'response_type' => 'code',
+        'client_id' => 'acg',
+        'redirect_uri' => 'http://localhost:8000/response_type/code',
+        'scope' => 'demoscope1',
+        'state' => $app['session']->getId(),
+    ));
+    $acg_form_path = $app['url_generator']->generate('oauth2_authorize_form', array(
         'response_type' => 'code',
         'client_id' => 'acg',
         'redirect_uri' => 'http://localhost:8000/response_type/code',
@@ -27,19 +34,29 @@ $app->get('/', function (Request $request) use ($app) {
         'state' => $app['session']->getId(),
     ));
 
-    $ig_path = $app['url_generator']->generate('oauth2_authorize_form', array(
+    $ig_http_path = $app['url_generator']->generate('oauth2_authorize_http', array(
         'response_type' => 'token',
         'client_id' => 'ig',
         'redirect_uri' => 'http://localhost:8000/response_type/token',
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     ));
+    $ig_form_path = $app['url_generator']->generate('oauth2_authorize_form', array(
+        'response_type' => 'token',
+        'client_id' => 'ig',
+        'redirect_uri' => 'http://localhost:8000/response_type/token',
+        'scope' => 'demoscope1',
+        'state' => $app['session']->getId(),
+    ));
+
     $ropcg_path = $app['url_generator']->generate('grant_type_password');
     $ccg_path = $app['url_generator']->generate('grant_type_client_credentials');
 
     return $app['twig']->render('index.html.twig', array(
-        'acg_path' => $acg_path,
-        'ig_path' => $ig_path,
+        'acg_http_path' => $acg_http_path,
+        'acg_form_path' => $acg_form_path,
+        'ig_http_path' => $ig_http_path,
+        'ig_form_path' => $ig_form_path,
         'ropcg_path' => $ropcg_path,
         'ccg_path' => $ccg_path,
     ));
@@ -75,15 +92,15 @@ $app->match('/oauth2/debug', function (Request $request, Application $app) {
 
 // Debug, authorization code grant, authorization endpoint.
 $app->get('/response_type/code', function (Request $request, Application $app) {
-    $code = $request->query->get('code');
-    $submit_path = $app['url_generator']->generate('grant_type_authorization_code', array(
-        'code' => $code,
+    $authorization_response = $request->query->all();
+    $token_path = $app['url_generator']->generate('grant_type_authorization_code', array(
+        'code' => $authorization_response['code'],
     ));
 
     return $app['twig']->render('response_type/code.html.twig', array(
         'error' => $app['security.last_error']($request),
-        'code' => $code,
-        'submit_path' => $submit_path,
+        'authorization_response' => $authorization_response,
+        'token_path' => $token_path,
     ));
 })->bind('response_type_code');
 
@@ -99,22 +116,18 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
     $server = array();
     $client = new Client($app);
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
-    $token_response = json_decode($client->getResponse()->getContent(), true);
+    $access_token_response = json_decode($client->getResponse()->getContent(), true);
 
-    $access_token = $token_response['access_token'];
-    $refresh_token = $token_response['refresh_token'];
     $resource_path = $app['url_generator']->generate('resource', array(
-        'access_token' => $access_token,
-        'refresh_token' => $refresh_token,
+        'access_token' => $access_token_response['access_token'],
     ));
     $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
-        'refresh_token' => $refresh_token,
+        'refresh_token' => $access_token_response['refresh_token'],
     ));
 
     return $app['twig']->render('grant_type/authorization_code.html.twig', array(
         'error' => $app['security.last_error']($request),
-        'access_token' => $access_token,
-        'refresh_token' => $refresh_token,
+        'access_token_response' => $access_token_response,
         'resource_path' => $resource_path,
         'refresh_path' => $refresh_path,
     ));
@@ -122,14 +135,14 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
 
 // Debug, implicit grant, authorize endpoint.
 $app->get('/response_type/token', function (Request $request, Application $app) {
-    $access_token = $request->query->get('access_token');
+    $access_token_response = $request->query->all();
     $resource_path = $app['url_generator']->generate('resource', array(
-        'access_token' => $access_token,
+        'access_token' => $access_token_response['access_token'],
     ));
 
     return $app['twig']->render('response_type/token.html.twig', array(
         'error' => $app['security.last_error']($request),
-        'access_token' => $access_token,
+        'access_token_response' => $access_token_response,
         'resource_path' => $resource_path,
     ));
 })->bind('response_type_token');
@@ -149,17 +162,20 @@ $app->get('/grant_type/password', function (Request $request, Application $app) 
     );
     $client = new Client($app);
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
-    $token_response = json_decode($client->getResponse()->getContent(), true);
+    $access_token_response = json_decode($client->getResponse()->getContent(), true);
 
-    $access_token = $token_response['access_token'];
     $resource_path = $app['url_generator']->generate('resource', array(
-        'access_token' => $access_token,
+        'access_token' => $access_token_response['access_token'],
+    ));
+    $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
+        'refresh_token' => $access_token_response['refresh_token'],
     ));
 
     return $app['twig']->render('grant_type/password.html.twig', array(
         'error' => $app['security.last_error']($request),
-        'access_token' => $access_token,
+        'access_token_response' => $access_token_response,
         'resource_path' => $resource_path,
+        'refresh_path' => $refresh_path,
     ));
 })->bind('grant_type_password');
 
@@ -175,17 +191,20 @@ $app->get('/grant_type/client_credentials', function (Request $request, Applicat
     );
     $client = new Client($app);
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
-    $token_response = json_decode($client->getResponse()->getContent(), true);
+    $access_token_response = json_decode($client->getResponse()->getContent(), true);
 
-    $access_token = $token_response['access_token'];
     $resource_path = $app['url_generator']->generate('resource', array(
-        'access_token' => $access_token,
+        'access_token' => $access_token_response['access_token'],
+    ));
+    $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
+        'refresh_token' => $access_token_response['refresh_token'],
     ));
 
     return $app['twig']->render('grant_type/client_credentials.html.twig', array(
         'error' => $app['security.last_error']($request),
-        'access_token' => $access_token,
+        'access_token_response' => $access_token_response,
         'resource_path' => $resource_path,
+        'refresh_path' => $refresh_path,
     ));
 })->bind('grant_type_client_credentials');
 
@@ -201,22 +220,18 @@ $app->get('/grant_type/refresh_token', function (Request $request, Application $
     );
     $client = new Client($app);
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
-    $token_response = json_decode($client->getResponse()->getContent(), true);
+    $access_token_response = json_decode($client->getResponse()->getContent(), true);
 
-    $access_token = $token_response['access_token'];
-    $refresh_token = $token_response['refresh_token'];
     $resource_path = $app['url_generator']->generate('resource', array(
-        'access_token' => $access_token,
-        'refresh_token' => $refresh_token,
+        'access_token' => $access_token_response['access_token'],
     ));
     $refresh_path = $app['url_generator']->generate('grant_type_refresh_token', array(
-        'refresh_token' => $refresh_token,
+        'refresh_token' => $access_token_response['refresh_token'],
     ));
 
     return $app['twig']->render('grant_type/refresh_token.html.twig', array(
         'error' => $app['security.last_error']($request),
-        'access_token' => $access_token,
-        'refresh_token' => $refresh_token,
+        'access_token_response' => $access_token_response,
         'resource_path' => $resource_path,
         'refresh_path' => $refresh_path,
     ));
@@ -236,6 +251,6 @@ $app->get('resource', function (Request $request, Application $app) {
 
     return $app['twig']->render('resource.html.twig', array(
         'error' => $app['security.last_error']($request),
-        'debug' => $debug_response,
+        'debug_response' => $debug_response,
     ));
 })->bind('resource');
