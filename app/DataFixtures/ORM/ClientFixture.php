@@ -9,38 +9,41 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\DataFixtures\ORM;
+namespace AuthBucket\OAuth2\Demo\DataFixtures\ORM;
 
 use AuthBucket\OAuth2\Tests\Entity\Client;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Request;
 
 class ClientFixture implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $request = Request::createFromGlobals();
+
         $model = new Client();
-        $model->setClientId('http://democlient1.com/')
-            ->setClientSecret('demosecret1')
-            ->setRedirectUri('http://democlient1.com/redirect_uri');
+        $model->setClientId('acg')
+            ->setClientSecret('uoce8AeP')
+            ->setRedirectUri($request->getUriForPath('/response_type/code'));
         $manager->persist($model);
 
         $model = new Client();
-        $model->setClientId('http://democlient2.com/')
-            ->setClientSecret('demosecret2')
-            ->setRedirectUri('http://democlient2.com/redirect_uri');
+        $model->setClientId('ig')
+            ->setClientSecret('Ac1chee1')
+            ->setRedirectUri($request->getUriForPath('/response_type/token'));
         $manager->persist($model);
 
         $model = new Client();
-        $model->setClientId('http://democlient3.com/')
-            ->setClientSecret('demosecret3')
-            ->setRedirectUri('http://democlient3.com/redirect_uri');
+        $model->setClientId('ropcg')
+            ->setClientSecret('Eevahph6')
+            ->setRedirectUri($request->getUriForPath('/grant_type/password'));
         $manager->persist($model);
 
         $model = new Client();
-        $model->setClientId('http://democlient4.com/')
-            ->setClientSecret('demosecret4')
-            ->setRedirectUri('');
+        $model->setClientId('ccg')
+            ->setClientSecret('yib6aiFe')
+            ->setRedirectUri($request->getUriForPath('/grant_type/client_credentials'));
         $manager->persist($model);
 
         $manager->flush();

@@ -279,7 +279,7 @@ if (version_compare(phpversion(), '5.4.0', '>') && !defined('HHVM_VERSION')) {
         ->register('server:run')
         ->setName('server:run')
         ->setDescription('Runs PHP built-in web server')
-        ->addArgument('address', InputArgument::OPTIONAL, 'Address:port', '127.0.0.1:8000')
+        ->addArgument('address', InputArgument::OPTIONAL, 'Address:port', 'localhost:8000')
         ->addOption('docroot', 'd', InputOption::VALUE_REQUIRED, 'Document root', 'web/')
         ->addOption('router', 'r', InputOption::VALUE_REQUIRED, 'Path to custom router script')
         ->setHelp(<<<EOF
@@ -312,12 +312,6 @@ EOF
 
             $env = $input->getParameterOption(array('--env', '-e'), 'dev');
             $router = $input->getOption('router') ?: sprintf('%s/config/router_%s.php', __DIR__, $env);
-
-            passthru(sprintf('php "%s/console" doctrine:database:drop --env=%s -q --force', __DIR__, $env));
-            passthru(sprintf('php "%s/console" doctrine:database:create --env=%s -q', __DIR__, $env));
-            passthru(sprintf('php "%s/console" doctrine:schema:drop --env=%s -q --force', __DIR__, $env));
-            passthru(sprintf('php "%s/console" doctrine:schema:create --env=%s -q', __DIR__, $env));
-            passthru(sprintf('php "%s/console" doctrine:fixtures:load --env=%s -q --no-interaction --purge-with-truncate', __DIR__, $env));
 
             $builder = new ProcessBuilder(array(PHP_BINARY, '-S', $input->getArgument('address'), $router));
             $builder->setWorkingDirectory($input->getOption('docroot'));

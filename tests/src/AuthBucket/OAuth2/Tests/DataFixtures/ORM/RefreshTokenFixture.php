@@ -11,9 +11,9 @@
 
 namespace AuthBucket\OAuth2\Tests\DataFixtures\ORM;
 
+use AuthBucket\OAuth2\Tests\Entity\RefreshToken;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AuthBucket\OAuth2\Tests\Entity\RefreshToken;
 
 class RefreshTokenFixture implements FixtureInterface
 {

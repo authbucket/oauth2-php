@@ -9,26 +9,24 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\DataFixtures\ORM;
+namespace AuthBucket\OAuth2\Demo\DataFixtures\ORM;
 
-use AuthBucket\OAuth2\Tests\Entity\Scope;
+use AuthBucket\OAuth2\Tests\Entity\RefreshToken;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ScopeFixture implements FixtureInterface
+class RefreshTokenFixture implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $model = new Scope();
-        $model->setScope('demoscope1');
-        $manager->persist($model);
-
-        $model = new Scope();
-        $model->setScope('demoscope2');
-        $manager->persist($model);
-
-        $model = new Scope();
-        $model->setScope('demoscope3');
+        $model = new RefreshToken();
+        $model->setRefreshToken('5ff43cbc27b54202c6fd8bb9c2a308ce')
+            ->setClientId('http://democlient1.com/')
+            ->setUsername('demousername1')
+            ->setExpires(new \DateTime('-1 days'))
+            ->setScope(array(
+                'demoscope1',
+            ));
         $manager->persist($model);
 
         $manager->flush();

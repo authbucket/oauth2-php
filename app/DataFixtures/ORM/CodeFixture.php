@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\DataFixtures\ORM;
+namespace AuthBucket\OAuth2\Demo\DataFixtures\ORM;
 
 use AuthBucket\OAuth2\Tests\Entity\Code;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -28,28 +28,6 @@ class CodeFixture implements FixtureInterface
             ->setScope(array(
                 'demoscope1',
                 'demoscope2',
-            ));
-        $manager->persist($model);
-
-        $model = new Code();
-        $model->setCode('1e5aa97ddaf4b0228dfb4223010d4417')
-            ->setClientId('http://democlient1.com/')
-            ->setUsername('demousername1')
-            ->setRedirectUri('http://democlient1.com/redirect_uri')
-            ->setExpires(new \DateTime('-10 minutes'))
-            ->setScope(array(
-                'demoscope1',
-            ));
-        $manager->persist($model);
-
-        $model = new Code();
-        $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
-            ->setClientId('http://democlient4.com/')
-            ->setUsername('demousername4')
-            ->setRedirectUri('http://democlient4.com/redirect_uri')
-            ->setExpires(new \DateTime('+10 minutes'))
-            ->setScope(array(
-                'demoscope1',
             ));
         $manager->persist($model);
 

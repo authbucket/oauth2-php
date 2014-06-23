@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\DataFixtures\ORM;
+namespace AuthBucket\OAuth2\Demo\DataFixtures\ORM;
 
 use AuthBucket\OAuth2\Tests\Entity\Authorize;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -20,7 +20,7 @@ class AuthorizeFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $model = new Authorize();
-        $model->setClientId('http://democlient1.com/')
+        $model->setClientId('acg')
             ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
@@ -28,31 +28,26 @@ class AuthorizeFixture implements FixtureInterface
         $manager->persist($model);
 
         $model = new Authorize();
-        $model->setClientId('http://democlient2.com/')
-            ->setUsername('demousername2')
+        $model->setClientId('ig')
+            ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
-                'demoscope2',
             ));
         $manager->persist($model);
 
         $model = new Authorize();
-        $model->setClientId('http://democlient3.com/')
-            ->setUsername('demousername3')
+        $model->setClientId('ropcg')
+            ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
-                'demoscope2',
-                'demoscope3',
             ));
         $manager->persist($model);
 
         $model = new Authorize();
-        $model->setClientId('http://democlient1.com/')
+        $model->setClientId('ccg')
             ->setUsername('')
             ->setScope(array(
                 'demoscope1',
-                'demoscope2',
-                'demoscope3',
             ));
         $manager->persist($model);
 

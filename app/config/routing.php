@@ -9,11 +9,16 @@
  * file that was distributed with this source code.
  */
 
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\Persistence\PersistentObject;
+use Doctrine\ORM\Tools\SchemaTool;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Client;
 
-// Hello World!!
+// Index.
 $app->get('/', function (Request $request) use ($app) {
     if (!$app['session']->isStarted()) {
         $app['session']->start();
@@ -61,6 +66,42 @@ $app->get('/', function (Request $request) use ($app) {
         'ccg_path' => $ccg_path,
     ));
 })->bind('index');
+
+// Flush database.
+$app->get('/admin/refresh_database', function (Request $request) use ($app) {
+    $connection = $app['db'];
+    $em = $app['authbucket_oauth2.orm'];
+
+    $params = $connection->getParams();
+    $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
+
+    try {
+        $connection->getSchemaManager()->dropDatabase($name);
+        $connection->getSchemaManager()->createDatabase($name);
+        $connection->close();
+    } catch (\Exception $e) {
+        return 1;
+    }
+
+    $classes = array();
+    foreach ($app['authbucket_oauth2.model'] as $class) {
+        $classes[] = $em->getClassMetadata($class);
+    }
+
+    PersistentObject::setObjectManager($em);
+    $tool = new SchemaTool($em);
+    $tool->dropSchema($classes);
+    $tool->createSchema($classes);
+
+    $purger = new ORMPurger();
+    $executor = new ORMExecutor($em, $purger);
+
+    $loader = new Loader();
+    $loader->loadFromDirectory(__DIR__ . '/../DataFixtures/ORM');
+    $executor->execute($loader->getFixtures());
+
+    return $app->redirect($app['url_generator']->generate('index'));
+})->bind('admin_refresh_database');
 
 // Form login.
 $app->get('/login', function (Request $request) use ($app) {

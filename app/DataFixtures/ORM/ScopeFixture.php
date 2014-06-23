@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\DataFixtures\ORM;
+namespace AuthBucket\OAuth2\Demo\DataFixtures\ORM;
 
 use AuthBucket\OAuth2\Tests\Entity\Scope;
 use Doctrine\Common\DataFixtures\FixtureInterface;

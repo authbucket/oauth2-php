@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\DataFixtures\ORM;
+namespace AuthBucket\OAuth2\Demo\DataFixtures\ORM;
 
 use AuthBucket\OAuth2\Tests\Entity\AccessToken;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -25,17 +25,6 @@ class AccessTokenFixture implements FixtureInterface
             ->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setExpires(new \DateTime('+1 hours'))
-            ->setScope(array(
-                'demoscope1',
-            ));
-        $manager->persist($model);
-
-        $model = new AccessToken();
-        $model->setAccessToken('d2b58c4c6bc0cc9fefca2d558f1221a5')
-            ->setTokenType('bearer')
-            ->setClientId('http://democlient1.com/')
-            ->setUsername('demousername1')
-            ->setExpires(new \DateTime('-1 hours'))
             ->setScope(array(
                 'demoscope1',
             ));
