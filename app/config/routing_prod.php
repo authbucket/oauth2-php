@@ -56,8 +56,14 @@ $app->get('/', function (Request $request) use ($app) {
         'state' => $app['session']->getId(),
     ));
 
-    $ropcg_path = $app['url_generator']->generate('grant_type_password');
-    $ccg_path = $app['url_generator']->generate('grant_type_client_credentials');
+    $ropcg_path = $app['url_generator']->generate('grant_type_password', array(
+        'username' => 'demousername1',
+        'password' => 'demopassword1',
+    ));
+    $ccg_path = $app['url_generator']->generate('grant_type_client_credentials', array(
+        'client_id' => 'ccg',
+        'client_secret' => 'yib6aiFe',
+    ));
 
     return $app['twig']->render('index.html.twig', array(
         'acg_http_path' => $acg_http_path,
@@ -177,8 +183,8 @@ $app->get('/response_type/token', function (Request $request, Application $app) 
 $app->get('/grant_type/password', function (Request $request, Application $app) {
     $parameters = array(
         'grant_type' => 'password',
-        'username' => 'demousername1',
-        'password' => 'demopassword1',
+        'username' => $request->query->get('username'),
+        'password' => $request->query->get('password'),
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     );
@@ -216,8 +222,8 @@ $app->get('/grant_type/client_credentials', function (Request $request, Applicat
         'scope' => 'demoscope1',
     );
     $server = array(
-        'PHP_AUTH_USER' => 'ccg',
-        'PHP_AUTH_PW' => 'yib6aiFe',
+        'PHP_AUTH_USER' => $request->query->get('client_id'),
+        'PHP_AUTH_PW' => $request->query->get('client_secret'),
     );
     $client = new Client($app);
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
