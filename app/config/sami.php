@@ -8,7 +8,7 @@ $iterator = Finder::create()
     ->files()
     ->name('*.php')
     ->exclude('Resources')
-    ->exclude('Tests')
+    ->in('tests')
     ->in($dir = 'src');
 
 $versions = GitVersionCollection::create($dir)
