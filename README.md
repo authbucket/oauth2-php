@@ -38,7 +38,7 @@ Demo Application
 
 This library bundle with a [Silex](https://github.com/silexphp/Silex)
 based demo application that can access from
-<http://oauth2.demo.authbucket.com/>.
+<http://demo.oauth2.authbucket.com/>.
 
 You may also run the demo locally. Open a console and execute the
 following command to install the latest version in the oauth2/
@@ -57,7 +57,7 @@ probably using PHP 5.3. That's ok! But the built-in web server is only
 available for PHP 5.4.0 or higher. If you have an older version of PHP
 or if you prefer a traditional web server such as Apache or Nginx, read
 the [Configuring a web
-server](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html)
+server](http://silex.sensiolabs.org/doc/web_servers.html)
 article.
 
 Open your browser and access the <http://localhost:8000> URL to see the

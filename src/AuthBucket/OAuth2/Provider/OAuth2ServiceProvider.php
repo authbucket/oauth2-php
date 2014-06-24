@@ -37,9 +37,6 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
 
     public function register(Application $app)
     {
-        // Enable debug mode to ease debugging.
-        $app['debug'] = true;
-
         // Add default response type handler.
         if (!isset($app['authbucket_oauth2.response_handler'])) {
             $app['authbucket_oauth2.response_handler'] = array(
