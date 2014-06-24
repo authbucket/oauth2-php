@@ -26,6 +26,12 @@ class ClientFixture implements FixtureInterface
         }
 
         $model = new Client();
+        $model->setClientId('51b2d34c3a661b5e111a694dfcb4b248')
+            ->setClientSecret('237ed57f218b41d07db6757afec3a41c')
+            ->setRedirectUri('http://oauthconnector.demo.drupal.authbucket.com/oauth/authorized2/1');
+        $manager->persist($model);
+        
+        $model = new Client();
         $model->setClientId('acg')
             ->setClientSecret('uoce8AeP')
             ->setRedirectUri($request->getUriForPath('/response_type/code'));
