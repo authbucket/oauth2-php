@@ -16,18 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DebugControllerTest extends WebTestCase
 {
-    public function testExceptionEmptyDebugToken()
-    {
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resource_response['error']);
-    }
-
     public function testExceptionBadDebugToken()
     {
         $parameters = array(
@@ -70,7 +58,19 @@ class DebugControllerTest extends WebTestCase
         $this->assertEquals('invalid_request', $resource_response['error']);
     }
 
-    public function testGoodDebug()
+    public function testGoodEmptyDebugToken()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+        $resource_response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resource_response['username']);
+    }
+
+    public function testGoodDebugToken()
     {
         $parameters = array(
             'debug' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',

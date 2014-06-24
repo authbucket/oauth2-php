@@ -16,6 +16,7 @@ use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * OAuth2 debug endpoint controller implementation.
@@ -24,12 +25,15 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DebugController
 {
+    protected $securityContext;
     protected $modelManagerFactory;
 
     public function __construct(
+        SecurityContextInterface $securityContext,
         ModelManagerFactoryInterface $modelManagerFactory
     )
     {
+        $this->securityContext = $securityContext;
         $this->modelManagerFactory = $modelManagerFactory;
     }
 
@@ -61,9 +65,10 @@ class DebugController
 
     private function getDebug(Request $request)
     {
-        // Fetch debug token from GET/POST.
+        // Fetch debug token from GET/POST/access_token.
         $debug = $request->query->get('debug')
-            ?: $request->request->get('debug');
+            ?: $request->request->get('debug')
+            ?: $this->securityContext->getToken()->getAccessToken()->getAccessToken();
         if (null === $debug) {
             throw new InvalidRequestException();
         }

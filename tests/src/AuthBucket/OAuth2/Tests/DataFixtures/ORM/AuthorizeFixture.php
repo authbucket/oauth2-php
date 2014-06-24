@@ -28,7 +28,7 @@ class AuthorizeFixture implements FixtureInterface
                 'demoscope3',
             ));
         $manager->persist($model);
-        
+
         $model = new Authorize();
         $model->setClientId('acg')
             ->setUsername('demousername1')
