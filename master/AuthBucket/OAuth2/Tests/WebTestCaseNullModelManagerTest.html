@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>AuthBucket\OAuth2\Provider\OAuth2ServiceProvider | </title>
+        <title>AuthBucket\OAuth2\Tests\WebTestCaseNullModelManagerTest | </title>
                     <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
                             </head>
         <body id="class">
@@ -20,15 +20,14 @@
         <div id="title"></div>
 
             <div class="type">Class</div>
-    <h1><a href="../../../AuthBucket/OAuth2/Provider.html">AuthBucket\OAuth2\Provider</a>\OAuth2ServiceProvider</h1>
+    <h1><a href="../../../AuthBucket/OAuth2/Tests.html">AuthBucket\OAuth2\Tests</a>\WebTestCaseNullModelManagerTest</h1>
     </div>
         <div class="content">
                 <p>    class
-    <strong>OAuth2ServiceProvider</strong>        implements
-        <abbr title="Silex\ServiceProviderInterface">ServiceProviderInterface</abbr></p>
+    <strong>WebTestCaseNullModelManagerTest</strong>        extends <abbr title="Silex\WebTestCase">WebTestCase</abbr></p>
 
             <div class="description">
-            <p>OAuth2 service provider as plugin for Silex SecurityServiceProvider.</p>
+            <p>Test Silex service provider without model manager initialization.</p>
             <p>
 </p>
         </div>
@@ -43,7 +42,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_register">register</a>(<abbr title="Silex\Application">Application</abbr> $app)
+                    <a href="#method_createApplication">createApplication</a>()
                     <p>
 </p>
                 </td>
@@ -54,7 +53,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_boot">boot</a>(<abbr title="Silex\Application">Application</abbr> $app)
+                    <a href="#method_testNullModelManager">testNullModelManager</a>()
                     <p>
 </p>
                 </td>
@@ -65,10 +64,10 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method_register">
-        <div class="location">at line 38</div>
+                        <h3 id="method_createApplication">
+        <div class="location">at line 39</div>
         <code>            public            
-    <strong>register</strong>(<abbr title="Silex\Application">Application</abbr> $app)</code>
+    <strong>createApplication</strong>()</code>
     </h3>
     <div class="details">
         <p>
@@ -76,27 +75,16 @@
         <p>
 </p>
         <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
             
             
             
                     </div>
     </div>
 
-                <h3 id="method_boot">
-        <div class="location">at line 193</div>
+                <h3 id="method_testNullModelManager">
+        <div class="location">at line 94</div>
         <code>            public            
-    <strong>boot</strong>(<abbr title="Silex\Application">Application</abbr> $app)</code>
+    <strong>testNullModelManager</strong>()</code>
     </h3>
     <div class="details">
         <p>
@@ -104,17 +92,6 @@
         <p>
 </p>
         <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><abbr title="Silex\Application">Application</abbr></td>
-                <td>$app</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
             
             
             
