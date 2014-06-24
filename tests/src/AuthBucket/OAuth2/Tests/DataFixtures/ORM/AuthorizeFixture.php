@@ -20,6 +20,38 @@ class AuthorizeFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $model = new Authorize();
+        $model->setClientId('acg')
+            ->setUsername('demousername1')
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $manager->persist($model);
+
+        $model = new Authorize();
+        $model->setClientId('ig')
+            ->setUsername('demousername1')
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $manager->persist($model);
+
+        $model = new Authorize();
+        $model->setClientId('ropcg')
+            ->setUsername('demousername1')
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $manager->persist($model);
+
+        $model = new Authorize();
+        $model->setClientId('ccg')
+            ->setUsername('')
+            ->setScope(array(
+                'demoscope1',
+            ));
+        $manager->persist($model);
+
+        $model = new Authorize();
         $model->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setScope(array(
