@@ -35,7 +35,7 @@
         "doctrine/orm": "~2.2,>=2.2.3",
         "fabpot/php-cs-fixer": "@stable",
         "phpunit/phpunit": "4.1.*",
-        "sami/sami": "dev-master",
+        "sami/sami": "~1.4",
         "satooshi/php-coveralls": "dev-master",
         "silex/silex": "~1.2",
         "symfony/browser-kit": ">=2.3,<2.6-dev",
