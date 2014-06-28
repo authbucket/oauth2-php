@@ -31,14 +31,11 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch username from authenticated token.
      *
-     * @param SecurityContextInterface $securityContext
-     *                                                  Incoming request object.
+     * @param SecurityContextInterface $securityContext Incoming request object.
      *
-     * @return string
-     *                Supplied username from authenticated token.
+     * @return string Supplied username from authenticated token.
      *
-     * @throw ServerErrorException
-     *   If supplied token is not a standard TokenInterface instance.
+     * @throw ServerErrorException If supplied token is not a standard TokenInterface instance.
      */
     protected function checkUsername(
         SecurityContextInterface $securityContext
@@ -52,18 +49,13 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch cliend_id from GET.
      *
-     * @param Request                      $request
-     *                                                          Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory
-     *                                                          Model manager factory for compare with database record.
+     * @param Request                      $request             Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
      *
-     * @return string
-     *                Supplied client_id from incoming request.
+     * @return string Supplied client_id from incoming request.
      *
-     * @throw InvalidRequestException
-     *   If supplied client_id in bad format.
-     * @throw InvalidClientException
-     *   If client_id not found from database record.
+     * @throw InvalidRequestException If supplied client_id in bad format.
+     * @throw InvalidClientException If client_id not found from database record.
      */
     protected function checkClientId(
         Request $request,
@@ -93,20 +85,13 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch redirect_uri from GET.
      *
-     * @param Request                      $request
-     *                                                          Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory
-     *                                                          Model manager factory for compare with database record.
-     * @param string client_id
-     *                                                          Corresponding client_id that code should belongs to.
+     * @param Request                      $request             Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
+     * @param string                       $client_id           Corresponding client_id that code should belongs to.
      *
-     * @return string
-     *                The supplied redirect_uri from incoming request, or from stored
-     *                record.
+     * @return string The supplied redirect_uri from incoming request, or from stored record.
      *
-     * @throw InvalidRequestException
-     *   If redirect_uri not exists in both incoming request and database
-     *   record, or supplied value not match with stord record.
+     * @throw InvalidRequestException If redirect_uri not exists in both incoming request and database record, or supplied value not match with stord record.
      */
     protected function checkRedirectUri(
         Request $request,

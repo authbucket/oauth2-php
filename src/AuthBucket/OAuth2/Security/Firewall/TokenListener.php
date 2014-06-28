@@ -27,9 +27,7 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 class TokenListener implements ListenerInterface
 {
     protected $securityContext;
-
     protected $authenticationManager;
-
     protected $providerKey;
 
     public function __construct(

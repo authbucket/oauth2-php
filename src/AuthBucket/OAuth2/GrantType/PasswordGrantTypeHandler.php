@@ -80,18 +80,13 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     /**
      * Fetch username from POST.
      *
-     * @param Request                      $request
-     *                                                          Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory
-     *                                                          Model manager factory for compare with database record.
+     * @param Request                      $request             Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
      *
-     * @return string
-     *                The supplied username.
+     * @return string The supplied username.
      *
-     * @throw InvalidRequestException
-     *   If username or password in invalid format.
-     * @throw InvalidGrantException
-     *   If reported as bad credentials from authentication provider.
+     * @throw InvalidRequestException If username or password in invalid format.
+     * @throw InvalidGrantException If reported as bad credentials from authentication provider.
      */
     private function checkUsername(
         Request $request,

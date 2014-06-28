@@ -44,13 +44,9 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         }
 
         // Check with HTTP basic auth if exists.
-        if ($headers_token) {
-            $access_token = $headers_token;
-        } elseif ($request_token) {
-            $access_token = $request_token;
-        } elseif ($query_token) {
-            $access_token = $query_token;
-        }
+        $access_token = $headers_token
+            ?: $request_token
+            ?: $query_token;
 
         return $access_token;
     }

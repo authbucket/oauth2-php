@@ -21,14 +21,11 @@ interface ModelManagerFactoryInterface
     /**
      * Gets a stored model manager.
      *
-     * @param string $type
-     *                     Type of model manager.
+     * @param string $type Type of model manager.
      *
-     * @return ModelManagerInterface
-     *                               The stored model manager.
+     * @return ModelManagerInterface The stored model manager.
      *
-     * @throw ServerErrorException
-     *   If supplied model not found.
+     * @throw ServerErrorException If supplied model not found.
      */
     public function getModelManager($type);
 }

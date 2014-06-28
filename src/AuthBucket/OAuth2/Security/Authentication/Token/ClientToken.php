@@ -20,9 +20,7 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 class ClientToken extends AbstractToken
 {
     protected $client;
-
     protected $client_secret;
-
     protected $providerKey;
 
     public function __construct($client_id, $client_secret, $providerKey, array $roles = array())

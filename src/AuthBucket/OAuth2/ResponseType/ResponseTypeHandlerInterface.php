@@ -26,18 +26,12 @@ interface ResponseTypeHandlerInterface
     /**
      * Handle corresponding response type logic.
      *
-     * @param SecurityContextInterface         $securityContext
-     *                                                                  The security object that hold the current live token.
-     * @param Request                          $request
-     *                                                                  Incoming request object.
-     * @param ModelManagerFactoryInterface     $modelManagerFactory
-     *                                                                  Model manager factory for compare with database record.
-     * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-     *                                                                  Token type handler that will generate the correct response
-     *                                                                  parameters.
+     * @param SecurityContextInterface         $securityContext         The security object that hold the current live token.
+     * @param Request                          $request                 Incoming request object.
+     * @param ModelManagerFactoryInterface     $modelManagerFactory     Model manager factory for compare with database record.
+     * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory Token type handler that will generate the correct response parameters.
      *
-     * @return RedirectResponse
-     *                          The redirect response object for authorize endpoint.
+     * @return RedirectResponse The redirect response object for authorize endpoint.
      */
     public function handle(
         SecurityContextInterface $securityContext,

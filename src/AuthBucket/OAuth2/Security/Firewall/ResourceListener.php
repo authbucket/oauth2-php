@@ -27,11 +27,8 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 class ResourceListener implements ListenerInterface
 {
     protected $securityContext;
-
     protected $authenticationManager;
-
     protected $providerKey;
-
     protected $tokenTypeHandlerFactory;
 
     public function __construct(

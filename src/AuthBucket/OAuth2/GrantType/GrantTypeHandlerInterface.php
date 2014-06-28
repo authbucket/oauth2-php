@@ -29,24 +29,15 @@ interface GrantTypeHandlerInterface
     /**
      * Handle corresponding grant type logic.
      *
-     * @param SecurityContextInterface         $securityContext
-     *                                                                  The security object that hold the current live token.
-     * @param UserCheckerInterface             $userChecker
-     *                                                                  For grant_type = password.
-     * @param EncoderFactoryInterface          $encoderFactory
-     *                                                                  For grant_type = password.
-     * @param Request                          $request
-     *                                                                  Incoming request object.
-     * @param ModelManagerFactoryInterface     $modelManagerFactory
-     *                                                                  Model manager factory for compare with database record.
-     * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-     *                                                                  Token type handler that will generate the correct response
-     *                                                                  parameters.
-     * @param UserProviderInterface            $userProvider
-     *                                                                  For grant_type = password.
+     * @param SecurityContextInterface         $securityContext         The security object that hold the current live token.
+     * @param UserCheckerInterface             $userChecker             For grant_type = password.
+     * @param EncoderFactoryInterface          $encoderFactory          For grant_type = password.
+     * @param Request                          $request                 Incoming request object.
+     * @param ModelManagerFactoryInterface     $modelManagerFactory     Model manager factory for compare with database record.
+     * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory Token type handler that will generate the correct response parameters.
+     * @param UserProviderInterface            $userProvider            For grant_type = password.
      *
-     * @return JsonResponse
-     *                      The json response object for token endpoint.
+     * @return JsonResponse The json response object for token endpoint.
      */
     public function handle(
         SecurityContextInterface $securityContext,

@@ -19,7 +19,6 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 class AccessToken extends AbstractToken
 {
     protected $access_token;
-
     protected $providerKey;
 
     public function __construct($access_token, $providerKey, array $roles = array())

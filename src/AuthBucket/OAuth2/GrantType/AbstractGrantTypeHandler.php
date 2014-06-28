@@ -29,14 +29,11 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     /**
      * Fetch client_id from authenticated token.
      *
-     * @param SecurityContextInterface $securityContext
-     *                                                  Incoming request object.
+     * @param SecurityContextInterface $securityContext Incoming request object.
      *
-     * @return string
-     *                Supplied client_id from authenticated token.
+     * @return string Supplied client_id from authenticated token.
      *
-     * @throw ServerErrorException
-     *   If supplied token is not a ClientToken instance.
+     * @throw ServerErrorException If supplied token is not a ClientToken instance.
      */
     protected function checkClientId(
         SecurityContextInterface $securityContext
@@ -50,18 +47,13 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     /**
      * Fetch scope from POST.
      *
-     * @param Request                      $request
-     *                                                          Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory
-     *                                                          Model manager factory for compare with database record.
+     * @param Request                      $request             Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
      *
-     * @return array|null
-     *                    Supplied scope in array from incoming request, or null if none given.
+     * @return array|null Supplied scope in array from incoming request, or null if none given.
      *
-     * @throw InvalidRequestException
-     *   If supplied scope in bad format.
-     * @throw InvalidScopeException
-     *   If supplied scope outside supported scope range.
+     * @throw InvalidRequestException If supplied scope in bad format.
+     * @throw InvalidScopeException If supplied scope outside supported scope range.
      */
     protected function checkScope(
         Request $request,
