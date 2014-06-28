@@ -13,6 +13,9 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
+        <!-- Custom styles for this template -->
+        <link href="/css/style.css" rel="stylesheet">
+
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -21,33 +24,79 @@
     <body>
         <a class="visible-lg" target="_blank" href="https://github.com/authbucket/oauth2"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
 
-        <div class="container">
-            {% block page_top %}
-            <h1 class="page-header">AuthBucket\OAuth2 - Demo Client</h1>
-            {% endblock %}
-
-            {% block page %}
-            <p>Hello World!!</p>
-            {% endblock %}
-
-            {% block page_bottom %}
-            {% endblock %}
-        </div>
-
-        <hr>
-
-        <footer>
-            <div class="container">
-                <div class="text-center">
-                    <ul class="list-inline">
-                        <li><iframe src="http://ghbtns.com/github-btn.html?user=authbucket&repo=oauth2&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe></li>
-                        <li><iframe src="http://ghbtns.com/github-btn.html?user=authbucket&repo=oauth2&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe></li>
-                        <li><iframe src="http://ghbtns.com/github-btn.html?user=hswong3i&type=follow&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="160px" height="20px"></iframe></li>
-                    </ul>
-                    <p>Design and built with all the love in the world by <a target="_blank" href="http://twitter.com/hswong3i">@hswong3i</a>.</p>
-                    <p>Code licensed under <a target="_blank" href="https://github.com/authbucket/oauth2/blob/master/LICENSE">MIT</a>, documentation under <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a>.</p>
+        <header class="container">
+            <div role="navigation" class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a target="_blank" href="https://github.com/authbucket/oauth2" class="navbar-brand">AuthBucket\OAuth2</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/">Client</a></li>
+                            <li><a href="#">Authorization Server</a></li>
+                            <li><a href="#">Resource Server</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Admin <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li><a href="{{ path('admin_refresh_database') }}">Refresh Database</a>
+                                    </ul>
+                                </li>
+                                <li><a href="{{ path('oauth2_authorize_form_logout') }}">Logout</a></li>
+                            </ul>
+                        </div><!--/.nav-collapse -->
+                    </div><!--/.container-fluid -->
                 </div>
+            </header>
+
+            <div class="container">
+                {% block page_top %}
+                <h1 class="page-header">AuthBucket\OAuth2 - Demo Client</h1>
+                {% endblock %}
+
+                {% block page %}
+                <div class="row">
+                    <main class="col-md-9">
+                        {% block main %}{% endblock %}
+                    </main>
+                    <aside class="col-md-3">
+                        {% block aside %}{% endblock %}
+                    </aside>
+                {% endblock %}
+
+                {% block page_bottom %}
+                {% endblock %}
             </div>
-        </footer>
-    </body>
-</html>
+
+            <footer>
+                <div class="container">
+                    <div class="text-center">
+                        <ul class="list-inline">
+                            <li><iframe src="http://ghbtns.com/github-btn.html?user=authbucket&repo=oauth2&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe></li>
+                            <li><iframe src="http://ghbtns.com/github-btn.html?user=authbucket&repo=oauth2&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe></li>
+                            <li><iframe src="http://ghbtns.com/github-btn.html?user=hswong3i&type=follow&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="160px" height="20px"></iframe></li>
+                        </ul>
+                        <p>Design and built with all the love in the world by <a target="_blank" href="http://twitter.com/hswong3i">@hswong3i</a>.</p>
+                        <p>Code licensed under <a target="_blank" href="https://github.com/authbucket/oauth2/blob/master/LICENSE">MIT</a>, documentation under <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a>.</p>
+                    </div>
+                </div>
+            </footer>
+
+            <!-- Analytics -->
+            <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+                ga('create', 'UA-52367143-2', 'auto');
+                ga('send', 'pageview');
+            </script>
+        </body>
+    </html>

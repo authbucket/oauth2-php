@@ -8,17 +8,9 @@ Resource Endpoint
 <h1 class="page-header">Resource Endpoint</h1>
 {% endblock %}
 
-{% block page %}
-<div class="row">
-    <div class="col-md-9">
-        <h2 class="page-header">Debug Response</h2>
-        {{ dump(debug_response) }}
-        <h2 class="page-header">Debug Request</h2>
-        {{ dump(debug_request) }}
-    </div>
-    <div class="col-md-3">
-        <h2 class="page-header">Actions</h2>
-        <p><a class="btn btn-primary" role="button" href="{{ path('index') }}">Return</a></p>
-    </div>
-</div>
+{% block main %}
+<h2 class="page-header">Debug Response</h2>
+{{ dump(debug_response) }}
+<h2 class="page-header">Debug Request</h2>
+{{ dump(debug_request) }}
 {% endblock %}

@@ -1,26 +1,17 @@
 {% extends "html.html.twig" %}
 
-{% block page %}
-<div class="row">
-    <div class="col-md-9">
-        <h2 class="page-header">Authorization Code Grant</h2>
-        <p><a class="btn btn-primary" role="button" href="{{ acg_http_path }}">Authorization Request (HTTP Basic)</a></p>
-        <p><a class="btn btn-primary" role="button" href="{{ acg_form_path }}">Authorization Request (Form Login)</a></p>
+{% block main %}
+<h2 class="page-header">Authorization Code Grant</h2>
+<p><a class="btn btn-primary" role="button" href="{{ acg_http_path }}">Authorization Request (HTTP Basic)</a></p>
+<p><a class="btn btn-primary" role="button" href="{{ acg_form_path }}">Authorization Request (Form Login)</a></p>
 
-        <h2 class="page-header">Implicit Grant</h2>
-        <p><a class="btn btn-primary" role="button" href="{{ ig_http_path }}">Authorization Request (HTTP Basic)</a></p>
-        <p><a class="btn btn-primary" role="button" href="{{ ig_form_path }}">Authorization Request (Form Login)</a></p>
+<h2 class="page-header">Implicit Grant</h2>
+<p><a class="btn btn-primary" role="button" href="{{ ig_http_path }}">Authorization Request (HTTP Basic)</a></p>
+<p><a class="btn btn-primary" role="button" href="{{ ig_form_path }}">Authorization Request (Form Login)</a></p>
 
-        <h2 class="page-header">Resource Owner Password Credentials Grant</h2>
-        <p><a class="btn btn-primary" role="button" href="{{ ropcg_path }}">Access Token Request</a></p>
+<h2 class="page-header">Resource Owner Password Credentials Grant</h2>
+<p><a class="btn btn-primary" role="button" href="{{ ropcg_path }}">Access Token Request</a></p>
 
-        <h2 class="page-header">Client Credentials Grant</h2>
-        <p><a class="btn btn-primary" role="button" href="{{ ccg_path }}">Access Token Request</a></p>
-    </div>
-    <div class="col-md-3">
-        <h2 class="page-header">Actions</h2>
-        <p><a class="btn btn-success" role="button" href="{{ path('admin_refresh_database') }}">Refresh Database</a></p>
-        <p><a class="btn btn-success" role="button" href="{{ path('oauth2_authorize_form_logout') }}">Logout</a></p>
-    </div>
-</div>
+<h2 class="page-header">Client Credentials Grant</h2>
+<p><a class="btn btn-primary" role="button" href="{{ ccg_path }}">Access Token Request</a></p>
 {% endblock %}
