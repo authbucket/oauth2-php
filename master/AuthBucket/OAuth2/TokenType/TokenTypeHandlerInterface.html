@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface | </title>
+        <title>AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface | AuthBucket\OAuth2 API</title>
                     <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
                             </head>
         <body id="class">
@@ -17,7 +17,7 @@
             
         </ul>
 
-        <div id="title"></div>
+        <div id="title">AuthBucket\OAuth2 API</div>
 
             <div class="type">Interface</div>
     <h1><a href="../../../AuthBucket/OAuth2/TokenType.html">AuthBucket\OAuth2\TokenType</a>\TokenTypeHandlerInterface</h1>
@@ -63,8 +63,8 @@
         <h2>Details</h2>
 
                         <h3 id="method_getAccessToken">
-        <div class="location">at line 33</div>
-        <code>            public            string
+        <div class="location">at line 31</div>
+        <code>                    string
     <strong>getAccessToken</strong>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
     </h3>
     <div class="details">
@@ -98,8 +98,8 @@
     </div>
 
                 <h3 id="method_createAccessToken">
-        <div class="location">at line 54</div>
-        <code>            public            array
+        <div class="location">at line 45</div>
+        <code>                    array
     <strong>createAccessToken</strong>(<a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory, string $client_id, string $username = &#039;&#039;, array $scope = array(), string $state = null, bool $withRefreshToken = true)</code>
     </h3>
     <div class="details">
@@ -133,7 +133,7 @@
                     <tr>
                 <td>string</td>
                 <td>$state</td>
-                <td>state Original state which should preserve.</td>
+                <td>Original state which should preserve.</td>
             </tr>
                     <tr>
                 <td>bool</td>
