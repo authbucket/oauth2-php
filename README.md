@@ -97,7 +97,7 @@ References
 ----------
 
 -   http://authbucket.github.io/oauth2/
--   http://oauth2.demo.authbucket.com/
+-   http://demo.oauth2.authbucket.com/
 -   https://coveralls.io/r/authbucket/oauth2
 -   https://github.com/authbucket/oauth2
 -   https://packagist.org/packages/authbucket/oauth2
