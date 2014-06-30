@@ -1,19 +1,20 @@
 {% extends "html.html.twig" %}
 
-{% block head_title %}
-Authorization Endpoint
-{% endblock %}
+{% set head_title = 'Authorization Endpoint | AuthBucket\\OAuth2' %}
 
-{% block page_top %}
-<h1 class="page-header">Authorization Endpoint <small>(response_type = code)</small></h1>
-{% endblock %}
+{% block page %}
+    {% embed 'page.html.twig' %}
 
-{% block main %}
-<h2 class="page-header">Authorization response</h2>
-{{ dump(authorization_response) }}
-{% endblock %}
+    {% block main %}
+        <h2 class="page-header">Authorization Endpoint <small>(response_type = code)</small></h2>
+        <h3>Authorization response</h3>
+        {{ dump(authorization_response) }}
+    {% endblock %}
 
-{% block aside %}
-<h2 class="page-header">Actions</h2>
-<p><a class="btn btn-primary" role="button" href="{{ token_path }}">Access Token Request</a></p>
+    {% block aside %}
+        <h2 class="page-header">Actions</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ token_path }}">Access Token Request</a></p>
+    {% endblock %}
+
+    {% endembed %}
 {% endblock %}

@@ -1,16 +1,17 @@
 {% extends "html.html.twig" %}
 
-{% block head_title %}
-Resource Endpoint
-{% endblock %}
+{% set head_title = 'Resource Endpoint | AuthBucket\\OAuth2' %}
 
-{% block page_top %}
-<h1 class="page-header">Resource Endpoint</h1>
-{% endblock %}
+{% block page %}
+    {% embed 'page.html.twig' %}
 
-{% block main %}
-<h2 class="page-header">Debug Response</h2>
-{{ dump(debug_response) }}
-<h2 class="page-header">Debug Request</h2>
-{{ dump(debug_request) }}
+    {% block main %}
+        <h2 class="page-header">Resource Endpoint</h2>
+        <h3>Debug Response</h3>
+        {{ dump(debug_response) }}
+        <h3>Debug Request</h3>
+        {{ dump(debug_request) }}
+    {% endblock %}
+
+    {% endembed %}
 {% endblock %}

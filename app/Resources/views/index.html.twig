@@ -1,17 +1,25 @@
 {% extends "html.html.twig" %}
 
-{% block main %}
-<h2 class="page-header">Authorization Code Grant</h2>
-<p><a class="btn btn-primary" role="button" href="{{ acg_http_path }}">Authorization Request (HTTP Basic)</a></p>
-<p><a class="btn btn-primary" role="button" href="{{ acg_form_path }}">Authorization Request (Form Login)</a></p>
+{% set head_title = 'AuthBucket\\OAuth2' %}
 
-<h2 class="page-header">Implicit Grant</h2>
-<p><a class="btn btn-primary" role="button" href="{{ ig_http_path }}">Authorization Request (HTTP Basic)</a></p>
-<p><a class="btn btn-primary" role="button" href="{{ ig_form_path }}">Authorization Request (Form Login)</a></p>
+{% block page %}
+    {% embed 'page.html.twig' %}
 
-<h2 class="page-header">Resource Owner Password Credentials Grant</h2>
-<p><a class="btn btn-primary" role="button" href="{{ ropcg_path }}">Access Token Request</a></p>
+    {% block main %}
+        <h2 class="page-header">Authorization Code Grant</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ acg_http_path }}">Authorization Request (HTTP Basic)</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ acg_form_path }}">Authorization Request (Form Login)</a></p>
 
-<h2 class="page-header">Client Credentials Grant</h2>
-<p><a class="btn btn-primary" role="button" href="{{ ccg_path }}">Access Token Request</a></p>
+        <h2 class="page-header">Implicit Grant</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ ig_http_path }}">Authorization Request (HTTP Basic)</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ ig_form_path }}">Authorization Request (Form Login)</a></p>
+
+        <h2 class="page-header">Resource Owner Password Credentials Grant</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ ropcg_path }}">Access Token Request</a></p>
+
+        <h2 class="page-header">Client Credentials Grant</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ ccg_path }}">Access Token Request</a></p>
+    {% endblock %}
+
+    {% endembed %}
 {% endblock %}
