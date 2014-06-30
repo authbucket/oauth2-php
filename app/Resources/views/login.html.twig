@@ -23,5 +23,10 @@
         </form>
     {% endblock %}
 
+    {% block aside %}
+        <h2 class="page-header">Actions</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ path('index') }}">Return</a></p>
+    {% endblock %}
+
     {% endembed %}
 {% endblock %}

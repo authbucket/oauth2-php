@@ -6,18 +6,49 @@
     {% embed 'page.html.twig' %}
 
     {% block main %}
-        <h2 class="page-header">Authorization Code Grant</h2>
+        <h2 class="page-header">AuthBucket\OAuth2 Demo Client</h2>
+        <p>Welcome to the OAuth2.0 Demo Application! This is an application that demos some of the basic OAuth2.0 Workflows.</p>
+
+        <h3>Authorization Code Grant</h3>
+        <blockquote>
+            <p>The authorization code grant type is used to obtain both access tokens and refresh tokens and is optimized for confidential clients.</p>
+            <footer><a href="http://tools.ietf.org/html/rfc6749#section-4.1">4.1. Authorization Code Grant</a></footer>
+        </blockquote>
+
+        <h3>Implicit Grant</h3>
+        <blockquote>
+            <p>The implicit grant type is used to obtain access tokens (it does not support the issuance of refresh tokens) and is optimized for public clients known to operate a particular redirection URI.  These clients are typically implemented in a browser using a scripting language such as JavaScript.</p>
+            <footer><a href="http://tools.ietf.org/html/rfc6749#section-4.2">4.2. Implicit Grant</a></footer>
+        </blockquote>
+
+        <h3>Resource Owner Password Credentials Grant</h3>
+        <blockquote>
+            <p>The resource owner password credentials grant type is suitable in cases where the resource owner has a trust relationship with the client, such as the device operating system or a highly privileged application.</p>
+            <footer><a href="http://tools.ietf.org/html/rfc6749#section-4.3">4.3. Resource Owner Password Credentials Grant</a></footer>
+        </blockquote>
+
+        <h3>Client Credentials Grant</h3>
+        <blockquote>
+            <p>The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control, or those of another resource owner that have been previously arranged with the authorization server (the method of which is beyond the scope of this specification).</p>
+            <footer><a href="http://tools.ietf.org/html/rfc6749#section-4.4">4.4. Client Credentials Grant</a></footer>
+        </blockquote>
+
+    {% endblock %}
+
+    {% block aside %}
+        <h2 class="page-header">Actions</h2>
+        <h3>Authorization Code Grant</h3>
         <p><a class="btn btn-primary" role="button" href="{{ acg_http_path }}">Authorization Request (HTTP Basic)</a></p>
         <p><a class="btn btn-primary" role="button" href="{{ acg_form_path }}">Authorization Request (Form Login)</a></p>
 
-        <h2 class="page-header">Implicit Grant</h2>
+        <h3>Implicit Grant</h3>
         <p><a class="btn btn-primary" role="button" href="{{ ig_http_path }}">Authorization Request (HTTP Basic)</a></p>
         <p><a class="btn btn-primary" role="button" href="{{ ig_form_path }}">Authorization Request (Form Login)</a></p>
 
-        <h2 class="page-header">Resource Owner Password Credentials Grant</h2>
+        <h3>Resource Owner Password Credentials Grant</h3>
         <p><a class="btn btn-primary" role="button" href="{{ ropcg_path }}">Access Token Request</a></p>
 
-        <h2 class="page-header">Client Credentials Grant</h2>
+        <h3>Client Credentials Grant</h3>
         <p><a class="btn btn-primary" role="button" href="{{ ccg_path }}">Access Token Request</a></p>
     {% endblock %}
 
