@@ -49,6 +49,9 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // Check and set redirect_uri.
         $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
 
+        // Check state from stored code.
+        $this->checkState($request, $modelManagerFactory);
+
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
             $modelManagerFactory,
@@ -143,5 +146,37 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         return $redirectUri ?: $stored;
+    }
+
+    /**
+     * Check state from POST.
+     *
+     * @param Request                      $request             Incoming request object.
+     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
+     *
+     * @throw InvalidRequestException If supplied state value not match with stored record.
+     */
+    private function checkState(
+        Request $request,
+        ModelManagerFactoryInterface $modelManagerFactory
+    )
+    {
+        $state = $request->request->get('state');
+        $code = $request->request->get('code');
+
+        // state is required and in valid format.
+        $query = array(
+            'state' => $state,
+        );
+        if (!Filter::filter($query)) {
+            throw new InvalidRequestException();
+        }
+
+        // Check state with database record.
+        $codeManager = $modelManagerFactory->getModelManager('code');
+        $result = $codeManager->findCodeByCode($code);
+        if ($result === null || $result->getState() !== $state) {
+            throw new InvalidRequestException();
+        }
     }
 }

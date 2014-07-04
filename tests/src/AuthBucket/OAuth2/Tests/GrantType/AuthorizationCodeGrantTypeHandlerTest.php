@@ -110,12 +110,53 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $this->assertEquals('invalid_grant', $tokenResponse['error']);
     }
 
+    public function testExceptionBadStateFormat()
+    {
+        $parameters = array(
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'redirect_uri' => 'http://democlient2.com/redirect_uri',
+            'state' => "aaa\x19bbb\x7Fccc",
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient2.com/',
+            'PHP_AUTH_PW' => 'demosecret2',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
+    }
+
+    public function testExceptionWrongState()
+    {
+        $parameters = array(
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'redirect_uri' => 'http://democlient2.com/redirect_uri',
+            'state' => 'wrongstate',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient2.com/',
+            'PHP_AUTH_PW' => 'demosecret2',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
+    }
+
     public function testGoodAuthCode()
     {
         $parameters = array(
             'grant_type' => 'authorization_code',
             'code' => 'f0c68d250bcc729eb780a235371a9a55',
             'redirect_uri' => 'http://democlient2.com/redirect_uri',
+            'state' => 'f0c68d250bcc729eb780a235371a9a55',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient2.com/',
@@ -131,6 +172,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
             'redirect_uri' => 'http://democlient2.com/redirect_uri',
             'client_id' => 'http://democlient2.com/',
             'client_secret' => 'demosecret2',
+            'state' => 'f0c68d250bcc729eb780a235371a9a55',
         );
         $server = array();
         $client = $this->createClient();
@@ -146,6 +188,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
             'code' => 'f0c68d250bcc729eb780a235371a9a55',
             'client_id' => 'http://democlient2.com/',
             'client_secret' => 'demosecret2',
+            'state' => 'f0c68d250bcc729eb780a235371a9a55',
         );
         $server = array();
         $client = $this->createClient();
@@ -162,6 +205,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
             'redirect_uri' => 'http://democlient4.com/redirect_uri',
             'client_id' => 'http://democlient4.com/',
             'client_secret' => 'demosecret4',
+            'state' => '08fb55e26c84f8cb060b7803bc177af8',
         );
         $server = array();
         $client = $this->createClient();

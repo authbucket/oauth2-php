@@ -11,6 +11,6 @@
 
 namespace AuthBucket\OAuth2\Tests\TokenType;
 
-class FooModelManagerFactory
+class FooTokenTypeHandler
 {
 }

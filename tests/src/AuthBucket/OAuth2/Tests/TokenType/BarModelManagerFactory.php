@@ -11,6 +11,11 @@
 
 namespace AuthBucket\OAuth2\Tests\TokenType;
 
-class FooModelManagerFactory
+use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+
+class BarModelManagerFactory implements ModelManagerFactoryInterface
 {
+    public function getModelManager($type)
+    {
+    }
 }

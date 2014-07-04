@@ -134,19 +134,16 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $redirectUri
     )
     {
-        $state = $request->query->get('state', null);
+        $state = $request->query->get('state');
 
-        // state may not exists.
-        if ($state) {
-            // state must be in valid format.
-            $query = array(
-                'state' => $state,
-            );
-            if (!Filter::filter($query)) {
-                throw new InvalidRequestException(array(
-                    'redirect_uri' => $redirectUri
-                ));
-            }
+        // state is required and in valid format.
+        $query = array(
+            'state' => $state,
+        );
+        if (!Filter::filter($query)) {
+            throw new InvalidRequestException(array(
+                'redirect_uri' => $redirectUri
+            ));
         }
 
         return $state;

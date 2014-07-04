@@ -23,13 +23,16 @@ class OAuth2Test extends WebTestCase
 {
     public function testAuthorizationCodeGrant()
     {
+        // Unique session for state.
+        $session = $this->app['session']->getId();
+
         // Query authorization endpoint with response_type = code.
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
-            'state' => $this->app['session']->getId(),
+            'state' => $session,
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -54,6 +57,7 @@ class OAuth2Test extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'client_id' => 'http://democlient1.com/',
             'client_secret' => 'demosecret1',
+            'state' => $codeResponse['state'],
         );
         $server = array();
         $client = $this->createClient();
@@ -94,13 +98,16 @@ class OAuth2Test extends WebTestCase
 
     public function testImplicitGrant()
     {
+        // Unique session for state.
+        $session = $this->app['session']->getId();
+
         // Query authorization endpoint with response_type = token.
         $parameters = array(
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
-            'state' => $this->app['session']->getId(),
+            'state' => $session,
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -121,6 +128,7 @@ class OAuth2Test extends WebTestCase
         $tokenResponse = $authResponse->query->all();
         $this->assertEquals('bearer', $tokenResponse['token_type']);
         $this->assertEquals('demoscope1', $tokenResponse['scope']);
+        $this->assertEquals($session, $tokenResponse['state']);
 
         // Query debug endpoint with access_token.
         $parameters = array(

@@ -17,3 +17,4 @@ $app['db.options'] = array(
 );
 
 $app['session.test'] = true;
+$app['session']->start();

@@ -32,7 +32,7 @@ class MacTokenTypeHandlerTest extends WebTestCase
      */
     public function testExceptionCreateAccessToken()
     {
-        $modelManagerFactory = new FooModelManagerFactory();
+        $modelManagerFactory = new BarModelManagerFactory();
         $handler = new MacTokenTypeHandler();
         $handler->createAccessToken($modelManagerFactory, 'foo');
     }

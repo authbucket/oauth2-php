@@ -39,7 +39,7 @@ $app->register(new UrlGeneratorServiceProvider());
 // Return an instance of Doctrine ORM entity manager.
 $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
-    $event_manager = $app['dbs.event_manager']['default'];
+    $em = $app['dbs.event_manager']['default'];
 
     $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/Entity'));
 
@@ -48,7 +48,7 @@ $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
     $config->setMetadataCacheImpl(new ArrayCache());
     $config->setQueryCacheImpl(new ArrayCache());
 
-    return EntityManager::create($conn, $config, $event_manager);
+    return EntityManager::create($conn, $config, $em);
 });
 
 // Fake lib dev, simply use plain text encoder.

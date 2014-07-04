@@ -69,9 +69,6 @@ class DebugController
         $debugToken = $request->query->get('debug_token')
             ?: $request->request->get('debug_token')
             ?: $this->securityContext->getToken()->getAccessToken()->getAccessToken();
-        if (null === $debugToken) {
-            throw new InvalidRequestException();
-        }
 
         // Validate debug token.
         $query = array(
