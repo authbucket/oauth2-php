@@ -74,3 +74,5 @@ $app['authbucket_oauth2.token_controller'] = $app->share(function () use ($app) 
         $app['security.user_provider.default']
     );
 });
+
+$app['session']->start();

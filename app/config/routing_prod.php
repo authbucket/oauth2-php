@@ -22,10 +22,6 @@ require __DIR__ . '/routing.php';
 
 // Index.
 $app->get('/', function (Request $request) use ($app) {
-    if (!$app['session']->isStarted()) {
-        $app['session']->start();
-    }
-
     $acgHttpPath = $app['url_generator']->generate('oauth2_authorize_http', array(
         'response_type' => 'code',
         'client_id' => 'acg',
@@ -41,21 +37,10 @@ $app->get('/', function (Request $request) use ($app) {
         'state' => $app['session']->getId(),
     ));
 
-    $igHttpPath = $app['url_generator']->generate('oauth2_authorize_http', array(
-        'response_type' => 'token',
-        'client_id' => 'ig',
-        'redirect_uri' => $request->getUriForPath('/response_type/token'),
-        'scope' => 'demoscope1',
-        'state' => $app['session']->getId(),
+    $igPath = $app['url_generator']->generate('response_type_token', array(
+        'username' => 'demousername1',
+        'password' => 'demopassword1',
     ));
-    $igFormPath = $app['url_generator']->generate('oauth2_authorize_form', array(
-        'response_type' => 'token',
-        'client_id' => 'ig',
-        'redirect_uri' => $request->getUriForPath('/response_type/token'),
-        'scope' => 'demoscope1',
-        'state' => $app['session']->getId(),
-    ));
-
     $ropcgPath = $app['url_generator']->generate('grant_type_password', array(
         'username' => 'demousername1',
         'password' => 'demopassword1',
@@ -68,8 +53,7 @@ $app->get('/', function (Request $request) use ($app) {
     return $app['twig']->render('index.html.twig', array(
         'acg_http_path' => $acgHttpPath,
         'acg_form_path' => $acgFormPath,
-        'ig_http_path' => $igHttpPath,
-        'ig_form_path' => $igFormPath,
+        'ig_path' => $igPath,
         'ropcg_path' => $ropcgPath,
         'ccg_path' => $ccgPath,
     ));
@@ -169,7 +153,23 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
 
 // Debug, implicit grant, authorize endpoint.
 $app->get('/response_type/token', function (Request $request, Application $app) {
-    $accessTokenResponse = $request->query->all();
+    $parameters = array(
+        'response_type' => 'token',
+        'client_id' => 'ig',
+        'redirect_uri' => $request->getUriForPath('/response_type/token'),
+        'scope' => 'demoscope1',
+        'state' => $app['session']->getId(),
+    );
+    $server = array(
+        'PHP_AUTH_USER' => $request->query->get('username', 'demousername1'),
+        'PHP_AUTH_PW' => $request->query->get('password', 'demopassword1'),
+    );
+    $client = new Client($app);
+    $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
+    $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+    $accessTokenResponse = $authResponse->query->all();
+    $accessTokenRequest = $client->getRequest();
+
     $resourcePath = $app['url_generator']->generate('resource', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
@@ -177,6 +177,7 @@ $app->get('/response_type/token', function (Request $request, Application $app) 
     return $app['twig']->render('response_type/token.html.twig', array(
         'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
+        'access_token_request' => get_object_vars($accessTokenRequest),
         'resource_path' => $resourcePath,
     ));
 })->bind('response_type_token');
