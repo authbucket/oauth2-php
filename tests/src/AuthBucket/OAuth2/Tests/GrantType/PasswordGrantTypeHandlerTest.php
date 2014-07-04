@@ -61,7 +61,6 @@ class PasswordGrantTypeHandlerTest extends WebTestCase
             'username' => 'demousername1',
             'password' => 'badpassword1',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => 'demostate1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -82,7 +81,6 @@ class PasswordGrantTypeHandlerTest extends WebTestCase
             'username' => 'badusername1',
             'password' => 'badpassword1',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => 'demostate1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -143,7 +141,6 @@ class PasswordGrantTypeHandlerTest extends WebTestCase
             'username' => 'demousername3',
             'password' => 'demopassword3',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => 'demostate1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient3.com/',

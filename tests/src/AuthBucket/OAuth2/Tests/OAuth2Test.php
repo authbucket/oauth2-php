@@ -29,7 +29,7 @@ class OAuth2Test extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
-            'state' => 'example state',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -100,7 +100,7 @@ class OAuth2Test extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
-            'state' => 'example state',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -143,7 +143,6 @@ class OAuth2Test extends WebTestCase
             'username' => 'demousername1',
             'password' => 'demopassword1',
             'scope' => 'demoscope1',
-            'state' => 'demostate1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',

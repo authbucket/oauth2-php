@@ -86,7 +86,7 @@ class WebTestCaseNullUserProviderTest extends SilexWebTestCase
             'username' => 'demousername3',
             'password' => 'demopassword3',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => 'demostate1',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient3.com/',

@@ -97,6 +97,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -117,6 +118,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "badscope1",
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -157,6 +159,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -171,6 +174,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -185,6 +189,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername3',
@@ -199,7 +204,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => 'example state',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername3',
@@ -215,6 +220,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -231,6 +237,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'code',
             'client_id' => 'http://democlient4.com/',
             'redirect_uri' => 'http://democlient4.com/redirect_uri',
+            'state' => $this->app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -259,7 +266,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => 'example state',
+            'state' => $this->app['session']->getId(),
         );
         $server = array();
         $crawler = $client->request('GET', '/oauth2/authorize/form', $parameters, array(), $server);

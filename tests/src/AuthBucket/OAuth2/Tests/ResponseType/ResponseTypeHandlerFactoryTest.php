@@ -11,28 +11,7 @@
 
 namespace AuthBucket\OAuth2\Tests\ResponseType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
-use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-
-class FooResponseTypeHandler
-{
-}
-
-class BarResponseTypeHandler implements ResponseTypeHandlerInterface
-{
-    public function handle(
-        SecurityContextInterface $securityContext,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-    )
-    {
-    }
-}
 
 class ResponseTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
