@@ -40,17 +40,17 @@ class OAuth2Test extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
 
         // Check basic auth response that can simply compare.
-        $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
         $this->assertEquals(
             'http://democlient1.com/redirect_uri',
-            $auth_response->getSchemeAndHttpHost() . $auth_response->getBaseUrl() . $auth_response->getPathInfo()
+            $authResponse->getSchemeAndHttpHost() . $authResponse->getBaseUrl() . $authResponse->getPathInfo()
         );
 
         // Query token endpoint with grant_type = authorization_code.
-        $code_response = $auth_response->query->all();
+        $codeResponse = $authResponse->query->all();
         $parameters = array(
             'grant_type' => 'authorization_code',
-            'code' => $code_response['code'],
+            'code' => $codeResponse['code'],
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'client_id' => 'http://democlient1.com/',
             'client_secret' => 'demosecret1',
@@ -61,10 +61,10 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Query token endpoint with grant_type = refresh_token.
-        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $parameters = array(
             'grant_type' => 'refresh_token',
-            'refresh_token' => $token_response['refresh_token'],
+            'refresh_token' => $tokenResponse['refresh_token'],
             'scope' => 'demoscope1',
         );
         $server = array(
@@ -75,21 +75,21 @@ class OAuth2Test extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
 
         // Check basic token response that can simply compare.
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1', $token_response['scope']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('bearer', $tokenResponse['token_type']);
+        $this->assertEquals('demoscope1', $tokenResponse['scope']);
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug_token' => $token_response['access_token'],
+            'debug_token' => $tokenResponse['access_token'],
         );
         $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+            'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $debug_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $debug_response['username']);
+        $debugResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $debugResponse['username']);
     }
 
     public function testImplicitGrant()
@@ -111,28 +111,28 @@ class OAuth2Test extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
 
         // Check basic auth response that can simply compare.
-        $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
         $this->assertEquals(
             'http://democlient1.com/redirect_uri',
-            $auth_response->getSchemeAndHttpHost() . $auth_response->getBaseUrl() . $auth_response->getPathInfo()
+            $authResponse->getSchemeAndHttpHost() . $authResponse->getBaseUrl() . $authResponse->getPathInfo()
         );
 
         // Check basic token response that can simply compare.
-        $token_response = $auth_response->query->all();
-        $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1', $token_response['scope']);
+        $tokenResponse = $authResponse->query->all();
+        $this->assertEquals('bearer', $tokenResponse['token_type']);
+        $this->assertEquals('demoscope1', $tokenResponse['scope']);
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug_token' => $token_response['access_token'],
+            'debug_token' => $tokenResponse['access_token'],
         );
         $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+            'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
     }
 
     public function testResourceOwnerPasswordCredentialsGrant()
@@ -154,10 +154,10 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Query token endpoint with grant_type = refresh_token.
-        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $parameters = array(
             'grant_type' => 'refresh_token',
-            'refresh_token' => $token_response['refresh_token'],
+            'refresh_token' => $tokenResponse['refresh_token'],
             'scope' => 'demoscope1',
         );
         $server = array(
@@ -168,21 +168,21 @@ class OAuth2Test extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
 
         // Check basic token response that can simply compare.
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1', $token_response['scope']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('bearer', $tokenResponse['token_type']);
+        $this->assertEquals('demoscope1', $tokenResponse['scope']);
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug_token' => $token_response['access_token'],
+            'debug_token' => $tokenResponse['access_token'],
         );
         $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+            'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
     }
 
     public function testClientCredentialsGrant()
@@ -201,10 +201,10 @@ class OAuth2Test extends WebTestCase
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Query token endpoint with grant_type = refresh_token.
-        $token_response = json_decode($client->getResponse()->getContent(), true);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $parameters = array(
             'grant_type' => 'refresh_token',
-            'refresh_token' => $token_response['refresh_token'],
+            'refresh_token' => $tokenResponse['refresh_token'],
             'scope' => 'demoscope1 demoscope2 demoscope3',
         );
         $server = array(
@@ -215,20 +215,20 @@ class OAuth2Test extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
 
         // Check basic token response that can simply compare.
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('bearer', $tokenResponse['token_type']);
+        $this->assertEquals('demoscope1 demoscope2 demoscope3', $tokenResponse['scope']);
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug_token' => $token_response['access_token'],
+            'debug_token' => $tokenResponse['access_token'],
         );
         $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+            'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('', $resourceResponse['username']);
     }
 }

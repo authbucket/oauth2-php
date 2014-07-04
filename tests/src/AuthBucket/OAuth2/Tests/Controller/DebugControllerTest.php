@@ -26,8 +26,8 @@ class DebugControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resource_response['error']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
     }
 
     public function testExceptionNotExistsDebugToken()
@@ -40,8 +40,8 @@ class DebugControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resource_response['error']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
     }
 
     public function testExceptionExpiredDebugToken()
@@ -54,8 +54,8 @@ class DebugControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resource_response['error']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
     }
 
     public function testGoodEmptyDebugToken()
@@ -66,8 +66,8 @@ class DebugControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
     }
 
     public function testGoodDebugToken()
@@ -80,7 +80,7 @@ class DebugControllerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
     }
 }

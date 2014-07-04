@@ -51,7 +51,7 @@ class WebTestCaseNullUserProviderTest extends SilexWebTestCase
         // Return an instance of Doctrine ORM entity manager.
         $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
             $conn = $app['dbs']['default'];
-            $event_manager = $app['dbs.event_manager']['default'];
+            $eventManager = $app['dbs.event_manager']['default'];
 
             $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/Entity'));
 
@@ -60,7 +60,7 @@ class WebTestCaseNullUserProviderTest extends SilexWebTestCase
             $config->setMetadataCacheImpl(new ArrayCache());
             $config->setQueryCacheImpl(new ArrayCache());
 
-            return EntityManager::create($conn, $config, $event_manager);
+            return EntityManager::create($conn, $config, $eventManager);
         });
 
         // Fake lib dev, simply use plain text encoder.
@@ -96,7 +96,7 @@ class WebTestCaseNullUserProviderTest extends SilexWebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('server_error', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('server_error', $tokenResponse['error']);
     }
 }

@@ -30,8 +30,8 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_scope', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_scope', $tokenResponse['error']);
     }
 
     public function testErrorClientCredBadScopeFormat()
@@ -48,8 +48,8 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testGoodClientCred()

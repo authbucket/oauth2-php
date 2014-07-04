@@ -28,8 +28,8 @@ class AuthorizateControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testErrorBadResponseType()
@@ -47,7 +47,7 @@ class AuthorizateControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('unsupported_response_type', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('unsupported_response_type', $tokenResponse['error']);
     }
 }

@@ -51,7 +51,7 @@ class WebTestCaseNullModelManagerTest extends SilexWebTestCase
         // Return an instance of Doctrine ORM entity manager.
         $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
             $conn = $app['dbs']['default'];
-            $event_manager = $app['dbs.event_manager']['default'];
+            $eventManager = $app['dbs.event_manager']['default'];
 
             $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/Entity'));
 
@@ -60,7 +60,7 @@ class WebTestCaseNullModelManagerTest extends SilexWebTestCase
             $config->setMetadataCacheImpl(new ArrayCache());
             $config->setQueryCacheImpl(new ArrayCache());
 
-            return EntityManager::create($conn, $config, $event_manager);
+            return EntityManager::create($conn, $config, $eventManager);
         });
 
         // Fake lib dev, simply use plain text encoder.
@@ -107,20 +107,20 @@ class WebTestCaseNullModelManagerTest extends SilexWebTestCase
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Check basic token response that can simply compare.
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('bearer', $token_response['token_type']);
-        $this->assertEquals('demoscope1 demoscope2 demoscope3', $token_response['scope']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('bearer', $tokenResponse['token_type']);
+        $this->assertEquals('demoscope1 demoscope2 demoscope3', $tokenResponse['scope']);
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug_token' => $token_response['access_token'],
+            'debug_token' => $tokenResponse['access_token'],
         );
         $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
+            'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('', $resourceResponse['username']);
     }
 }

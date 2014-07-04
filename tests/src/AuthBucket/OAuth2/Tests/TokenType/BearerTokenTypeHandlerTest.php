@@ -24,8 +24,8 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionDuplicateToken()
@@ -40,8 +40,8 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testAuthorizationHeader()
@@ -54,8 +54,8 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
 
         $parameters = array(
             'debug_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
@@ -65,8 +65,8 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('POST', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
     }
 
     public function testGet()
@@ -78,8 +78,8 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $server = array();
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
     }
 
     public function testPost()
@@ -91,7 +91,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $server = array();
         $client = $this->createClient();
         $crawler = $client->request('POST', '/oauth2/debug', $parameters, array(), $server);
-        $resource_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resource_response['username']);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
     }
 }

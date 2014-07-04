@@ -30,8 +30,8 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionCodeBadClientId()
@@ -49,8 +49,8 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_client', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_client', $tokenResponse['error']);
     }
 
     public function testExceptionCodeNoSavedNoPassedRedirectUri()
@@ -67,8 +67,8 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionCodeBadRedirectUri()
@@ -86,8 +86,8 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testErrorCodeBadScopeFormat()
@@ -105,9 +105,9 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
-        $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
-        $token_response = $auth_response->query->all();
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $tokenResponse = $authResponse->query->all();
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testErrorCodeBadScope()
@@ -125,9 +125,9 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
-        $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
-        $token_response = $auth_response->query->all();
-        $this->assertEquals('invalid_scope', $token_response['error']);
+        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $tokenResponse = $authResponse->query->all();
+        $this->assertEquals('invalid_scope', $tokenResponse['error']);
     }
 
     public function testErrorCodeBadStateFormat()
@@ -146,9 +146,9 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
-        $auth_response = Request::create($client->getResponse()->headers->get('Location'), 'GET');
-        $token_response = $auth_response->query->all();
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $tokenResponse = $authResponse->query->all();
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testGoodCode()

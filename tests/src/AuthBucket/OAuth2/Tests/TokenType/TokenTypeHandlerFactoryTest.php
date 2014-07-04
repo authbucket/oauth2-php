@@ -11,32 +11,7 @@
 
 namespace AuthBucket\OAuth2\Tests\TokenType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface;
-use Symfony\Component\HttpFoundation\Request;
-
-class FooTokenTypeHandler
-{
-}
-
-class BarTokenTypeHandler implements TokenTypeHandlerInterface
-{
-    public function getAccessToken(Request $request)
-    {
-    }
-
-    public function createAccessToken(
-        ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id,
-        $username = '',
-        $scope = array(),
-        $state = null,
-        $withRefreshToken = true
-    )
-    {
-    }
-}
 
 class TokenTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {

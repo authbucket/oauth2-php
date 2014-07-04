@@ -30,8 +30,8 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeBadRedirectUri()
@@ -49,8 +49,8 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testErrorAuthCodeNoCode()
@@ -68,8 +68,8 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionWrongClientIdAuthCode()
@@ -87,8 +87,8 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_grant', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_grant', $tokenResponse['error']);
     }
 
     public function testExceptionExpiredAuthCode()
@@ -106,8 +106,8 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_grant', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_grant', $tokenResponse['error']);
     }
 
     public function testGoodAuthCode()

@@ -11,17 +11,9 @@
 
 namespace AuthBucket\OAuth2\Tests\TokenType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Tests\WebTestCase;
 use AuthBucket\OAuth2\TokenType\MacTokenTypeHandler;
 use Symfony\Component\HttpFoundation\Request;
-
-class FooModelManagerFactory implements ModelManagerFactoryInterface
-{
-    public function getModelManager($type)
-    {
-    }
-}
 
 class MacTokenTypeHandlerTest extends WebTestCase
 {

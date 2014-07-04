@@ -29,8 +29,8 @@ class TokenControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionBadGrantType()
@@ -42,8 +42,8 @@ class TokenControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeNoClientId()
@@ -55,8 +55,8 @@ class TokenControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeBothClientId()
@@ -73,8 +73,8 @@ class TokenControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeBadBasicClientId()
@@ -89,8 +89,8 @@ class TokenControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_client', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_client', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeBadPostClientId()
@@ -104,7 +104,7 @@ class TokenControllerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $token_response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_client', $token_response['error']);
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_client', $tokenResponse['error']);
     }
 }
