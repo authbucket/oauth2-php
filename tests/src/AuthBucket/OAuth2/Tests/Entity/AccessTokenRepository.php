@@ -55,7 +55,7 @@ class AccessTokenRepository extends EntityRepository implements AccessTokenManag
     public function findAccessTokenByAccessToken($accessToken)
     {
         return $this->findOneBy(array(
-            'access_token' => $accessToken,
+            'accessToken' => $accessToken,
         ));
     }
 }

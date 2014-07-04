@@ -43,7 +43,7 @@ class Code implements CodeInterface
      *
      * @ORM\Column(name="client_id", type="string", length=255)
      */
-    protected $client_id;
+    protected $clientId;
 
     /**
      * @var string
@@ -57,7 +57,7 @@ class Code implements CodeInterface
      *
      * @ORM\Column(name="redirect_uri", type="text")
      */
-    protected $redirect_uri;
+    protected $redirectUri;
 
     /**
      * @var \DateTime
@@ -110,13 +110,13 @@ class Code implements CodeInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param string $clientId
      *
      * @return Code
      */
-    public function setClientId($client_id)
+    public function setClientId($clientId)
     {
-        $this->client_id = $client_id;
+        $this->clientId = $clientId;
 
         return $this;
     }
@@ -128,7 +128,7 @@ class Code implements CodeInterface
      */
     public function getClientId()
     {
-        return $this->client_id;
+        return $this->clientId;
     }
 
     /**
@@ -158,13 +158,13 @@ class Code implements CodeInterface
     /**
      * Set redirect_uri
      *
-     * @param string $redirect_uri
+     * @param string $redirectUri
      *
      * @return Code
      */
-    public function setRedirectUri($redirect_uri)
+    public function setRedirectUri($redirectUri)
     {
-        $this->redirect_uri = $redirect_uri;
+        $this->redirectUri = $redirectUri;
 
         return $this;
     }
@@ -176,7 +176,7 @@ class Code implements CodeInterface
      */
     public function getRedirectUri()
     {
-        return $this->redirect_uri;
+        return $this->redirectUri;
     }
 
     /**

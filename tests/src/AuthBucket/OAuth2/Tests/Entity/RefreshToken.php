@@ -36,14 +36,14 @@ class RefreshToken implements RefreshTokenInterface
      *
      * @ORM\Column(name="refresh_token", type="string", length=255)
      */
-    protected $refresh_token;
+    protected $refreshToken;
 
     /**
      * @var string
      *
      * @ORM\Column(name="client_id", type="string", length=255)
      */
-    protected $client_id;
+    protected $clientId;
 
     /**
      * @var string
@@ -79,13 +79,13 @@ class RefreshToken implements RefreshTokenInterface
     /**
      * Set refresh_token
      *
-     * @param string $refresh_token
+     * @param string $refreshToken
      *
      * @return RefreshToken
      */
-    public function setRefreshToken($refresh_token)
+    public function setRefreshToken($refreshToken)
     {
-        $this->refresh_token = $refresh_token;
+        $this->refreshToken = $refreshToken;
 
         return $this;
     }
@@ -97,19 +97,19 @@ class RefreshToken implements RefreshTokenInterface
      */
     public function getRefreshToken()
     {
-        return $this->refresh_token;
+        return $this->refreshToken;
     }
 
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param string $clientId
      *
      * @return RefreshToken
      */
-    public function setClientId($client_id)
+    public function setClientId($clientId)
     {
-        $this->client_id = $client_id;
+        $this->clientId = $clientId;
 
         return $this;
     }
@@ -121,7 +121,7 @@ class RefreshToken implements RefreshTokenInterface
      */
     public function getClientId()
     {
-        return $this->client_id;
+        return $this->clientId;
     }
 
     /**

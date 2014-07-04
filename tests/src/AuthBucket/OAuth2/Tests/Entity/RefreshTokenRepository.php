@@ -55,7 +55,7 @@ class RefreshTokenRepository extends EntityRepository implements RefreshTokenMan
     public function findRefreshTokenByRefreshToken($refreshToken)
     {
         return $this->findOneBy(array(
-            'refresh_token' => $refreshToken,
+            'refreshToken' => $refreshToken,
         ));
     }
 }
