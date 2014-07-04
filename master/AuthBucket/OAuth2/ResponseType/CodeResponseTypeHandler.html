@@ -42,7 +42,7 @@
                     <abbr title="AuthBucket\OAuth2\ResponseType\RedirectResponse">RedirectResponse</abbr>
                 </td>
                 <td class="last">
-                    <a href="#method_handle">handle</a>(<abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, <a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory, <a href="../../../AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></a> $tokenTypeHandlerFactory)
+                    <a href="#method_handle">handle</a>(<abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, <a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory, <a href="../../../AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></a> $tokenTypeHandlerFactory, $authorizeScopeUri = null)
                     <p>Handle corresponding response type logic.</p>
                 </td>
                 <td></td>
@@ -55,7 +55,7 @@
                         <h3 id="method_handle">
         <div class="location">at line 27</div>
         <code>                    <abbr title="AuthBucket\OAuth2\ResponseType\RedirectResponse">RedirectResponse</abbr>
-    <strong>handle</strong>(<abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, <a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory, <a href="../../../AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></a> $tokenTypeHandlerFactory)</code>
+    <strong>handle</strong>(<abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, <abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, <a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory, <a href="../../../AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></a> $tokenTypeHandlerFactory, $authorizeScopeUri = null)</code>
     </h3>
     <div class="details">
         <p>Handle corresponding response type logic.</p>
@@ -84,6 +84,12 @@
                 <td><a href="../../../AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></a></td>
                 <td>$tokenTypeHandlerFactory</td>
                 <td>Token type handler that will generate the correct response parameters.</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$authorizeScopeUri</td>
+                <td>
+</td>
             </tr>
             </table>
 
