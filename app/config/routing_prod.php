@@ -20,6 +20,10 @@ use Symfony\Component\HttpKernel\Client;
 
 require __DIR__ . '/routing.php';
 
+if (!$app['session']->isStarted()) {
+    $app['session']->start();
+}
+
 // Index.
 $app->get('/', function (Request $request) use ($app) {
     $acgPath = $app['url_generator']->generate('response_type_code', array(
