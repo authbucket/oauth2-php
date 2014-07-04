@@ -86,7 +86,8 @@ class AccessToken implements AccessTokenInterface
     /**
      * Set access_token
      *
-     * @param  string      $access_token
+     * @param string $access_token
+     *
      * @return AccessToken
      */
     public function setAccessToken($access_token)
@@ -109,7 +110,8 @@ class AccessToken implements AccessTokenInterface
     /**
      * Set token_type
      *
-     * @param  string      $token_type
+     * @param string $token_type
+     *
      * @return AccessToken
      */
     public function setTokenType($token_type)
@@ -132,7 +134,8 @@ class AccessToken implements AccessTokenInterface
     /**
      * Set client_id
      *
-     * @param  string      $client_id
+     * @param string $client_id
+     *
      * @return AccessToken
      */
     public function setClientId($client_id)
@@ -155,7 +158,8 @@ class AccessToken implements AccessTokenInterface
     /**
      * Set username
      *
-     * @param  string      $username
+     * @param string $username
+     *
      * @return AccessToken
      */
     public function setUsername($username)
@@ -178,7 +182,8 @@ class AccessToken implements AccessTokenInterface
     /**
      * Set expires
      *
-     * @param  \DateTime   $expires
+     * @param \DateTime $expires
+     *
      * @return AccessToken
      */
     public function setExpires($expires)
@@ -201,7 +206,8 @@ class AccessToken implements AccessTokenInterface
     /**
      * Set scope
      *
-     * @param  array       $scope
+     * @param array $scope
+     *
      * @return AccessToken
      */
     public function setScope($scope)

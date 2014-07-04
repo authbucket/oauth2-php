@@ -52,10 +52,10 @@ class ClientRepository extends EntityRepository implements ClientManagerInterfac
         $this->getEntityManager()->flush();
     }
 
-    public function findClientByClientId($client_id)
+    public function findClientByClientId($clientId)
     {
         return $this->findOneBy(array(
-            'client_id' => $client_id,
+            'client_id' => $clientId,
         ));
     }
 }

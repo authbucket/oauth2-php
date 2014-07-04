@@ -52,10 +52,10 @@ class AuthorizeRepository extends EntityRepository implements AuthorizeManagerIn
         $this->getEntityManager()->flush();
     }
 
-    public function findAuthorizeByClientIdAndUsername($client_id, $username)
+    public function findAuthorizeByClientIdAndUsername($clientId, $username)
     {
         return $this->findOneBy(array(
-            'client_id' => $client_id,
+            'client_id' => $clientId,
             'username' => $username,
         ));
     }
