@@ -41,9 +41,9 @@ class ExceptionListener
         $message = unserialize($exception->getMessage());
 
         if (isset($message['redirect_uri'])) {
-            $redirect_uri = $message['redirect_uri'];
+            $redirectUri = $message['redirect_uri'];
             unset($message['redirect_uri']);
-            $response = RedirectResponse::create($redirect_uri, $message);
+            $response = RedirectResponse::create($redirectUri, $message);
         } else {
             $code = $exception->getCode();
             $response = JsonResponse::create($message, $code);

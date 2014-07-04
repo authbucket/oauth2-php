@@ -85,12 +85,16 @@ class OAuth2ServiceProvider implements ServiceProviderInterface
             return new TokenTypeHandlerFactory($app['authbucket_oauth2.token_handler']);
         });
 
+        // For sending user to scope authorize page due to insufficient scope,
+        // override the last parameter with redirect URI, e.g.
+        // '/oauth2/authorize/scope'.
         $app['authbucket_oauth2.authorize_controller'] = $app->share(function () use ($app) {
             return new AuthorizeController(
                 $app['security'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_handler.factory'],
-                $app['authbucket_oauth2.token_handler.factory']
+                $app['authbucket_oauth2.token_handler.factory'],
+                null
             );
         });
 

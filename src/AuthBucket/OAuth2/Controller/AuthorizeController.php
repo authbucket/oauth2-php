@@ -30,45 +30,49 @@ class AuthorizeController
     protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
     protected $tokenTypeHandlerFactory;
+    protected $authorizeScopeUri;
 
     public function __construct(
         SecurityContextInterface $securityContext,
         ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        $authorizeScopeUri = null
     )
     {
         $this->securityContext = $securityContext;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
+        $this->authorizeScopeUri = $authorizeScopeUri;
     }
 
     public function authorizeAction(Request $request)
     {
         // Fetch response_type from GET.
-        $response_type = $this->getResponseType($request);
+        $responseType = $this->getResponseType($request);
 
         // Handle authorize endpoint response.
-        return $this->responseTypeHandlerFactory->getResponseTypeHandler($response_type)->handle(
+        return $this->responseTypeHandlerFactory->getResponseTypeHandler($responseType)->handle(
             $this->securityContext,
             $request,
             $this->modelManagerFactory,
-            $this->tokenTypeHandlerFactory
+            $this->tokenTypeHandlerFactory,
+            $this->authorizeScopeUri
         );
     }
 
     private function getResponseType(Request $request)
     {
         // Validate and set response_type.
-        $response_type = $request->query->get('response_type');
+        $responseType = $request->query->get('response_type');
         $query = array(
-            'response_type' => $response_type
+            'response_type' => $responseType
         );
         if (!Filter::filter($query)) {
             throw new InvalidRequestException();
         }
 
-        return $response_type;
+        return $responseType;
     }
 }

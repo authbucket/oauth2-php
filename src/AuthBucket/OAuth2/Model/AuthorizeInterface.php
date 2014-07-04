@@ -21,11 +21,11 @@ interface AuthorizeInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param string $clientId
      *
      * @return Authorize
      */
-    public function setClientId($client_id);
+    public function setClientId($clientId);
 
     /**
      * Get client_id

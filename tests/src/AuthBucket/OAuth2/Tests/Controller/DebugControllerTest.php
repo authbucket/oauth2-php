@@ -19,7 +19,7 @@ class DebugControllerTest extends WebTestCase
     public function testExceptionBadDebugToken()
     {
         $parameters = array(
-            'debug' => "aaa\x19bbb\x5Cccc\x7Fddd",
+            'debug_token' => "aaa\x19bbb\x5Cccc\x7Fddd",
         );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
@@ -33,7 +33,7 @@ class DebugControllerTest extends WebTestCase
     public function testExceptionNotExistsDebugToken()
     {
         $parameters = array(
-            'debug' => "abcd",
+            'debug_token' => "abcd",
         );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
@@ -47,7 +47,7 @@ class DebugControllerTest extends WebTestCase
     public function testExceptionExpiredDebugToken()
     {
         $parameters = array(
-            'debug' => "d2b58c4c6bc0cc9fefca2d558f1221a5",
+            'debug_token' => "d2b58c4c6bc0cc9fefca2d558f1221a5",
         );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
@@ -73,7 +73,7 @@ class DebugControllerTest extends WebTestCase
     public function testGoodDebugToken()
     {
         $parameters = array(
-            'debug' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
+            'debug_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
         );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),

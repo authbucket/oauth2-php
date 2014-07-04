@@ -62,11 +62,11 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         ModelManagerFactoryInterface $modelManagerFactory
     )
     {
-        $client_id = $request->query->get('client_id');
+        $clientId = $request->query->get('client_id');
 
         // client_id is required and in valid format.
         $query = array(
-            'client_id' => $client_id,
+            'client_id' => $clientId,
         );
         if (!Filter::filter($query)) {
             throw new InvalidRequestException();
@@ -74,12 +74,12 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         // Compare client_id with database record.
         $clientManager = $modelManagerFactory->getModelManager('client');
-        $result = $clientManager->findClientByClientId($client_id);
+        $result = $clientManager->findClientByClientId($clientId);
         if ($result === null) {
             throw new InvalidClientException();
         }
 
-        return $client_id;
+        return $clientId;
     }
 
     /**
@@ -87,7 +87,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      *
      * @param Request                      $request             Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $client_id           Corresponding client_id that code should belongs to.
+     * @param string                       $clientId            Corresponding client_id that code should belongs to.
      *
      * @return string The supplied redirect_uri from incoming request, or from stored record.
      *
@@ -96,42 +96,42 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     protected function checkRedirectUri(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id
+        $clientId
     )
     {
         $clientManager = $modelManagerFactory->getModelManager('client');
 
-        $redirect_uri = $request->query->get('redirect_uri');
+        $redirectUri = $request->query->get('redirect_uri');
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
-        $result = $clientManager->findClientByClientId($client_id);
+        $result = $clientManager->findClientByClientId($clientId);
         if ($result !== null && $result->getRedirectUri()) {
             $stored = $result->getRedirectUri();
         }
 
         // At least one of: existing redirect URI or input redirect URI must be
         // specified.
-        if (!$stored && !$redirect_uri) {
+        if (!$stored && !$redirectUri) {
             throw new InvalidRequestException();
         }
 
         // If there's an existing uri and one from input, verify that they match.
-        if ($stored && $redirect_uri) {
+        if ($stored && $redirectUri) {
             // Ensure that the input uri starts with the stored uri.
-            if (strcasecmp(substr($redirect_uri, 0, strlen($stored)), $stored) !== 0) {
+            if (strcasecmp(substr($redirectUri, 0, strlen($stored)), $stored) !== 0) {
                 throw new InvalidRequestException();
             }
         }
 
-        return $redirect_uri
+        return $redirectUri
             ?: $stored;
     }
 
     protected function checkState(
         Request $request,
-        $redirect_uri
+        $redirectUri
     )
     {
         $state = $request->query->get('state', null);
@@ -144,7 +144,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             );
             if (!Filter::filter($query)) {
                 throw new InvalidRequestException(array(
-                    'redirect_uri' => $redirect_uri
+                    'redirect_uri' => $redirectUri
                 ));
             }
         }
@@ -155,10 +155,11 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     protected function checkScope(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id,
+        $clientId,
         $username,
-        $redirect_uri,
-        $state
+        $redirectUri,
+        $state,
+        $authorizeScopeUri = null
     )
     {
         $scope = $request->query->get('scope', array());
@@ -171,32 +172,32 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             );
             if (!Filter::filter($query)) {
                 throw new InvalidRequestException(array(
-                    'redirect_uri' => $redirect_uri,
+                    'redirect_uri' => $redirectUri,
                     'state' => $state,
                 ));
             }
 
             // Compare if given scope within all available authorized scopes.
-            $authorized_scope = array();
+            $scopeAuthorized = array();
             $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($client_id, $username);
+            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
             if ($result !== null) {
-                $authorized_scope = $result->getScope();
+                $scopeAuthorized = $result->getScope();
             }
 
-            $supported_scope = array();
+            $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
             $result = $scopeManager->findScopes();
             if ($result !== null) {
                 foreach ($result as $row) {
-                    $supported_scope[] = $row->getScope();
+                    $scopeSupported[] = $row->getScope();
                 }
             }
-
             $scope = preg_split('/\s+/', $scope);
-            if (array_intersect($scope, $authorized_scope, $supported_scope) != $scope) {
+
+            if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
                 throw new InvalidScopeException(array(
-                    'redirect_uri' => $redirect_uri,
+                    'redirect_uri' => $authorizeScopeUri ?: $redirectUri,
                     'state' => $state,
                 ));
             }

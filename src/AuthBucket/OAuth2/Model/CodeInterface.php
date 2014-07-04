@@ -37,11 +37,11 @@ interface CodeInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param string $clientId
      *
      * @return Code
      */
-    public function setClientId($client_id);
+    public function setClientId($clientId);
 
     /**
      * Get client_id
@@ -69,11 +69,11 @@ interface CodeInterface extends ModelInterface
     /**
      * Set redirect_uri
      *
-     * @param string $redirect_uri
+     * @param string $redirectUri
      *
      * @return Code
      */
-    public function setRedirectUri($redirect_uri);
+    public function setRedirectUri($redirectUri);
 
     /**
      * Get redirect_uri

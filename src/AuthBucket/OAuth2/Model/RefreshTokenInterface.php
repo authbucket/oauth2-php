@@ -21,11 +21,11 @@ interface RefreshTokenInterface extends ModelInterface
     /**
      * Set refresh_token
      *
-     * @param string $refresh_token
+     * @param string $refreshToken
      *
      * @return RefreshToken
      */
-    public function setRefreshToken($refresh_token);
+    public function setRefreshToken($refreshToken);
 
     /**
      * Get refresh_token
@@ -37,11 +37,11 @@ interface RefreshTokenInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param string $clientId
      *
      * @return RefreshToken
      */
-    public function setClientId($client_id);
+    public function setClientId($clientId);
 
     /**
      * Get client_id

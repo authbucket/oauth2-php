@@ -43,11 +43,11 @@ class TokenProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $client_id = $token->getClientId();
-        $client_secret = $token->getClientSecret();
+        $clientId = $token->getClientId();
+        $clientSecret = $token->getClientSecret();
 
         $clientManager = $this->modelManagerFactory->getModelManager('client');
-        $client = $clientManager->findClientByClientId($client_id);
+        $client = $clientManager->findClientByClientId($clientId);
         if ($client === null) {
             throw new InvalidClientException();
         }
@@ -58,12 +58,12 @@ class TokenProvider implements AuthenticationProviderInterface
                 throw new InvalidClientException();
             }
         } else {
-            if ($client->getClientSecret() !== $client_secret) {
+            if ($client->getClientSecret() !== $clientSecret) {
                 throw new InvalidClientException();
             }
         }
 
-        $authenticatedToken = new ClientToken($client_id, $client_secret, $this->providerKey, $token->getRoles());
+        $authenticatedToken = new ClientToken($clientId, $clientSecret, $this->providerKey, $token->getRoles());
         $authenticatedToken->setClient($client);
         $authenticatedToken->setUser($client->getClientId());
 

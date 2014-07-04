@@ -21,14 +21,11 @@ interface GrantTypeHandlerFactoryInterface
     /**
      * Gets a stored grant type handler.
      *
-     * @param string $type
-     *                     Type of grant type handler, as refer to RFC6749.
+     * @param string $type Type of grant type handler, as refer to RFC6749.
      *
-     * @return GrantTypeHandlerInterface
-     *                                   The stored grant type handler.
+     * @return GrantTypeHandlerInterface The stored grant type handler.
      *
-     * @throw UnsupportedGrantTypeException
-     *   If supplied grant type not found.
+     * @throw UnsupportedGrantTypeException If supplied grant type not found.
      */
     public function getGrantTypeHandler($type);
 }

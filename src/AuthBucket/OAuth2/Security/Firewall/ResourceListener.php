@@ -50,18 +50,18 @@ class ResourceListener implements ListenerInterface
 
         // Fetch access_token by token type handler.
         $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
-        $access_token = $tokenTypeHandler->getAccessToken($request);
+        $accessToken = $tokenTypeHandler->getAccessToken($request);
 
         if (null !== $token = $this->securityContext->getToken()) {
             if ($token instanceof AccessToken
                 && $token->isAuthenticated()
-                && $token->getAccessToken() === $access_token
+                && $token->getAccessToken() === $accessToken
             ) {
                 return;
             }
         }
 
-        $token = new AccessToken($access_token, $this->providerKey);
+        $token = new AccessToken($accessToken, $this->providerKey);
         $authenticatedToken = $this->authenticationManager->authenticate($token);
         $this->securityContext->setToken($authenticatedToken);
     }

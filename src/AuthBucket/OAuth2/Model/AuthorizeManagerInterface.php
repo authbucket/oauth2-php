@@ -26,5 +26,5 @@ interface AuthorizeManagerInterface extends ModelManagerInterface
 
     public function updateAuthorize(AuthorizeInterface $authorize);
 
-    public function findAuthorizeByClientIdAndUsername($client_id, $username);
+    public function findAuthorizeByClientIdAndUsername($clientId, $username);
 }

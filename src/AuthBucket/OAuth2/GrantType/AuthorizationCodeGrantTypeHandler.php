@@ -41,18 +41,18 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     )
     {
         // Fetch client_id from authenticated token.
-        $client_id = $this->checkClientId($securityContext);
+        $clientId = $this->checkClientId($securityContext);
 
         // Fetch username and scope from stored code.
-        list($username, $scope) = $this->checkCode($request, $modelManagerFactory, $client_id);
+        list($username, $scope) = $this->checkCode($request, $modelManagerFactory, $clientId);
 
         // Check and set redirect_uri.
-        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
+        $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
             $modelManagerFactory,
-            $client_id,
+            $clientId,
             $username,
             $scope
         );
@@ -65,7 +65,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
      *
      * @param Request                      $request             Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $client_id           Corresponding client_id that code should belongs to.
+     * @param string                       $clientId            Corresponding client_id that code should belongs to.
      *
      * @return array A list with stored username and scope, originally grant in authorize endpoint.
      *
@@ -75,7 +75,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     private function checkCode(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id
+        $clientId
     )
     {
         $code = $request->request->get('code');
@@ -91,7 +91,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // Check code with database record.
         $codeManager = $modelManagerFactory->getModelManager('code');
         $result = $codeManager->findCodeByCode($code);
-        if ($result === null || $result->getClientId() !== $client_id) {
+        if ($result === null || $result->getClientId() !== $clientId) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < new \DateTime()) {
             throw new InvalidGrantException();
@@ -105,7 +105,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
      *
      * @param Request                      $request             Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $client_id           Corresponding client_id that code should belongs to.
+     * @param string                       $clientId            Corresponding client_id that code should belongs to.
      *
      * @return string The supplied redirect_uri from incoming request, or from stored record.
      *
@@ -114,34 +114,34 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     private function checkRedirectUri(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id
+        $clientId
     )
     {
-        $redirect_uri = $request->request->get('redirect_uri');
+        $redirectUri = $request->request->get('redirect_uri');
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
         $clientManager = $modelManagerFactory->getModelManager('client');
-        $result = $clientManager->findClientByClientId($client_id);
+        $result = $clientManager->findClientByClientId($clientId);
         if ($result !== null && $result->getRedirectUri()) {
             $stored = $result->getRedirectUri();
         }
 
         // At least one of: existing redirect URI or input redirect URI must be
         // specified.
-        if (!$stored && !$redirect_uri) {
+        if (!$stored && !$redirectUri) {
             throw new InvalidRequestException();
         }
 
         // If there's an existing uri and one from input, verify that they match.
-        if ($stored && $redirect_uri) {
+        if ($stored && $redirectUri) {
             // Ensure that the input uri starts with the stored uri.
-            if (strcasecmp(substr($redirect_uri, 0, strlen($stored)), $stored) !== 0) {
+            if (strcasecmp(substr($redirectUri, 0, strlen($stored)), $stored) !== 0) {
                 throw new InvalidRequestException();
             }
         }
 
-        return $redirect_uri ?: $stored;
+        return $redirectUri ?: $stored;
     }
 }

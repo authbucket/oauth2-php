@@ -42,15 +42,15 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     )
     {
         // Fetch client_id from authenticated token.
-        $client_id = $this->checkClientId($securityContext);
+        $clientId = $this->checkClientId($securityContext);
 
         // Check refresh_token, then fetch username and scope.
-        list($username, $scope) = $this->checkRefreshToken($request, $modelManagerFactory, $client_id);
+        list($username, $scope) = $this->checkRefreshToken($request, $modelManagerFactory, $clientId);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
             $modelManagerFactory,
-            $client_id,
+            $clientId,
             $username,
             $scope
         );
@@ -63,7 +63,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
      *
      * @param Request                      $request             Incoming request object.
      * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $client_id           Corresponding client_id that refresh_token should belongs to.
+     * @param string                       $clientId            Corresponding client_id that refresh_token should belongs to.
      *
      * @return array A list with stored username and scope, originally grant in authorize endpoint.
      *
@@ -74,15 +74,15 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     private function checkRefreshToken(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id
+        $clientId
     )
     {
-        $refresh_token = $request->request->get('refresh_token');
+        $refreshToken = $request->request->get('refresh_token');
         $scope = $request->request->get('scope', null);
 
         // refresh_token must exists and in valid format.
         $query = array(
-            'refresh_token' => $refresh_token,
+            'refresh_token' => $refreshToken,
         );
         if (!Filter::filter($query)) {
             throw new InvalidRequestException();
@@ -90,8 +90,8 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check refresh_token with database record.
         $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
-        $result = $refreshTokenManager->findRefreshTokenByRefreshToken($refresh_token);
-        if ($result === null || $result->getClientId() !== $client_id) {
+        $result = $refreshTokenManager->findRefreshTokenByRefreshToken($refreshToken);
+        if ($result === null || $result->getClientId() !== $clientId) {
             throw new InvalidGrantException();
         } elseif ($result->getExpires() < new \DateTime()) {
             throw new InvalidGrantException();
@@ -101,13 +101,13 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         $username = $result->getUsername();
 
         // Fetch scope from pre-grnerated refresh_token.
-        $granted_scope = null;
-        if ($result !== null && $result->getClientId() == $client_id && $result->getScope()) {
-            $granted_scope = $result->getScope();
+        $scopeGranted = null;
+        if ($result !== null && $result->getClientId() == $clientId && $result->getScope()) {
+            $scopeGranted = $result->getScope();
         }
 
         // Compare if given scope is subset of original refresh_token's scope.
-        if ($scope !== null && $granted_scope !== null) {
+        if ($scope !== null && $scopeGranted !== null) {
             // scope must be in valid format.
             $query = array(
                 'scope' => $scope,
@@ -118,34 +118,34 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
             // Compare if given scope within all available granted scopes.
             $scope = preg_split('/\s+/', $scope);
-            if (array_intersect($scope, $granted_scope) != $scope) {
+            if (array_intersect($scope, $scopeGranted) != $scope) {
                 throw new InvalidScopeException();
             }
         }
         // Return original refresh_token's scope if not specify in new request.
-        elseif ($granted_scope !== null) {
-            $scope = $granted_scope;
+        elseif ($scopeGranted !== null) {
+            $scope = $scopeGranted;
         }
 
         if ($scope !== null) {
             // Compare if given scope within all available stored scopes.
-            $authorized_scope = array();
+            $scopeAuthorized = array();
             $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($client_id, $username);
+            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
             if ($result !== null) {
-                $authorized_scope = $result->getScope();
+                $scopeAuthorized = $result->getScope();
             }
 
-            $supported_scope = array();
+            $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
             $result = $scopeManager->findScopes();
             if ($result !== null) {
                 foreach ($result as $row) {
-                    $supported_scope[] = $row->getScope();
+                    $scopeSupported[] = $row->getScope();
                 }
             }
 
-            if (array_intersect($scope, $authorized_scope, $supported_scope) != $scope) {
+            if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
                 throw new InvalidScopeException();
             }
         }

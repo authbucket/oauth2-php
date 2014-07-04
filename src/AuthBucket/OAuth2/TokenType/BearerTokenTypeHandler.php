@@ -24,36 +24,36 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
 {
     public function getAccessToken(Request $request)
     {
-        $headers_token = $request->headers->get('Authorization', false);
-        if ($headers_token && preg_match('/Bearer\s*([^\s]+)/', $headers_token, $matches)) {
-            $headers_token = $matches[1];
+        $tokenHeaders = $request->headers->get('Authorization', false);
+        if ($tokenHeaders && preg_match('/Bearer\s*([^\s]+)/', $tokenHeaders, $matches)) {
+            $tokenHeaders = $matches[1];
         } else {
-            $headers_token = false;
+            $tokenHeaders = false;
         }
-        $request_token = $request->request->get('access_token', false);
-        $query_token = $request->query->get('access_token', false);
+        $tokenRequest = $request->request->get('access_token', false);
+        $tokenQuery = $request->query->get('access_token', false);
 
         // At least one (and only one) of client credentials method required.
-        if (!$headers_token && !$request_token && !$query_token) {
+        if (!$tokenHeaders && !$tokenRequest && !$tokenQuery) {
             throw new InvalidRequestException();
-        } elseif (($headers_token && $request_token)
-            || ($request_token && $query_token)
-            || ($query_token && $headers_token)
+        } elseif (($tokenHeaders && $tokenRequest)
+            || ($tokenRequest && $tokenQuery)
+            || ($tokenQuery && $tokenHeaders)
         ) {
             throw new InvalidRequestException();
         }
 
         // Check with HTTP basic auth if exists.
-        $access_token = $headers_token
-            ?: $request_token
-            ?: $query_token;
+        $accessToken = $tokenHeaders
+            ?: $tokenRequest
+            ?: $tokenQuery;
 
-        return $access_token;
+        return $accessToken;
     }
 
     public function createAccessToken(
         ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id,
+        $clientId,
         $username = '',
         $scope = array(),
         $state = null,
@@ -61,19 +61,19 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
     )
     {
         $modelManager = $modelManagerFactory->getModelManager('access_token');
-        $access_token = $modelManager->createAccessToken()
+        $accessToken = $modelManager->createAccessToken()
             ->setAccessToken(md5(uniqid(null, true)))
             ->setTokenType('bearer')
-            ->setClientId($client_id)
+            ->setClientId($clientId)
             ->setUsername($username)
             ->setExpires(new \DateTime('+1 hours'))
             ->setScope($scope);
-        $modelManager->updateAccessToken($access_token);
+        $modelManager->updateAccessToken($accessToken);
 
         $parameters = array(
-            'access_token' => $access_token->getAccessToken(),
-            'token_type' => $access_token->getTokenType(),
-            'expires_in' => $access_token->getExpires()->getTimestamp() - time(),
+            'access_token' => $accessToken->getAccessToken(),
+            'token_type' => $accessToken->getTokenType(),
+            'expires_in' => $accessToken->getExpires()->getTimestamp() - time(),
         );
 
         if (!empty($scope) && is_array($scope)) {
@@ -86,15 +86,15 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
 
         if ($withRefreshToken === true) {
             $modelManager = $modelManagerFactory->getModelManager('refresh_token');
-            $refresh_token = $modelManager->createRefreshToken()
+            $refreshToken = $modelManager->createRefreshToken()
                 ->setRefreshToken(md5(uniqid(null, true)))
-                ->setClientId($client_id)
+                ->setClientId($clientId)
                 ->setUsername($username)
                 ->setExpires(new \DateTime('+1 days'))
                 ->setScope($scope);
-            $modelManager->updateRefreshToken($refresh_token);
+            $modelManager->updateRefreshToken($refreshToken);
 
-            $parameters['refresh_token'] = $refresh_token->getRefreshToken();
+            $parameters['refresh_token'] = $refreshToken->getRefreshToken();
         }
 
         return $parameters;

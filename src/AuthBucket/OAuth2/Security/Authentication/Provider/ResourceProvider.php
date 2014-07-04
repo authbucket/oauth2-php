@@ -43,13 +43,13 @@ class ResourceProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $access_token = $token->getAccessToken();
-        if ($access_token instanceof AccessTokenInterface) {
-            $access_token = $access_token->getAccessToken();
+        $accessToken = $token->getAccessToken();
+        if ($accessToken instanceof AccessTokenInterface) {
+            $accessToken = $accessToken->getAccessToken();
         }
 
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $storedAccessToken = $accessTokenManager->findAccessTokenByAccessToken($access_token);
+        $storedAccessToken = $accessTokenManager->findAccessTokenByAccessToken($accessToken);
         if ($storedAccessToken === null) {
             throw new AccessDeniedException();
         } elseif ($storedAccessToken->getExpires() < new \DateTime()) {

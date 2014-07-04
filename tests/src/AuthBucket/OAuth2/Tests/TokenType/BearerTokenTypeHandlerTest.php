@@ -47,7 +47,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
     public function testAuthorizationHeader()
     {
         $parameters = array(
-            'debug' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
+            'debug_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
         );
         $server = array(
             'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
@@ -58,7 +58,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $this->assertEquals('demousername1', $resource_response['username']);
 
         $parameters = array(
-            'debug' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
+            'debug_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
         );
         $server = array(
             'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
@@ -72,7 +72,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
     public function testGet()
     {
         $parameters = array(
-            'debug' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
+            'debug_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
             'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
         );
         $server = array();
@@ -85,7 +85,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
     public function testPost()
     {
         $parameters = array(
-            'debug' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
+            'debug_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
             'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
         );
         $server = array();

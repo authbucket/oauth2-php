@@ -39,9 +39,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         SecurityContextInterface $securityContext
     )
     {
-        $client_id = $securityContext->getToken()->getClientId();
+        $clientId = $securityContext->getToken()->getClientId();
 
-        return $client_id;
+        return $clientId;
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     protected function checkScope(
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id,
+        $clientId,
         $username
     )
     {
@@ -75,24 +75,24 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
             }
 
             // Compare if given scope within all available authorized scopes.
-            $authorized_scope = array();
+            $scopeAuthorized = array();
             $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($client_id, $username);
+            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
             if ($result !== null) {
-                $authorized_scope = $result->getScope();
+                $scopeAuthorized = $result->getScope();
             }
 
-            $supported_scope = array();
+            $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
             $result = $scopeManager->findScopes();
             if ($result !== null) {
                 foreach ($result as $row) {
-                    $supported_scope[] = $row->getScope();
+                    $scopeSupported[] = $row->getScope();
                 }
             }
 
             $scope = preg_split('/\s+/', $scope);
-            if (array_intersect($scope, $authorized_scope, $supported_scope) != $scope) {
+            if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
                 throw new InvalidScopeException();
             }
         }

@@ -21,11 +21,11 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set access_token
      *
-     * @param string $access_token
+     * @param string $accessToken
      *
      * @return AccessToken
      */
-    public function setAccessToken($access_token);
+    public function setAccessToken($accessToken);
 
     /**
      * Get access_token
@@ -37,11 +37,11 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set token_type
      *
-     * @param string $token_type
+     * @param string $tokenType
      *
      * @return AccessToken
      */
-    public function setTokenType($token_type);
+    public function setTokenType($tokenType);
 
     /**
      * Get token_type
@@ -53,11 +53,11 @@ interface AccessTokenInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param string $clientId
      *
      * @return AccessToken
      */
-    public function setClientId($client_id);
+    public function setClientId($clientId);
 
     /**
      * Get client_id

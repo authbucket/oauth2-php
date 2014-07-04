@@ -20,15 +20,15 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 class ClientToken extends AbstractToken
 {
     protected $client;
-    protected $client_secret;
+    protected $clientSecret;
     protected $providerKey;
 
-    public function __construct($client_id, $client_secret, $providerKey, array $roles = array())
+    public function __construct($clientId, $clientSecret, $providerKey, array $roles = array())
     {
         parent::__construct($roles);
 
-        $this->setClient($client_id);
-        $this->client_secret = $client_secret;
+        $this->setClient($clientId);
+        $this->clientSecret = $clientSecret;
         $this->providerKey = $providerKey;
 
         parent::setAuthenticated(count($roles) > 0);
@@ -57,7 +57,7 @@ class ClientToken extends AbstractToken
 
     public function getClientSecret()
     {
-        return $this->client_secret;
+        return $this->clientSecret;
     }
 
     public function getCredentials()
@@ -67,11 +67,11 @@ class ClientToken extends AbstractToken
 
     public function serialize()
     {
-        return serialize(array($this->client, $this->client_secret, $this->providerKey, parent::serialize()));
+        return serialize(array($this->client, $this->clientSecret, $this->providerKey, parent::serialize()));
     }
 
     public function unserialize($str)
     {
-        list($this->client, $this->client_secret, $this->providerKey, $parentStr) = unserialize($str);
+        list($this->client, $this->clientSecret, $this->providerKey, $parentStr) = unserialize($str);
     }
 }

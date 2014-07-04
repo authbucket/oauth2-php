@@ -56,10 +56,10 @@ class TokenController
     public function tokenAction(Request $request)
     {
         // Fetch grant_type from POST.
-        $grant_type = $this->getGrantType($request);
+        $grantType = $this->getGrantType($request);
 
         // Handle token endpoint response.
-        return $this->grantTypeHandlerFactory->getGrantTypeHandler($grant_type)->handle(
+        return $this->grantTypeHandlerFactory->getGrantTypeHandler($grantType)->handle(
             $this->securityContext,
             $this->userChecker,
             $this->encoderFactory,
@@ -73,14 +73,14 @@ class TokenController
     private function getGrantType(Request $request)
     {
         // grant_type must set and in valid format.
-        $grant_type = $request->request->get('grant_type');
+        $grantType = $request->request->get('grant_type');
         $query = array(
-            'grant_type' => $grant_type
+            'grant_type' => $grantType
         );
         if (!Filter::filter($query)) {
             throw new InvalidRequestException();
         }
 
-        return $grant_type;
+        return $grantType;
     }
 }

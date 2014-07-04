@@ -18,29 +18,29 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
  */
 class AccessToken extends AbstractToken
 {
-    protected $access_token;
+    protected $accessToken;
     protected $providerKey;
 
-    public function __construct($access_token, $providerKey, array $roles = array())
+    public function __construct($accessToken, $providerKey, array $roles = array())
     {
         parent::__construct($roles);
 
-        $this->access_token = $access_token;
+        $this->accessToken = $accessToken;
         $this->providerKey = $providerKey;
 
         parent::setAuthenticated(count($roles) > 0);
     }
 
-    public function setAccessToken($access_token)
+    public function setAccessToken($accessToken)
     {
-        $this->access_token = $access_token;
+        $this->accessToken = $accessToken;
 
         return $this;
     }
 
     public function getAccessToken()
     {
-        return $this->access_token;
+        return $this->accessToken;
     }
 
     public function getCredentials()
@@ -50,11 +50,11 @@ class AccessToken extends AbstractToken
 
     public function serialize()
     {
-        return serialize(array($this->access_token, $this->providerKey, parent::serialize()));
+        return serialize(array($this->accessToken, $this->providerKey, parent::serialize()));
     }
 
     public function unserialize($str)
     {
-        list($this->access_token, $this->providerKey, $parentStr) = unserialize($str);
+        list($this->accessToken, $this->providerKey, $parentStr) = unserialize($str);
     }
 }

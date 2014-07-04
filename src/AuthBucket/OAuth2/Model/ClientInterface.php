@@ -21,11 +21,11 @@ interface ClientInterface extends ModelInterface
     /**
      * Set client_id
      *
-     * @param string $client_id
+     * @param string $clientId
      *
      * @return Client
      */
-    public function setClientId($client_id);
+    public function setClientId($clientId);
 
     /**
      * Get client_id
@@ -37,11 +37,11 @@ interface ClientInterface extends ModelInterface
     /**
      * Set client_secret
      *
-     * @param string $client_secret
+     * @param string $clientSecret
      *
      * @return Client
      */
-    public function setClientSecret($client_secret);
+    public function setClientSecret($clientSecret);
 
     /**
      * Get client_secret
@@ -53,11 +53,11 @@ interface ClientInterface extends ModelInterface
     /**
      * Set redirect_uri
      *
-     * @param string $redirect_uri
+     * @param string $redirectUri
      *
      * @return Client
      */
-    public function setRedirectUri($redirect_uri);
+    public function setRedirectUri($redirectUri);
 
     /**
      * Get redirect_uri

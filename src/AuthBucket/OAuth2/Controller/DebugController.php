@@ -42,45 +42,45 @@ class DebugController
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
 
         // Fetch access_token from GET.
-        $debug = $this->getDebug($request);
-        $access_token = $accessTokenManager->findAccessTokenByAccessToken($debug);
-        if (null === $access_token) {
+        $debugToken = $this->getDebugToken($request);
+        $accessToken = $accessTokenManager->findAccessTokenByAccessToken($debugToken);
+        if (null === $accessToken) {
             throw new InvalidRequestException();
-        } elseif ($access_token->getExpires() < new \DateTime()) {
+        } elseif ($accessToken->getExpires() < new \DateTime()) {
             throw new InvalidRequestException();
         }
 
         // Handle debug endpoint response.
         $parameters = array(
-            'access_token' => $access_token->getAccessToken(),
-            'token_type' => $access_token->getTokenType(),
-            'client_id' => $access_token->getClientId(),
-            'username' => $access_token->getUsername(),
-            'expires' => $access_token->getExpires()->getTimestamp(),
-            'scope' => $access_token->getScope(),
+            'access_token' => $accessToken->getAccessToken(),
+            'token_type' => $accessToken->getTokenType(),
+            'client_id' => $accessToken->getClientId(),
+            'username' => $accessToken->getUsername(),
+            'expires' => $accessToken->getExpires()->getTimestamp(),
+            'scope' => $accessToken->getScope(),
         );
 
         return JsonResponse::create($parameters);
     }
 
-    private function getDebug(Request $request)
+    private function getDebugToken(Request $request)
     {
         // Fetch debug token from GET/POST/access_token.
-        $debug = $request->query->get('debug')
-            ?: $request->request->get('debug')
+        $debugToken = $request->query->get('debug_token')
+            ?: $request->request->get('debug_token')
             ?: $this->securityContext->getToken()->getAccessToken()->getAccessToken();
-        if (null === $debug) {
+        if (null === $debugToken) {
             throw new InvalidRequestException();
         }
 
         // Validate debug token.
         $query = array(
-            'access_token' => $debug,
+            'access_token' => $debugToken,
         );
         if (!Filter::filter($query)) {
             throw new InvalidRequestException();
         }
 
-        return $debug;
+        return $debugToken;
     }
 }

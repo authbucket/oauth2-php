@@ -29,41 +29,43 @@ class TokenResponseTypeHandler extends AbstractResponseTypeHandler
         SecurityContextInterface $securityContext,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        $authorizeScopeUri = null
     )
     {
         // Fetch username from authenticated token.
         $username = $this->checkUsername($securityContext);
 
-        // Set client_id from GET.
-        $client_id = $this->checkClientId($request, $modelManagerFactory);
+        // Fetch and check client_id.
+        $clientId = $this->checkClientId($request, $modelManagerFactory);
 
-        // Check and set redirect_uri.
-        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
+        // Fetch and check redirect_uri.
+        $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
 
-        // Check and set state.
-        $state = $this->checkState($request, $redirect_uri);
+        // Fetch and check state.
+        $state = $this->checkState($request, $redirectUri);
 
-        // Check and set scope.
+        // Fetch and check scope.
         $scope = $this->checkScope(
             $request,
             $modelManagerFactory,
-            $client_id,
+            $clientId,
             $username,
-            $redirect_uri,
-            $state
+            $redirectUri,
+            $state,
+            $authorizeScopeUri
         );
 
         // Generate parameters, store to backend and set response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
             $modelManagerFactory,
-            $client_id,
+            $clientId,
             $username,
             $scope,
             $state,
             $withRefreshToken = false
         );
 
-        return RedirectResponse::create($redirect_uri, $parameters);
+        return RedirectResponse::create($redirectUri, $parameters);
     }
 }

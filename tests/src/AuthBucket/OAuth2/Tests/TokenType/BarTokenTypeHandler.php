@@ -9,22 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\TokenType;
+namespace AuthBucket\OAuth2\Tests\TokenType;
 
-use AuthBucket\OAuth2\Exception\TemporarilyUnavailableException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * MAC token type handler implementation.
- *
- * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
- */
-class MacTokenTypeHandler implements TokenTypeHandlerInterface
+class BarTokenTypeHandler implements TokenTypeHandlerInterface
 {
     public function getAccessToken(Request $request)
     {
-        throw new TemporarilyUnavailableException();
     }
 
     public function createAccessToken(
@@ -36,6 +30,5 @@ class MacTokenTypeHandler implements TokenTypeHandlerInterface
         $withRefreshToken = true
     )
     {
-        throw new TemporarilyUnavailableException();
     }
 }

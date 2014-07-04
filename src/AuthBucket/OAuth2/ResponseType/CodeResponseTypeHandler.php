@@ -28,38 +28,40 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         SecurityContextInterface $securityContext,
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        $authorizeScopeUri = null
     )
     {
         // Fetch username from authenticated token.
         $username = $this->checkUsername($securityContext);
 
-        // Set client_id from GET.
-        $client_id = $this->checkClientId($request, $modelManagerFactory);
+        // Fetch and check client_id.
+        $clientId = $this->checkClientId($request, $modelManagerFactory);
 
-        // Check and set redirect_uri.
-        $redirect_uri = $this->checkRedirectUri($request, $modelManagerFactory, $client_id);
+        // Fetch and check redirect_uri.
+        $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
 
-        // Check and set state.
-        $state = $this->checkState($request, $redirect_uri);
+        // Fetch and check state.
+        $state = $this->checkState($request, $redirectUri);
 
-        // Check and set scope.
+        // Fetch and check scope.
         $scope = $this->checkScope(
             $request,
             $modelManagerFactory,
-            $client_id,
+            $clientId,
             $username,
-            $redirect_uri,
-            $state
+            $redirectUri,
+            $state,
+            $authorizeScopeUri
         );
 
         // Generate parameters, store to backend and set response.
         $modelManager =  $modelManagerFactory->getModelManager('code');
         $code = $modelManager->createCode()
             ->setCode(md5(uniqid(null, true)))
-            ->setClientId($client_id)
+            ->setClientId($clientId)
             ->setUsername($username)
-            ->setRedirectUri($redirect_uri)
+            ->setRedirectUri($redirectUri)
             ->setExpires(new \DateTime('+10 minutes'))
             ->setScope($scope);
         $modelManager->updateCode($code);
@@ -69,6 +71,6 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
             'state' => $state,
         );
 
-        return RedirectResponse::create($redirect_uri, $parameters);
+        return RedirectResponse::create($redirectUri, $parameters);
     }
 }

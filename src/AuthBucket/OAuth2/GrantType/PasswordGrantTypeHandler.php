@@ -52,7 +52,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         // Fetch client_id from authenticated token.
-        $client_id = $this->checkClientId($securityContext);
+        $clientId = $this->checkClientId($securityContext);
 
         // Check resource owner credentials
         $username = $this->checkUsername(
@@ -64,12 +64,12 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         );
 
         // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagerFactory, $client_id, $username);
+        $scope = $this->checkScope($request, $modelManagerFactory, $clientId, $username);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
             $modelManagerFactory,
-            $client_id,
+            $clientId,
             $username,
             $scope
         );

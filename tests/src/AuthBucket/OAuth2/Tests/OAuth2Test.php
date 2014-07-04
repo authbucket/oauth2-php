@@ -81,7 +81,7 @@ class OAuth2Test extends WebTestCase
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug' => $token_response['access_token'],
+            'debug_token' => $token_response['access_token'],
         );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
@@ -124,7 +124,7 @@ class OAuth2Test extends WebTestCase
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug' => $token_response['access_token'],
+            'debug_token' => $token_response['access_token'],
         );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
@@ -174,7 +174,7 @@ class OAuth2Test extends WebTestCase
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug' => $token_response['access_token'],
+            'debug_token' => $token_response['access_token'],
         );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),
@@ -221,7 +221,7 @@ class OAuth2Test extends WebTestCase
 
         // Query debug endpoint with access_token.
         $parameters = array(
-            'debug' => $token_response['access_token'],
+            'debug_token' => $token_response['access_token'],
         );
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $token_response['access_token'])),

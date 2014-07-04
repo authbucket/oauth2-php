@@ -165,8 +165,8 @@ abstract class Filter
     {
         $definition = self::initializer();
 
-        $filtered_query = array_filter(filter_var_array($query, $definition));
+        $filteredQuery = array_filter(filter_var_array($query, $definition));
 
-        return $filtered_query == $query;
+        return $filteredQuery == $query;
     }
 }

@@ -26,5 +26,5 @@ interface ClientManagerInterface extends ModelManagerInterface
 
     public function updateClient(ClientInterface $client);
 
-    public function findClientByClientId($client_id);
+    public function findClientByClientId($clientId);
 }

@@ -54,23 +54,23 @@ class TokenListener implements ListenerInterface
 
         // Check with HTTP basic auth if exists.
         if ($request->headers->get('PHP_AUTH_USER', false)) {
-            $client_id = $request->headers->get('PHP_AUTH_USER', false);
-            $client_secret = $request->headers->get('PHP_AUTH_PW', false);
+            $clientId = $request->headers->get('PHP_AUTH_USER', false);
+            $clientSecret = $request->headers->get('PHP_AUTH_PW', false);
         } else {
-            $client_id = $request->request->get('client_id', false);
-            $client_secret = $request->request->get('client_secret', false);
+            $clientId = $request->request->get('client_id', false);
+            $clientSecret = $request->request->get('client_secret', false);
         }
 
         if (null !== $token = $this->securityContext->getToken()) {
             if ($token instanceof ClientToken
                 && $token->isAuthenticated()
-                && $token->getClientId() === $client_id
+                && $token->getClientId() === $clientId
             ) {
                 return;
             }
         }
 
-        $token = new ClientToken($client_id, $client_secret, $this->providerKey);
+        $token = new ClientToken($clientId, $clientSecret, $this->providerKey);
         $authenticatedToken = $this->authenticationManager->authenticate($token);
         $this->securityContext->setToken($authenticatedToken);
     }

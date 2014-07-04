@@ -34,7 +34,7 @@ interface TokenTypeHandlerInterface
      * Create and save access_token parameters for generate response.
      *
      * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for storing record into database.
-     * @param string                       $client_id           client_id this access token should belongs to.
+     * @param string                       $clientId            client_id this access token should belongs to.
      * @param string                       $username            username this access token should belongs to.
      * @param array                        $scope               All scope that this access token grant.
      * @param string                       $state               Original state which should preserve.
@@ -44,7 +44,7 @@ interface TokenTypeHandlerInterface
      */
     public function createAccessToken(
         ModelManagerFactoryInterface $modelManagerFactory,
-        $client_id,
+        $clientId,
         $username = '',
         $scope = array(),
         $state = null,
