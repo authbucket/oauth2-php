@@ -20,8 +20,10 @@ if (!$app['session']->isStarted()) {
     $app['session']->start();
 }
 
-require __DIR__ . '/routing_oauth2.php';
+require __DIR__ . '/routing_client.php';
 require __DIR__ . '/routing_demo.php';
+require __DIR__ . '/routing_oauth2.php';
+require __DIR__ . '/routing_resource.php';
 
 // Index.
 $app->get('/', function (Request $request) use ($app) {

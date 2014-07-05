@@ -12,12 +12,17 @@
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-// Oauth2, Form login.
+// OAuth2, index.
+$app->get('/oauth2', function (Request $request) use ($app) {
+    return $app['twig']->render('oauth2/index.html.twig');
+})->bind('oauth2_index');
+
+// OAuth2, Form login.
 $app->get('/oauth2/login', function (Request $request) use ($app) {
     return $app['twig']->render('login.html.twig', array(
         'error' => $app['security.last_error']($request),
     ));
-})->bind('login');
+})->bind('oauth2_login');
 
 // OAuth2, Authorization endpoint, HTTP Basic authentication.
 $app->get('/oauth2/authorize/http', function (Request $request, Application $app) {
