@@ -26,29 +26,7 @@ if (!$app['session']->isStarted()) {
 
 // Index.
 $app->get('/', function (Request $request) use ($app) {
-    $acgPath = $app['url_generator']->generate('response_type_code', array(
-        'username' => 'demousername1',
-        'password' => 'demopassword1',
-    ));
-    $igPath = $app['url_generator']->generate('response_type_token', array(
-        'username' => 'demousername1',
-        'password' => 'demopassword1',
-    ));
-    $ropcgPath = $app['url_generator']->generate('grant_type_password', array(
-        'username' => 'demousername1',
-        'password' => 'demopassword1',
-    ));
-    $ccgPath = $app['url_generator']->generate('grant_type_client_credentials', array(
-        'client_id' => 'ccg',
-        'client_secret' => 'yib6aiFe',
-    ));
-
-    return $app['twig']->render('index.html.twig', array(
-        'acg_path' => $acgPath,
-        'ig_path' => $igPath,
-        'ropcg_path' => $ropcgPath,
-        'ccg_path' => $ccgPath,
-    ));
+    return $app['twig']->render('index.html.twig');
 })->bind('index');
 
 // Flush database.
@@ -104,8 +82,8 @@ $app->get('/response_type/code', function (Request $request, Application $app) {
         'state' => $app['session']->getId(),
     );
     $server = array(
-        'PHP_AUTH_USER' => $request->query->get('username', 'demousername1'),
-        'PHP_AUTH_PW' => $request->query->get('password', 'demopassword1'),
+        'PHP_AUTH_USER' => 'demousername1',
+        'PHP_AUTH_PW' => 'demopassword1',
     );
     $client = new Client($app);
     $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
@@ -170,8 +148,8 @@ $app->get('/response_type/token', function (Request $request, Application $app) 
         'state' => $app['session']->getId(),
     );
     $server = array(
-        'PHP_AUTH_USER' => $request->query->get('username', 'demousername1'),
-        'PHP_AUTH_PW' => $request->query->get('password', 'demopassword1'),
+        'PHP_AUTH_USER' => 'demousername1',
+        'PHP_AUTH_PW' => 'demopassword1',
     );
     $client = new Client($app);
     $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
@@ -195,8 +173,8 @@ $app->get('/response_type/token', function (Request $request, Application $app) 
 $app->get('/grant_type/password', function (Request $request, Application $app) {
     $parameters = array(
         'grant_type' => 'password',
-        'username' => $request->query->get('username'),
-        'password' => $request->query->get('password'),
+        'username' => 'demousername1',
+        'password' => 'demopassword1',
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     );
@@ -234,8 +212,8 @@ $app->get('/grant_type/client_credentials', function (Request $request, Applicat
         'scope' => 'demoscope1',
     );
     $server = array(
-        'PHP_AUTH_USER' => $request->query->get('client_id'),
-        'PHP_AUTH_PW' => $request->query->get('client_secret'),
+        'PHP_AUTH_USER' => 'ccg',
+        'PHP_AUTH_PW' => 'yib6aiFe',
     );
     $client = new Client($app);
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
