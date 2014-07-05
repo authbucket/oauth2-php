@@ -1,17 +1,15 @@
 {% extends "html.html.twig" %}
 
-{% set head_title = 'AuthBucket\\OAuth2' %}
+{% set head_title = 'Demo | AuthBucket\\OAuth2' %}
 
 {% block page %}
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="page-header">AuthBucket\OAuth2 Demo</h2>
-                <p>Welcome to the OAuth2.0 Demo Application! This is an application that demos some of the basic OAuth2.0 Workflows.</p>
+                <h2 class="page-header">Demo</h2>
+                <p class="lead">Here we demos some of the basic OAuth2.0 Workflows. Corresponding request and response raw debug message will show in a step-by-step, page-by-page style. Read though <a target="_blank" href="https://github.com/authbucket/oauth2/blob/master/app/config/routing_prod.php">routing_prod.php</a> to see how we implement it.</p>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <h3 class="page-header">Authorization Code Grant</h3>
                 <blockquote>
                     <p>The authorization code grant type is used to obtain both access tokens and refresh tokens and is optimized for confidential clients.</p>
@@ -19,7 +17,7 @@
                 </blockquote>
                 <p><a class="btn btn-primary" role="button" href="{{ path('demo_response_type_code') }}">Authorization Request</a></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <h3 class="page-header">Implicit Grant</h3>
                 <blockquote>
                     <p>The implicit grant type is used to obtain access tokens (it does not support the issuance of refresh tokens) and is optimized for public clients known to operate a particular redirection URI.  These clients are typically implemented in a browser using a scripting language such as JavaScript.</p>
@@ -27,9 +25,7 @@
                 </blockquote>
                 <p><a class="btn btn-primary" role="button" href="{{ path('demo_response_type_token') }}">Authorization Request</a></p>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <h3 class="page-header">Resource Owner Password Credentials Grant</h3>
                 <blockquote>
                     <p>The resource owner password credentials grant type is suitable in cases where the resource owner has a trust relationship with the client, such as the device operating system or a highly privileged application.</p>
@@ -37,7 +33,7 @@
                 </blockquote>
                 <p><a class="btn btn-primary" role="button" href="{{ path('demo_grant_type_password') }}">Access Token Request</a></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <h3 class="page-header">Client Credentials Grant</h3>
                 <blockquote>
                     <p>The client can request an access token using only its client credentials (or other supported means of authentication) when the client is requesting access to the protected resources under its control, or those of another resource owner that have been previously arranged with the authorization server (the method of which is beyond the scope of this specification).</p>

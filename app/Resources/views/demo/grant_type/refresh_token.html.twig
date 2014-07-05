@@ -6,7 +6,7 @@
     {% embed 'page.html.twig' %}
 
     {% block main %}
-        <h2 class="page-header">Token Endpoint <small>(grant_type = password)</small></h2>
+        <h2 class="page-header">Token Endpoint <small>(grant_type = refresh_token)</small></h2>
         <h3>Access Token Response</h3>
         {{ dump(access_token_response) }}
         <h3>Access Token Request</h3>
@@ -17,7 +17,7 @@
         <h2 class="page-header">Actions</h2>
         <p><a class="btn btn-primary" role="button" href="{{ resource_path }}">Accessing Protected Resources</a></p>
         <p><a class="btn btn-primary" role="button" href="{{ refresh_path }}">Refreshing an Access Token</a></p>
-        <p><a class="btn btn-primary" role="button" href="{{ path('index') }}">Return</a></p>
+        <p><a class="btn btn-primary" role="button" href="{{ path('demo_index') }}">Return</a></p>
     {% endblock %}
 
     {% endembed %}

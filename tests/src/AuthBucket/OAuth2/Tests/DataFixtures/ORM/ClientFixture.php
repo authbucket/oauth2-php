@@ -34,25 +34,25 @@ class ClientFixture implements FixtureInterface
         $model = new Client();
         $model->setClientId('authorization_code_grant')
             ->setClientSecret('uoce8AeP')
-            ->setRedirectUri($request->getUriForPath('/response_type/code'));
+            ->setRedirectUri($request->getUriForPath('/demo/response_type/code'));
         $manager->persist($model);
 
         $model = new Client();
         $model->setClientId('implicit_grant')
             ->setClientSecret('Ac1chee1')
-            ->setRedirectUri($request->getUriForPath('/response_type/token'));
+            ->setRedirectUri($request->getUriForPath('/demo/response_type/token'));
         $manager->persist($model);
 
         $model = new Client();
         $model->setClientId('resource_owner_password_credentials_grant')
             ->setClientSecret('Eevahph6')
-            ->setRedirectUri($request->getUriForPath('/grant_type/password'));
+            ->setRedirectUri($request->getUriForPath('/demo/grant_type/password'));
         $manager->persist($model);
 
         $model = new Client();
         $model->setClientId('client_credentials_grant')
             ->setClientSecret('yib6aiFe')
-            ->setRedirectUri($request->getUriForPath('/grant_type/client_credentials'));
+            ->setRedirectUri($request->getUriForPath('/demo/grant_type/client_credentials'));
         $manager->persist($model);
 
         $model = new Client();
