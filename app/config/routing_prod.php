@@ -76,7 +76,7 @@ $app->get('/login', function (Request $request) use ($app) {
 $app->get('/response_type/code', function (Request $request, Application $app) {
     $parameters = array(
         'response_type' => 'code',
-        'client_id' => 'acg',
+        'client_id' => 'authorization_code_grant',
         'redirect_uri' => $request->getUriForPath('/response_type/code'),
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
@@ -110,7 +110,7 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
         'grant_type' => 'authorization_code',
         'code' => $request->query->get('code'),
         'redirect_uri' => $request->getUriForPath('/response_type/code'),
-        'client_id' => 'acg',
+        'client_id' => 'authorization_code_grant',
         'client_secret' => 'uoce8AeP',
         'state' => $request->query->get('state'),
     );
@@ -124,7 +124,7 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('grant_type_refresh_token', array(
-        'username' => 'acg',
+        'username' => 'authorization_code_grant',
         'password' => 'uoce8AeP',
         'refresh_token' => $accessTokenResponse['refresh_token'],
     ));
@@ -142,7 +142,7 @@ $app->get('/grant_type/authorization_code', function (Request $request, Applicat
 $app->get('/response_type/token', function (Request $request, Application $app) {
     $parameters = array(
         'response_type' => 'token',
-        'client_id' => 'ig',
+        'client_id' => 'implicit_grant',
         'redirect_uri' => $request->getUriForPath('/response_type/token'),
         'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
@@ -179,7 +179,7 @@ $app->get('/grant_type/password', function (Request $request, Application $app) 
         'state' => $app['session']->getId(),
     );
     $server = array(
-        'PHP_AUTH_USER' => 'ropcg',
+        'PHP_AUTH_USER' => 'resource_owner_password_credentials_grant',
         'PHP_AUTH_PW' => 'Eevahph6',
     );
     $client = new Client($app);
@@ -191,7 +191,7 @@ $app->get('/grant_type/password', function (Request $request, Application $app) 
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('grant_type_refresh_token', array(
-        'username' => 'ropcg',
+        'username' => 'resource_owner_password_credentials_grant',
         'password' => 'Eevahph6',
         'refresh_token' => $accessTokenResponse['refresh_token'],
     ));
@@ -212,7 +212,7 @@ $app->get('/grant_type/client_credentials', function (Request $request, Applicat
         'scope' => 'demoscope1',
     );
     $server = array(
-        'PHP_AUTH_USER' => 'ccg',
+        'PHP_AUTH_USER' => 'client_credentials_grant',
         'PHP_AUTH_PW' => 'yib6aiFe',
     );
     $client = new Client($app);
@@ -224,7 +224,7 @@ $app->get('/grant_type/client_credentials', function (Request $request, Applicat
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('grant_type_refresh_token', array(
-        'username' => 'ccg',
+        'username' => 'client_credentials_grant',
         'password' => 'yib6aiFe',
         'refresh_token' => $accessTokenResponse['refresh_token'],
     ));

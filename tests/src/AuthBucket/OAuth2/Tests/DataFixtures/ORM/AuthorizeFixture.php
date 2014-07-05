@@ -30,7 +30,7 @@ class AuthorizeFixture implements FixtureInterface
         $manager->persist($model);
 
         $model = new Authorize();
-        $model->setClientId('acg')
+        $model->setClientId('authorization_code_grant')
             ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
@@ -38,7 +38,7 @@ class AuthorizeFixture implements FixtureInterface
         $manager->persist($model);
 
         $model = new Authorize();
-        $model->setClientId('ig')
+        $model->setClientId('implicit_grant')
             ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
@@ -46,7 +46,7 @@ class AuthorizeFixture implements FixtureInterface
         $manager->persist($model);
 
         $model = new Authorize();
-        $model->setClientId('ropcg')
+        $model->setClientId('resource_owner_password_credentials_grant')
             ->setUsername('demousername1')
             ->setScope(array(
                 'demoscope1',
@@ -54,7 +54,7 @@ class AuthorizeFixture implements FixtureInterface
         $manager->persist($model);
 
         $model = new Authorize();
-        $model->setClientId('ccg')
+        $model->setClientId('client_credentials_grant')
             ->setUsername('')
             ->setScope(array(
                 'demoscope1',
