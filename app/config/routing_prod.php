@@ -280,7 +280,7 @@ $app->get('/demo/grant_type/refresh_token', function (Request $request, Applicat
 // Demo, resource endpoint.
 $app->get('demo/resource', function (Request $request, Application $app) {
     $parameters = array(
-        'debug' => $request->query->get('access_token'),
+        'debug_token' => $request->query->get('access_token'),
     );
     $server = array(
         'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
