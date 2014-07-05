@@ -250,7 +250,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         // Must use single shared client for continue session.
         $client = $this->createClient();
 
-        $crawler = $client->request('GET', '/login');
+        $crawler = $client->request('GET', '/oauth2/login');
         $buttonCrawlerNode = $crawler->selectButton('submit');
         $form = $buttonCrawlerNode->form(array(
             '_username' => 'demousername3',

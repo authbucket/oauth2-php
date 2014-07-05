@@ -74,7 +74,7 @@ class WebTestCaseNullUserProviderTest extends SilexWebTestCase
         });
 
         require __DIR__ . '/../../../../../app/config/config_test.php';
-        require __DIR__ . '/../../../../../app/config/routing.php';
+        require __DIR__ . '/../../../../../app/config/routing_test.php';
 
         return $app;
     }

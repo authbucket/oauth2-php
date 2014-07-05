@@ -26,8 +26,8 @@ $app['security.firewalls'] = array(
     ),
     // The login_path path must always be defined outside the secured area.
     // @link http://silex.sensiolabs.org/doc/providers/security.html#securing-a-path-with-a-form
-    'login' => array(
-        'pattern' => '^/login$',
+    'oauth2_login' => array(
+        'pattern' => '^/oauth2/login$',
         'anonymous' => true,
     ),
     // The authorization server MUST first verify the identity of the resource
@@ -35,15 +35,15 @@ $app['security.firewalls'] = array(
     // resource owner (e.g., username and password login, session cookies) is
     // beyond the scope of this specification.
     // @link http://tools.ietf.org/html/rfc6749#section-3.1
-    'authorize_http' => array(
+    'oauth2_authorize_http' => array(
         'pattern' => '^/oauth2/authorize/http$',
         'http' => true,
         'users' => $app['security.user_provider.default'],
     ),
-    'authorize_form' => array(
+    'oauth2_authorize_form' => array(
         'pattern' => '^/oauth2/authorize/form',
         'form' => array(
-            'login_path' => '/login',
+            'login_path' => '/oauth2/login',
             'check_path' => '/oauth2/authorize/form/login_check',
         ),
         'logout' => array(
@@ -56,7 +56,7 @@ $app['security.firewalls'] = array(
     // Alternatively, the authorization server MAY support including the client
     // credentials in the request-body.
     // @link http://tools.ietf.org/html/rfc6749#section-2.3.1
-    'token' => array(
+    'oauth2_token' => array(
         'pattern' => '^/oauth2/token$',
         'oauth2_token' => true,
     ),
@@ -67,7 +67,7 @@ $app['security.firewalls'] = array(
     // but generally involve an interaction or coordination between the
     // resource server and the authorization server.
     // @link http://tools.ietf.org/html/rfc6749#section-7
-    'debug' => array(
+    'oauth2_debug' => array(
         'pattern' => '^/oauth2/debug$',
         'oauth2_resource' => true,
     ),
