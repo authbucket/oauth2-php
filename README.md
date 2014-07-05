@@ -1,5 +1,5 @@
-AuthBucket\\OAuth2
-==================
+OAuth2
+======
 
 [![Build
 Status](https://travis-ci.org/authbucket/oauth2.svg?branch=master)](https://travis-ci.org/authbucket/oauth2)
@@ -23,22 +23,25 @@ Bundle](http://www.symfony.com) and [Drupal module](http://drupal.org).
 Installation
 ------------
 
-This library is provided as a [Composer
-package](https://packagist.org/packages/authbucket/oauth2) which can be
-installed by adding the package to your `composer.json`:
+Simply add a dependency on `authbucket/oauth2` to your project's
+`composer.json` file if you use [Composer](http://getcomposer.org/) to
+manage the dependencies of your project.
+
+Here is a minimal example of a `composer.json`:
 
     {
-      "require": {
-        "authbucket/oauth2": "1.0.*@dev"
-      }
+        "require": {
+            "authbucket/oauth2": "1.0.*@dev"
+        }
     }
 
-Demo Application
-----------------
+Demo
+----
 
-This library bundle with a [Silex](https://github.com/silexphp/Silex)
-based demo application that can access from
-<http://demo.oauth2.authbucket.com/>.
+This library bundle with a [Silex](http://silex.sensiolabs.org/) based
+[OAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/OAuth2ServiceProvider.php).
+Read though [Demo](http://oauth2.authbucket.com/demo) for more
+information.
 
 You may also run the demo locally. Open a console and execute the
 following command to install the latest version in the oauth2/
@@ -57,8 +60,7 @@ probably using PHP 5.3. That's ok! But the built-in web server is only
 available for PHP 5.4.0 or higher. If you have an older version of PHP
 or if you prefer a traditional web server such as Apache or Nginx, read
 the [Configuring a web
-server](http://silex.sensiolabs.org/doc/web_servers.html)
-article.
+server](http://silex.sensiolabs.org/doc/web_servers.html) article.
 
 Open your browser and access the <http://localhost:8000> URL to see the
 Welcome page of demo application.
@@ -67,9 +69,8 @@ Documentation
 -------------
 
 OAuth2's documentation is built with
-[Sami](https://github.com/fabpot/Sami) and publicly hosted on GitHub
-Pages at http://authbucket.github.io/oauth2. The documents may also
-built locally.
+[Sami](https://github.com/fabpot/Sami) and publicly hosted on [GitHub
+Pages](http://authbucket.github.io/oauth2).
 
 To built the documents locally, execute the following command:
 
@@ -80,14 +81,12 @@ Open `build/oauth2/index.html` with your browser for the documents.
 Tests
 -----
 
-This project is coverage with [PHPUnit](http://phpunit.de/) test cases,
-where CI result can be found from
-<https://travis-ci.org/authbucket/oauth2>.
+This project is coverage with [PHPUnit](http://phpunit.de/) test cases;
+CI result can be found from [Travis
+CI](https://travis-ci.org/authbucket/oauth2); code coverage report can
+be found from [Coveralls](https://coveralls.io/r/authbucket/oauth2).
 
-Code coverage CI result can be found from
-<https://coveralls.io/r/authbucket/oauth2>.
-
-To run the test suite, execute the following command:
+To run the test suite locally, execute the following command:
 
     $ vendor/bin/phpunit
 
@@ -96,12 +95,13 @@ Open `build/logs/html` with your browser for the coverage report.
 References
 ----------
 
--   http://authbucket.github.io/oauth2/
--   http://demo.oauth2.authbucket.com/
--   https://coveralls.io/r/authbucket/oauth2
--   https://github.com/authbucket/oauth2
--   https://packagist.org/packages/authbucket/oauth2
--   https://travis-ci.org/authbucket/oauth2
+-   [RFC6749 OAuth2.0](http://tools.ietf.org/html/rfc6749)
+-   [GitHub](https://github.com/authbucket/oauth2)
+-   [Packagist](https://packagist.org/packages/authbucket/oauth2)
+-   [Demo](http://oauth2.authbucket.com/demo)
+-   [API](http://authbucket.github.io/oauth2/)
+-   [Travis CI](https://travis-ci.org/authbucket/oauth2)
+-   [Coveralls](https://coveralls.io/r/authbucket/oauth2)
 
 License
 -------
