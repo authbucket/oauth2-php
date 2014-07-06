@@ -19,7 +19,7 @@ $app->get('/oauth2', function (Request $request) use ($app) {
 
 // OAuth2, Form login.
 $app->get('/oauth2/login', function (Request $request) use ($app) {
-    return $app['twig']->render('login.html.twig', array(
+    return $app['twig']->render('oauth2/login.html.twig', array(
         'error' => $app['security.last_error']($request),
     ));
 })->bind('oauth2_login');
@@ -35,7 +35,7 @@ $app->get('/oauth2/authorize/form', function (Request $request, Application $app
 })->bind('oauth2_authorize_form');
 
 // OAuth2, Token endpoint.
-$app->post('/oauth2/token', function (Request $request, Application $app) {
+$app->match('/oauth2/token', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.token_controller']->tokenAction($request);
 })->bind('oauth2_token');
 
