@@ -1,4 +1,4 @@
-OAuth2
+OAuth2 {#oauth2 .page-header}
 ======
 
 [![Build
@@ -20,7 +20,7 @@ OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://www.symfony.com) and [Drupal module](http://drupal.org).
 
-Installation
+Installation {#installation .page-header}
 ------------
 
 Simply add a dependency on `authbucket/oauth2` to your project's
@@ -35,7 +35,7 @@ Here is a minimal example of a `composer.json`:
         }
     }
 
-Demo
+Demo {#demo .page-header}
 ----
 
 This library bundle with a [Silex](http://silex.sensiolabs.org/) based
@@ -65,7 +65,10 @@ server](http://silex.sensiolabs.org/doc/web_servers.html) article.
 Open your browser and access the <http://localhost:8000> URL to see the
 Welcome page of demo application.
 
-Documentation
+Also access <http://localhost:8000/admin/refresh_database> to initialize
+the bundled SQLite database with user account `admin`:`secrete`.
+
+Documentation {#documentation .page-header}
 -------------
 
 OAuth2's documentation is built with
@@ -78,7 +81,7 @@ To built the documents locally, execute the following command:
 
 Open `build/oauth2/index.html` with your browser for the documents.
 
-Tests
+Tests {#tests .page-header}
 -----
 
 This project is coverage with [PHPUnit](http://phpunit.de/) test cases;
@@ -92,7 +95,7 @@ To run the test suite locally, execute the following command:
 
 Open `build/logs/html` with your browser for the coverage report.
 
-References
+References {#references .page-header}
 ----------
 
 -   [RFC6749 OAuth2.0](http://tools.ietf.org/html/rfc6749)
@@ -103,7 +106,7 @@ References
 -   [Travis CI](https://travis-ci.org/authbucket/oauth2)
 -   [Coveralls](https://coveralls.io/r/authbucket/oauth2)
 
-License
+License {#license .page-header}
 -------
 
 -   The library is licensed under the [MIT

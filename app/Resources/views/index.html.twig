@@ -35,6 +35,7 @@
 $ php app/console server:run</code></pre>
                 <p>If you get the error <code>There are no commands defined in the &quot;server&quot; namespace.</code>, then you are probably using PHP 5.3. That's ok! But the built-in web server is only available for PHP 5.4.0 or higher. If you have an older version of PHP or if you prefer a traditional web server such as Apache or Nginx, read the <a href="http://silex.sensiolabs.org/doc/web_servers.html">Configuring a web server</a> article.</p>
                 <p>Open your browser and access the <a href="http://localhost:8000">http://localhost:8000</a> URL to see the Welcome page of demo application.</p>
+                <p>Also access <a href="http://localhost:8000/admin/refresh_database">http://localhost:8000/admin/refresh_database</a> to initialize the bundled SQLite database with user account <code>admin</code>:<code>secrete</code>.</p>
 
                 <h2 id="documentation" class="page-header">Documentation</h2>
                 <p class="lead">OAuth2's documentation is built with <a href="https://github.com/fabpot/Sami">Sami</a> and publicly hosted on <a href="http://authbucket.github.io/oauth2">GitHub Pages</a>.</p>
