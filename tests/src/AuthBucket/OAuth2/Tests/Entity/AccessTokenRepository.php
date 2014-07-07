@@ -11,9 +11,9 @@
 
 namespace AuthBucket\OAuth2\Tests\Entity;
 
-use Doctrine\ORM\EntityRepository;
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use AuthBucket\OAuth2\Model\AccessTokenManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * AccessTokenRepository

@@ -11,10 +11,10 @@
 
 namespace AuthBucket\OAuth2\Tests\Entity;
 
-use Doctrine\ORM\EntityManager;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Model\ModelManagerInterface;
+use Doctrine\ORM\EntityManager;
 
 /**
  * OAuth2 model manager factory implemention.

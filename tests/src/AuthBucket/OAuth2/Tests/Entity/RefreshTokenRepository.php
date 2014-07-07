@@ -11,9 +11,9 @@
 
 namespace AuthBucket\OAuth2\Tests\Entity;
 
-use Doctrine\ORM\EntityRepository;
 use AuthBucket\OAuth2\Model\RefreshTokenInterface;
 use AuthBucket\OAuth2\Model\RefreshTokenManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * RefreshTokenRepository

@@ -11,9 +11,9 @@
 
 namespace AuthBucket\OAuth2\Tests\Entity;
 
-use Doctrine\ORM\EntityRepository;
 use AuthBucket\OAuth2\Model\ClientInterface;
 use AuthBucket\OAuth2\Model\ClientManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * ClientRepository

@@ -11,8 +11,8 @@
 
 namespace AuthBucket\OAuth2\Tests\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * AccessToken
