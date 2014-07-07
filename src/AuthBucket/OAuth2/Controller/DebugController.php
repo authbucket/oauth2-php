@@ -13,6 +13,7 @@ namespace AuthBucket\OAuth2\Controller;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
 use AuthBucket\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,10 +66,18 @@ class DebugController
 
     private function getDebugToken(Request $request)
     {
+        // Fetch access_token from security context.
+        $accessToken = '';
+        if (null !== $token = $this->securityContext->getToken()) {
+            if ($token instanceof AccessToken) {
+                $accessToken = $token->getAccessToken()->getAccessToken();
+            }
+        }
+
         // Fetch debug token from GET/POST/access_token.
         $debugToken = $request->query->get('debug_token')
             ?: $request->request->get('debug_token')
-            ?: $this->securityContext->getToken()->getAccessToken()->getAccessToken();
+            ?: $accessToken;
 
         // Validate debug token.
         $query = array(
