@@ -13,6 +13,8 @@ namespace AuthBucket\OAuth2\Tests\ResponseType;
 
 use AuthBucket\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 class TokenResponseTypeHandlerTest extends WebTestCase
 {
@@ -92,12 +94,16 @@ class TokenResponseTypeHandlerTest extends WebTestCase
 
     public function testErrorTokenBadScopeFormat()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $parameters = array(
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -113,12 +119,16 @@ class TokenResponseTypeHandlerTest extends WebTestCase
 
     public function testErrorTokenBadScope()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $parameters = array(
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "badscope1",
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -155,6 +165,10 @@ class TokenResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodToken()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $parameters = array(
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
@@ -173,7 +187,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -188,7 +202,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername3',
@@ -203,7 +217,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername3',
@@ -247,6 +261,10 @@ class TokenResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodTokenFormSubmit()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         // Must use single shared client for continue session.
         $client = $this->createClient();
 
@@ -263,7 +281,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array();
         $crawler = $client->request('GET', '/oauth2/authorize/form', $parameters, array(), $server);

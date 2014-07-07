@@ -13,6 +13,8 @@ namespace AuthBucket\OAuth2\Tests\ResponseType;
 
 use AuthBucket\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 class CodeResponseTypeHandlerTest extends WebTestCase
 {
@@ -92,12 +94,16 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testErrorCodeBadScopeFormat()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "aaa\x22bbb\x5Cccc\x7Fddd",
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -113,12 +119,16 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testErrorCodeBadScope()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => "badscope1",
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -155,11 +165,15 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodCode()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -174,7 +188,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'scope' => 'demoscope1',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -189,7 +203,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername3',
@@ -204,7 +218,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername3',
@@ -217,10 +231,14 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodCodeNoPassedRedirectUri()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -233,11 +251,15 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodCodeNoStoredRedirectUri()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'http://democlient4.com/',
             'redirect_uri' => 'http://democlient4.com/redirect_uri',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -250,6 +272,10 @@ class CodeResponseTypeHandlerTest extends WebTestCase
 
     public function testGoodCodeFormSubmit()
     {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
         // Must use single shared client for continue session.
         $client = $this->createClient();
 
@@ -266,7 +292,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
             'scope' => 'demoscope1 demoscope2 demoscope3',
-            'state' => $this->app['session']->getId(),
+            'state' => $session->getId(),
         );
         $server = array();
         $crawler = $client->request('GET', '/oauth2/authorize/form', $parameters, array(), $server);
