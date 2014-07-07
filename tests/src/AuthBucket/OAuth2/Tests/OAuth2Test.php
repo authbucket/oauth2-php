@@ -139,8 +139,8 @@ class OAuth2Test extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resourceResponse['username']);
+        $debugResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $debugResponse['username']);
     }
 
     public function testResourceOwnerPasswordCredentialsGrant()
@@ -188,8 +188,8 @@ class OAuth2Test extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resourceResponse['username']);
+        $debugResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $debugResponse['username']);
     }
 
     public function testClientCredentialsGrant()
@@ -235,7 +235,7 @@ class OAuth2Test extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('', $resourceResponse['username']);
+        $debugResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('', $debugResponse['username']);
     }
 }
