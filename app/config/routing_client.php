@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
 // Client, index.

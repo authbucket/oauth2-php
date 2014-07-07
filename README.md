@@ -31,7 +31,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2": "1.0.*@dev"
+            "authbucket/oauth2": "dev-master"
         }
     }
 
@@ -111,4 +111,3 @@ License
 
 -   The library is licensed under the [MIT
     License](http://opensource.org/licenses/MIT)
-
