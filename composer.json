@@ -26,9 +26,9 @@
     "name": "authbucket/oauth2",
     "require": {
         "php": ">=5.3.3",
-        "symfony/http-foundation": ">=2.3,<2.6-dev",
-        "symfony/http-kernel": ">=2.3,<2.6-dev",
-        "symfony/security": ">=2.3,<2.6-dev"
+        "symfony/http-foundation": "~2.3",
+        "symfony/http-kernel": "~2.3",
+        "symfony/security": "~2.3"
     },
     "require-dev": {
         "doctrine/data-fixtures": "~1.0",
@@ -38,16 +38,16 @@
         "sami/sami": "@stable",
         "satooshi/php-coveralls": "dev-master",
         "silex/silex": "~1.2",
-        "symfony/browser-kit": ">=2.3,<2.6-dev",
-        "symfony/config": ">=2.3,<2.6-dev",
-        "symfony/css-selector": ">=2.3,<2.6-dev",
-        "symfony/form": ">=2.3,<2.6-dev",
-        "symfony/locale": ">=2.3,<2.6-dev",
-        "symfony/process": ">=2.3,<2.6-dev",
-        "symfony/translation": ">=2.3,<2.6-dev",
-        "symfony/twig-bridge": ">=2.3,<2.6-dev",
-        "symfony/validator": ">=2.3,<2.6-dev",
-        "twig/twig": ">=1.8.0,<2.0-dev"
+        "symfony/browser-kit": "~2.3",
+        "symfony/config": "~2.3",
+        "symfony/css-selector": "~2.3",
+        "symfony/form": "~2.3",
+        "symfony/locale": "~2.3",
+        "symfony/process": "~2.3",
+        "symfony/translation": "~2.3",
+        "symfony/twig-bridge": "~2.3",
+        "symfony/validator": "~2.3",
+        "twig/twig": "~1.8"
     },
     "type": "library"
 }
