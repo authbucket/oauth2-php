@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\Entity;
+namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 
 use AuthBucket\OAuth2\Model\ScopeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Scope
  *
  * @ORM\Table(name="test_scope")
- * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\Entity\ScopeRepository")
+ * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\ScopeRepository")
  */
 class Scope implements ScopeInterface
 {

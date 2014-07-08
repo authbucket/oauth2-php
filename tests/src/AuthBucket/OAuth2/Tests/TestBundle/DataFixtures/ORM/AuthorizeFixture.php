@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\DataFixtures\ORM;
+namespace AuthBucket\OAuth2\Tests\TestBundle\DataFixtures\ORM;
 
-use AuthBucket\OAuth2\Tests\Entity\Authorize;
+use AuthBucket\OAuth2\Tests\TestBundle\Entity\Authorize;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 

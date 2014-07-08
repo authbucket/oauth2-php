@@ -270,7 +270,7 @@ EOT
         $executor = new ORMExecutor($em, $purger);
 
         $loader = new Loader();
-        $loader->loadFromDirectory(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/DataFixtures/ORM');
+        $loader->loadFromDirectory(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/TestBundle/DataFixtures/ORM');
         $executor->execute($loader->getFixtures());
     });
 
@@ -311,7 +311,8 @@ EOF
             $output->writeln(sprintf("Server running on <info>http://%s</info>\n", $input->getArgument('address')));
 
             $env = $input->getParameterOption(array('--env', '-e'), 'dev');
-            $router = $input->getOption('router') ?: sprintf('%s/config/router_%s.php', __DIR__, $env);
+            $router = $input->getOption('router') 
+                ?: sprintf('%s/../tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/router_%s.php', __DIR__, $env);
 
             $builder = new ProcessBuilder(array(PHP_BINARY, '-S', $input->getArgument('address'), $router));
             $builder->setWorkingDirectory($input->getOption('docroot'));

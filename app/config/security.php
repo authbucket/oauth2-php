@@ -9,6 +9,10 @@
  * file that was distributed with this source code.
  */
 
+$app['security.user_provider.admin'] = $app['security.user_provider.inmemory._proto'](array(
+    'admin' => array('ROLE_ADMIN', 'secrete'),
+));
+
 $app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto'](array(
     'demousername1' => array('ROLE_USER', 'demopassword1'),
     'demousername2' => array('ROLE_USER', 'demopassword2'),
@@ -20,9 +24,7 @@ $app['security.firewalls'] = array(
     'admin' => array(
         'pattern' => '^/admin',
         'http' => true,
-        'users' => array(
-            'admin' => array('ROLE_USER', 'secrete'),
-        ),
+        'users' => $app['security.user_provider.admin'],
     ),
     // The login_path path must always be defined outside the secured area.
     // @link http://silex.sensiolabs.org/doc/providers/security.html#securing-a-path-with-a-form

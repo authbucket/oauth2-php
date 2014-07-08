@@ -14,14 +14,14 @@ require __DIR__ . '/security.php';
 $app['debug'] = true;
 
 $app['twig.path'] = array(
-    __DIR__ . '/../Resources/views',
+    __DIR__ . '/../../tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/views',
 );
 
 $app['authbucket_oauth2.model'] = array(
-    'access_token' => 'AuthBucket\\OAuth2\\Tests\\Entity\\AccessToken',
-    'authorize' => 'AuthBucket\\OAuth2\\Tests\\Entity\\Authorize',
-    'client' => 'AuthBucket\\OAuth2\\Tests\\Entity\\Client',
-    'code' => 'AuthBucket\\OAuth2\\Tests\\Entity\\Code',
-    'refresh_token' => 'AuthBucket\\OAuth2\\Tests\\Entity\\RefreshToken',
-    'scope' => 'AuthBucket\\OAuth2\\Tests\\Entity\\Scope',
+    'access_token' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\AccessToken',
+    'authorize' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Authorize',
+    'client' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Client',
+    'code' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Code',
+    'refresh_token' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\RefreshToken',
+    'scope' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Scope',
 );

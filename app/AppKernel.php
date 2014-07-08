@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\Provider\OAuth2ServiceProvider;
-use AuthBucket\OAuth2\Tests\Entity\ModelManagerFactory;
+use AuthBucket\OAuth2\Tests\TestBundle\Entity\ModelManagerFactory;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
@@ -41,7 +41,7 @@ $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
     $em = $app['dbs.event_manager']['default'];
 
-    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/Entity'));
+    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/TestBundle/Entity'));
 
     $config = Setup::createConfiguration(false);
     $config->setMetadataDriverImpl($driver);
@@ -74,3 +74,5 @@ $app['authbucket_oauth2.token_controller'] = $app->share(function () use ($app) 
         $app['security.user_provider.default']
     );
 });
+
+$app['exception_handler']->disable();

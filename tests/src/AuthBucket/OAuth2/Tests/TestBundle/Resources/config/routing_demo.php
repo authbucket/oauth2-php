@@ -20,6 +20,10 @@ $app->get('/demo', function (Request $request) use ($app) {
 
 // Demo, authorization endpoint, authorization code grant.
 $app->get('/demo/response_type/code', function (Request $request, Application $app) {
+    if (!$app['session']->isStarted()) {
+        $app['session']->start();
+    }
+
     $parameters = array(
         'response_type' => 'code',
         'client_id' => 'authorization_code_grant',
@@ -52,6 +56,10 @@ $app->get('/demo/response_type/code', function (Request $request, Application $a
 
 // Demo, authorize endpoint, implicit grant.
 $app->get('/demo/response_type/token', function (Request $request, Application $app) {
+    if (!$app['session']->isStarted()) {
+        $app['session']->start();
+    }
+
     $parameters = array(
         'response_type' => 'token',
         'client_id' => 'implicit_grant',
@@ -117,6 +125,10 @@ $app->get('/demo/grant_type/authorization_code', function (Request $request, App
 
 // Demo, token endpoint, resource owner password credentials grant.
 $app->get('/demo/grant_type/password', function (Request $request, Application $app) {
+    if (!$app['session']->isStarted()) {
+        $app['session']->start();
+    }
+
     $parameters = array(
         'grant_type' => 'password',
         'username' => 'demousername1',

@@ -9,18 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\Entity;
+namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 
-use AuthBucket\OAuth2\Model\AccessTokenInterface;
+use AuthBucket\OAuth2\Model\CodeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AccessToken
+ * Code
  *
- * @ORM\Table(name="test_access_token")
- * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\Entity\AccessTokenRepository")
+ * @ORM\Table(name="test_code")
+ * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\CodeRepository")
  */
-class AccessToken implements AccessTokenInterface
+class Code implements CodeInterface
 {
     /**
      * @var integer
@@ -34,16 +34,16 @@ class AccessToken implements AccessTokenInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="access_token", type="string", length=255)
+     * @ORM\Column(name="code", type="string", length=255)
      */
-    protected $accessToken;
+    protected $code;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="token_type", type="string", length=255)
+     * @ORM\Column(name="state", type="string", length=255)
      */
-    protected $tokenType;
+    protected $state;
 
     /**
      * @var string
@@ -58,6 +58,13 @@ class AccessToken implements AccessTokenInterface
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="redirect_uri", type="text")
+     */
+    protected $redirectUri;
 
     /**
      * @var \DateTime
@@ -84,51 +91,51 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Set access_token
+     * Set code
      *
-     * @param string $accessToken
+     * @param string $code
      *
-     * @return AccessToken
+     * @return Code
      */
-    public function setAccessToken($accessToken)
+    public function setCode($code)
     {
-        $this->accessToken = $accessToken;
+        $this->code = $code;
 
         return $this;
     }
 
     /**
-     * Get access_token
+     * Get code
      *
      * @return string
      */
-    public function getAccessToken()
+    public function getCode()
     {
-        return $this->accessToken;
+        return $this->code;
     }
 
     /**
-     * Set token_type
+     * Set state
      *
-     * @param string $tokenType
+     * @param string $state
      *
-     * @return AccessToken
+     * @return State
      */
-    public function setTokenType($tokenType)
+    public function setState($state)
     {
-        $this->tokenType = $tokenType;
+        $this->state = $state;
 
         return $this;
     }
 
     /**
-     * Get token_type
+     * Get state
      *
      * @return string
      */
-    public function getTokenType()
+    public function getState()
     {
-        return $this->tokenType;
+        return $this->state;
     }
 
     /**
@@ -136,7 +143,7 @@ class AccessToken implements AccessTokenInterface
      *
      * @param string $clientId
      *
-     * @return AccessToken
+     * @return Code
      */
     public function setClientId($clientId)
     {
@@ -160,7 +167,7 @@ class AccessToken implements AccessTokenInterface
      *
      * @param string $username
      *
-     * @return AccessToken
+     * @return Code
      */
     public function setUsername($username)
     {
@@ -180,11 +187,35 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
+     * Set redirect_uri
+     *
+     * @param string $redirectUri
+     *
+     * @return Code
+     */
+    public function setRedirectUri($redirectUri)
+    {
+        $this->redirectUri = $redirectUri;
+
+        return $this;
+    }
+
+    /**
+     * Get redirect_uri
+     *
+     * @return string
+     */
+    public function getRedirectUri()
+    {
+        return $this->redirectUri;
+    }
+
+    /**
      * Set expires
      *
      * @param \DateTime $expires
      *
-     * @return AccessToken
+     * @return Code
      */
     public function setExpires($expires)
     {
@@ -208,7 +239,7 @@ class AccessToken implements AccessTokenInterface
      *
      * @param array $scope
      *
-     * @return AccessToken
+     * @return Code
      */
     public function setScope($scope)
     {

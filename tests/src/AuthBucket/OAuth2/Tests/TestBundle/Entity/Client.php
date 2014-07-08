@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\Entity;
+namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 
 use AuthBucket\OAuth2\Model\ClientInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Client
  *
  * @ORM\Table(name="test_client")
- * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\Entity\ClientRepository")
+ * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\ClientRepository")
  */
 class Client implements ClientInterface
 {

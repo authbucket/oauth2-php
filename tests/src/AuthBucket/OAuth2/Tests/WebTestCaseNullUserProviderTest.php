@@ -12,7 +12,7 @@
 namespace AuthBucket\OAuth2\Tests;
 
 use AuthBucket\OAuth2\Provider\OAuth2ServiceProvider;
-use AuthBucket\OAuth2\Tests\Entity\ModelManagerFactory;
+use AuthBucket\OAuth2\Tests\TestBundle\Entity\ModelManagerFactory;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
@@ -53,7 +53,7 @@ class WebTestCaseNullUserProviderTest extends SilexWebTestCase
             $conn = $app['dbs']['default'];
             $eventManager = $app['dbs.event_manager']['default'];
 
-            $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/Entity'));
+            $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/TestBundle/Entity'));
 
             $config = Setup::createConfiguration(false);
             $config->setMetadataDriverImpl($driver);

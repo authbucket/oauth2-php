@@ -9,18 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\Entity;
+namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 
-use AuthBucket\OAuth2\Model\AuthorizeInterface;
+use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Authorize
+ * AccessToken
  *
- * @ORM\Table(name="test_authorize")
- * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\Entity\AuthorizeRepository")
+ * @ORM\Table(name="test_access_token")
+ * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\AccessTokenRepository")
  */
-class Authorize implements AuthorizeInterface
+class AccessToken implements AccessTokenInterface
 {
     /**
      * @var integer
@@ -30,6 +30,20 @@ class Authorize implements AuthorizeInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="access_token", type="string", length=255)
+     */
+    protected $accessToken;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="token_type", type="string", length=255)
+     */
+    protected $tokenType;
 
     /**
      * @var string
@@ -44,6 +58,13 @@ class Authorize implements AuthorizeInterface
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="expires", type="datetime")
+     */
+    protected $expires;
 
     /**
      * @var array
@@ -63,11 +84,59 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
+     * Set access_token
+     *
+     * @param string $accessToken
+     *
+     * @return AccessToken
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    /**
+     * Get access_token
+     *
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * Set token_type
+     *
+     * @param string $tokenType
+     *
+     * @return AccessToken
+     */
+    public function setTokenType($tokenType)
+    {
+        $this->tokenType = $tokenType;
+
+        return $this;
+    }
+
+    /**
+     * Get token_type
+     *
+     * @return string
+     */
+    public function getTokenType()
+    {
+        return $this->tokenType;
+    }
+
+    /**
      * Set client_id
      *
      * @param string $clientId
      *
-     * @return Authorize
+     * @return AccessToken
      */
     public function setClientId($clientId)
     {
@@ -91,7 +160,7 @@ class Authorize implements AuthorizeInterface
      *
      * @param string $username
      *
-     * @return Authorize
+     * @return AccessToken
      */
     public function setUsername($username)
     {
@@ -111,11 +180,35 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
+     * Set expires
+     *
+     * @param \DateTime $expires
+     *
+     * @return AccessToken
+     */
+    public function setExpires($expires)
+    {
+        $this->expires = $expires;
+
+        return $this;
+    }
+
+    /**
+     * Get expires
+     *
+     * @return \DateTime
+     */
+    public function getExpires()
+    {
+        return $this->expires;
+    }
+
+    /**
      * Set scope
      *
      * @param array $scope
      *
-     * @return Authorize
+     * @return AccessToken
      */
     public function setScope($scope)
     {

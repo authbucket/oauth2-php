@@ -53,7 +53,7 @@ class WebTestCaseNullModelManagerTest extends SilexWebTestCase
             $conn = $app['dbs']['default'];
             $eventManager = $app['dbs.event_manager']['default'];
 
-            $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/Entity'));
+            $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/TestBundle/Entity'));
 
             $config = Setup::createConfiguration(false);
             $config->setMetadataDriverImpl($driver);

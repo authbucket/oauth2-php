@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Tests\Entity;
+namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 
 use AuthBucket\OAuth2\Model\AuthorizeInterface;
 use AuthBucket\OAuth2\Model\AuthorizeManagerInterface;
