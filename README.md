@@ -77,7 +77,7 @@ Pages](http://authbucket.github.io/oauth2).
 
 To built the documents locally, execute the following command:
 
-    $ vendor/bin/sami.php update app/config/sami.php
+    $ vendor/bin/sami.php update app/config/config_sami.php
 
 Open `build/oauth2/index.html` with your browser for the documents.
 
