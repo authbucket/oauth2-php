@@ -77,7 +77,7 @@ $app->get('/demo/response_type/token', function (Request $request, Application $
     $accessTokenResponse = $authResponse->query->all();
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $resourcePath = $app['url_generator']->generate('demo_resource', array(
+    $debugPath = $app['url_generator']->generate('demo_debug', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
 
@@ -85,7 +85,7 @@ $app->get('/demo/response_type/token', function (Request $request, Application $
         'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
-        'resource_path' => $resourcePath,
+        'debug_path' => $debugPath,
     ));
 })->bind('demo_response_type_token');
 
@@ -105,7 +105,7 @@ $app->get('/demo/grant_type/authorization_code', function (Request $request, App
     $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $resourcePath = $app['url_generator']->generate('demo_resource', array(
+    $debugPath = $app['url_generator']->generate('demo_debug', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('demo_grant_type_refresh_token', array(
@@ -118,7 +118,7 @@ $app->get('/demo/grant_type/authorization_code', function (Request $request, App
         'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
-        'resource_path' => $resourcePath,
+        'debug_path' => $debugPath,
         'refresh_path' => $refreshPath,
     ));
 })->bind('demo_grant_type_authorization_code');
@@ -145,7 +145,7 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
     $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $resourcePath = $app['url_generator']->generate('demo_resource', array(
+    $debugPath = $app['url_generator']->generate('demo_debug', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('demo_grant_type_refresh_token', array(
@@ -158,7 +158,7 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
         'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
-        'resource_path' => $resourcePath,
+        'debug_path' => $debugPath,
         'refresh_path' => $refreshPath,
     ));
 })->bind('demo_grant_type_password');
@@ -178,7 +178,7 @@ $app->get('/demo/grant_type/client_credentials', function (Request $request, App
     $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $resourcePath = $app['url_generator']->generate('demo_resource', array(
+    $debugPath = $app['url_generator']->generate('demo_debug', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('demo_grant_type_refresh_token', array(
@@ -191,33 +191,32 @@ $app->get('/demo/grant_type/client_credentials', function (Request $request, App
         'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
-        'resource_path' => $resourcePath,
+        'debug_path' => $debugPath,
         'refresh_path' => $refreshPath,
     ));
 })->bind('demo_grant_type_client_credentials');
 
 // Demo, token endpoint, refresh token grant.
 $app->get('/demo/grant_type/refresh_token', function (Request $request, Application $app) {
-    $resourceRequest = $request->query->all();
     $parameters = array(
         'grant_type' => 'refresh_token',
-        'refresh_token' => $resourceRequest['refresh_token'],
+        'refresh_token' => $request->query->get('refresh_token'),
     );
     $server = array(
-        'PHP_AUTH_USER' => $resourceRequest['username'],
-        'PHP_AUTH_PW' => $resourceRequest['password'],
+        'PHP_AUTH_USER' => $request->query->get('username'),
+        'PHP_AUTH_PW' => $request->query->get('password'),
     );
     $client = new Client($app);
     $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
     $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $resourcePath = $app['url_generator']->generate('demo_resource', array(
+    $debugPath = $app['url_generator']->generate('demo_debug', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('demo_grant_type_refresh_token', array(
-        'username' => $resourceRequest['username'],
-        'password' => $resourceRequest['password'],
+        'username' => $request->query->get('username'),
+        'password' => $request->query->get('password'),
         'refresh_token' => $accessTokenResponse['refresh_token'],
     ));
 
@@ -225,13 +224,13 @@ $app->get('/demo/grant_type/refresh_token', function (Request $request, Applicat
         'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
-        'resource_path' => $resourcePath,
+        'debug_path' => $debugPath,
         'refresh_path' => $refreshPath,
     ));
 })->bind('demo_grant_type_refresh_token');
 
 // Demo, resource endpoint.
-$app->get('demo/resource', function (Request $request, Application $app) {
+$app->get('demo/debug', function (Request $request, Application $app) {
     $parameters = array(
         'debug_token' => $request->query->get('access_token'),
     );
@@ -243,9 +242,9 @@ $app->get('demo/resource', function (Request $request, Application $app) {
     $debugResponse = json_decode($client->getResponse()->getContent(), true);
     $debugRequest = get_object_vars($client->getRequest());
 
-    return $app['twig']->render('demo/resource.html.twig', array(
+    return $app['twig']->render('demo/debug.html.twig', array(
         'error' => $app['security.last_error']($request),
         'debug_response' => $debugResponse,
         'debug_request' => $debugRequest,
     ));
-})->bind('demo_resource');
+})->bind('demo_debug');
