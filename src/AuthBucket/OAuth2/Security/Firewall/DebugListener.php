@@ -20,11 +20,11 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 /**
- * TokenEndpointListener implements OAuth2 token endpoint authentication.
+ * DebugListener implements OAuth2 debug endpoint authentication.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ResourceListener implements ListenerInterface
+class DebugListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;

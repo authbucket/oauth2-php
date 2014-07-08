@@ -71,6 +71,6 @@ $app['security.firewalls'] = array(
     // @link http://tools.ietf.org/html/rfc6749#section-7
     'oauth2_debug' => array(
         'pattern' => '^/oauth2/debug$',
-        'oauth2_resource' => true,
+        'oauth2_debug' => true,
     ),
 );

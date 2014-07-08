@@ -19,11 +19,11 @@ use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProvid
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
- * TokenProvider implements OAuth2 token endpoint authentication.
+ * DebugProvider implements OAuth2 debug endpoint authentication.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ResourceProvider implements AuthenticationProviderInterface
+class DebugProvider implements AuthenticationProviderInterface
 {
     protected $modelManagerFactory;
     protected $providerKey;
