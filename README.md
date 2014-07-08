@@ -98,7 +98,7 @@ Open `build/logs/html` with your browser for the coverage report.
 References
 ----------
 
--   [RFC6749 OAuth2.0](http://tools.ietf.org/html/rfc6749)
+-   [RFC6749](http://tools.ietf.org/html/rfc6749)
 -   [GitHub](https://github.com/authbucket/oauth2)
 -   [Packagist](https://packagist.org/packages/authbucket/oauth2)
 -   [Demo](http://oauth2.authbucket.com/demo)
