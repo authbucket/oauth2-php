@@ -73,4 +73,15 @@ $app['security.firewalls'] = array(
         'pattern' => '^/oauth2/debug$',
         'oauth2_debug' => true,
     ),
+    // The resource server MUST validate the access token and ensure that it
+    // has not expired and that its scope covers the requested resource. The
+    // methods used by the resource server to validate the access token (as
+    // well as any error responses) are beyond the scope of this specification
+    // but generally involve an interaction or coordination between the
+    // resource server and the authorization server.
+    // @link http://tools.ietf.org/html/rfc6749#section-7
+    'resource_debug' => array(
+        'pattern' => '^/resource/debug$',
+        'oauth2_resource' => true,
+    ),
 );

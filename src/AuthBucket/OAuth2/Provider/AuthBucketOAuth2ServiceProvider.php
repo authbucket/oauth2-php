@@ -19,8 +19,10 @@ use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use AuthBucket\OAuth2\Security\Authentication\Provider\DebugProvider;
+use AuthBucket\OAuth2\Security\Authentication\Provider\ResourceProvider;
 use AuthBucket\OAuth2\Security\Authentication\Provider\TokenProvider;
 use AuthBucket\OAuth2\Security\Firewall\DebugListener;
+use AuthBucket\OAuth2\Security\Firewall\ResourceListener;
 use AuthBucket\OAuth2\Security\Firewall\TokenListener;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory;
 use Silex\Application;
@@ -159,6 +161,26 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
             });
         });
 
+        $app['security.authentication_provider.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
+            return $app->share(function () use ($app, $name, $options) {
+                return new ResourceProvider(
+                    $app['authbucket_oauth2.model_manager.factory'],
+                    $name
+                );
+            });
+        });
+
+        $app['security.authentication_listener.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
+            return $app->share(function () use ($app, $name, $options) {
+                return new ResourceListener(
+                    $app['security'],
+                    $app['security.authentication_manager'],
+                    $name,
+                    $app['authbucket_oauth2.token_handler.factory']
+                );
+            });
+        });
+
         $app['security.authentication_listener.factory.oauth2_token'] = $app->protect(function ($name, $options) use ($app) {
             if (!isset($app['security.authentication_provider.' . $name . '.oauth2_token'])) {
                 $app['security.authentication_provider.' . $name . '.oauth2_token'] = $app['security.authentication_provider.oauth2_token._proto']($name, $options);
@@ -188,6 +210,23 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
             return array(
                 'security.authentication_provider.' . $name . '.oauth2_debug',
                 'security.authentication_listener.' . $name . '.oauth2_debug',
+                null,
+                'pre_auth',
+            );
+        });
+
+        $app['security.authentication_listener.factory.oauth2_resource'] = $app->protect(function ($name, $options) use ($app) {
+            if (!isset($app['security.authentication_provider.' . $name . '.oauth2_resource'])) {
+                $app['security.authentication_provider.' . $name . '.oauth2_resource'] = $app['security.authentication_provider.oauth2_resource._proto']($name, $options);
+            }
+
+            if (!isset($app['security.authentication_listener.' . $name . '.oauth2_resource'])) {
+                $app['security.authentication_listener.' . $name . '.oauth2_resource'] = $app['security.authentication_listener.oauth2_resource._proto']($name, $options);
+            }
+
+            return array(
+                'security.authentication_provider.' . $name . '.oauth2_resource',
+                'security.authentication_listener.' . $name . '.oauth2_resource',
                 null,
                 'pre_auth',
             );
