@@ -47,7 +47,6 @@ $app->get('/demo/response_type/code', function (Request $request, Application $a
     ));
 
     return $app['twig']->render('demo/response_type/code.html.twig', array(
-        'error' => $app['security.last_error']($request),
         'authorization_response' => $authorizationResponse,
         'authorization_request' => $authorizationRequest,
         'token_path' => $tokenPath,
@@ -82,7 +81,6 @@ $app->get('/demo/response_type/token', function (Request $request, Application $
     ));
 
     return $app['twig']->render('demo/response_type/token.html.twig', array(
-        'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
         'debug_path' => $debugPath,
@@ -115,7 +113,6 @@ $app->get('/demo/grant_type/authorization_code', function (Request $request, App
     ));
 
     return $app['twig']->render('demo/grant_type/authorization_code.html.twig', array(
-        'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
         'debug_path' => $debugPath,
@@ -155,7 +152,6 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
     ));
 
     return $app['twig']->render('demo/grant_type/password.html.twig', array(
-        'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
         'debug_path' => $debugPath,
@@ -188,7 +184,6 @@ $app->get('/demo/grant_type/client_credentials', function (Request $request, App
     ));
 
     return $app['twig']->render('demo/grant_type/client_credentials.html.twig', array(
-        'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
         'debug_path' => $debugPath,
@@ -221,7 +216,6 @@ $app->get('/demo/grant_type/refresh_token', function (Request $request, Applicat
     ));
 
     return $app['twig']->render('demo/grant_type/refresh_token.html.twig', array(
-        'error' => $app['security.last_error']($request),
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
         'debug_path' => $debugPath,
@@ -243,7 +237,6 @@ $app->get('/demo/debug', function (Request $request, Application $app) {
     $debugRequest = get_object_vars($client->getRequest());
 
     return $app['twig']->render('demo/debug.html.twig', array(
-        'error' => $app['security.last_error']($request),
         'debug_response' => $debugResponse,
         'debug_request' => $debugRequest,
     ));
