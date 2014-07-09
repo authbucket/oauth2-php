@@ -28,16 +28,16 @@ $app->get('/', function (Request $request) use ($app) {
 
 // Admin, flush database.
 $app->get('/admin/refresh_database', function (Request $request) use ($app) {
-    $connection = $app['db'];
+    $conn = $app['db'];
     $em = $app['authbucket_oauth2.orm'];
 
-    $params = $connection->getParams();
+    $params = $conn->getParams();
     $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
 
     try {
-        $connection->getSchemaManager()->dropDatabase($name);
-        $connection->getSchemaManager()->createDatabase($name);
-        $connection->close();
+        $conn->getSchemaManager()->dropDatabase($name);
+        $conn->getSchemaManager()->createDatabase($name);
+        $conn->close();
     } catch (\Exception $e) {
         return 1;
     }
