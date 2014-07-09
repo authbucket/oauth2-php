@@ -32,7 +32,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class OAuth2ServiceProvider implements ServiceProviderInterface
+class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 {
 
     public function register(Application $app)

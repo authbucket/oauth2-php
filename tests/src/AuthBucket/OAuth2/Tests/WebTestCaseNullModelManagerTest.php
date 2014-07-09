@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\Tests;
 
 use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
-use AuthBucket\OAuth2\Provider\OAuth2ServiceProvider;
+use AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
@@ -40,9 +40,9 @@ class WebTestCaseNullModelManagerTest extends SilexWebTestCase
     {
         $app = new Application();
 
+        $app->register(new AuthBucketOAuth2ServiceProvider());
         $app->register(new DoctrineServiceProvider());
         $app->register(new FormServiceProvider());
-        $app->register(new OAuth2ServiceProvider());
         $app->register(new SecurityServiceProvider());
         $app->register(new SessionServiceProvider());
         $app->register(new TwigServiceProvider());

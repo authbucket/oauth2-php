@@ -11,7 +11,7 @@
 
 namespace AuthBucket\OAuth2\Tests;
 
-use AuthBucket\OAuth2\Provider\OAuth2ServiceProvider;
+use AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider;
 use AuthBucket\OAuth2\Tests\TestBundle\Entity\ModelManagerFactory;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Cache\ArrayCache;
@@ -40,9 +40,9 @@ class WebTestCaseNullUserProviderTest extends SilexWebTestCase
     {
         $app = new Application();
 
+        $app->register(new AuthBucketOAuth2ServiceProvider());
         $app->register(new DoctrineServiceProvider());
         $app->register(new FormServiceProvider());
-        $app->register(new OAuth2ServiceProvider());
         $app->register(new SecurityServiceProvider());
         $app->register(new SessionServiceProvider());
         $app->register(new TwigServiceProvider());

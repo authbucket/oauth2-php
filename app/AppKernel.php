@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
+use AuthBucket\OAuth2\Controller\TokenController;
+use AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider;
+use AuthBucket\OAuth2\Tests\TestBundle\Entity\ModelManagerFactory;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
-use AuthBucket\OAuth2\Controller\TokenController;
-use AuthBucket\OAuth2\Provider\OAuth2ServiceProvider;
-use AuthBucket\OAuth2\Tests\TestBundle\Entity\ModelManagerFactory;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
@@ -28,9 +28,9 @@ use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 
 $app = new Application();
 
+$app->register(new AuthBucketOAuth2ServiceProvider());
 $app->register(new DoctrineServiceProvider());
 $app->register(new FormServiceProvider());
-$app->register(new OAuth2ServiceProvider());
 $app->register(new SecurityServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new TwigServiceProvider());

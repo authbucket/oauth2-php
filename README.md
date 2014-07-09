@@ -1,5 +1,5 @@
-OAuth2
-======
+AuthBucket\\OAuth2
+==================
 
 [![Build
 Status](https://travis-ci.org/authbucket/oauth2.svg?branch=master)](https://travis-ci.org/authbucket/oauth2)
@@ -8,10 +8,10 @@ Status](https://img.shields.io/coveralls/authbucket/oauth2.svg)](https://coveral
 [![Dependency
 Status](https://www.versioneye.com/php/authbucket:oauth2/dev-master/badge.svg)](https://www.versioneye.com/php/authbucket:oauth2/dev-master)
 [![Latest Stable
-Version](https://poser.pugx.org/authbucket/oauth2/v/stable.png)](https://packagist.org/packages/authbucket/oauth2)
+Version](https://poser.pugx.org/authbucket/oauth2/v/stable.svg)](https://packagist.org/packages/authbucket/oauth2)
 [![Total
-Downloads](https://poser.pugx.org/authbucket/oauth2/downloads.png)](https://packagist.org/packages/authbucket/oauth2)
-[![License](https://poser.pugx.org/authbucket/oauth2/license.png)](https://packagist.org/packages/authbucket/oauth2)
+Downloads](https://poser.pugx.org/authbucket/oauth2/downloads.svg)](https://packagist.org/packages/authbucket/oauth2)
+[![License](https://poser.pugx.org/authbucket/oauth2/license.svg)](https://packagist.org/packages/authbucket/oauth2)
 
 The primary goal of
 [AuthBucket\\OAuth2](https://github.com/authbucket/oauth2) is to develop
@@ -39,7 +39,7 @@ Demo
 ----
 
 This library bundle with a [Silex](http://silex.sensiolabs.org/) based
-[OAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/OAuth2ServiceProvider.php).
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php).
 Read though [Demo](http://oauth2.authbucket.com/demo) for more
 information.
 
@@ -62,10 +62,10 @@ or if you prefer a traditional web server such as Apache or Nginx, read
 the [Configuring a web
 server](http://silex.sensiolabs.org/doc/web_servers.html) article.
 
-Open your browser and access the <http://localhost:8000> URL to see the
+Open your browser and access the <http://127.0.0.1:8000> URL to see the
 Welcome page of demo application.
 
-Also access <http://localhost:8000/admin/refresh_database> to initialize
+Also access <http://127.0.0.1:8000/admin/refresh_database> to initialize
 the bundled SQLite database with user account `admin`:`secrete`.
 
 Documentation
@@ -109,5 +109,7 @@ References
 License
 -------
 
--   The library is licensed under the [MIT
-    License](http://opensource.org/licenses/MIT)
+-   Code released under
+    [MIT](https://github.com/authbucket/oauth2/blob/master/LICENSE)
+-   Docs released under [CC BY-NC-SA
+    3.0](http://creativecommons.org/licenses/by-nc-sa/3.0/)
