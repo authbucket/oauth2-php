@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>AuthBucket\OAuth2\Controller\DebugController | AuthBucket\OAuth2 API</title>
+        <title>AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider | AuthBucket\OAuth2 API</title>
                     <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
                             </head>
         <body id="class">
@@ -20,14 +20,15 @@
         <div id="title">AuthBucket\OAuth2 API</div>
 
             <div class="type">Class</div>
-    <h1><a href="../../../AuthBucket/OAuth2/Controller.html">AuthBucket\OAuth2\Controller</a>\DebugController</h1>
+    <h1><a href="../../../AuthBucket/OAuth2/Provider.html">AuthBucket\OAuth2\Provider</a>\AuthBucketOAuth2ServiceProvider</h1>
     </div>
         <div class="content">
                 <p>    class
-    <strong>DebugController</strong></p>
+    <strong>AuthBucketOAuth2ServiceProvider</strong>        implements
+        <abbr title="Silex\ServiceProviderInterface">ServiceProviderInterface</abbr></p>
 
             <div class="description">
-            <p>OAuth2 debug endpoint controller implementation.</p>
+            <p>OAuth2 service provider as plugin for Silex SecurityServiceProvider.</p>
             <p>
 </p>
         </div>
@@ -42,7 +43,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, <a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory)
+                    <a href="#method_register">register</a>(<abbr title="Silex\Application">Application</abbr> $app)
                     <p>
 </p>
                 </td>
@@ -53,7 +54,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_debugAction">debugAction</a>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
+                    <a href="#method_boot">boot</a>(<abbr title="Silex\Application">Application</abbr> $app)
                     <p>
 </p>
                 </td>
@@ -64,10 +65,10 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method___construct">
-        <div class="location">at line 32</div>
+                        <h3 id="method_register">
+        <div class="location">at line 38</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, <a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory)</code>
+    <strong>register</strong>(<abbr title="Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
         <p>
@@ -79,14 +80,8 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr></td>
-                <td>$securityContext</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td><a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a></td>
-                <td>$modelManagerFactory</td>
+                <td><abbr title="Silex\Application">Application</abbr></td>
+                <td>$app</td>
                 <td>
 </td>
             </tr>
@@ -98,10 +93,10 @@
                     </div>
     </div>
 
-                <h3 id="method_debugAction">
-        <div class="location">at line 41</div>
+                <h3 id="method_boot">
+        <div class="location">at line 197</div>
         <code>                    
-    <strong>debugAction</strong>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
+    <strong>boot</strong>(<abbr title="Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
         <p>
@@ -113,8 +108,8 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
-                <td>$request</td>
+                <td><abbr title="Silex\Application">Application</abbr></td>
+                <td>$app</td>
                 <td>
 </td>
             </tr>
