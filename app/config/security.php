@@ -42,14 +42,14 @@ $app['security.firewalls'] = array(
         'http' => true,
         'users' => $app['security.user_provider.default'],
     ),
-    'oauth2_authorize_form' => array(
-        'pattern' => '^/oauth2/authorize/form',
+    'oauth2_authorize' => array(
+        'pattern' => '^/oauth2/authorize',
         'form' => array(
             'login_path' => '/oauth2/login',
-            'check_path' => '/oauth2/authorize/form/login_check',
+            'check_path' => '/oauth2/authorize/login_check',
         ),
         'logout' => array(
-            'logout_path' => '/oauth2/authorize/form/logout',
+            'logout_path' => '/oauth2/authorize/logout',
         ),
         'users' => $app['security.user_provider.default'],
     ),

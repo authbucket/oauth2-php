@@ -295,7 +295,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'state' => $session->getId(),
         );
         $server = array();
-        $crawler = $client->request('GET', '/oauth2/authorize/form', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 }

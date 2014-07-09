@@ -7,7 +7,7 @@
 
     {% block main %}
         <h2 class="page-header">Form Login</h2>
-        <form action="{{ path('oauth2_authorize_form_login_check') }}" method="post" role="form">
+        <form action="{{ path('oauth2_authorize_login_check') }}" method="post" role="form">
             {{ error }}
             <div class="form-group">
                 <label>Username</label>

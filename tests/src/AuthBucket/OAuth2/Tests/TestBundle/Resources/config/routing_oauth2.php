@@ -30,9 +30,9 @@ $app->get('/oauth2/authorize/http', function (Request $request, Application $app
 })->bind('oauth2_authorize_http');
 
 // OAuth2, Authorization endpoint, form login.
-$app->get('/oauth2/authorize/form', function (Request $request, Application $app) {
+$app->get('/oauth2/authorize', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
-})->bind('oauth2_authorize_form');
+})->bind('oauth2_authorize');
 
 // OAuth2, Token endpoint.
 $app->match('/oauth2/token', function (Request $request, Application $app) {

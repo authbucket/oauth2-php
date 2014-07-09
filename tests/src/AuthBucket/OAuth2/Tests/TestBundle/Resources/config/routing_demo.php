@@ -230,7 +230,7 @@ $app->get('/demo/grant_type/refresh_token', function (Request $request, Applicat
 })->bind('demo_grant_type_refresh_token');
 
 // Demo, resource endpoint.
-$app->get('demo/debug', function (Request $request, Application $app) {
+$app->get('/demo/debug', function (Request $request, Application $app) {
     $parameters = array(
         'debug_token' => $request->query->get('access_token'),
     );
