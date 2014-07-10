@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\ResponseType;
+namespace AuthBucket\OAuth2\ResourceType;
 
-use AuthBucket\OAuth2\Exception\UnsupportedResponseTypeException;
+use AuthBucket\OAuth2\Exception\ServerErrorException;
 
 /**
- * OAuth2 response type handler factory implemention.
+ * OAuth2 resource type handler factory implemention.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
+class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
 {
     protected $classes;
 
@@ -26,22 +26,22 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
     {
         foreach ($classes as $class) {
             if (!class_exists($class)) {
-                throw new UnsupportedResponseTypeException();
+                throw new ServerErrorException();
             }
 
             $reflection = new \ReflectionClass($class);
-            if (!$reflection->implementsInterface('AuthBucket\\OAuth2\\ResponseType\\ResponseTypeHandlerInterface')) {
-                throw new UnsupportedResponseTypeException();
+            if (!$reflection->implementsInterface('AuthBucket\\OAuth2\\ResourceType\\ResourceTypeHandlerInterface')) {
+                throw new ServerErrorException();
             }
         }
 
         $this->classes = $classes;
     }
 
-    public function getResponseTypeHandler($type)
+    public function getResourceTypeHandler($type)
     {
         if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
-            throw new UnsupportedResponseTypeException();
+            throw new ServerErrorException();
         }
 
         return new $this->classes[$type];
