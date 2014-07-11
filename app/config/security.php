@@ -71,7 +71,7 @@ $app['security.firewalls'] = array(
     // @link http://tools.ietf.org/html/rfc6749#section-7
     'oauth2_debug' => array(
         'pattern' => '^/oauth2/debug$',
-        'oauth2_debug' => true,
+        'oauth2_resource' => true,
     ),
     // The resource server MUST validate the access token and ensure that it
     // has not expired and that its scope covers the requested resource. The
@@ -82,6 +82,10 @@ $app['security.firewalls'] = array(
     // @link http://tools.ietf.org/html/rfc6749#section-7
     'resource_debug' => array(
         'pattern' => '^/resource/debug$',
-        'oauth2_resource' => true,
+        'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array(),
+            'options' => array(),
+        ),
     ),
 );

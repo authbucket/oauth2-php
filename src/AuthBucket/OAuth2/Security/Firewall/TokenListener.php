@@ -71,7 +71,7 @@ class TokenListener implements ListenerInterface
         }
 
         $token = new ClientToken($clientId, $clientSecret, $this->providerKey);
-        $authenticatedToken = $this->authenticationManager->authenticate($token);
-        $this->securityContext->setToken($authenticatedToken);
+        $tokenAuthenticated = $this->authenticationManager->authenticate($token);
+        $this->securityContext->setToken($tokenAuthenticated);
     }
 }

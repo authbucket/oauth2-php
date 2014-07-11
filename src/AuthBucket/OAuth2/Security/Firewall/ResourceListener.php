@@ -62,7 +62,7 @@ class ResourceListener implements ListenerInterface
         }
 
         $token = new AccessToken($accessToken, $this->providerKey);
-        $authenticatedToken = $this->authenticationManager->authenticate($token);
-        $this->securityContext->setToken($authenticatedToken);
+        $tokenAuthenticated = $this->authenticationManager->authenticate($token);
+        $this->securityContext->setToken($tokenAuthenticated);
     }
 }

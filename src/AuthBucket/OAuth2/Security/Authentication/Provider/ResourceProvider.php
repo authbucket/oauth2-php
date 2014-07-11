@@ -12,6 +12,7 @@
 namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 
 use AuthBucket\OAuth2\Exception\AccessDeniedException;
+use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
@@ -27,14 +28,23 @@ class ResourceProvider implements AuthenticationProviderInterface
 {
     protected $modelManagerFactory;
     protected $providerKey;
+    protected $resourceType;
+    protected $scopeRequired;
+    protected $options;
 
     public function __construct(
         ModelManagerFactoryInterface $modelManagerFactory,
-        $providerKey
+        $providerKey,
+        $resourceType = 'model',
+        array $scopeRequired = array(),
+        array $options = array()
     )
     {
         $this->modelManagerFactory = $modelManagerFactory;
         $this->providerKey = $providerKey;
+        $this->resourceType = $resourceType;
+        $this->scopeRequired = $scopeRequired;
+        $this->options = $options;
     }
 
     public function authenticate(TokenInterface $token)
@@ -43,23 +53,35 @@ class ResourceProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $accessToken = $token->getAccessToken();
-        if ($accessToken instanceof AccessTokenInterface) {
-            $accessToken = $accessToken->getAccessToken();
+        $accessTokenSupplied = '';
+        $scopeSupplied = array();
+
+        $tokenSupplied = $token->getAccessToken();
+        if ($tokenSupplied instanceof AccessTokenInterface) {
+            $accessTokenSupplied = $accessToken->getAccessToken();
+            $scopeSupplied = $accessToken->getScope();
+        } else {
+            $accessTokenSupplied = $tokenSupplied;
         }
 
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $storedAccessToken = $accessTokenManager->findAccessTokenByAccessToken($accessToken);
-        if ($storedAccessToken === null) {
+        $accessTokenStored = $accessTokenManager->findAccessTokenByAccessToken($accessTokenSupplied);
+        if ($accessTokenStored === null) {
             throw new AccessDeniedException();
-        } elseif ($storedAccessToken->getExpires() < new \DateTime()) {
+        } elseif ($accessTokenStored->getExpires() < new \DateTime()) {
             throw new AccessDeniedException();
         }
 
-        $authenticatedToken = new AccessToken($storedAccessToken, $this->providerKey);
-        $authenticatedToken->setUser($storedAccessToken->getUsername());
+        if ($this->scopeRequired) {
+            if (array_intersect($this->scopeRequired, $scopeSupplied) != $this->scopeRequired) {
+                throw new InvalidScopeException();
+            }
+        }
 
-        return $authenticatedToken;
+        $tokenAuthenticated = new AccessToken($accessTokenStored, $this->providerKey);
+        $tokenAuthenticated->setUser($accessTokenStored->getUsername());
+
+        return $tokenAuthenticated;
     }
 
     public function supports(TokenInterface $token)

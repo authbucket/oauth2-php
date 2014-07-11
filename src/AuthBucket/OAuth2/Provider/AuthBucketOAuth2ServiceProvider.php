@@ -163,9 +163,18 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
         $app['security.authentication_provider.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
+                $options = array_merge(array(
+                    'resource_type' => 'model',
+                    'scope' => array(),
+                    'options' => array(),
+                ), (array) $options);
+
                 return new ResourceProvider(
                     $app['authbucket_oauth2.model_manager.factory'],
-                    $name
+                    $name,
+                    $options['resource_type'],
+                    $options['scope'],
+                    $options['options']
                 );
             });
         });

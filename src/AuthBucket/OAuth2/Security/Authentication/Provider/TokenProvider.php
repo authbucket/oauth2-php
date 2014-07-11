@@ -47,27 +47,27 @@ class TokenProvider implements AuthenticationProviderInterface
         $clientSecret = $token->getClientSecret();
 
         $clientManager = $this->modelManagerFactory->getModelManager('client');
-        $client = $clientManager->findClientByClientId($clientId);
-        if ($client === null) {
+        $clientStored = $clientManager->findClientByClientId($clientId);
+        if ($clientStored === null) {
             throw new InvalidClientException();
         }
-        $currentClient = $token->getClient();
+        $clientSupplied = $token->getClient();
 
-        if ($currentClient instanceof ClientInterface) {
-            if ($client->getClientSecret() !== $currentClient->getClientSecret()) {
+        if ($clientSupplied instanceof ClientInterface) {
+            if ($clientStored->getClientSecret() !== $clientSupplied->getClientSecret()) {
                 throw new InvalidClientException();
             }
         } else {
-            if ($client->getClientSecret() !== $clientSecret) {
+            if ($clientStored->getClientSecret() !== $clientSecret) {
                 throw new InvalidClientException();
             }
         }
 
-        $authenticatedToken = new ClientToken($clientId, $clientSecret, $this->providerKey, $token->getRoles());
-        $authenticatedToken->setClient($client);
-        $authenticatedToken->setUser($client->getClientId());
+        $tokenAuthenticated = new ClientToken($clientId, $clientSecret, $this->providerKey, $token->getRoles());
+        $tokenAuthenticated->setClient($clientStored);
+        $tokenAuthenticated->setUser($clientStored->getClientId());
 
-        return $authenticatedToken;
+        return $tokenAuthenticated;
     }
 
     public function supports(TokenInterface $token)
