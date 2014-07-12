@@ -23,6 +23,7 @@ use AuthBucket\OAuth2\Security\Authentication\Provider\TokenProvider;
 use AuthBucket\OAuth2\Security\Firewall\ResourceListener;
 use AuthBucket\OAuth2\Security\Firewall\TokenListener;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory;
+use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -63,6 +64,14 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
             );
         }
 
+        // Add default resource type handler.
+        if (!isset($app['authbucket_oauth2.resource_handler'])) {
+            $app['authbucket_oauth2.resource_handler'] = array(
+                'model' => 'AuthBucket\\OAuth2\\ResourceType\\ModelResourceTypeHandler',
+                'debug_endpoint' => 'AuthBucket\\OAuth2\\ResourceType\\DebugEndpointResourceTypeHandler',
+            );
+        }
+
         $app['authbucket_oauth2.exception_listener'] = $app->share(function () {
             return new ExceptionListener();
         });
@@ -83,6 +92,10 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
         $app['authbucket_oauth2.token_handler.factory'] = $app->share(function ($app) {
             return new TokenTypeHandlerFactory($app['authbucket_oauth2.token_handler']);
+        });
+
+        $app['authbucket_oauth2.resource_handler.factory'] = $app->share(function ($app) {
+            return new ResourceTypeHandlerFactory($app['authbucket_oauth2.resource_handler']);
         });
 
         // For sending user to scope authorize page due to insufficient scope,
@@ -148,7 +161,9 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                 ), (array) $options);
 
                 return new ResourceProvider(
+                    $app,
                     $app['authbucket_oauth2.model_manager.factory'],
+                    $app['authbucket_oauth2.resource_handler.factory'],
                     $name,
                     $options['resource_type'],
                     $options['scope'],

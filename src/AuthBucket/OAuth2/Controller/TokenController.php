@@ -59,15 +59,17 @@ class TokenController
         $grantType = $this->getGrantType($request);
 
         // Handle token endpoint response.
-        return $this->grantTypeHandlerFactory->getGrantTypeHandler($grantType)->handle(
-            $this->securityContext,
-            $this->userChecker,
-            $this->encoderFactory,
-            $request,
-            $this->modelManagerFactory,
-            $this->tokenTypeHandlerFactory,
-            $this->userProvider
-        );
+        return $this->grantTypeHandlerFactory
+            ->getGrantTypeHandler($grantType)
+            ->handle(
+                $this->securityContext,
+                $this->userChecker,
+                $this->encoderFactory,
+                $request,
+                $this->modelManagerFactory,
+                $this->tokenTypeHandlerFactory,
+                $this->userProvider
+            );
     }
 
     private function getGrantType(Request $request)

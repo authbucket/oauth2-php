@@ -12,10 +12,8 @@
 namespace AuthBucket\OAuth2\ResourceType;
 
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Token response type implementation.
@@ -25,11 +23,10 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
 {
     public function handle(
-        SecurityContextInterface $securityContext,
-        Request $request,
+        HttpKernelInterface $httpKernel,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $authorizeScopeUri = null
+        $accessToken,
+        array $options = array()
     )
     {
     }

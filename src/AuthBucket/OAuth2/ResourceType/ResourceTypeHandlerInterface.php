@@ -11,10 +11,9 @@
 
 namespace AuthBucket\OAuth2\ResourceType;
 
+use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * OAuth2 resource type handler interface.
@@ -26,17 +25,17 @@ interface ResourceTypeHandlerInterface
     /**
      * Handle corresponding resource type logic.
      *
-     * @param SecurityContextInterface         $securityContext         The security object that hold the current live token.
-     * @param Request                          $request                 Incoming request object.
-     * @param ModelManagerFactoryInterface     $modelManagerFactory     Model manager factory for compare with database record.
-     * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory Token type handler that will generate the correct resource parameters.
+     * @param HttpKernelInterface          $httpKernel
+     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
+     * @param string                       $accessToken         Access token for checking.
+     * @param array                        $options             Additional options for this handler.
      *
-     * @return RedirectResponse The redirect resource object for authorize endpoint.
+     * @return AccessTokenInterface The stored access token with meta information.
      */
     public function handle(
-        SecurityContextInterface $securityContext,
-        Request $request,
+        HttpKernelInterface $httpKernel,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        $accessToken,
+        array $options = array()
     );
 }

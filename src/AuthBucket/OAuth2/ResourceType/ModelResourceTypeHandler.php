@@ -11,10 +11,9 @@
 
 namespace AuthBucket\OAuth2\ResourceType;
 
+use AuthBucket\OAuth2\Exception\AccessDeniedException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Model response type handler implementation.
@@ -24,12 +23,20 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 class ModelResourceTypeHandler extends AbstractResourceTypeHandler
 {
     public function handle(
-        SecurityContextInterface $securityContext,
-        Request $request,
+        HttpKernelInterface $httpKernel,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $authorizeScopeUri = null
+        $accessToken,
+        array $options = array()
     )
     {
+        $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
+        $stored = $accessTokenManager->findAccessTokenByAccessToken($accessToken);
+        if ($stored === null) {
+            throw new AccessDeniedException();
+        } elseif ($stored->getExpires() < new \DateTime()) {
+            throw new AccessDeniedException();
+        }
+
+        return $stored;
     }
 }

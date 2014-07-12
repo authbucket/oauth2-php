@@ -53,13 +53,15 @@ class AuthorizeController
         $responseType = $this->getResponseType($request);
 
         // Handle authorize endpoint response.
-        return $this->responseTypeHandlerFactory->getResponseTypeHandler($responseType)->handle(
-            $this->securityContext,
-            $request,
-            $this->modelManagerFactory,
-            $this->tokenTypeHandlerFactory,
-            $this->authorizeScopeUri
-        );
+        return $this->responseTypeHandlerFactory
+            ->getResponseTypeHandler($responseType)
+            ->handle(
+                $this->securityContext,
+                $request,
+                $this->modelManagerFactory,
+                $this->tokenTypeHandlerFactory,
+                $this->authorizeScopeUri
+            );
     }
 
     private function getResponseType(Request $request)

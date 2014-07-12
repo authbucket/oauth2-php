@@ -11,11 +11,12 @@
 
 namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 
-use AuthBucket\OAuth2\Exception\AccessDeniedException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -26,21 +27,27 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ResourceProvider implements AuthenticationProviderInterface
 {
+    protected $httpKernel;
     protected $modelManagerFactory;
+    protected $resourceTypeHandlerFactory;
     protected $providerKey;
     protected $resourceType;
     protected $scopeRequired;
     protected $options;
 
     public function __construct(
+        HttpKernelInterface $httpKernel,
         ModelManagerFactoryInterface $modelManagerFactory,
+        ResourceTypeHandlerFactoryInterface $resourceTypeHandlerFactory,
         $providerKey,
         $resourceType = 'model',
         array $scopeRequired = array(),
         array $options = array()
     )
     {
+        $this->httpKernel = $httpKernel;
         $this->modelManagerFactory = $modelManagerFactory;
+        $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
         $this->providerKey = $providerKey;
         $this->resourceType = $resourceType;
         $this->scopeRequired = $scopeRequired;
@@ -64,14 +71,17 @@ class ResourceProvider implements AuthenticationProviderInterface
             $accessTokenSupplied = $tokenSupplied;
         }
 
-        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $accessTokenStored = $accessTokenManager->findAccessTokenByAccessToken($accessTokenSupplied);
-        if ($accessTokenStored === null) {
-            throw new AccessDeniedException();
-        } elseif ($accessTokenStored->getExpires() < new \DateTime()) {
-            throw new AccessDeniedException();
-        }
+        // Handle different resource type access_token check.
+        $accessTokenStored = $this->resourceTypeHandlerFactory
+            ->getResourceTypeHandler($this->resourceType)
+            ->handle(
+                $this->httpKernel,
+                $this->modelManagerFactory,
+                $accessTokenSupplied,
+                $this->options
+            );
 
+        // Check if enough scope supplied.
         if ($this->scopeRequired) {
             if (array_intersect($this->scopeRequired, $scopeSupplied) != $this->scopeRequired) {
                 throw new InvalidScopeException();
