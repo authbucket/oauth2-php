@@ -119,7 +119,7 @@ class WebTestCaseNullModelManagerTest extends SilexWebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('', $resourceResponse['username']);
     }

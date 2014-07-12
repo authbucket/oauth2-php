@@ -21,3 +21,8 @@ $app->get('/resource', function (Request $request) use ($app) {
 $app->match('/resource/debug', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.debug_controller']->debugAction($request);
 })->bind('resource_debug');
+
+// Resource, Debug endpoint, model.
+$app->match('/resource/debug/model', function (Request $request, Application $app) {
+    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
+})->bind('resource_debug_model');

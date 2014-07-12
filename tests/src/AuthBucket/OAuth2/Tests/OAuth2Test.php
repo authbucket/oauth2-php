@@ -94,7 +94,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -142,7 +142,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -191,7 +191,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -238,7 +238,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('', $debugResponse['username']);
     }
