@@ -23,6 +23,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('51b2d34c3a661b5e111a694dfcb4b248')
             ->setUsername('demousername1')
             ->setScope(array(
+                'debug',
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
@@ -33,6 +34,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('authorization_code_grant')
             ->setUsername('demousername1')
             ->setScope(array(
+                'debug',
                 'demoscope1',
             ));
         $manager->persist($model);
@@ -41,6 +43,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('implicit_grant')
             ->setUsername('demousername1')
             ->setScope(array(
+                'debug',
                 'demoscope1',
             ));
         $manager->persist($model);
@@ -49,6 +52,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('resource_owner_password_credentials_grant')
             ->setUsername('demousername1')
             ->setScope(array(
+                'debug',
                 'demoscope1',
             ));
         $manager->persist($model);
@@ -57,6 +61,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('client_credentials_grant')
             ->setUsername('')
             ->setScope(array(
+                'debug',
                 'demoscope1',
             ));
         $manager->persist($model);
@@ -65,6 +70,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setScope(array(
+                'debug',
                 'demoscope1',
             ));
         $manager->persist($model);
@@ -73,6 +79,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('http://democlient2.com/')
             ->setUsername('demousername2')
             ->setScope(array(
+                'debug',
                 'demoscope1',
                 'demoscope2',
             ));
@@ -82,6 +89,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('http://democlient3.com/')
             ->setUsername('demousername3')
             ->setScope(array(
+                'debug',
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
@@ -92,6 +100,7 @@ class AuthorizeFixture implements FixtureInterface
         $model->setClientId('http://democlient1.com/')
             ->setUsername('')
             ->setScope(array(
+                'debug',
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',

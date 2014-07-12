@@ -71,7 +71,10 @@ $app['security.firewalls'] = array(
     // @link http://tools.ietf.org/html/rfc6749#section-7
     'oauth2_debug' => array(
         'pattern' => '^/oauth2/debug$',
-        'oauth2_resource' => true,
+        'oauth2_resource' => array(
+            'resource_type' => 'model',
+            'scope' => array('debug'),
+        ),
     ),
     'resource_debug' => array(
         'pattern' => '^/resource/debug$',
@@ -82,6 +85,18 @@ $app['security.firewalls'] = array(
         'oauth2_resource' => array(
             'resource_type' => 'model',
             'scope' => array('demoscope1'),
+        ),
+    ),
+    'resource_debug_debug_endpoint' => array(
+        'pattern' => '^/resource/debug/debug_endpoint$',
+        'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array('demoscope1'),
+            'options' => array(
+                'request_uri' => '/oauth2/debug',
+                'client_id' => 'http://democlient1.com/',
+                'client_secret' => 'demosecret1',
+            ),
         ),
     ),
 );
