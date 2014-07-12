@@ -34,6 +34,11 @@ class ClientToken extends AbstractToken
         parent::setAuthenticated(count($roles) > 0);
     }
 
+    public function getProviderKey()
+    {
+        return $this->providerKey;
+    }
+
     public function setClient($client)
     {
         $this->client = $client;

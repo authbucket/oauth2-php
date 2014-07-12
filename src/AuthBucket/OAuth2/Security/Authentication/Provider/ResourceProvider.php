@@ -60,18 +60,12 @@ class ResourceProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $accessTokenSupplied = '';
-        $scopeSupplied = array();
-
         $tokenSupplied = $token->getAccessToken();
-        if ($tokenSupplied instanceof AccessTokenInterface) {
-            $accessTokenSupplied = $accessToken->getAccessToken();
-            $scopeSupplied = $accessToken->getScope();
-        } else {
-            $accessTokenSupplied = $tokenSupplied;
-        }
 
         // Handle different resource type access_token check.
+        $accessTokenSupplied = $tokenSupplied instanceof AccessTokenInterface
+            ? $accessToken->getAccessToken()
+            : $tokenSupplied;
         $accessTokenStored = $this->resourceTypeHandlerFactory
             ->getResourceTypeHandler($this->resourceType)
             ->handle(
@@ -82,6 +76,7 @@ class ResourceProvider implements AuthenticationProviderInterface
             );
 
         // Check if enough scope supplied.
+        $scopeSupplied = $accessTokenStored->getScope() ?: array();
         if ($this->scopeRequired) {
             if (array_intersect($this->scopeRequired, $scopeSupplied) != $this->scopeRequired) {
                 throw new InvalidScopeException();
@@ -96,6 +91,6 @@ class ResourceProvider implements AuthenticationProviderInterface
 
     public function supports(TokenInterface $token)
     {
-        return $token instanceof AccessToken;
+        return $token instanceof AccessToken && $this->providerKey === $token->getProviderKey();
     }
 }

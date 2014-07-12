@@ -72,6 +72,6 @@ class TokenProvider implements AuthenticationProviderInterface
 
     public function supports(TokenInterface $token)
     {
-        return $token instanceof ClientToken;
+        return $token instanceof ClientToken && $this->providerKey === $token->getProviderKey();
     }
 }

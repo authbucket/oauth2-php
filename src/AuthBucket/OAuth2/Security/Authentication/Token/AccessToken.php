@@ -31,6 +31,11 @@ class AccessToken extends AbstractToken
         parent::setAuthenticated(count($roles) > 0);
     }
 
+    public function getProviderKey()
+    {
+        return $this->providerKey;
+    }
+
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;

@@ -154,12 +154,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
         $app['security.authentication_provider.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
-                $options = array_merge(array(
-                    'resource_type' => 'model',
-                    'scope' => array(),
-                    'options' => array(),
-                ), (array) $options);
-
                 return new ResourceProvider(
                     $app,
                     $app['authbucket_oauth2.model_manager.factory'],
@@ -201,6 +195,12 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         });
 
         $app['security.authentication_listener.factory.oauth2_resource'] = $app->protect(function ($name, $options) use ($app) {
+            $options = array_merge(array(
+                'resource_type' => 'model',
+                'scope' => array(),
+                'options' => array(),
+            ), (array) $options);
+
             if (!isset($app['security.authentication_provider.' . $name . '.oauth2_resource'])) {
                 $app['security.authentication_provider.' . $name . '.oauth2_resource'] = $app['security.authentication_provider.oauth2_resource._proto']($name, $options);
             }
