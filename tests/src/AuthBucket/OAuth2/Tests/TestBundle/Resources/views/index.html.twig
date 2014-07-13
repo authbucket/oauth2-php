@@ -18,23 +18,42 @@
                     <a href="https://packagist.org/packages/authbucket/oauth2"><img src="https://poser.pugx.org/authbucket/oauth2/downloads.svg" alt="Total Downloads" /></a>
                     <a href="https://packagist.org/packages/authbucket/oauth2"><img src="https://poser.pugx.org/authbucket/oauth2/license.svg" alt="License" /></a>
                 </p>
-                <p class="lead">The primary goal of <a href="https://github.com/authbucket/oauth2">AuthBucket\OAuth2</a> is to develop a standards compliant <a href="http://tools.ietf.org/html/rfc6749">RFC6749 OAuth2.0</a> library; secondary goal would be develop corresponding wrapper <a href="http://www.symfony.com">Symfony2 Bundle</a> and <a href="http://drupal.org">Drupal module</a>.</p>
+                <p class="lead">The primary goal of <a href="http://oauth2.authbucket.com/">AuthBucket\OAuth2</a> is to develop a standards compliant <a href="http://tools.ietf.org/html/rfc6749">RFC6749 OAuth2.0</a> library; secondary goal would be develop corresponding wrapper <a href="http://symfony.com">Symfony2 Bundle</a> and <a href="https://www.drupal.org">Drupal module</a>.</p>
 
                 <h2 id="installation" class="page-header">Installation</h2>
                 <p class="lead">Simply add a dependency on <code>authbucket/oauth2</code> to your project's <code>composer.json</code> file if you use <a href="http://getcomposer.org/">Composer</a> to manage the dependencies of your project.</p>
                 <p>Here is a minimal example of a <code>composer.json</code>:</p>
-                <pre><code>{
+<pre><code>{
     &quot;require&quot;: {
         &quot;authbucket/oauth2&quot;: &quot;dev-master&quot;
     }
 }</code></pre>
 
+                <h3 id="parameters">Parameters</h3>
+                <ul>
+                    <li><code>authbucket_oauth2.model</code>: Override this with your backend model managers, e.g. Doctrine ORM EntityRepository.</li>
+                    <li><code>authbucket_oauth2.model_manager.factory</code>: Override this with your backend model manager factory, e.g. initialized with Doctrine ORM.</li>
+                    <li><code>authbucket_oauth2.response_handler</code>: (Optional) Control which response type handler should be enabled, e.g. CodeResponseTypeHandler.</li>
+                    <li><code>authbucket_oauth2.grant_handler</code>: (Optional) Control which grant type handler should be enabled, e.g. AuthorizationCodeGrantTypeHandler.</li>
+                    <li><code>authbucket_oauth2.token_handler</code>: (Optional) Control which token handler type should be enabled, e.g. BearerTokenTypeHandler.</li>
+                </ul>
+
+                <h3 id="services">Services</h3>
+                <ul>
+                    <li><code>authbucket_oauth2.authorize_controller</code>: For sending user to scope authorize page due to insufficient scope, override the last parameter with redirect URI, e.g. <code>/oauth2/authorize/scope</code>.</li>
+                    <li><code>authbucket_oauth2.token_controller</code>: For using <code>grant_type = password</code>, override the last parameter with your own user provider, e.g. using InMemoryUserProvider or a doctrine EntityRepository that implements UserProviderInterface.</li>
+                    <li><code>authbucket_oauth2.debug_controller</code>: Debug Endpoint clone the idea of Facebook's Debug API Endpoint, return raw information of corresponding <code>debug_token</code> provided.</li>
+                </ul>
+
+                <h3 id="registering">Registering</h3>
+<pre><code>$app-&gt;register(new AuthBucketOAuth2ServiceProvider());</code></pre>
+
                 <h2 id="demo" class="page-header">Demo</h2>
                 <p class="lead">This library bundle with a <a href="http://silex.sensiolabs.org/">Silex</a> based <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a>. Read though <a href="http://oauth2.authbucket.com/demo">Demo</a> for more information.</p>
                 <p>You may also run the demo locally. Open a console and execute the following command to install the latest version in the oauth2/ directory:</p>
-                <pre><code>$ composer create-project authbucket/oauth2 oauth2/ dev-master</code></pre>
+<pre><code>$ composer create-project authbucket/oauth2 oauth2/ dev-master</code></pre>
                 <p>Then use the PHP built-in web server to run the demo application:</p>
-                <pre><code>$ cd oauth2/
+<pre><code>$ cd oauth2/
 $ php app/console server:run</code></pre>
                 <p>If you get the error <code>There are no commands defined in the &quot;server&quot; namespace.</code>, then you are probably using PHP 5.3. That's ok! But the built-in web server is only available for PHP 5.4.0 or higher. If you have an older version of PHP or if you prefer a traditional web server such as Apache or Nginx, read the <a href="http://silex.sensiolabs.org/doc/web_servers.html">Configuring a web server</a> article.</p>
                 <p>Open your browser and access the <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> URL to see the Welcome page of demo application.</p>
@@ -43,21 +62,21 @@ $ php app/console server:run</code></pre>
                 <h2 id="documentation" class="page-header">Documentation</h2>
                 <p class="lead">OAuth2's documentation is built with <a href="https://github.com/fabpot/Sami">Sami</a> and publicly hosted on <a href="http://authbucket.github.io/oauth2">GitHub Pages</a>.</p>
                 <p>To built the documents locally, execute the following command:</p>
-                <pre><code>$ vendor/bin/sami.php update app/config/config_sami.php</code></pre>
+<pre><code>$ vendor/bin/sami.php update app/config/config_sami.php</code></pre>
                 <p>Open <code>build/oauth2/index.html</code> with your browser for the documents.</p>
 
                 <h2 id="tests" class="page-header">Tests</h2>
                 <p class="lead">This project is coverage with <a href="http://phpunit.de/">PHPUnit</a> test cases; CI result can be found from <a href="https://travis-ci.org/authbucket/oauth2">Travis CI</a>; code coverage report can be found from <a href="https://coveralls.io/r/authbucket/oauth2">Coveralls</a>.</p>
                 <p>To run the test suite locally, execute the following command:</p>
-                <pre><code>$ vendor/bin/phpunit</code></pre>
+<pre><code>$ vendor/bin/phpunit</code></pre>
                 <p>Open <code>build/logs/html</code> with your browser for the coverage report.</p>
 
                 <h2 id="references" class="page-header">References</h2>
                 <ul>
                     <li><a href="http://tools.ietf.org/html/rfc6749">RFC6749</a></li>
+                    <li><a href="http://oauth2.authbucket.com/">AuthBucket\OAuth2</a></li>
                     <li><a href="https://github.com/authbucket/oauth2">GitHub</a></li>
                     <li><a href="https://packagist.org/packages/authbucket/oauth2">Packagist</a></li>
-                    <li><a href="http://oauth2.authbucket.com/demo">Demo</a></li>
                     <li><a href="http://authbucket.github.io/oauth2/">API</a></li>
                     <li><a href="https://travis-ci.org/authbucket/oauth2">Travis CI</a></li>
                     <li><a href="https://coveralls.io/r/authbucket/oauth2">Coveralls</a></li>

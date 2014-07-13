@@ -13,12 +13,11 @@ Version](https://poser.pugx.org/authbucket/oauth2/v/stable.svg)](https://packagi
 Downloads](https://poser.pugx.org/authbucket/oauth2/downloads.svg)](https://packagist.org/packages/authbucket/oauth2)
 [![License](https://poser.pugx.org/authbucket/oauth2/license.svg)](https://packagist.org/packages/authbucket/oauth2)
 
-The primary goal of
-[AuthBucket\\OAuth2](https://github.com/authbucket/oauth2) is to develop
-a standards compliant [RFC6749
+The primary goal of [AuthBucket\\OAuth2](http://oauth2.authbucket.com/)
+is to develop a standards compliant [RFC6749
 OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
-Bundle](http://www.symfony.com) and [Drupal module](http://drupal.org).
+Bundle](http://symfony.com) and [Drupal module](https://www.drupal.org).
 
 Installation
 ------------
@@ -34,6 +33,38 @@ Here is a minimal example of a `composer.json`:
             "authbucket/oauth2": "dev-master"
         }
     }
+
+### Parameters
+
+-   `authbucket_oauth2.model`: Override this with your backend model
+    managers, e.g. Doctrine ORM EntityRepository.
+-   `authbucket_oauth2.model_manager.factory`: Override this with your
+    backend model manager factory, e.g. initialized with Doctrine ORM.
+-   `authbucket_oauth2.response_handler`: (Optional) Control which
+    response type handler should be enabled, e.g.
+    CodeResponseTypeHandler.
+-   `authbucket_oauth2.grant_handler`: (Optional) Control which grant
+    type handler should be enabled, e.g.
+    AuthorizationCodeGrantTypeHandler.
+-   `authbucket_oauth2.token_handler`: (Optional) Control which token
+    handler type should be enabled, e.g. BearerTokenTypeHandler.
+
+### Services
+
+-   `authbucket_oauth2.authorize_controller`: For sending user to scope
+    authorize page due to insufficient scope, override the last
+    parameter with redirect URI, e.g. `/oauth2/authorize/scope`.
+-   `authbucket_oauth2.token_controller`: For using
+    `grant_type = password`, override the last parameter with your own
+    user provider, e.g. using InMemoryUserProvider or a doctrine
+    EntityRepository that implements UserProviderInterface.
+-   `authbucket_oauth2.debug_controller`: Debug Endpoint clone the idea
+    of Facebook's Debug API Endpoint, return raw information of
+    corresponding `debug_token` provided.
+
+### Registering
+
+    $app->register(new AuthBucketOAuth2ServiceProvider());
 
 Demo
 ----
@@ -99,9 +130,9 @@ References
 ----------
 
 -   [RFC6749](http://tools.ietf.org/html/rfc6749)
+-   [AuthBucket\\OAuth2](http://oauth2.authbucket.com/)
 -   [GitHub](https://github.com/authbucket/oauth2)
 -   [Packagist](https://packagist.org/packages/authbucket/oauth2)
--   [Demo](http://oauth2.authbucket.com/demo)
 -   [API](http://authbucket.github.io/oauth2/)
 -   [Travis CI](https://travis-ci.org/authbucket/oauth2)
 -   [Coveralls](https://coveralls.io/r/authbucket/oauth2)
