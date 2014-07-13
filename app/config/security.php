@@ -93,9 +93,11 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'request_uri' => '/oauth2/debug',
+                'token_path' => '/oauth2/token',
+                'debug_path' => '/oauth2/debug',
                 'client_id' => 'http://democlient1.com/',
                 'client_secret' => 'demosecret1',
+                'cache' => false,
             ),
         ),
     ),

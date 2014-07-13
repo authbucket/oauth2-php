@@ -11,7 +11,7 @@
 
 namespace AuthBucket\OAuth2\ResourceType;
 
-use AuthBucket\OAuth2\Exception\AccessDeniedException;
+use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -32,9 +32,9 @@ class ModelResourceTypeHandler extends AbstractResourceTypeHandler
         $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
         $stored = $accessTokenManager->findAccessTokenByAccessToken($accessToken);
         if ($stored === null) {
-            throw new AccessDeniedException();
+            throw new InvalidRequestException();
         } elseif ($stored->getExpires() < new \DateTime()) {
-            throw new AccessDeniedException();
+            throw new InvalidRequestException();
         }
 
         return $stored;
