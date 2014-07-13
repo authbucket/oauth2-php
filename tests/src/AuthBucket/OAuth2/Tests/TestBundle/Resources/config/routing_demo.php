@@ -28,7 +28,7 @@ $app->get('/demo/response_type/code', function (Request $request, Application $a
         'response_type' => 'code',
         'client_id' => 'authorization_code_grant',
         'redirect_uri' => $request->getUriForPath('/demo/response_type/code'),
-        'scope' => 'demoscope1',
+        'scope' => 'debug',
         'state' => $app['session']->getId(),
     );
     $server = array(
@@ -63,7 +63,7 @@ $app->get('/demo/response_type/token', function (Request $request, Application $
         'response_type' => 'token',
         'client_id' => 'implicit_grant',
         'redirect_uri' => $request->getUriForPath('/demo/response_type/token'),
-        'scope' => 'demoscope1',
+        'scope' => 'debug',
         'state' => $app['session']->getId(),
     );
     $server = array(
@@ -130,7 +130,7 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
         'grant_type' => 'password',
         'username' => 'demousername1',
         'password' => 'demopassword1',
-        'scope' => 'demoscope1',
+        'scope' => 'debug',
         'state' => $app['session']->getId(),
     );
     $server = array(
@@ -163,7 +163,7 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
 $app->get('/demo/grant_type/client_credentials', function (Request $request, Application $app) {
     $parameters = array(
         'grant_type' => 'client_credentials',
-        'scope' => 'demoscope1',
+        'scope' => 'debug',
     );
     $server = array(
         'PHP_AUTH_USER' => 'client_credentials_grant',
