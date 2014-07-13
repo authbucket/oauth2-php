@@ -130,10 +130,10 @@ References
 ----------
 
 -   [RFC6749](http://tools.ietf.org/html/rfc6749)
--   [AuthBucket\\OAuth2](http://oauth2.authbucket.com/)
+-   [Demo](http://oauth2.authbucket.com/demo)
+-   [API](http://authbucket.github.io/oauth2/)
 -   [GitHub](https://github.com/authbucket/oauth2)
 -   [Packagist](https://packagist.org/packages/authbucket/oauth2)
--   [API](http://authbucket.github.io/oauth2/)
 -   [Travis CI](https://travis-ci.org/authbucket/oauth2)
 -   [Coveralls](https://coveralls.io/r/authbucket/oauth2)
 
