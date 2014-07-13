@@ -28,7 +28,7 @@ $app->get('/demo/response_type/code', function (Request $request, Application $a
         'response_type' => 'code',
         'client_id' => 'authorization_code_grant',
         'redirect_uri' => $request->getUriForPath('/demo/response_type/code'),
-        'scope' => 'debug',
+        'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     );
     $server = array(
@@ -63,7 +63,7 @@ $app->get('/demo/response_type/token', function (Request $request, Application $
         'response_type' => 'token',
         'client_id' => 'implicit_grant',
         'redirect_uri' => $request->getUriForPath('/demo/response_type/token'),
-        'scope' => 'debug',
+        'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     );
     $server = array(
@@ -76,13 +76,17 @@ $app->get('/demo/response_type/token', function (Request $request, Application $
     $accessTokenResponse = $authResponse->query->all();
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $debugPath = $app['url_generator']->generate('demo_debug', array(
+    $modelPath = $app['url_generator']->generate('demo_resource_type_model', array(
+        'access_token' => $accessTokenResponse['access_token'],
+    ));
+    $debugPath = $app['url_generator']->generate('demo_resource_type_debug_endpoint', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
 
     return $app['twig']->render('demo/response_type/token.html.twig', array(
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
+        'model_path' => $modelPath,
         'debug_path' => $debugPath,
     ));
 })->bind('demo_response_type_token');
@@ -103,7 +107,10 @@ $app->get('/demo/grant_type/authorization_code', function (Request $request, App
     $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $debugPath = $app['url_generator']->generate('demo_debug', array(
+    $modelPath = $app['url_generator']->generate('demo_resource_type_model', array(
+        'access_token' => $accessTokenResponse['access_token'],
+    ));
+    $debugPath = $app['url_generator']->generate('demo_resource_type_debug_endpoint', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('demo_grant_type_refresh_token', array(
@@ -115,6 +122,7 @@ $app->get('/demo/grant_type/authorization_code', function (Request $request, App
     return $app['twig']->render('demo/grant_type/authorization_code.html.twig', array(
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
+        'model_path' => $modelPath,
         'debug_path' => $debugPath,
         'refresh_path' => $refreshPath,
     ));
@@ -130,7 +138,7 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
         'grant_type' => 'password',
         'username' => 'demousername1',
         'password' => 'demopassword1',
-        'scope' => 'debug',
+        'scope' => 'demoscope1',
         'state' => $app['session']->getId(),
     );
     $server = array(
@@ -142,7 +150,10 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
     $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $debugPath = $app['url_generator']->generate('demo_debug', array(
+    $modelPath = $app['url_generator']->generate('demo_resource_type_model', array(
+        'access_token' => $accessTokenResponse['access_token'],
+    ));
+    $debugPath = $app['url_generator']->generate('demo_resource_type_debug_endpoint', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('demo_grant_type_refresh_token', array(
@@ -154,6 +165,7 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
     return $app['twig']->render('demo/grant_type/password.html.twig', array(
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
+        'model_path' => $modelPath,
         'debug_path' => $debugPath,
         'refresh_path' => $refreshPath,
     ));
@@ -163,7 +175,7 @@ $app->get('/demo/grant_type/password', function (Request $request, Application $
 $app->get('/demo/grant_type/client_credentials', function (Request $request, Application $app) {
     $parameters = array(
         'grant_type' => 'client_credentials',
-        'scope' => 'debug',
+        'scope' => 'demoscope1',
     );
     $server = array(
         'PHP_AUTH_USER' => 'client_credentials_grant',
@@ -174,7 +186,10 @@ $app->get('/demo/grant_type/client_credentials', function (Request $request, App
     $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $debugPath = $app['url_generator']->generate('demo_debug', array(
+    $modelPath = $app['url_generator']->generate('demo_resource_type_model', array(
+        'access_token' => $accessTokenResponse['access_token'],
+    ));
+    $debugPath = $app['url_generator']->generate('demo_resource_type_debug_endpoint', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('demo_grant_type_refresh_token', array(
@@ -186,6 +201,7 @@ $app->get('/demo/grant_type/client_credentials', function (Request $request, App
     return $app['twig']->render('demo/grant_type/client_credentials.html.twig', array(
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
+        'model_path' => $modelPath,
         'debug_path' => $debugPath,
         'refresh_path' => $refreshPath,
     ));
@@ -206,7 +222,10 @@ $app->get('/demo/grant_type/refresh_token', function (Request $request, Applicat
     $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
     $accessTokenRequest = get_object_vars($client->getRequest());
 
-    $debugPath = $app['url_generator']->generate('demo_debug', array(
+    $modelPath = $app['url_generator']->generate('demo_resource_type_model', array(
+        'access_token' => $accessTokenResponse['access_token'],
+    ));
+    $debugPath = $app['url_generator']->generate('demo_resource_type_debug_endpoint', array(
         'access_token' => $accessTokenResponse['access_token'],
     ));
     $refreshPath = $app['url_generator']->generate('demo_grant_type_refresh_token', array(
@@ -218,13 +237,14 @@ $app->get('/demo/grant_type/refresh_token', function (Request $request, Applicat
     return $app['twig']->render('demo/grant_type/refresh_token.html.twig', array(
         'access_token_response' => $accessTokenResponse,
         'access_token_request' => $accessTokenRequest,
+        'model_path' => $modelPath,
         'debug_path' => $debugPath,
         'refresh_path' => $refreshPath,
     ));
 })->bind('demo_grant_type_refresh_token');
 
-// Demo, resource endpoint.
-$app->get('/demo/debug', function (Request $request, Application $app) {
+// Demo, resource endpoint, model.
+$app->get('/demo/resource_type/model', function (Request $request, Application $app) {
     $parameters = array(
         'debug_token' => $request->query->get('access_token'),
     );
@@ -232,12 +252,31 @@ $app->get('/demo/debug', function (Request $request, Application $app) {
         'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
     );
     $client = new Client($app);
-    $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-    $debugResponse = json_decode($client->getResponse()->getContent(), true);
-    $debugRequest = get_object_vars($client->getRequest());
+    $crawler = $client->request('GET', '/resource/debug/model', $parameters, array(), $server);
+    $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+    $resourceRequest = get_object_vars($client->getRequest());
 
-    return $app['twig']->render('demo/debug.html.twig', array(
-        'debug_response' => $debugResponse,
-        'debug_request' => $debugRequest,
+    return $app['twig']->render('demo/resource_type/model.html.twig', array(
+        'resource_response' => $resourceResponse,
+        'resource_request' => $resourceRequest,
     ));
-})->bind('demo_debug');
+})->bind('demo_resource_type_model');
+
+// Demo, resource endpoint.
+$app->get('/demo/resource_type/debug_endpoint', function (Request $request, Application $app) {
+    $parameters = array(
+        'debug_token' => $request->query->get('access_token'),
+    );
+    $server = array(
+        'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
+    );
+    $client = new Client($app);
+    $crawler = $client->request('GET', '/resource/debug/debug_endpoint', $parameters, array(), $server);
+    $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+    $resourceRequest = get_object_vars($client->getRequest());
+
+    return $app['twig']->render('demo/resource_type/debug_endpoint.html.twig', array(
+        'resource_response' => $resourceResponse,
+        'resource_request' => $resourceRequest,
+    ));
+})->bind('demo_resource_type_debug_endpoint');
