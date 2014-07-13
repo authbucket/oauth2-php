@@ -115,8 +115,8 @@ $app['security.firewalls'] = array(
             ),
         ),
     ),
-    'resource_debug_debug_endpoint_invalid_parameter' => array(
-        'pattern' => '^/resource/debug/debug_endpoint/invalid_parameter$',
+    'resource_debug_debug_endpoint_invalid_options' => array(
+        'pattern' => '^/resource/debug/debug_endpoint/invalid_options$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),

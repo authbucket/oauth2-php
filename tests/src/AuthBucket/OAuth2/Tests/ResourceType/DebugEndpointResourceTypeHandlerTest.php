@@ -95,7 +95,7 @@ class DebugEndpointResourceTypeHandlerTest extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/debug/debug_endpoint/invalid_parameter', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/debug/debug_endpoint/invalid_options', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('server_error', $resourceResponse['error']);
     }
