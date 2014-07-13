@@ -26,3 +26,23 @@ $app->match('/resource/debug', function (Request $request, Application $app) {
 $app->match('/resource/debug/model', function (Request $request, Application $app) {
     return $app['authbucket_oauth2.debug_controller']->debugAction($request);
 })->bind('resource_debug_model');
+
+// Resource, Debug endpoint, debug endpoint.
+$app->match('/resource/debug/debug_endpoint', function (Request $request, Application $app) {
+    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
+})->bind('resource_debug_debug_endpoint');
+
+// Resource, Debug endpoint, debug endpoint, cache enabled.
+$app->match('/resource/debug/debug_endpoint/cache', function (Request $request, Application $app) {
+    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
+})->bind('resource_debug_debug_endpoint_cache');
+
+// Resource, Debug endpoint, debug endpoint, invalid parameters.
+$app->match('/resource/debug/debug_endpoint/invalid_parameter', function (Request $request, Application $app) {
+    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
+})->bind('resource_debug_debug_endpoint_invalid_parameter');
+
+// Resource, Debug endpoint, debug endpoint, invalid client.
+$app->match('/resource/debug/debug_endpoint/invalid_client', function (Request $request, Application $app) {
+    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
+})->bind('resource_debug_debug_endpoint_invalid_client');

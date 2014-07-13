@@ -11,6 +11,7 @@
 
 namespace AuthBucket\OAuth2\ResourceType;
 
+use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,12 +73,9 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         $crawler = $client->request('POST', $options['token_path'], $parameters, array(), $server);
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
 
-        // If error throw original authorize server response.
+        // Throw exception if error return.
         if (isset($tokenResponse['error'])) {
-            throw new \Exception(
-                serialize($client->getResponse()->getContent()),
-                $client->getResponse()->getStatusCode()
-            );
+            throw new ServerErrorException();
         }
 
         // Fetch meta data of supplied access token by query debug endpoint.
@@ -91,12 +89,9 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         $crawler = $client->request('GET', $options['debug_path'], $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
 
-        // If error throw original authorize server response.
+        // Throw exception if error return.
         if (isset($debugResponse['error'])) {
-            throw new \Exception(
-                serialize($client->getResponse()->getContent()),
-                $client->getResponse()->getStatusCode()
-            );
+            throw new InvalidRequestException();
         }
 
         // Create a new access token with fetched meta data.

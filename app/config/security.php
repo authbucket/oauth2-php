@@ -101,4 +101,40 @@ $app['security.firewalls'] = array(
             ),
         ),
     ),
+    'resource_debug_debug_endpoint_cache' => array(
+        'pattern' => '^/resource/debug/debug_endpoint/cache$',
+        'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array('demoscope1'),
+            'options' => array(
+                'token_path' => '/oauth2/token',
+                'debug_path' => '/oauth2/debug',
+                'client_id' => 'http://democlient1.com/',
+                'client_secret' => 'demosecret1',
+                'cache' => true,
+            ),
+        ),
+    ),
+    'resource_debug_debug_endpoint_invalid_parameter' => array(
+        'pattern' => '^/resource/debug/debug_endpoint/invalid_parameter$',
+        'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array('demoscope1'),
+            'options' => array(),
+        ),
+    ),
+    'resource_debug_debug_endpoint_invalid_client' => array(
+        'pattern' => '^/resource/debug/debug_endpoint/invalid_client$',
+        'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array('demoscope1'),
+            'options' => array(
+                'token_path' => '/oauth2/token',
+                'debug_path' => '/oauth2/debug',
+                'client_id' => 'nonexistsclient',
+                'client_secret' => 'fakesecret',
+                'cache' => false,
+            ),
+        ),
+    ),
 );
