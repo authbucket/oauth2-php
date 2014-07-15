@@ -34,7 +34,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 {
-
     public function register(Application $app)
     {
         // Override this with your backend model managers, e.g. Doctrine ORM
@@ -52,38 +51,30 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         $app['authbucket_oauth2.user_provider'] = null;
 
         // Add default response type handler.
-        if (!isset($app['authbucket_oauth2.response_handler'])) {
-            $app['authbucket_oauth2.response_handler'] = array(
-                'code' => 'AuthBucket\\OAuth2\\ResponseType\\CodeResponseTypeHandler',
-                'token' => 'AuthBucket\\OAuth2\\ResponseType\\TokenResponseTypeHandler',
-            );
-        }
+        $app['authbucket_oauth2.response_handler'] = array(
+            'code' => 'AuthBucket\\OAuth2\\ResponseType\\CodeResponseTypeHandler',
+            'token' => 'AuthBucket\\OAuth2\\ResponseType\\TokenResponseTypeHandler',
+        );
 
         // Add default grant type handler.
-        if (!isset($app['authbucket_oauth2.grant_handler'])) {
-            $app['authbucket_oauth2.grant_handler'] = array(
-                'authorization_code' => 'AuthBucket\\OAuth2\\GrantType\\AuthorizationCodeGrantTypeHandler',
-                'client_credentials' => 'AuthBucket\\OAuth2\\GrantType\\ClientCredentialsGrantTypeHandler',
-                'password' => 'AuthBucket\\OAuth2\\GrantType\\PasswordGrantTypeHandler',
-                'refresh_token' => 'AuthBucket\\OAuth2\\GrantType\\RefreshTokenGrantTypeHandler',
-            );
-        }
+        $app['authbucket_oauth2.grant_handler'] = array(
+            'authorization_code' => 'AuthBucket\\OAuth2\\GrantType\\AuthorizationCodeGrantTypeHandler',
+            'client_credentials' => 'AuthBucket\\OAuth2\\GrantType\\ClientCredentialsGrantTypeHandler',
+            'password' => 'AuthBucket\\OAuth2\\GrantType\\PasswordGrantTypeHandler',
+            'refresh_token' => 'AuthBucket\\OAuth2\\GrantType\\RefreshTokenGrantTypeHandler',
+        );
 
         // Add default token type handler.
-        if (!isset($app['authbucket_oauth2.token_handler'])) {
-            $app['authbucket_oauth2.token_handler'] = array(
-                'bearer' => 'AuthBucket\\OAuth2\\TokenType\\BearerTokenTypeHandler',
-                'mac' => 'AuthBucket\\OAuth2\\TokenType\\MacTokenTypeHandler',
-            );
-        }
+        $app['authbucket_oauth2.token_handler'] = array(
+            'bearer' => 'AuthBucket\\OAuth2\\TokenType\\BearerTokenTypeHandler',
+            'mac' => 'AuthBucket\\OAuth2\\TokenType\\MacTokenTypeHandler',
+        );
 
         // Add default resource type handler.
-        if (!isset($app['authbucket_oauth2.resource_handler'])) {
-            $app['authbucket_oauth2.resource_handler'] = array(
-                'model' => 'AuthBucket\\OAuth2\\ResourceType\\ModelResourceTypeHandler',
-                'debug_endpoint' => 'AuthBucket\\OAuth2\\ResourceType\\DebugEndpointResourceTypeHandler',
-            );
-        }
+        $app['authbucket_oauth2.resource_handler'] = array(
+            'model' => 'AuthBucket\\OAuth2\\ResourceType\\ModelResourceTypeHandler',
+            'debug_endpoint' => 'AuthBucket\\OAuth2\\ResourceType\\DebugEndpointResourceTypeHandler',
+        );
 
         $app['authbucket_oauth2.exception_listener'] = $app->share(function () {
             return new ExceptionListener();
