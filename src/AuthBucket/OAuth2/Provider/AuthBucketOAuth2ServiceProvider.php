@@ -15,7 +15,6 @@ use AuthBucket\OAuth2\Controller\AuthorizeController;
 use AuthBucket\OAuth2\Controller\DebugController;
 use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\EventListener\ExceptionListener;
-use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use AuthBucket\OAuth2\Security\Authentication\Provider\ResourceProvider;
@@ -38,6 +37,20 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
     public function register(Application $app)
     {
+        // Override this with your backend model managers, e.g. Doctrine ORM
+        // EntityRepository.
+        $app['authbucket_oauth2.model_manager.factory'] = null;
+
+        // For sending user to scope authorize page due to insufficient scope,
+        // override this parameter with redirect URI, e.g.
+        // '/oauth2/authorize/scope'.
+        $app['authbucket_oauth2.authorize_scope_uri'] = null;
+
+        // For using grant_type = password, override this parameter with your
+        // own user provider, e.g. using InMemoryUserProvider or a doctrine
+        // EntityRepository that implements UserProviderInterface.
+        $app['authbucket_oauth2.user_provider'] = null;
+
         // Add default response type handler.
         if (!isset($app['authbucket_oauth2.response_handler'])) {
             $app['authbucket_oauth2.response_handler'] = array(
@@ -76,12 +89,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
             return new ExceptionListener();
         });
 
-        // Override this with your backend model managers, e.g. Doctrine ORM
-        // EntityRepository.
-        $app['authbucket_oauth2.model_manager.factory'] = $app->share(function () {
-            throw new ServerErrorException();
-        });
-
         $app['authbucket_oauth2.response_handler.factory'] = $app->share(function ($app) {
             return new ResponseTypeHandlerFactory($app['authbucket_oauth2.response_handler']);
         });
@@ -98,22 +105,16 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
             return new ResourceTypeHandlerFactory($app['authbucket_oauth2.resource_handler']);
         });
 
-        // For sending user to scope authorize page due to insufficient scope,
-        // override the last parameter with redirect URI, e.g.
-        // '/oauth2/authorize/scope'.
         $app['authbucket_oauth2.authorize_controller'] = $app->share(function () use ($app) {
             return new AuthorizeController(
                 $app['security'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_handler.factory'],
                 $app['authbucket_oauth2.token_handler.factory'],
-                null
+                $app['authbucket_oauth2.authorize_scope_uri']
             );
         });
 
-        // For using grant_type = password, override the last parameter
-        // with your own user provider, e.g. using InMemoryUserProvider or
-        // a doctrine EntityRepository that implements UserProviderInterface.
         $app['authbucket_oauth2.token_controller'] = $app->share(function () use ($app) {
             return new TokenController(
                 $app['security'],
@@ -122,7 +123,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.grant_handler.factory'],
                 $app['authbucket_oauth2.token_handler.factory'],
-                null
+                $app['authbucket_oauth2.user_provider']
             );
         });
 

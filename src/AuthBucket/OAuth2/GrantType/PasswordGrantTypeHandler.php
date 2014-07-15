@@ -13,7 +13,6 @@ namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Util\Filter;
@@ -47,10 +46,6 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         UserProviderInterface $userProvider = null
     )
     {
-        if ($userProvider === null) {
-            throw new ServerErrorException();
-        }
-
         // Fetch client_id from authenticated token.
         $clientId = $this->checkClientId($securityContext);
 

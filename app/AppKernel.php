@@ -9,14 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider;
-use AuthBucket\OAuth2\Tests\TestBundle\Entity\ModelManagerFactory;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\ORM\Tools\Setup;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
@@ -24,7 +17,6 @@ use Silex\Provider\SecurityServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
-use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
 
 $app = new Application();
 
@@ -35,44 +27,3 @@ $app->register(new SecurityServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
-
-// Return an instance of Doctrine ORM entity manager.
-$app['authbucket_oauth2.orm'] = $app->share(function ($app) {
-    $conn = $app['dbs']['default'];
-    $em = $app['dbs.event_manager']['default'];
-
-    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../tests/src/AuthBucket/OAuth2/Tests/TestBundle/Entity'));
-
-    $config = Setup::createConfiguration(false);
-    $config->setMetadataDriverImpl($driver);
-    $config->setMetadataCacheImpl(new ArrayCache());
-    $config->setQueryCacheImpl(new ArrayCache());
-
-    return EntityManager::create($conn, $config, $em);
-});
-
-// Fake lib dev, simply use plain text encoder.
-$app['security.encoder.digest'] = $app->share(function ($app) {
-    return new PlaintextPasswordEncoder();
-});
-
-// Add model managers from ORM.
-$app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
-    return new ModelManagerFactory($app['authbucket_oauth2.orm'], $app['authbucket_oauth2.model']);
-});
-
-// We simply reuse the user provider that already created for
-// authorize firewall here.
-$app['authbucket_oauth2.token_controller'] = $app->share(function () use ($app) {
-    return new TokenController(
-        $app['security'],
-        $app['security.user_checker'],
-        $app['security.encoder_factory'],
-        $app['authbucket_oauth2.model_manager.factory'],
-        $app['authbucket_oauth2.grant_handler.factory'],
-        $app['authbucket_oauth2.token_handler.factory'],
-        $app['security.user_provider.default']
-    );
-});
-
-$app['exception_handler']->disable();

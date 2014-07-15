@@ -36,31 +36,22 @@ Here is a minimal example of a `composer.json`:
 
 ### Parameters
 
--   `authbucket_oauth2.model`: Override this with your backend model
-    managers, e.g. Doctrine ORM EntityRepository.
 -   `authbucket_oauth2.model_manager.factory`: Override this with your
     backend model manager factory, e.g. initialized with Doctrine ORM.
--   `authbucket_oauth2.response_handler`: (Optional) Control which
-    response type handler should be enabled, e.g.
-    CodeResponseTypeHandler.
--   `authbucket_oauth2.grant_handler`: (Optional) Control which grant
-    type handler should be enabled, e.g.
-    AuthorizationCodeGrantTypeHandler.
--   `authbucket_oauth2.token_handler`: (Optional) Control which token
-    handler type should be enabled, e.g. BearerTokenTypeHandler.
+-   `authbucket_oauth2.authorize_scope_uri`: (Optional) For sending user
+    to scope authorize page due to insufficient scope, override this
+    parameter with redirect URI, e.g. `/oauth2/authorize/scope`.
+-   `authbucket_oauth2.user_provider`: (Optional) For using
+    `grant_type = password`, override this parameter with your own user
+    provider, e.g. using InMemoryUserProvider or a doctrine
+    EntityRepository that implements UserProviderInterface.
 
 ### Services
 
--   `authbucket_oauth2.authorize_controller`: For sending user to scope
-    authorize page due to insufficient scope, override the last
-    parameter with redirect URI, e.g. `/oauth2/authorize/scope`.
--   `authbucket_oauth2.token_controller`: For using
-    `grant_type = password`, override the last parameter with your own
-    user provider, e.g. using InMemoryUserProvider or a doctrine
-    EntityRepository that implements UserProviderInterface.
--   `authbucket_oauth2.debug_controller`: Debug Endpoint clone the idea
-    of Facebook's Debug API Endpoint, return raw information of
-    corresponding `debug_token` provided.
+-   `authbucket_oauth2.authorize_controller`: Authorization endpoint
+    controller.
+-   `authbucket_oauth2.token_controller`: Token endpoint controller.
+-   `authbucket_oauth2.debug_controller`: Debug endpoint controller.
 
 ### Registering
 
