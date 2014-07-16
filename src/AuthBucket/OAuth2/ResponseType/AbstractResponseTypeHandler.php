@@ -193,15 +193,17 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             $scope = preg_split('/\s+/', $scope);
 
             if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
-                if (!$authorizeScopeUri) {
+                if ($authorizeScopeUri) {
+                    throw new InvalidScopeException(array(
+                        'redirect_uri' => $authorizeScopeUri,
+                        'state' => $state,
+                        'error_description' => $request->query->all(),
+                    ));
+                } else {
                     throw new InvalidScopeException(array(
                         'redirect_uri' => $redirectUri,
                         'state' => $state,
                     ));
-                } else {
-                    throw new InvalidScopeException(array_merge(array(
-                        'redirect_uri' => $authorizeScopeUri,
-                    ), $request->query->all()));
                 }
             }
         }

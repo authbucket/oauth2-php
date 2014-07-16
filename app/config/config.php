@@ -61,7 +61,7 @@ $app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
 });
 
 // Define authorize scope confirmation page.
-$app['authbucket_oauth2.authorize_scope_uri'] = null;
+$app['authbucket_oauth2.authorize_scope_uri'] = '/oauth2/authorize/scope';
 
 // We simply reuse the user provider that already created for authorize firewall
 // here.
