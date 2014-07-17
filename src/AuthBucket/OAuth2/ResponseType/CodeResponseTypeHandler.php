@@ -29,7 +29,7 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $authorizeScopeUri = null
+        $authorizeScopePath = null
     )
     {
         // Fetch username from authenticated token.
@@ -52,7 +52,7 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
             $username,
             $redirectUri,
             $state,
-            $authorizeScopeUri
+            $authorizeScopePath
         );
 
         // Generate parameters, store to backend and set response.

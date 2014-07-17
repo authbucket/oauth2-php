@@ -93,8 +93,6 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'token_path' => '/oauth2/token',
-                'debug_path' => '/oauth2/debug',
                 'client_id' => 'http://democlient1.com/',
                 'client_secret' => 'demosecret1',
                 'cache' => false,
@@ -107,11 +105,8 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'token_path' => '/oauth2/token',
-                'debug_path' => '/oauth2/debug',
                 'client_id' => 'http://democlient1.com/',
                 'client_secret' => 'demosecret1',
-                'cache' => true,
             ),
         ),
     ),
@@ -129,8 +124,6 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'token_path' => '/oauth2/token',
-                'debug_path' => '/oauth2/debug',
                 'client_id' => 'nonexistsclient',
                 'client_secret' => 'fakesecret',
                 'cache' => false,

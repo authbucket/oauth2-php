@@ -78,7 +78,11 @@ $app->match('/oauth2/authorize/scope', function (Request $request, Application $
             ->setScope($scope);
         $authorizeManager->updateAuthorize($authorize);
 
-        $url = Request::create('http://127.0.0.1:8000/oauth2/authorize', 'GET', $query)->getUri();
+        $authorizePath = $app['authbucket_oauth2.authorize_path'];
+        $authorizePath = 0 === strpos($authorizePath, 'http')
+            ? $authorizePath
+            : Request::createFromGlobals()->getUriForPath($authorizePath);
+        $url = Request::create($authorizePath, 'GET', $query)->getUri();
 
         return $app->redirect($url);
     }

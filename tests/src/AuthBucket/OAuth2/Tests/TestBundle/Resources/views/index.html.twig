@@ -30,10 +30,19 @@
 }</code></pre>
 
                 <h3 id="parameters">Parameters</h3>
+
+                <h4 id="required">Required</h4>
                 <ul>
                     <li><code>authbucket_oauth2.model_manager.factory</code>: Override this with your backend model manager factory, e.g. initialized with Doctrine ORM.</li>
-                    <li><code>authbucket_oauth2.authorize_scope_uri</code>: (Optional) For sending user to scope authorize page due to insufficient scope, override this parameter with redirect URI, e.g. <code>/oauth2/authorize/scope</code>.</li>
-                    <li><code>authbucket_oauth2.user_provider</code>: (Optional) For using <code>grant_type = password</code>, override this parameter with your own user provider, e.g. using InMemoryUserProvider or a doctrine EntityRepository that implements UserProviderInterface.</li>
+                </ul>
+
+                <h4 id="optional">Optional</h4>
+                <ul>
+                    <li><code>authbucket_oauth2.authorize_path</code>: Authorization endpoint path, default to <code>/oauth2/authorize</code>.</li>
+                    <li><code>authbucket_oauth2.token_path</code>: Token endpoint path, default to <code>/oauth2/token</code>.</li>
+                    <li><code>authbucket_oauth2.debug_path</code>: Debug endpoint path, default to <code>/oauth2/debug</code>.</li>
+                    <li><code>authbucket_oauth2.authorize_scope_path</code>: For using authorize scope confirmation page, overrider this with your path, e.g. <code>/oauth2/authorize/scope</code>.</li>
+                    <li><code>authbucket_oauth2.user_provider</code>: For using <code>grant_type = password</code>, override this parameter with your own user provider, e.g. using InMemoryUserProvider or a doctrine EntityRepository that implements UserProviderInterface.</li>
                 </ul>
 
                 <h3 id="services">Services</h3>

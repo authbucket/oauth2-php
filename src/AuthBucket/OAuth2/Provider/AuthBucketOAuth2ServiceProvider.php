@@ -40,10 +40,11 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         // EntityRepository.
         $app['authbucket_oauth2.model_manager.factory'] = null;
 
-        // For sending user to scope authorize page due to insufficient scope,
-        // override this parameter with redirect URI, e.g.
-        // '/oauth2/authorize/scope'.
-        $app['authbucket_oauth2.authorize_scope_uri'] = null;
+        // Default endpoint path.
+        $app['authbucket_oauth2.authorize_path'] = '/oauth2/authorize';
+        $app['authbucket_oauth2.token_path'] = '/oauth2/token';
+        $app['authbucket_oauth2.debug_path'] = '/oauth2/debug';
+        $app['authbucket_oauth2.authorize_scope_path'] = null;
 
         // For using grant_type = password, override this parameter with your
         // own user provider, e.g. using InMemoryUserProvider or a doctrine
@@ -102,7 +103,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_handler.factory'],
                 $app['authbucket_oauth2.token_handler.factory'],
-                $app['authbucket_oauth2.authorize_scope_uri']
+                $app['authbucket_oauth2.authorize_scope_path']
             );
         });
 
@@ -192,6 +193,16 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                 'scope' => array(),
                 'options' => array(),
             ), (array) $options);
+
+            if ($options['resource_type'] === 'debug_endpoint') {
+                $options['options'] = array_merge(array(
+                    'token_path' => $app['authbucket_oauth2.token_path'],
+                    'debug_path' => $app['authbucket_oauth2.debug_path'],
+                    'client_id' => '',
+                    'client_secret' => '',
+                    'cache' => true,
+                ), $options['options']);
+            }
 
             if (!isset($app['security.authentication_provider.' . $name . '.oauth2_resource'])) {
                 $app['security.authentication_provider.' . $name . '.oauth2_resource'] = $app['security.authentication_provider.oauth2_resource._proto']($name, $options);

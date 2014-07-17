@@ -60,8 +60,11 @@ $app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
     return new ModelManagerFactory($app['authbucket_oauth2.orm'], $app['authbucket_oauth2.model']);
 });
 
-// Define authorize scope confirmation page.
-$app['authbucket_oauth2.authorize_scope_uri'] = '/oauth2/authorize/scope';
+// Define endpoint path.
+$app['authbucket_oauth2.authorize_path'] = '/oauth2/authorize';
+$app['authbucket_oauth2.token_path'] = '/oauth2/token';
+$app['authbucket_oauth2.debug_path'] = '/oauth2/debug';
+$app['authbucket_oauth2.authorize_scope_path'] = '/oauth2/authorize/scope';
 
 // We simply reuse the user provider that already created for authorize firewall
 // here.

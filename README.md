@@ -36,12 +36,23 @@ Here is a minimal example of a `composer.json`:
 
 ### Parameters
 
+#### Required
+
 -   `authbucket_oauth2.model_manager.factory`: Override this with your
     backend model manager factory, e.g. initialized with Doctrine ORM.
--   `authbucket_oauth2.authorize_scope_uri`: (Optional) For sending user
-    to scope authorize page due to insufficient scope, override this
-    parameter with redirect URI, e.g. `/oauth2/authorize/scope`.
--   `authbucket_oauth2.user_provider`: (Optional) For using
+
+#### Optional
+
+-   `authbucket_oauth2.authorize_path`: Authorization endpoint path,
+    default to `/oauth2/authorize`.
+-   `authbucket_oauth2.token_path`: Token endpoint path, default to
+    `/oauth2/token`.
+-   `authbucket_oauth2.debug_path`: Debug endpoint path, default to
+    `/oauth2/debug`.
+-   `authbucket_oauth2.authorize_scope_path`: For using authorize scope
+    confirmation page, overrider this with your path, e.g.
+    `/oauth2/authorize/scope`.
+-   `authbucket_oauth2.user_provider`: For using
     `grant_type = password`, override this parameter with your own user
     provider, e.g. using InMemoryUserProvider or a doctrine
     EntityRepository that implements UserProviderInterface.

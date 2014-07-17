@@ -38,7 +38,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             'debug_path' => '',
             'client_id' => '',
             'client_secret' => '',
-            'cache' => false,
+            'cache' => true,
         ), $options);
 
         // Both options are required.
@@ -48,6 +48,12 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             || !$options['client_secret']
         ) {
             throw new ServerErrorException();
+        }
+
+        foreach (array('token_path', 'debug_path') as $path) {
+            $options[$path] = 0 === strpos($options[$path], 'http')
+                ? $options[$path]
+                : Request::createFromGlobals()->getUriForPath($options[$path]);
         }
 
         $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
