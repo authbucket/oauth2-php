@@ -50,12 +50,6 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             throw new ServerErrorException();
         }
 
-        foreach (array('token_path', 'debug_path') as $path) {
-            $options[$path] = 0 === strpos($options[$path], 'http')
-                ? $options[$path]
-                : Request::createFromGlobals()->getUriForPath($options[$path]);
-        }
-
         $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
 
         // Get cached access_token and return if exists.
