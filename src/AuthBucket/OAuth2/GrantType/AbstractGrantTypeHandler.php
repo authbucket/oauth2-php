@@ -67,10 +67,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         // scope may not exists.
         if ($scope) {
             // scope must be in valid format.
-            $query = array(
-                'scope' => $scope,
-            );
-            if (!Filter::filter($query)) {
+            if (!Filter::filter(array('scope' => $scope))) {
                 throw new InvalidRequestException();
             }
 

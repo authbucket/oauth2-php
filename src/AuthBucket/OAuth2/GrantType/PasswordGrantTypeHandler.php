@@ -95,11 +95,10 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         $password = $request->request->get('password');
 
         // username and password must exist and in valid format.
-        $query = array(
+        if (!Filter::filter(array(
             'username' => $username,
             'password' => $password,
-        );
-        if (!Filter::filter($query)) {
+        ))) {
             throw new InvalidRequestException();
         }
 

@@ -81,10 +81,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         $scope = $request->request->get('scope', null);
 
         // refresh_token must exists and in valid format.
-        $query = array(
-            'refresh_token' => $refreshToken,
-        );
-        if (!Filter::filter($query)) {
+        if (!Filter::filter(array('refresh_token' => $refreshToken))) {
             throw new InvalidRequestException();
         }
 
@@ -109,10 +106,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         // Compare if given scope is subset of original refresh_token's scope.
         if ($scope !== null && $scopeGranted !== null) {
             // scope must be in valid format.
-            $query = array(
-                'scope' => $scope,
-            );
-            if (!Filter::filter($query)) {
+            if (!Filter::filter(array('scope' => $scope))) {
                 throw new InvalidRequestException();
             }
 

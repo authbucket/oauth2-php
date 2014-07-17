@@ -80,10 +80,7 @@ class DebugController
             ?: $accessToken;
 
         // Validate debug token.
-        $query = array(
-            'access_token' => $debugToken,
-        );
-        if (!Filter::filter($query)) {
+        if (!Filter::filter(array('access_token' => $debugToken))) {
             throw new InvalidRequestException();
         }
 

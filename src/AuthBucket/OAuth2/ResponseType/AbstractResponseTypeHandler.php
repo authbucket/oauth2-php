@@ -65,10 +65,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $clientId = $request->query->get('client_id');
 
         // client_id is required and in valid format.
-        $query = array(
-            'client_id' => $clientId,
-        );
-        if (!Filter::filter($query)) {
+        if (!Filter::filter(array('client_id' => $clientId))) {
             throw new InvalidRequestException();
         }
 
@@ -137,10 +134,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $state = $request->query->get('state');
 
         // state is required and in valid format.
-        $query = array(
-            'state' => $state,
-        );
-        if (!Filter::filter($query)) {
+        if (!Filter::filter(array('state' => $state))) {
             throw new InvalidRequestException(array(
                 'redirect_uri' => $redirectUri
             ));
@@ -164,10 +158,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // scope may not exists.
         if ($scope) {
             // scope must be in valid format.
-            $query = array(
-                'scope' => $scope,
-            );
-            if (!Filter::filter($query)) {
+            if (!Filter::filter(array('scope' => $scope))) {
                 throw new InvalidRequestException(array(
                     'redirect_uri' => $redirectUri,
                     'state' => $state,
@@ -190,19 +181,24 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
                     $scopeSupported[] = $row->getScope();
                 }
             }
+
             $scope = preg_split('/\s+/', $scope);
 
-            if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
-                if ($authorizeScopeUri) {
-                    throw new InvalidScopeException(array(
-                        'redirect_uri' => $authorizeScopeUri,
-                        'state' => $state,
-                        'error_description' => $request->query->all(),
-                    ));
-                } else {
+            if (array_intersect($scope, $scopeAuthorized, $scopeSupported) !== $scope) {
+                if (!$authorizeScopeUri) {
                     throw new InvalidScopeException(array(
                         'redirect_uri' => $redirectUri,
                         'state' => $state,
+                    ));
+                } else {
+                    $authorizeScopeUri = 0 === strpos($authorizeScopeUri, 'http')
+                        ? $authorizeScopeUri
+                        : Request::createFromGlobals()->getUriForPath($authorizeScopeUri);
+                    $query = $request->query->all();
+
+                    throw new InvalidScopeException(array(
+                        'redirect_uri' => $authorizeScopeUri,
+                        'query' => $query,
                     ));
                 }
             }

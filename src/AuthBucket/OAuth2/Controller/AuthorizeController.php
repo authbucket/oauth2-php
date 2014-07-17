@@ -68,10 +68,7 @@ class AuthorizeController
     {
         // Validate and set response_type.
         $responseType = $request->query->get('response_type');
-        $query = array(
-            'response_type' => $responseType
-        );
-        if (!Filter::filter($query)) {
+        if (!Filter::filter(array('response_type' => $responseType))) {
             throw new InvalidRequestException();
         }
 

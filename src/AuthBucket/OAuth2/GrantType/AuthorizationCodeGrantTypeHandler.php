@@ -84,10 +84,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $code = $request->request->get('code');
 
         // code is required and must in valid format.
-        $query = array(
-            'code' => $code,
-        );
-        if (!Filter::filter($query)) {
+        if (!Filter::filter(array('code' => $code))) {
             throw new InvalidRequestException();
         }
 
@@ -165,10 +162,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $code = $request->request->get('code');
 
         // state is required and in valid format.
-        $query = array(
-            'state' => $state,
-        );
-        if (!Filter::filter($query)) {
+        if (!Filter::filter(array('state' => $state))) {
             throw new InvalidRequestException();
         }
 

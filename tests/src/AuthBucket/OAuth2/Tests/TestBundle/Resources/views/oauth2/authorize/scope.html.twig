@@ -1,0 +1,28 @@
+{% extends 'html.html.twig' %}
+
+{% set head_title = 'Scope Confirmation | AuthBucket\\OAuth2' %}
+
+{% block page %}
+    {% embed 'page.html.twig' %}
+
+    {% block main %}
+        <h2 class="page-header">Scope Confirmation</h2>
+        <p><strong>{{ client_id }}</strong> would like permission to access your account:</p>
+        <ul>
+            {% for scope in scopes %}
+                <li>{{ scope }}</li>
+            {% endfor %}
+        </ul>
+        <form action="#" method="post">
+            {{ form_widget(form) }}
+            <button class="btn btn-success" type="submit" name="submit" />Authorize Application</button>
+        </form>
+    {% endblock %}
+
+    {% block aside %}
+        <h2 class="page-header">Actions</h2>
+        <p><a class="btn btn-primary" role="button" href="{{ path('oauth2_index') }}">Return</a></p>
+    {% endblock %}
+
+    {% endembed %}
+{% endblock %}

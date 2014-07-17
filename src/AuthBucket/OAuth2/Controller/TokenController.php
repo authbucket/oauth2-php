@@ -76,10 +76,7 @@ class TokenController
     {
         // grant_type must set and in valid format.
         $grantType = $request->request->get('grant_type');
-        $query = array(
-            'grant_type' => $grantType
-        );
-        if (!Filter::filter($query)) {
+        if (!Filter::filter(array('grant_type' => $grantType))) {
             throw new InvalidRequestException();
         }
 
