@@ -100,13 +100,9 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             ->setTokenType($debugResponse['token_type'])
             ->setClientId($debugResponse['client_id'])
             ->setUsername($debugResponse['username'])
-            ->setExpires($debugResponse['expires'])
+            ->setExpires(new \DateTime('@' . $debugResponse['expires']))
             ->setScope($debugResponse['scope']);
-
-        // Set fetched access token into cache.
-        if ($options['cache']) {
-            $accessTokenManager->updateAccessToken($stored);
-        }
+        $accessTokenManager->updateAccessToken($stored);
 
         return $stored;
     }

@@ -30,21 +30,18 @@ class AuthorizeController
     protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
     protected $tokenTypeHandlerFactory;
-    protected $authorizeScopePath;
 
     public function __construct(
         SecurityContextInterface $securityContext,
         ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        $authorizeScopePath = null
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         $this->securityContext = $securityContext;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
-        $this->authorizeScopePath = $authorizeScopePath;
     }
 
     public function authorizeAction(Request $request)
@@ -59,8 +56,7 @@ class AuthorizeController
                 $this->securityContext,
                 $request,
                 $this->modelManagerFactory,
-                $this->tokenTypeHandlerFactory,
-                $this->authorizeScopePath
+                $this->tokenTypeHandlerFactory
             );
     }
 

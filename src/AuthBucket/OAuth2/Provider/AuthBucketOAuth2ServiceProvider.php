@@ -44,7 +44,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         $app['authbucket_oauth2.authorize_path'] = '/oauth2/authorize';
         $app['authbucket_oauth2.token_path'] = '/oauth2/token';
         $app['authbucket_oauth2.debug_path'] = '/oauth2/debug';
-        $app['authbucket_oauth2.authorize_scope_path'] = null;
 
         // For using grant_type = password, override this parameter with your
         // own user provider, e.g. using InMemoryUserProvider or a doctrine
@@ -102,8 +101,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                 $app['security'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_handler.factory'],
-                $app['authbucket_oauth2.token_handler.factory'],
-                $app['authbucket_oauth2.authorize_scope_path']
+                $app['authbucket_oauth2.token_handler.factory']
             );
         });
 

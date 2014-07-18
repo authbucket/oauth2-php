@@ -149,8 +149,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $clientId,
         $username,
         $redirectUri,
-        $state,
-        $authorizeScopePath = null
+        $state
     )
     {
         $scope = $request->query->get('scope', array());
@@ -185,22 +184,10 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             $scope = preg_split('/\s+/', $scope);
 
             if (array_intersect($scope, $scopeAuthorized, $scopeSupported) !== $scope) {
-                if (!$authorizeScopePath) {
-                    throw new InvalidScopeException(array(
-                        'redirect_uri' => $redirectUri,
-                        'state' => $state,
-                    ));
-                } else {
-                    $authorizeScopePath = 0 === strpos($authorizeScopePath, 'http')
-                        ? $authorizeScopePath
-                        : Request::createFromGlobals()->getUriForPath($authorizeScopePath);
-                    $query = $request->query->all();
-
-                    throw new InvalidScopeException(array(
-                        'redirect_uri' => $authorizeScopePath,
-                        'query' => $query,
-                    ));
-                }
+                throw new InvalidScopeException(array(
+                    'redirect_uri' => $redirectUri,
+                    'state' => $state,
+                ));
             }
         }
 

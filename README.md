@@ -49,9 +49,6 @@ Here is a minimal example of a `composer.json`:
     `/oauth2/token`.
 -   `authbucket_oauth2.debug_path`: Debug endpoint path, default to
     `/oauth2/debug`.
--   `authbucket_oauth2.authorize_scope_path`: For using authorize scope
-    confirmation page, overrider this with your path, e.g.
-    `/oauth2/authorize/scope`.
 -   `authbucket_oauth2.user_provider`: For using
     `grant_type = password`, override this parameter with your own user
     provider, e.g. using InMemoryUserProvider or a doctrine
