@@ -13,19 +13,25 @@ use AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
+use Silex\Provider\MonologServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
+use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
+use Silex\Provider\WebProfilerServiceProvider;
 
 $app = new Application();
 
 $app->register(new AuthBucketOAuth2ServiceProvider());
 $app->register(new DoctrineServiceProvider());
 $app->register(new FormServiceProvider());
+$app->register(new MonologServiceProvider());
 $app->register(new SecurityServiceProvider());
+$app->register(new ServiceControllerServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new TranslationServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
+$app->register(new WebProfilerServiceProvider());
