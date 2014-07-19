@@ -10,7 +10,6 @@
  */
 
 use AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider;
-use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\FormServiceProvider;
 use Silex\Provider\MonologServiceProvider;
@@ -22,16 +21,20 @@ use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\WebProfilerServiceProvider;
 
-$app = new Application();
-
 $app->register(new AuthBucketOAuth2ServiceProvider());
 $app->register(new DoctrineServiceProvider());
 $app->register(new FormServiceProvider());
-$app->register(new MonologServiceProvider());
 $app->register(new SecurityServiceProvider());
-$app->register(new ServiceControllerServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new TranslationServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
-$app->register(new WebProfilerServiceProvider());
+
+if (in_array($app['env'], array('dev', 'test'))) {
+    $app->register(new MonologServiceProvider());
+    $app->register(new ServiceControllerServiceProvider());
+    $app->register(new WebProfilerServiceProvider());
+}
+
+require __DIR__ . '/config/config_' . $app['env'] . '.php';
+require __DIR__ . '/config/routing_' . $app['env'] . '.php';

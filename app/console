@@ -33,7 +33,6 @@ umask(0000);
 set_time_limit(0);
 
 require __DIR__ . '/bootstrap.php';
-require __DIR__ . '/AppKernel.php';
 
 $console = new Application('OAuth2', '0.1');
 $console->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', 'prod'));
@@ -47,8 +46,8 @@ if ($debug) {
     Debug::enable();
 }
 
-require __DIR__ . "/config/config_$env.php";
-
+$app = new Silex\Application(array('env' => $env));
+require __DIR__ . '/AppKernel.php';
 $app->boot();
 
 $console

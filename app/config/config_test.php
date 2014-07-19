@@ -11,11 +11,4 @@
 
 require __DIR__ . '/config_dev.php';
 
-$app['db.options'] = array(
-    'driver' => 'pdo_sqlite',
-    'path' => __DIR__ . '/../cache/test/.ht.sqlite',
-);
-
-$app['monolog.logfile'] = __DIR__ . '/../logs/test.log';
-
 $app['session.test'] = true;

@@ -30,6 +30,12 @@ $app['security.encoder.digest'] = $app->share(function ($app) {
     return new PlaintextPasswordEncoder();
 });
 
+// Define SQLite DB path.
+$app['db.options'] = array(
+    'driver' => 'pdo_sqlite',
+    'path' => __DIR__ . '/../cache/' . $app['env'] . '/.ht.sqlite',
+);
+
 // Return an instance of Doctrine ORM entity manager.
 $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];

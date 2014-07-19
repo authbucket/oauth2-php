@@ -11,6 +11,7 @@
 
 namespace AuthBucket\OAuth2\Tests;
 
+use Silex\Application;
 use Silex\WebTestCase as SilexWebTestCase;
 
 /**
@@ -23,10 +24,8 @@ abstract class WebTestCase extends SilexWebTestCase
 {
     public function createApplication()
     {
+        $app = new Application(array('env' => 'test'));
         require __DIR__ . '/../../../../../app/AppKernel.php';
-
-        require __DIR__ . '/../../../../../app/config/config_test.php';
-        require __DIR__ . '/../../../../../app/config/routing_test.php';
 
         return $app;
     }

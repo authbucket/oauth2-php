@@ -10,9 +10,9 @@
  */
 
 require __DIR__ . '/../app/bootstrap.php';
-require __DIR__ . '/../app/AppKernel.php';
 
-require __DIR__ . '/../app/config/config_dev.php';
-require __DIR__ . '/../app/config/routing_dev.php';
+$app = new Silex\Application(array('env' => 'dev'));
+
+require __DIR__ . '/../app/AppKernel.php';
 
 $app->run();
