@@ -10,6 +10,3 @@
  */
 
 require __DIR__ . '/config.php';
-
-$app['monolog.logfile'] = __DIR__ . '/../logs/' . $app['env'] . '.log';
-$app['profiler.cache_dir'] = __DIR__ . '/../cache/' . $app['env'] . '/profiler';
