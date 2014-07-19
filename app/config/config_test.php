@@ -16,4 +16,6 @@ $app['db.options'] = array(
     'path' => __DIR__ . '/../cache/test/.ht.sqlite',
 );
 
+$app['monolog.logfile'] = __DIR__ . '/../logs/test.log';
+
 $app['session.test'] = true;

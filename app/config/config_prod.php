@@ -15,3 +15,5 @@ $app['db.options'] = array(
     'driver' => 'pdo_sqlite',
     'path' => __DIR__ . '/../cache/prod/.ht.sqlite',
 );
+
+$app['monolog.logfile'] = __DIR__ . '/../logs/prod.log';
