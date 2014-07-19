@@ -30,7 +30,7 @@ $app->register(new TranslationServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 
-if (in_array($app['env'], array('dev', 'test'))) {
+if (in_array($app['env'], array('dev'))) {
     $app->register(new MonologServiceProvider());
     $app->register(new ServiceControllerServiceProvider());
     $app->register(new WebProfilerServiceProvider());
