@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
