@@ -25,7 +25,7 @@ class ResourceProviderTest extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', 'bcc105b66698a64ed23c87b967885289')),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/debug/model', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/resource_type/model', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_scope', $resourceResponse['error']);
     }
@@ -39,7 +39,7 @@ class ResourceProviderTest extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/debug/model', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/resource_type/model', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $resourceResponse['username']);
     }
@@ -53,7 +53,7 @@ class ResourceProviderTest extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', 'ba2e8d1f54ed3e3d96935796576f1a06')),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/debug/model', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/resource/resource_type/model', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $resourceResponse['username']);
     }

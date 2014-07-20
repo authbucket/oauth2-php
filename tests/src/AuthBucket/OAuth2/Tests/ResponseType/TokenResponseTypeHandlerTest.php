@@ -117,7 +117,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
-    public function testErrorTokenBadScope()
+    public function testErrorTokenUnsupportedScope()
     {
         // Start session manually.
         $session = new Session(new MockFileSessionStorage());
@@ -127,7 +127,32 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => "badscope1",
+            'scope' => "unsupportedscope",
+            'state' => $session->getId(),
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $tokenResponse = $authResponse->query->all();
+        $this->assertEquals('invalid_scope', $tokenResponse['error']);
+    }
+
+    public function testErrorTokenUnauthorizedScope()
+    {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
+        $parameters = array(
+            'response_type' => 'token',
+            'client_id' => 'http://democlient1.com/',
+            'redirect_uri' => 'http://democlient1.com/redirect_uri',
+            'scope' => "demoscope4",
             'state' => $session->getId(),
         );
         $server = array(

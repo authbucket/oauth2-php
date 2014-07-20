@@ -34,7 +34,7 @@ class OAuth2Test extends WebTestCase
             'response_type' => 'code',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => 'demoscope1',
+            'scope' => 'debug demoscope1',
             'state' => $session->getId(),
         );
         $server = array(
@@ -72,7 +72,7 @@ class OAuth2Test extends WebTestCase
         $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => $tokenResponse['refresh_token'],
-            'scope' => 'demoscope1',
+            'scope' => 'debug demoscope1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -84,7 +84,7 @@ class OAuth2Test extends WebTestCase
         // Check basic token response that can simply compare.
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('bearer', $tokenResponse['token_type']);
-        $this->assertEquals('demoscope1', $tokenResponse['scope']);
+        $this->assertEquals('debug demoscope1', $tokenResponse['scope']);
 
         // Query debug endpoint with access_token.
         $parameters = array(
@@ -94,7 +94,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -110,7 +110,7 @@ class OAuth2Test extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => 'demoscope1',
+            'scope' => 'debug demoscope1',
             'state' => $session->getId(),
         );
         $server = array(
@@ -131,7 +131,7 @@ class OAuth2Test extends WebTestCase
         // Check basic token response that can simply compare.
         $tokenResponse = $authResponse->query->all();
         $this->assertEquals('bearer', $tokenResponse['token_type']);
-        $this->assertEquals('demoscope1', $tokenResponse['scope']);
+        $this->assertEquals('debug demoscope1', $tokenResponse['scope']);
         $this->assertEquals($session->getId(), $tokenResponse['state']);
 
         // Query debug endpoint with access_token.
@@ -142,7 +142,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -154,7 +154,7 @@ class OAuth2Test extends WebTestCase
             'grant_type' => 'password',
             'username' => 'demousername1',
             'password' => 'demopassword1',
-            'scope' => 'demoscope1',
+            'scope' => 'debug demoscope1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -169,7 +169,7 @@ class OAuth2Test extends WebTestCase
         $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => $tokenResponse['refresh_token'],
-            'scope' => 'demoscope1',
+            'scope' => 'debug demoscope1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -181,7 +181,7 @@ class OAuth2Test extends WebTestCase
         // Check basic token response that can simply compare.
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('bearer', $tokenResponse['token_type']);
-        $this->assertEquals('demoscope1', $tokenResponse['scope']);
+        $this->assertEquals('debug demoscope1', $tokenResponse['scope']);
 
         // Query debug endpoint with access_token.
         $parameters = array(
@@ -191,7 +191,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -201,7 +201,7 @@ class OAuth2Test extends WebTestCase
         // Query the token endpoint with grant_type = client_credentials.
         $parameters = array(
             'grant_type' => 'client_credentials',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'debug demoscope1 demoscope2 demoscope3',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -216,7 +216,7 @@ class OAuth2Test extends WebTestCase
         $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => $tokenResponse['refresh_token'],
-            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'debug demoscope1 demoscope2 demoscope3',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -228,7 +228,7 @@ class OAuth2Test extends WebTestCase
         // Check basic token response that can simply compare.
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('bearer', $tokenResponse['token_type']);
-        $this->assertEquals('demoscope1 demoscope2 demoscope3', $tokenResponse['scope']);
+        $this->assertEquals('debug demoscope1 demoscope2 demoscope3', $tokenResponse['scope']);
 
         // Query debug endpoint with access_token.
         $parameters = array(
@@ -238,7 +238,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/resource/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('', $debugResponse['username']);
     }

@@ -76,19 +76,15 @@ $app['security.firewalls'] = array(
             'scope' => array('debug'),
         ),
     ),
-    'resource_debug' => array(
-        'pattern' => '^/resource/debug$',
-        'oauth2_resource' => true,
-    ),
-    'resource_debug_model' => array(
-        'pattern' => '^/resource/debug/model$',
+    'resource_resource_type_model' => array(
+        'pattern' => '^/resource/resource_type/model$',
         'oauth2_resource' => array(
             'resource_type' => 'model',
             'scope' => array('demoscope1'),
         ),
     ),
-    'resource_debug_debug_endpoint' => array(
-        'pattern' => '^/resource/debug/debug_endpoint$',
+    'resource_resource_type_debug_endpoint' => array(
+        'pattern' => '^/resource/resource_type/debug_endpoint$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
@@ -99,8 +95,8 @@ $app['security.firewalls'] = array(
             ),
         ),
     ),
-    'resource_debug_debug_endpoint_cache' => array(
-        'pattern' => '^/resource/debug/debug_endpoint/cache$',
+    'resource_resource_type_debug_endpoint_cache' => array(
+        'pattern' => '^/resource/resource_type/debug_endpoint/cache$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
@@ -110,16 +106,16 @@ $app['security.firewalls'] = array(
             ),
         ),
     ),
-    'resource_debug_debug_endpoint_invalid_options' => array(
-        'pattern' => '^/resource/debug/debug_endpoint/invalid_options$',
+    'resource_resource_type_debug_endpoint_invalid_options' => array(
+        'pattern' => '^/resource/resource_type/debug_endpoint/invalid_options$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(),
         ),
     ),
-    'resource_debug_debug_endpoint_invalid_client' => array(
-        'pattern' => '^/resource/debug/debug_endpoint/invalid_client$',
+    'resource_resource_type_debug_endpoint_invalid_client' => array(
+        'pattern' => '^/resource/resource_type/debug_endpoint/invalid_client$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),

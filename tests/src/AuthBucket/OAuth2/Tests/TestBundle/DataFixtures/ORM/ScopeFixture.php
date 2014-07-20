@@ -35,6 +35,10 @@ class ScopeFixture implements FixtureInterface
         $model->setScope('demoscope3');
         $manager->persist($model);
 
+        $model = new Scope();
+        $model->setScope('demoscope4');
+        $manager->persist($model);
+
         $manager->flush();
     }
 }
