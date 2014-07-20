@@ -49,17 +49,23 @@ class TokenProvider implements AuthenticationProviderInterface
         $clientManager = $this->modelManagerFactory->getModelManager('client');
         $clientStored = $clientManager->findClientByClientId($clientId);
         if ($clientStored === null) {
-            throw new InvalidClientException();
+            throw new InvalidClientException(array(
+                'error_description' => 'Client authentication failed.',
+            ));
         }
         $clientSupplied = $token->getClient();
 
         if ($clientSupplied instanceof ClientInterface) {
             if ($clientStored->getClientSecret() !== $clientSupplied->getClientSecret()) {
-                throw new InvalidClientException();
+                throw new InvalidClientException(array(
+                    'error_description' => 'Client authentication failed.',
+                ));
             }
         } else {
             if ($clientStored->getClientSecret() !== $clientSecret) {
-                throw new InvalidClientException();
+                throw new InvalidClientException(array(
+                    'error_description' => 'Client authentication failed.',
+                ));
             }
         }
 

@@ -82,16 +82,22 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         // refresh_token must exists and in valid format.
         if (!Filter::filter(array('refresh_token' => $refreshToken))) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         // Check refresh_token with database record.
         $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
         $result = $refreshTokenManager->findRefreshTokenByRefreshToken($refreshToken);
         if ($result === null || $result->getClientId() !== $clientId) {
-            throw new InvalidGrantException();
+            throw new InvalidGrantException(array(
+                'error_description' => 'The provided refresh token was issued to another client.',
+            ));
         } elseif ($result->getExpires() < new \DateTime()) {
-            throw new InvalidGrantException();
+            throw new InvalidGrantException(array(
+                'error_description' => 'The provided refresh token is expired.',
+            ));
         }
 
         // Fetch username from stored refresh_token.
@@ -107,13 +113,17 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         if ($scope !== null && $scopeGranted !== null) {
             // scope must be in valid format.
             if (!Filter::filter(array('scope' => $scope))) {
-                throw new InvalidRequestException();
+                throw new InvalidRequestException(array(
+                    'error_description' => 'The request includes an invalid parameter value.',
+                ));
             }
 
             // Compare if given scope within all available granted scopes.
             $scope = preg_split('/\s+/', $scope);
             if (array_intersect($scope, $scopeGranted) != $scope) {
-                throw new InvalidScopeException();
+                throw new InvalidScopeException(array(
+                    'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
+                ));
             }
         }
         // Return original refresh_token's scope if not specify in new request.
@@ -140,7 +150,9 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             }
 
             if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
-                throw new InvalidScopeException();
+                throw new InvalidScopeException(array(
+                    'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
+                ));
             }
         }
 

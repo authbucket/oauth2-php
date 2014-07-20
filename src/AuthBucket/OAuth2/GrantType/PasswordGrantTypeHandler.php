@@ -11,6 +11,7 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
+use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
@@ -99,7 +100,9 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             'username' => $username,
             'password' => $password,
         ))) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         // Validate credentials with authentication manager.
@@ -113,7 +116,9 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             );
             $authenticationProvider->authenticate($token);
         } catch (BadCredentialsException $e) {
-            throw new InvalidGrantException();
+            throw new InvalidGrantException(array(
+                'error_description' => 'Client authentication failed.',
+            ));
         }
 
         return $username;

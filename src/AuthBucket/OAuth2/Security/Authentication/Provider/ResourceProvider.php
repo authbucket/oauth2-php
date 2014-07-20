@@ -79,7 +79,9 @@ class ResourceProvider implements AuthenticationProviderInterface
         $scopeSupplied = $accessTokenStored->getScope() ?: array();
         if ($this->scopeRequired) {
             if (array_intersect($this->scopeRequired, $scopeSupplied) != $this->scopeRequired) {
-                throw new InvalidScopeException();
+                throw new InvalidScopeException(array(
+                    'error_description' => 'The requested scope is malformed.',
+                ));
             }
         }
 

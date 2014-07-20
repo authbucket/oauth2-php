@@ -24,7 +24,9 @@ class MacTokenTypeHandler implements TokenTypeHandlerInterface
 {
     public function getAccessToken(Request $request)
     {
-        throw new TemporarilyUnavailableException();
+        throw new TemporarilyUnavailableException(array(
+            'error_description' => 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
+        ));
     }
 
     public function createAccessToken(
@@ -36,6 +38,8 @@ class MacTokenTypeHandler implements TokenTypeHandlerInterface
         $withRefreshToken = true
     )
     {
-        throw new TemporarilyUnavailableException();
+        throw new TemporarilyUnavailableException(array(
+            'error_description' => 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
+        ));
     }
 }

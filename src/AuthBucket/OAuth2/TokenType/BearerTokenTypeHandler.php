@@ -35,12 +35,16 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
 
         // At least one (and only one) of client credentials method required.
         if (!$tokenHeaders && !$tokenRequest && !$tokenQuery) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request is missing a required parameter.',
+            ));
         } elseif (($tokenHeaders && $tokenRequest)
             || ($tokenRequest && $tokenQuery)
             || ($tokenQuery && $tokenHeaders)
         ) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes multiple credentials.',
+            ));
         }
 
         // Check with HTTP basic auth if exists.

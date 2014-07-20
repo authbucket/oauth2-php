@@ -47,7 +47,9 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             || !$options['client_id']
             || !$options['client_secret']
         ) {
-            throw new ServerErrorException();
+            throw new ServerErrorException(array(
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
+            ));
         }
 
         $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
@@ -75,7 +77,9 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
 
         // Throw exception if error return.
         if (isset($tokenResponse['error'])) {
-            throw new ServerErrorException();
+            throw new ServerErrorException(array(
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
+            ));
         }
 
         // Fetch meta data of supplied access token by query debug endpoint.
@@ -91,7 +95,9 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
 
         // Throw exception if error return.
         if (isset($debugResponse['error'])) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         // Create a new access token with fetched meta data.

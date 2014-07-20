@@ -46,9 +46,13 @@ class DebugController
         $debugToken = $this->getDebugToken($request);
         $accessToken = $accessTokenManager->findAccessTokenByAccessToken($debugToken);
         if (null === $accessToken) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request is otherwise malformed.',
+            ));
         } elseif ($accessToken->getExpires() < new \DateTime()) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request is otherwise malformed.',
+            ));
         }
 
         // Handle debug endpoint response.
@@ -81,7 +85,9 @@ class DebugController
 
         // Validate debug token.
         if (!Filter::filter(array('access_token' => $debugToken))) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         return $debugToken;

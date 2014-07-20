@@ -68,7 +68,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         if ($scope) {
             // scope must be in valid format.
             if (!Filter::filter(array('scope' => $scope))) {
-                throw new InvalidRequestException();
+                throw new InvalidRequestException(array(
+                    'error_description' => 'The request includes an invalid parameter value.',
+                ));
             }
 
             // Compare if given scope within all available authorized scopes.
@@ -90,7 +92,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 
             $scope = preg_split('/\s+/', $scope);
             if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
-                throw new InvalidScopeException();
+                throw new InvalidScopeException(array(
+                    'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
+                ));
             }
         }
 

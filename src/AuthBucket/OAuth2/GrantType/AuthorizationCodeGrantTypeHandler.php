@@ -85,16 +85,22 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // code is required and must in valid format.
         if (!Filter::filter(array('code' => $code))) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         // Check code with database record.
         $codeManager = $modelManagerFactory->getModelManager('code');
         $result = $codeManager->findCodeByCode($code);
         if ($result === null || $result->getClientId() !== $clientId) {
-            throw new InvalidGrantException();
+            throw new InvalidGrantException(array(
+                'error_description' => 'The provided authorization grant is invalid.',
+            ));
         } elseif ($result->getExpires() < new \DateTime()) {
-            throw new InvalidGrantException();
+            throw new InvalidGrantException(array(
+                'error_description' => 'The provided authorization grant is expired.',
+            ));
         }
 
         return array($result->getUsername(), $result->getScope());
@@ -131,14 +137,18 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // At least one of: existing redirect URI or input redirect URI must be
         // specified.
         if (!$stored && !$redirectUri) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request is missing a required parameter.',
+            ));
         }
 
         // If there's an existing uri and one from input, verify that they match.
         if ($stored && $redirectUri) {
             // Ensure that the input uri starts with the stored uri.
             if (strcasecmp(substr($redirectUri, 0, strlen($stored)), $stored) !== 0) {
-                throw new InvalidRequestException();
+                throw new InvalidRequestException(array(
+                    'error_description' => 'The provided authorization grant does not match the redirection URI used in the authorization request.',
+                ));
             }
         }
 
@@ -163,14 +173,18 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // state is required and in valid format.
         if (!Filter::filter(array('state' => $state))) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         // Check state with database record.
         $codeManager = $modelManagerFactory->getModelManager('code');
         $result = $codeManager->findCodeByCode($code);
         if ($result === null || $result->getState() !== $state) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
     }
 }

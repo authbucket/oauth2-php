@@ -26,12 +26,16 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
     {
         foreach ($classes as $class) {
             if (!class_exists($class)) {
-                throw new UnsupportedResponseTypeException();
+                throw new UnsupportedResponseTypeException(array(
+                    'error_description' => 'The authorization server does not support obtaining an authorization code using this method.',
+                ));
             }
 
             $reflection = new \ReflectionClass($class);
             if (!$reflection->implementsInterface('AuthBucket\\OAuth2\\ResponseType\\ResponseTypeHandlerInterface')) {
-                throw new UnsupportedResponseTypeException();
+                throw new UnsupportedResponseTypeException(array(
+                    'error_description' => 'The authorization server does not support obtaining an authorization code using this method.',
+                ));
             }
         }
 
@@ -41,7 +45,9 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
     public function getResponseTypeHandler($type)
     {
         if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
-            throw new UnsupportedResponseTypeException();
+            throw new UnsupportedResponseTypeException(array(
+                'error_description' => 'The authorization server does not support obtaining an authorization code using this method.',
+            ));
         }
 
         return new $this->classes[$type];

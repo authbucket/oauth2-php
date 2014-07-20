@@ -66,14 +66,18 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         // client_id is required and in valid format.
         if (!Filter::filter(array('client_id' => $clientId))) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         // Compare client_id with database record.
         $clientManager = $modelManagerFactory->getModelManager('client');
         $result = $clientManager->findClientByClientId($clientId);
         if ($result === null) {
-            throw new InvalidClientException();
+            throw new InvalidClientException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         return $clientId;
@@ -111,14 +115,18 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // At least one of: existing redirect URI or input redirect URI must be
         // specified.
         if (!$stored && !$redirectUri) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request is missing a required parameter.'
+            ));
         }
 
         // If there's an existing uri and one from input, verify that they match.
         if ($stored && $redirectUri) {
             // Ensure that the input uri starts with the stored uri.
             if (strcasecmp(substr($redirectUri, 0, strlen($stored)), $stored) !== 0) {
-                throw new InvalidRequestException();
+                throw new InvalidRequestException(array(
+                    'error_description' => 'The request includes an invalid parameter value',
+                ));
             }
         }
 
@@ -136,7 +144,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // state is required and in valid format.
         if (!Filter::filter(array('state' => $state))) {
             throw new InvalidRequestException(array(
-                'redirect_uri' => $redirectUri
+                'redirect_uri' => $redirectUri,
+                'error_description' => 'The request includes an invalid parameter value',
             ));
         }
 
@@ -161,6 +170,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
                 throw new InvalidRequestException(array(
                     'redirect_uri' => $redirectUri,
                     'state' => $state,
+                    'error_description' => 'The request includes an invalid parameter value.',
                 ));
             }
 
