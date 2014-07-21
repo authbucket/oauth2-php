@@ -1,32 +1,34 @@
 {% extends 'html.html.twig' %}
 
-{% set head_title = 'Form Login | AuthBucket\\OAuth2' %}
+{% set head_title = 'Form-based Authentication | AuthBucket\\OAuth2' %}
 
 {% block page %}
-    {% embed 'page.html.twig' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-header">Form-based Authentication</h1>
+                <blockquote>
+                    <p>The authorization server MUST first verify the identity of the resource owner.</p>
+                    <footer><a href="http://tools.ietf.org/html/rfc6749#section-3.1">3.1. Authorization Endpoint</a></footer>
+                </blockquote>
+                <p><a class="btn btn-primary" role="button" href="{{ path('demo_index') }}">Return</a></p>
 
-    {% block main %}
-        <h2 class="page-header">Form Login</h2>
-        <form action="{{ path('oauth2_authorize_login_check') }}" method="post" role="form">
-            {{ error }}
-            <div class="form-group">
-                <label>Username</label>
-                <input class="form-control" type="text" name="_username" value="demousername1" />
+                <h2 class="page-header">Login Form</h2>
+                <form action="{{ path('oauth2_authorize_login_check') }}" method="post" role="form">
+                    {{ error }}
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input class="form-control" type="text" name="_username" value="demousername1" />
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input class="form-control" type="password" name="_password" value="demopassword1" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit" name="submit">Login</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input class="form-control" type="password" name="_password" value="demopassword1" />
-            </div>
-            <div class="form-group">
-                <button class="btn btn-success" type="submit" name="submit">Login</button>
-            </div>
-        </form>
-    {% endblock %}
-
-    {% block aside %}
-        <h2 class="page-header">Actions</h2>
-        <p><a class="btn btn-primary" role="button" href="{{ path('oauth2_index') }}">Return</a></p>
-    {% endblock %}
-
-    {% endembed %}
+        </div>
+    </div>
 {% endblock %}

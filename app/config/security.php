@@ -50,6 +50,7 @@ $app['security.firewalls'] = array(
         ),
         'logout' => array(
             'logout_path' => '/oauth2/authorize/logout',
+            'target_url' => '/demo',
         ),
         'users' => $app['security.user_provider.default'],
     ),

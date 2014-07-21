@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <h1 class="page-header">Authorization Server</h1>
                 <blockquote>
-                    <p>The server issuing access tokens to the client after successfully authenticating the resource owner and obtaining authorization.</p>
+                    <p>The server issuing access tokens to the client after primaryfully authenticating the resource owner and obtaining authorization.</p>
                     <footer><a href="http://tools.ietf.org/html/rfc6749#section-1.1">1.1. Roles</a></footer>
                 </blockquote>
                 <p class="lead">Authorization server's endpoints usually without GUI, but just RESTful API interface. Read though <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> to see how we implement it.</p>
@@ -30,7 +30,7 @@
                     <li>Username: <code>demousername1</code></li>
                     <li>Password: <code>demopassword1</code></li>
                 </ul>
-                <p>After successful login, by default if access this endpoint without addition parameters, an error message <code>{"error":"invalid_request"}</code> should be shown in JSON format.</p>
+                <p>After primaryful login, by default if access this endpoint without addition parameters, an error message <code>{"error":"invalid_request"}</code> should be shown in JSON format.</p>
 
                 <h3>Token Endpoint <small>(<code>/oauth2/token</code>)</small></h3>
                 <blockquote>
