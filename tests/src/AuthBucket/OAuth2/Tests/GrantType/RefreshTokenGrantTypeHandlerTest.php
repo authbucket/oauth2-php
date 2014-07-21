@@ -58,7 +58,26 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
         $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => '302a7e7af27a25a6c052302d0dcac2c0',
-            'scope' => 'badscope',
+            'scope' => 'unsupportedscope',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient2.com/',
+            'PHP_AUTH_PW' => 'demosecret2',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_scope', $tokenResponse['error']);
+    }
+
+    public function testErrorRefreshTokenUnauthorizedScope()
+    {
+        $parameters = array(
+            'grant_type' => 'refresh_token',
+            'refresh_token' => '302a7e7af27a25a6c052302d0dcac2c0',
+            'scope' => 'demoscope4',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient2.com/',

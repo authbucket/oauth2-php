@@ -94,13 +94,33 @@ class PasswordGrantTypeHandlerTest extends WebTestCase
         $this->assertEquals('invalid_grant', $tokenResponse['error']);
     }
 
-    public function testErrorPasswordBadScope()
+    public function testErrorPasswordUnsupportedScope()
     {
         $parameters = array(
             'grant_type' => 'password',
             'username' => 'demousername1',
             'password' => 'demopassword1',
-            'scope' => "badscope1",
+            'scope' => "unsupportedscope",
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient1.com/',
+            'PHP_AUTH_PW' => 'demosecret1',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_scope', $tokenResponse['error']);
+    }
+
+    public function testErrorPasswordUnauthorizedScope()
+    {
+        $parameters = array(
+            'grant_type' => 'password',
+            'username' => 'demousername1',
+            'password' => 'demopassword1',
+            'scope' => "demoscope4",
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',

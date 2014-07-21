@@ -73,14 +73,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
                 ));
             }
 
-            // Compare if given scope within all available authorized scopes.
-            $scopeAuthorized = array();
-            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
-            if ($result !== null) {
-                $scopeAuthorized = $result->getScope();
-            }
+            $scope = preg_split('/\s+/', $scope);
 
+            // Compare if given scope within all supported scopes.
             $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
             $result = $scopeManager->findScopes();
@@ -89,9 +84,20 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
                     $scopeSupported[] = $row->getScope();
                 }
             }
+            if (array_intersect($scope, $scopeSupported) !== $scope) {
+                throw new InvalidScopeException(array(
+                    'error_description' => 'The requested scope is unknown.',
+                ));
+            }
 
-            $scope = preg_split('/\s+/', $scope);
-            if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
+            // Compare if given scope within all authorized scopes.
+            $scopeAuthorized = array();
+            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
+            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
+            if ($result !== null) {
+                $scopeAuthorized = $result->getScope();
+            }
+            if (array_intersect($scope, $scopeAuthorized) !== $scope) {
                 throw new InvalidScopeException(array(
                     'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
                 ));

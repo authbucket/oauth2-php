@@ -35,7 +35,8 @@ class RefreshTokenFixture implements FixtureInterface
             ->setUsername('demousername2')
             ->setExpires(new \DateTime('+1 days'))
             ->setScope(array(
-                'badscope',
+                'unsupportedscope',
+                'demoscope4',
             ));
         $manager->persist($model);
 

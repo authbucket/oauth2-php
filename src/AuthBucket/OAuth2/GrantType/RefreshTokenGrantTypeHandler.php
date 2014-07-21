@@ -120,7 +120,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
             // Compare if given scope within all available granted scopes.
             $scope = preg_split('/\s+/', $scope);
-            if (array_intersect($scope, $scopeGranted) != $scope) {
+            if (array_intersect($scope, $scopeGranted) !== $scope) {
                 throw new InvalidScopeException(array(
                     'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
                 ));
@@ -132,14 +132,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         if ($scope !== null) {
-            // Compare if given scope within all available stored scopes.
-            $scopeAuthorized = array();
-            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
-            if ($result !== null) {
-                $scopeAuthorized = $result->getScope();
-            }
-
+            // Compare if given scope within all supported scopes.
             $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
             $result = $scopeManager->findScopes();
@@ -148,8 +141,20 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
                     $scopeSupported[] = $row->getScope();
                 }
             }
+            if (array_intersect($scope, $scopeSupported) !== $scope) {
+                throw new InvalidScopeException(array(
+                    'error_description' => 'The requested scope is unknown.',
+                ));
+            }
 
-            if (array_intersect($scope, $scopeAuthorized, $scopeSupported) != $scope) {
+            // Compare if given scope within all authorized scopes.
+            $scopeAuthorized = array();
+            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
+            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
+            if ($result !== null) {
+                $scopeAuthorized = $result->getScope();
+            }
+            if (array_intersect($scope, $scopeAuthorized) !== $scope) {
                 throw new InvalidScopeException(array(
                     'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
                 ));
