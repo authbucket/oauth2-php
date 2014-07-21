@@ -15,7 +15,7 @@
                     <p>The authorization code grant type is used to obtain both access tokens and refresh tokens and is optimized for confidential clients.</p>
                     <footer><a href="http://tools.ietf.org/html/rfc6749#section-4.1">4.1. Authorization Code Grant</a></footer>
                 </blockquote>
-                <p><a class="btn btn-primary" role="button" href="{{ path('demo_response_type_code') }}">Authorization Request</a></p>
+                <p><a class="btn btn-primary" role="button" href="{{ path('demo_authorize_code') }}">Authorization Request</a></p>
             </div>
             <div class="col-md-12">
                 <h2 class="page-header">Implicit Grant</h2>
@@ -23,7 +23,7 @@
                     <p>The implicit grant type is used to obtain access tokens (it does not support the issuance of refresh tokens) and is optimized for public clients known to operate a particular redirection URI.  These clients are typically implemented in a browser using a scripting language such as JavaScript.</p>
                     <footer><a href="http://tools.ietf.org/html/rfc6749#section-4.2">4.2. Implicit Grant</a></footer>
                 </blockquote>
-                <p><a class="btn btn-primary" role="button" href="{{ path('demo_response_type_token') }}">Authorization Request</a></p>
+                <p><a class="btn btn-primary" role="button" href="{{ path('demo_authorize_token') }}">Authorization Request</a></p>
             </div>
             <div class="col-md-12">
                 <h2 class="page-header">Resource Owner Password Credentials Grant</h2>

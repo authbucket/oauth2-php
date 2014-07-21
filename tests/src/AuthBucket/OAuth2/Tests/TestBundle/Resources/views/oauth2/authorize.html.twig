@@ -17,6 +17,9 @@
             {{ form_widget(form) }}
             <button class="btn btn-success" type="submit" name="submit" />Authorize Application</button>
         </form>
+
+        <h2 class="page-header">Authorization request</h2>
+        {{ dump(authorization_request) }}
     {% endblock %}
 
     {% block aside %}

@@ -18,28 +18,57 @@ $app->get('/demo', function (Request $request) use ($app) {
     return $app['twig']->render('demo/index.html.twig');
 })->bind('demo_index');
 
-// Demo, authorization endpoint, authorization code grant.
-$app->get('/demo/response_type/code', function (Request $request, Application $app) {
+// Demo, authorize, authorization code grant.
+$app->get('/demo/authorize/code', function (Request $request, Application $app) {
     if (!$app['session']->isStarted()) {
         $app['session']->start();
     }
+
+    $scopeManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('scope');
+    $scope = $scopeManager->createScope()
+        ->setScope(substr(md5(uniqid(null, true)), 0, 8));
+    $scopeManager->updateScope($scope);
 
     $parameters = array(
         'response_type' => 'code',
         'client_id' => 'authorization_code_grant',
         'redirect_uri' => $request->getUriForPath('/demo/response_type/code'),
-        'scope' => 'demoscope1',
+        'scope' => 'demoscope1 ' . $scope->getScope(),
         'state' => $app['session']->getId(),
     );
-    $server = array(
-        'PHP_AUTH_USER' => 'demousername1',
-        'PHP_AUTH_PW' => 'demopassword1',
+
+    $url = Request::create($request->getUriForPath('/oauth2/authorize'), 'GET', $parameters)->getUri();
+
+    return $app->redirect($url);
+})->bind('demo_authorize_code');
+
+// Demo, authorize, implicit grant.
+$app->get('/demo/authorize/token', function (Request $request, Application $app) {
+    if (!$app['session']->isStarted()) {
+        $app['session']->start();
+    }
+
+    $scopeManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('scope');
+    $scope = $scopeManager->createScope()
+        ->setScope(substr(md5(uniqid(null, true)), 0, 8));
+    $scopeManager->updateScope($scope);
+
+    $parameters = array(
+        'response_type' => 'token',
+        'client_id' => 'implicit_grant',
+        'redirect_uri' => $request->getUriForPath('/demo/response_type/token'),
+        'scope' => 'demoscope1 ' . $scope->getScope(),
+        'state' => $app['session']->getId(),
     );
-    $client = new Client($app);
-    $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
-    $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
-    $authorizationResponse = $authResponse->query->all();
-    $authorizationRequest = get_object_vars($client->getRequest());
+
+    $url = Request::create($request->getUriForPath('/oauth2/authorize'), 'GET', $parameters)->getUri();
+
+    return $app->redirect($url);
+})->bind('demo_authorize_token');
+
+// Demo, authorization endpoint, authorization code grant.
+$app->get('/demo/response_type/code', function (Request $request, Application $app) {
+    $authorizationResponse = $request->query->all();
 
     $tokenPath = $app['url_generator']->generate('demo_grant_type_authorization_code', array(
         'code' => $authorizationResponse['code'],
@@ -48,33 +77,13 @@ $app->get('/demo/response_type/code', function (Request $request, Application $a
 
     return $app['twig']->render('demo/response_type/code.html.twig', array(
         'authorization_response' => $authorizationResponse,
-        'authorization_request' => $authorizationRequest,
         'token_path' => $tokenPath,
     ));
 })->bind('demo_response_type_code');
 
-// Demo, authorize endpoint, implicit grant.
+// Demo, authorization endpoint, implicit grant.
 $app->get('/demo/response_type/token', function (Request $request, Application $app) {
-    if (!$app['session']->isStarted()) {
-        $app['session']->start();
-    }
-
-    $parameters = array(
-        'response_type' => 'token',
-        'client_id' => 'implicit_grant',
-        'redirect_uri' => $request->getUriForPath('/demo/response_type/token'),
-        'scope' => 'demoscope1',
-        'state' => $app['session']->getId(),
-    );
-    $server = array(
-        'PHP_AUTH_USER' => 'demousername1',
-        'PHP_AUTH_PW' => 'demopassword1',
-    );
-    $client = new Client($app);
-    $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
-    $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
-    $accessTokenResponse = $authResponse->query->all();
-    $accessTokenRequest = get_object_vars($client->getRequest());
+    $accessTokenResponse = $request->query->all();
 
     $modelPath = $app['url_generator']->generate('demo_resource_type_model', array(
         'access_token' => $accessTokenResponse['access_token'],
@@ -85,7 +94,6 @@ $app->get('/demo/response_type/token', function (Request $request, Application $
 
     return $app['twig']->render('demo/response_type/token.html.twig', array(
         'access_token_response' => $accessTokenResponse,
-        'access_token_request' => $accessTokenRequest,
         'model_path' => $modelPath,
         'debug_path' => $debugPath,
     ));
@@ -252,7 +260,7 @@ $app->get('/demo/resource_type/model', function (Request $request, Application $
         'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
     );
     $client = new Client($app);
-    $crawler = $client->request('GET', '/resource/debug/model', $parameters, array(), $server);
+    $crawler = $client->request('GET', '/resource/resource_type/model', $parameters, array(), $server);
     $resourceResponse = json_decode($client->getResponse()->getContent(), true);
     $resourceRequest = get_object_vars($client->getRequest());
 
@@ -271,7 +279,7 @@ $app->get('/demo/resource_type/debug_endpoint', function (Request $request, Appl
         'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
     );
     $client = new Client($app);
-    $crawler = $client->request('GET', '/resource/debug/debug_endpoint', $parameters, array(), $server);
+    $crawler = $client->request('GET', '/resource/resource_type/debug_endpoint', $parameters, array(), $server);
     $resourceResponse = json_decode($client->getResponse()->getContent(), true);
     $resourceRequest = get_object_vars($client->getRequest());
 

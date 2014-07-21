@@ -73,11 +73,14 @@ $app->match('/oauth2/authorize', function (Request $request, Application $app) {
     }
 
     // Display the form.
+    $authorizationRequest = $request->query->all();
+
     return $app['twig']->render('oauth2/authorize.html.twig', array(
         'client_id' => $clientId,
         'username' => $username,
         'scopes' => $scope,
         'form' => $form->createView(),
+        'authorization_request' => $authorizationRequest,
     ));
 })->bind('oauth2_authorize');
 
