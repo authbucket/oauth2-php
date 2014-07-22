@@ -54,14 +54,16 @@ Here is a minimal example of a `composer.json`:
 
     $app->register(new AuthBucketOAuth2ServiceProvider());
 
-### Usage
+Usage
+-----
 
 In this library we seperate the logic from frontend firewall and backend
 controller point of view, so you will need to setup both for
-functioning. Below is a list of recipes that cover some common use
-cases.
+functioning.
 
-#### Authorization Endpoint
+Below is a list of recipes that cover some common use cases.
+
+### Authorization Endpoint
 
 Basically we just provide a service
 `authbucket_oauth2.authorize_controller` so authorization endpoint
@@ -87,7 +89,7 @@ e.g. by
         ),
     );
 
-#### Token Endpoint
+### Token Endpoint
 
 Similar as authorization endpoint, token endpoint backup can setup by
 utilize server `authbucket_oauth2.token_controller` as below:
@@ -106,7 +108,7 @@ Moreover, we need to protect this endpoint with our custom
         ),
     );
 
-#### Debug Endpoint
+### Debug Endpoint
 
 Debug endpoint is useful for both internal debugging, and allow remote
 resource server to verify if supplied access token valid or not. Setup
@@ -129,7 +131,7 @@ query functioning):
        ),
     );
 
-#### Resource Endpoint
+### Resource Endpoint
 
 You can utilize our custom `oauth2_resource` firewall to protect local
 resource endpoint.
@@ -219,7 +221,7 @@ Pages](http://authbucket.github.io/oauth2).
 
 To built the documents locally, execute the following command:
 
-    $ vendor/bin/sami.php update sami.php
+    $ vendor/bin/sami.php update .sami.php
 
 Open `build/oauth2/index.html` with your browser for the documents.
 

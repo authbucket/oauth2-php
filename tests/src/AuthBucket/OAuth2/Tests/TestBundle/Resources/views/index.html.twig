@@ -45,10 +45,11 @@
                 <h3 id="registering">Registering</h3>
 <pre><code class="php">$app-&gt;register(new AuthBucketOAuth2ServiceProvider());</code></pre>
 
-                <h3 id="usage">Usage</h3>
-                <p>In this library we seperate the logic from frontend firewall and backend controller point of view, so you will need to setup both for functioning. Below is a list of recipes that cover some common use cases.</p>
+                <h2 id="usage" class="page-header">Usage</h2>
+                <p class="lead">In this library we seperate the logic from frontend firewall and backend controller point of view, so you will need to setup both for functioning.</p>
+                <p>Below is a list of recipes that cover some common use cases.</p>
 
-                <h4 id="authorization-endpoint">Authorization Endpoint</h4>
+                <h3 id="authorization-endpoint">Authorization Endpoint</h3>
                 <p>Basically we just provide a service <code>authbucket_oauth2.authorize_controller</code> so authorization endpoint backend can setup as below:</p>
 <pre><code class="php">$app-&gt;get(&#39;/oauth2/authorize&#39;, function (Request $request, Application $app) {
     return $app[&#39;authbucket_oauth2.authorize_controller&#39;]-&gt;authorizeAction($request);
@@ -66,7 +67,7 @@
     ),
 );</code></pre>
 
-                <h4 id="token-endpoint">Token Endpoint</h4>
+                <h3 id="token-endpoint">Token Endpoint</h3>
                 <p>Similar as authorization endpoint, token endpoint backup can setup by utilize server <code>authbucket_oauth2.token_controller</code> as below:</p>
 <pre><code class="php">$app-&gt;match(&#39;/oauth2/token&#39;, function (Request $request, Application $app) {
     return $app[&#39;authbucket_oauth2.token_controller&#39;]-&gt;tokenAction($request);
@@ -79,7 +80,7 @@
     ),
 );</code></pre>
 
-                <h4 id="debug-endpoint">Debug Endpoint</h4>
+                <h3 id="debug-endpoint">Debug Endpoint</h3>
                 <p>Debug endpoint is useful for both internal debugging, and allow remote resource server to verify if supplied access token valid or not. Setup debug endpoint backend as below:</p>
 <pre><code class="php">$app-&gt;match(&#39;/oauth2/debug&#39;, function (Request $request, Application $app) {
     return $app[&#39;authbucket_oauth2.debug_controller&#39;]-&gt;debugAction($request);
@@ -94,7 +95,7 @@
    ),
 );</code></pre>
 
-                <h4 id="resource-endpoint">Resource Endpoint</h4>
+                <h3 id="resource-endpoint">Resource Endpoint</h3>
                 <p>You can utilize our custom <code>oauth2_resource</code> firewall to protect local resource endpoint.</p>
                 <p>Shorthand version (default query local model manager, without scope protection):</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
@@ -144,7 +145,7 @@ $ php app/console server:run</code></pre>
                 <h2 id="documentation" class="page-header">Documentation</h2>
                 <p class="lead">OAuth2's documentation is built with <a href="https://github.com/fabpot/Sami">Sami</a> and publicly hosted on <a href="http://authbucket.github.io/oauth2">GitHub Pages</a>.</p>
                 <p>To built the documents locally, execute the following command:</p>
-<pre><code class="bash">$ vendor/bin/sami.php update sami.php</code></pre>
+<pre><code class="bash">$ vendor/bin/sami.php update .sami.php</code></pre>
                 <p>Open <code>build/oauth2/index.html</code> with your browser for the documents.</p>
 
                 <h2 id="tests" class="page-header">Tests</h2>
