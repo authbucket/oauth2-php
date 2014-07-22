@@ -40,11 +40,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         // EntityRepository.
         $app['authbucket_oauth2.model_manager.factory'] = null;
 
-        // Default endpoint path.
-        $app['authbucket_oauth2.authorize_path'] = '/oauth2/authorize';
-        $app['authbucket_oauth2.token_path'] = '/oauth2/token';
-        $app['authbucket_oauth2.debug_path'] = '/oauth2/debug';
-
         // For using grant_type = password, override this parameter with your
         // own user provider, e.g. using InMemoryUserProvider or a doctrine
         // EntityRepository that implements UserProviderInterface.
@@ -194,8 +189,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
             if ($options['resource_type'] === 'debug_endpoint') {
                 $options['options'] = array_merge(array(
-                    'token_path' => $app['authbucket_oauth2.token_path'],
-                    'debug_path' => $app['authbucket_oauth2.debug_path'],
+                    'token_path' => '/oauth2/token',
+                    'debug_path' => '/oauth2/debug',
                     'client_id' => '',
                     'client_secret' => '',
                     'cache' => true,

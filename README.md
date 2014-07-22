@@ -36,20 +36,9 @@ Here is a minimal example of a `composer.json`:
 
 ### Parameters
 
-#### Required
-
 -   `authbucket_oauth2.model_manager.factory`: Override this with your
     backend model manager factory, e.g. initialized with Doctrine ORM.
-
-#### Optional
-
--   `authbucket_oauth2.authorize_path`: Authorization endpoint path,
-    default to `/oauth2/authorize`.
--   `authbucket_oauth2.token_path`: Token endpoint path, default to
-    `/oauth2/token`.
--   `authbucket_oauth2.debug_path`: Debug endpoint path, default to
-    `/oauth2/debug`.
--   `authbucket_oauth2.user_provider`: For using
+-   `authbucket_oauth2.user_provider`: (Optional) For using
     `grant_type = password`, override this parameter with your own user
     provider, e.g. using InMemoryUserProvider or a doctrine
     EntityRepository that implements UserProviderInterface.
@@ -64,6 +53,129 @@ Here is a minimal example of a `composer.json`:
 ### Registering
 
     $app->register(new AuthBucketOAuth2ServiceProvider());
+
+### Usage
+
+In this library we seperate the logic from frontend firewall and backend
+controller point of view, so you will need to setup both for
+functioning. Below is a list of recipes that cover some common use
+cases.
+
+#### Authorization Endpoint
+
+Basically we just provide a service
+`authbucket_oauth2.authorize_controller` so authorization endpoint
+backend can setup as below:
+
+    $app->get('/oauth2/authorize', function (Request $request, Application $app) {
+        return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
+    })->bind('oauth2_authorize');
+
+You should protect this endpoint with user credential authentication,
+e.g. by
+[SecurityServiceProvider](http://silex.sensiolabs.org/doc/providers/security.html):
+
+    $app['security.firewalls'] = array(
+        'oauth2_authorize' => array(
+            'pattern' => '^/oauth2/authorize$',
+            'http' => true,
+            'users' => array(
+                'demousername1' => array('ROLE_USER', 'demopassword1'),
+                'demousername2' => array('ROLE_USER', 'demopassword2'),
+                'demousername3' => array('ROLE_USER', 'demopassword3'),
+            ),
+        ),
+    );
+
+#### Token Endpoint
+
+Similar as authorization endpoint, token endpoint backup can setup by
+utilize server `authbucket_oauth2.token_controller` as below:
+
+    $app->match('/oauth2/token', function (Request $request, Application $app) {
+        return $app['authbucket_oauth2.token_controller']->tokenAction($request);
+    })->bind('oauth2_token');
+
+Moreover, we need to protect this endpoint with our custom
+`oauth2_token` firewall rule:
+
+    $app['security.firewalls'] = array(
+        'oauth2_token' => array(
+            'pattern' => '^/oauth2/token$',
+            'oauth2_token' => true,
+        ),
+    );
+
+#### Debug Endpoint
+
+Debug endpoint is useful for both internal debugging, and allow remote
+resource server to verify if supplied access token valid or not. Setup
+debug endpoint backend as below:
+
+    $app->match('/oauth2/debug', function (Request $request, Application $app) {
+        return $app['authbucket_oauth2.debug_controller']->debugAction($request);
+    })->bind('oauth2_debug');
+
+Then we should protect this endpoint with our custom `oauth2_resource`
+firewall rule (scope `debug` is required for remote resource server
+query functioning):
+
+    $app['security.firewalls'] = array(
+       'oauth2_debug' => array(
+           'pattern' => '^/oauth2/debug$',
+           'oauth2_resource' => array(
+               'scope' => array('debug'),
+           ),
+       ),
+    );
+
+#### Resource Endpoint
+
+You can utilize our custom `oauth2_resource` firewall to protect local
+resource endpoint.
+
+Shorthand version (default query local model manager, without scope
+protection):
+
+    $app['security.firewalls'] = array(
+        'resource' => array(
+            'pattern' => '^/resource',
+            'oauth2_resource' => true,
+        ),
+    );
+
+Longhand version (query local model manager, protect with scope
+`demoscope1`):
+
+    $app['security.firewalls'] = array(
+        'resource' => array(
+            'pattern' => '^/resource',
+            'oauth2_resource' => array(
+                'resource_type' => 'model',
+                'scope' => array('demoscope1'),
+            ),
+        ),
+    );
+
+If authorization server is hosting somewhere else, you can protect with
+our resource endpoint by query remote authorization server debug
+endpoint:
+
+    $app['security.firewalls'] = array(
+        'resource' => array(
+            'pattern' => '^/resource',
+            'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array('demoscope1'),
+            'options' => array(
+                'token_path' => 'http://example.com/oauth2/token',
+                'debug_path' => 'http://example.com/oauth2/debug',
+                'client_id' => 'http://democlient1.com/',
+                'client_secret' => 'demosecret1',
+                'cache' => true,
+            ),
+        ),
+    );
 
 Demo
 ----
@@ -107,7 +219,7 @@ Pages](http://authbucket.github.io/oauth2).
 
 To built the documents locally, execute the following command:
 
-    $ vendor/bin/sami.php update app/config/config_sami.php
+    $ vendor/bin/sami.php update sami.php
 
 Open `build/oauth2/index.html` with your browser for the documents.
 

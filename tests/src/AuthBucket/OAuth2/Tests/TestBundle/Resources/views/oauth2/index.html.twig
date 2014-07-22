@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <h1 class="page-header">Authorization Server</h1>
                 <blockquote>
-                    <p>The server issuing access tokens to the client after primaryfully authenticating the resource owner and obtaining authorization.</p>
+                    <p>The server issuing access tokens to the client after successfully authenticating the resource owner and obtaining authorization.</p>
                     <footer><a href="http://tools.ietf.org/html/rfc6749#section-1.1">1.1. Roles</a></footer>
                 </blockquote>
                 <p class="lead">Authorization server's endpoints usually without GUI, but just RESTful API interface. Read though <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> to see how we implement it.</p>
@@ -30,7 +30,7 @@
                     <li>Username: <code>demousername1</code></li>
                     <li>Password: <code>demopassword1</code></li>
                 </ul>
-                <p>After primaryful login, by default if access this endpoint without addition parameters, an error message <code>{"error":"invalid_request"}</code> should be shown in JSON format.</p>
+                <p>After successful login, by default if access this endpoint without addition parameters, an error message <code>{"error":"invalid_request"}</code> should be shown in JSON format.</p>
 
                 <h3>Token Endpoint <small>(<code>/oauth2/token</code>)</small></h3>
                 <blockquote>
@@ -51,15 +51,14 @@
                 <h3>Debug Endpoint <small>(<code>/oauth2/debug</code>)</small></h3>
                 <p class="lead"><a href="{{ path('oauth2_debug') }}">Debug Endpoint</a> clone the idea of <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#debug">Facebook's Debug API Endpoint</a>, return raw information of corresponding <code>debug_token</code> provided. Read though <a href="https://github.com/authbucket/oauth2/blob/master/app/config/security.php">security.php</a> and <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> for more information.</p>
                 <p>When working with an access token, you may need to check what information is associated with it, such as its user or expiry. To use this endpoint, you can issue a GET/POST request, e.g.:</p>
-                <pre><code>GET /oauth2/debug?
-    debug_token={debug_token}&amp;
-    access_token={access_token}</code></pre>
+                <pre><code class="http">GET /oauth2/debug?debug_token={debug_token}&amp;access_token={access_token} HTTP/1.1
+Host: server.example.com</code></pre>
                 <ul>
                     <li><code>debug_token</code>: the access token you want to get information about</li>
                     <li><code>access_token</code>: your app access token or a valid user access token from a developer of the app</li>
                 </ul>
                 <p>The response of the API call is a JSON array containing a map of fields. For example:</p>
-                <pre><code>{
+                <pre><code class="json">{
     "access_token": "5dc0bdbb2f66a842cb46a02b6d559131",
     "client_id": "authorization_code_grant",
     "expires": 1404641243,
