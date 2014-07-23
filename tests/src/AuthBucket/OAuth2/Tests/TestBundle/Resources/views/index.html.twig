@@ -18,7 +18,7 @@
                     <a href="https://packagist.org/packages/authbucket/oauth2"><img src="https://poser.pugx.org/authbucket/oauth2/downloads.svg" alt="Total Downloads" /></a>
                     <a href="https://packagist.org/packages/authbucket/oauth2"><img src="https://poser.pugx.org/authbucket/oauth2/license.svg" alt="License" /></a>
                 </p>
-                <p class="lead">The primary goal of <a href="http://oauth2.authbucket.com/">AuthBucket\OAuth2</a> is to develop a standards compliant <a href="http://tools.ietf.org/html/rfc6749">RFC6749 OAuth2.0</a> library; secondary goal would be develop corresponding wrapper <a href="http://symfony.com">Symfony2 Bundle</a> and <a href="https://www.drupal.org">Drupal module</a>.</p>
+                <p>The primary goal of <a href="http://oauth2.authbucket.com/">AuthBucket\OAuth2</a> is to develop a standards compliant <a href="http://tools.ietf.org/html/rfc6749">RFC6749 OAuth2.0</a> library; secondary goal would be develop corresponding wrapper <a href="http://symfony.com">Symfony2 Bundle</a> and <a href="https://www.drupal.org">Drupal module</a>.</p>
                 <p>This library bundle with a <a href="http://silex.sensiolabs.org/">Silex</a> based <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> for unit test and demo purpose. Installation and usage can refer as below.</p>
 
                 <h2 id="installation" class="page-header">Installation</h2>
@@ -26,7 +26,7 @@
                 <p>Here is a minimal example of a <code>composer.json</code>:</p>
 <pre><code class="json">{
     &quot;require&quot;: {
-        &quot;authbucket/oauth2&quot;: &quot;dev-master&quot;
+        &quot;authbucket/oauth2&quot;: &quot;~1.0&quot;
     }
 }</code></pre>
 
@@ -53,36 +53,32 @@
 
                 <h2 id="usage" class="page-header">Usage</h2>
                 <p class="lead">This library seperate the endpoint logic in frontend firewall and backend controller point of view, so you will need to setup both for functioning.</p>
+                <p>To enable the built-in controller with corresponding routing, setup as below:</p>
+<pre><code class="php">$app-&gt;mount(&#39;/oauth2&#39;, new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());</code></pre>
                 <p>Below is a list of recipes that cover some common use cases.</p>
 
                 <h3 id="authorization-endpoint">Authorization Endpoint</h3>
-                <p>We provide a service <code>authbucket_oauth2.authorize_controller</code> so authorization endpoint controller can setup as below:</p>
-<pre><code class="php">$app-&gt;get(&#39;/oauth2/authorize&#39;, &#39;authbucket_oauth2.authorize_controller:authorizeAction&#39;)
-    -&gt;bind(&#39;oauth2_authorize&#39;);</code></pre>
-                <p>By default this service controller don't provide authorize application page for scope confirmation request. You need to wrap above service controller with your own logic for such implementation, or reference our demo's <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Controller/AuthorizeController.php">AuthorizeController.php</a> for detail example. For testing, it can be setup as below:</p>
-<pre><code class="php">$app-&gt;register(new AuthBucket\OAuth2\Tests\TestBundle\TestBundleServiceProvider());
-
-$app-&gt;get(&#39;/oauth2/authorize&#39;, &#39;authbucket_oauth2.tests.authorize_controller:authorizeAction&#39;)
-    -&gt;bind(&#39;oauth2_authorize&#39;);</code></pre>
                 <p>We don't provide custom firewall for this endpoint, which you should protect it by yourself, authenticate and capture the user credential, e.g. by <a href="http://silex.sensiolabs.org/doc/providers/security.html">SecurityServiceProvider</a>:</p>
-<pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
+<pre><code class="php">$app[&#39;security.encoder.digest&#39;] = $app-&gt;share(function ($app) {
+    return new PlaintextPasswordEncoder();
+});
+
+$app[&#39;security.user_provider.default&#39;] = $app[&#39;security.user_provider.inmemory._proto&#39;](array(
+    &#39;demousername1&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword1&#39;),
+    &#39;demousername2&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword2&#39;),
+    &#39;demousername3&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword3&#39;),
+));
+
+$app[&#39;security.firewalls&#39;] = array(
     &#39;oauth2_authorize&#39; =&gt; array(
         &#39;pattern&#39; =&gt; &#39;^/oauth2/authorize$&#39;,
         &#39;http&#39; =&gt; true,
-        &#39;users&#39; =&gt; array(
-            &#39;demousername1&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword1&#39;),
-            &#39;demousername2&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword2&#39;),
-            &#39;demousername3&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword3&#39;),
-        ),
+        &#39;users&#39; =&gt; $app[&#39;security.user_provider.default&#39;],
     ),
 );</code></pre>
 
                 <h3 id="token-endpoint">Token Endpoint</h3>
-                <p>Similar as authorization endpoint, token endpoint controller can setup by utilize service <code>authbucket_oauth2.token_controller</code> as below:</p>
-<pre><code class="php">$app-&gt;match(&#39;/oauth2/token&#39;, function (Request $request, Application $app) {
-    return $app[&#39;authbucket_oauth2.token_controller&#39;]-&gt;tokenAction($request);
-})-&gt;bind(&#39;oauth2_token&#39;);</code></pre>
-                <p>Moreover, we need to protect this endpoint with our custom firewall <code>oauth2_token</code>:</p>
+                <p>Similar as authorization endpoint, we need to protect this endpoint with our custom firewall <code>oauth2_token</code>:</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
     &#39;oauth2_token&#39; =&gt; array(
         &#39;pattern&#39; =&gt; &#39;^/oauth2/token$&#39;,
@@ -91,11 +87,7 @@ $app-&gt;get(&#39;/oauth2/authorize&#39;, &#39;authbucket_oauth2.tests.authorize
 );</code></pre>
 
                 <h3 id="debug-endpoint">Debug Endpoint</h3>
-                <p>Debug endpoint controller setup can utilize service <code>authbucket_oauth2.debug_controller</code>:</p>
-<pre><code class="php">$app-&gt;match(&#39;/oauth2/debug&#39;, function (Request $request, Application $app) {
-    return $app[&#39;authbucket_oauth2.debug_controller&#39;]-&gt;debugAction($request);
-})-&gt;bind(&#39;oauth2_debug&#39;);</code></pre>
-                <p>Then we should protect this endpoint with our custom firewall <code>oauth2_resource</code> (scope <code>debug</code> is required for remote resource server query functioning):</p>
+                <p>We should protect this endpoint with our custom firewall <code>oauth2_resource</code> (scope <code>debug</code> is required for remote resource server query functioning):</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
    &#39;oauth2_debug&#39; =&gt; array(
        &#39;pattern&#39; =&gt; &#39;^/oauth2/debug$&#39;,

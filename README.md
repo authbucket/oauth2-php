@@ -35,7 +35,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2": "dev-master"
+            "authbucket/oauth2": "~1.0"
         }
     }
 
@@ -86,56 +86,42 @@ This library seperate the endpoint logic in frontend firewall and
 backend controller point of view, so you will need to setup both for
 functioning.
 
+To enable the built-in controller with corresponding routing, setup as
+below:
+
+    $app->mount('/oauth2', new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
+
 Below is a list of recipes that cover some common use cases.
 
 ### Authorization Endpoint
-
-We provide a service `authbucket_oauth2.authorize_controller` so
-authorization endpoint controller can setup as below:
-
-    $app->get('/oauth2/authorize', 'authbucket_oauth2.authorize_controller:authorizeAction')
-        ->bind('oauth2_authorize');
-
-By default this service controller don't provide authorize application
-page for scope confirmation request. You need to wrap above service
-controller with your own logic for such implementation, or reference our
-demo's
-[AuthorizeController.php](https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Controller/AuthorizeController.php)
-for detail example. For testing, it can be setup as below:
-
-    $app->register(new AuthBucket\OAuth2\Tests\TestBundle\TestBundleServiceProvider());
-
-    $app->get('/oauth2/authorize', 'authbucket_oauth2.tests.authorize_controller:authorizeAction')
-        ->bind('oauth2_authorize');
 
 We don't provide custom firewall for this endpoint, which you should
 protect it by yourself, authenticate and capture the user credential,
 e.g. by
 [SecurityServiceProvider](http://silex.sensiolabs.org/doc/providers/security.html):
 
+    $app['security.encoder.digest'] = $app->share(function ($app) {
+        return new PlaintextPasswordEncoder();
+    });
+
+    $app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto'](array(
+        'demousername1' => array('ROLE_USER', 'demopassword1'),
+        'demousername2' => array('ROLE_USER', 'demopassword2'),
+        'demousername3' => array('ROLE_USER', 'demopassword3'),
+    ));
+
     $app['security.firewalls'] = array(
         'oauth2_authorize' => array(
             'pattern' => '^/oauth2/authorize$',
             'http' => true,
-            'users' => array(
-                'demousername1' => array('ROLE_USER', 'demopassword1'),
-                'demousername2' => array('ROLE_USER', 'demopassword2'),
-                'demousername3' => array('ROLE_USER', 'demopassword3'),
-            ),
+            'users' => $app['security.user_provider.default'],
         ),
     );
 
 ### Token Endpoint
 
-Similar as authorization endpoint, token endpoint controller can setup
-by utilize service `authbucket_oauth2.token_controller` as below:
-
-    $app->match('/oauth2/token', function (Request $request, Application $app) {
-        return $app['authbucket_oauth2.token_controller']->tokenAction($request);
-    })->bind('oauth2_token');
-
-Moreover, we need to protect this endpoint with our custom firewall
-`oauth2_token`:
+Similar as authorization endpoint, we need to protect this endpoint with
+our custom firewall `oauth2_token`:
 
     $app['security.firewalls'] = array(
         'oauth2_token' => array(
@@ -146,14 +132,7 @@ Moreover, we need to protect this endpoint with our custom firewall
 
 ### Debug Endpoint
 
-Debug endpoint controller setup can utilize service
-`authbucket_oauth2.debug_controller`:
-
-    $app->match('/oauth2/debug', function (Request $request, Application $app) {
-        return $app['authbucket_oauth2.debug_controller']->debugAction($request);
-    })->bind('oauth2_debug');
-
-Then we should protect this endpoint with our custom firewall
+We should protect this endpoint with our custom firewall
 `oauth2_resource` (scope `debug` is required for remote resource server
 query functioning):
 

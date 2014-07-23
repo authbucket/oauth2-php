@@ -16,14 +16,15 @@ use AuthBucket\OAuth2\Controller\DebugController;
 use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\EventListener\ExceptionListener;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
+use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use AuthBucket\OAuth2\Security\Authentication\Provider\ResourceProvider;
 use AuthBucket\OAuth2\Security\Authentication\Provider\TokenProvider;
 use AuthBucket\OAuth2\Security\Firewall\ResourceListener;
 use AuthBucket\OAuth2\Security\Firewall\TokenListener;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory;
-use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory;
 use Silex\Application;
+use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -32,7 +33,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
+class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, ControllerProviderInterface
 {
     public function register(Application $app)
     {
@@ -217,5 +218,16 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
     public function boot(Application $app)
     {
         $app['dispatcher']->addListener(KernelEvents::EXCEPTION, array($app['authbucket_oauth2.exception_listener'], 'onKernelException'), -8);
+    }
+
+    public function connect(Application $app)
+    {
+        $controllers = $app['controllers_factory'];
+
+        $app->match('/oauth2/authorize', 'authbucket_oauth2.authorize_controller:authorizeAction')->bind('oauth2_authorize');
+        $app->match('/oauth2/token', 'authbucket_oauth2.token_controller:tokenAction')->bind('oauth2_token');
+        $app->match('/oauth2/debug', 'authbucket_oauth2.debug_controller:debugAction')->bind('oauth2_debug');
+
+        return $controllers;
     }
 }
