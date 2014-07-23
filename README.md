@@ -19,6 +19,11 @@ OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://symfony.com) and [Drupal module](https://www.drupal.org).
 
+This library bundle with a [Silex](http://silex.sensiolabs.org/) based
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+for unit test and demo purpose. Installation and usage can refer as
+below.
+
 Installation
 ------------
 
@@ -36,6 +41,10 @@ Here is a minimal example of a `composer.json`:
 
 ### Parameters
 
+The bundled
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+come with following parameters:
+
 -   `authbucket_oauth2.model_manager.factory`: Override this with your
     backend model manager factory, e.g. initialized with Doctrine ORM.
 -   `authbucket_oauth2.user_provider`: (Optional) For using
@@ -45,6 +54,10 @@ Here is a minimal example of a `composer.json`:
 
 ### Services
 
+The bundled
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+come with following services which simplify the implementation overhead:
+
 -   `authbucket_oauth2.authorize_controller`: Authorization endpoint
     controller.
 -   `authbucket_oauth2.token_controller`: Token endpoint controller.
@@ -52,28 +65,32 @@ Here is a minimal example of a `composer.json`:
 
 ### Registering
 
+If you are using [Silex](http://silex.sensiolabs.org/), register
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+as below:
+
     $app->register(new AuthBucketOAuth2ServiceProvider());
 
 Usage
 -----
 
-In this library we seperate the logic from frontend firewall and backend
-controller point of view, so you will need to setup both for
+This library seperate the endpoint logic in frontend firewall and
+backend controller point of view, so you will need to setup both for
 functioning.
 
 Below is a list of recipes that cover some common use cases.
 
 ### Authorization Endpoint
 
-Basically we just provide a service
-`authbucket_oauth2.authorize_controller` so authorization endpoint
-backend can setup as below:
+We provide a service `authbucket_oauth2.authorize_controller` so
+authorization endpoint controller can setup as below:
 
     $app->get('/oauth2/authorize', function (Request $request, Application $app) {
         return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
     })->bind('oauth2_authorize');
 
-You should protect this endpoint with user credential authentication,
+We don't provide custom firewall for this endpoint, which you should
+protect it by yourself, authenticate and capture the user credential,
 e.g. by
 [SecurityServiceProvider](http://silex.sensiolabs.org/doc/providers/security.html):
 
@@ -91,15 +108,15 @@ e.g. by
 
 ### Token Endpoint
 
-Similar as authorization endpoint, token endpoint backup can setup by
-utilize server `authbucket_oauth2.token_controller` as below:
+Similar as authorization endpoint, token endpoint controller can setup
+by utilize service `authbucket_oauth2.token_controller` as below:
 
     $app->match('/oauth2/token', function (Request $request, Application $app) {
         return $app['authbucket_oauth2.token_controller']->tokenAction($request);
     })->bind('oauth2_token');
 
-Moreover, we need to protect this endpoint with our custom
-`oauth2_token` firewall rule:
+Moreover, we need to protect this endpoint with our custom firewall
+`oauth2_token`:
 
     $app['security.firewalls'] = array(
         'oauth2_token' => array(
@@ -110,16 +127,15 @@ Moreover, we need to protect this endpoint with our custom
 
 ### Debug Endpoint
 
-Debug endpoint is useful for both internal debugging, and allow remote
-resource server to verify if supplied access token valid or not. Setup
-debug endpoint backend as below:
+Debug endpoint controller setup can utilize service
+`authbucket_oauth2.debug_controller`:
 
     $app->match('/oauth2/debug', function (Request $request, Application $app) {
         return $app['authbucket_oauth2.debug_controller']->debugAction($request);
     })->bind('oauth2_debug');
 
-Then we should protect this endpoint with our custom `oauth2_resource`
-firewall rule (scope `debug` is required for remote resource server
+Then we should protect this endpoint with our custom firewall
+`oauth2_resource` (scope `debug` is required for remote resource server
 query functioning):
 
     $app['security.firewalls'] = array(
@@ -133,11 +149,15 @@ query functioning):
 
 ### Resource Endpoint
 
-You can utilize our custom `oauth2_resource` firewall to protect local
-resource endpoint.
+We don't provide other else resource endpoint controller implementation
+besides above debug endpoint. You should consider implement your own
+endpoint with custom logic, e.g. fetching user email address or profile
+image.
 
-Shorthand version (default query local model manager, without scope
-protection):
+On the other hand, you can protect your resource server endpoint with
+our custom firewall `oauth2_resource`. Shorthand version (default assume
+resource server bundled with authorization server, query local model
+manager, without scope protection):
 
     $app['security.firewalls'] = array(
         'resource' => array(
@@ -146,8 +166,8 @@ protection):
         ),
     );
 
-Longhand version (query local model manager, protect with scope
-`demoscope1`):
+Longhand version (assume resource server bundled with authorization
+server, query local model manager, protect with scope `demoscope1`):
 
     $app['security.firewalls'] = array(
         'resource' => array(
@@ -159,8 +179,8 @@ Longhand version (query local model manager, protect with scope
         ),
     );
 
-If authorization server is hosting somewhere else, you can protect with
-our resource endpoint by query remote authorization server debug
+If authorization server is hosting somewhere else, you can protect your
+local resource endpoint by query remote authorization server debug
 endpoint:
 
     $app['security.firewalls'] = array(
@@ -182,7 +202,7 @@ endpoint:
 Demo
 ----
 
-This library bundle with a [Silex](http://silex.sensiolabs.org/) based
+The demo is based on [Silex](http://silex.sensiolabs.org/) and
 [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php).
 Read though [Demo](http://oauth2.authbucket.com/demo) for more
 information.
