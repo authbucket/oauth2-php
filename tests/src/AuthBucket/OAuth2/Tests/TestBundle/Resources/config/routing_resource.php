@@ -9,35 +9,20 @@
  * file that was distributed with this source code.
  */
 
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
+$app->get('/resource', 'testbundle.resource_controller:resourceIndexAction')
+    ->bind('resource_index');
 
-// Resource, index.
-$app->get('/resource', function (Request $request) use ($app) {
-    return $app['twig']->render('resource/index.html.twig');
-})->bind('resource_index');
+$app->match('/resource/resource_type/model', 'authbucket_oauth2.debug_controller:debugAction')
+    ->bind('resource_debug_model');
 
-// Resource, resource type, model.
-$app->match('/resource/resource_type/model', function (Request $request, Application $app) {
-    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
-})->bind('resource_debug_model');
+$app->match('/resource/resource_type/debug_endpoint', 'authbucket_oauth2.debug_controller:debugAction')
+    ->bind('resource_debug_debug_endpoint');
 
-// Resource, resource type, debug endpoint.
-$app->match('/resource/resource_type/debug_endpoint', function (Request $request, Application $app) {
-    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
-})->bind('resource_debug_debug_endpoint');
+$app->match('/resource/resource_type/debug_endpoint/cache', 'authbucket_oauth2.debug_controller:debugAction')
+    ->bind('resource_debug_debug_endpoint_cache');
 
-// Resource, resource type, debug endpoint, cache enabled.
-$app->match('/resource/resource_type/debug_endpoint/cache', function (Request $request, Application $app) {
-    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
-})->bind('resource_debug_debug_endpoint_cache');
+$app->match('/resource/resource_type/debug_endpoint/invalid_options', 'authbucket_oauth2.debug_controller:debugAction')
+    ->bind('resource_debug_debug_endpoint_invalid_options');
 
-// Resource, resource type, debug endpoint, invalid options.
-$app->match('/resource/resource_type/debug_endpoint/invalid_options', function (Request $request, Application $app) {
-    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
-})->bind('resource_debug_debug_endpoint_invalid_options');
-
-// Resource, resource type, debug endpoint, invalid client.
-$app->match('/resource/resource_type/debug_endpoint/invalid_client', function (Request $request, Application $app) {
-    return $app['authbucket_oauth2.debug_controller']->debugAction($request);
-})->bind('resource_debug_debug_endpoint_invalid_client');
+$app->match('/resource/resource_type/debug_endpoint/invalid_client', 'authbucket_oauth2.debug_controller:debugAction')
+    ->bind('resource_debug_debug_endpoint_invalid_client');

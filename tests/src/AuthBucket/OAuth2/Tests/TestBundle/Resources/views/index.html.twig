@@ -38,7 +38,7 @@
                 </ul>
 
                 <h3 id="services">Services</h3>
-                <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services which simplify the implementation overhead:</p>
+                <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services controller which simplify the implementation overhead:</p>
                 <ul>
                     <li><code>authbucket_oauth2.authorize_controller</code>: Authorization endpoint controller.</li>
                     <li><code>authbucket_oauth2.token_controller</code>: Token endpoint controller.</li>
@@ -47,17 +47,21 @@
 
                 <h3 id="registering">Registering</h3>
                 <p>If you are using <a href="http://silex.sensiolabs.org/">Silex</a>, register <a href="https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> as below:</p>
-<pre><code class="php">$app-&gt;register(new AuthBucketOAuth2ServiceProvider());</code></pre>
+<pre><code class="php">$app-&gt;register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());</code></pre>
+                <p>Moreover, if you hope to use this shorthand service controller syntax provided by <a href="http://silex.sensiolabs.org/doc/providers/service_controller.html">ServiceControllerServiceProvider</a> as below example, also enable it if that's not already the case:</p>
+<pre><code class="php">$app-&gt;register(new Silex\Provider\ServiceControllerServiceProvider());</code></pre>
 
                 <h2 id="usage" class="page-header">Usage</h2>
                 <p class="lead">This library seperate the endpoint logic in frontend firewall and backend controller point of view, so you will need to setup both for functioning.</p>
                 <p>Below is a list of recipes that cover some common use cases.</p>
 
                 <h3 id="authorization-endpoint">Authorization Endpoint</h3>
+                <blockquote>
+                    <p>By default this service controller don't provide application authorization page for required scope confirmation. You need to wrap this service controller with your own logic for such implementation, or reference our demo's <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> for detail example.</p>
+                </blockquote>
                 <p>We provide a service <code>authbucket_oauth2.authorize_controller</code> so authorization endpoint controller can setup as below:</p>
-<pre><code class="php">$app-&gt;get(&#39;/oauth2/authorize&#39;, function (Request $request, Application $app) {
-    return $app[&#39;authbucket_oauth2.authorize_controller&#39;]-&gt;authorizeAction($request);
-})-&gt;bind(&#39;oauth2_authorize&#39;);</code></pre>
+<pre><code class="php">$app->get('/oauth2/authorize', 'authbucket_oauth2.authorize_controller:authorizeAction')
+    ->bind('oauth2_authorize');</code></pre>
                 <p>We don't provide custom firewall for this endpoint, which you should protect it by yourself, authenticate and capture the user credential, e.g. by <a href="http://silex.sensiolabs.org/doc/providers/security.html">SecurityServiceProvider</a>:</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
     &#39;oauth2_authorize&#39; =&gt; array(
@@ -100,7 +104,7 @@
 );</code></pre>
 
                 <h3 id="resource-endpoint">Resource Endpoint</h3>
-                <p>We don't provide other else resource endpoint controller implementation besides above debug endpoint. You should consider implement your own endpoint with custom logic, e.g. fetching user email address or profile image.</p> 
+                <p>We don't provide other else resource endpoint controller implementation besides above debug endpoint. You should consider implement your own endpoint with custom logic, e.g. fetching user email address or profile image.</p>
                 <p>On the other hand, you can protect your resource server endpoint with our custom firewall <code>oauth2_resource</code>. Shorthand version (default assume resource server bundled with authorization server, query local model manager, without scope protection):</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
     &#39;resource&#39; =&gt; array(

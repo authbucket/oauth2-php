@@ -9,55 +9,13 @@
  * file that was distributed with this source code.
  */
 
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\Common\Persistence\PersistentObject;
-use Doctrine\ORM\Tools\SchemaTool;
-use Symfony\Component\HttpFoundation\Request;
-
 require __DIR__ . '/routing_client.php';
 require __DIR__ . '/routing_demo.php';
 require __DIR__ . '/routing_oauth2.php';
 require __DIR__ . '/routing_resource.php';
 
-// Index.
-$app->get('/', function (Request $request) use ($app) {
-    return $app['twig']->render('index.html.twig');
-})->bind('index');
+$app->get('/', 'testbundle.default_controller:indexAction')
+    ->bind('index');
 
-// Admin, flush database.
-$app->get('/admin/refresh_database', function (Request $request) use ($app) {
-    $conn = $app['db'];
-    $em = $app['authbucket_oauth2.orm'];
-
-    $params = $conn->getParams();
-    $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
-
-    try {
-        $conn->getSchemaManager()->dropDatabase($name);
-        $conn->getSchemaManager()->createDatabase($name);
-        $conn->close();
-    } catch (\Exception $e) {
-        return 1;
-    }
-
-    $classes = array();
-    foreach ($app['authbucket_oauth2.model'] as $class) {
-        $classes[] = $em->getClassMetadata($class);
-    }
-
-    PersistentObject::setObjectManager($em);
-    $tool = new SchemaTool($em);
-    $tool->dropSchema($classes);
-    $tool->createSchema($classes);
-
-    $purger = new ORMPurger();
-    $executor = new ORMExecutor($em, $purger);
-
-    $loader = new Loader();
-    $loader->loadFromDirectory(__DIR__ . '/../../DataFixtures/ORM');
-    $executor->execute($loader->getFixtures());
-
-    return $app->redirect($app['url_generator']->generate('index'));
-})->bind('admin_refresh_database');
+$app->get('/admin/refresh_database', 'testbundle.default_controller:adminRefreshDatabaseAction')
+    ->bind('admin_refresh_database');

@@ -9,9 +9,5 @@
  * file that was distributed with this source code.
  */
 
-use Symfony\Component\HttpFoundation\Request;
-
-// Client, index.
-$app->get('/client', function (Request $request) use ($app) {
-    return $app['twig']->render('client/index.html.twig');
-})->bind('client_index');
+$app->get('/client', 'testbundle.client_controller:clientIndexAction')
+    ->bind('client_index');
