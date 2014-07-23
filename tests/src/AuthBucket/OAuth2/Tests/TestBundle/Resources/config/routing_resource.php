@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-$app->get('/resource', 'testbundle.resource_controller:resourceIndexAction')
+$app->get('/resource', 'authbucket_oauth2.tests.resource_controller:resourceIndexAction')
     ->bind('resource_index');
 
 $app->match('/resource/resource_type/model', 'authbucket_oauth2.debug_controller:debugAction')

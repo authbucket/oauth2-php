@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-$app->get('/oauth2', 'testbundle.oauth2_controller:oauth2IndexAction')
+$app->get('/oauth2', 'authbucket_oauth2.tests.oauth2_controller:oauth2IndexAction')
     ->bind('oauth2_index');
 
-$app->get('/oauth2/login', 'testbundle.oauth2_controller:oauth2LoginAction')
+$app->get('/oauth2/login', 'authbucket_oauth2.tests.oauth2_controller:oauth2LoginAction')
     ->bind('oauth2_login');
 
 $app->get('/oauth2/authorize/http', 'authbucket_oauth2.authorize_controller:authorizeAction')
     ->bind('oauth2_authorize_http');
 
-$app->match('/oauth2/authorize', 'testbundle.authorize_controller:authorizeAction')
+$app->match('/oauth2/authorize', 'authbucket_oauth2.tests.authorize_controller:authorizeAction')
     ->bind('oauth2_authorize');
 
 $app->match('/oauth2/token', 'authbucket_oauth2.token_controller:tokenAction')

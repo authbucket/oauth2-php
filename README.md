@@ -56,7 +56,8 @@ come with following parameters:
 
 The bundled
 [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
-come with following services which simplify the implementation overhead:
+come with following services controller which simplify the
+implementation overhead:
 
 -   `authbucket_oauth2.authorize_controller`: Authorization endpoint
     controller.
@@ -69,7 +70,14 @@ If you are using [Silex](http://silex.sensiolabs.org/), register
 [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 as below:
 
-    $app->register(new AuthBucketOAuth2ServiceProvider());
+    $app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
+
+Moreover, if you hope to use this shorthand service controller syntax
+provided by
+[ServiceControllerServiceProvider](http://silex.sensiolabs.org/doc/providers/service_controller.html)
+as below example, also enable it if that's not already the case:
+
+    $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 
 Usage
 -----
@@ -85,9 +93,20 @@ Below is a list of recipes that cover some common use cases.
 We provide a service `authbucket_oauth2.authorize_controller` so
 authorization endpoint controller can setup as below:
 
-    $app->get('/oauth2/authorize', function (Request $request, Application $app) {
-        return $app['authbucket_oauth2.authorize_controller']->authorizeAction($request);
-    })->bind('oauth2_authorize');
+    $app->get('/oauth2/authorize', 'authbucket_oauth2.authorize_controller:authorizeAction')
+        ->bind('oauth2_authorize');
+
+By default this service controller don't provide authorize application
+page for scope confirmation request. You need to wrap above service
+controller with your own logic for such implementation, or reference our
+demo's
+[AuthorizeController.php](https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Controller/AuthorizeController.php)
+for detail example. For testing, it can be setup as below:
+
+    $app->register(new AuthBucket\OAuth2\Tests\TestBundle\TestBundleServiceProvider());
+
+    $app->get('/oauth2/authorize', 'authbucket_oauth2.tests.authorize_controller:authorizeAction')
+        ->bind('oauth2_authorize');
 
 We don't provide custom firewall for this endpoint, which you should
 protect it by yourself, authenticate and capture the user credential,

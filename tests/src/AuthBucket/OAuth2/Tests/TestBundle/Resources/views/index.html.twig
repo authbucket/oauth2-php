@@ -56,12 +56,14 @@
                 <p>Below is a list of recipes that cover some common use cases.</p>
 
                 <h3 id="authorization-endpoint">Authorization Endpoint</h3>
-                <blockquote>
-                    <p>By default this service controller don't provide application authorization page for required scope confirmation. You need to wrap this service controller with your own logic for such implementation, or reference our demo's <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> for detail example.</p>
-                </blockquote>
                 <p>We provide a service <code>authbucket_oauth2.authorize_controller</code> so authorization endpoint controller can setup as below:</p>
-<pre><code class="php">$app->get('/oauth2/authorize', 'authbucket_oauth2.authorize_controller:authorizeAction')
-    ->bind('oauth2_authorize');</code></pre>
+<pre><code class="php">$app-&gt;get(&#39;/oauth2/authorize&#39;, &#39;authbucket_oauth2.authorize_controller:authorizeAction&#39;)
+    -&gt;bind(&#39;oauth2_authorize&#39;);</code></pre>
+                <p>By default this service controller don't provide authorize application page for scope confirmation request. You need to wrap above service controller with your own logic for such implementation, or reference our demo's <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Controller/AuthorizeController.php">AuthorizeController.php</a> for detail example. For testing, it can be setup as below:</p>
+<pre><code class="php">$app-&gt;register(new AuthBucket\OAuth2\Tests\TestBundle\TestBundleServiceProvider());
+
+$app-&gt;get(&#39;/oauth2/authorize&#39;, &#39;authbucket_oauth2.tests.authorize_controller:authorizeAction&#39;)
+    -&gt;bind(&#39;oauth2_authorize&#39;);</code></pre>
                 <p>We don't provide custom firewall for this endpoint, which you should protect it by yourself, authenticate and capture the user credential, e.g. by <a href="http://silex.sensiolabs.org/doc/providers/security.html">SecurityServiceProvider</a>:</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
     &#39;oauth2_authorize&#39; =&gt; array(
