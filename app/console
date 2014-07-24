@@ -34,7 +34,7 @@ set_time_limit(0);
 
 require __DIR__ . '/bootstrap.php';
 
-$console = new Application('OAuth2', '0.1');
+$console = new Application('AuthBucket\OAuth2', '1.0.0');
 $console->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', 'prod'));
 $console->getDefinition()->addOption(new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'));
 
