@@ -20,23 +20,15 @@ $app['security.user_provider.admin'] = $app['security.user_provider.inmemory._pr
 ));
 
 $app['security.firewalls'] = array(
-    // Protect admin related links, e.g. refresh database.
     'admin' => array(
         'pattern' => '^/admin',
         'http' => true,
         'users' => $app['security.user_provider.admin'],
     ),
-    // The login_path path must always be defined outside the secured area.
-    // @link http://silex.sensiolabs.org/doc/providers/security.html#securing-a-path-with-a-form
     'oauth2_login' => array(
         'pattern' => '^/oauth2/login$',
         'anonymous' => true,
     ),
-    // The authorization server MUST first verify the identity of the resource
-    // owner. The way in which the authorization server authenticates the
-    // resource owner (e.g., username and password login, session cookies) is
-    // beyond the scope of this specification.
-    // @link http://tools.ietf.org/html/rfc6749#section-3.1
     'oauth2_authorize_http' => array(
         'pattern' => '^/oauth2/authorize/http$',
         'http' => true,
@@ -54,22 +46,10 @@ $app['security.firewalls'] = array(
         ),
         'users' => $app['security.user_provider.default'],
     ),
-    // The authorization server MUST support the HTTP Basic authentication
-    // scheme for authenticating clients that were issued a client password.
-    // Alternatively, the authorization server MAY support including the client
-    // credentials in the request-body.
-    // @link http://tools.ietf.org/html/rfc6749#section-2.3.1
     'oauth2_token' => array(
         'pattern' => '^/oauth2/token$',
         'oauth2_token' => true,
     ),
-    // The resource server MUST validate the access token and ensure that it has
-    // not expired and that its scope covers the requested resource. The methods
-    // used by the resource server to validate the access token (as well as any
-    // error responses) are beyond the scope of this specification but generally
-    // involve an interaction or coordination between the resource server and
-    // the authorization server.
-    // @link http://tools.ietf.org/html/rfc6749#section-7
     'oauth2_debug' => array(
         'pattern' => '^/oauth2/debug$',
         'oauth2_resource' => array(
