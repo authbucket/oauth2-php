@@ -24,10 +24,6 @@ class DemoController
 
     public function demoAuthorizeCodeAction(Request $request, Application $app)
     {
-        if (!$app['session']->isStarted()) {
-            $app['session']->start();
-        }
-
         $scopeManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('scope');
         $scope = $scopeManager->createScope()
             ->setScope(substr(md5(uniqid(null, true)), 0, 8));
@@ -48,10 +44,6 @@ class DemoController
 
     public function demoAuthorizeTokenAction(Request $request, Application $app)
     {
-        if (!$app['session']->isStarted()) {
-            $app['session']->start();
-        }
-
         $scopeManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('scope');
         $scope = $scopeManager->createScope()
             ->setScope(substr(md5(uniqid(null, true)), 0, 8));
@@ -142,10 +134,6 @@ class DemoController
 
     public function demoGrantTypePasswordAction(Request $request, Application $app)
     {
-        if (!$app['session']->isStarted()) {
-            $app['session']->start();
-        }
-
         $parameters = array(
             'grant_type' => 'password',
             'username' => 'demousername1',

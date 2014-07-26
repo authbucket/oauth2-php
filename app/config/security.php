@@ -9,6 +9,12 @@
  * file that was distributed with this source code.
  */
 
+use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
+
+$app['security.encoder.digest'] = $app->share(function ($app) {
+    return new PlaintextPasswordEncoder();
+});
+
 $app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto'](array(
     'demousername1' => array('ROLE_USER', 'demopassword1'),
     'demousername2' => array('ROLE_USER', 'demopassword2'),
