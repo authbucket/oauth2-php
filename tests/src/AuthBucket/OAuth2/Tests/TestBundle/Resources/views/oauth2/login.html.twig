@@ -14,7 +14,7 @@
 
                 <h2 class="page-header">Login Form</h2>
                 <form action="{{ path('oauth2_authorize_login_check') }}" method="post" role="form">
-                    {% if error is defined %}
+                    {% if error is not empty %}
                         <div class="alert alert-danger alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
                             {{ error }}
@@ -22,11 +22,11 @@
                     {% endif %}
                     <div class="form-group">
                         <label>Username</label>
-                        <input class="form-control" type="text" name="_username" value="demousername1" />
+                        <input class="form-control" type="text" name="_username" value="{{ _username }}" />
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input class="form-control" type="password" name="_password" value="demopassword1" />
+                        <input class="form-control" type="password" name="_password" value="{{ _password }}" />
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit" name="submit">Login</button>

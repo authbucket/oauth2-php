@@ -52,7 +52,7 @@ class AuthorizeController
             // Save authorization.
             $authorize->setClientId($clientId)
                 ->setUsername($username)
-                ->setScope(array_merge($authorize->getScope(), $scope));
+                ->setScope(array_merge((array) $authorize->getScope(), $scope));
             $authorizeManager->updateAuthorize($authorize);
 
             // Back to this path, with original GET parameters.

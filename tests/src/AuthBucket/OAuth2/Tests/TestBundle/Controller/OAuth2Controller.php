@@ -23,10 +23,16 @@ class OAuth2Controller
 
     public function oauth2LoginAction(Request $request, Application $app)
     {
+        $session = $request->getSession();
+
         $error = $app['security.last_error']($request);
+        $_username = $session->get('_username');
+        $_password = $session->get('_password');
 
         return $app['twig']->render('oauth2/login.html.twig', array(
             'error' => $error,
+            '_username' => $_username,
+            '_password' => $_password,
         ));
     }
 }

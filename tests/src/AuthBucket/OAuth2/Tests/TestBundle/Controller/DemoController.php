@@ -26,16 +26,26 @@ class DemoController
     {
         $session = $request->getSession();
 
-        $scopeManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('scope');
-        $scope = $scopeManager->createScope()
-            ->setScope(substr(md5(uniqid(null, true)), 0, 8));
-        $scopeManager->updateScope($scope);
+        $_username = $session->get('_username', substr(md5(uniqid(null, true)), 0, 8));
+        $_password = $session->get('_password', substr(md5(uniqid(null, true)), 0, 8));
+
+        $session->set('_username', $_username);
+        $session->set('_password', $_password);
+
+        $userManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('user');
+        $user = $userManager->createUser()
+            ->setUsername($_username)
+            ->setPassword($_password)
+            ->setRoles(array(
+                'ROLE_USER',
+            ));
+        $userManager->updateUser($user);
 
         $parameters = array(
             'response_type' => 'code',
             'client_id' => 'authorization_code_grant',
             'redirect_uri' => $request->getUriForPath('/demo/response_type/code'),
-            'scope' => 'demoscope1 ' . $scope->getScope(),
+            'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => $session->getId(),
         );
 
@@ -48,16 +58,26 @@ class DemoController
     {
         $session = $request->getSession();
 
-        $scopeManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('scope');
-        $scope = $scopeManager->createScope()
-            ->setScope(substr(md5(uniqid(null, true)), 0, 8));
-        $scopeManager->updateScope($scope);
+        $_username = $session->get('_username', substr(md5(uniqid(null, true)), 0, 8));
+        $_password = $session->get('_password', substr(md5(uniqid(null, true)), 0, 8));
+
+        $session->set('_username', $_username);
+        $session->set('_password', $_password);
+
+        $userManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('user');
+        $user = $userManager->createUser()
+            ->setUsername($_username)
+            ->setPassword($_password)
+            ->setRoles(array(
+                'ROLE_USER',
+            ));
+        $userManager->updateUser($user);
 
         $parameters = array(
             'response_type' => 'token',
             'client_id' => 'implicit_grant',
             'redirect_uri' => $request->getUriForPath('/demo/response_type/token'),
-            'scope' => 'demoscope1 ' . $scope->getScope(),
+            'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => $session->getId(),
         );
 
