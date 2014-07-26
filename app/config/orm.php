@@ -45,6 +45,7 @@ $app['authbucket_oauth2.model'] = array(
     'code' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Code',
     'refresh_token' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\RefreshToken',
     'scope' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Scope',
+    'user' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\User',
 );
 
 // Add model managers from ORM.
