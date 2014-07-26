@@ -24,6 +24,8 @@ class DemoController
 
     public function demoAuthorizeCodeAction(Request $request, Application $app)
     {
+        $session = $request->getSession();
+
         $scopeManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('scope');
         $scope = $scopeManager->createScope()
             ->setScope(substr(md5(uniqid(null, true)), 0, 8));
@@ -34,7 +36,7 @@ class DemoController
             'client_id' => 'authorization_code_grant',
             'redirect_uri' => $request->getUriForPath('/demo/response_type/code'),
             'scope' => 'demoscope1 ' . $scope->getScope(),
-            'state' => $app['session']->getId(),
+            'state' => $session->getId(),
         );
 
         $url = Request::create($request->getUriForPath('/oauth2/authorize'), 'GET', $parameters)->getUri();
@@ -44,6 +46,8 @@ class DemoController
 
     public function demoAuthorizeTokenAction(Request $request, Application $app)
     {
+        $session = $request->getSession();
+
         $scopeManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('scope');
         $scope = $scopeManager->createScope()
             ->setScope(substr(md5(uniqid(null, true)), 0, 8));
@@ -54,7 +58,7 @@ class DemoController
             'client_id' => 'implicit_grant',
             'redirect_uri' => $request->getUriForPath('/demo/response_type/token'),
             'scope' => 'demoscope1 ' . $scope->getScope(),
-            'state' => $app['session']->getId(),
+            'state' => $session->getId(),
         );
 
         $url = Request::create($request->getUriForPath('/oauth2/authorize'), 'GET', $parameters)->getUri();
@@ -139,7 +143,6 @@ class DemoController
             'username' => 'demousername1',
             'password' => 'demopassword1',
             'scope' => 'demoscope1',
-            'state' => $app['session']->getId(),
         );
         $server = array(
             'PHP_AUTH_USER' => 'resource_owner_password_credentials_grant',

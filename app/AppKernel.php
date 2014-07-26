@@ -19,6 +19,7 @@ use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
+use Symfony\Component\HttpFoundation\Request;
 
 $app->register(new AuthBucketOAuth2ServiceProvider());
 $app->register(new DoctrineServiceProvider());
@@ -33,3 +34,7 @@ $app->register(new UrlGeneratorServiceProvider());
 
 require __DIR__ . '/config/config_' . $app['env'] . '.php';
 require __DIR__ . '/config/routing_' . $app['env'] . '.php';
+
+$app->before(function (Request $request) use ($app) {
+    $app['session']->start();
+});

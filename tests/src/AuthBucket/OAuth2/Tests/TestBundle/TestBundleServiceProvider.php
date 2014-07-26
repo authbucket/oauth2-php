@@ -56,8 +56,5 @@ class TestBundleServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        if (!$app['session']->isStarted()) {
-            $app['session']->start();
-        }
     }
 }
