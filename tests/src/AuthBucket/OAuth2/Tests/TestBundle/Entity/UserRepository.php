@@ -25,14 +25,9 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class UserRepository extends EntityRepository implements ModelManagerInterface, UserProviderInterface
 {
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
     public function createUser()
     {
-        $class = $this->getClass();
+        $class = $this->getClassName();
 
         return new $class();
     }
@@ -52,13 +47,6 @@ class UserRepository extends EntityRepository implements ModelManagerInterface, 
     {
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
-    }
-
-    public function findUserByUsername($username)
-    {
-        return $this->findOneBy(array(
-            'username' => $username,
-        ));
     }
 
     public function loadUserByUsername($username)

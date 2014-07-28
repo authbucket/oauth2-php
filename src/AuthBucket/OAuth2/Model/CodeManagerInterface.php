@@ -25,6 +25,4 @@ interface CodeManagerInterface extends ModelManagerInterface
     public function reloadCode(Codeinterface $code);
 
     public function updateCode(Codeinterface $code);
-
-    public function findCodeByCode($code);
 }

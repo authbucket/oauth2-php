@@ -78,7 +78,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
             // Compare if given scope within all supported scopes.
             $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
-            $result = $scopeManager->findScopes();
+            $result = $scopeManager->findAll();
             if ($result !== null) {
                 foreach ($result as $row) {
                     $scopeSupported[] = $row->getScope();
@@ -93,7 +93,10 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
             // Compare if given scope within all authorized scopes.
             $scopeAuthorized = array();
             $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
+            $result = $authorizeManager->findOneBy(array(
+                'clientId' => $clientId,
+                'username' => $username,
+            ));
             if ($result !== null) {
                 $scopeAuthorized = $result->getScope();
             }

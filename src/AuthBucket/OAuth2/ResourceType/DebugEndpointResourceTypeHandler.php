@@ -56,7 +56,9 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
 
         // Get cached access_token and return if exists.
         if ($options['cache']) {
-            $stored = $accessTokenManager->findAccessTokenByAccessToken($accessToken);
+            $stored = $accessTokenManager->findOneBy(array(
+                'accessToken' => $accessToken,
+            ));
             if ($stored !== null && $stored->getExpires() > new \DateTime()) {
                 return $stored;
             }

@@ -23,14 +23,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class RefreshTokenRepository extends EntityRepository implements RefreshTokenManagerInterface
 {
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
     public function createRefreshToken()
     {
-        $class = $this->getClass();
+        $class = $this->getClassName();
 
         return new $class();
     }
@@ -50,12 +45,5 @@ class RefreshTokenRepository extends EntityRepository implements RefreshTokenMan
     {
         $this->getEntityManager()->persist($refreshToken);
         $this->getEntityManager()->flush();
-    }
-
-    public function findRefreshTokenByRefreshToken($refreshToken)
-    {
-        return $this->findOneBy(array(
-            'refreshToken' => $refreshToken,
-        ));
     }
 }

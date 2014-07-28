@@ -23,14 +23,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class ClientRepository extends EntityRepository implements ClientManagerInterface
 {
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
     public function createClient()
     {
-        $class = $this->getClass();
+        $class = $this->getClassName();
 
         return new $class();
     }
@@ -50,12 +45,5 @@ class ClientRepository extends EntityRepository implements ClientManagerInterfac
     {
         $this->getEntityManager()->persist($client);
         $this->getEntityManager()->flush();
-    }
-
-    public function findClientByClientId($clientId)
-    {
-        return $this->findOneBy(array(
-            'clientId' => $clientId,
-        ));
     }
 }

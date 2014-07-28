@@ -44,7 +44,9 @@ class DebugController
 
         // Fetch access_token from GET.
         $debugToken = $this->getDebugToken($request);
-        $accessToken = $accessTokenManager->findAccessTokenByAccessToken($debugToken);
+        $accessToken = $accessTokenManager->findOneBy(array(
+            'accessToken' => $debugToken,
+        ));
         if (null === $accessToken) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request is otherwise malformed.',

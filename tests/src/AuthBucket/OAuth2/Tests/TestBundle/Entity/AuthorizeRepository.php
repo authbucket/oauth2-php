@@ -23,14 +23,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class AuthorizeRepository extends EntityRepository implements AuthorizeManagerInterface
 {
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
     public function createAuthorize()
     {
-        $class = $this->getClass();
+        $class = $this->getClassName();
 
         return new $class();
     }
@@ -50,13 +45,5 @@ class AuthorizeRepository extends EntityRepository implements AuthorizeManagerIn
     {
         $this->getEntityManager()->persist($authorize);
         $this->getEntityManager()->flush();
-    }
-
-    public function findAuthorizeByClientIdAndUsername($clientId, $username)
-    {
-        return $this->findOneBy(array(
-            'clientId' => $clientId,
-            'username' => $username,
-        ));
     }
 }

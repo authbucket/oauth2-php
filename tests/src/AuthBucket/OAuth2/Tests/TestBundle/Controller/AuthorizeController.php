@@ -42,7 +42,10 @@ class AuthorizeController
         if ($form->isValid()) {
             $modelManager = $app['authbucket_oauth2.model_manager.factory'];
             $authorizeManager = $modelManager->getModelManager('authorize');
-            $authorize = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
+            $authorize = $authorizeManager->findOneBy(array(
+                'clientId' => $clientId,
+                'username' => $username,
+            ));
 
             // Update existing authorization if possible, else create new.
             if ($authorize === null) {

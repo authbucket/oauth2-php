@@ -23,14 +23,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class AccessTokenRepository extends EntityRepository implements AccessTokenManagerInterface
 {
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
     public function createAccessToken()
     {
-        $class = $this->getClass();
+        $class = $this->getClassName();
 
         return new $class();
     }
@@ -50,12 +45,5 @@ class AccessTokenRepository extends EntityRepository implements AccessTokenManag
     {
         $this->getEntityManager()->persist($accessToken);
         $this->getEntityManager()->flush();
-    }
-
-    public function findAccessTokenByAccessToken($accessToken)
-    {
-        return $this->findOneBy(array(
-            'accessToken' => $accessToken,
-        ));
     }
 }

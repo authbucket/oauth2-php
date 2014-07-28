@@ -23,14 +23,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class ScopeRepository extends EntityRepository implements ScopeManagerInterface
 {
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
     public function createScope()
     {
-        $class = $this->getClass();
+        $class = $this->getClassName();
 
         return new $class();
     }
@@ -50,10 +45,5 @@ class ScopeRepository extends EntityRepository implements ScopeManagerInterface
     {
         $this->getEntityManager()->persist($scope);
         $this->getEntityManager()->flush();
-    }
-
-    public function findScopes()
-    {
-        return $this->findAll();
     }
 }

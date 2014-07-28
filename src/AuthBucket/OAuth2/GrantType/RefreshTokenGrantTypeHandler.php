@@ -89,7 +89,9 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check refresh_token with database record.
         $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
-        $result = $refreshTokenManager->findRefreshTokenByRefreshToken($refreshToken);
+        $result = $refreshTokenManager->findOneBy(array(
+            'refreshToken' => $refreshToken,
+        ));
         if ($result === null || $result->getClientId() !== $clientId) {
             throw new InvalidGrantException(array(
                 'error_description' => 'The provided refresh token was issued to another client.',
@@ -135,7 +137,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             // Compare if given scope within all supported scopes.
             $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
-            $result = $scopeManager->findScopes();
+            $result = $scopeManager->findAll();
             if ($result !== null) {
                 foreach ($result as $row) {
                     $scopeSupported[] = $row->getScope();
@@ -150,7 +152,10 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             // Compare if given scope within all authorized scopes.
             $scopeAuthorized = array();
             $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
+            $result = $authorizeManager->findOneBy(array(
+                'clientId' => $clientId,
+                'username' => $username,
+            ));
             if ($result !== null) {
                 $scopeAuthorized = $result->getScope();
             }

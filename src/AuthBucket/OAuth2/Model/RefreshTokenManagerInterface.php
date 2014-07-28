@@ -25,6 +25,4 @@ interface RefreshTokenManagerInterface extends ModelManagerInterface
     public function reloadRefreshToken(RefreshTokenInterface $refreshToken);
 
     public function updateRefreshToken(RefreshTokenInterface $refreshToken);
-
-    public function findRefreshTokenByRefreshToken($refreshToken);
 }

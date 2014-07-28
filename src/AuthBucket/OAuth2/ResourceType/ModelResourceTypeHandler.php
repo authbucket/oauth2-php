@@ -30,7 +30,9 @@ class ModelResourceTypeHandler extends AbstractResourceTypeHandler
     )
     {
         $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
-        $stored = $accessTokenManager->findAccessTokenByAccessToken($accessToken);
+        $stored = $accessTokenManager->findOneBy(array(
+            'accessToken' => $accessToken,
+        ));
         if ($stored === null) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The provided access token is invalid.',

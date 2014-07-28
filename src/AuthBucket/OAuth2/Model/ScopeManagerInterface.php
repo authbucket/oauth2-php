@@ -25,6 +25,4 @@ interface ScopeManagerInterface extends ModelManagerInterface
     public function reloadScope(ScopeInterface $scope);
 
     public function updateScope(ScopeInterface $scope);
-
-    public function findScopes();
 }

@@ -23,14 +23,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class CodeRepository extends EntityRepository implements CodeManagerInterface
 {
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
     public function createCode()
     {
-        $class = $this->getClass();
+        $class = $this->getClassName();
 
         return new $class();
     }
@@ -50,12 +45,5 @@ class CodeRepository extends EntityRepository implements CodeManagerInterface
     {
         $this->getEntityManager()->persist($code);
         $this->getEntityManager()->flush();
-    }
-
-    public function findCodeByCode($code)
-    {
-        return $this->findOneBy(array(
-            'code' => $code,
-        ));
     }
 }

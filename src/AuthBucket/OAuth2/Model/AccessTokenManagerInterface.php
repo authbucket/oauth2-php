@@ -25,6 +25,4 @@ interface AccessTokenManagerInterface extends ModelManagerInterface
     public function reloadAccessToken(AccessTokenInterface $accessToken);
 
     public function updateAccessToken(AccessTokenInterface $accessToken);
-
-    public function findAccessTokenByAccessToken($accessToken);
 }
