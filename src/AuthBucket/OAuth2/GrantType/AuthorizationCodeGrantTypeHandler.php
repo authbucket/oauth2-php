@@ -92,7 +92,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check code with database record.
         $codeManager = $modelManagerFactory->getModelManager('code');
-        $result = $codeManager->findOneBy(array(
+        $result = $codeManager->readModelOneBy(array(
             'code' => $code,
         ));
         if ($result === null || $result->getClientId() !== $clientId) {
@@ -131,7 +131,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // check an existing redirect URI against the one supplied.
         $stored = null;
         $clientManager = $modelManagerFactory->getModelManager('client');
-        $result = $clientManager->findOneBy(array(
+        $result = $clientManager->readModelOneBy(array(
             'clientId' => $clientId,
         ));
         if ($result !== null && $result->getRedirectUri()) {
@@ -184,7 +184,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check state with database record.
         $codeManager = $modelManagerFactory->getModelManager('code');
-        $result = $codeManager->findOneBy(array(
+        $result = $codeManager->readModelOneBy(array(
             'code' => $code,
         ));
         if ($result === null || $result->getState() !== $state) {

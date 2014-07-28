@@ -47,7 +47,7 @@ class TokenProvider implements AuthenticationProviderInterface
         $clientSecret = $token->getClientSecret();
 
         $clientManager = $this->modelManagerFactory->getModelManager('client');
-        $clientStored = $clientManager->findOneBy(array(
+        $clientStored = $clientManager->readModelOneBy(array(
             'clientId' => $clientId,
         ));
         if ($clientStored === null) {

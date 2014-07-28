@@ -18,11 +18,15 @@ namespace AuthBucket\OAuth2\Model;
  */
 interface ModelManagerInterface
 {
-    public function getClassName();
+    public function createModel(array $parameters);
 
-    public function findAll();
+    public function readModelAll();
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function readModelBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
-    public function findOneBy(array $criteria, array $orderBy = null);
+    public function readModelOneBy(array $criteria, array $orderBy = null);
+
+    public function updateModel(ModelInterface $model);
+
+    public function deleteModel(ModelInterface $model);
 }

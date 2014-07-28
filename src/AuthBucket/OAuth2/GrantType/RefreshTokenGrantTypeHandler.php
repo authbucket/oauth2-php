@@ -89,7 +89,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check refresh_token with database record.
         $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
-        $result = $refreshTokenManager->findOneBy(array(
+        $result = $refreshTokenManager->readModelOneBy(array(
             'refreshToken' => $refreshToken,
         ));
         if ($result === null || $result->getClientId() !== $clientId) {
@@ -137,7 +137,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             // Compare if given scope within all supported scopes.
             $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
-            $result = $scopeManager->findAll();
+            $result = $scopeManager->readModelAll();
             if ($result !== null) {
                 foreach ($result as $row) {
                     $scopeSupported[] = $row->getScope();
@@ -152,7 +152,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             // Compare if given scope within all authorized scopes.
             $scopeAuthorized = array();
             $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findOneBy(array(
+            $result = $authorizeManager->readModelOneBy(array(
                 'clientId' => $clientId,
                 'username' => $username,
             ));

@@ -30,7 +30,7 @@ class ModelResourceTypeHandler extends AbstractResourceTypeHandler
     )
     {
         $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
-        $stored = $accessTokenManager->findOneBy(array(
+        $stored = $accessTokenManager->readModelOneBy(array(
             'accessToken' => $accessToken,
         ));
         if ($stored === null) {

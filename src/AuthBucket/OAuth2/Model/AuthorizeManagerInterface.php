@@ -18,11 +18,4 @@ namespace AuthBucket\OAuth2\Model;
  */
 interface AuthorizeManagerInterface extends ModelManagerInterface
 {
-    public function createAuthorize();
-
-    public function deleteAuthorize(AuthorizeInterface $authorize);
-
-    public function reloadAuthorize(AuthorizeInterface $authorize);
-
-    public function updateAuthorize(AuthorizeInterface $authorize);
 }

@@ -73,7 +73,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         // Compare client_id with database record.
         $clientManager = $modelManagerFactory->getModelManager('client');
-        $result = $clientManager->findOneBy(array(
+        $result = $clientManager->readModelOneBy(array(
             'clientId' => $clientId,
         ));
         if ($result === null) {
@@ -109,7 +109,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
-        $result = $clientManager->findOneBy(array(
+        $result = $clientManager->readModelOneBy(array(
             'clientId' => $clientId,
         ));
         if ($result !== null && $result->getRedirectUri()) {
@@ -183,7 +183,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             // Compare if given scope within all supported scopes.
             $scopeSupported = array();
             $scopeManager = $modelManagerFactory->getModelManager('scope');
-            $result = $scopeManager->findAll();
+            $result = $scopeManager->readModelAll();
             if ($result !== null) {
                 foreach ($result as $row) {
                     $scopeSupported[] = $row->getScope();
@@ -200,7 +200,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             // Compare if given scope within all authorized scopes.
             $scopeAuthorized = array();
             $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findOneBy(array(
+            $result = $authorizeManager->readModelOneBy(array(
                 'clientId' => $clientId,
                 'username' => $username,
             ));

@@ -44,7 +44,7 @@ class DebugController
 
         // Fetch access_token from GET.
         $debugToken = $this->getDebugToken($request);
-        $accessToken = $accessTokenManager->findOneBy(array(
+        $accessToken = $accessTokenManager->readModelOneBy(array(
             'accessToken' => $debugToken,
         ));
         if (null === $accessToken) {

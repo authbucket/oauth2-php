@@ -40,23 +40,26 @@ class AuthorizeController
 
         // Save authorized scope if submitted by POST.
         if ($form->isValid()) {
-            $modelManager = $app['authbucket_oauth2.model_manager.factory'];
-            $authorizeManager = $modelManager->getModelManager('authorize');
-            $authorize = $authorizeManager->findOneBy(array(
+            $modelManagerFactory = $app['authbucket_oauth2.model_manager.factory'];
+            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
+
+            // Update existing authorization if possible, else create new.
+            $authorize = $authorizeManager->readModelOneBy(array(
                 'clientId' => $clientId,
                 'username' => $username,
             ));
-
-            // Update existing authorization if possible, else create new.
             if ($authorize === null) {
-                $authorize = $authorizeManager->createAuthorize();
+                $authorize = $authorizeManager->createModel(array(
+                    'clientId' => $clientId,
+                    'username' => $username,
+                    'scope' => $scope,
+                ));
+            } else {
+                $authorize->setClientId($clientId)
+                    ->setUsername($username)
+                    ->setScope(array_merge((array) $authorize->getScope(), $scope));
+                $authorizeManager->updateAuthorize($authorize);
             }
-
-            // Save authorization.
-            $authorize->setClientId($clientId)
-                ->setUsername($username)
-                ->setScope(array_merge((array) $authorize->getScope(), $scope));
-            $authorizeManager->updateAuthorize($authorize);
 
             // Back to this path, with original GET parameters.
             return $app->redirect($request->getRequestUri());
