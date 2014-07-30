@@ -28,7 +28,8 @@
         "php": ">=5.3.3",
         "symfony/http-foundation": "~2.3",
         "symfony/http-kernel": "~2.3",
-        "symfony/security": "~2.3"
+        "symfony/security": "~2.3",
+        "symfony/serializer": "~2.3"
     },
     "require-dev": {
         "doctrine/data-fixtures": "~1.0",
