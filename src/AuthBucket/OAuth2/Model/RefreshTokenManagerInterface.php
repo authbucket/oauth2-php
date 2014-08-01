@@ -18,13 +18,4 @@ namespace AuthBucket\OAuth2\Model;
  */
 interface RefreshTokenManagerInterface extends ModelManagerInterface
 {
-    public function createRefreshToken();
-
-    public function deleteRefreshToken(RefreshTokenInterface $refreshToken);
-
-    public function reloadRefreshToken(RefreshTokenInterface $refreshToken);
-
-    public function updateRefreshToken(RefreshTokenInterface $refreshToken);
-
-    public function findRefreshTokenByRefreshToken($refreshToken);
 }

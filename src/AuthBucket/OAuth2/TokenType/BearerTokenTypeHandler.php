@@ -64,15 +64,15 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         $withRefreshToken = true
     )
     {
-        $modelManager = $modelManagerFactory->getModelManager('access_token');
-        $accessToken = $modelManager->createAccessToken()
-            ->setAccessToken(md5(uniqid(null, true)))
-            ->setTokenType('bearer')
-            ->setClientId($clientId)
-            ->setUsername($username)
-            ->setExpires(new \DateTime('+1 hours'))
-            ->setScope($scope);
-        $modelManager->updateAccessToken($accessToken);
+        $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
+        $accessToken = $accessTokenManager->createModel(array(
+            'accessToken' => md5(uniqid(null, true)),
+            'tokenType' => 'bearer',
+            'clientId' => $clientId,
+            'username' => $username,
+            'expires' => new \DateTime('+1 hours'),
+            'scope' => $scope,
+        ));
 
         $parameters = array(
             'access_token' => $accessToken->getAccessToken(),
@@ -89,14 +89,14 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         }
 
         if ($withRefreshToken === true) {
-            $modelManager = $modelManagerFactory->getModelManager('refresh_token');
-            $refreshToken = $modelManager->createRefreshToken()
-                ->setRefreshToken(md5(uniqid(null, true)))
-                ->setClientId($clientId)
-                ->setUsername($username)
-                ->setExpires(new \DateTime('+1 days'))
-                ->setScope($scope);
-            $modelManager->updateRefreshToken($refreshToken);
+            $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
+            $refreshToken = $refreshTokenManager->createModel(array(
+                'refreshToken' => md5(uniqid(null, true)),
+                'clientId' => $clientId,
+                'username' => $username,
+                'expires' => new \DateTime('+1 days'),
+                'scope' => $scope,
+            ));
 
             $parameters['refresh_token'] = $refreshToken->getRefreshToken();
         }

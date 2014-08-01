@@ -53,7 +53,7 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
 
             $handler = null;
             foreach ($this->classes as $class) {
-                $handler = new $class;
+                $handler = new $class();
                 break;
             }
 
@@ -66,6 +66,6 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type];
+        return new $this->classes[$type]();
     }
 }
