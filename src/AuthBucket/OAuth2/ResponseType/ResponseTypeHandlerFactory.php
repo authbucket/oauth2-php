@@ -50,6 +50,6 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type];
+        return new $this->classes[$type]();
     }
 }

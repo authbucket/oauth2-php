@@ -50,6 +50,6 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type];
+        return new $this->classes[$type]();
     }
 }
