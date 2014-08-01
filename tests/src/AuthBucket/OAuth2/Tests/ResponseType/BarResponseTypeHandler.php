@@ -16,12 +16,14 @@ use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 class BarResponseTypeHandler implements ResponseTypeHandlerInterface
 {
     public function handle(
-        SecurityContextInterface $securityContext,
         Request $request,
+        SecurityContextInterface $securityContext,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )

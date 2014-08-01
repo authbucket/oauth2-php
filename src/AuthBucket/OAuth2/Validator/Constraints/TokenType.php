@@ -20,6 +20,11 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class TokenType extends Regex
 {
-    public $message = 'This is not a valid token_type.';
-    public $pattern = '/^([a-z0-9\_\-\.]+)$/';
+    public function __construct($options = null)
+    {
+        return parent::__construct(array_merge(array(
+            'message' => 'This is not a valid token_type.',
+            'pattern' => '/^([a-z0-9\_\-\.]+)$/',
+        ), (array) $options));
+    }
 }

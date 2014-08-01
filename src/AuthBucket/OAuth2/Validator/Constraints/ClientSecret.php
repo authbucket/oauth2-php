@@ -20,6 +20,11 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class ClientSecret extends Regex
 {
-    public $message = 'This is not a valid client_secret.';
-    public $pattern = '/^([\x20-\x7E]*)$/';
+    public function __construct($options = null)
+    {
+        return parent::__construct(array_merge(array(
+            'message' => 'This is not a valid client_secret.',
+            'pattern' => '/^([\x20-\x7E]*)$/',
+        ), (array) $options));
+    }
 }

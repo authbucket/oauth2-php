@@ -16,10 +16,15 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\Util\Filter;
+use AuthBucket\OAuth2\Validator\Constraints\ClientId;
+use AuthBucket\OAuth2\Validator\Constraints\RedirectUri;
+use AuthBucket\OAuth2\Validator\Constraints\Scope;
+use AuthBucket\OAuth2\Validator\Constraints\State;
+use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * Shared response type implementation.
@@ -32,16 +37,25 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      * Fetch username from authenticated token.
      *
      * @param SecurityContextInterface $securityContext Incoming request object.
+     * @param ValidatorInterface       $validate
      *
      * @return string Supplied username from authenticated token.
      *
      * @throw ServerErrorException If supplied token is not a standard TokenInterface instance.
      */
     protected function checkUsername(
-        SecurityContextInterface $securityContext
+        SecurityContextInterface $securityContext,
+        ValidatorInterface $validator
     )
     {
         $username = $securityContext->getToken()->getUsername();
+
+        $errors = $validator->validateValue($username, new Username());
+        if (!$username || count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         return $username;
     }
@@ -50,6 +64,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      * Fetch cliend_id from GET.
      *
      * @param Request                      $request             Incoming request object.
+     * @param ValidatorInterface           $validate
      * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
      *
      * @return string Supplied client_id from incoming request.
@@ -59,13 +74,15 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      */
     protected function checkClientId(
         Request $request,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory
     )
     {
         $clientId = $request->query->get('client_id');
 
         // client_id is required and in valid format.
-        if (!Filter::filter(array('client_id' => $clientId))) {
+        $errors = $validator->validateValue($clientId, new ClientId());
+        if (!$clientId || count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));
@@ -89,6 +106,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      * Fetch redirect_uri from GET.
      *
      * @param Request                      $request             Incoming request object.
+     * @param ValidatorInterface           $validate
      * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
      * @param string                       $clientId            Corresponding client_id that code should belongs to.
      *
@@ -98,6 +116,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      */
     protected function checkRedirectUri(
         Request $request,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         $clientId
     )
@@ -105,6 +124,14 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $clientManager = $modelManagerFactory->getModelManager('client');
 
         $redirectUri = $request->query->get('redirect_uri');
+
+        // redirect_uri is optional.
+        $errors = $validator->validateValue($redirectUri, new RedirectUri());
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
@@ -140,13 +167,15 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
     protected function checkState(
         Request $request,
+        ValidatorInterface $validator,
         $redirectUri
     )
     {
         $state = $request->query->get('state');
 
         // state is required and in valid format.
-        if (!Filter::filter(array('state' => $state))) {
+        $errors = $validator->validateValue($state, new State());
+        if (!$state || count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'redirect_uri' => $redirectUri,
                 'error_description' => 'The request includes an invalid parameter value',
@@ -158,6 +187,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
     protected function checkScope(
         Request $request,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         $clientId,
         $username,
@@ -168,52 +198,55 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $scope = $request->query->get('scope', array());
 
         // scope may not exists.
-        if ($scope) {
-            // scope must be in valid format.
-            if (!Filter::filter(array('scope' => $scope))) {
-                throw new InvalidRequestException(array(
-                    'redirect_uri' => $redirectUri,
-                    'state' => $state,
-                    'error_description' => 'The request includes an invalid parameter value.',
-                ));
-            }
+        if (empty($scope)) {
+            return $scope;
+        }
 
-            $scope = preg_split('/\s+/', $scope);
-
-            // Compare if given scope within all supported scopes.
-            $scopeSupported = array();
-            $scopeManager = $modelManagerFactory->getModelManager('scope');
-            $result = $scopeManager->readModelAll();
-            if ($result !== null) {
-                foreach ($result as $row) {
-                    $scopeSupported[] = $row->getScope();
-                }
-            }
-            if (array_intersect($scope, $scopeSupported) !== $scope) {
-                throw new InvalidScopeException(array(
-                    'redirect_uri' => $redirectUri,
-                    'state' => $state,
-                    'error_description' => 'The requested scope is unknown.',
-                ));
-            }
-
-            // Compare if given scope within all authorized scopes.
-            $scopeAuthorized = array();
-            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->readModelOneBy(array(
-                'clientId' => $clientId,
-                'username' => $username,
+        // scope must be in valid format.
+        $errors = $validator->validateValue($scope, new Scope());
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'redirect_uri' => $redirectUri,
+                'state' => $state,
+                'error_description' => 'The request includes an invalid parameter value.',
             ));
-            if ($result !== null) {
-                $scopeAuthorized = $result->getScope();
+        }
+
+        $scope = preg_split('/\s+/', $scope);
+
+        // Compare if given scope within all supported scopes.
+        $scopeSupported = array();
+        $scopeManager = $modelManagerFactory->getModelManager('scope');
+        $result = $scopeManager->readModelAll();
+        if ($result !== null) {
+            foreach ($result as $row) {
+                $scopeSupported[] = $row->getScope();
             }
-            if (array_intersect($scope, $scopeAuthorized) !== $scope) {
-                throw new InvalidScopeException(array(
-                    'redirect_uri' => $redirectUri,
-                    'state' => $state,
-                    'error_description' => 'The requested scope is invalid.',
-                ));
-            }
+        }
+        if (array_intersect($scope, $scopeSupported) !== $scope) {
+            throw new InvalidScopeException(array(
+                'redirect_uri' => $redirectUri,
+                'state' => $state,
+                'error_description' => 'The requested scope is unknown.',
+            ));
+        }
+
+        // Compare if given scope within all authorized scopes.
+        $scopeAuthorized = array();
+        $authorizeManager = $modelManagerFactory->getModelManager('authorize');
+        $result = $authorizeManager->readModelOneBy(array(
+            'clientId' => $clientId,
+            'username' => $username,
+        ));
+        if ($result !== null) {
+            $scopeAuthorized = $result->getScope();
+        }
+        if (array_intersect($scope, $scopeAuthorized) !== $scope) {
+            throw new InvalidScopeException(array(
+                'redirect_uri' => $redirectUri,
+                'state' => $state,
+                'error_description' => 'The requested scope is invalid.',
+            ));
         }
 
         return $scope;

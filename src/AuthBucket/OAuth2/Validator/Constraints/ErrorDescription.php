@@ -20,6 +20,11 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class ErrorDescription extends Regex
 {
-    public $message = 'This is not a valid error_description.';
-    public $pattern = '/^([\x21\x22-\x5B\x5D-\x7E]+)$/';
+    public function __construct($options = null)
+    {
+        return parent::__construct(array_merge(array(
+            'message' => 'This is not a valid error_description.',
+            'pattern' => '/^([\x21\x22-\x5B\x5D-\x7E]+)$/',
+        ), (array) $options));
+    }
 }

@@ -20,5 +20,10 @@ use Symfony\Component\Validator\Constraint\Url;
  */
 class ErrorUri extends Url
 {
-    public $message = 'This is not a valid error_uri.';
+    public function __construct($options = null)
+    {
+        return parent::__construct(array_merge(array(
+            'message' => 'This is not a valid error_uri.',
+        ), (array) $options));
+    }
 }

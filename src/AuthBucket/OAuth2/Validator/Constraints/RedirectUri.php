@@ -11,7 +11,7 @@
 
 namespace AuthBucket\OAuth2\Validator\Constraints;
 
-use Symfony\Component\Validator\Constraint\Url;
+use Symfony\Component\Validator\Constraints\Url;
 
 /**
  * @Annotation
@@ -20,5 +20,10 @@ use Symfony\Component\Validator\Constraint\Url;
  */
 class RedirectUri extends Url
 {
-    public $message = 'This is not a valid redirect_uri.';
+    public function __construct($options = null)
+    {
+        return parent::__construct(array_merge(array(
+            'message' => 'This is not a valid redirect_uri.',
+        ), (array) $options));
+    }
 }

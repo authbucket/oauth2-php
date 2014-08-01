@@ -11,7 +11,7 @@
 
 namespace AuthBucket\OAuth2\Validator\Constraints;
 
-use Symfony\Component\Validator\RegexValidator;
+use Symfony\Component\Validator\Constraints\RegexValidator;
 
 /**
  * Validates whether the value is a valid scope per RFC 6749

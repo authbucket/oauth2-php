@@ -15,9 +15,10 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Util\Filter;
+use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * OAuth2 authorization endpoint controller implementation.
@@ -27,18 +28,21 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 class AuthorizeController
 {
     protected $securityContext;
+    protected $validator;
     protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
     protected $tokenTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         $this->securityContext = $securityContext;
+        $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
@@ -53,8 +57,9 @@ class AuthorizeController
         return $this->responseTypeHandlerFactory
             ->getResponseTypeHandler($responseType)
             ->handle(
-                $this->securityContext,
                 $request,
+                $this->securityContext,
+                $this->validator,
                 $this->modelManagerFactory,
                 $this->tokenTypeHandlerFactory
             );
@@ -63,8 +68,10 @@ class AuthorizeController
     private function getResponseType(Request $request)
     {
         // Validate and set response_type.
-        $responseType = $request->query->get('response_type');
-        if (!Filter::filter(array('response_type' => $responseType))) {
+        $responseType = $request->query->get('response_type', null);
+
+        $errors = $this->validator->validateValue($responseType, new ResponseType());
+        if (null === $responseType || count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));

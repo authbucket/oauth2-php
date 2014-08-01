@@ -20,6 +20,11 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class RefreshToken extends Regex
 {
-    public $message = 'This is not a valid refresh_token.';
-    public $pattern = '/^([\x20-\x7E]+)$/';
+    public function __construct($options = null)
+    {
+        return parent::__construct(array_merge(array(
+            'message' => 'This is not a valid refresh_token.',
+            'pattern' => '/^([\x20-\x7E]+)$/',
+        ), (array) $options));
+    }
 }

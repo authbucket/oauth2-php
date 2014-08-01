@@ -20,6 +20,11 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class Scope extends Regex
 {
-    public $message = 'This is not a valid scope.';
-    public $pattern = '/^([\x21\x22-\x5B\x5D-\x7E]+(?:\s*[\x21\x22-\x5B\x5D-\x7E]+(?R)*)*)$/';
+    public function __construct($options = null)
+    {
+        return parent::__construct(array_merge(array(
+            'message' => 'This is not a valid scope.',
+            'pattern' => '/^([\x21\x22-\x5B\x5D-\x7E]+(?:\s*[\x21\x22-\x5B\x5D-\x7E]+(?R)*)*)$/',
+        ), (array) $options));
+    }
 }

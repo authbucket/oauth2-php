@@ -16,6 +16,7 @@ use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Util\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * Code response type handler implementation.
@@ -25,27 +26,29 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 class CodeResponseTypeHandler extends AbstractResponseTypeHandler
 {
     public function handle(
-        SecurityContextInterface $securityContext,
         Request $request,
+        SecurityContextInterface $securityContext,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
         // Fetch username from authenticated token.
-        $username = $this->checkUsername($securityContext);
+        $username = $this->checkUsername($securityContext, $validator);
 
         // Fetch and check client_id.
-        $clientId = $this->checkClientId($request, $modelManagerFactory);
+        $clientId = $this->checkClientId($request, $validator, $modelManagerFactory);
 
         // Fetch and check redirect_uri.
-        $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
+        $redirectUri = $this->checkRedirectUri($request, $validator, $modelManagerFactory, $clientId);
 
         // Fetch and check state.
-        $state = $this->checkState($request, $redirectUri);
+        $state = $this->checkState($request, $validator, $redirectUri);
 
         // Fetch and check scope.
         $scope = $this->checkScope(
             $request,
+            $validator,
             $modelManagerFactory,
             $clientId,
             $username,

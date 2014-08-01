@@ -20,6 +20,11 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class ExpiresIn extends Regex
 {
-    public $message = 'This is not a valid expires_in.';
-    public $pattern = '/^([0-9]+)$/';
+    public function __construct($options = null)
+    {
+        return parent::__construct(array_merge(array(
+            'message' => 'This is not a valid expires_in.',
+            'pattern' => '/^([0-9]+)$/',
+        ), $options));
+    }
 }
