@@ -28,7 +28,8 @@
         "php": ">=5.3.9",
         "symfony/http-foundation": "~2.3",
         "symfony/http-kernel": "~2.3",
-        "symfony/security": "~2.3"
+        "symfony/security": "~2.3",
+        "symfony/validator": "~2.3"
     },
     "require-dev": {
         "doctrine/data-fixtures": "~1.0",
@@ -47,7 +48,6 @@
         "symfony/process": "~2.3",
         "symfony/translation": "~2.3",
         "symfony/twig-bridge": "~2.3",
-        "symfony/validator": "~2.3",
         "twig/twig": "~1.8"
     },
     "type": "library"
