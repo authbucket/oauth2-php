@@ -92,7 +92,9 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check code with database record.
         $codeManager = $modelManagerFactory->getModelManager('code');
-        $result = $codeManager->findCodeByCode($code);
+        $result = $codeManager->readModelOneBy(array(
+            'code' => $code,
+        ));
         if ($result === null || $result->getClientId() !== $clientId) {
             throw new InvalidGrantException(array(
                 'error_description' => 'The provided authorization grant is invalid.',
@@ -129,7 +131,9 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // check an existing redirect URI against the one supplied.
         $stored = null;
         $clientManager = $modelManagerFactory->getModelManager('client');
-        $result = $clientManager->findClientByClientId($clientId);
+        $result = $clientManager->readModelOneBy(array(
+            'clientId' => $clientId,
+        ));
         if ($result !== null && $result->getRedirectUri()) {
             $stored = $result->getRedirectUri();
         }
@@ -180,7 +184,9 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check state with database record.
         $codeManager = $modelManagerFactory->getModelManager('code');
-        $result = $codeManager->findCodeByCode($code);
+        $result = $codeManager->readModelOneBy(array(
+            'code' => $code,
+        ));
         if ($result === null || $result->getState() !== $state) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',

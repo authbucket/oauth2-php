@@ -25,7 +25,7 @@
     "minimum-stability": "dev",
     "name": "authbucket/oauth2",
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.3.9",
         "symfony/http-foundation": "~2.3",
         "symfony/http-kernel": "~2.3",
         "symfony/security": "~2.3"

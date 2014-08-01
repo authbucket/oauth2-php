@@ -50,6 +50,6 @@ class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type];
+        return new $this->classes[$type]();
     }
 }
