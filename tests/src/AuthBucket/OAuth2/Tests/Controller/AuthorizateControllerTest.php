@@ -38,6 +38,7 @@ class AuthorizateControllerTest extends WebTestCase
             'response_type' => 'foo',
             'client_id' => '1234',
             'redirect_uri' => 'http://example.com/redirect_uri',
+            'state' => 'demostate',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',

@@ -42,6 +42,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://badclient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
+            'state' => 'demostate',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -111,9 +112,9 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
-        $this->assertTrue($client->getResponse()->isRedirect());
-        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
-        $tokenResponse = $authResponse->query->all();
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
@@ -182,9 +183,9 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
-        $this->assertTrue($client->getResponse()->isRedirect());
-        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
-        $tokenResponse = $authResponse->query->all();
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
@@ -198,6 +199,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
+            'state' => 'demostate',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -258,6 +260,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         $parameters = array(
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
+            'state' => 'demostate',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -274,6 +277,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient4.com/',
             'redirect_uri' => 'http://democlient4.com/redirect_uri',
+            'state' => 'demostate',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',

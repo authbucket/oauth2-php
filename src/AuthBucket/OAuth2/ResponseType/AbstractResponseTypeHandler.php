@@ -50,13 +50,6 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     {
         $username = $securityContext->getToken()->getUsername();
 
-        $errors = $validator->validateValue($username, new Username());
-        if (!$username || count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
-
         return $username;
     }
 
@@ -79,14 +72,6 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     )
     {
         $clientId = $request->query->get('client_id');
-
-        // client_id is required and in valid format.
-        $errors = $validator->validateValue($clientId, new ClientId());
-        if (!$clientId || count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
 
         // Compare client_id with database record.
         $clientManager = $modelManagerFactory->getModelManager('client');
@@ -124,14 +109,6 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $clientManager = $modelManagerFactory->getModelManager('client');
 
         $redirectUri = $request->query->get('redirect_uri');
-
-        // redirect_uri is optional.
-        $errors = $validator->validateValue($redirectUri, new RedirectUri());
-        if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
@@ -173,15 +150,6 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     {
         $state = $request->query->get('state');
 
-        // state is required and in valid format.
-        $errors = $validator->validateValue($state, new State());
-        if (!$state || count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'redirect_uri' => $redirectUri,
-                'error_description' => 'The request includes an invalid parameter value',
-            ));
-        }
-
         return $state;
     }
 
@@ -200,16 +168,6 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // scope may not exists.
         if (empty($scope)) {
             return $scope;
-        }
-
-        // scope must be in valid format.
-        $errors = $validator->validateValue($scope, new Scope());
-        if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'redirect_uri' => $redirectUri,
-                'state' => $state,
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
         }
 
         $scope = preg_split('/\s+/', $scope);
