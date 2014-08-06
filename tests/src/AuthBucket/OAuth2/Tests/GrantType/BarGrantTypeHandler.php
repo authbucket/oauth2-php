@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 class BarGrantTypeHandler implements GrantTypeHandlerInterface
 {
@@ -27,6 +28,7 @@ class BarGrantTypeHandler implements GrantTypeHandlerInterface
         SecurityContextInterface $securityContext,
         UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null

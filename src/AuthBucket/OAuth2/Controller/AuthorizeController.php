@@ -15,15 +15,9 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Validator\Constraints\ClientId;
-use AuthBucket\OAuth2\Validator\Constraints\RedirectUri;
 use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
-use AuthBucket\OAuth2\Validator\Constraints\Scope;
-use AuthBucket\OAuth2\Validator\Constraints\State;
-use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
 
@@ -57,26 +51,9 @@ class AuthorizeController
 
     public function authorizeAction(Request $request)
     {
-        // Validate input parameters.
-        $parameters = array(
-            'client_id' => $request->query->get('client_id'),
-            'redirect_uri' => $request->query->get('redirect_uri'),
-            'response_type' => $request->query->get('response_type'),
-            'scope' => $request->query->get('scope'),
-            'state' => $request->query->get('state'),
-            'username' => $this->securityContext->getToken()->getUsername(),
-        );
-
-        $constraints = new Collection(array(
-            'client_id' => array(new NotBlank(), new ClientId()),
-            'redirect_uri' => new RedirectUri(),
-            'response_type' => array(new NotBlank(), new ResponseType()),
-            'scope' => new Scope(),
-            'state' => array(new NotBlank(), new State()),
-            'username' => array(new NotBlank(), new Username()),
-        ));
-
-        $errors = $this->validator->validateValue($parameters, $constraints);
+        // Fetch response_type from GET.
+        $responseType = $request->query->get('response_type');
+        $errors = $this->validator->validateValue($responseType, array(new NotBlank(), new ResponseType()));
         if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
@@ -85,7 +62,7 @@ class AuthorizeController
 
         // Handle authorize endpoint response.
         return $this->responseTypeHandlerFactory
-            ->getResponseTypeHandler($parameters['response_type'])
+            ->getResponseTypeHandler($responseType)
             ->handle(
                 $request,
                 $this->securityContext,

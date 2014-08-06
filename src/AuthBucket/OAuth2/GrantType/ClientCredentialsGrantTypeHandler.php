@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * Client credentials grant type implementation.
@@ -32,6 +33,7 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
         SecurityContextInterface $securityContext,
         UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null

@@ -60,7 +60,6 @@ class OAuth2Test extends WebTestCase
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
             'client_id' => 'http://democlient1.com/',
             'client_secret' => 'demosecret1',
-            'state' => $codeResponse['state'],
         );
         $server = array();
         $client = $this->createClient();

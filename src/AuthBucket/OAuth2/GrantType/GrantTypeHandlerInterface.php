@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * OAuth2 grant type handler interface.
@@ -33,6 +34,7 @@ interface GrantTypeHandlerInterface
      * @param SecurityContextInterface         $securityContext         The security object that hold the current live token.
      * @param UserCheckerInterface             $userChecker             For grant_type = password.
      * @param EncoderFactoryInterface          $encoderFactory          For grant_type = password.
+     * @param ValidatorInterface               $validator
      * @param ModelManagerFactoryInterface     $modelManagerFactory     Model manager factory for compare with database record.
      * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory Token type handler that will generate the correct response parameters.
      * @param UserProviderInterface            $userProvider            For grant_type = password.
@@ -44,6 +46,7 @@ interface GrantTypeHandlerInterface
         SecurityContextInterface $securityContext,
         UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null

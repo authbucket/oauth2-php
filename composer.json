@@ -22,7 +22,6 @@
         "oauth2"
     ],
     "license": "MIT",
-    "minimum-stability": "dev",
     "name": "authbucket/oauth2",
     "require": {
         "php": ">=5.3.9",

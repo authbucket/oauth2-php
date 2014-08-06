@@ -21,7 +21,6 @@ class CodeFixture implements FixtureInterface
     {
         $model = new Code();
         $model->setCode('f0c68d250bcc729eb780a235371a9a55')
-            ->setState('f0c68d250bcc729eb780a235371a9a55')
             ->setClientId('http://democlient2.com/')
             ->setUsername('demousername2')
             ->setRedirectUri('http://democlient2.com/redirect_uri')
@@ -34,7 +33,6 @@ class CodeFixture implements FixtureInterface
 
         $model = new Code();
         $model->setCode('1e5aa97ddaf4b0228dfb4223010d4417')
-            ->setState('1e5aa97ddaf4b0228dfb4223010d4417')
             ->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setRedirectUri('http://democlient1.com/redirect_uri')
@@ -46,7 +44,6 @@ class CodeFixture implements FixtureInterface
 
         $model = new Code();
         $model->setCode('08fb55e26c84f8cb060b7803bc177af8')
-            ->setState('08fb55e26c84f8cb060b7803bc177af8')
             ->setClientId('http://democlient4.com/')
             ->setUsername('demousername4')
             ->setRedirectUri('http://democlient4.com/redirect_uri')

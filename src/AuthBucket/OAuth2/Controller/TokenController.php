@@ -80,6 +80,7 @@ class TokenController
                 $this->securityContext,
                 $this->userChecker,
                 $this->encoderFactory,
+                $this->validator,
                 $this->modelManagerFactory,
                 $this->tokenTypeHandlerFactory,
                 $this->userProvider
