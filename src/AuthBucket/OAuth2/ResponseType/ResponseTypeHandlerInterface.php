@@ -11,10 +11,7 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * OAuth2 response type handler interface.
@@ -26,17 +23,9 @@ interface ResponseTypeHandlerInterface
     /**
      * Handle corresponding response type logic.
      *
-     * @param SecurityContextInterface         $securityContext         The security object that hold the current live token.
-     * @param Request                          $request                 Incoming request object.
-     * @param ModelManagerFactoryInterface     $modelManagerFactory     Model manager factory for compare with database record.
-     * @param TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory Token type handler that will generate the correct response parameters.
+     * @param Request $request Incoming request object.
      *
      * @return RedirectResponse The redirect response object for authorize endpoint.
      */
-    public function handle(
-        SecurityContextInterface $securityContext,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-    );
+    public function handle(Request $request);
 }

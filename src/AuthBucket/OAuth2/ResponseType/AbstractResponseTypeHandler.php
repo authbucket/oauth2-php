@@ -16,10 +16,12 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Util\Filter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * Shared response type implementation.
@@ -28,20 +30,34 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterface
 {
+    protected $securityContext;
+    protected $validator;
+    protected $modelManagerFactory;
+    protected $tokenTypeHandlerFactory;
+
+    public function __construct(
+        SecurityContextInterface $securityContext,
+        ValidatorInterface $validator,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+    )
+    {
+        $this->securityContext = $securityContext;
+        $this->validator = $validator;
+        $this->modelManagerFactory = $modelManagerFactory;
+        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
+    }
+
     /**
      * Fetch username from authenticated token.
-     *
-     * @param SecurityContextInterface $securityContext Incoming request object.
      *
      * @return string Supplied username from authenticated token.
      *
      * @throw ServerErrorException If supplied token is not a standard TokenInterface instance.
      */
-    protected function checkUsername(
-        SecurityContextInterface $securityContext
-    )
+    protected function checkUsername()
     {
-        $username = $securityContext->getToken()->getUsername();
+        $username = $this->securityContext->getToken()->getUsername();
 
         return $username;
     }
@@ -49,18 +65,14 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch cliend_id from GET.
      *
-     * @param Request                      $request             Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
+     * @param Request $request Incoming request object.
      *
      * @return string Supplied client_id from incoming request.
      *
      * @throw InvalidRequestException If supplied client_id in bad format.
      * @throw InvalidClientException If client_id not found from database record.
      */
-    protected function checkClientId(
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory
-    )
+    protected function checkClientId(Request $request)
     {
         $clientId = $request->query->get('client_id');
 
@@ -72,7 +84,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         }
 
         // Compare client_id with database record.
-        $clientManager = $modelManagerFactory->getModelManager('client');
+        $clientManager = $this->modelManagerFactory->getModelManager('client');
         $result = $clientManager->readModelOneBy(array(
             'clientId' => $clientId,
         ));
@@ -88,9 +100,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch redirect_uri from GET.
      *
-     * @param Request                      $request             Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $clientId            Corresponding client_id that code should belongs to.
+     * @param Request $request  Incoming request object.
+     * @param string  $clientId Corresponding client_id that code should belongs to.
      *
      * @return string The supplied redirect_uri from incoming request, or from stored record.
      *
@@ -98,11 +109,10 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      */
     protected function checkRedirectUri(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId
     )
     {
-        $clientManager = $modelManagerFactory->getModelManager('client');
+        $clientManager = $this->modelManagerFactory->getModelManager('client');
 
         $redirectUri = $request->query->get('redirect_uri');
 
@@ -158,7 +168,6 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
     protected function checkScope(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId,
         $username,
         $redirectUri,
@@ -182,7 +191,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
             // Compare if given scope within all supported scopes.
             $scopeSupported = array();
-            $scopeManager = $modelManagerFactory->getModelManager('scope');
+            $scopeManager = $this->modelManagerFactory->getModelManager('scope');
             $result = $scopeManager->readModelAll();
             if ($result !== null) {
                 foreach ($result as $row) {
@@ -199,7 +208,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
             // Compare if given scope within all authorized scopes.
             $scopeAuthorized = array();
-            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
+            $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
             $result = $authorizeManager->readModelOneBy(array(
                 'clientId' => $clientId,
                 'username' => $username,

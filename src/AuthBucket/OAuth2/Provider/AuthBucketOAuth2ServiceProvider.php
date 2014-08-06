@@ -77,7 +77,13 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         });
 
         $app['authbucket_oauth2.response_handler.factory'] = $app->share(function ($app) {
-            return new ResponseTypeHandlerFactory($app['authbucket_oauth2.response_handler']);
+            return new ResponseTypeHandlerFactory(
+                $app['security'],
+                $app['validator'],
+                $app['authbucket_oauth2.model_manager.factory'],
+                $app['authbucket_oauth2.token_handler.factory'],
+                $app['authbucket_oauth2.response_handler']
+            );
         });
 
         $app['authbucket_oauth2.grant_handler.factory'] = $app->share(function ($app) {
@@ -94,11 +100,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
 
         $app['authbucket_oauth2.authorize_controller'] = $app->share(function () use ($app) {
             return new AuthorizeController(
-                $app['security'],
                 $app['validator'],
-                $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.response_handler.factory'],
-                $app['authbucket_oauth2.token_handler.factory']
+                $app['authbucket_oauth2.response_handler.factory']
             );
         });
 

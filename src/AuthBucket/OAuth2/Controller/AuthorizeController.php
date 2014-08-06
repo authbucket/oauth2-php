@@ -12,12 +12,9 @@
 namespace AuthBucket\OAuth2\Controller;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
 
@@ -28,25 +25,16 @@ use Symfony\Component\Validator\ValidatorInterface;
  */
 class AuthorizeController
 {
-    protected $securityContext;
     protected $validator;
-    protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
-    protected $tokenTypeHandlerFactory;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
         ValidatorInterface $validator,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory
     )
     {
-        $this->securityContext = $securityContext;
         $this->validator = $validator;
-        $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
-        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     public function authorizeAction(Request $request)
@@ -66,11 +54,6 @@ class AuthorizeController
         // Handle authorize endpoint response.
         return $this->responseTypeHandlerFactory
             ->getResponseTypeHandler($responseType)
-            ->handle(
-                $this->securityContext,
-                $request,
-                $this->modelManagerFactory,
-                $this->tokenTypeHandlerFactory
-            );
+            ->handle($request);
     }
 }
