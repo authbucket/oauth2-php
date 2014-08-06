@@ -53,7 +53,7 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
             'username' => $username,
             'redirectUri' => $redirectUri,
             'expires' => new \DateTime('+10 minutes'),
-            'scope' => $scope,
+            'scope' => (array) $scope,
         ));
 
         $parameters = array(

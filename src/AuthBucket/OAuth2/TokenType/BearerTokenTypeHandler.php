@@ -71,7 +71,7 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             'clientId' => $clientId,
             'username' => $username,
             'expires' => new \DateTime('+1 hours'),
-            'scope' => $scope,
+            'scope' => (array) $scope,
         ));
 
         $parameters = array(
@@ -80,8 +80,8 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             'expires_in' => $accessToken->getExpires()->getTimestamp() - time(),
         );
 
-        if (!empty($scope) && is_array($scope)) {
-            $parameters['scope'] = implode(' ', $scope);
+        if (!empty($scope)) {
+            $parameters['scope'] = implode(' ', (array) $scope);
         }
 
         if (!empty($state)) {
@@ -95,7 +95,7 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
                 'clientId' => $clientId,
                 'username' => $username,
                 'expires' => new \DateTime('+1 days'),
-                'scope' => $scope,
+                'scope' => (array) $scope,
             ));
 
             $parameters['refresh_token'] = $refreshToken->getRefreshToken();
