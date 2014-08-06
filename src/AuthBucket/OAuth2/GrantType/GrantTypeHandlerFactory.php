@@ -12,6 +12,13 @@
 namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException;
+use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * OAuth2 grant type handler factory implemention.
@@ -20,10 +27,34 @@ use AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException;
  */
 class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 {
+    protected $securityContext;
+    protected $userChecker;
+    protected $encoderFactory;
+    protected $validator;
+    protected $modelManagerFactory;
+    protected $tokenTypeHandlerFactory;
+    protected $userProvider;
     protected $classes;
 
-    public function __construct(array $classes = array())
+    public function __construct(
+        SecurityContextInterface $securityContext,
+        UserCheckerInterface $userChecker,
+        EncoderFactoryInterface $encoderFactory,
+        ValidatorInterface $validator,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        UserProviderInterface $userProvider = null,
+        array $classes = array()
+    )
     {
+        $this->securityContext = $securityContext;
+        $this->userChecker = $userChecker;
+        $this->encoderFactory = $encoderFactory;
+        $this->validator = $validator;
+        $this->modelManagerFactory = $modelManagerFactory;
+        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
+        $this->userProvider = $userProvider;
+
         foreach ($classes as $class) {
             if (!class_exists($class)) {
                 throw new UnsupportedGrantTypeException(array(
@@ -52,6 +83,14 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type]();
+        return new $this->classes[$type](
+            $this->securityContext,
+            $this->userChecker,
+            $this->encoderFactory,
+            $this->validator,
+            $this->modelManagerFactory,
+            $this->tokenTypeHandlerFactory,
+            $this->userProvider
+        );
     }
 }

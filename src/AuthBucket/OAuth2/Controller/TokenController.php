@@ -13,14 +13,8 @@ namespace AuthBucket\OAuth2\Controller;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\GrantType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
 
@@ -31,34 +25,16 @@ use Symfony\Component\Validator\ValidatorInterface;
  */
 class TokenController
 {
-    protected $securityContext;
-    protected $userChecker;
-    protected $encoderFactory;
     protected $validator;
-    protected $modelManagerFactory;
     protected $grantTypeHandlerFactory;
-    protected $tokenTypeHandlerFactory;
-    protected $userProvider;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
-        UserCheckerInterface $userChecker,
-        EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validator,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        UserProviderInterface $userProvider = null
+        GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory
     )
     {
-        $this->securityContext = $securityContext;
-        $this->userChecker = $userChecker;
-        $this->encoderFactory = $encoderFactory;
         $this->validator = $validator;
-        $this->modelManagerFactory = $modelManagerFactory;
         $this->grantTypeHandlerFactory = $grantTypeHandlerFactory;
-        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
-        $this->userProvider = $userProvider;
     }
 
     public function tokenAction(Request $request)
@@ -78,14 +54,6 @@ class TokenController
         // Handle token endpoint response.
         return $this->grantTypeHandlerFactory
             ->getGrantTypeHandler($grantType)
-            ->handle(
-                $this->securityContext,
-                $this->userChecker,
-                $this->encoderFactory,
-                $request,
-                $this->modelManagerFactory,
-                $this->tokenTypeHandlerFactory,
-                $this->userProvider
-            );
+            ->handle($request);
     }
 }

@@ -87,7 +87,16 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         });
 
         $app['authbucket_oauth2.grant_handler.factory'] = $app->share(function ($app) {
-            return new GrantTypeHandlerFactory($app['authbucket_oauth2.grant_handler']);
+            return new GrantTypeHandlerFactory(
+                $app['security'],
+                $app['security.user_checker'],
+                $app['security.encoder_factory'],
+                $app['validator'],
+                $app['authbucket_oauth2.model_manager.factory'],
+                $app['authbucket_oauth2.token_handler.factory'],
+                $app['authbucket_oauth2.user_provider'],
+                $app['authbucket_oauth2.grant_handler']
+            );
         });
 
         $app['authbucket_oauth2.token_handler.factory'] = $app->share(function ($app) {
@@ -110,14 +119,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
 
         $app['authbucket_oauth2.token_controller'] = $app->share(function () use ($app) {
             return new TokenController(
-                $app['security'],
-                $app['security.user_checker'],
-                $app['security.encoder_factory'],
                 $app['validator'],
-                $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.grant_handler.factory'],
-                $app['authbucket_oauth2.token_handler.factory'],
-                $app['authbucket_oauth2.user_provider']
+                $app['authbucket_oauth2.grant_handler.factory']
             );
         });
 

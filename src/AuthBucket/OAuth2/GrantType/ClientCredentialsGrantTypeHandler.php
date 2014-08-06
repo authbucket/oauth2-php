@@ -11,14 +11,8 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Util\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * Client credentials grant type implementation.
@@ -27,27 +21,19 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        UserCheckerInterface $userChecker,
-        EncoderFactoryInterface $encoderFactory,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        UserProviderInterface $userProvider = null
-    )
+    public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId($securityContext);
+        $clientId = $this->checkClientId();
 
         // No (and not possible to have) username, set as empty string.
         $username = '';
 
         // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagerFactory, $clientId, $username);
+        $scope = $this->checkScope($request, $clientId, $username);
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory
+        $parameters = $this->tokenTypeHandlerFactory
             ->getTokenTypeHandler()
             ->createAccessToken(
                 $clientId,
