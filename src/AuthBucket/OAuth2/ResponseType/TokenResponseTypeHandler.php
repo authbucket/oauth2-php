@@ -46,14 +46,15 @@ class TokenResponseTypeHandler extends AbstractResponseTypeHandler
         );
 
         // Generate parameters, store to backend and set response.
-        $parameters = $this->tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
-            $this->modelManagerFactory,
-            $clientId,
-            $username,
-            $scope,
-            $state,
-            $withRefreshToken = false
-        );
+        $parameters = $this->tokenTypeHandlerFactory
+            ->getTokenTypeHandler()
+            ->createAccessToken(
+                $clientId,
+                $username,
+                $scope,
+                $state,
+                $withRefreshToken = false
+            );
 
         return RedirectResponse::create($redirectUri, $parameters);
     }

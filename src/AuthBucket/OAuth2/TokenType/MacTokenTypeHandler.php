@@ -12,7 +12,6 @@
 namespace AuthBucket\OAuth2\TokenType;
 
 use AuthBucket\OAuth2\Exception\TemporarilyUnavailableException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -30,7 +29,6 @@ class MacTokenTypeHandler implements TokenTypeHandlerInterface
     }
 
     public function createAccessToken(
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId,
         $username = '',
         $scope = array(),

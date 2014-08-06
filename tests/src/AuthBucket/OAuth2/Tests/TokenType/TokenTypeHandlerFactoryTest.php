@@ -11,18 +11,20 @@
 
 namespace AuthBucket\OAuth2\Tests\TokenType;
 
+use AuthBucket\OAuth2\Tests\WebTestCase;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory;
 
-class TokenTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
+class TokenTypeHandlerFactoryTest extends WebTestCase
 {
     /**
      * @expectedException \AuthBucket\OAuth2\Exception\ServerErrorException
      */
     public function testNonExistsTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
-            'foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\NonExistsTokenTypeHandler',
-        ));
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['authbucket_oauth2.model_manager.factory'],
+            array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\NonExistsTokenTypeHandler')
+        );
         $tokenTypeHandlerFactory->addTokenTypeHandler('foo', $tokenTypeHandler);
     }
 
@@ -31,9 +33,10 @@ class TokenTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadAddTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
-            'foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\FooTokenTypeHandler',
-        ));
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['authbucket_oauth2.model_manager.factory'],
+            array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\FooTokenTypeHandler')
+        );
         $tokenTypeHandlerFactory->addTokenTypeHandler('foo', $tokenTypeHandler);
     }
 
@@ -42,7 +45,9 @@ class TokenTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyGetTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory();
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['authbucket_oauth2.model_manager.factory']
+        );
         $tokenTypeHandlerFactory->getTokenTypeHandler();
     }
 
@@ -51,17 +56,19 @@ class TokenTypeHandlerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadGetTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
-            'bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler',
-        ));
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['authbucket_oauth2.model_manager.factory'],
+            array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler')
+        );
         $tokenTypeHandlerFactory->getTokenTypeHandler('foo');
     }
 
     public function testGoodGetTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(array(
-            'bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler',
-        ));
+        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['authbucket_oauth2.model_manager.factory'],
+            array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler')
+        );
         $tokenTypeHandlerFactory->getTokenTypeHandler('bar');
     }
 }

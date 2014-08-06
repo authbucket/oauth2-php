@@ -12,6 +12,7 @@
 namespace AuthBucket\OAuth2\TokenType;
 
 use AuthBucket\OAuth2\Exception\ServerErrorException;
+use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 
 /**
  * OAuth2 grant type handler factory implemention.
@@ -20,10 +21,16 @@ use AuthBucket\OAuth2\Exception\ServerErrorException;
  */
 class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
 {
+    protected $modelManagerFactory;
     protected $classes;
 
-    public function __construct(array $classes = array())
+    public function __construct(
+        ModelManagerFactoryInterface $modelManagerFactory,
+        array $classes = array()
+    )
     {
+        $this->modelManagerFactory = $modelManagerFactory;
+
         foreach ($classes as $class) {
             if (!class_exists($class)) {
                 throw new ServerErrorException(array(
@@ -44,28 +51,16 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
 
     public function getTokenTypeHandler($type = null)
     {
-        if ($type === null) {
-            if (count($this->classes) < 1) {
-                throw new ServerErrorException(array(
-                    'error_description' => 'The token type is not supported by the authorization server.',
-                ));
-            }
+        $type = $type ?: current(array_keys($this->classes));
 
-            $handler = null;
-            foreach ($this->classes as $class) {
-                $handler = new $class();
-                break;
-            }
-
-            return $handler;
-        }
-
-        if (!isset($this->classes[$type])) {
+        if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
             throw new ServerErrorException(array(
                 'error_description' => 'The token type is not supported by the authorization server.',
             ));
         }
 
-        return new $this->classes[$type]();
+        return new $this->classes[$type](
+            $this->modelManagerFactory
+        );
     }
 }

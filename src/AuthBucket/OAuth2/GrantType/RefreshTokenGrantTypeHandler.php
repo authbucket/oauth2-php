@@ -48,12 +48,13 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         list($username, $scope) = $this->checkRefreshToken($request, $modelManagerFactory, $clientId);
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
-            $modelManagerFactory,
-            $clientId,
-            $username,
-            $scope
-        );
+        $parameters = $tokenTypeHandlerFactory
+            ->getTokenTypeHandler()
+            ->createAccessToken(
+                $clientId,
+                $username,
+                $scope
+            );
 
         return JsonResponse::create($parameters);
     }

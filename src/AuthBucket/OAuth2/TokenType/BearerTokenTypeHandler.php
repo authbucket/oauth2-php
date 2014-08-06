@@ -22,6 +22,15 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BearerTokenTypeHandler implements TokenTypeHandlerInterface
 {
+    protected $modelManagerFactory;
+
+    public function __construct(
+        ModelManagerFactoryInterface $modelManagerFactory
+    )
+    {
+        $this->modelManagerFactory = $modelManagerFactory;
+    }
+
     public function getAccessToken(Request $request)
     {
         $tokenHeaders = $request->headers->get('Authorization', false);
@@ -56,7 +65,6 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
     }
 
     public function createAccessToken(
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId,
         $username = '',
         $scope = array(),
@@ -64,7 +72,7 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         $withRefreshToken = true
     )
     {
-        $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
+        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
         $accessToken = $accessTokenManager->createModel(array(
             'accessToken' => md5(uniqid(null, true)),
             'tokenType' => 'bearer',
@@ -89,7 +97,7 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         }
 
         if ($withRefreshToken === true) {
-            $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
+            $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
             $refreshToken = $refreshTokenManager->createModel(array(
                 'refreshToken' => md5(uniqid(null, true)),
                 'clientId' => $clientId,

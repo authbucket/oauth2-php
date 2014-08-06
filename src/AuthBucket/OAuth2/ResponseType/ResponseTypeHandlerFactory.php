@@ -61,8 +61,10 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
         $this->classes = $classes;
     }
 
-    public function getResponseTypeHandler($type)
+    public function getResponseTypeHandler($type = null)
     {
+        $type = $type ?: current(array_keys($this->classes));
+
         if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
             throw new UnsupportedResponseTypeException(array(
                 'error_description' => 'The authorization server does not support obtaining an authorization code using this method.',

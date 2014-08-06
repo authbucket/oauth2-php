@@ -91,7 +91,10 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         });
 
         $app['authbucket_oauth2.token_handler.factory'] = $app->share(function ($app) {
-            return new TokenTypeHandlerFactory($app['authbucket_oauth2.token_handler']);
+            return new TokenTypeHandlerFactory(
+                $app['authbucket_oauth2.model_manager.factory'],
+                $app['authbucket_oauth2.token_handler']
+            );
         });
 
         $app['authbucket_oauth2.resource_handler.factory'] = $app->share(function ($app) {

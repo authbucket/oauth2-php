@@ -42,8 +42,10 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         $this->classes = $classes;
     }
 
-    public function getGrantTypeHandler($type)
+    public function getGrantTypeHandler($type = null)
     {
+        $type = $type ?: current(array_keys($this->classes));
+
         if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
             throw new UnsupportedGrantTypeException(array(
                 'error_description' => 'The authorization grant type is not supported by the authorization server.',
