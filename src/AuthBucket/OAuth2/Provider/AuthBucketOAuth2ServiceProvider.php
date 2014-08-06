@@ -107,6 +107,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
                 $app['security'],
                 $app['security.user_checker'],
                 $app['security.encoder_factory'],
+                $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.grant_handler.factory'],
                 $app['authbucket_oauth2.token_handler.factory'],

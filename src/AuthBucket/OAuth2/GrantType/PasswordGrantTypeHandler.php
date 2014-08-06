@@ -37,10 +37,10 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
     public function handle(
+        Request $request,
         SecurityContextInterface $securityContext,
         UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
-        Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null
