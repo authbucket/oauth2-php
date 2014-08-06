@@ -25,7 +25,6 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * Password grant type implementation.
@@ -38,11 +37,10 @@ use Symfony\Component\Validator\ValidatorInterface;
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
     public function handle(
-        Request $request,
         SecurityContextInterface $securityContext,
         UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
-        ValidatorInterface $validator,
+        Request $request,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null

@@ -53,7 +53,10 @@ class AuthorizeController
     {
         // Fetch response_type from GET.
         $responseType = $request->query->get('response_type');
-        $errors = $this->validator->validateValue($responseType, array(new NotBlank(), new ResponseType()));
+        $errors = $this->validator->validateValue($responseType, array(
+            new NotBlank(),
+            new ResponseType(),
+        ));
         if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
@@ -64,9 +67,8 @@ class AuthorizeController
         return $this->responseTypeHandlerFactory
             ->getResponseTypeHandler($responseType)
             ->handle(
-                $request,
                 $this->securityContext,
-                $this->validator,
+                $request,
                 $this->modelManagerFactory,
                 $this->tokenTypeHandlerFactory
             );

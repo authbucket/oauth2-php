@@ -41,6 +41,13 @@ class Code implements CodeInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="state", type="string", length=255)
+     */
+    protected $state;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $clientId;
@@ -105,6 +112,30 @@ class Code implements CodeInterface
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     *
+     * @return State
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 
     /**

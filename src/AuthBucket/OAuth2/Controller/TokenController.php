@@ -65,7 +65,10 @@ class TokenController
     {
         // Fetch grant_type from POST.
         $grantType = $request->request->get('grant_type');
-        $errors = $this->validator->validateValue($grantType, array(new NotBlank(), new GrantType()));
+        $errors = $this->validator->validateValue($grantType, array(
+            new NotBlank(),
+            new GrantType(),
+        ));
         if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
@@ -76,11 +79,10 @@ class TokenController
         return $this->grantTypeHandlerFactory
             ->getGrantTypeHandler($grantType)
             ->handle(
-                $request,
                 $this->securityContext,
                 $this->userChecker,
                 $this->encoderFactory,
-                $this->validator,
+                $request,
                 $this->modelManagerFactory,
                 $this->tokenTypeHandlerFactory,
                 $this->userProvider

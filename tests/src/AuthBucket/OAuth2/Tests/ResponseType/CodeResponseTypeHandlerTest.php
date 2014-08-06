@@ -42,7 +42,6 @@ class CodeResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'code',
             'client_id' => 'http://badclient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'state' => 'demostate',
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',
@@ -112,9 +111,9 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $tokenResponse = $authResponse->query->all();
         $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
@@ -183,9 +182,9 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
+        $tokenResponse = $authResponse->query->all();
         $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
