@@ -13,12 +13,15 @@ namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Util\Filter;
 use AuthBucket\OAuth2\Util\JsonResponse;
+use AuthBucket\OAuth2\Validator\Constraints\ClientId;
+use AuthBucket\OAuth2\Validator\Constraints\Password;
+use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Password grant type implementation.
@@ -65,14 +68,25 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
      */
     private function checkUsername(Request $request)
     {
+        // username must exist and in valid format.
         $username = $request->request->get('username');
-        $password = $request->request->get('password');
+        $errors = $this->validator->validateValue($username, array(
+            new NotBlank(),
+            new Username(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
-        // username and password must exist and in valid format.
-        if (!Filter::filter(array(
-            'username' => $username,
-            'password' => $password,
-        ))) {
+        // password must exist and in valid format.
+        $password = $request->request->get('password');
+        $errors = $this->validator->validateValue($password, array(
+            new NotBlank(),
+            new Password(),
+        ));
+        if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));

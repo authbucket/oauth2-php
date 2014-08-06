@@ -48,7 +48,6 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         $codeManager =  $this->modelManagerFactory->getModelManager('code');
         $code = $codeManager->createModel(array(
             'code' => md5(uniqid(null, true)),
-            'state' => $state,
             'clientId' => $clientId,
             'username' => $username,
             'redirectUri' => $redirectUri,

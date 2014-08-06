@@ -14,9 +14,12 @@ namespace AuthBucket\OAuth2\GrantType;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
-use AuthBucket\OAuth2\Util\Filter;
 use AuthBucket\OAuth2\Util\JsonResponse;
+use AuthBucket\OAuth2\Validator\Constraints\ClientId;
+use AuthBucket\OAuth2\Validator\Constraints\RefreshToken;
+use AuthBucket\OAuth2\Validator\Constraints\Scope;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Refresh token grant type implementation.
@@ -62,11 +65,24 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         $clientId
     )
     {
-        $refreshToken = $request->request->get('refresh_token');
-        $scope = $request->request->get('scope', null);
-
         // refresh_token must exists and in valid format.
-        if (!Filter::filter(array('refresh_token' => $refreshToken))) {
+        $refreshToken = $request->request->get('refresh_token');
+        $errors = $this->validator->validateValue($refreshToken, array(
+            new NotBlank(),
+            new RefreshToken(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
+        // scope may not exists, else must be in valid format.
+        $scope = $request->request->get('scope');
+        $errors = $this->validator->validateValue($scope, array(
+            new Scope(),
+        ));
+        if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));
@@ -98,13 +114,6 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Compare if given scope is subset of original refresh_token's scope.
         if ($scope !== null && $scopeGranted !== null) {
-            // scope must be in valid format.
-            if (!Filter::filter(array('scope' => $scope))) {
-                throw new InvalidRequestException(array(
-                    'error_description' => 'The request includes an invalid parameter value.',
-                ));
-            }
-
             // Compare if given scope within all available granted scopes.
             $scope = preg_split('/\s+/', $scope);
             if (array_intersect($scope, $scopeGranted) !== $scope) {

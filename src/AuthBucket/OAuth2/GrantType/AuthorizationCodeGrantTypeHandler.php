@@ -13,9 +13,14 @@ namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Util\Filter;
 use AuthBucket\OAuth2\Util\JsonResponse;
+use AuthBucket\OAuth2\Validator\Constraints\ClientId;
+use AuthBucket\OAuth2\Validator\Constraints\Code;
+use AuthBucket\OAuth2\Validator\Constraints\RedirectUri;
+use AuthBucket\OAuth2\Validator\Constraints\Scope;
+use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Authorization code grant type implementation.
@@ -34,9 +39,6 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check and set redirect_uri.
         $redirectUri = $this->checkRedirectUri($request, $clientId);
-
-        // Check state from stored code.
-        $this->checkState($request);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $this->tokenTypeHandlerFactory
@@ -66,10 +68,13 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $clientId
     )
     {
-        $code = $request->request->get('code');
-
         // code is required and must in valid format.
-        if (!Filter::filter(array('code' => $code))) {
+        $code = $request->request->get('code');
+        $errors = $this->validator->validateValue($code, array(
+            new NotBlank(),
+            new Code(),
+        ));
+        if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));
@@ -140,36 +145,5 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         return $redirectUri ?: $stored;
-    }
-
-    /**
-     * Check state from POST.
-     *
-     * @param Request $request Incoming request object.
-     *
-     * @throw InvalidRequestException If supplied state value not match with stored record.
-     */
-    private function checkState(Request $request)
-    {
-        $state = $request->request->get('state');
-        $code = $request->request->get('code');
-
-        // state is required and in valid format.
-        if (!Filter::filter(array('state' => $state))) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
-
-        // Check state with database record.
-        $codeManager = $this->modelManagerFactory->getModelManager('code');
-        $result = $codeManager->readModelOneBy(array(
-            'code' => $code,
-        ));
-        if ($result === null || $result->getState() !== $state) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
     }
 }
