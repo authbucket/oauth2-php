@@ -13,6 +13,7 @@ namespace AuthBucket\OAuth2\TokenType;
 
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * OAuth2 grant type handler factory implemention.
@@ -21,14 +22,17 @@ use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
  */
 class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
 {
+    protected $validator;
     protected $modelManagerFactory;
     protected $classes;
 
     public function __construct(
+        ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         array $classes = array()
     )
     {
+        $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
 
         foreach ($classes as $class) {
@@ -60,6 +64,7 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
         }
 
         return new $this->classes[$type](
+            $this->validator,
             $this->modelManagerFactory
         );
     }

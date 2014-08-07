@@ -13,11 +13,9 @@ namespace AuthBucket\OAuth2\ResourceType;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Client;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Token response type implementation.
@@ -27,8 +25,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
 {
     public function handle(
-        HttpKernelInterface $httpKernel,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $accessToken,
         array $options = array()
     )
@@ -52,7 +48,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             ));
         }
 
-        $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
+        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
 
         // Get cached access_token and return if exists.
         if ($options['cache']) {
@@ -73,7 +69,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             'PHP_AUTH_USER' => $options['client_id'],
             'PHP_AUTH_PW' => $options['client_secret'],
         );
-        $client = new Client($httpKernel);
+        $client = new Client($this->httpKernel);
         $crawler = $client->request('POST', $options['token_path'], $parameters, array(), $server);
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
 
@@ -91,7 +87,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
-        $client = new Client($httpKernel);
+        $client = new Client($this->httpKernel);
         $crawler = $client->request('GET', $options['debug_path'], $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
 

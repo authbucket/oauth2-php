@@ -27,5 +27,5 @@ interface ResourceTypeHandlerFactoryInterface
      *
      * @throw ServerErrorException If supplied resource type not found.
      */
-    public function getResourceTypeHandler($type);
+    public function getResourceTypeHandler($type = null);
 }

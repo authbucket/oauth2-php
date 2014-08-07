@@ -101,13 +101,18 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
 
         $app['authbucket_oauth2.token_handler.factory'] = $app->share(function ($app) {
             return new TokenTypeHandlerFactory(
+                $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.token_handler']
             );
         });
 
         $app['authbucket_oauth2.resource_handler.factory'] = $app->share(function ($app) {
-            return new ResourceTypeHandlerFactory($app['authbucket_oauth2.resource_handler']);
+            return new ResourceTypeHandlerFactory(
+                $app,
+                $app['authbucket_oauth2.model_manager.factory'],
+                $app['authbucket_oauth2.resource_handler']
+            );
         });
 
         $app['authbucket_oauth2.authorize_controller'] = $app->share(function () use ($app) {
@@ -154,8 +159,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         $app['security.authentication_provider.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new ResourceProvider(
-                    $app,
-                    $app['authbucket_oauth2.model_manager.factory'],
                     $app['authbucket_oauth2.resource_handler.factory'],
                     $name,
                     $options['resource_type'],

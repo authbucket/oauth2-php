@@ -13,10 +13,8 @@ namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -27,8 +25,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ResourceProvider implements AuthenticationProviderInterface
 {
-    protected $httpKernel;
-    protected $modelManagerFactory;
     protected $resourceTypeHandlerFactory;
     protected $providerKey;
     protected $resourceType;
@@ -36,8 +32,6 @@ class ResourceProvider implements AuthenticationProviderInterface
     protected $options;
 
     public function __construct(
-        HttpKernelInterface $httpKernel,
-        ModelManagerFactoryInterface $modelManagerFactory,
         ResourceTypeHandlerFactoryInterface $resourceTypeHandlerFactory,
         $providerKey,
         $resourceType = 'model',
@@ -45,8 +39,6 @@ class ResourceProvider implements AuthenticationProviderInterface
         array $options = array()
     )
     {
-        $this->httpKernel = $httpKernel;
-        $this->modelManagerFactory = $modelManagerFactory;
         $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
         $this->providerKey = $providerKey;
         $this->resourceType = $resourceType;
@@ -69,8 +61,6 @@ class ResourceProvider implements AuthenticationProviderInterface
         $accessTokenStored = $this->resourceTypeHandlerFactory
             ->getResourceTypeHandler($this->resourceType)
             ->handle(
-                $this->httpKernel,
-                $this->modelManagerFactory,
                 $accessTokenSupplied,
                 $this->options
             );

@@ -12,8 +12,6 @@
 namespace AuthBucket\OAuth2\ResourceType;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Model response type handler implementation.
@@ -23,13 +21,11 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class ModelResourceTypeHandler extends AbstractResourceTypeHandler
 {
     public function handle(
-        HttpKernelInterface $httpKernel,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $accessToken,
         array $options = array()
     )
     {
-        $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
+        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
         $stored = $accessTokenManager->readModelOneBy(array(
             'accessToken' => $accessToken,
         ));

@@ -11,33 +11,11 @@
 
 namespace AuthBucket\OAuth2\TokenType;
 
-use AuthBucket\OAuth2\Exception\TemporarilyUnavailableException;
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * MAC token type handler implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class MacTokenTypeHandler implements TokenTypeHandlerInterface
+class MacTokenTypeHandler extends AbstractTokenTypeHandler
 {
-    public function getAccessToken(Request $request)
-    {
-        throw new TemporarilyUnavailableException(array(
-            'error_description' => 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
-        ));
-    }
-
-    public function createAccessToken(
-        $clientId,
-        $username = '',
-        $scope = array(),
-        $state = null,
-        $withRefreshToken = true
-    )
-    {
-        throw new TemporarilyUnavailableException(array(
-            'error_description' => 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
-        ));
-    }
 }

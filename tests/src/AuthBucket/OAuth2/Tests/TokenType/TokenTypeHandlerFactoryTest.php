@@ -22,6 +22,7 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
     public function testNonExistsTokenTypeHandler()
     {
         $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\NonExistsTokenTypeHandler')
         );
@@ -34,6 +35,7 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
     public function testBadAddTokenTypeHandler()
     {
         $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\FooTokenTypeHandler')
         );
@@ -46,6 +48,7 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
     public function testEmptyGetTokenTypeHandler()
     {
         $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory']
         );
         $tokenTypeHandlerFactory->getTokenTypeHandler();
@@ -57,6 +60,7 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
     public function testBadGetTokenTypeHandler()
     {
         $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler')
         );
@@ -66,6 +70,7 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
     public function testGoodGetTokenTypeHandler()
     {
         $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+            $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler')
         );

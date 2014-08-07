@@ -12,25 +12,17 @@
 namespace AuthBucket\OAuth2\TokenType;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Bearer token type handler implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class BearerTokenTypeHandler implements TokenTypeHandlerInterface
+class BearerTokenTypeHandler extends AbstractTokenTypeHandler
 {
-    protected $modelManagerFactory;
-
-    public function __construct(
-        ModelManagerFactoryInterface $modelManagerFactory
-    )
-    {
-        $this->modelManagerFactory = $modelManagerFactory;
-    }
-
     public function getAccessToken(Request $request)
     {
         $tokenHeaders = $request->headers->get('Authorization', false);
@@ -60,6 +52,17 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         $accessToken = $tokenHeaders
             ?: $tokenRequest
             ?: $tokenQuery;
+
+        // access_token must be in valid format.
+        $errors = $this->validator->validateValue($accessToken, array(
+            new NotBlank(),
+            new AccessToken(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         return $accessToken;
     }
