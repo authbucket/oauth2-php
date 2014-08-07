@@ -100,7 +100,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     )
     {
         // scope may not exists.
-        $scope = $request->request->get('scope', null);
+        $scope = $request->request->get('scope');
         if (empty($scope)) {
             return;
         }
