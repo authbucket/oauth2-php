@@ -13,10 +13,10 @@ namespace AuthBucket\OAuth2\Controller;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
 
@@ -27,28 +27,28 @@ use Symfony\Component\Validator\ValidatorInterface;
  */
 class DebugController
 {
-    protected $securityContext;
     protected $validator;
     protected $modelManagerFactory;
+    protected $tokenTypeHandlerFactory;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
         ValidatorInterface $validator,
-        ModelManagerFactoryInterface $modelManagerFactory
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        $this->securityContext = $securityContext;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
+        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     public function debugAction(Request $request)
     {
         // Fetch adebu_token from GET.
-        $token = $this->securityContext->getToken();
+        $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
         $debugToken = $request->query->get('debug_token')
             ?: $request->request->get('debug_token')
-            ?: $token->getAccessToken()->getAccessToken();
+            ?: $tokenTypeHandler->getAccessToken($request);
         $errors = $this->validator->validateValue($debugToken, array(
             new NotBlank(),
             new AccessToken(),

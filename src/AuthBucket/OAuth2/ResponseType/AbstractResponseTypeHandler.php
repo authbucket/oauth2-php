@@ -63,6 +63,15 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     protected function checkUsername()
     {
         $username = $this->securityContext->getToken()->getUsername();
+        $errors = $this->validator->validateValue($username, array(
+            new NotBlank(),
+            new Username(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         return $username;
     }
@@ -120,13 +129,21 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $clientId
     )
     {
-        $clientManager = $this->modelManagerFactory->getModelManager('client');
-
+        // redirect_uri may not exists.
         $redirectUri = $request->query->get('redirect_uri');
+        $errors = $this->validator->validateValue($redirectUri, array(
+            new RedirectUri(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
+        $clientManager = $this->modelManagerFactory->getModelManager('client');
         $result = $clientManager->readModelOneBy(array(
             'clientId' => $clientId,
         ));
@@ -193,6 +210,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         // scope must be in valid format.
         $errors = $this->validator->validateValue($scope, array(
+            new NotBlank(),
             new Scope(),
         ));
         if (count($errors) > 0) {

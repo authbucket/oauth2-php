@@ -15,7 +15,6 @@ use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Util\JsonResponse;
-use AuthBucket\OAuth2\Validator\Constraints\ClientId;
 use AuthBucket\OAuth2\Validator\Constraints\RefreshToken;
 use AuthBucket\OAuth2\Validator\Constraints\Scope;
 use Symfony\Component\HttpFoundation\Request;

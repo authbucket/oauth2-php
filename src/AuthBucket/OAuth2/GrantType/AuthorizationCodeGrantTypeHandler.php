@@ -14,11 +14,8 @@ namespace AuthBucket\OAuth2\GrantType;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Util\JsonResponse;
-use AuthBucket\OAuth2\Validator\Constraints\ClientId;
 use AuthBucket\OAuth2\Validator\Constraints\Code;
 use AuthBucket\OAuth2\Validator\Constraints\RedirectUri;
-use AuthBucket\OAuth2\Validator\Constraints\Scope;
-use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -113,7 +110,16 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $clientId
     )
     {
+        // redirect_uri may not exists.
         $redirectUri = $request->request->get('redirect_uri');
+        $errors = $this->validator->validateValue($redirectUri, array(
+            new RedirectUri(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.

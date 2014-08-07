@@ -14,7 +14,6 @@ namespace AuthBucket\OAuth2\GrantType;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Util\JsonResponse;
-use AuthBucket\OAuth2\Validator\Constraints\ClientId;
 use AuthBucket\OAuth2\Validator\Constraints\Password;
 use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
