@@ -12,15 +12,16 @@
 namespace AuthBucket\OAuth2\TokenType;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Bearer token type handler implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class BearerTokenTypeHandler implements TokenTypeHandlerInterface
+class BearerTokenTypeHandler extends AbstractTokenTypeHandler
 {
     public function getAccessToken(Request $request)
     {
@@ -52,11 +53,21 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             ?: $tokenRequest
             ?: $tokenQuery;
 
+        // access_token must be in valid format.
+        $errors = $this->validator->validateValue($accessToken, array(
+            new NotBlank(),
+            new AccessToken(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
         return $accessToken;
     }
 
     public function createAccessToken(
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId,
         $username = '',
         $scope = array(),
@@ -64,14 +75,14 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         $withRefreshToken = true
     )
     {
-        $accessTokenManager = $modelManagerFactory->getModelManager('access_token');
+        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
         $accessToken = $accessTokenManager->createModel(array(
             'accessToken' => md5(uniqid(null, true)),
             'tokenType' => 'bearer',
             'clientId' => $clientId,
             'username' => $username,
             'expires' => new \DateTime('+1 hours'),
-            'scope' => $scope,
+            'scope' => (array) $scope,
         ));
 
         $parameters = array(
@@ -80,8 +91,8 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
             'expires_in' => $accessToken->getExpires()->getTimestamp() - time(),
         );
 
-        if (!empty($scope) && is_array($scope)) {
-            $parameters['scope'] = implode(' ', $scope);
+        if (!empty($scope)) {
+            $parameters['scope'] = implode(' ', (array) $scope);
         }
 
         if (!empty($state)) {
@@ -89,13 +100,13 @@ class BearerTokenTypeHandler implements TokenTypeHandlerInterface
         }
 
         if ($withRefreshToken === true) {
-            $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
+            $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
             $refreshToken = $refreshTokenManager->createModel(array(
                 'refreshToken' => md5(uniqid(null, true)),
                 'clientId' => $clientId,
                 'username' => $username,
                 'expires' => new \DateTime('+1 days'),
-                'scope' => $scope,
+                'scope' => (array) $scope,
             ));
 
             $parameters['refresh_token'] = $refreshToken->getRefreshToken();

@@ -12,12 +12,11 @@
 namespace AuthBucket\OAuth2\Controller;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Util\Filter;
+use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * OAuth2 authorization endpoint controller implementation.
@@ -26,50 +25,35 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class AuthorizeController
 {
-    protected $securityContext;
-    protected $modelManagerFactory;
+    protected $validator;
     protected $responseTypeHandlerFactory;
-    protected $tokenTypeHandlerFactory;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        ValidatorInterface $validator,
+        ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory
     )
     {
-        $this->securityContext = $securityContext;
-        $this->modelManagerFactory = $modelManagerFactory;
+        $this->validator = $validator;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
-        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     public function authorizeAction(Request $request)
     {
         // Fetch response_type from GET.
-        $responseType = $this->getResponseType($request);
-
-        // Handle authorize endpoint response.
-        return $this->responseTypeHandlerFactory
-            ->getResponseTypeHandler($responseType)
-            ->handle(
-                $this->securityContext,
-                $request,
-                $this->modelManagerFactory,
-                $this->tokenTypeHandlerFactory
-            );
-    }
-
-    private function getResponseType(Request $request)
-    {
-        // Validate and set response_type.
         $responseType = $request->query->get('response_type');
-        if (!Filter::filter(array('response_type' => $responseType))) {
+        $errors = $this->validator->validateValue($responseType, array(
+            new NotBlank(),
+            new ResponseType(),
+        ));
+        if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));
         }
 
-        return $responseType;
+        // Handle authorize endpoint response.
+        return $this->responseTypeHandlerFactory
+            ->getResponseTypeHandler($responseType)
+            ->handle($request);
     }
 }

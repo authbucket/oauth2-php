@@ -13,11 +13,12 @@ namespace AuthBucket\OAuth2\Controller;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
-use AuthBucket\OAuth2\Util\Filter;
+use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
+use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * OAuth2 debug endpoint controller implementation.
@@ -26,24 +27,40 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class DebugController
 {
-    protected $securityContext;
+    protected $validator;
     protected $modelManagerFactory;
+    protected $tokenTypeHandlerFactory;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
-        ModelManagerFactoryInterface $modelManagerFactory
+        ValidatorInterface $validator,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     )
     {
-        $this->securityContext = $securityContext;
+        $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
+        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     public function debugAction(Request $request)
     {
-        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
+        // Fetch adebu_token from GET.
+        $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
+        $debugToken = $request->query->get('debug_token')
+            ?: $request->request->get('debug_token')
+            ?: $tokenTypeHandler->getAccessToken($request);
+        $errors = $this->validator->validateValue($debugToken, array(
+            new NotBlank(),
+            new AccessToken(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
-        // Fetch access_token from GET.
-        $debugToken = $this->getDebugToken($request);
+        // Check debug_token with database record.
+        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
         $accessToken = $accessTokenManager->readModelOneBy(array(
             'accessToken' => $debugToken,
         ));
@@ -68,30 +85,5 @@ class DebugController
         );
 
         return JsonResponse::create($parameters);
-    }
-
-    private function getDebugToken(Request $request)
-    {
-        // Fetch access_token from security context.
-        $accessToken = '';
-        if (null !== $token = $this->securityContext->getToken()) {
-            if ($token instanceof AccessToken) {
-                $accessToken = $token->getAccessToken()->getAccessToken();
-            }
-        }
-
-        // Fetch debug token from GET/POST/access_token.
-        $debugToken = $request->query->get('debug_token')
-            ?: $request->request->get('debug_token')
-            ?: $accessToken;
-
-        // Validate debug token.
-        if (!Filter::filter(array('access_token' => $debugToken))) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
-
-        return $debugToken;
     }
 }

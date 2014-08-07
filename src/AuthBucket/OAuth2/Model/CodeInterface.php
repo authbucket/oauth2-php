@@ -35,22 +35,6 @@ interface CodeInterface extends ModelInterface
     public function getCode();
 
     /**
-     * Set state
-     *
-     * @param string $state
-     *
-     * @return State
-     */
-    public function setState($state);
-
-    /**
-     * Get state
-     *
-     * @return string
-     */
-    public function getState();
-
-    /**
      * Set client_id
      *
      * @param string $clientId

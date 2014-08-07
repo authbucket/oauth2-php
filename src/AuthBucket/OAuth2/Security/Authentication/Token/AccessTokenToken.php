@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 /**
  * OAuth2 AccessToken for resource endpoint authentication.
  */
-class AccessToken extends AbstractToken
+class AccessTokenToken extends AbstractToken
 {
     protected $accessToken;
     protected $providerKey;

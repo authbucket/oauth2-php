@@ -25,16 +25,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class TokenProvider implements AuthenticationProviderInterface
 {
-    protected $modelManagerFactory;
     protected $providerKey;
+    protected $modelManagerFactory;
 
     public function __construct(
-        ModelManagerFactoryInterface $modelManagerFactory,
-        $providerKey
+        $providerKey,
+        ModelManagerFactoryInterface $modelManagerFactory
     )
     {
-        $this->modelManagerFactory = $modelManagerFactory;
         $this->providerKey = $providerKey;
+        $this->modelManagerFactory = $modelManagerFactory;
     }
 
     public function authenticate(TokenInterface $token)

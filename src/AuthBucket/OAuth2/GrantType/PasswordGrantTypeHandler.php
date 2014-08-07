@@ -13,18 +13,14 @@ namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Util\Filter;
 use AuthBucket\OAuth2\Util\JsonResponse;
+use AuthBucket\OAuth2\Validator\Constraints\Password;
+use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Password grant type implementation.
@@ -36,38 +32,25 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        UserCheckerInterface $userChecker,
-        EncoderFactoryInterface $encoderFactory,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        UserProviderInterface $userProvider = null
-    )
+    public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId($securityContext);
+        $clientId = $this->checkClientId();
 
         // Check resource owner credentials
-        $username = $this->checkUsername(
-            $request,
-            $modelManagerFactory,
-            $userProvider,
-            $userChecker,
-            $encoderFactory
-        );
+        $username = $this->checkUsername($request);
 
         // Check and set scope.
-        $scope = $this->checkScope($request, $modelManagerFactory, $clientId, $username);
+        $scope = $this->checkScope($request, $clientId, $username);
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
-            $modelManagerFactory,
-            $clientId,
-            $username,
-            $scope
-        );
+        $parameters = $this->tokenTypeHandlerFactory
+            ->getTokenTypeHandler()
+            ->createAccessToken(
+                $clientId,
+                $username,
+                $scope
+            );
 
         return JsonResponse::create($parameters);
     }
@@ -75,30 +58,34 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     /**
      * Fetch username from POST.
      *
-     * @param Request                      $request             Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
+     * @param Request $request Incoming request object.
      *
      * @return string The supplied username.
      *
      * @throw InvalidRequestException If username or password in invalid format.
      * @throw InvalidGrantException If reported as bad credentials from authentication provider.
      */
-    private function checkUsername(
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        UserProviderInterface $userProvider,
-        UserCheckerInterface $userChecker,
-        EncoderFactoryInterface $encoderFactory
-    )
+    private function checkUsername(Request $request)
     {
+        // username must exist and in valid format.
         $username = $request->request->get('username');
-        $password = $request->request->get('password');
+        $errors = $this->validator->validateValue($username, array(
+            new NotBlank(),
+            new Username(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
-        // username and password must exist and in valid format.
-        if (!Filter::filter(array(
-            'username' => $username,
-            'password' => $password,
-        ))) {
+        // password must exist and in valid format.
+        $password = $request->request->get('password');
+        $errors = $this->validator->validateValue($password, array(
+            new NotBlank(),
+            new Password(),
+        ));
+        if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));
@@ -108,10 +95,10 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         try {
             $token = new UsernamePasswordToken($username, $password, 'oauth2');
             $authenticationProvider = new DaoAuthenticationProvider(
-                $userProvider,
-                $userChecker,
+                $this->userProvider,
+                $this->userChecker,
                 'oauth2',
-                $encoderFactory
+                $this->encoderFactory
             );
             $authenticationProvider->authenticate($token);
         } catch (BadCredentialsException $e) {

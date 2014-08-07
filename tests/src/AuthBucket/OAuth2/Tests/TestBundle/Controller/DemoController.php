@@ -92,7 +92,6 @@ class DemoController
 
         $tokenPath = $app['url_generator']->generate('demo_grant_type_authorization_code', array(
             'code' => $authorizationResponse['code'],
-            'state' => $authorizationResponse['state'],
         ));
 
         return $app['twig']->render('demo/response_type/code.html.twig', array(
@@ -127,7 +126,6 @@ class DemoController
             'redirect_uri' => $request->getUriForPath('/demo/response_type/code'),
             'client_id' => 'authorization_code_grant',
             'client_secret' => 'uoce8AeP',
-            'state' => $request->query->get('state'),
         );
         $server = array();
         $client = new Client($app);

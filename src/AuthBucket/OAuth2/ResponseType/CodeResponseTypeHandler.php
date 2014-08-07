@@ -11,11 +11,8 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Util\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Code response type handler implementation.
@@ -24,21 +21,16 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class CodeResponseTypeHandler extends AbstractResponseTypeHandler
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-    )
+    public function handle(Request $request)
     {
         // Fetch username from authenticated token.
-        $username = $this->checkUsername($securityContext);
+        $username = $this->checkUsername();
 
         // Fetch and check client_id.
-        $clientId = $this->checkClientId($request, $modelManagerFactory);
+        $clientId = $this->checkClientId($request);
 
         // Fetch and check redirect_uri.
-        $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
+        $redirectUri = $this->checkRedirectUri($request, $clientId);
 
         // Fetch and check state.
         $state = $this->checkState($request, $redirectUri);
@@ -46,7 +38,6 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         // Fetch and check scope.
         $scope = $this->checkScope(
             $request,
-            $modelManagerFactory,
             $clientId,
             $username,
             $redirectUri,
@@ -54,15 +45,14 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         );
 
         // Generate parameters, store to backend and set response.
-        $codeManager =  $modelManagerFactory->getModelManager('code');
+        $codeManager =  $this->modelManagerFactory->getModelManager('code');
         $code = $codeManager->createModel(array(
             'code' => md5(uniqid(null, true)),
-            'state' => $state,
             'clientId' => $clientId,
             'username' => $username,
             'redirectUri' => $redirectUri,
             'expires' => new \DateTime('+10 minutes'),
-            'scope' => $scope,
+            'scope' => (array) $scope,
         ));
 
         $parameters = array(

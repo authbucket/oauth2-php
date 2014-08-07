@@ -9,28 +9,19 @@
  * file that was distributed with this source code.
  */
 
-use AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider;
-use AuthBucket\OAuth2\Tests\TestBundle\TestBundleServiceProvider;
-use Silex\Provider\DoctrineServiceProvider;
-use Silex\Provider\FormServiceProvider;
-use Silex\Provider\SecurityServiceProvider;
-use Silex\Provider\ServiceControllerServiceProvider;
-use Silex\Provider\SessionServiceProvider;
-use Silex\Provider\TranslationServiceProvider;
-use Silex\Provider\TwigServiceProvider;
-use Silex\Provider\UrlGeneratorServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
-$app->register(new AuthBucketOAuth2ServiceProvider());
-$app->register(new DoctrineServiceProvider());
-$app->register(new FormServiceProvider());
-$app->register(new SecurityServiceProvider());
-$app->register(new ServiceControllerServiceProvider());
-$app->register(new SessionServiceProvider());
-$app->register(new TestBundleServiceProvider());
-$app->register(new TranslationServiceProvider());
-$app->register(new TwigServiceProvider());
-$app->register(new UrlGeneratorServiceProvider());
+$app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
+$app->register(new AuthBucket\OAuth2\Tests\TestBundle\TestBundleServiceProvider());
+$app->register(new Silex\Provider\DoctrineServiceProvider());
+$app->register(new Silex\Provider\FormServiceProvider());
+$app->register(new Silex\Provider\SecurityServiceProvider());
+$app->register(new Silex\Provider\ServiceControllerServiceProvider());
+$app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider());
+$app->register(new Silex\Provider\TwigServiceProvider());
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+$app->register(new Silex\Provider\ValidatorServiceProvider());
 
 require __DIR__ . '/config/config_' . $app['env'] . '.php';
 require __DIR__ . '/config/routing_' . $app['env'] . '.php';

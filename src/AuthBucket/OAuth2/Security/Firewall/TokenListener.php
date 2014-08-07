@@ -13,11 +13,15 @@ namespace AuthBucket\OAuth2\Security\Firewall;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
+use AuthBucket\OAuth2\Validator\Constraints\ClientId;
+use AuthBucket\OAuth2\Validator\Constraints\ClientSecret;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\ValidatorInterface;
 
 /**
  * TokenListener implements OAuth2 token endpoint authentication.
@@ -26,19 +30,22 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
  */
 class TokenListener implements ListenerInterface
 {
+    protected $providerKey;
     protected $securityContext;
     protected $authenticationManager;
-    protected $providerKey;
+    protected $validator;
 
     public function __construct(
+        $providerKey,
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
-        $providerKey
+        ValidatorInterface $validator
     )
     {
+        $this->providerKey = $providerKey;
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
-        $this->providerKey = $providerKey;
+        $this->validator = $validator;
     }
 
     public function handle(GetResponseEvent $event)
@@ -63,6 +70,28 @@ class TokenListener implements ListenerInterface
         } else {
             $clientId = $request->request->get('client_id', false);
             $clientSecret = $request->request->get('client_secret', false);
+        }
+
+        // client_id must in valid format.
+        $errors = $this->validator->validateValue($clientId, array(
+            new NotBlank(),
+            new ClientId(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
+        // client_secret must in valid format.
+        $errors = $this->validator->validateValue($clientId, array(
+            new NotBlank(),
+            new ClientSecret(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
         }
 
         if (null !== $token = $this->securityContext->getToken()) {

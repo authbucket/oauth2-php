@@ -11,12 +11,9 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Util\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Token response type implementation.
@@ -25,21 +22,16 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class TokenResponseTypeHandler extends AbstractResponseTypeHandler
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-    )
+    public function handle(Request $request)
     {
         // Fetch username from authenticated token.
-        $username = $this->checkUsername($securityContext);
+        $username = $this->checkUsername();
 
         // Fetch and check client_id.
-        $clientId = $this->checkClientId($request, $modelManagerFactory);
+        $clientId = $this->checkClientId($request);
 
         // Fetch and check redirect_uri.
-        $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
+        $redirectUri = $this->checkRedirectUri($request, $clientId);
 
         // Fetch and check state.
         $state = $this->checkState($request, $redirectUri);
@@ -47,7 +39,6 @@ class TokenResponseTypeHandler extends AbstractResponseTypeHandler
         // Fetch and check scope.
         $scope = $this->checkScope(
             $request,
-            $modelManagerFactory,
             $clientId,
             $username,
             $redirectUri,
@@ -55,14 +46,15 @@ class TokenResponseTypeHandler extends AbstractResponseTypeHandler
         );
 
         // Generate parameters, store to backend and set response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
-            $modelManagerFactory,
-            $clientId,
-            $username,
-            $scope,
-            $state,
-            $withRefreshToken = false
-        );
+        $parameters = $this->tokenTypeHandlerFactory
+            ->getTokenTypeHandler()
+            ->createAccessToken(
+                $clientId,
+                $username,
+                $scope,
+                $state,
+                $withRefreshToken = false
+            );
 
         return RedirectResponse::create($redirectUri, $parameters);
     }
