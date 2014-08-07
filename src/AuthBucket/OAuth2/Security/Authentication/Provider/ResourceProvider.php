@@ -14,7 +14,7 @@ namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
+use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -25,22 +25,22 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ResourceProvider implements AuthenticationProviderInterface
 {
-    protected $resourceTypeHandlerFactory;
     protected $providerKey;
+    protected $resourceTypeHandlerFactory;
     protected $resourceType;
     protected $scopeRequired;
     protected $options;
 
     public function __construct(
-        ResourceTypeHandlerFactoryInterface $resourceTypeHandlerFactory,
         $providerKey,
+        ResourceTypeHandlerFactoryInterface $resourceTypeHandlerFactory,
         $resourceType = 'model',
         array $scopeRequired = array(),
         array $options = array()
     )
     {
-        $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
         $this->providerKey = $providerKey;
+        $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
         $this->resourceType = $resourceType;
         $this->scopeRequired = $scopeRequired;
         $this->options = $options;
@@ -52,12 +52,12 @@ class ResourceProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $tokenSupplied = $token->getAccessToken();
+        $accessTokenSupplied = $token->getAccessToken();
 
         // Handle different resource type access_token check.
-        $accessTokenSupplied = $tokenSupplied instanceof AccessTokenInterface
+        $accessTokenSupplied = $accessTokenSupplied instanceof AccessTokenInterface
             ? $accessToken->getAccessToken()
-            : $tokenSupplied;
+            : $accessTokenSupplied;
         $accessTokenStored = $this->resourceTypeHandlerFactory
             ->getResourceTypeHandler($this->resourceType)
             ->handle(
@@ -75,7 +75,7 @@ class ResourceProvider implements AuthenticationProviderInterface
             }
         }
 
-        $tokenAuthenticated = new AccessToken($accessTokenStored, $this->providerKey);
+        $tokenAuthenticated = new AccessTokenToken($accessTokenStored, $this->providerKey);
         $tokenAuthenticated->setUser($accessTokenStored->getUsername());
 
         return $tokenAuthenticated;
@@ -83,6 +83,6 @@ class ResourceProvider implements AuthenticationProviderInterface
 
     public function supports(TokenInterface $token)
     {
-        return $token instanceof AccessToken && $this->providerKey === $token->getProviderKey();
+        return $token instanceof AccessTokenToken && $this->providerKey === $token->getProviderKey();
     }
 }

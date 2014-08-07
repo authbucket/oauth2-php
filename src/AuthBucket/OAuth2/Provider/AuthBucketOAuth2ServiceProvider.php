@@ -140,8 +140,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         $app['security.authentication_provider.oauth2_token._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new TokenProvider(
-                    $app['authbucket_oauth2.model_manager.factory'],
-                    $name
+                    $name,
+                    $app['authbucket_oauth2.model_manager.factory']
                 );
             });
         });
@@ -149,9 +149,10 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         $app['security.authentication_listener.oauth2_token._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new TokenListener(
+                    $name,
                     $app['security'],
                     $app['security.authentication_manager'],
-                    $name
+                    $app['validator']
                 );
             });
         });
@@ -159,8 +160,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         $app['security.authentication_provider.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new ResourceProvider(
-                    $app['authbucket_oauth2.resource_handler.factory'],
                     $name,
+                    $app['authbucket_oauth2.resource_handler.factory'],
                     $options['resource_type'],
                     $options['scope'],
                     $options['options']
@@ -171,9 +172,10 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         $app['security.authentication_listener.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
             return $app->share(function () use ($app, $name, $options) {
                 return new ResourceListener(
+                    $name,
                     $app['security'],
                     $app['security.authentication_manager'],
-                    $name,
+                    $app['validator'],
                     $app['authbucket_oauth2.token_handler.factory']
                 );
             });
