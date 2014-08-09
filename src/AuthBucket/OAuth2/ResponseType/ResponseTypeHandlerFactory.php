@@ -71,7 +71,9 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type](
+        $class = $this->classes[$type];
+
+        return new $class(
             $this->securityContext,
             $this->validator,
             $this->modelManagerFactory,

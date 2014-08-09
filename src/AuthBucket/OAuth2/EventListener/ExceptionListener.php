@@ -12,8 +12,9 @@
 namespace AuthBucket\OAuth2\EventListener;
 
 use AuthBucket\OAuth2\Exception\ExceptionInterface;
-use AuthBucket\OAuth2\Util\JsonResponse;
-use AuthBucket\OAuth2\Util\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 /**
@@ -43,10 +44,16 @@ class ExceptionListener
         if (isset($message['redirect_uri'])) {
             $redirectUri = $message['redirect_uri'];
             unset($message['redirect_uri']);
-            $response = RedirectResponse::create($redirectUri, $message);
+            $redirectUri = Request::create($redirectUri, 'GET', $message)->getUri();
+
+            $response = RedirectResponse::create($redirectUri);
         } else {
             $code = $exception->getCode();
-            $response = JsonResponse::create($message, $code);
+
+            $response = JsonResponse::create($message, $code, array(
+                'Cache-Control' => 'no-store',
+                'Pragma' => 'no-cache',
+            ));
         }
 
         $event->setResponse($response);

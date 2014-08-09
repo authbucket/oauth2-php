@@ -63,7 +63,9 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type](
+        $class = $this->classes[$type];
+
+        return new $class(
             $this->validator,
             $this->modelManagerFactory
         );

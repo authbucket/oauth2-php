@@ -13,9 +13,9 @@ namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Util\JsonResponse;
 use AuthBucket\OAuth2\Validator\Constraints\Password;
 use AuthBucket\OAuth2\Validator\Constraints\Username;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -52,7 +52,10 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
                 $scope
             );
 
-        return JsonResponse::create($parameters);
+        return JsonResponse::create($parameters, 200, array(
+             'Cache-Control' => 'no-store',
+                         'Pragma' => 'no-cache',
+        ));
     }
 
     /**

@@ -11,7 +11,7 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
-use AuthBucket\OAuth2\Util\RedirectResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -56,6 +56,8 @@ class TokenResponseTypeHandler extends AbstractResponseTypeHandler
                 $withRefreshToken = false
             );
 
-        return RedirectResponse::create($redirectUri, $parameters);
+        $redirectUri = Request::create($redirectUri, 'GET', $parameters)->getUri();
+
+        return RedirectResponse::create($redirectUri);
     }
 }
