@@ -83,7 +83,9 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type](
+        $class = $this->classes[$type];
+
+        return new $class(
             $this->securityContext,
             $this->userChecker,
             $this->encoderFactory,

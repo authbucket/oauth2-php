@@ -14,9 +14,9 @@ namespace AuthBucket\OAuth2\GrantType;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
-use AuthBucket\OAuth2\Util\JsonResponse;
 use AuthBucket\OAuth2\Validator\Constraints\RefreshToken;
 use AuthBucket\OAuth2\Validator\Constraints\Scope;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -44,7 +44,10 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
                 $scope
             );
 
-        return JsonResponse::create($parameters);
+        return JsonResponse::create($parameters, 200, array(
+            'Cache-Control' => 'no-store',
+            'Pragma' => 'no-cache',
+        ));
     }
 
     /**

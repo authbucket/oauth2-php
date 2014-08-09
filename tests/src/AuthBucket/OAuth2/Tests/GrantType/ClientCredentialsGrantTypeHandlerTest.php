@@ -67,7 +67,7 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
-    
+
     public function testGoodClientCredNoScope()
     {
         $parameters = array(

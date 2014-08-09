@@ -63,7 +63,9 @@ class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
             ));
         }
 
-        return new $this->classes[$type](
+        $class = $this->classes[$type];
+
+        return new $class(
             $this->httpKernel,
             $this->modelManagerFactory
         );
