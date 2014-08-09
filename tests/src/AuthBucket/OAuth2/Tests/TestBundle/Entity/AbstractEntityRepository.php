@@ -11,10 +11,10 @@
 
 namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 
-use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelInterface;
 use AuthBucket\OAuth2\Model\ModelManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 /**
  * AbstractEntityRepository
@@ -27,18 +27,10 @@ class AbstractEntityRepository extends EntityRepository implements ModelManagerI
     public function createModel(array $parameters)
     {
         $className = $this->getClassName();
-        $model = new $className();
 
-        foreach ($parameters as $key => $value) {
-            try {
-                $method = 'set' . ucfirst($key);
-                $model->$method($value);
-            } catch (Exception $exception) {
-                throw new InvalidRequestException(array(
-                    'error_description' => 'The request includes an invalid parameter value.',
-                ));
-            }
-        }
+        $normalizer = new GetSetMethodNormalizer();
+        $normalizer->setCamelizedAttributes(array_keys($parameters));
+        $model = $normalizer->denormalize($parameters, $className);
 
         $this->getEntityManager()->persist($model);
         $this->getEntityManager()->flush();
