@@ -53,8 +53,8 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             );
 
         return JsonResponse::create($parameters, 200, array(
-             'Cache-Control' => 'no-store',
-                         'Pragma' => 'no-cache',
+            'Cache-Control' => 'no-store',
+            'Pragma' => 'no-cache',
         ));
     }
 
