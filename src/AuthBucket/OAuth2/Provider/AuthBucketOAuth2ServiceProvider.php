@@ -13,6 +13,7 @@ namespace AuthBucket\OAuth2\Provider;
 
 use AuthBucket\OAuth2\Controller\AuthorizeController;
 use AuthBucket\OAuth2\Controller\DebugController;
+use AuthBucket\OAuth2\Controller\ModelController;
 use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\EventListener\ExceptionListener;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
@@ -134,6 +135,14 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.token_handler.factory']
+            );
+        });
+
+        $app['authbucket_oauth2.model_controller'] = $app->share(function () use ($app) {
+            return new ModelController(
+                $app['validator'],
+                $app['serializer'],
+                $app['authbucket_oauth2.model_manager.factory']
             );
         });
 
