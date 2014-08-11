@@ -49,11 +49,12 @@ class AuthorizeController
                 'username' => $username,
             ));
             if ($authorize === null) {
-                $authorize = $authorizeManager->createModel(array(
-                    'clientId' => $clientId,
-                    'username' => $username,
-                    'scope' => $scope,
-                ));
+                $class = $authorizeManager->getClassName();
+                $authorize = new $class();
+                $authorize->setClientId($clientId)
+                    ->setUsername($username)
+                    ->setScope((array) $scope);
+                $authorize = $authorizeManager->createModel($authorize);
             } else {
                 $authorize->setClientId($clientId)
                     ->setUsername($username)

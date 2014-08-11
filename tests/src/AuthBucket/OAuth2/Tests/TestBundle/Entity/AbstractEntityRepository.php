@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 
-use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelInterface;
 use AuthBucket\OAuth2\Model\ModelManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -24,22 +23,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class AbstractEntityRepository extends EntityRepository implements ModelManagerInterface
 {
-    public function createModel(array $parameters)
+    public function createModel(ModelInterface $model)
     {
-        $className = $this->getClassName();
-        $model = new $className();
-
-        foreach ($parameters as $key => $value) {
-            try {
-                $method = 'set' . ucfirst($key);
-                $model->$method($value);
-            } catch (Exception $exception) {
-                throw new InvalidRequestException(array(
-                    'error_description' => 'The request includes an invalid parameter value.',
-                ));
-            }
-        }
-
         $this->getEntityManager()->persist($model);
         $this->getEntityManager()->flush();
 
@@ -63,13 +48,16 @@ class AbstractEntityRepository extends EntityRepository implements ModelManagerI
 
     public function updateModel(ModelInterface $model)
     {
-        $this->getEntityManager()->persist($model);
         $this->getEntityManager()->flush();
+
+        return $model;
     }
 
     public function deleteModel(ModelInterface $model)
     {
         $this->getEntityManager()->remove($model);
         $this->getEntityManager()->flush();
+
+        return $model;
     }
 }
