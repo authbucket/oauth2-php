@@ -38,3 +38,6 @@ $app->get('/oauth2/model/{type}.{_format}', 'authbucket_oauth2.model_controller:
 
 $app->put('/oauth2/model/{type}/{id}.{_format}', 'authbucket_oauth2.model_controller:updateModelAction')
     ->assert('_format', 'json|xml');
+
+$app->delete('/oauth2/model/{type}/{id}.{_format}', 'authbucket_oauth2.model_controller:deleteModelAction')
+    ->assert('_format', 'json|xml');

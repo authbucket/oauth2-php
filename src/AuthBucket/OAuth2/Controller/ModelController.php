@@ -11,10 +11,13 @@
 
 namespace AuthBucket\OAuth2\Controller;
 
+use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\ValidatorInterface;
 
 /**
@@ -43,6 +46,13 @@ class ModelController
     {
         $format = $request->getRequestFormat();
 
+        $errors = $this->validator->validateValue($type, new Regex('/^([a-z0-9\_\-\.]+)$/'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
         $modelManager = $this->modelManagerFactory->getModelManager($type);
         $model = $this->serializer->deserialize(
             $request->getContent(),
@@ -60,6 +70,20 @@ class ModelController
     {
         $format = $request->getRequestFormat();
 
+        $errors = $this->validator->validateValue($type, new Regex('/^([a-z0-9\_\-\.]+)$/'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
+        $errors = $this->validator->validateValue($id, new Type('numeric'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
         $modelManager = $this->modelManagerFactory->getModelManager($type);
         $model = $modelManager->readModelOneBy(array('id' => $id));
 
@@ -72,6 +96,13 @@ class ModelController
     {
         $format = $request->getRequestFormat();
 
+        $errors = $this->validator->validateValue($type, new Regex('/^([a-z0-9\_\-\.]+)$/'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
         $modelManager = $this->modelManagerFactory->getModelManager($type);
         $model = $modelManager->readModelAll();
 
@@ -83,6 +114,20 @@ class ModelController
     public function updateModelAction(Request $request, $type, $id)
     {
         $format = $request->getRequestFormat();
+
+        $errors = $this->validator->validateValue($type, new Regex('/^([a-z0-9\_\-\.]+)$/'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
+        $errors = $this->validator->validateValue($id, new Type('numeric'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         $modelManager = $this->modelManagerFactory->getModelManager($type);
         $model = $modelManager->readModelOneBy(array('id' => $id));
@@ -108,6 +153,29 @@ class ModelController
 
     public function deleteModelAction(Request $request, $type, $id)
     {
+        $format = $request->getRequestFormat();
 
+        $errors = $this->validator->validateValue($type, new Regex('/^([a-z0-9\_\-\.]+)$/'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
+        $errors = $this->validator->validateValue($id, new Type('numeric'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
+        $modelManager = $this->modelManagerFactory->getModelManager($type);
+        $model = $modelManager->readModelOneBy(array('id' => $id));
+
+        $model = $modelManager->deleteModel($model);
+
+        return new Response($this->serializer->serialize($model, $format), 200, array(
+            "Content-Type" => $request->getMimeType($format),
+        ));
     }
 }
