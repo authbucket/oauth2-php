@@ -11,15 +11,11 @@
 
 namespace AuthBucket\OAuth2\Tests\ResourceType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerInterface;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class BarResourceTypeHandler implements ResourceTypeHandlerInterface
 {
     public function handle(
-        HttpKernelInterface $httpKernel,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $accessToken,
         array $options = array()
     )

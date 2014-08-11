@@ -13,15 +13,11 @@ namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Util\Filter;
-use AuthBucket\OAuth2\Util\JsonResponse;
+use AuthBucket\OAuth2\Validator\Constraints\Code;
+use AuthBucket\OAuth2\Validator\Constraints\RedirectUri;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Authorization code grant type implementation.
@@ -30,45 +26,37 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        UserCheckerInterface $userChecker,
-        EncoderFactoryInterface $encoderFactory,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        UserProviderInterface $userProvider = null
-    )
+    public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId($securityContext);
+        $clientId = $this->checkClientId();
 
         // Fetch username and scope from stored code.
-        list($username, $scope) = $this->checkCode($request, $modelManagerFactory, $clientId);
+        list($username, $scope) = $this->checkCode($request, $clientId);
 
         // Check and set redirect_uri.
-        $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
-
-        // Check state from stored code.
-        $this->checkState($request, $modelManagerFactory);
+        $redirectUri = $this->checkRedirectUri($request, $clientId);
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
-            $modelManagerFactory,
-            $clientId,
-            $username,
-            $scope
-        );
+        $parameters = $this->tokenTypeHandlerFactory
+            ->getTokenTypeHandler()
+            ->createAccessToken(
+                $clientId,
+                $username,
+                $scope
+            );
 
-        return JsonResponse::create($parameters);
+        return JsonResponse::create($parameters, 200, array(
+            'Cache-Control' => 'no-store',
+            'Pragma' => 'no-cache',
+        ));
     }
 
     /**
      * Fetch code from POST.
      *
-     * @param Request                      $request             Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $clientId            Corresponding client_id that code should belongs to.
+     * @param Request $request  Incoming request object.
+     * @param string  $clientId Corresponding client_id that code should belongs to.
      *
      * @return array A list with stored username and scope, originally grant in authorize endpoint.
      *
@@ -77,22 +65,26 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
      */
     private function checkCode(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId
     )
     {
-        $code = $request->request->get('code');
-
         // code is required and must in valid format.
-        if (!Filter::filter(array('code' => $code))) {
+        $code = $request->request->get('code');
+        $errors = $this->validator->validateValue($code, array(
+            new NotBlank(),
+            new Code(),
+        ));
+        if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));
         }
 
         // Check code with database record.
-        $codeManager = $modelManagerFactory->getModelManager('code');
-        $result = $codeManager->findCodeByCode($code);
+        $codeManager = $this->modelManagerFactory->getModelManager('code');
+        $result = $codeManager->readModelOneBy(array(
+            'code' => $code,
+        ));
         if ($result === null || $result->getClientId() !== $clientId) {
             throw new InvalidGrantException(array(
                 'error_description' => 'The provided authorization grant is invalid.',
@@ -109,9 +101,8 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     /**
      * Fetch redirect_uri from POST, or stored record.
      *
-     * @param Request                      $request             Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $clientId            Corresponding client_id that code should belongs to.
+     * @param Request $request  Incoming request object.
+     * @param string  $clientId Corresponding client_id that code should belongs to.
      *
      * @return string The supplied redirect_uri from incoming request, or from stored record.
      *
@@ -119,17 +110,27 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
      */
     private function checkRedirectUri(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId
     )
     {
+        // redirect_uri may not exists.
         $redirectUri = $request->request->get('redirect_uri');
+        $errors = $this->validator->validateValue($redirectUri, array(
+            new RedirectUri(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $stored = null;
-        $clientManager = $modelManagerFactory->getModelManager('client');
-        $result = $clientManager->findClientByClientId($clientId);
+        $clientManager = $this->modelManagerFactory->getModelManager('client');
+        $result = $clientManager->readModelOneBy(array(
+            'clientId' => $clientId,
+        ));
         if ($result !== null && $result->getRedirectUri()) {
             $stored = $result->getRedirectUri();
         }
@@ -146,45 +147,12 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         if ($stored && $redirectUri) {
             // Ensure that the input uri starts with the stored uri.
             if (strcasecmp(substr($redirectUri, 0, strlen($stored)), $stored) !== 0) {
-                throw new InvalidRequestException(array(
+                throw new InvalidGrantException(array(
                     'error_description' => 'The provided authorization grant does not match the redirection URI used in the authorization request.',
                 ));
             }
         }
 
         return $redirectUri ?: $stored;
-    }
-
-    /**
-     * Check state from POST.
-     *
-     * @param Request                      $request             Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     *
-     * @throw InvalidRequestException If supplied state value not match with stored record.
-     */
-    private function checkState(
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory
-    )
-    {
-        $state = $request->request->get('state');
-        $code = $request->request->get('code');
-
-        // state is required and in valid format.
-        if (!Filter::filter(array('state' => $state))) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
-
-        // Check state with database record.
-        $codeManager = $modelManagerFactory->getModelManager('code');
-        $result = $codeManager->findCodeByCode($code);
-        if ($result === null || $result->getState() !== $state) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
     }
 }

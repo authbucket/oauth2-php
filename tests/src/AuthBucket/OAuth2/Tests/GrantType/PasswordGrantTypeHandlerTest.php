@@ -171,4 +171,21 @@ class PasswordGrantTypeHandlerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
+
+    public function testGoodPasswordNoScope()
+    {
+        $parameters = array(
+            'grant_type' => 'password',
+            'username' => 'demousername3',
+            'password' => 'demopassword3',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient3.com/',
+            'PHP_AUTH_PW' => 'demosecret3',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+    }
 }

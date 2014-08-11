@@ -18,13 +18,4 @@ namespace AuthBucket\OAuth2\Model;
  */
 interface AccessTokenManagerInterface extends ModelManagerInterface
 {
-    public function createAccessToken();
-
-    public function deleteAccessToken(AccessTokenInterface $accessToken);
-
-    public function reloadAccessToken(AccessTokenInterface $accessToken);
-
-    public function updateAccessToken(AccessTokenInterface $accessToken);
-
-    public function findAccessTokenByAccessToken($accessToken);
 }

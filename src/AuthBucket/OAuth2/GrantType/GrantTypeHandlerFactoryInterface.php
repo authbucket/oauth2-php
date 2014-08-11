@@ -27,5 +27,5 @@ interface GrantTypeHandlerFactoryInterface
      *
      * @throw UnsupportedGrantTypeException If supplied grant type not found.
      */
-    public function getGrantTypeHandler($type);
+    public function getGrantTypeHandler($type = null);
 }

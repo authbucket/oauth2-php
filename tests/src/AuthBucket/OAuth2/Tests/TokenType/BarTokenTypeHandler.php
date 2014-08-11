@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\Tests\TokenType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,7 +21,6 @@ class BarTokenTypeHandler implements TokenTypeHandlerInterface
     }
 
     public function createAccessToken(
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId,
         $username = '',
         $scope = array(),

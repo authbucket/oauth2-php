@@ -14,15 +14,11 @@ namespace AuthBucket\OAuth2\GrantType;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Util\Filter;
-use AuthBucket\OAuth2\Util\JsonResponse;
+use AuthBucket\OAuth2\Validator\Constraints\RefreshToken;
+use AuthBucket\OAuth2\Validator\Constraints\Scope;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Refresh token grant type implementation.
@@ -31,39 +27,34 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        UserCheckerInterface $userChecker,
-        EncoderFactoryInterface $encoderFactory,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        UserProviderInterface $userProvider = null
-    )
+    public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId($securityContext);
+        $clientId = $this->checkClientId();
 
         // Check refresh_token, then fetch username and scope.
-        list($username, $scope) = $this->checkRefreshToken($request, $modelManagerFactory, $clientId);
+        list($username, $scope) = $this->checkRefreshToken($request, $clientId);
 
         // Generate access_token, store to backend and set token response.
-        $parameters = $tokenTypeHandlerFactory->getTokenTypeHandler()->createAccessToken(
-            $modelManagerFactory,
-            $clientId,
-            $username,
-            $scope
-        );
+        $parameters = $this->tokenTypeHandlerFactory
+            ->getTokenTypeHandler()
+            ->createAccessToken(
+                $clientId,
+                $username,
+                $scope
+            );
 
-        return JsonResponse::create($parameters);
+        return JsonResponse::create($parameters, 200, array(
+            'Cache-Control' => 'no-store',
+            'Pragma' => 'no-cache',
+        ));
     }
 
     /**
      * Check refresh_token supplied, return stored username and scope.
      *
-     * @param Request                      $request             Incoming request object.
-     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $clientId            Corresponding client_id that refresh_token should belongs to.
+     * @param Request $request  Incoming request object.
+     * @param string  $clientId Corresponding client_id that refresh_token should belongs to.
      *
      * @return array A list with stored username and scope, originally grant in authorize endpoint.
      *
@@ -73,23 +64,37 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
      */
     private function checkRefreshToken(
         Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $clientId
     )
     {
-        $refreshToken = $request->request->get('refresh_token');
-        $scope = $request->request->get('scope', null);
-
         // refresh_token must exists and in valid format.
-        if (!Filter::filter(array('refresh_token' => $refreshToken))) {
+        $refreshToken = $request->request->get('refresh_token');
+        $errors = $this->validator->validateValue($refreshToken, array(
+            new NotBlank(),
+            new RefreshToken(),
+        ));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
+        // scope may not exists, else must be in valid format.
+        $scope = $request->request->get('scope');
+        $errors = $this->validator->validateValue($scope, array(
+            new Scope(),
+        ));
+        if (count($errors) > 0) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));
         }
 
         // Check refresh_token with database record.
-        $refreshTokenManager = $modelManagerFactory->getModelManager('refresh_token');
-        $result = $refreshTokenManager->findRefreshTokenByRefreshToken($refreshToken);
+        $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
+        $result = $refreshTokenManager->readModelOneBy(array(
+            'refreshToken' => $refreshToken,
+        ));
         if ($result === null || $result->getClientId() !== $clientId) {
             throw new InvalidGrantException(array(
                 'error_description' => 'The provided refresh token was issued to another client.',
@@ -111,13 +116,6 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Compare if given scope is subset of original refresh_token's scope.
         if ($scope !== null && $scopeGranted !== null) {
-            // scope must be in valid format.
-            if (!Filter::filter(array('scope' => $scope))) {
-                throw new InvalidRequestException(array(
-                    'error_description' => 'The request includes an invalid parameter value.',
-                ));
-            }
-
             // Compare if given scope within all available granted scopes.
             $scope = preg_split('/\s+/', $scope);
             if (array_intersect($scope, $scopeGranted) !== $scope) {
@@ -134,8 +132,8 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         if ($scope !== null) {
             // Compare if given scope within all supported scopes.
             $scopeSupported = array();
-            $scopeManager = $modelManagerFactory->getModelManager('scope');
-            $result = $scopeManager->findScopes();
+            $scopeManager = $this->modelManagerFactory->getModelManager('scope');
+            $result = $scopeManager->readModelAll();
             if ($result !== null) {
                 foreach ($result as $row) {
                     $scopeSupported[] = $row->getScope();
@@ -149,8 +147,11 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
             // Compare if given scope within all authorized scopes.
             $scopeAuthorized = array();
-            $authorizeManager = $modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->findAuthorizeByClientIdAndUsername($clientId, $username);
+            $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
+            $result = $authorizeManager->readModelOneBy(array(
+                'clientId' => $clientId,
+                'username' => $username,
+            ));
             if ($result !== null) {
                 $scopeAuthorized = $result->getScope();
             }

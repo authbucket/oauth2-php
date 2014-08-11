@@ -27,5 +27,5 @@ interface ResponseTypeHandlerFactoryInterface
      *
      * @throw UnsupportedResponseTypeException If supplied response type not found.
      */
-    public function getResponseTypeHandler($type);
+    public function getResponseTypeHandler($type = null);
 }

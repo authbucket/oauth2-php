@@ -14,7 +14,8 @@
     "description": "The standard compliant OAuth2.0 library based on the Symfony Components",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1.x-dev"
+            "dev-develop": "2.x.x-dev",
+            "dev-master": "2.0.x-dev"
         }
     },
     "homepage": "https://github.com/authbucket/oauth2",
@@ -25,10 +26,12 @@
     "minimum-stability": "dev",
     "name": "authbucket/oauth2",
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.3.9",
         "symfony/http-foundation": "~2.3",
         "symfony/http-kernel": "~2.3",
-        "symfony/security": "~2.3"
+        "symfony/security": "~2.3",
+        "symfony/serializer": "~2.3",
+        "symfony/validator": "~2.3"
     },
     "require-dev": {
         "doctrine/data-fixtures": "~1.0",
@@ -47,7 +50,6 @@
         "symfony/process": "~2.3",
         "symfony/translation": "~2.3",
         "symfony/twig-bridge": "~2.3",
-        "symfony/validator": "~2.3",
         "twig/twig": "~1.8"
     },
     "type": "library"

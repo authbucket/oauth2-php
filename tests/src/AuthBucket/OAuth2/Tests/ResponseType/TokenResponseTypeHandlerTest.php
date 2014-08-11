@@ -52,7 +52,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_client', $tokenResponse['error']);
+        $this->assertEquals('unauthorized_client', $tokenResponse['error']);
     }
 
     public function testExceptionTokenNoSavedNoPassedRedirectUri()
@@ -79,6 +79,25 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/wrong_uri',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/oauth2/authorize/http', $parameters, array(), $server);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
+    }
+
+    public function testExceptionTokenBadRedirectUriFormat()
+    {
+        $parameters = array(
+            'response_type' => 'token',
+            'client_id' => 'http://democlient1.com/',
+            'redirect_uri' => "aaa\x22bbb\x5Cccc\x7Fddd",
         );
         $server = array(
             'PHP_AUTH_USER' => 'demousername1',

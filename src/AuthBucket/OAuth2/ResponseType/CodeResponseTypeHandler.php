@@ -11,11 +11,8 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Util\RedirectResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Code response type handler implementation.
@@ -24,21 +21,16 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class CodeResponseTypeHandler extends AbstractResponseTypeHandler
 {
-    public function handle(
-        SecurityContextInterface $securityContext,
-        Request $request,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-    )
+    public function handle(Request $request)
     {
         // Fetch username from authenticated token.
-        $username = $this->checkUsername($securityContext);
+        $username = $this->checkUsername();
 
         // Fetch and check client_id.
-        $clientId = $this->checkClientId($request, $modelManagerFactory);
+        $clientId = $this->checkClientId($request);
 
         // Fetch and check redirect_uri.
-        $redirectUri = $this->checkRedirectUri($request, $modelManagerFactory, $clientId);
+        $redirectUri = $this->checkRedirectUri($request, $clientId);
 
         // Fetch and check state.
         $state = $this->checkState($request, $redirectUri);
@@ -46,7 +38,6 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         // Fetch and check scope.
         $scope = $this->checkScope(
             $request,
-            $modelManagerFactory,
             $clientId,
             $username,
             $redirectUri,
@@ -54,22 +45,24 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         );
 
         // Generate parameters, store to backend and set response.
-        $modelManager =  $modelManagerFactory->getModelManager('code');
-        $code = $modelManager->createCode()
-            ->setCode(md5(uniqid(null, true)))
-            ->setState($state)
+        $codeManager =  $this->modelManagerFactory->getModelManager('code');
+        $class = $codeManager->getClassName();
+        $code = new $class();
+        $code->setCode(md5(uniqid(null, true)))
             ->setClientId($clientId)
             ->setUsername($username)
             ->setRedirectUri($redirectUri)
             ->setExpires(new \DateTime('+10 minutes'))
-            ->setScope($scope);
-        $modelManager->updateCode($code);
+            ->setScope((array) $scope);
+        $code = $codeManager->createModel($code);
 
         $parameters = array(
             'code' => $code->getCode(),
             'state' => $state,
         );
 
-        return RedirectResponse::create($redirectUri, $parameters);
+        $redirectUri = Request::create($redirectUri, 'GET', $parameters)->getUri();
+
+        return RedirectResponse::create($redirectUri);
     }
 }

@@ -12,6 +12,8 @@
 namespace AuthBucket\OAuth2\ResourceType;
 
 use AuthBucket\OAuth2\Exception\ServerErrorException;
+use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * OAuth2 resource type handler factory implemention.
@@ -20,10 +22,19 @@ use AuthBucket\OAuth2\Exception\ServerErrorException;
  */
 class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
 {
+    protected $httpKernel;
+    protected $modelManagerFactory;
     protected $classes;
 
-    public function __construct(array $classes = array())
+    public function __construct(
+        HttpKernelInterface $httpKernel,
+        ModelManagerFactoryInterface $modelManagerFactory,
+        array $classes = array()
+    )
     {
+        $this->httpKernel = $httpKernel;
+        $this->modelManagerFactory = $modelManagerFactory;
+
         foreach ($classes as $class) {
             if (!class_exists($class)) {
                 throw new ServerErrorException(array(
@@ -42,14 +53,21 @@ class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
         $this->classes = $classes;
     }
 
-    public function getResourceTypeHandler($type)
+    public function getResourceTypeHandler($type = null)
     {
+        $type = $type ?: current(array_keys($this->classes));
+
         if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
             throw new ServerErrorException(array(
                 'error_description' => 'The resource type is not supported by the resource server.',
             ));
         }
 
-        return new $this->classes[$type];
+        $class = $this->classes[$type];
+
+        return new $class(
+            $this->httpKernel,
+            $this->modelManagerFactory
+        );
     }
 }

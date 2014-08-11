@@ -11,6 +11,9 @@
 
 namespace AuthBucket\OAuth2\ResourceType;
 
+use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+
 /**
  * Shared resource type implementation.
  *
@@ -18,4 +21,15 @@ namespace AuthBucket\OAuth2\ResourceType;
  */
 abstract class AbstractResourceTypeHandler implements ResourceTypeHandlerInterface
 {
+    protected $httpKernel;
+    protected $modelManagerFactory;
+
+    public function __construct(
+        HttpKernelInterface $httpKernel,
+        ModelManagerFactoryInterface $modelManagerFactory
+    )
+    {
+        $this->httpKernel = $httpKernel;
+        $this->modelManagerFactory = $modelManagerFactory;
+    }
 }

@@ -50,6 +50,25 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_grant', $tokenResponse['error']);
+    }
+
+    public function testExceptionAuthCodeBadRedirectUriFormat()
+    {
+        $parameters = array(
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'redirect_uri' => "aaa\x22bbb\x5Cccc\x7Fddd",
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'http://democlient2.com/',
+            'PHP_AUTH_PW' => 'demosecret2',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
@@ -108,46 +127,6 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_grant', $tokenResponse['error']);
-    }
-
-    public function testExceptionBadStateFormat()
-    {
-        $parameters = array(
-            'grant_type' => 'authorization_code',
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
-            'redirect_uri' => 'http://democlient2.com/redirect_uri',
-            'state' => "aaa\x19bbb\x7Fccc",
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW' => 'demosecret2',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
-    }
-
-    public function testExceptionWrongState()
-    {
-        $parameters = array(
-            'grant_type' => 'authorization_code',
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
-            'redirect_uri' => 'http://democlient2.com/redirect_uri',
-            'state' => 'wrongstate',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW' => 'demosecret2',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
-        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
-        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
     }
 
     public function testGoodAuthCode()

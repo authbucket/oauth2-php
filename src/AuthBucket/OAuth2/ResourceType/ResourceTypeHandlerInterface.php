@@ -12,8 +12,6 @@
 namespace AuthBucket\OAuth2\ResourceType;
 
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * OAuth2 resource type handler interface.
@@ -25,16 +23,12 @@ interface ResourceTypeHandlerInterface
     /**
      * Handle corresponding resource type logic.
      *
-     * @param HttpKernelInterface          $httpKernel
-     * @param ModelManagerFactoryInterface $modelManagerFactory Model manager factory for compare with database record.
-     * @param string                       $accessToken         Access token for checking.
-     * @param array                        $options             Additional options for this handler.
+     * @param string $accessToken Access token for checking.
+     * @param array  $options     Additional options for this handler.
      *
      * @return AccessTokenInterface The stored access token with meta information.
      */
     public function handle(
-        HttpKernelInterface $httpKernel,
-        ModelManagerFactoryInterface $modelManagerFactory,
         $accessToken,
         array $options = array()
     );

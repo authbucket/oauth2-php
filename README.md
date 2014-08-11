@@ -35,7 +35,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2": "~1.0"
+            "authbucket/oauth2": "~2.0"
         }
     }
 
@@ -72,12 +72,13 @@ as below:
 
     $app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
 
-Moreover, if you hope to use this shorthand service controller syntax
-provided by
-[ServiceControllerServiceProvider](http://silex.sensiolabs.org/doc/providers/service_controller.html)
-as below example, also enable it if that's not already the case:
+Moreover, enable following service providers if that's not already the
+case:
 
+    $app->register(new Silex\Provider\SecurityServiceProvider());
+    $app->register(new Silex\Provider\SerializerServiceProvider());
     $app->register(new Silex\Provider\ServiceControllerServiceProvider());
+    $app->register(new Silex\Provider\ValidatorServiceProvider());
 
 Usage
 -----
@@ -89,7 +90,7 @@ functioning.
 To enable the built-in controller with corresponding routing, setup as
 below:
 
-    $app->mount('/oauth2', new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
+    $app->mount('/', new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
 
 Below is a list of recipes that cover some common use cases.
 
@@ -209,7 +210,7 @@ You may also run the demo locally. Open a console and execute the
 following command to install the latest version in the oauth2/
 directory:
 
-    $ composer create-project authbucket/oauth2 oauth2/ dev-master
+    $ composer create-project authbucket/oauth2 oauth2/ "~2.0"
 
 Then use the PHP built-in web server to run the demo application:
 
