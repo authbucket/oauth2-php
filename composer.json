@@ -14,7 +14,7 @@
     "description": "The standard compliant OAuth2.0 library based on the Symfony Components",
     "extra": {
         "branch-alias": {
-            "dev-develop": "2.x.x-dev",
+            "dev-develop": "2.x-dev",
             "dev-master": "2.0.x-dev"
         }
     },

@@ -11,7 +11,7 @@ $iterator = Finder::create()
     ->in($dir = 'src');
 
 $versions = GitVersionCollection::create($dir)
-    ->add('develop', 'master branch')
+    ->add('develop', 'develop branch')
     ->add('master', 'master branch')
     ->addFromTags('*');
 
