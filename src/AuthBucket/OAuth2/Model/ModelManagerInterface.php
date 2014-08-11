@@ -18,7 +18,9 @@ namespace AuthBucket\OAuth2\Model;
  */
 interface ModelManagerInterface
 {
-    public function createModel(array $parameters);
+    public function getClassName();
+
+    public function createModel(ModelInterface $model);
 
     public function readModelAll();
 

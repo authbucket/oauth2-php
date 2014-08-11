@@ -16,37 +16,54 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ModelControllerTest extends WebTestCase
 {
-    public function testReadModelJSON()
+    public function testCreateModelJson()
+    {
+        $content = $this->app['serializer']->encode(array('scope' => 'demoscopeJson'), 'json');
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/oauth2/model/scope.json', array(), array(), array(), $content);
+        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'json');
+        $this->assertEquals('demoscopeJson', $response['scope']);
+    }
+
+    public function testCreateModelXml()
+    {
+        $content = $this->app['serializer']->encode(array('scope' => 'demoscopeXml'), 'xml');
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/oauth2/model/scope.xml', array(), array(), array(), $content);
+        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'xml');
+        $this->assertEquals('demoscopeXml', $response['scope']);
+    }
+
+    public function testReadModelJson()
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/model/scope/1.json');
-        $response = json_decode($client->getResponse()->getContent(), true);
+        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'json');
         $this->assertEquals('debug', $response['scope']);
     }
 
-    public function testReadModelXML()
+    public function testReadModelXml()
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/model/scope/1.xml');
         $response = simplexml_load_string($client->getResponse()->getContent());
-        $this->assertEquals('debug', $response->scope);
+        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'xml');
+        $this->assertEquals('debug', $response['scope']);
     }
 
-    public function testReadModelAllJSON()
+    public function testReadModelAllJson()
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/model/scope.json');
-        $response = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(5, count($response));
+        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'json');
         $this->assertEquals('debug', $response[0]['scope']);
     }
 
-    public function testReadModelAllXML()
+    public function testReadModelAllXml()
     {
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/model/scope.xml');
-        $response = simplexml_load_string($client->getResponse()->getContent());
-        $this->assertEquals(5, count($response));
-        $this->assertEquals('debug', $response->item[0]->scope);
+        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'xml');
+        $this->assertEquals('debug', $response[0]['scope']);
     }
 }

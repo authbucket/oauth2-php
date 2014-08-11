@@ -27,8 +27,11 @@ $app->match('/oauth2/token', 'authbucket_oauth2.token_controller:tokenAction')
 $app->match('/oauth2/debug', 'authbucket_oauth2.debug_controller:debugAction')
     ->bind('oauth2_debug');
 
-$app->get('/oauth2/model/{type}.{_format}', 'authbucket_oauth2.model_controller:readModelAllAction')
+$app->post('/oauth2/model/{type}.{_format}', 'authbucket_oauth2.model_controller:createModelAction')
     ->assert('_format', 'json|xml');
 
 $app->get('/oauth2/model/{type}/{id}.{_format}', 'authbucket_oauth2.model_controller:readModelAction')
+    ->assert('_format', 'json|xml');
+
+$app->get('/oauth2/model/{type}.{_format}', 'authbucket_oauth2.model_controller:readModelAllAction')
     ->assert('_format', 'json|xml');

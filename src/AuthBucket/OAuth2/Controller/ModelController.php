@@ -41,7 +41,19 @@ class ModelController
 
     public function createModelAction(Request $request, $type)
     {
+        $format = $request->getRequestFormat();
 
+        $modelManager = $this->modelManagerFactory->getModelManager($type);
+        $model = $this->serializer->deserialize(
+            $request->getContent(),
+            $modelManager->getClassName(),
+            $format
+        );
+        $model = $modelManager->createModel($model);
+
+        return new Response($this->serializer->serialize($model, $format), 200, array(
+            "Content-Type" => $request->getMimeType($format),
+        ));
     }
 
     public function readModelAction(Request $request, $type, $id)

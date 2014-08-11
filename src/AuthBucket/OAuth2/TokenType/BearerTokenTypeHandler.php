@@ -76,14 +76,15 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
     )
     {
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $accessToken = $accessTokenManager->createModel(array(
-            'accessToken' => md5(uniqid(null, true)),
-            'tokenType' => 'bearer',
-            'clientId' => $clientId,
-            'username' => $username,
-            'expires' => new \DateTime('+1 hours'),
-            'scope' => (array) $scope,
-        ));
+        $class = $accessTokenManager->getClassName();
+        $accessToken = new $class();
+        $accessToken->setAccessToken(md5(uniqid(null, true)))
+            ->setTokenType('bearer')
+            ->setClientId($clientId)
+            ->setUsername($username)
+            ->setExpires(new \DateTime('+1 hours'))
+            ->setScope((array) $scope);
+        $accessToken = $accessTokenManager->createModel($accessToken);
 
         $parameters = array(
             'access_token' => $accessToken->getAccessToken(),
@@ -101,13 +102,14 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
 
         if ($withRefreshToken === true) {
             $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
-            $refreshToken = $refreshTokenManager->createModel(array(
-                'refreshToken' => md5(uniqid(null, true)),
-                'clientId' => $clientId,
-                'username' => $username,
-                'expires' => new \DateTime('+1 days'),
-                'scope' => (array) $scope,
-            ));
+            $class = $refreshTokenManager->getClassName();
+            $refreshToken = new $class();
+            $refreshToken->setRefreshToken(md5(uniqid(null, true)))
+                ->setClientId($clientId)
+                ->setUsername($username)
+                ->setExpires(new \DateTime('+1 days'))
+                ->setScope((array) $scope);
+            $refreshToken = $refreshTokenManager->createModel($refreshToken);
 
             $parameters['refresh_token'] = $refreshToken->getRefreshToken();
         }

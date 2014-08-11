@@ -14,7 +14,6 @@ namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 use AuthBucket\OAuth2\Model\ModelInterface;
 use AuthBucket\OAuth2\Model\ModelManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 /**
  * AbstractEntityRepository
@@ -24,14 +23,8 @@ use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
  */
 class AbstractEntityRepository extends EntityRepository implements ModelManagerInterface
 {
-    public function createModel(array $parameters)
+    public function createModel(ModelInterface $model)
     {
-        $className = $this->getClassName();
-
-        $normalizer = new GetSetMethodNormalizer();
-        $normalizer->setCamelizedAttributes(array_keys($parameters));
-        $model = $normalizer->denormalize($parameters, $className);
-
         $this->getEntityManager()->persist($model);
         $this->getEntityManager()->flush();
 

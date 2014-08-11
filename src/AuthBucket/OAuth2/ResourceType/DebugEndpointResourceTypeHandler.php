@@ -99,15 +99,16 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         }
 
         // Create a new access token with fetched meta data.
-        $stored = $accessTokenManager->createModel(array(
-            'accessToken' => $debugResponse['access_token'],
-            'tokenType' => $debugResponse['token_type'],
-            'clientId' => $debugResponse['client_id'],
-            'username' => $debugResponse['username'],
-            'expires' => new \DateTime('@' . $debugResponse['expires']),
-            'scope' => $debugResponse['scope'],
-        ));
+        $class = $accessTokenManager->getClassName();
+        $accessTokenCached = new $class();
+        $accessTokenCached->setAccessToken($debugResponse['access_token'])
+            ->setTokenType($debugResponse['token_type'])
+            ->setClientId($debugResponse['client_id'])
+            ->setUsername($debugResponse['username'])
+            ->setExpires(new \DateTime('@' . $debugResponse['expires']))
+            ->setScope($debugResponse['scope']);
+        $accessTokenCached = $accessTokenManager->createModel($accessTokenCached);
 
-        return $stored;
+        return $accessTokenCached;
     }
 }
