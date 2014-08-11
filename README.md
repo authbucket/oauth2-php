@@ -35,7 +35,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2": "~1.0"
+            "authbucket/oauth2": "~2.0"
         }
     }
 
