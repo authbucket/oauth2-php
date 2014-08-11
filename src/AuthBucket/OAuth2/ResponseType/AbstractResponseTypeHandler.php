@@ -11,10 +11,10 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
-use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
+use AuthBucket\OAuth2\Exception\UnauthorizedClientException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\ClientId;
@@ -84,7 +84,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      * @return string Supplied client_id from incoming request.
      *
      * @throw InvalidRequestException If supplied client_id in bad format.
-     * @throw InvalidClientException If client_id not found from database record.
+     * @throw UnauthorizedClientException If client_id not found from database record.
      */
     protected function checkClientId(Request $request)
     {
@@ -106,8 +106,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
             'clientId' => $clientId,
         ));
         if ($result === null) {
-            throw new InvalidClientException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
+            throw new UnauthorizedClientException(array(
+                'error_description' => 'The client is not authorized.',
             ));
         }
 
@@ -142,27 +142,27 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
-        $stored = null;
+        $redirectUriStored = null;
         $clientManager = $this->modelManagerFactory->getModelManager('client');
         $result = $clientManager->readModelOneBy(array(
             'clientId' => $clientId,
         ));
         if ($result !== null && $result->getRedirectUri()) {
-            $stored = $result->getRedirectUri();
+            $redirectUriStored = $result->getRedirectUri();
         }
 
         // At least one of: existing redirect URI or input redirect URI must be
         // specified.
-        if (!$stored && !$redirectUri) {
+        if (!$redirectUriStored && !$redirectUri) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request is missing a required parameter.'
             ));
         }
 
         // If there's an existing uri and one from input, verify that they match.
-        if ($stored && $redirectUri) {
+        if ($redirectUriStored && $redirectUri) {
             // Ensure that the input uri starts with the stored uri.
-            if (strcasecmp(substr($redirectUri, 0, strlen($stored)), $stored) !== 0) {
+            if (strcasecmp(substr($redirectUri, 0, strlen($redirectUriStored)), $redirectUriStored) !== 0) {
                 throw new InvalidRequestException(array(
                     'error_description' => 'The request includes an invalid parameter value',
                 ));
@@ -170,7 +170,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         }
 
         return $redirectUri
-            ?: $stored;
+            ?: $redirectUriStored;
     }
 
     protected function checkState(

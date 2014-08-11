@@ -52,7 +52,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_client', $tokenResponse['error']);
+        $this->assertEquals('unauthorized_client', $tokenResponse['error']);
     }
 
     public function testExceptionTokenNoSavedNoPassedRedirectUri()
