@@ -250,9 +250,9 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
     {
         $controllers = $app['controllers_factory'];
 
-        $app->match('/authorize', 'authbucket_oauth2.authorize_controller:authorizeAction')->bind('oauth2_authorize');
-        $app->match('/token', 'authbucket_oauth2.token_controller:tokenAction')->bind('oauth2_token');
-        $app->match('/debug', 'authbucket_oauth2.debug_controller:debugAction')->bind('oauth2_debug');
+        $app->match('/oauth2/authorize', 'authbucket_oauth2.authorize_controller:authorizeAction')->bind('oauth2_authorize');
+        $app->match('/oauth2/token', 'authbucket_oauth2.token_controller:tokenAction')->bind('oauth2_token');
+        $app->match('/oauth2/debug', 'authbucket_oauth2.debug_controller:debugAction')->bind('oauth2_debug');
 
         return $controllers;
     }
