@@ -106,7 +106,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             $authenticationProvider->authenticate($token);
         } catch (BadCredentialsException $e) {
             throw new InvalidGrantException(array(
-                'error_description' => 'Client authentication failed.',
+                'error_description' => 'The provided resource owner credentials is invalid.',
             ));
         }
 

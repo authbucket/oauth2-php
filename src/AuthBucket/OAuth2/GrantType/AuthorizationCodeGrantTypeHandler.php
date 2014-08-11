@@ -147,7 +147,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         if ($stored && $redirectUri) {
             // Ensure that the input uri starts with the stored uri.
             if (strcasecmp(substr($redirectUri, 0, strlen($stored)), $stored) !== 0) {
-                throw new InvalidRequestException(array(
+                throw new InvalidGrantException(array(
                     'error_description' => 'The provided authorization grant does not match the redirection URI used in the authorization request.',
                 ));
             }
