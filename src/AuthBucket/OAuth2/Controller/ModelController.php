@@ -82,10 +82,31 @@ class ModelController
 
     public function updateModelAction(Request $request, $type, $id)
     {
+        $format = $request->getRequestFormat();
 
+        $modelManager = $this->modelManagerFactory->getModelManager($type);
+        $model = $modelManager->readModelOneBy(array('id' => $id));
+
+        $values = $this->serializer->decode($request->getContent(), $format);
+        foreach ($values as $key => $value) {
+            $setter = 'set' . preg_replace_callback(
+                '/(^|_|\.)+(.)/', function ($match) {
+                    return ('.' === $match[1] ? '_' : '') . strtoupper($match[2]);
+                }, $key);
+
+            if (method_exists($model, $setter)) {
+                $model->$setter($value);
+            }
+        }
+
+        $model = $modelManager->updateModel($model);
+
+        return new Response($this->serializer->serialize($model, $format), 200, array(
+            "Content-Type" => $request->getMimeType($format),
+        ));
     }
 
-    public function deleteModelAction($type, $id)
+    public function deleteModelAction(Request $request, $type, $id)
     {
 
     }

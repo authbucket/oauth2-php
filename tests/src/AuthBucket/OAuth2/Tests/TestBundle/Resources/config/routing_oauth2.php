@@ -35,3 +35,6 @@ $app->get('/oauth2/model/{type}/{id}.{_format}', 'authbucket_oauth2.model_contro
 
 $app->get('/oauth2/model/{type}.{_format}', 'authbucket_oauth2.model_controller:readModelAllAction')
     ->assert('_format', 'json|xml');
+
+$app->put('/oauth2/model/{type}/{id}.{_format}', 'authbucket_oauth2.model_controller:updateModelAction')
+    ->assert('_format', 'json|xml');

@@ -48,13 +48,16 @@ class AbstractEntityRepository extends EntityRepository implements ModelManagerI
 
     public function updateModel(ModelInterface $model)
     {
-        $this->getEntityManager()->persist($model);
         $this->getEntityManager()->flush();
+
+        return $model;
     }
 
     public function deleteModel(ModelInterface $model)
     {
         $this->getEntityManager()->remove($model);
         $this->getEntityManager()->flush();
+
+        return $model;
     }
 }
