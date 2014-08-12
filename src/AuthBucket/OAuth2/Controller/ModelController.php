@@ -92,25 +92,6 @@ class ModelController
         ));
     }
 
-    public function readModelAllAction(Request $request, $type)
-    {
-        $format = $request->getRequestFormat();
-
-        $errors = $this->validator->validateValue($type, new Regex('/^([a-z0-9\_\-\.]+)$/'));
-        if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
-
-        $modelManager = $this->modelManagerFactory->getModelManager($type);
-        $model = $modelManager->readModelAll();
-
-        return new Response($this->serializer->serialize($model, $format), 200, array(
-            "Content-Type" => $request->getMimeType($format),
-        ));
-    }
-
     public function updateModelAction(Request $request, $type, $id)
     {
         $format = $request->getRequestFormat();
@@ -173,6 +154,25 @@ class ModelController
         $model = $modelManager->readModelOneBy(array('id' => $id));
 
         $model = $modelManager->deleteModel($model);
+
+        return new Response($this->serializer->serialize($model, $format), 200, array(
+            "Content-Type" => $request->getMimeType($format),
+        ));
+    }
+
+    public function listModelAction(Request $request, $type)
+    {
+        $format = $request->getRequestFormat();
+
+        $errors = $this->validator->validateValue($type, new Regex('/^([a-z0-9\_\-\.]+)$/'));
+        if (count($errors) > 0) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
+
+        $modelManager = $this->modelManagerFactory->getModelManager($type);
+        $model = $modelManager->readModelAll();
 
         return new Response($this->serializer->serialize($model, $format), 200, array(
             "Content-Type" => $request->getMimeType($format),

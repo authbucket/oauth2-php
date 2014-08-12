@@ -51,22 +51,6 @@ class ModelControllerTest extends WebTestCase
         $this->assertEquals('debug', $response['scope']);
     }
 
-    public function testReadModelAllJson()
-    {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/model/scope.json');
-        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'json');
-        $this->assertEquals('debug', $response[0]['scope']);
-    }
-
-    public function testReadModelAllXml()
-    {
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/model/scope.xml');
-        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'xml');
-        $this->assertEquals('debug', $response[0]['scope']);
-    }
-
     public function testUpdateModelJson()
     {
         $scope = substr(md5(uniqid(null, true)), 0, 8);
@@ -155,5 +139,21 @@ class ModelControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/oauth2/model/scope/${id}.xml");
         $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'xml');
         $this->assertEquals(null, $response);
+    }
+
+    public function testListModelJson()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/oauth2/model/scope.json');
+        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'json');
+        $this->assertEquals('debug', $response[0]['scope']);
+    }
+
+    public function testListModelXml()
+    {
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/oauth2/model/scope.xml');
+        $response = $this->app['serializer']->decode($client->getResponse()->getContent(), 'xml');
+        $this->assertEquals('debug', $response[0]['scope']);
     }
 }
