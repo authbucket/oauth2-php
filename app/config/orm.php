@@ -11,7 +11,7 @@
 
 use AuthBucket\OAuth2\Tests\TestBundle\Entity\ModelManagerFactory;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
@@ -28,11 +28,12 @@ $app['authbucket_oauth2.orm'] = $app->share(function ($app) {
     $em = $app['dbs.event_manager']['default'];
 
     $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__ . '/../../tests/src/AuthBucket/OAuth2/Tests/TestBundle/Entity'));
+    $cache = new FilesystemCache(__DIR__ . '/../cache/' . $app['env']);
 
     $config = Setup::createConfiguration(false);
     $config->setMetadataDriverImpl($driver);
-    $config->setMetadataCacheImpl(new ArrayCache());
-    $config->setQueryCacheImpl(new ArrayCache());
+    $config->setMetadataCacheImpl($cache);
+    $config->setQueryCacheImpl($cache);
 
     return EntityManager::create($conn, $config, $em);
 });
