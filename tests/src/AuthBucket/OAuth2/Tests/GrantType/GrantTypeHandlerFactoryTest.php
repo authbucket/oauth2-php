@@ -28,7 +28,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
-            $this->app['authbucket_oauth2.user_provider'],
+            null,
             array('foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\NonExistsGrantTypeHandler')
         );
         $grantTypeHandlerFactory->addGrantTypeHandler('foo', $grantTypeHandler);
@@ -46,7 +46,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
-            $this->app['authbucket_oauth2.user_provider'],
+            null,
             array('foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\FooGrantTypeHandler')
         );
         $grantTypeHandlerFactory->addGrantTypeHandler('foo', $grantTypeHandler);
@@ -64,7 +64,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
-            $this->app['authbucket_oauth2.user_provider'],
+            null,
             array('bar' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\BarGrantTypeHandler')
         );
         $grantTypeHandlerFactory->getGrantTypeHandler('foo');
@@ -79,7 +79,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
-            $this->app['authbucket_oauth2.user_provider'],
+            null,
             array('bar' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\BarGrantTypeHandler')
         );
         $grantTypeHandlerFactory->getGrantTypeHandler('bar');
