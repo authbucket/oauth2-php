@@ -25,8 +25,7 @@ class MacTokenTypeHandlerTest extends WebTestCase
         $request = new Request();
         $handler = new MacTokenTypeHandler(
             $this->app['validator'],
-            $this->app['authbucket_oauth2.model_manager.factory'],
-            $this->app['authbucket_oauth2.resource_handler']
+            $this->app['authbucket_oauth2.model_manager.factory']
         );
         $handler->getAccessToken($request);
     }
@@ -39,8 +38,7 @@ class MacTokenTypeHandlerTest extends WebTestCase
         $modelManagerFactory = new BarModelManagerFactory();
         $handler = new MacTokenTypeHandler(
             $this->app['validator'],
-            $this->app['authbucket_oauth2.model_manager.factory'],
-            $this->app['authbucket_oauth2.resource_handler']
+            $this->app['authbucket_oauth2.model_manager.factory']
         );
         $handler->createAccessToken($modelManagerFactory, 'foo');
     }
