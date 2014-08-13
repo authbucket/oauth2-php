@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\ValidatorInterface;
 
 /**
- * OAuth2 model endpocontroller implementation.
+ * OAuth2 model endpoint controller implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
