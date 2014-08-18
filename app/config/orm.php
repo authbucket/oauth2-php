@@ -23,7 +23,7 @@ $app['db.options'] = array(
 );
 
 // Return an instance of Doctrine ORM entity manager.
-$app['authbucket_oauth2.orm'] = $app->share(function ($app) {
+$app['db.orm'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
     $em = $app['dbs.event_manager']['default'];
 
@@ -51,5 +51,5 @@ $app['authbucket_oauth2.model'] = array(
 
 // Add model managers from ORM.
 $app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
-    return new ModelManagerFactory($app['authbucket_oauth2.orm'], $app['authbucket_oauth2.model']);
+    return new ModelManagerFactory($app['db.orm'], $app['authbucket_oauth2.model']);
 });

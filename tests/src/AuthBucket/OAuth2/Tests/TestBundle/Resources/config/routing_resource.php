@@ -23,6 +23,3 @@ $app->match('/resource/resource_type/debug_endpoint/cache', 'authbucket_oauth2.d
 
 $app->match('/resource/resource_type/debug_endpoint/invalid_options', 'authbucket_oauth2.debug_controller:debugAction')
     ->bind('resource_debug_debug_endpoint_invalid_options');
-
-$app->match('/resource/resource_type/debug_endpoint/invalid_client', 'authbucket_oauth2.debug_controller:debugAction')
-    ->bind('resource_debug_debug_endpoint_invalid_client');
