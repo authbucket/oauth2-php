@@ -29,7 +29,7 @@ class DefaultController
     public function adminRefreshDatabaseAction(Request $request, Application $app)
     {
         $conn = $app['db'];
-        $em = $app['authbucket_oauth2.orm'];
+        $em = $app['db.orm'];
 
         $params = $conn->getParams();
         $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
