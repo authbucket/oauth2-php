@@ -74,8 +74,8 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'client_id' => 'http://democlient1.com/',
-                'client_secret' => 'demosecret1',
+                'token_path' => '/oauth2/token',
+                'debug_path' => '/oauth2/debug',
                 'cache' => false,
             ),
         ),
@@ -86,8 +86,9 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'client_id' => 'http://democlient1.com/',
-                'client_secret' => 'demosecret1',
+                'token_path' => '/oauth2/token',
+                'debug_path' => '/oauth2/debug',
+                'cache' => true,
             ),
         ),
     ),
@@ -96,18 +97,10 @@ $app['security.firewalls'] = array(
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
-            'options' => array(),
-        ),
-    ),
-    'resource_resource_type_debug_endpoint_invalid_client' => array(
-        'pattern' => '^/resource/resource_type/debug_endpoint/invalid_client$',
-        'oauth2_resource' => array(
-            'resource_type' => 'debug_endpoint',
-            'scope' => array('demoscope1'),
             'options' => array(
-                'client_id' => 'nonexistsclient',
-                'client_secret' => 'fakesecret',
-                'cache' => false,
+                'token_path' => '',
+                'debug_path' => '',
+                'cache' => true,
             ),
         ),
     ),

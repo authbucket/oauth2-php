@@ -32,16 +32,12 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         $options = array_merge(array(
             'token_path' => '',
             'debug_path' => '',
-            'client_id' => '',
-            'client_secret' => '',
             'cache' => true,
         ), $options);
 
         // Both options are required.
         if (!$options['token_path']
             || !$options['debug_path']
-            || !$options['client_id']
-            || !$options['client_secret']
         ) {
             throw new ServerErrorException(array(
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
@@ -60,32 +56,12 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             }
         }
 
-        // Get client credentials grant-ed access token for resource server.
-        $parameters = array(
-            'grant_type' => 'client_credentials',
-            'scope' => 'debug',
-        );
-        $server = array(
-            'PHP_AUTH_USER' => $options['client_id'],
-            'PHP_AUTH_PW' => $options['client_secret'],
-        );
-        $client = new Client($this->httpKernel);
-        $crawler = $client->request('POST', $options['token_path'], $parameters, array(), $server);
-        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-
-        // Throw exception if error return.
-        if (isset($tokenResponse['error'])) {
-            throw new ServerErrorException(array(
-                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
-            ));
-        }
-
         // Fetch meta data of supplied access token by query debug endpoint.
         $parameters = array(
             'debug_token' => $accessToken,
         );
         $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
+            'HTTP_Authorization' => implode(' ', array('Bearer', $accessToken)),
         );
         $client = new Client($this->httpKernel);
         $crawler = $client->request('GET', $options['debug_path'], $parameters, array(), $server);
