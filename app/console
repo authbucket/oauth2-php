@@ -188,7 +188,7 @@ schema for:
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $em = $app['authbucket_oauth2.orm'];
+        $em = $app['db.orm'];
 
         // Generate testing database schema.
         $classes = array();
@@ -222,7 +222,7 @@ Finally, instead of executing the SQL, you can output the SQL:
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $em = $app['authbucket_oauth2.orm'];
+        $em = $app['db.orm'];
 
         // Generate testing database schema.
         $classes = array();
@@ -263,7 +263,7 @@ If you want to append the fixtures instead of flushing the database first you ca
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $em = $app['authbucket_oauth2.orm'];
+        $em = $app['db.orm'];
 
         $purger = new ORMPurger();
         $executor = new ORMExecutor($em, $purger);
