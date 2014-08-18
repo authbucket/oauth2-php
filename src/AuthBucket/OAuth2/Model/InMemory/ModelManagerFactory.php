@@ -29,7 +29,8 @@ class ModelManagerFactory implements ModelManagerFactoryInterface
         $managers = array();
 
         foreach ($models as $type => $model) {
-            $manager = $model . 'Manager';
+            $className = $model . 'Manager';
+            $manager = new $className();
             if (!$manager instanceof ModelManagerInterface) {
                 throw new ServerErrorException();
             }

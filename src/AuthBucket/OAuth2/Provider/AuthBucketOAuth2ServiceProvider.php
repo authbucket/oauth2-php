@@ -227,8 +227,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
                 $options['options'] = array_merge(array(
                     'token_path' => '/oauth2/token',
                     'debug_path' => '/oauth2/debug',
-                    'client_id' => '',
-                    'client_secret' => '',
                     'cache' => true,
                 ), $options['options']);
             }

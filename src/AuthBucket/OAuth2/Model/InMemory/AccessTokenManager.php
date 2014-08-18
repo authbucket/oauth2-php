@@ -16,7 +16,7 @@ use AuthBucket\OAuth2\Model\AccessTokenManagerInterface;
 /**
  * AccessTokenManager
  */
-class AccessTokenManager extends AbstractEntityManager implements AccessTokenManagerInterface
+class AccessTokenManager extends AbstractModelManager implements AccessTokenManagerInterface
 {
     public function getClassName()
     {

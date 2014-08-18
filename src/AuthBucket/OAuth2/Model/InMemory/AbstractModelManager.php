@@ -19,31 +19,13 @@ use AuthBucket\OAuth2\Model\ModelManagerInterface;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AbstractModelManager implements ModelManagerInterface
+abstract class AbstractModelManager implements ModelManagerInterface
 {
     protected $models;
 
-    public function __construct(array $parameters = array())
-    {
-        $className = $this->getClassName();
-
-        foreach ($parameters as $parameter) {
-            foreach ($parameter as $key => $value) {
-                $model = new $className();
-                $setter = 'set' . ucfirst($key);
-
-                if (method_exists($model, $setter)) {
-                    $model->$setter($value);
-                }
-            }
-
-            $this->createModel($model);
-        }
-    }
-
     public function createModel(ModelInterface $model)
     {
-        $models[$model->getId()] = $model;
+        $this->models[$model->getId()] = $model;
 
         return $model;
     }
@@ -68,22 +50,26 @@ class AbstractModelManager implements ModelManagerInterface
         }
 
         // For simplified implementation, we only order by first key/value pair here.
-        usort($models, function ($a, $b) {
-            $getter = 'get' . ucfirst(key($orderBy));
+        if ($orderBy !== null && is_array($orderBy)) {
+            usort($models, function ($a, $b) {
+                $getter = 'get' . ucfirst(key($orderBy));
 
-            return reset($orderBy) === 'ASC'
-                ? strcmp($a->$getter(), $b->$getter())
-                : strcmp($b->$getter(), $a->$getter());
-        });
+                return strtolower(reset($orderBy)) !== 'asc'
+                    ? strcmp($b->$getter(), $a->$getter())
+                    : strcmp($a->$getter(), $b->$getter());
+            });
+        }
 
         $models = array_slice($models, $offset, $limit);
 
-        return $models;
+        return $models ?: null;
     }
 
     public function readModelOneBy(array $criteria, array $orderBy = null)
     {
-        return $this->readModelBy($criteria, $orderBy, 1, 0);
+        $models = $this->readModelBy($criteria, $orderBy, 1, 0);
+
+        return is_array($models) ? reset($models) : $models;
     }
 
     public function updateModel(ModelInterface $model)
