@@ -29,7 +29,7 @@ class DefaultController
     public function adminRefreshDatabaseAction(Request $request, Application $app)
     {
         $conn = $app['db'];
-        $em = $app['db.orm'];
+        $em = $app['doctrine.orm.entity_manager'];
 
         $params = $conn->getParams();
         $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
