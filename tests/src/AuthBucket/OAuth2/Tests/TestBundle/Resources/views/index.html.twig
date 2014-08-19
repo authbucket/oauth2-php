@@ -26,15 +26,16 @@
                 <p>Here is a minimal example of a <code>composer.json</code>:</p>
 <pre><code class="json">{
     &quot;require&quot;: {
-        &quot;authbucket/oauth2&quot;: &quot;~2.0&quot;
+        &quot;authbucket/oauth2&quot;: &quot;~2.1&quot;
     }
 }</code></pre>
 
                 <h3 id="parameters">Parameters</h3>
                 <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following parameters:</p>
                 <ul>
-                    <li><code>authbucket_oauth2.model_manager.factory</code>: Override this with your backend model manager factory, e.g. initialized with Doctrine ORM.</li>
-                    <li><code>authbucket_oauth2.user_provider</code>: (Optional) For using <code>grant_type = password</code>, override this parameter with your own user provider, e.g. using InMemoryUserProvider or a doctrine EntityRepository that implements UserProviderInterface.</li>
+                    <li><code>authbucket_oauth2.model</code>: (Optional) Override this with your own model classes, default with in-memory AccessToken for using resource firewall with remote debug endpoint.</li>
+                    <li><code>authbucket_oauth2.model_manager.factory</code>: (Optional) Override this with your backend model managers, e.g. Doctrine ORM EntityRepository, default with in-memory implementation for using resource firewall with remote debug endpoint.</li>
+                    <li><code>authbucket_oauth2.user_provider</code>: (Optional) For using <code>grant_type = password</code>, override this parameter with your own user provider, e.g. using InMemoryUserProvider or a Doctrine ORM EntityRepository that implements UserProviderInterface.</li>
                 </ul>
 
                 <h3 id="services">Services</h3>
@@ -129,8 +130,6 @@ $app[&#39;security.firewalls&#39;] = array(
         &#39;options&#39; =&gt; array(
             &#39;token_path&#39; =&gt; &#39;http://example.com/oauth2/token&#39;,
             &#39;debug_path&#39; =&gt; &#39;http://example.com/oauth2/debug&#39;,
-            &#39;client_id&#39; =&gt; &#39;http://democlient1.com/&#39;,
-            &#39;client_secret&#39; =&gt; &#39;demosecret1&#39;,
             &#39;cache&#39; =&gt; true,
         ),
     ),
@@ -139,7 +138,7 @@ $app[&#39;security.firewalls&#39;] = array(
                 <h2 id="demo" class="page-header">Demo</h2>
                 <p class="lead">The demo is based on <a href="http://silex.sensiolabs.org/">Silex</a> and <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a>. Read though <a href="http://oauth2.authbucket.com/demo">Demo</a> for more information.</p>
                 <p>You may also run the demo locally. Open a console and execute the following command to install the latest version in the oauth2/ directory:</p>
-<pre><code class="bash">$ composer create-project authbucket/oauth2 oauth2/ "~2.0"</code></pre>
+<pre><code class="bash">$ composer create-project authbucket/oauth2 oauth2/ "~2.1"</code></pre>
                 <p>Then use the PHP built-in web server to run the demo application:</p>
 <pre><code class="bash">$ cd oauth2/
 $ php app/console server:run</code></pre>
