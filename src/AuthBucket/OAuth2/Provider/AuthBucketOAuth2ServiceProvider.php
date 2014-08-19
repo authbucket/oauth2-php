@@ -223,14 +223,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
                 'options' => array(),
             ), (array) $options);
 
-            if ($options['resource_type'] === 'debug_endpoint') {
-                $options['options'] = array_merge(array(
-                    'token_path' => '/oauth2/token',
-                    'debug_path' => '/oauth2/debug',
-                    'cache' => true,
-                ), $options['options']);
-            }
-
             if (!isset($app['security.authentication_provider.' . $name . '.oauth2_resource'])) {
                 $app['security.authentication_provider.' . $name . '.oauth2_resource'] = $app['security.authentication_provider.oauth2_resource._proto']($name, $options);
             }

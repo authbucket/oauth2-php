@@ -16,65 +16,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DebugControllerTest extends WebTestCase
 {
-    public function testExceptionBadDebugToken()
-    {
-        $parameters = array(
-            'debug_token' => "aaa\x19bbb\x5Cccc\x7Fddd",
-        );
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resourceResponse['error']);
-    }
-
-    public function testExceptionNotExistsDebugToken()
-    {
-        $parameters = array(
-            'debug_token' => "abcd",
-        );
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resourceResponse['error']);
-    }
-
-    public function testExceptionExpiredDebugToken()
-    {
-        $parameters = array(
-            'debug_token' => "d2b58c4c6bc0cc9fefca2d558f1221a5",
-        );
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
-        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resourceResponse['error']);
-    }
-
-    public function testGoodEmptyDebugToken()
+    public function testExceptionNotExistsAccessToken()
     {
         $parameters = array();
         $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
+            'HTTP_Authorization' => implode(' ', array('Bearer', 'abcd')),
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resourceResponse['username']);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
     }
 
-    public function testGoodDebugToken()
+    public function testGoodAccessToken()
     {
-        $parameters = array(
-            'debug_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
         );
