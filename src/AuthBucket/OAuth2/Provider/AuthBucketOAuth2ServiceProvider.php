@@ -39,21 +39,24 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
 {
     public function register(Application $app)
     {
-        // Override this with your own model classes, default with in-memory
-        // AccessToken for using resource firewall with remote debug endpoint.
+        // (Optional) Override this with your own model classes, default with
+        // in-memory AccessToken for using resource firewall with remote debug
+        // endpoint.
         $app['authbucket_oauth2.model'] = array(
             'access_token' => 'AuthBucket\\OAuth2\\Model\\InMemory\\AccessToken',
         );
 
-        // Override this with your backend model managers, e.g. Doctrine ORM
-        // EntityRepository, default with in-memory implementation only.
+        // (Optional) Override this with your backend model managers, e.g.
+        // Doctrine ORM EntityRepository, default with in-memory
+        // implementation for using resource firewall with remote debug
+        // endpoint.
         $app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
             return ModelManagerFactory($app['authbucket_oauth2.model']);
         });
 
-        // For using grant_type = password, override this parameter with your
-        // own user provider, e.g. using InMemoryUserProvider or a doctrine
-        // EntityRepository that implements UserProviderInterface.
+        // (Optional) For using grant_type = password, override this parameter
+        // with your own user provider, e.g. using InMemoryUserProvider or a
+        // Doctrine ORM EntityRepository that implements UserProviderInterface.
         $app['authbucket_oauth2.user_provider'] = null;
 
         // Add default response type handler.

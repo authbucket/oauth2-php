@@ -35,7 +35,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2": "~2.0"
+            "authbucket/oauth2": "~2.1"
         }
     }
 
@@ -45,11 +45,16 @@ The bundled
 [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 come with following parameters:
 
--   `authbucket_oauth2.model_manager.factory`: Override this with your
-    backend model manager factory, e.g. initialized with Doctrine ORM.
+-   `authbucket_oauth2.model`: (Optional) Override this with your own
+    model classes, default with in-memory AccessToken for using resource
+    firewall with remote debug endpoint.
+-   `authbucket_oauth2.model_manager.factory`: (Optional) Override this
+    with your backend model managers, e.g. Doctrine ORM
+    EntityRepository, default with in-memory implementation for using
+    resource firewall with remote debug endpoint.
 -   `authbucket_oauth2.user_provider`: (Optional) For using
     `grant_type = password`, override this parameter with your own user
-    provider, e.g. using InMemoryUserProvider or a doctrine
+    provider, e.g. using InMemoryUserProvider or a Doctrine ORM
     EntityRepository that implements UserProviderInterface.
 
 ### Services
@@ -191,8 +196,6 @@ endpoint:
             'options' => array(
                 'token_path' => 'http://example.com/oauth2/token',
                 'debug_path' => 'http://example.com/oauth2/debug',
-                'client_id' => 'http://democlient1.com/',
-                'client_secret' => 'demosecret1',
                 'cache' => true,
             ),
         ),
@@ -210,7 +213,7 @@ You may also run the demo locally. Open a console and execute the
 following command to install the latest version in the oauth2/
 directory:
 
-    $ composer create-project authbucket/oauth2 oauth2/ "~2.0"
+    $ composer create-project authbucket/oauth2 oauth2/ "~2.1"
 
 Then use the PHP built-in web server to run the demo application:
 
