@@ -50,13 +50,12 @@
                 <p>This is used for protect above <code>/oauth2/authorize</code> Authorization Endpoint.</p>
 
                 <h3 id="debug-endpoint-oauth2debug">Debug Endpoint <small>(<code>/oauth2/debug</code>)</small></h3>
-                <p class="lead"><a href="{{ path('oauth2_debug') }}">Debug Endpoint</a> clone the idea of <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#debug">Facebook's Debug API Endpoint</a>, return raw information of corresponding <code>debug_token</code> provided. Read though <a href="https://github.com/authbucket/oauth2/blob/master/app/config/security.php">security.php</a> and <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> for more information.</p>
+                <p class="lead"><a href="{{ path('oauth2_debug') }}">Debug Endpoint</a> clone the idea of <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#debug">Facebook's Debug API Endpoint</a>, return raw information of corresponding <code>access_token</code> provided. Read though <a href="https://github.com/authbucket/oauth2/blob/master/app/config/security.php">security.php</a> and <a href="https://github.com/authbucket/oauth2/blob/master/tests/src/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> for more information.</p>
                 <p>When working with an access token, you may need to check what information is associated with it, such as its user or expiry. To use this endpoint, you can issue a GET/POST request, e.g.:</p>
-<pre><code>GET /oauth2/debug?debug_token={debug_token}&amp;access_token={access_token} HTTP/1.1
+<pre><code>GET /oauth2/debug?access_token={access_token} HTTP/1.1
 Host: server.example.com</code></pre>
                 <ul>
-                    <li><code>debug_token</code>: the access token you want to get information about</li>
-                    <li><code>access_token</code>: your app access token or a valid user access token from a developer of the app</li>
+                    <li><code>access_token</code>: the access token you want to get information about</li>
                 </ul>
                 <p>The response of the API call is a JSON array containing a map of fields. For example:</p>
 <pre><code>{
@@ -69,7 +68,7 @@ Host: server.example.com</code></pre>
     &quot;token_type&quot;: &quot;bearer&quot;,
     &quot;username&quot;: &quot;demousername1&quot;
 }</code></pre>
-                <p>Remote <a href="{{ path('resource_index') }}">Resource Server</a> may also utilize this debug endpoint to verfiy the supplied access token as <code>debug_token</code>, where provide its own Client Credentials Grant-ed access token as <code>access_token</code> with debug permission.</p>
+                <p>Remote <a href="{{ path('resource_index') }}">Resource Server</a> may also utilize this debug endpoint to verfiy the supplied access token.</p>
             </div>
         </div>
     </div>

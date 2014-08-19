@@ -18,9 +18,7 @@ class ModelResourceTypeHandlerTest extends WebTestCase
 {
     public function testExceptionNotExistsAccessToken()
     {
-        $parameters = array(
-            'debug_token' => "eeb5aa92bbb4b56373b9e0d00bc02d93",
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'abcd')),
         );
@@ -32,9 +30,7 @@ class ModelResourceTypeHandlerTest extends WebTestCase
 
     public function testExceptionExpiredAccessToken()
     {
-        $parameters = array(
-            'debug_token' => "eeb5aa92bbb4b56373b9e0d00bc02d93",
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5')),
         );

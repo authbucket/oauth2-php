@@ -266,9 +266,7 @@ class DemoController
 
     public function demoResourceTypeModelAction(Request $request, Application $app)
     {
-        $parameters = array(
-            'debug_token' => $request->query->get('access_token'),
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
         );
@@ -285,9 +283,7 @@ class DemoController
 
     public function demoResourceTypeDebugEndpointAction(Request $request, Application $app)
     {
-        $parameters = array(
-            'debug_token' => $request->query->get('access_token'),
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
         );
