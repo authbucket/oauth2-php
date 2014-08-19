@@ -11,13 +11,11 @@
 
 namespace AuthBucket\OAuth2\Controller;
 
-use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
 
 /**
@@ -44,46 +42,30 @@ class DebugController
 
     public function debugAction(Request $request)
     {
-        // Fetch adebu_token from GET.
+        // Fetch access_token, should already validated by firewall.
         $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
-        $debugToken = $request->query->get('debug_token')
-            ?: $request->request->get('debug_token')
-            ?: $tokenTypeHandler->getAccessToken($request);
-        $errors = $this->validator->validateValue($debugToken, array(
-            new NotBlank(),
-            new AccessToken(),
-        ));
-        if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
-            ));
-        }
+        $accessToken = $tokenTypeHandler->getAccessToken($request);
 
-        // Check debug_token with database record.
+        // Check access_token with database record, again should already
+        // validated by firewall.
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $accessToken = $accessTokenManager->readModelOneBy(array(
-            'accessToken' => $debugToken,
+        $accessTokenStored = $accessTokenManager->readModelOneBy(array(
+            'accessToken' => $accessToken,
         ));
-        if (null === $accessToken) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request is otherwise malformed.',
-            ));
-        } elseif ($accessToken->getExpires() < new \DateTime()) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request is otherwise malformed.',
-            ));
-        }
 
         // Handle debug endpoint response.
         $parameters = array(
-            'access_token' => $accessToken->getAccessToken(),
-            'token_type' => $accessToken->getTokenType(),
-            'client_id' => $accessToken->getClientId(),
-            'username' => $accessToken->getUsername(),
-            'expires' => $accessToken->getExpires()->getTimestamp(),
-            'scope' => $accessToken->getScope(),
+            'access_token' => $accessTokenStored->getAccessToken(),
+            'token_type' => $accessTokenStored->getTokenType(),
+            'client_id' => $accessTokenStored->getClientId(),
+            'username' => $accessTokenStored->getUsername(),
+            'expires' => $accessTokenStored->getExpires()->getTimestamp(),
+            'scope' => $accessTokenStored->getScope(),
         );
 
-        return JsonResponse::create($parameters);
+        return JsonResponse::create($parameters, 200, array(
+            'Cache-Control' => 'no-store',
+            'Pragma' => 'no-cache',
+        ));
     }
 }

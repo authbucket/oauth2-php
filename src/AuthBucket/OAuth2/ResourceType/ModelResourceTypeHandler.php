@@ -26,19 +26,19 @@ class ModelResourceTypeHandler extends AbstractResourceTypeHandler
     )
     {
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $stored = $accessTokenManager->readModelOneBy(array(
+        $accessTokenStored = $accessTokenManager->readModelOneBy(array(
             'accessToken' => $accessToken,
         ));
-        if ($stored === null) {
+        if ($accessTokenStored === null) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The provided access token is invalid.',
             ));
-        } elseif ($stored->getExpires() < new \DateTime()) {
+        } elseif ($accessTokenStored->getExpires() < new \DateTime()) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The provided access token is expired.',
             ));
         }
 
-        return $stored;
+        return $accessTokenStored;
     }
 }
