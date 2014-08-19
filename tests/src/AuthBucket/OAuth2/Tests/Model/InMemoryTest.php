@@ -64,6 +64,30 @@ class InMemoryTest extends SilexWebTestCase
         return $app;
     }
 
+    public function testExceptionNotExistsAccessToken()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', 'abcd')),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/resource_type/debug_endpoint', $parameters, array(), $server);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
+    }
+
+    public function testExceptionInvalidParameter()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/resource/resource_type/debug_endpoint/invalid_options', $parameters, array(), $server);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('server_error', $resourceResponse['error']);
+    }
+
     public function testGoodAccessToken()
     {
         $parameters = array();
