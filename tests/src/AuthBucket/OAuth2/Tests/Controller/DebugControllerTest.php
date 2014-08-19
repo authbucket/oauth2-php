@@ -16,11 +16,35 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DebugControllerTest extends WebTestCase
 {
+    public function testExceptionBadAccessToken()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', "aaa\x19bbb\x5Cccc\x7Fddd")),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
+    }
+
     public function testExceptionNotExistsAccessToken()
     {
         $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'abcd')),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
+    }
+
+    public function testExceptionExpiredAccessToken()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5')),
         );
         $client = $this->createClient();
         $crawler = $client->request('GET', '/oauth2/debug', $parameters, array(), $server);
