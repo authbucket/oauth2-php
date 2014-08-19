@@ -30,8 +30,8 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
     )
     {
         $options = array_merge(array(
-            'token_path' => '',
-            'debug_path' => '',
+            'token_path' => '/oauth2/token',
+            'debug_path' => '/oauth2/debug',
             'cache' => true,
         ), $options);
 
@@ -57,9 +57,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         }
 
         // Fetch meta data of supplied access token by query debug endpoint.
-        $parameters = array(
-            'debug_token' => $accessToken,
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $accessToken)),
         );
