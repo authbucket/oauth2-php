@@ -91,13 +91,11 @@ $app[&#39;security.firewalls&#39;] = array(
 );</code></pre>
 
                 <h3 id="debug-endpoint">Debug Endpoint</h3>
-                <p>We should protect this endpoint with our custom firewall <code>oauth2_resource</code> (scope <code>debug</code> is required for remote resource server query functioning):</p>
+                <p>We should protect this endpoint with our custom firewall <code>oauth2_resource</code>:</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
    &#39;oauth2_debug&#39; =&gt; array(
        &#39;pattern&#39; =&gt; &#39;^/oauth2/debug$&#39;,
-       &#39;oauth2_resource&#39; =&gt; array(
-           &#39;scope&#39; =&gt; array(&#39;debug&#39;),
-       ),
+       &#39;oauth2_resource&#39; =&gt; true,
    ),
 );</code></pre>
 

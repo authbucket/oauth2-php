@@ -56,10 +56,7 @@ $app['security.firewalls'] = array(
     ),
     'oauth2_debug' => array(
         'pattern' => '^/oauth2/debug$',
-        'oauth2_resource' => array(
-            'resource_type' => 'model',
-            'scope' => array('debug'),
-        ),
+        'oauth2_resource' => true,
     ),
     'resource_resource_type_model' => array(
         'pattern' => '^/resource/resource_type/model$',
