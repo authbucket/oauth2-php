@@ -139,15 +139,12 @@ our custom firewall `oauth2_token`:
 ### Debug Endpoint
 
 We should protect this endpoint with our custom firewall
-`oauth2_resource` (scope `debug` is required for remote resource server
-query functioning):
+`oauth2_resource`:
 
     $app['security.firewalls'] = array(
        'oauth2_debug' => array(
            'pattern' => '^/oauth2/debug$',
-           'oauth2_resource' => array(
-               'scope' => array('debug'),
-           ),
+           'oauth2_resource' => true,
        ),
     );
 

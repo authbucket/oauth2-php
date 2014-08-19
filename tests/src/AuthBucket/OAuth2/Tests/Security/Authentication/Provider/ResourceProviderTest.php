@@ -18,9 +18,7 @@ class ResourceProviderTest extends WebTestCase
 {
     public function testNonCompatibileScope()
     {
-        $parameters = array(
-            'debug_token' => 'bcc105b66698a64ed23c87b967885289',
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'bcc105b66698a64ed23c87b967885289')),
         );
@@ -32,9 +30,7 @@ class ResourceProviderTest extends WebTestCase
 
     public function testEnoughScope()
     {
-        $parameters = array(
-            'debug_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
         );
@@ -46,9 +42,7 @@ class ResourceProviderTest extends WebTestCase
 
     public function testMoreScope()
     {
-        $parameters = array(
-            'debug_token' => 'ba2e8d1f54ed3e3d96935796576f1a06',
-        );
+        $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', 'ba2e8d1f54ed3e3d96935796576f1a06')),
         );
