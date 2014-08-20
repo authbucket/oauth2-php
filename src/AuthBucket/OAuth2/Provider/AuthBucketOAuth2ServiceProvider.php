@@ -51,7 +51,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         // implementation for using resource firewall with remote debug
         // endpoint.
         $app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
-            return ModelManagerFactory($app['authbucket_oauth2.model']);
+            return new ModelManagerFactory($app['authbucket_oauth2.model']);
         });
 
         // (Optional) For using grant_type = password, override this parameter
