@@ -20,10 +20,6 @@ class ScopeFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $model = new Scope();
-        $model->setScope('debug');
-        $manager->persist($model);
-
-        $model = new Scope();
         $model->setScope('demoscope1');
         $manager->persist($model);
 

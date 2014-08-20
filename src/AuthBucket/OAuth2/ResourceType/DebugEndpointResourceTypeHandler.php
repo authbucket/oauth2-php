@@ -30,15 +30,12 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
     )
     {
         $options = array_merge(array(
-            'token_path' => '/oauth2/token',
             'debug_path' => '/oauth2/debug',
             'cache' => true,
         ), $options);
 
         // Both options are required.
-        if (!$options['token_path']
-            || !$options['debug_path']
-        ) {
+        if (!$options['debug_path']) {
             throw new ServerErrorException(array(
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ));
