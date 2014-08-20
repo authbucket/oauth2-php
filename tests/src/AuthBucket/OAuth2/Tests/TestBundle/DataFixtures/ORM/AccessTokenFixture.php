@@ -26,7 +26,6 @@ class AccessTokenFixture implements FixtureInterface
             ->setUsername('demousername1')
             ->setExpires(new \DateTime('+1 hours'))
             ->setScope(array(
-                'debug',
                 'demoscope1',
             ));
         $manager->persist($model);
