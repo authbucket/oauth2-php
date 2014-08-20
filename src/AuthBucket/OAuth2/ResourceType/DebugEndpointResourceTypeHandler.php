@@ -30,12 +30,12 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
     )
     {
         $options = array_merge(array(
-            'debug_path' => '/oauth2/debug',
+            'debug_endpoint' => '/oauth2/debug',
             'cache' => true,
         ), $options);
 
         // Both options are required.
-        if (!$options['debug_path']) {
+        if (!$options['debug_endpoint']) {
             throw new ServerErrorException(array(
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ));
@@ -59,7 +59,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             'HTTP_Authorization' => implode(' ', array('Bearer', $accessToken)),
         );
         $client = new Client($this->httpKernel);
-        $crawler = $client->request('GET', $options['debug_path'], $parameters, array(), $server);
+        $crawler = $client->request('GET', $options['debug_endpoint'], $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
 
         // Throw exception if error return.
