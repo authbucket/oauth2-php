@@ -71,7 +71,7 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_path' => '/oauth2/debug',
+                'debug_endpoint' => '/oauth2/debug',
                 'cache' => false,
             ),
         ),
@@ -82,7 +82,7 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_path' => '/oauth2/debug',
+                'debug_endpoint' => '/oauth2/debug',
                 'cache' => true,
             ),
         ),
@@ -93,7 +93,7 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_path' => '',
+                'debug_endpoint' => '',
                 'cache' => true,
             ),
         ),

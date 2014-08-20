@@ -191,7 +191,7 @@ endpoint:
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_path' => 'http://example.com/oauth2/debug',
+                'debug_endpoint' => 'http://example.com/oauth2/debug',
                 'cache' => true,
             ),
         ),
