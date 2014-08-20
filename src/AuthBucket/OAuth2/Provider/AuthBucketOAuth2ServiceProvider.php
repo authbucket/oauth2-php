@@ -144,9 +144,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
 
         $app['authbucket_oauth2.debug_controller'] = $app->share(function () use ($app) {
             return new DebugController(
-                $app['validator'],
-                $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.token_handler.factory']
+                $app['security']
             );
         });
 
