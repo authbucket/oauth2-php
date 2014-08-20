@@ -11,12 +11,11 @@
 
 namespace AuthBucket\OAuth2\Controller;
 
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
+use AuthBucket\OAuth2\Exception\ServerErrorException;
+use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * OAuth2 debug endpoint controller implementation.
@@ -25,42 +24,34 @@ use Symfony\Component\Validator\ValidatorInterface;
  */
 class DebugController
 {
-    protected $validator;
-    protected $modelManagerFactory;
-    protected $tokenTypeHandlerFactory;
+    protected $securityContext;
 
     public function __construct(
-        ValidatorInterface $validator,
-        ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        SecurityContextInterface $securityContext
     )
     {
-        $this->validator = $validator;
-        $this->modelManagerFactory = $modelManagerFactory;
-        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
+        $this->securityContext = $securityContext;
     }
 
     public function debugAction(Request $request)
     {
-        // Fetch access_token, should already validated by firewall.
-        $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
-        $accessToken = $tokenTypeHandler->getAccessToken($request);
-
-        // Check access_token with database record, again should already
-        // validated by firewall.
-        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $accessTokenStored = $accessTokenManager->readModelOneBy(array(
-            'accessToken' => $accessToken,
-        ));
+        // Fetch authenticated access token from security context.
+        $token = $this->securityContext->getToken();
+        if ($token === null || !$token instanceof AccessTokenToken) {
+            throw new ServerErrorException(array(
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
+            ));
+        }
 
         // Handle debug endpoint response.
+        $accessTokenAuthenticated = $token->getAccessToken();
         $parameters = array(
-            'access_token' => $accessTokenStored->getAccessToken(),
-            'token_type' => $accessTokenStored->getTokenType(),
-            'client_id' => $accessTokenStored->getClientId(),
-            'username' => $accessTokenStored->getUsername(),
-            'expires' => $accessTokenStored->getExpires()->getTimestamp(),
-            'scope' => $accessTokenStored->getScope(),
+            'access_token' => $accessTokenAuthenticated->getAccessToken(),
+            'token_type' => $accessTokenAuthenticated->getTokenType(),
+            'client_id' => $accessTokenAuthenticated->getClientId(),
+            'username' => $accessTokenAuthenticated->getUsername(),
+            'expires' => $accessTokenAuthenticated->getExpires()->getTimestamp(),
+            'scope' => $accessTokenAuthenticated->getScope(),
         );
 
         return JsonResponse::create($parameters, 200, array(
