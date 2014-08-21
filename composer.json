@@ -27,7 +27,7 @@
     "minimum-stability": "dev",
     "name": "authbucket/oauth2",
     "require": {
-        "guzzlehttp/guzzle": "~4.0",
+        "guzzle/guzzle": "~3.9",
         "php": ">=5.3.9",
         "symfony/http-foundation": "~2.3",
         "symfony/http-kernel": "~2.3",

@@ -24,7 +24,7 @@ class AccessTokenFixture implements FixtureInterface
             ->setTokenType('bearer')
             ->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
-            ->setExpires(new \DateTime('+1 hours'))
+            ->setExpires(new \DateTime('+10 years'))
             ->setScope(array(
                 'demoscope1',
             ));
