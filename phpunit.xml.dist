@@ -14,7 +14,7 @@
 
     <testsuites>
         <testsuite name="AuthBucket\OAuth2 Test Suite">
-            <directory>./tests/src</directory>
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 

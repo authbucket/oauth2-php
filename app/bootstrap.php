@@ -13,8 +13,6 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
 
-$loader->add('AuthBucket\OAuth2\Tests', __DIR__ . '/../tests/src');
-
 // See http://symfony.com/doc/current/cookbook/testing/bootstrap.html
 if (isset($_ENV['BOOTSTRAP_ENV'])) {
     passthru(sprintf(
