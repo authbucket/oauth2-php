@@ -15,7 +15,6 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Client;
 
 /**
  * Token response type implementation.
@@ -54,13 +53,24 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         }
 
         // Fetch meta data of supplied access token by query debug endpoint.
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', $accessToken)),
-        );
-        $client = new Client($this->httpKernel);
-        $crawler = $client->request('GET', $options['debug_endpoint'], $parameters, array(), $server);
-        $debugResponse = json_decode($client->getResponse()->getContent(), true);
+        if (strpos($options['debug_endpoint'], '/') === 0) {
+            // For relative URL, use Symfony test client to simulates and
+            // HTTP client like a browser and makes requests.
+            $client = new \Symfony\Component\HttpKernel\Client($this->httpKernel);
+            $crawler = $client->request('GET', $options['debug_endpoint'], array(), array(), array(
+                'HTTP_Authorization' => implode(' ', array('Bearer', $accessToken)),
+            ));
+            $response = $client->getResponse()->getContent();
+        } else {
+            // For absolute URL, use Guzzle client to create request.
+            $client = new \GuzzleHttp\Client();
+            $crawler = $client->get($options['debug_endpoint'], array(
+                'headers' => array('Authorization' => implode(' ', array('Bearer', $accessToken))),
+                'exceptions' => false,
+            ));
+            $response = $crawler->getBody();
+        }
+        $debugResponse = json_decode($response, true);
 
         // Throw exception if error return.
         if (isset($debugResponse['error'])) {
