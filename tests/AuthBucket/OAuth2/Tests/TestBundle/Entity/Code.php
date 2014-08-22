@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Code
  *
- * @ORM\Table(name="test_code")
+ * @ORM\Table(name="authbucket_oauth2_code")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\CodeRepository")
  */
 class Code implements CodeInterface

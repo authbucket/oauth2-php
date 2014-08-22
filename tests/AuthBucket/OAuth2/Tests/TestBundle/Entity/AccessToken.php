@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AccessToken
  *
- * @ORM\Table(name="test_access_token")
+ * @ORM\Table(name="authbucket_oauth2_access_token")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\AccessTokenRepository")
  */
 class AccessToken implements AccessTokenInterface
