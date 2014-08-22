@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Authorize
  *
- * @ORM\Table(name="test_authorize")
+ * @ORM\Table(name="authbucket_oauth2_authorize")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\AuthorizeRepository")
  */
 class Authorize implements AuthorizeInterface

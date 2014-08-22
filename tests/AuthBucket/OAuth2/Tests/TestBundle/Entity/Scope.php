@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Scope
  *
- * @ORM\Table(name="test_scope")
+ * @ORM\Table(name="authbucket_oauth2_scope")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\ScopeRepository")
  */
 class Scope implements ScopeInterface
