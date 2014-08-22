@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Client
  *
- * @ORM\Table(name="test_client")
+ * @ORM\Table(name="authbucket_oauth2_client")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\ClientRepository")
  */
 class Client implements ClientInterface

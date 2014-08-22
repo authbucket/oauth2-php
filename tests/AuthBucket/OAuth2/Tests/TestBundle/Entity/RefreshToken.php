@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * RefreshToken
  *
- * @ORM\Table(name="test_refresh_token")
+ * @ORM\Table(name="authbucket_oauth2_refresh_token")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\RefreshTokenRepository")
  */
 class RefreshToken implements RefreshTokenInterface
