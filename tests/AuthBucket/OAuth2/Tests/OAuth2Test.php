@@ -49,7 +49,7 @@ class OAuth2Test extends WebTestCase
         $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
         $this->assertEquals(
             'http://democlient1.com/redirect_uri',
-            $authResponse->getSchemeAndHttpHost() . $authResponse->getBaseUrl() . $authResponse->getPathInfo()
+            $authResponse->getSchemeAndHttpHost().$authResponse->getBaseUrl().$authResponse->getPathInfo()
         );
 
         // Query token endpoint with grant_type = authorization_code.
@@ -123,7 +123,7 @@ class OAuth2Test extends WebTestCase
         $authResponse = Request::create($client->getResponse()->headers->get('Location'), 'GET');
         $this->assertEquals(
             'http://democlient1.com/redirect_uri',
-            $authResponse->getSchemeAndHttpHost() . $authResponse->getBaseUrl() . $authResponse->getPathInfo()
+            $authResponse->getSchemeAndHttpHost().$authResponse->getBaseUrl().$authResponse->getPathInfo()
         );
 
         // Check basic token response that can simply compare.

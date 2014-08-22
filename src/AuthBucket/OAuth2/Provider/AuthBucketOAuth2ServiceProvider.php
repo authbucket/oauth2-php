@@ -201,17 +201,17 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         });
 
         $app['security.authentication_listener.factory.oauth2_token'] = $app->protect(function ($name, $options) use ($app) {
-            if (!isset($app['security.authentication_provider.' . $name . '.oauth2_token'])) {
-                $app['security.authentication_provider.' . $name . '.oauth2_token'] = $app['security.authentication_provider.oauth2_token._proto']($name, $options);
+            if (!isset($app['security.authentication_provider.'.$name.'.oauth2_token'])) {
+                $app['security.authentication_provider.'.$name.'.oauth2_token'] = $app['security.authentication_provider.oauth2_token._proto']($name, $options);
             }
 
-            if (!isset($app['security.authentication_listener.' . $name . '.oauth2_token'])) {
-                $app['security.authentication_listener.' . $name . '.oauth2_token'] = $app['security.authentication_listener.oauth2_token._proto']($name, $options);
+            if (!isset($app['security.authentication_listener.'.$name.'.oauth2_token'])) {
+                $app['security.authentication_listener.'.$name.'.oauth2_token'] = $app['security.authentication_listener.oauth2_token._proto']($name, $options);
             }
 
             return array(
-                'security.authentication_provider.' . $name . '.oauth2_token',
-                'security.authentication_listener.' . $name . '.oauth2_token',
+                'security.authentication_provider.'.$name.'.oauth2_token',
+                'security.authentication_listener.'.$name.'.oauth2_token',
                 null,
                 'pre_auth',
             );
@@ -224,17 +224,17 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
                 'options' => array(),
             ), (array) $options);
 
-            if (!isset($app['security.authentication_provider.' . $name . '.oauth2_resource'])) {
-                $app['security.authentication_provider.' . $name . '.oauth2_resource'] = $app['security.authentication_provider.oauth2_resource._proto']($name, $options);
+            if (!isset($app['security.authentication_provider.'.$name.'.oauth2_resource'])) {
+                $app['security.authentication_provider.'.$name.'.oauth2_resource'] = $app['security.authentication_provider.oauth2_resource._proto']($name, $options);
             }
 
-            if (!isset($app['security.authentication_listener.' . $name . '.oauth2_resource'])) {
-                $app['security.authentication_listener.' . $name . '.oauth2_resource'] = $app['security.authentication_listener.oauth2_resource._proto']($name, $options);
+            if (!isset($app['security.authentication_listener.'.$name.'.oauth2_resource'])) {
+                $app['security.authentication_listener.'.$name.'.oauth2_resource'] = $app['security.authentication_listener.oauth2_resource._proto']($name, $options);
             }
 
             return array(
-                'security.authentication_provider.' . $name . '.oauth2_resource',
-                'security.authentication_listener.' . $name . '.oauth2_resource',
+                'security.authentication_provider.'.$name.'.oauth2_resource',
+                'security.authentication_listener.'.$name.'.oauth2_resource',
                 null,
                 'pre_auth',
             );

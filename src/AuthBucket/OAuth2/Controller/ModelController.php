@@ -115,9 +115,9 @@ class ModelController
 
         $values = $this->serializer->decode($request->getContent(), $format);
         foreach ($values as $key => $value) {
-            $setter = 'set' . preg_replace_callback(
+            $setter = 'set'.preg_replace_callback(
                 '/(^|_|\.)+(.)/', function ($match) {
-                    return ('.' === $match[1] ? '_' : '') . strtoupper($match[2]);
+                    return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
                 }, $key);
 
             if (method_exists($model, $setter)) {

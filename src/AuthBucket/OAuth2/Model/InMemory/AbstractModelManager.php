@@ -41,7 +41,7 @@ abstract class AbstractModelManager implements ModelManagerInterface
 
         foreach ($this->models as $model) {
             foreach ($criteria as $key => $value) {
-                $getter = 'get' . ucfirst($key);
+                $getter = 'get'.ucfirst($key);
 
                 if (method_exists($model, $getter) && $model->$getter() === $value) {
                     $models[$model->getId()] = $model;
@@ -52,7 +52,7 @@ abstract class AbstractModelManager implements ModelManagerInterface
         // For simplified implementation, we only order by first key/value pair here.
         if ($orderBy !== null && is_array($orderBy)) {
             usort($models, function ($a, $b) {
-                $getter = 'get' . ucfirst(key($orderBy));
+                $getter = 'get'.ucfirst(key($orderBy));
 
                 return strtolower(reset($orderBy)) !== 'asc'
                     ? strcmp($b->$getter(), $a->$getter())

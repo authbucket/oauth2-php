@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__ . '/../app/bootstrap.php';
+require __DIR__.'/../app/bootstrap.php';
 
 $app = new Silex\Application(array('env' => 'dev'));
 
-require __DIR__ . '/../app/AppKernel.php';
+require __DIR__.'/../app/AppKernel.php';
 
 $app->run();

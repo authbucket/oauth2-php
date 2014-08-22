@@ -9,6 +9,6 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__ . '/config_dev.php';
+require __DIR__.'/config_dev.php';
 
 $app['session.test'] = true;
