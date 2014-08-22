@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__ . '/routing_client.php';
-require __DIR__ . '/routing_demo.php';
-require __DIR__ . '/routing_oauth2.php';
-require __DIR__ . '/routing_resource.php';
+require __DIR__.'/routing_client.php';
+require __DIR__.'/routing_demo.php';
+require __DIR__.'/routing_oauth2.php';
+require __DIR__.'/routing_resource.php';
 
 $app->get('/', 'authbucket_oauth2.tests.default_controller:indexAction')
     ->bind('index');

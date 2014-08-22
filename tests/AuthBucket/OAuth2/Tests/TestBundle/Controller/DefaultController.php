@@ -56,7 +56,7 @@ class DefaultController
         $executor = new ORMExecutor($em, $purger);
 
         $loader = new Loader();
-        $loader->loadFromDirectory(__DIR__ . '/../DataFixtures/ORM');
+        $loader->loadFromDirectory(__DIR__.'/../DataFixtures/ORM');
         $executor->execute($loader->getFixtures());
 
         return $app->redirect($app['url_generator']->generate('index'));

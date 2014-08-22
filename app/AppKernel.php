@@ -24,8 +24,8 @@ $app->register(new Silex\Provider\TwigServiceProvider());
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
-require __DIR__ . '/config/config_' . $app['env'] . '.php';
-require __DIR__ . '/config/routing_' . $app['env'] . '.php';
+require __DIR__.'/config/config_'.$app['env'].'.php';
+require __DIR__.'/config/routing_'.$app['env'].'.php';
 
 $app->before(function (Request $request) use ($app) {
     $app['session']->start();

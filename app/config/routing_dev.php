@@ -9,4 +9,4 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__ . '/routing.php';
+require __DIR__.'/routing.php';
