@@ -10,7 +10,7 @@
  */
 
 $app->get('/demo', 'authbucket_oauth2.tests.demo_controller:demoIndexAction')
-    ->bind('demo_index');
+    ->bind('demo');
 
 $app->get('/demo/authorize/code', 'authbucket_oauth2.tests.demo_controller:demoAuthorizeCodeAction')
     ->bind('demo_authorize_code');
