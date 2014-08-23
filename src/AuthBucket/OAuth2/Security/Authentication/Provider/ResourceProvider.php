@@ -12,7 +12,6 @@
 namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
-use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
@@ -52,31 +51,35 @@ class ResourceProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $accessTokenSupplied = $token->getAccessToken();
-
         // Handle different resource type access_token check.
-        $accessTokenSupplied = $accessTokenSupplied instanceof AccessTokenInterface
-            ? $accessToken->getAccessToken()
-            : $accessTokenSupplied;
-        $accessTokenStored = $this->resourceTypeHandlerFactory
+        $accessToken = $this->resourceTypeHandlerFactory
             ->getResourceTypeHandler($this->resourceType)
             ->handle(
-                $accessTokenSupplied,
+                $token->getAccessToken(),
                 $this->options
             );
 
         // Check if enough scope supplied.
-        $scopeSupplied = $accessTokenStored->getScope() ?: array();
+        $scope = $accessToken->getScope() ?: array();
         if ($this->scopeRequired) {
-            if (array_intersect($this->scopeRequired, $scopeSupplied) != $this->scopeRequired) {
+            if (array_intersect($this->scopeRequired, $scope) != $this->scopeRequired) {
                 throw new InvalidScopeException(array(
                     'error_description' => 'The requested scope is malformed.',
                 ));
             }
         }
 
-        $tokenAuthenticated = new AccessTokenToken($accessTokenStored, $this->providerKey);
-        $tokenAuthenticated->setUser($accessTokenStored->getUsername());
+        $tokenAuthenticated = new AccessTokenToken(
+            $this->providerKey,
+            $accessToken->getAccessToken(),
+            $accessToken->getTokenType(),
+            $accessToken->getClientId(),
+            $accessToken->getUsername(),
+            $accessToken->getExpires(),
+            $accessToken->getScope(),
+            $token->getRoles()
+        );
+        $tokenAuthenticated->setUser($accessToken->getUsername());
 
         return $tokenAuthenticated;
     }

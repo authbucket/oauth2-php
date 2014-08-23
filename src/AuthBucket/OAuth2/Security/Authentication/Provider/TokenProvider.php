@@ -12,7 +12,6 @@
 namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 
 use AuthBucket\OAuth2\Exception\InvalidClientException;
-use AuthBucket\OAuth2\Model\ClientInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
@@ -43,37 +42,24 @@ class TokenProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $clientId = $token->getClientId();
-        $clientSecret = $token->getClientSecret();
-
         $clientManager = $this->modelManagerFactory->getModelManager('client');
-        $clientStored = $clientManager->readModelOneBy(array(
-            'clientId' => $clientId,
+        $client = $clientManager->readModelOneBy(array(
+            'clientId' => $token->getClientId(),
         ));
-        if ($clientStored === null) {
+        if ($client === null || $client->getClientSecret() !== $token->getClientSecret()) {
             throw new InvalidClientException(array(
                 'error_description' => 'Client authentication failed.',
             ));
         }
-        $clientSupplied = $token->getClient();
 
-        if ($clientSupplied instanceof ClientInterface) {
-            if ($clientStored->getClientSecret() !== $clientSupplied->getClientSecret()) {
-                throw new InvalidClientException(array(
-                    'error_description' => 'Client authentication failed.',
-                ));
-            }
-        } else {
-            if ($clientStored->getClientSecret() !== $clientSecret) {
-                throw new InvalidClientException(array(
-                    'error_description' => 'Client authentication failed.',
-                ));
-            }
-        }
-
-        $tokenAuthenticated = new ClientToken($clientId, $clientSecret, $this->providerKey, $token->getRoles());
-        $tokenAuthenticated->setClient($clientStored);
-        $tokenAuthenticated->setUser($clientStored->getClientId());
+        $tokenAuthenticated = new ClientToken(
+            $this->providerKey,
+            $client->getClientId(),
+            $client->getClientSecret(),
+            $client->getRedirectUri(),
+            $token->getRoles()
+        );
+        $tokenAuthenticated->setUser($client->getClientId());
 
         return $tokenAuthenticated;
     }

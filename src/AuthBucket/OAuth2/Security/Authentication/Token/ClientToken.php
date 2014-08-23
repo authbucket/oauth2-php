@@ -17,52 +17,77 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 /**
  * OAuth2 ClientToken for token endpoint authentication.
  */
-class ClientToken extends AbstractToken
+class ClientToken extends AbstractToken implements ClientInterface
 {
-    protected $client;
-    protected $clientSecret;
     protected $providerKey;
 
-    public function __construct($clientId, $clientSecret, $providerKey, array $roles = array())
+    protected $clientId;
+    protected $clientSecret;
+    protected $redirectUri;
+
+    public function __construct(
+        $providerKey,
+        $clientId,
+        $clientSecret,
+        $redirectUri = '',
+        array $roles = array()
+    )
     {
         parent::__construct($roles);
 
-        $this->setClient($clientId);
-        $this->clientSecret = $clientSecret;
         $this->providerKey = $providerKey;
+
+        $this->clientId = $clientId;
+        $this->clientSecret = $clientSecret;
+        $this->redirectUri = $redirectUri;
 
         parent::setAuthenticated(count($roles) > 0);
     }
 
-    public function getProviderKey()
+    public function getId()
     {
-        return $this->providerKey;
+        return 0;
     }
 
-    public function setClient($client)
+    public function setClientId($clientId)
     {
-        $this->client = $client;
+        $this->clientId = $clientId;
 
         return $this;
     }
 
-    public function getClient()
-    {
-        return $this->client;
-    }
-
     public function getClientId()
     {
-        if ($this->client instanceof ClientInterface) {
-            return $this->client->getClientId();
-        }
+        return $this->clientId;
+    }
 
-        return (string) $this->client;
+    public function setClientSecret($clientSecret)
+    {
+        $this->clientSecret = $clientSecret;
+
+        return $this;
     }
 
     public function getClientSecret()
     {
         return $this->clientSecret;
+    }
+
+    public function setRedirectUri($redirectUri)
+    {
+        $this->redirectUri = $redirectUri;
+
+        return $this;
+    }
+
+    public function getRedirectUri()
+    {
+        return $this->redirectUri;
+    }
+
+    public function getProviderKey()
+    {
+        return $this->providerKey;
     }
 
     public function getCredentials()
@@ -72,11 +97,23 @@ class ClientToken extends AbstractToken
 
     public function serialize()
     {
-        return serialize(array($this->client, $this->clientSecret, $this->providerKey, parent::serialize()));
+        return serialize(array(
+            $this->providerKey,
+            $this->clientId,
+            $this->clientSecret,
+            $this->redirectUri,
+            parent::serialize()
+        ));
     }
 
     public function unserialize($str)
     {
-        list($this->client, $this->clientSecret, $this->providerKey, $parentStr) = unserialize($str);
+        list(
+            $this->providerKey,
+            $this->clientId,
+            $this->clientSecret,
+            $this->redirectUri,
+            $parentStr
+        ) = unserialize($str);
     }
 }

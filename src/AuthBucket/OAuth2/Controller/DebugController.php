@@ -44,14 +44,13 @@ class DebugController
         }
 
         // Handle debug endpoint response.
-        $accessTokenAuthenticated = $token->getAccessToken();
         $parameters = array(
-            'access_token' => $accessTokenAuthenticated->getAccessToken(),
-            'token_type' => $accessTokenAuthenticated->getTokenType(),
-            'client_id' => $accessTokenAuthenticated->getClientId(),
-            'username' => $accessTokenAuthenticated->getUsername(),
-            'expires' => $accessTokenAuthenticated->getExpires()->getTimestamp(),
-            'scope' => $accessTokenAuthenticated->getScope(),
+            'access_token' => $token->getAccessToken(),
+            'token_type' => $token->getTokenType(),
+            'client_id' => $token->getClientId(),
+            'username' => $token->getUsername(),
+            'expires' => $token->getExpires()->getTimestamp(),
+            'scope' => $token->getScope(),
         );
 
         return JsonResponse::create($parameters, 200, array(

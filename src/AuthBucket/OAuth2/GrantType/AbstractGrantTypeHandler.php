@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
 
 /**
@@ -69,18 +68,14 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
      */
     protected function checkClientId()
     {
-        $clientId = $this->securityContext->getToken()->getClientId();
-        $errors = $this->validator->validateValue($clientId, array(
-            new NotBlank(),
-            new ClientId(),
-        ));
-        if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
+        $token = $this->securityContext->getToken();
+        if ($token === null || !$token instanceof ClientToken) {
+            throw new ServerErrorException(array(
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ));
         }
 
-        return $clientId;
+        return $token->getClientId();
     }
 
     /**
