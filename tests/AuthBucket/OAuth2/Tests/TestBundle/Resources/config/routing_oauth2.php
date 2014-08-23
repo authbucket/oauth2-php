@@ -10,7 +10,7 @@
  */
 
 $app->get('/oauth2', 'authbucket_oauth2.tests.oauth2_controller:oauth2IndexAction')
-    ->bind('oauth2_index');
+    ->bind('oauth2');
 
 $app->get('/oauth2/login', 'authbucket_oauth2.tests.oauth2_controller:oauth2LoginAction')
     ->bind('oauth2_login');

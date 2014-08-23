@@ -10,16 +10,16 @@
  */
 
 $app->get('/resource', 'authbucket_oauth2.tests.resource_controller:resourceIndexAction')
-    ->bind('resource_index');
+    ->bind('resource');
 
 $app->match('/resource/resource_type/model', 'authbucket_oauth2.debug_controller:debugAction')
-    ->bind('resource_debug_model');
+    ->bind('resource_resource_type_model');
 
 $app->match('/resource/resource_type/debug_endpoint', 'authbucket_oauth2.debug_controller:debugAction')
-    ->bind('resource_debug_debug_endpoint');
+    ->bind('resource_resource_type_debug_endpoint');
 
 $app->match('/resource/resource_type/debug_endpoint/cache', 'authbucket_oauth2.debug_controller:debugAction')
-    ->bind('resource_debug_debug_endpoint_cache');
+    ->bind('resource_resource_type_debug_endpoint_cache');
 
 $app->match('/resource/resource_type/debug_endpoint/invalid_options', 'authbucket_oauth2.debug_controller:debugAction')
-    ->bind('resource_debug_debug_endpoint_invalid_options');
+    ->bind('resource_resource_type_debug_endpoint_invalid_options');
