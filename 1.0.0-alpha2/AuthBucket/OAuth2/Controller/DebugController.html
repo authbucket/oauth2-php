@@ -42,7 +42,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\Validator\ValidatorInterface">ValidatorInterface</abbr> $validator, <a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory, <a href="../../../AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></a> $tokenTypeHandlerFactory)
+                    <a href="#method___construct">__construct</a>(<abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext)
                     <p>
 </p>
                 </td>
@@ -65,9 +65,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 32</div>
+        <div class="location">at line 29</div>
         <code>            public            
-    <strong>__construct</strong>(<abbr title="Symfony\Component\Validator\ValidatorInterface">ValidatorInterface</abbr> $validator, <a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a> $modelManagerFactory, <a href="../../../AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></a> $tokenTypeHandlerFactory)</code>
+    <strong>__construct</strong>(<abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext)</code>
     </h3>
     <div class="details">
         <p>
@@ -79,20 +79,8 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Symfony\Component\Validator\ValidatorInterface">ValidatorInterface</abbr></td>
-                <td>$validator</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td><a href="../../../AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></a></td>
-                <td>$modelManagerFactory</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td><a href="../../../AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></a></td>
-                <td>$tokenTypeHandlerFactory</td>
+                <td><abbr title="Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr></td>
+                <td>$securityContext</td>
                 <td>
 </td>
             </tr>
@@ -105,7 +93,7 @@
     </div>
 
                 <h3 id="method_debugAction">
-        <div class="location">at line 43</div>
+        <div class="location">at line 36</div>
         <code>            public            
     <strong>debugAction</strong>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
     </h3>
