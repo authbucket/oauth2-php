@@ -42,27 +42,24 @@ class TokenProvider implements AuthenticationProviderInterface
             return null;
         }
 
-        $clientId = $token->getClientId();
-        $clientSecret = $token->getClientSecret();
-
         $clientManager = $this->modelManagerFactory->getModelManager('client');
         $client = $clientManager->readModelOneBy(array(
-            'clientId' => $clientId,
+            'clientId' => $token->getClientId(),
         ));
-        if ($client === null || $client->getClientSecret() !== $clientSecret) {
+        if ($client === null || $client->getClientSecret() !== $token->getClientSecret()) {
             throw new InvalidClientException(array(
                 'error_description' => 'Client authentication failed.',
             ));
         }
 
         $tokenAuthenticated = new ClientToken(
+            $this->providerKey,
             $client->getClientId(),
             $client->getClientSecret(),
             $client->getRedirectUri(),
-            $this->providerKey,
             $token->getRoles()
         );
-        $tokenAuthenticated->setUser($clientId);
+        $tokenAuthenticated->setUser($client->getClientId());
 
         return $tokenAuthenticated;
     }

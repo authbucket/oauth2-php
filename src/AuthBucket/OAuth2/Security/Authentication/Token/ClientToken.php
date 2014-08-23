@@ -19,25 +19,27 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
  */
 class ClientToken extends AbstractToken implements ClientInterface
 {
+    protected $providerKey;
+
     protected $clientId;
     protected $clientSecret;
     protected $redirectUri;
-    protected $providerKey;
 
     public function __construct(
+        $providerKey,
         $clientId,
         $clientSecret,
-        $redirectUri,
-        $providerKey,
+        $redirectUri = '',
         array $roles = array()
     )
     {
         parent::__construct($roles);
 
+        $this->providerKey = $providerKey;
+
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->redirectUri = $redirectUri;
-        $this->providerKey = $providerKey;
 
         parent::setAuthenticated(count($roles) > 0);
     }
@@ -96,10 +98,10 @@ class ClientToken extends AbstractToken implements ClientInterface
     public function serialize()
     {
         return serialize(array(
+            $this->providerKey,
             $this->clientId,
             $this->clientSecret,
             $this->redirectUri,
-            $this->providerKey,
             parent::serialize()
         ));
     }
@@ -107,10 +109,10 @@ class ClientToken extends AbstractToken implements ClientInterface
     public function unserialize($str)
     {
         list(
+            $this->providerKey,
             $this->clientId,
             $this->clientSecret,
             $this->redirectUri,
-            $this->providerKey,
             $parentStr
         ) = unserialize($str);
     }
