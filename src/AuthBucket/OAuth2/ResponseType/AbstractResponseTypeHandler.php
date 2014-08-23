@@ -23,7 +23,7 @@ use AuthBucket\OAuth2\Validator\Constraints\Scope;
 use AuthBucket\OAuth2\Validator\Constraints\State;
 use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
@@ -62,18 +62,14 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      */
     protected function checkUsername()
     {
-        $username = $this->securityContext->getToken()->getUsername();
-        $errors = $this->validator->validateValue($username, array(
-            new NotBlank(),
-            new Username(),
-        ));
-        if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
-                'error_description' => 'The request includes an invalid parameter value.',
+        $token = $this->securityContext->getToken();
+        if ($token === null || !$token instanceof UsernamePasswordToken) {
+            throw new ServerErrorException(array(
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ));
         }
 
-        return $username;
+        return $token->getUsername();
     }
 
     /**
