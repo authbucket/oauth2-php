@@ -10,4 +10,4 @@
  */
 
 $app->get('/client', 'authbucket_oauth2.tests.client_controller:clientIndexAction')
-    ->bind('client_index');
+    ->bind('client');
