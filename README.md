@@ -42,7 +42,7 @@ Here is a minimal example of a `composer.json`:
 ### Parameters
 
 The bundled
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 come with following parameters:
 
 -   `authbucket_oauth2.model`: (Optional) Override this with your own
@@ -60,7 +60,7 @@ come with following parameters:
 ### Services
 
 The bundled
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 come with following services controller which simplify the
 implementation overhead:
 
@@ -72,7 +72,7 @@ implementation overhead:
 ### Registering
 
 If you are using [Silex](http://silex.sensiolabs.org/), register
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 as below:
 
     $app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());

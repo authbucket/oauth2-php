@@ -31,7 +31,7 @@
 }</code></pre>
 
                 <h3 id="parameters">Parameters</h3>
-                <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following parameters:</p>
+                <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following parameters:</p>
                 <ul>
                     <li><code>authbucket_oauth2.model</code>: (Optional) Override this with your own model classes, default with in-memory AccessToken for using resource firewall with remote debug endpoint.</li>
                     <li><code>authbucket_oauth2.model_manager.factory</code>: (Optional) Override this with your backend model managers, e.g. Doctrine ORM EntityRepository, default with in-memory implementation for using resource firewall with remote debug endpoint.</li>
@@ -39,7 +39,7 @@
                 </ul>
 
                 <h3 id="services">Services</h3>
-                <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services controller which simplify the implementation overhead:</p>
+                <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services controller which simplify the implementation overhead:</p>
                 <ul>
                     <li><code>authbucket_oauth2.authorize_controller</code>: Authorization endpoint controller.</li>
                     <li><code>authbucket_oauth2.token_controller</code>: Token endpoint controller.</li>
@@ -47,7 +47,7 @@
                 </ul>
 
                 <h3 id="registering">Registering</h3>
-                <p>If you are using <a href="http://silex.sensiolabs.org/">Silex</a>, register <a href="https://github.com/authbucket/oauth2/blob/master/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> as below:</p>
+                <p>If you are using <a href="http://silex.sensiolabs.org/">Silex</a>, register <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> as below:</p>
 <pre><code class="php">$app-&gt;register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());</code></pre>
                 <p>Moreover, enable following service providers if that's not already the case:</p>
 <pre><code class="php">$app-&gt;register(new Silex\Provider\SecurityServiceProvider());
