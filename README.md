@@ -13,8 +13,9 @@ Version](https://poser.pugx.org/authbucket/oauth2-php/v/stable.svg)](https://pac
 Downloads](https://poser.pugx.org/authbucket/oauth2-php/downloads.svg)](https://packagist.org/packages/authbucket/oauth2-php)
 [![License](https://poser.pugx.org/authbucket/oauth2-php/license.svg)](https://packagist.org/packages/authbucket/oauth2-php)
 
-The primary goal of [AuthBucket\\OAuth2](http://oauth2-php.authbucket.com/)
-is to develop a standards compliant [RFC6749
+The primary goal of
+[AuthBucket\\OAuth2](http://oauth2-php.authbucket.com/) is to develop a
+standards compliant [RFC6749
 OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://symfony.com) and [Drupal module](https://www.drupal.org).
@@ -206,14 +207,14 @@ Read though [Demo](http://oauth2-php.authbucket.com/demo) for more
 information.
 
 You may also run the demo locally. Open a console and execute the
-following command to install the latest version in the oauth2/
+following command to install the latest version in the `oauth2-php`
 directory:
 
-    $ composer create-project authbucket/oauth2-php oauth2/ "~2.1"
+    $ composer create-project authbucket/oauth2-php oauth2-php "~2.1"
 
 Then use the PHP built-in web server to run the demo application:
 
-    $ cd oauth2/
+    $ cd oauth2-php
     $ php app/console server:run
 
 If you get the error
@@ -248,8 +249,9 @@ Tests
 
 This project is coverage with [PHPUnit](http://phpunit.de/) test cases;
 CI result can be found from [Travis
-CI](https://travis-ci.org/authbucket/oauth2-php); code coverage report can
-be found from [Coveralls](https://coveralls.io/r/authbucket/oauth2-php).
+CI](https://travis-ci.org/authbucket/oauth2-php); code coverage report
+can be found from
+[Coveralls](https://coveralls.io/r/authbucket/oauth2-php).
 
 To run the test suite locally, execute the following command:
 
