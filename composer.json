@@ -19,13 +19,13 @@
             "dev-master": "2.1.x-dev"
         }
     },
-    "homepage": "https://github.com/authbucket/oauth2",
+    "homepage": "https://github.com/authbucket/oauth2-php",
     "keywords": [
         "oauth2"
     ],
     "license": "MIT",
     "minimum-stability": "dev",
-    "name": "authbucket/oauth2",
+    "name": "authbucket/oauth2-php",
     "require": {
         "guzzle/guzzle": "~3.9",
         "php": ">=5.3.9",

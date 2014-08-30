@@ -2,32 +2,32 @@ AuthBucket\\OAuth2
 ==================
 
 [![Build
-Status](https://travis-ci.org/authbucket/oauth2.svg?branch=master)](https://travis-ci.org/authbucket/oauth2)
+Status](https://travis-ci.org/authbucket/oauth2-php.svg?branch=master)](https://travis-ci.org/authbucket/oauth2-php)
 [![Coverage
-Status](https://img.shields.io/coveralls/authbucket/oauth2.svg)](https://coveralls.io/r/authbucket/oauth2?branch=master)
+Status](https://img.shields.io/coveralls/authbucket/oauth2-php.svg)](https://coveralls.io/r/authbucket/oauth2-php?branch=master)
 [![Dependency
-Status](https://www.versioneye.com/php/authbucket:oauth2/dev-master/badge.svg)](https://www.versioneye.com/php/authbucket:oauth2/dev-master)
+Status](https://www.versioneye.com/php/authbucket:oauth2-php/dev-master/badge.svg)](https://www.versioneye.com/php/authbucket:oauth2-php/dev-master)
 [![Latest Stable
-Version](https://poser.pugx.org/authbucket/oauth2/v/stable.svg)](https://packagist.org/packages/authbucket/oauth2)
+Version](https://poser.pugx.org/authbucket/oauth2-php/v/stable.svg)](https://packagist.org/packages/authbucket/oauth2-php)
 [![Total
-Downloads](https://poser.pugx.org/authbucket/oauth2/downloads.svg)](https://packagist.org/packages/authbucket/oauth2)
-[![License](https://poser.pugx.org/authbucket/oauth2/license.svg)](https://packagist.org/packages/authbucket/oauth2)
+Downloads](https://poser.pugx.org/authbucket/oauth2-php/downloads.svg)](https://packagist.org/packages/authbucket/oauth2-php)
+[![License](https://poser.pugx.org/authbucket/oauth2-php/license.svg)](https://packagist.org/packages/authbucket/oauth2-php)
 
-The primary goal of [AuthBucket\\OAuth2](http://oauth2.authbucket.com/)
+The primary goal of [AuthBucket\\OAuth2](http://oauth2-php.authbucket.com/)
 is to develop a standards compliant [RFC6749
 OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal
 would be develop corresponding wrapper [Symfony2
 Bundle](http://symfony.com) and [Drupal module](https://www.drupal.org).
 
 This library bundle with a [Silex](http://silex.sensiolabs.org/) based
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 for unit test and demo purpose. Installation and usage can refer as
 below.
 
 Installation
 ------------
 
-Simply add a dependency on `authbucket/oauth2` to your project's
+Simply add a dependency on `authbucket/oauth2-php` to your project's
 `composer.json` file if you use [Composer](http://getcomposer.org/) to
 manage the dependencies of your project.
 
@@ -35,14 +35,14 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2": "~2.1"
+            "authbucket/oauth2-php": "~2.1"
         }
     }
 
 ### Parameters
 
 The bundled
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 come with following parameters:
 
 -   `authbucket_oauth2.model`: (Optional) Override this with your own
@@ -60,7 +60,7 @@ come with following parameters:
 ### Services
 
 The bundled
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 come with following services controller which simplify the
 implementation overhead:
 
@@ -72,7 +72,7 @@ implementation overhead:
 ### Registering
 
 If you are using [Silex](http://silex.sensiolabs.org/), register
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 as below:
 
     $app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
@@ -201,15 +201,15 @@ Demo
 ----
 
 The demo is based on [Silex](http://silex.sensiolabs.org/) and
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php).
-Read though [Demo](http://oauth2.authbucket.com/demo) for more
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php).
+Read though [Demo](http://oauth2-php.authbucket.com/demo) for more
 information.
 
 You may also run the demo locally. Open a console and execute the
 following command to install the latest version in the oauth2/
 directory:
 
-    $ composer create-project authbucket/oauth2 oauth2/ "~2.1"
+    $ composer create-project authbucket/oauth2-php oauth2/ "~2.1"
 
 Then use the PHP built-in web server to run the demo application:
 
@@ -235,7 +235,7 @@ Documentation
 
 OAuth2's documentation is built with
 [Sami](https://github.com/fabpot/Sami) and publicly hosted on [GitHub
-Pages](http://authbucket.github.io/oauth2).
+Pages](http://authbucket.github.io/oauth2-php).
 
 To built the documents locally, execute the following command:
 
@@ -248,8 +248,8 @@ Tests
 
 This project is coverage with [PHPUnit](http://phpunit.de/) test cases;
 CI result can be found from [Travis
-CI](https://travis-ci.org/authbucket/oauth2); code coverage report can
-be found from [Coveralls](https://coveralls.io/r/authbucket/oauth2).
+CI](https://travis-ci.org/authbucket/oauth2-php); code coverage report can
+be found from [Coveralls](https://coveralls.io/r/authbucket/oauth2-php).
 
 To run the test suite locally, execute the following command:
 
@@ -261,17 +261,17 @@ References
 ----------
 
 -   [RFC6749](http://tools.ietf.org/html/rfc6749)
--   [Demo](http://oauth2.authbucket.com/demo)
--   [API](http://authbucket.github.io/oauth2/)
--   [GitHub](https://github.com/authbucket/oauth2)
--   [Packagist](https://packagist.org/packages/authbucket/oauth2)
--   [Travis CI](https://travis-ci.org/authbucket/oauth2)
--   [Coveralls](https://coveralls.io/r/authbucket/oauth2)
+-   [Demo](http://oauth2-php.authbucket.com/demo)
+-   [API](http://authbucket.github.io/oauth2-php/)
+-   [GitHub](https://github.com/authbucket/oauth2-php)
+-   [Packagist](https://packagist.org/packages/authbucket/oauth2-php)
+-   [Travis CI](https://travis-ci.org/authbucket/oauth2-php)
+-   [Coveralls](https://coveralls.io/r/authbucket/oauth2-php)
 
 License
 -------
 
 -   Code released under
-    [MIT](https://github.com/authbucket/oauth2/blob/master/LICENSE)
+    [MIT](https://github.com/authbucket/oauth2-php/blob/master/LICENSE)
 -   Docs released under [CC BY-NC-SA
     3.0](http://creativecommons.org/licenses/by-nc-sa/3.0/)
