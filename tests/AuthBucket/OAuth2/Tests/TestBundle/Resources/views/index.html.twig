@@ -11,27 +11,27 @@
                     <span class="visible-xs-inline visible-sm-inline hidden-md hidden-lg">OAuth2</span>
                 </h1>
                 <p>
-                    <a href="https://travis-ci.org/authbucket/oauth2"><img src="https://travis-ci.org/authbucket/oauth2.svg?branch=master" alt="Build Status" /></a>
-                    <a href="https://coveralls.io/r/authbucket/oauth2?branch=master"><img src="https://img.shields.io/coveralls/authbucket/oauth2.svg" alt="Coverage Status" /></a>
-                    <a href="https://www.versioneye.com/php/authbucket:oauth2/dev-master"><img src="https://www.versioneye.com/php/authbucket:oauth2/dev-master/badge.svg" alt="Dependency Status" /></a>
-                    <a href="https://packagist.org/packages/authbucket/oauth2"><img src="https://poser.pugx.org/authbucket/oauth2/v/stable.svg" alt="Latest Stable Version" /></a>
-                    <a href="https://packagist.org/packages/authbucket/oauth2"><img src="https://poser.pugx.org/authbucket/oauth2/downloads.svg" alt="Total Downloads" /></a>
-                    <a href="https://packagist.org/packages/authbucket/oauth2"><img src="https://poser.pugx.org/authbucket/oauth2/license.svg" alt="License" /></a>
+                    <a href="https://travis-ci.org/authbucket/oauth2-php"><img src="https://travis-ci.org/authbucket/oauth2-php.svg?branch=master" alt="Build Status" /></a>
+                    <a href="https://coveralls.io/r/authbucket/oauth2-php?branch=master"><img src="https://img.shields.io/coveralls/authbucket/oauth2-php.svg" alt="Coverage Status" /></a>
+                    <a href="https://www.versioneye.com/php/authbucket:oauth2-php/dev-master"><img src="https://www.versioneye.com/php/authbucket:oauth2-php/dev-master/badge.svg" alt="Dependency Status" /></a>
+                    <a href="https://packagist.org/packages/authbucket/oauth2-php"><img src="https://poser.pugx.org/authbucket/oauth2-php/v/stable.svg" alt="Latest Stable Version" /></a>
+                    <a href="https://packagist.org/packages/authbucket/oauth2-php"><img src="https://poser.pugx.org/authbucket/oauth2-php/downloads.svg" alt="Total Downloads" /></a>
+                    <a href="https://packagist.org/packages/authbucket/oauth2-php"><img src="https://poser.pugx.org/authbucket/oauth2-php/license.svg" alt="License" /></a>
                 </p>
-                <p class="lead">The primary goal of <a href="http://oauth2.authbucket.com/">AuthBucket\OAuth2</a> is to develop a standards compliant <a href="http://tools.ietf.org/html/rfc6749">RFC6749 OAuth2.0</a> library; secondary goal would be develop corresponding wrapper <a href="http://symfony.com">Symfony2 Bundle</a> and <a href="https://www.drupal.org">Drupal module</a>.</p>
-                <p>This library bundle with a <a href="http://silex.sensiolabs.org/">Silex</a> based <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> for unit test and demo purpose. Installation and usage can refer as below.</p>
+                <p class="lead">The primary goal of <a href="http://oauth2-php.authbucket.com/">AuthBucket\OAuth2</a> is to develop a standards compliant <a href="http://tools.ietf.org/html/rfc6749">RFC6749 OAuth2.0</a> library; secondary goal would be develop corresponding wrapper <a href="http://symfony.com">Symfony2 Bundle</a> and <a href="https://www.drupal.org">Drupal module</a>.</p>
+                <p>This library bundle with a <a href="http://silex.sensiolabs.org/">Silex</a> based <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> for unit test and demo purpose. Installation and usage can refer as below.</p>
 
                 <h2 id="installation" class="page-header">Installation</h2>
-                <p class="lead">Simply add a dependency on <code>authbucket/oauth2</code> to your project's <code>composer.json</code> file if you use <a href="http://getcomposer.org/">Composer</a> to manage the dependencies of your project.</p>
+                <p class="lead">Simply add a dependency on <code>authbucket/oauth2-php</code> to your project's <code>composer.json</code> file if you use <a href="http://getcomposer.org/">Composer</a> to manage the dependencies of your project.</p>
                 <p>Here is a minimal example of a <code>composer.json</code>:</p>
 <pre><code class="json">{
     &quot;require&quot;: {
-        &quot;authbucket/oauth2&quot;: &quot;~2.1&quot;
+        &quot;authbucket/oauth2-php&quot;: &quot;~2.1&quot;
     }
 }</code></pre>
 
                 <h3 id="parameters">Parameters</h3>
-                <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following parameters:</p>
+                <p>The bundled <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following parameters:</p>
                 <ul>
                     <li><code>authbucket_oauth2.model</code>: (Optional) Override this with your own model classes, default with in-memory AccessToken for using resource firewall with remote debug endpoint.</li>
                     <li><code>authbucket_oauth2.model_manager.factory</code>: (Optional) Override this with your backend model managers, e.g. Doctrine ORM EntityRepository, default with in-memory implementation for using resource firewall with remote debug endpoint.</li>
@@ -39,7 +39,7 @@
                 </ul>
 
                 <h3 id="services">Services</h3>
-                <p>The bundled <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services controller which simplify the implementation overhead:</p>
+                <p>The bundled <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services controller which simplify the implementation overhead:</p>
                 <ul>
                     <li><code>authbucket_oauth2.authorize_controller</code>: Authorization endpoint controller.</li>
                     <li><code>authbucket_oauth2.token_controller</code>: Token endpoint controller.</li>
@@ -47,7 +47,7 @@
                 </ul>
 
                 <h3 id="registering">Registering</h3>
-                <p>If you are using <a href="http://silex.sensiolabs.org/">Silex</a>, register <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> as below:</p>
+                <p>If you are using <a href="http://silex.sensiolabs.org/">Silex</a>, register <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> as below:</p>
 <pre><code class="php">$app-&gt;register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());</code></pre>
                 <p>Moreover, enable following service providers if that's not already the case:</p>
 <pre><code class="php">$app-&gt;register(new Silex\Provider\SecurityServiceProvider());
@@ -133,9 +133,9 @@ $app[&#39;security.firewalls&#39;] = array(
 );</code></pre>
 
                 <h2 id="demo" class="page-header">Demo</h2>
-                <p class="lead">The demo is based on <a href="http://silex.sensiolabs.org/">Silex</a> and <a href="https://github.com/authbucket/oauth2/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a>. Read though <a href="http://oauth2.authbucket.com/demo">Demo</a> for more information.</p>
+                <p class="lead">The demo is based on <a href="http://silex.sensiolabs.org/">Silex</a> and <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a>. Read though <a href="http://oauth2-php.authbucket.com/demo">Demo</a> for more information.</p>
                 <p>You may also run the demo locally. Open a console and execute the following command to install the latest version in the oauth2/ directory:</p>
-<pre><code class="bash">$ composer create-project authbucket/oauth2 oauth2/ "~2.1"</code></pre>
+<pre><code class="bash">$ composer create-project authbucket/oauth2-php oauth2/ "~2.1"</code></pre>
                 <p>Then use the PHP built-in web server to run the demo application:</p>
 <pre><code class="bash">$ cd oauth2/
 $ php app/console server:run</code></pre>
@@ -144,13 +144,13 @@ $ php app/console server:run</code></pre>
                 <p>Also access <a href="http://127.0.0.1:8000/admin/refresh_database">http://127.0.0.1:8000/admin/refresh_database</a> to initialize the bundled SQLite database with user account <code>admin</code>:<code>secrete</code>.</p>
 
                 <h2 id="documentation" class="page-header">Documentation</h2>
-                <p class="lead">OAuth2's documentation is built with <a href="https://github.com/fabpot/Sami">Sami</a> and publicly hosted on <a href="http://authbucket.github.io/oauth2">GitHub Pages</a>.</p>
+                <p class="lead">OAuth2's documentation is built with <a href="https://github.com/fabpot/Sami">Sami</a> and publicly hosted on <a href="http://authbucket.github.io/oauth2-php">GitHub Pages</a>.</p>
                 <p>To built the documents locally, execute the following command:</p>
 <pre><code class="bash">$ vendor/bin/sami.php update .sami.php</code></pre>
                 <p>Open <code>build/oauth2/index.html</code> with your browser for the documents.</p>
 
                 <h2 id="tests" class="page-header">Tests</h2>
-                <p class="lead">This project is coverage with <a href="http://phpunit.de/">PHPUnit</a> test cases; CI result can be found from <a href="https://travis-ci.org/authbucket/oauth2">Travis CI</a>; code coverage report can be found from <a href="https://coveralls.io/r/authbucket/oauth2">Coveralls</a>.</p>
+                <p class="lead">This project is coverage with <a href="http://phpunit.de/">PHPUnit</a> test cases; CI result can be found from <a href="https://travis-ci.org/authbucket/oauth2-php">Travis CI</a>; code coverage report can be found from <a href="https://coveralls.io/r/authbucket/oauth2-php">Coveralls</a>.</p>
                 <p>To run the test suite locally, execute the following command:</p>
 <pre><code class="bash">$ vendor/bin/phpunit</code></pre>
                 <p>Open <code>build/logs/html</code> with your browser for the coverage report.</p>
@@ -158,17 +158,17 @@ $ php app/console server:run</code></pre>
                 <h2 id="references" class="page-header">References</h2>
                 <ul>
                     <li><a href="http://tools.ietf.org/html/rfc6749">RFC6749</a></li>
-                    <li><a href="http://oauth2.authbucket.com/demo">Demo</a></li>
-                    <li><a href="http://authbucket.github.io/oauth2/">API</a></li>
-                    <li><a href="https://github.com/authbucket/oauth2">GitHub</a></li>
-                    <li><a href="https://packagist.org/packages/authbucket/oauth2">Packagist</a></li>
-                    <li><a href="https://travis-ci.org/authbucket/oauth2">Travis CI</a></li>
-                    <li><a href="https://coveralls.io/r/authbucket/oauth2">Coveralls</a></li>
+                    <li><a href="http://oauth2-php.authbucket.com/demo">Demo</a></li>
+                    <li><a href="http://authbucket.github.io/oauth2-php/">API</a></li>
+                    <li><a href="https://github.com/authbucket/oauth2-php">GitHub</a></li>
+                    <li><a href="https://packagist.org/packages/authbucket/oauth2-php">Packagist</a></li>
+                    <li><a href="https://travis-ci.org/authbucket/oauth2-php">Travis CI</a></li>
+                    <li><a href="https://coveralls.io/r/authbucket/oauth2-php">Coveralls</a></li>
                 </ul>
 
                 <h2 id="license" class="page-header">License</h2>
                 <ul>
-                    <li>Code released under <a href="https://github.com/authbucket/oauth2/blob/master/LICENSE">MIT</a></li>
+                    <li>Code released under <a href="https://github.com/authbucket/oauth2-php/blob/master/LICENSE">MIT</a></li>
                     <li>Docs released under <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a></li>
                 </ul>
             </div>
