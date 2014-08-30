@@ -242,7 +242,7 @@ To built the documents locally, execute the following command:
 
     $ vendor/bin/sami.php update .sami.php
 
-Open `build/oauth2/index.html` with your browser for the documents.
+Open `build/sami/index.html` with your browser for the documents.
 
 Tests
 -----
