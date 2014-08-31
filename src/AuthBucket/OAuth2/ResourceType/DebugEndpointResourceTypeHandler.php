@@ -29,7 +29,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
     )
     {
         $options = array_merge(array(
-            'debug_endpoint' => '/oauth2/debug',
+            'debug_endpoint' => '/api/v1.0/oauth2/debug',
             'cache' => true,
         ), $options);
 

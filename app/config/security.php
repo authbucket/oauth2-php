@@ -33,8 +33,8 @@ $app['security.firewalls'] = array(
         'pattern' => '^/oauth2/login$',
         'anonymous' => true,
     ),
-    'oauth2_authorize_http' => array(
-        'pattern' => '^/oauth2/authorize/http$',
+    '_oauth2_authorize' => array(
+        'pattern' => '^/api/v1.0/oauth2/authorize$',
         'http' => true,
         'users' => $app['security.user_provider.default'],
     ),
@@ -50,12 +50,12 @@ $app['security.firewalls'] = array(
         ),
         'users' => $app['security.user_provider.default'],
     ),
-    'oauth2_token' => array(
-        'pattern' => '^/oauth2/token$',
+    '_oauth2_token' => array(
+        'pattern' => '^/api/v1.0/oauth2/token$',
         'oauth2_token' => true,
     ),
-    'oauth2_debug' => array(
-        'pattern' => '^/oauth2/debug$',
+    '_oauth2_debug' => array(
+        'pattern' => '^/api/v1.0/oauth2/debug$',
         'oauth2_resource' => true,
     ),
     'resource_resource_type_model' => array(
@@ -71,7 +71,7 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => '/oauth2/debug',
+                'debug_endpoint' => '/api/v1.0/oauth2/debug',
                 'cache' => false,
             ),
         ),
@@ -82,7 +82,7 @@ $app['security.firewalls'] = array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => '/oauth2/debug',
+                'debug_endpoint' => '/api/v1.0/oauth2/debug',
                 'cache' => true,
             ),
         ),
