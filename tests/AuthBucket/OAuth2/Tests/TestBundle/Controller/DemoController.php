@@ -271,7 +271,7 @@ class DemoController
             'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
         );
         $client = new Client($app);
-        $crawler = $client->request('GET', '/resource/resource_type/model', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/v1.0/resource/model', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $resourceRequest = get_object_vars($client->getRequest());
 
@@ -288,7 +288,7 @@ class DemoController
             'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
         );
         $client = new Client($app);
-        $crawler = $client->request('GET', '/resource/resource_type/debug_endpoint', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/v1.0/resource/debug_endpoint', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $resourceRequest = get_object_vars($client->getRequest());
 
