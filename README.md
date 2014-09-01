@@ -36,7 +36,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2-php": "~2.1"
+            "authbucket/oauth2-php": "~2.2"
         }
     }
 
@@ -62,13 +62,19 @@ come with following parameters:
 
 The bundled
 [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
-come with following services controller which simplify the
-implementation overhead:
+come with following services controller which simplify the OAuth2.0
+controller implementation overhead:
 
--   `authbucket_oauth2.authorize_controller`: Authorization endpoint
+-   `authbucket_oauth2.oauth2_controller`: OAuth2 endpoint controller.
+
+Moreover, we also provide following model
+[CRUDL](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
+controller for alter raw data set:
+
+-   `authbucket_oauth2.authorize_controller`: Authorize endpoint
     controller.
--   `authbucket_oauth2.token_controller`: Token endpoint controller.
--   `authbucket_oauth2.debug_controller`: Debug endpoint controller.
+-   `authbucket_oauth2.client_controller`: Client endpoint controller.
+-   `authbucket_oauth2.scope_controller`: Scope endpoint controller.
 
 ### Registering
 
@@ -93,10 +99,8 @@ This library seperate the endpoint logic in frontend firewall and
 backend controller point of view, so you will need to setup both for
 functioning.
 
-To enable the built-in controller with corresponding routing, setup as
-below:
-
-    $app->mount('/', new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
+By default once enable the `AuthBucketOAuth2ServiceProvider`, all above
+controllers will be enabled accordingly with routing prefix `/api/v1.0`.
 
 Below is a list of recipes that cover some common use cases.
 
@@ -119,7 +123,7 @@ e.g. by
 
     $app['security.firewalls'] = array(
         'oauth2_authorize' => array(
-            'pattern' => '^/oauth2/authorize$',
+            'pattern' => '^/api/v1.0/oauth2/authorize$',
             'http' => true,
             'users' => $app['security.user_provider.default'],
         ),
@@ -132,7 +136,7 @@ our custom firewall `oauth2_token`:
 
     $app['security.firewalls'] = array(
         'oauth2_token' => array(
-            'pattern' => '^/oauth2/token$',
+            'pattern' => '^/api/v1.0/oauth2/token$',
             'oauth2_token' => true,
         ),
     );
@@ -144,7 +148,7 @@ We should protect this endpoint with our custom firewall
 
     $app['security.firewalls'] = array(
        'oauth2_debug' => array(
-           'pattern' => '^/oauth2/debug$',
+           'pattern' => '^/api/v1.0/oauth2/debug$',
            'oauth2_resource' => true,
        ),
     );
@@ -163,7 +167,7 @@ manager, without scope protection):
 
     $app['security.firewalls'] = array(
         'resource' => array(
-            'pattern' => '^/resource',
+            'pattern' => '^/api/v1.0/resource',
             'oauth2_resource' => true,
         ),
     );
@@ -173,7 +177,7 @@ server, query local model manager, protect with scope `demoscope1`):
 
     $app['security.firewalls'] = array(
         'resource' => array(
-            'pattern' => '^/resource',
+            'pattern' => '^/api/v1.0/resource',
             'oauth2_resource' => array(
                 'resource_type' => 'model',
                 'scope' => array('demoscope1'),
@@ -187,12 +191,12 @@ endpoint:
 
     $app['security.firewalls'] = array(
         'resource' => array(
-            'pattern' => '^/resource',
+            'pattern' => '^/api/v1.0/resource',
             'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => 'http://example.com/oauth2/debug',
+                'debug_endpoint' => 'http://example.com/api/v1.0/oauth2/debug',
                 'cache' => true,
             ),
         ),
@@ -210,7 +214,7 @@ You may also run the demo locally. Open a console and execute the
 following command to install the latest version in the `oauth2-php`
 directory:
 
-    $ composer create-project authbucket/oauth2-php oauth2-php "~2.1"
+    $ composer create-project authbucket/oauth2-php oauth2-php "~2.2"
 
 Then use the PHP built-in web server to run the demo application:
 
