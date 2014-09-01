@@ -19,11 +19,11 @@ use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\ValidatorInterface;
 
 /**
- * Authorize endpoint controller implementation.
+ * Client endpoint controller implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthorizeController
+class ClientController
 {
     protected $validator;
     protected $serializer;
@@ -44,13 +44,12 @@ class AuthorizeController
     {
         $format = $request->getRequestFormat();
 
-        $modelManager = $this->modelManagerFactory->getModelManager('authorize');
+        $modelManager = $this->modelManagerFactory->getModelManager('client');
         $model = $this->serializer->deserialize(
             $request->getContent(),
             $modelManager->getClassName(),
             $format
         );
-
         $model = $modelManager->createModel($model);
 
         return new Response($this->serializer->serialize($model, $format), 200, array(
@@ -62,7 +61,7 @@ class AuthorizeController
     {
         $format = $request->getRequestFormat();
 
-        $modelManager = $this->modelManagerFactory->getModelManager('authorize');
+        $modelManager = $this->modelManagerFactory->getModelManager('client');
         $model = $modelManager->readModelOneBy(array('id' => (int) $id));
 
         return new Response($this->serializer->serialize($model, $format), 200, array(
@@ -74,7 +73,7 @@ class AuthorizeController
     {
         $format = $request->getRequestFormat();
 
-        $modelManager = $this->modelManagerFactory->getModelManager('authorize');
+        $modelManager = $this->modelManagerFactory->getModelManager('client');
         $model = $modelManager->readModelOneBy(array('id' => (int) $id));
 
         $values = $this->serializer->decode($request->getContent(), $format);
@@ -96,9 +95,8 @@ class AuthorizeController
     {
         $format = $request->getRequestFormat();
 
-        $modelManager = $this->modelManagerFactory->getModelManager('authorize');
+        $modelManager = $this->modelManagerFactory->getModelManager('client');
         $model = $modelManager->readModelOneBy(array('id' => (int) $id));
-
         $model = $modelManager->deleteModel($model);
 
         return new Response($this->serializer->serialize($model, $format), 200, array(
@@ -110,7 +108,7 @@ class AuthorizeController
     {
         $format = $request->getRequestFormat();
 
-        $modelManager = $this->modelManagerFactory->getModelManager('authorize');
+        $modelManager = $this->modelManagerFactory->getModelManager('client');
         $model = $modelManager->readModelAll();
 
         return new Response($this->serializer->serialize($model, $format), 200, array(
