@@ -11,8 +11,10 @@
 
 namespace AuthBucket\OAuth2\Provider;
 
+use AuthBucket\OAuth2\Controller\AuthorizeController;
+use AuthBucket\OAuth2\Controller\ClientController;
 use AuthBucket\OAuth2\Controller\OAuth2Controller;
-use AuthBucket\OAuth2\Controller\ModelController;
+use AuthBucket\OAuth2\Controller\ScopeController;
 use AuthBucket\OAuth2\EventListener\ExceptionListener;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
 use AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory;
@@ -135,8 +137,24 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
             );
         });
 
-        $app['authbucket_oauth2.model_controller'] = $app->share(function () use ($app) {
-            return new ModelController(
+        $app['authbucket_oauth2.authorize_controller'] = $app->share(function () use ($app) {
+            return new AuthorizeController(
+                $app['validator'],
+                $app['serializer'],
+                $app['authbucket_oauth2.model_manager.factory']
+            );
+        });
+
+        $app['authbucket_oauth2.client_controller'] = $app->share(function () use ($app) {
+            return new ClientController(
+                $app['validator'],
+                $app['serializer'],
+                $app['authbucket_oauth2.model_manager.factory']
+            );
+        });
+
+        $app['authbucket_oauth2.scope_controller'] = $app->share(function () use ($app) {
+            return new ScopeController(
                 $app['validator'],
                 $app['serializer'],
                 $app['authbucket_oauth2.model_manager.factory']
@@ -232,9 +250,17 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
     {
         $controllers = $app['controllers_factory'];
 
-        $app->match('/api/v1.0/oauth2/authorize', 'authbucket_oauth2.oauth2_controller:authorizeAction')->bind('_oauth2_authorize');
-        $app->match('/api/v1.0/oauth2/token', 'authbucket_oauth2.oauth2_controller:tokenAction')->bind('_oauth2_token');
-        $app->match('/api/v1.0/oauth2/debug', 'authbucket_oauth2.oauth2_controller:debugAction')->bind('_oauth2_debug');
+        foreach (array('authorize', 'token', 'debug') as $endpoint) {
+            $app->match('/api/v1.0/oauth2/'.$endpoint, 'authbucket_oauth2.oauth2_controller:'.$endpoint.'Action')->bind('_oauth2_'.$endpoint);
+        }
+
+        foreach (array('authorize', 'client', 'scope') as $type) {
+            $app->post('/api/v1.0/'.$type.'.{_format}', 'authbucket_oauth2.'.$type.'_controller:createAction')->bind('_'.$type.'_create')->assert('_format', 'json|xml');
+            $app->get('/api/v1.0/'.$type.'/{id}.{_format}', 'authbucket_oauth2.'.$type.'_controller:readAction')->bind('_'.$type.'_read')->assert('_format', 'json|xml');
+            $app->put('/api/v1.0/'.$type.'/{id}.{_format}', 'authbucket_oauth2.'.$type.'_controller:updateAction')->bind('_'.$type.'_update')->assert('_format', 'json|xml');
+            $app->delete('/api/v1.0/'.$type.'/{id}.{_format}', 'authbucket_oauth2.'.$type.'_controller:deleteAction')->bind('_'.$type.'_delete')->assert('_format', 'json|xml');
+            $app->get('/api/v1.0/'.$type.'.{_format}', 'authbucket_oauth2.'.$type.'_controller:listAction')->bind('_'.$type.'_list')->assert('_format', 'json|xml');
+        }
 
         return $controllers;
     }

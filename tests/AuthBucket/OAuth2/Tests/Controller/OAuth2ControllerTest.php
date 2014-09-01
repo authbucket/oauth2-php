@@ -14,8 +14,44 @@ namespace AuthBucket\OAuth2\Tests\Controller;
 use AuthBucket\OAuth2\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class TokenControllerTest extends WebTestCase
+class OAuth2ControllerTest extends WebTestCase
 {
+    public function testExceptionNoResponseType()
+    {
+        $parameters = array(
+            'client_id' => '1234',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/v1.0/oauth2/authorize', $parameters, array(), $server);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $tokenResponse['error']);
+    }
+
+    public function testErrorBadResponseType()
+    {
+        $parameters = array(
+            'response_type' => 'foo',
+            'client_id' => '1234',
+            'redirect_uri' => 'http://example.com/redirect_uri',
+        );
+        $server = array(
+            'PHP_AUTH_USER' => 'demousername1',
+            'PHP_AUTH_PW' => 'demopassword1',
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/v1.0/oauth2/authorize', $parameters, array(), $server);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+        $tokenResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('unsupported_response_type', $tokenResponse['error']);
+    }
+
     public function testExceptionNoGrantType()
     {
         $parameters = array(
@@ -106,5 +142,53 @@ class TokenControllerTest extends WebTestCase
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_client', $tokenResponse['error']);
+    }
+
+    public function testExceptionBadAccessToken()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', "aaa\x19bbb\x5Cccc\x7Fddd")),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
+    }
+
+    public function testExceptionNotExistsAccessToken()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', 'abcd')),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
+    }
+
+    public function testExceptionExpiredAccessToken()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5')),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('invalid_request', $resourceResponse['error']);
+    }
+
+    public function testGoodAccessToken()
+    {
+        $parameters = array();
+        $server = array(
+            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
+        );
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $resourceResponse = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('demousername1', $resourceResponse['username']);
     }
 }
