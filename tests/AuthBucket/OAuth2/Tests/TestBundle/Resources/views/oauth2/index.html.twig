@@ -6,7 +6,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-
                 <h1 id="authorization-server" class="page-header">Authorization Server</h1>
                 <blockquote>
                     <p>The server issuing access tokens to the client after successfully authenticating the resource owner and obtaining authorization.</p>
@@ -52,13 +51,13 @@
                 <h3 id="debug-endpoint-oauth2debug">Debug Endpoint <small>(<code>/api/v1.0/oauth2/debug</code>)</small></h3>
                 <p class="lead"><a href="{{ path('_oauth2_debug') }}">Debug Endpoint</a> clone the idea of <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#debug">Facebook's Debug API Endpoint</a>, return raw information of corresponding <code>access_token</code> provided. Read though <a href="https://github.com/authbucket/oauth2-php/blob/master/app/config/security.php">security.php</a> and <a href="https://github.com/authbucket/oauth2-php/blob/master/tests/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> for more information.</p>
                 <p>When working with an access token, you may need to check what information is associated with it, such as its user or expiry. To use this endpoint, you can issue a GET/POST request, e.g.:</p>
-<pre><code>GET /api/v1.0/oauth2/debug?access_token={access_token} HTTP/1.1
+<pre><code class="http">GET /api/v1.0/oauth2/debug?access_token={access_token} HTTP/1.1
 Host: server.example.com</code></pre>
                 <ul>
                     <li><code>access_token</code>: the access token you want to get information about</li>
                 </ul>
                 <p>The response of the API call is a JSON array containing a map of fields. For example:</p>
-<pre><code>{
+<pre><code class="json">{
     &quot;access_token&quot;: &quot;5dc0bdbb2f66a842cb46a02b6d559131&quot;,
     &quot;client_id&quot;: &quot;authorization_code_grant&quot;,
     &quot;expires&quot;: 1404641243,
@@ -69,6 +68,22 @@ Host: server.example.com</code></pre>
     &quot;username&quot;: &quot;demousername1&quot;
 }</code></pre>
                 <p>Remote <a href="{{ path('resource') }}">Resource Server</a> may also utilize this debug endpoint to verfiy the supplied access token.</p>
+
+                <h3 id="crud-endpoints-apiv1.0authorize-apiv1.0client-and-apiv1.0scope">CRUD Endpoints <small>(<code>/api/v1.0/authorize</code>, <code>/api/v1.0/client</code> and <code>/api/v1.0/scope</code>)</small></h3>
+                <p><a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD Endpoints</a> provide APIs for accessing raw data set in <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">RESTful API</a> style, with <a href="http://en.wikipedia.org/wiki/JSON">JSON</a> or <a href="http://en.wikipedia.org/wiki/XML">XML</a> request/response format, e.g:</p>
+<pre><code class="no-highlight">POST   /api/v1.0/scope.json        create a new scope
+GET    /api/v1.0/scope[/:id].json  get the scope specified by id
+PUT    /api/v1.0/scope[/:id].json  update a scope
+DELETE /api/v1.0/scope[/:id].json  delete the scope specified by id
+GET    /api/v1.0/scope.json        get the entire list of scopes</code></pre>
+                <p>In this demo we protect these CRUD Endpoints with our own <code>oauth2_resource</code> firewall rule, so you may issue a GET request for fetching first scope as below:</p>
+<pre><code class="http">GET /api/v1.0/scope/1.json?access_token={access_token} HTTP/1.1
+Host: server.example.com</code></pre>
+                <p>The response of the API call is in JSON array, for example:</p>
+<pre><code class="json">{
+    &quot;id&quot;: 1,
+    &quot;scope&quot;: &quot;demoscope1&quot;
+}</code></pre>
             </div>
         </div>
     </div>
