@@ -9,35 +9,35 @@
  * file that was distributed with this source code.
  */
 
-$app->get('/demo', 'authbucket_oauth2.tests.demo_controller:demoIndexAction')
+$app->get('/demo', 'authbucket_oauth2.tests.demo_controller:indexAction')
     ->bind('demo');
 
-$app->get('/demo/authorize/code', 'authbucket_oauth2.tests.demo_controller:demoAuthorizeCodeAction')
+$app->get('/demo/authorize/code', 'authbucket_oauth2.tests.demo_controller:authorizeCodeAction')
     ->bind('demo_authorize_code');
 
-$app->get('/demo/authorize/token', 'authbucket_oauth2.tests.demo_controller:demoAuthorizeTokenAction')
+$app->get('/demo/authorize/token', 'authbucket_oauth2.tests.demo_controller:authorizeTokenAction')
     ->bind('demo_authorize_token');
 
-$app->get('/demo/response_type/code', 'authbucket_oauth2.tests.demo_controller:demoResponseTypeCodeAction')
+$app->get('/demo/response_type/code', 'authbucket_oauth2.tests.demo_controller:responseTypeCodeAction')
     ->bind('demo_response_type_code');
 
-$app->get('/demo/response_type/token', 'authbucket_oauth2.tests.demo_controller:demoResponseTypeTokenAction')
+$app->get('/demo/response_type/token', 'authbucket_oauth2.tests.demo_controller:responseTypeTokenAction')
     ->bind('demo_response_type_token');
 
-$app->get('/demo/grant_type/authorization_code', 'authbucket_oauth2.tests.demo_controller:demoGrantTypeAuthorizationCodeAction')
+$app->get('/demo/grant_type/authorization_code', 'authbucket_oauth2.tests.demo_controller:grantTypeAuthorizationCodeAction')
     ->bind('demo_grant_type_authorization_code');
 
-$app->get('/demo/grant_type/password', 'authbucket_oauth2.tests.demo_controller:demoGrantTypePasswordAction')
+$app->get('/demo/grant_type/password', 'authbucket_oauth2.tests.demo_controller:grantTypePasswordAction')
     ->bind('demo_grant_type_password');
 
-$app->get('/demo/grant_type/client_credentials', 'authbucket_oauth2.tests.demo_controller:demoGrantTypeClientCredentialsAction')
+$app->get('/demo/grant_type/client_credentials', 'authbucket_oauth2.tests.demo_controller:grantTypeClientCredentialsAction')
     ->bind('demo_grant_type_client_credentials');
 
-$app->get('/demo/grant_type/refresh_token', 'authbucket_oauth2.tests.demo_controller:demoGrantTypeRefreshTokenAction')
+$app->get('/demo/grant_type/refresh_token', 'authbucket_oauth2.tests.demo_controller:grantTypeRefreshTokenAction')
     ->bind('demo_grant_type_refresh_token');
 
-$app->get('/demo/resource_type/model', 'authbucket_oauth2.tests.demo_controller:demoResourceTypeModelAction')
+$app->get('/demo/resource_type/model', 'authbucket_oauth2.tests.demo_controller:resourceTypeModelAction')
     ->bind('demo_resource_type_model');
 
-$app->get('/demo/resource_type/debug_endpoint', 'authbucket_oauth2.tests.demo_controller:demoResourceTypeDebugEndpointAction')
+$app->get('/demo/resource_type/debug_endpoint', 'authbucket_oauth2.tests.demo_controller:resourceTypeDebugEndpointAction')
     ->bind('demo_resource_type_debug_endpoint');

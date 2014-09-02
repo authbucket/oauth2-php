@@ -17,12 +17,12 @@ use Symfony\Component\HttpKernel\Client;
 
 class DemoController
 {
-    public function demoIndexAction(Request $request, Application $app)
+    public function indexAction(Request $request, Application $app)
     {
         return $app['twig']->render('demo/index.html.twig');
     }
 
-    public function demoAuthorizeCodeAction(Request $request, Application $app)
+    public function authorizeCodeAction(Request $request, Application $app)
     {
         $session = $request->getSession();
 
@@ -54,7 +54,7 @@ class DemoController
         return $app->redirect($url);
     }
 
-    public function demoAuthorizeTokenAction(Request $request, Application $app)
+    public function authorizeTokenAction(Request $request, Application $app)
     {
         $session = $request->getSession();
 
@@ -86,7 +86,7 @@ class DemoController
         return $app->redirect($url);
     }
 
-    public function demoResponseTypeCodeAction(Request $request, Application $app)
+    public function responseTypeCodeAction(Request $request, Application $app)
     {
         $authorizationResponse = $request->query->all();
 
@@ -100,7 +100,7 @@ class DemoController
         ));
     }
 
-    public function demoResponseTypeTokenAction(Request $request, Application $app)
+    public function responseTypeTokenAction(Request $request, Application $app)
     {
         $accessTokenResponse = $request->query->all();
 
@@ -118,7 +118,7 @@ class DemoController
         ));
     }
 
-    public function demoGrantTypeAuthorizationCodeAction(Request $request, Application $app)
+    public function grantTypeAuthorizationCodeAction(Request $request, Application $app)
     {
         $parameters = array(
             'grant_type' => 'authorization_code',
@@ -129,7 +129,7 @@ class DemoController
         );
         $server = array();
         $client = new Client($app);
-        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
         $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
         $accessTokenRequest = get_object_vars($client->getRequest());
 
@@ -154,7 +154,7 @@ class DemoController
         ));
     }
 
-    public function demoGrantTypePasswordAction(Request $request, Application $app)
+    public function grantTypePasswordAction(Request $request, Application $app)
     {
         $parameters = array(
             'grant_type' => 'password',
@@ -167,7 +167,7 @@ class DemoController
             'PHP_AUTH_PW' => 'Eevahph6',
         );
         $client = new Client($app);
-        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
         $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
         $accessTokenRequest = get_object_vars($client->getRequest());
 
@@ -192,7 +192,7 @@ class DemoController
         ));
     }
 
-    public function demoGrantTypeClientCredentialsAction(Request $request, Application $app)
+    public function grantTypeClientCredentialsAction(Request $request, Application $app)
     {
         $parameters = array(
             'grant_type' => 'client_credentials',
@@ -203,7 +203,7 @@ class DemoController
             'PHP_AUTH_PW' => 'yib6aiFe',
         );
         $client = new Client($app);
-        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
         $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
         $accessTokenRequest = get_object_vars($client->getRequest());
 
@@ -228,7 +228,7 @@ class DemoController
         ));
     }
 
-    public function demoGrantTypeRefreshTokenAction(Request $request, Application $app)
+    public function grantTypeRefreshTokenAction(Request $request, Application $app)
     {
         $parameters = array(
             'grant_type' => 'refresh_token',
@@ -239,7 +239,7 @@ class DemoController
             'PHP_AUTH_PW' => $request->query->get('password'),
         );
         $client = new Client($app);
-        $crawler = $client->request('POST', '/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
         $accessTokenResponse = json_decode($client->getResponse()->getContent(), true);
         $accessTokenRequest = get_object_vars($client->getRequest());
 
@@ -264,14 +264,14 @@ class DemoController
         ));
     }
 
-    public function demoResourceTypeModelAction(Request $request, Application $app)
+    public function resourceTypeModelAction(Request $request, Application $app)
     {
         $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
         );
         $client = new Client($app);
-        $crawler = $client->request('GET', '/resource/resource_type/model', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/v1.0/resource/model', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $resourceRequest = get_object_vars($client->getRequest());
 
@@ -281,14 +281,14 @@ class DemoController
         ));
     }
 
-    public function demoResourceTypeDebugEndpointAction(Request $request, Application $app)
+    public function resourceTypeDebugEndpointAction(Request $request, Application $app)
     {
         $parameters = array();
         $server = array(
             'HTTP_Authorization' => implode(' ', array('Bearer', $request->query->get('access_token'))),
         );
         $client = new Client($app);
-        $crawler = $client->request('GET', '/resource/resource_type/debug_endpoint', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/v1.0/resource/debug_endpoint', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $resourceRequest = get_object_vars($client->getRequest());
 

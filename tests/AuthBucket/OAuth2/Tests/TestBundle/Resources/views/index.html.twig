@@ -26,7 +26,7 @@
                 <p>Here is a minimal example of a <code>composer.json</code>:</p>
 <pre><code class="json">{
     &quot;require&quot;: {
-        &quot;authbucket/oauth2-php&quot;: &quot;~2.1&quot;
+        &quot;authbucket/oauth2-php&quot;: &quot;~2.2&quot;
     }
 }</code></pre>
 
@@ -39,11 +39,15 @@
                 </ul>
 
                 <h3 id="services">Services</h3>
-                <p>The bundled <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services controller which simplify the implementation overhead:</p>
+                <p>The bundled <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services controller which simplify the OAuth2.0 controller implementation overhead:</p>
                 <ul>
-                    <li><code>authbucket_oauth2.authorize_controller</code>: Authorization endpoint controller.</li>
-                    <li><code>authbucket_oauth2.token_controller</code>: Token endpoint controller.</li>
-                    <li><code>authbucket_oauth2.debug_controller</code>: Debug endpoint controller.</li>
+                    <li><code>authbucket_oauth2.oauth2_controller</code>: OAuth2 endpoint controller.</li>
+                </ul>
+                <p>Moreover, we also provide following model <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUDL</a> controller for alter raw data set:</p>
+                <ul>
+                    <li><code>authbucket_oauth2.authorize_controller</code>: Authorize endpoint controller.</li>
+                    <li><code>authbucket_oauth2.client_controller</code>: Client endpoint controller.</li>
+                    <li><code>authbucket_oauth2.scope_controller</code>: Scope endpoint controller.</li>
                 </ul>
 
                 <h3 id="registering">Registering</h3>
@@ -57,8 +61,7 @@ $app-&gt;register(new Silex\Provider\ValidatorServiceProvider());</code></pre>
 
                 <h2 id="usage" class="page-header">Usage</h2>
                 <p class="lead">This library seperate the endpoint logic in frontend firewall and backend controller point of view, so you will need to setup both for functioning.</p>
-                <p>To enable the built-in controller with corresponding routing, setup as below:</p>
-<pre><code class="php">$app-&gt;mount(&#39;/&#39;, new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());</code></pre>
+                <p>By default once enable the <code>AuthBucketOAuth2ServiceProvider</code>, all above controllers will be enabled accordingly with routing prefix <code>/api/v1.0</code>.</p>
                 <p>Below is a list of recipes that cover some common use cases.</p>
 
                 <h3 id="authorization-endpoint">Authorization Endpoint</h3>
@@ -75,7 +78,7 @@ $app[&#39;security.user_provider.default&#39;] = $app[&#39;security.user_provide
 
 $app[&#39;security.firewalls&#39;] = array(
     &#39;oauth2_authorize&#39; =&gt; array(
-        &#39;pattern&#39; =&gt; &#39;^/oauth2/authorize$&#39;,
+        &#39;pattern&#39; =&gt; &#39;^/api/v1.0/oauth2/authorize$&#39;,
         &#39;http&#39; =&gt; true,
         &#39;users&#39; =&gt; $app[&#39;security.user_provider.default&#39;],
     ),
@@ -85,7 +88,7 @@ $app[&#39;security.firewalls&#39;] = array(
                 <p>Similar as authorization endpoint, we need to protect this endpoint with our custom firewall <code>oauth2_token</code>:</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
     &#39;oauth2_token&#39; =&gt; array(
-        &#39;pattern&#39; =&gt; &#39;^/oauth2/token$&#39;,
+        &#39;pattern&#39; =&gt; &#39;^/api/v1.0/oauth2/token$&#39;,
         &#39;oauth2_token&#39; =&gt; true,
     ),
 );</code></pre>
@@ -94,7 +97,7 @@ $app[&#39;security.firewalls&#39;] = array(
                 <p>We should protect this endpoint with our custom firewall <code>oauth2_resource</code>:</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
    &#39;oauth2_debug&#39; =&gt; array(
-       &#39;pattern&#39; =&gt; &#39;^/oauth2/debug$&#39;,
+       &#39;pattern&#39; =&gt; &#39;^/api/v1.0/oauth2/debug$&#39;,
        &#39;oauth2_resource&#39; =&gt; true,
    ),
 );</code></pre>
@@ -104,14 +107,14 @@ $app[&#39;security.firewalls&#39;] = array(
                 <p>On the other hand, you can protect your resource server endpoint with our custom firewall <code>oauth2_resource</code>. Shorthand version (default assume resource server bundled with authorization server, query local model manager, without scope protection):</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
     &#39;resource&#39; =&gt; array(
-        &#39;pattern&#39; =&gt; &#39;^/resource&#39;,
+        &#39;pattern&#39; =&gt; &#39;^/api/v1.0/resource&#39;,
         &#39;oauth2_resource&#39; =&gt; true,
     ),
 );</code></pre>
                 <p>Longhand version (assume resource server bundled with authorization server, query local model manager, protect with scope <code>demoscope1</code>):</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
     &#39;resource&#39; =&gt; array(
-        &#39;pattern&#39; =&gt; &#39;^/resource&#39;,
+        &#39;pattern&#39; =&gt; &#39;^/api/v1.0/resource&#39;,
         &#39;oauth2_resource&#39; =&gt; array(
             &#39;resource_type&#39; =&gt; &#39;model&#39;,
             &#39;scope&#39; =&gt; array(&#39;demoscope1&#39;),
@@ -121,12 +124,12 @@ $app[&#39;security.firewalls&#39;] = array(
                 <p>If authorization server is hosting somewhere else, you can protect your local resource endpoint by query remote authorization server debug endpoint:</p>
 <pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
     &#39;resource&#39; =&gt; array(
-        &#39;pattern&#39; =&gt; &#39;^/resource&#39;,
+        &#39;pattern&#39; =&gt; &#39;^/api/v1.0/resource&#39;,
         &#39;oauth2_resource&#39; =&gt; array(
         &#39;resource_type&#39; =&gt; &#39;debug_endpoint&#39;,
         &#39;scope&#39; =&gt; array(&#39;demoscope1&#39;),
         &#39;options&#39; =&gt; array(
-            &#39;debug_endpoint&#39; =&gt; &#39;http://example.com/oauth2/debug&#39;,
+            &#39;debug_endpoint&#39; =&gt; &#39;http://example.com/api/v1.0/oauth2/debug&#39;,
             &#39;cache&#39; =&gt; true,
         ),
     ),
@@ -135,7 +138,7 @@ $app[&#39;security.firewalls&#39;] = array(
                 <h2 id="demo" class="page-header">Demo</h2>
                 <p class="lead">The demo is based on <a href="http://silex.sensiolabs.org/">Silex</a> and <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a>. Read though <a href="http://oauth2-php.authbucket.com/demo">Demo</a> for more information.</p>
                 <p>You may also run the demo locally. Open a console and execute the following command to install the latest version in the <code>oauth2-php</code> directory:</p>
-<pre><code class="bash">$ composer create-project authbucket/oauth2-php oauth2-php "~2.1"</code></pre>
+<pre><code class="bash">$ composer create-project authbucket/oauth2-php oauth2-php &quot;~2.2&quot;</code></pre>
                 <p>Then use the PHP built-in web server to run the demo application:</p>
 <pre><code class="bash">$ cd oauth2-php
 $ php app/console server:run</code></pre>

@@ -33,11 +33,6 @@ $app['security.firewalls'] = array(
         'pattern' => '^/oauth2/login$',
         'anonymous' => true,
     ),
-    'oauth2_authorize_http' => array(
-        'pattern' => '^/oauth2/authorize/http$',
-        'http' => true,
-        'users' => $app['security.user_provider.default'],
-    ),
     'oauth2_authorize' => array(
         'pattern' => '^/oauth2/authorize',
         'form' => array(
@@ -50,45 +45,50 @@ $app['security.firewalls'] = array(
         ),
         'users' => $app['security.user_provider.default'],
     ),
-    'oauth2_token' => array(
-        'pattern' => '^/oauth2/token$',
+    '_oauth2_authorize' => array(
+        'pattern' => '^/api/v1.0/oauth2/authorize$',
+        'http' => true,
+        'users' => $app['security.user_provider.default'],
+    ),
+    '_oauth2_token' => array(
+        'pattern' => '^/api/v1.0/oauth2/token$',
         'oauth2_token' => true,
     ),
-    'oauth2_debug' => array(
-        'pattern' => '^/oauth2/debug$',
+    '_oauth2_debug' => array(
+        'pattern' => '^/api/v1.0/oauth2/debug$',
         'oauth2_resource' => true,
     ),
-    'resource_resource_type_model' => array(
-        'pattern' => '^/resource/resource_type/model$',
+    '_resource_model' => array(
+        'pattern' => '^/api/v1.0/resource/model$',
         'oauth2_resource' => array(
             'resource_type' => 'model',
             'scope' => array('demoscope1'),
         ),
     ),
-    'resource_resource_type_debug_endpoint' => array(
-        'pattern' => '^/resource/resource_type/debug_endpoint$',
+    '_resource_debug_endpoint' => array(
+        'pattern' => '^/api/v1.0/resource/debug_endpoint$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => '/oauth2/debug',
+                'debug_endpoint' => '/api/v1.0/oauth2/debug',
                 'cache' => false,
             ),
         ),
     ),
-    'resource_resource_type_debug_endpoint_cache' => array(
-        'pattern' => '^/resource/resource_type/debug_endpoint/cache$',
+    '_resource_debug_endpoint_cache' => array(
+        'pattern' => '^/api/v1.0/resource/debug_endpoint/cache$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => '/oauth2/debug',
+                'debug_endpoint' => '/api/v1.0/oauth2/debug',
                 'cache' => true,
             ),
         ),
     ),
-    'resource_resource_type_debug_endpoint_invalid_options' => array(
-        'pattern' => '^/resource/resource_type/debug_endpoint/invalid_options$',
+    '_resource_debug_endpoint_invalid_options' => array(
+        'pattern' => '^/api/v1.0/resource/debug_endpoint/invalid_options$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
@@ -97,5 +97,9 @@ $app['security.firewalls'] = array(
                 'cache' => true,
             ),
         ),
+    ),
+    '_api' => array(
+        'pattern' => '^/api/v1.0',
+        'oauth2_resource' => true,
     ),
 );

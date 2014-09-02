@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\Tests\TestBundle;
 
-use AuthBucket\OAuth2\Tests\TestBundle\Controller\AuthorizeController;
 use AuthBucket\OAuth2\Tests\TestBundle\Controller\ClientController;
 use AuthBucket\OAuth2\Tests\TestBundle\Controller\DefaultController;
 use AuthBucket\OAuth2\Tests\TestBundle\Controller\DemoController;
@@ -29,20 +28,16 @@ class TestBundleServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['authbucket_oauth2.tests.authorize_controller'] = $app->share(function () {
-            return new AuthorizeController();
-        });
-
-        $app['authbucket_oauth2.tests.client_controller'] = $app->share(function () {
-            return new ClientController();
-        });
-
         $app['authbucket_oauth2.tests.default_controller'] = $app->share(function () {
             return new DefaultController();
         });
 
         $app['authbucket_oauth2.tests.demo_controller'] = $app->share(function () {
             return new DemoController();
+        });
+
+        $app['authbucket_oauth2.tests.client_controller'] = $app->share(function () {
+            return new ClientController();
         });
 
         $app['authbucket_oauth2.tests.oauth2_controller'] = $app->share(function () {

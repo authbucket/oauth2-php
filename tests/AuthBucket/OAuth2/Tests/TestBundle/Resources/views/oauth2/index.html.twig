@@ -6,7 +6,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-
                 <h1 id="authorization-server" class="page-header">Authorization Server</h1>
                 <blockquote>
                     <p>The server issuing access tokens to the client after successfully authenticating the resource owner and obtaining authorization.</p>
@@ -20,12 +19,12 @@
                     <footer><a href="http://tools.ietf.org/html/rfc6749#section-3">3. Protocol Endpoints</a></footer>
                 </blockquote>
 
-                <h3 id="authorization-endpoint-oauth2authorize-and-oauth2authorizehttp">Authorization Endpoint <small>(<code>/oauth2/authorize</code> and <code>/oauth2/authorize/http</code>)</small></h3>
+                <h3 id="authorization-endpoint-oauth2authorize-and-oauth2authorizehttp">Authorization Endpoint <small>(<code>/api/v1.0/oauth2/authorize</code> and <code>/oauth2/authorize</code>)</small></h3>
                 <blockquote>
                     <p>The authorization endpoint is used to interact with the resource owner and obtain an authorization grant.</p>
                     <footer><a href="http://tools.ietf.org/html/rfc6749#section-3.1">3.1. Authorization Endpoint</a></footer>
                 </blockquote>
-                <p class="lead">Authorization endpoint (<a href="{{ path('oauth2_authorize') }}">Form-based Authentication</a> and <a href="{{ path('oauth2_authorize_http') }}">HTTP Basic Authentication</a>) are protected by Silex's <a href="http://silex.sensiolabs.org/doc/providers/security.html">SecurityServiceProvider</a> in this example. Read though <a href="https://github.com/authbucket/oauth2-php/blob/master/app/config/security.php">security.php</a> to see how we implement it.</p>
+                <p class="lead">Authorization endpoint (<a href="{{ path('_oauth2_authorize') }}">HTTP Basic Authentication</a> and <a href="{{ path('oauth2_authorize') }}">Form-based Authentication</a>) are protected by Silex's <a href="http://silex.sensiolabs.org/doc/providers/security.html">SecurityServiceProvider</a> in this example. Read though <a href="https://github.com/authbucket/oauth2-php/blob/master/app/config/security.php">security.php</a> to see how we implement it.</p>
                 <p>Direct browser access is possible, authentication request will therefore triggered, and able to login with following testing account:</p>
                 <ul>
                     <li>Username: <code>demousername1</code></li>
@@ -33,12 +32,12 @@
                 </ul>
                 <p>After successful login, by default if access this endpoint without addition parameters, an error message <code>{&quot;error&quot;:&quot;invalid_request&quot;}</code> should be shown in JSON format.</p>
 
-                <h3 id="token-endpoint-oauth2token">Token Endpoint <small>(<code>/oauth2/token</code>)</small></h3>
+                <h3 id="token-endpoint-oauth2token">Token Endpoint <small>(<code>/api/v1.0/oauth2/token</code>)</small></h3>
                 <blockquote>
                     <p>The token endpoint is used by the client to obtain an access token by presenting its authorization grant or refresh token.</p>
                     <footer><a href="http://tools.ietf.org/html/rfc6749#section-3.2">3.2. Token Endpoint</a></footer>
                 </blockquote>
-                <p class="lead"><a href="{{ path('oauth2_token') }}">Token endpoint</a> is protected by OAuth2's <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> in this example. Read though <a href="https://github.com/authbucket/oauth2-php/blob/master/app/config/security.php">security.php</a> to see how we implement it.</p>
+                <p class="lead"><a href="{{ path('_oauth2_token') }}">Token endpoint</a> is protected by OAuth2's <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> in this example. Read though <a href="https://github.com/authbucket/oauth2-php/blob/master/app/config/security.php">security.php</a> to see how we implement it.</p>
                 <p>By default this endpoint shouldn't access by browser directly with GET, else an error message <code>{&quot;error&quot;:&quot;invalid_request&quot;}</code> should be show in JSON format.</p>
                 <p>For debug purpose, may consider send out POST request to this endpoint by <a href="https://addons.mozilla.org/en-US/firefox/addon/httprequester/">HttpRequester</a>.</p>
 
@@ -47,18 +46,18 @@
 
                 <h3 id="form-based-authentication-oauth2login">Form-based Authentication <small>(<code>/oauth2/login</code>)</small></h3>
                 <p class="lead"><a href="{{ path('oauth2_login') }}">Form-based Authentication</a> implemented by Silex's <a href="http://silex.sensiolabs.org/doc/providers/security.html">SecurityServiceProvider</a> in this example. Read though <a href="https://github.com/authbucket/oauth2-php/blob/master/tests/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> and <a href="https://github.com/authbucket/oauth2-php/blob/master/tests/AuthBucket/OAuth2/Tests/TestBundle/Resources/views/oauth2/login.html.twig">login.html.twig</a> for more information.</p>
-                <p>This is used for protect above <code>/oauth2/authorize</code> Authorization Endpoint.</p>
+                <p>This is used for protect above Authorization Endpoints.</p>
 
-                <h3 id="debug-endpoint-oauth2debug">Debug Endpoint <small>(<code>/oauth2/debug</code>)</small></h3>
-                <p class="lead"><a href="{{ path('oauth2_debug') }}">Debug Endpoint</a> clone the idea of <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#debug">Facebook's Debug API Endpoint</a>, return raw information of corresponding <code>access_token</code> provided. Read though <a href="https://github.com/authbucket/oauth2-php/blob/master/app/config/security.php">security.php</a> and <a href="https://github.com/authbucket/oauth2-php/blob/master/tests/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> for more information.</p>
+                <h3 id="debug-endpoint-oauth2debug">Debug Endpoint <small>(<code>/api/v1.0/oauth2/debug</code>)</small></h3>
+                <p class="lead"><a href="{{ path('_oauth2_debug') }}">Debug Endpoint</a> clone the idea of <a href="https://developers.facebook.com/docs/facebook-login/access-tokens#debug">Facebook's Debug API Endpoint</a>, return raw information of corresponding <code>access_token</code> provided. Read though <a href="https://github.com/authbucket/oauth2-php/blob/master/app/config/security.php">security.php</a> and <a href="https://github.com/authbucket/oauth2-php/blob/master/tests/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/routing_oauth2.php">routing_oauth2.php</a> for more information.</p>
                 <p>When working with an access token, you may need to check what information is associated with it, such as its user or expiry. To use this endpoint, you can issue a GET/POST request, e.g.:</p>
-<pre><code>GET /oauth2/debug?access_token={access_token} HTTP/1.1
+<pre><code class="http">GET /api/v1.0/oauth2/debug?access_token={access_token} HTTP/1.1
 Host: server.example.com</code></pre>
                 <ul>
                     <li><code>access_token</code>: the access token you want to get information about</li>
                 </ul>
                 <p>The response of the API call is a JSON array containing a map of fields. For example:</p>
-<pre><code>{
+<pre><code class="json">{
     &quot;access_token&quot;: &quot;5dc0bdbb2f66a842cb46a02b6d559131&quot;,
     &quot;client_id&quot;: &quot;authorization_code_grant&quot;,
     &quot;expires&quot;: 1404641243,
@@ -69,6 +68,22 @@ Host: server.example.com</code></pre>
     &quot;username&quot;: &quot;demousername1&quot;
 }</code></pre>
                 <p>Remote <a href="{{ path('resource') }}">Resource Server</a> may also utilize this debug endpoint to verfiy the supplied access token.</p>
+
+                <h3 id="crud-endpoints-apiv1.0authorize-apiv1.0client-and-apiv1.0scope">CRUD Endpoints <small>(<code>/api/v1.0/authorize</code>, <code>/api/v1.0/client</code> and <code>/api/v1.0/scope</code>)</small></h3>
+                <p><a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD Endpoints</a> provide APIs for accessing raw data set in <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">RESTful API</a> style, with <a href="http://en.wikipedia.org/wiki/JSON">JSON</a> or <a href="http://en.wikipedia.org/wiki/XML">XML</a> request/response format, e.g:</p>
+<pre><code class="no-highlight">POST   /api/v1.0/scope.json        create a new scope
+GET    /api/v1.0/scope[/:id].json  get the scope specified by id
+PUT    /api/v1.0/scope[/:id].json  update a scope
+DELETE /api/v1.0/scope[/:id].json  delete the scope specified by id
+GET    /api/v1.0/scope.json        get the entire list of scopes</code></pre>
+                <p>In this demo we protect these CRUD Endpoints with our own <code>oauth2_resource</code> firewall rule, so you may issue a GET request for fetching first scope as below:</p>
+<pre><code class="http">GET /api/v1.0/scope/1.json?access_token={access_token} HTTP/1.1
+Host: server.example.com</code></pre>
+                <p>The response of the API call is in JSON array, for example:</p>
+<pre><code class="json">{
+    &quot;id&quot;: 1,
+    &quot;scope&quot;: &quot;demoscope1&quot;
+}</code></pre>
             </div>
         </div>
     </div>
