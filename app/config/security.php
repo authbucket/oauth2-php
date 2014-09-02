@@ -45,27 +45,27 @@ $app['security.firewalls'] = array(
         ),
         'users' => $app['security.user_provider.default'],
     ),
-    '_oauth2_authorize' => array(
+    'api_oauth2_authorize' => array(
         'pattern' => '^/api/v1.0/oauth2/authorize$',
         'http' => true,
         'users' => $app['security.user_provider.default'],
     ),
-    '_oauth2_token' => array(
+    'api_oauth2_token' => array(
         'pattern' => '^/api/v1.0/oauth2/token$',
         'oauth2_token' => true,
     ),
-    '_oauth2_debug' => array(
+    'api_oauth2_debug' => array(
         'pattern' => '^/api/v1.0/oauth2/debug$',
         'oauth2_resource' => true,
     ),
-    '_resource_model' => array(
+    'api_resource_model' => array(
         'pattern' => '^/api/v1.0/resource/model$',
         'oauth2_resource' => array(
             'resource_type' => 'model',
             'scope' => array('demoscope1'),
         ),
     ),
-    '_resource_debug_endpoint' => array(
+    'api_resource_debug_endpoint' => array(
         'pattern' => '^/api/v1.0/resource/debug_endpoint$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
@@ -76,7 +76,7 @@ $app['security.firewalls'] = array(
             ),
         ),
     ),
-    '_resource_debug_endpoint_cache' => array(
+    'api_resource_debug_endpoint_cache' => array(
         'pattern' => '^/api/v1.0/resource/debug_endpoint/cache$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
@@ -87,7 +87,7 @@ $app['security.firewalls'] = array(
             ),
         ),
     ),
-    '_resource_debug_endpoint_invalid_options' => array(
+    'api_resource_debug_endpoint_invalid_options' => array(
         'pattern' => '^/api/v1.0/resource/debug_endpoint/invalid_options$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
@@ -98,7 +98,7 @@ $app['security.firewalls'] = array(
             ),
         ),
     ),
-    '_api' => array(
+    'api' => array(
         'pattern' => '^/api/v1.0',
         'oauth2_resource' => true,
     ),

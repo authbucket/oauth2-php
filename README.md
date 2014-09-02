@@ -68,7 +68,7 @@ controller implementation overhead:
 -   `authbucket_oauth2.oauth2_controller`: OAuth2 endpoint controller.
 
 Moreover, we also provide following model
-[CRUDL](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
+[CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
 controller for alter raw data set:
 
 -   `authbucket_oauth2.authorize_controller`: Authorize endpoint

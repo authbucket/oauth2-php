@@ -13,13 +13,13 @@ $app->get('/resource', 'authbucket_oauth2.tests.resource_controller:indexAction'
     ->bind('resource');
 
 $app->match('/api/v1.0/resource/model', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('_resource_model');
+    ->bind('api_resource_model');
 
 $app->match('/api/v1.0/resource/debug_endpoint', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('_resource_debug_endpoint');
+    ->bind('api_resource_debug_endpoint');
 
 $app->match('/api/v1.0/resource/debug_endpoint/cache', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('_resource_debug_endpoint_cache');
+    ->bind('api_resource_debug_endpoint_cache');
 
 $app->match('/api/v1.0/resource/debug_endpoint/invalid_options', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('_resource_debug_endpoint_invalid_options');
+    ->bind('api_resource_debug_endpoint_invalid_options');
