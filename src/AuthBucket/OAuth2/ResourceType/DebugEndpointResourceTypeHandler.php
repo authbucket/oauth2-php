@@ -29,7 +29,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
     )
     {
         $options = array_merge(array(
-            'debug_endpoint' => '/api/v1.0/oauth2/debug',
+            'debug_endpoint' => '',
             'cache' => true,
         ), $options);
 
@@ -52,28 +52,16 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             }
         }
 
-        // Fetch meta data of supplied access token by query debug endpoint.
-        if (strpos($options['debug_endpoint'], '/') === 0) {
-            // For relative URL, use Symfony test client to simulates and
-            // HTTP client like a browser and makes requests.
-            $client = new \Symfony\Component\HttpKernel\Client($this->httpKernel);
-            $crawler = $client->request('GET', $options['debug_endpoint'], array(), array(), array(
-                'HTTP_Authorization' => implode(' ', array('Bearer', $accessToken)),
-            ));
-            $response = $client->getResponse()->getContent();
-        } else {
-            // For absolute URL, use Guzzle client to create request.
-            $client = new \Guzzle\Http\Client();
-            $crawler = $client->get($options['debug_endpoint'], array(), array(
-                'headers' => array('Authorization' => implode(' ', array('Bearer', $accessToken))),
-                'exceptions' => false,
-            ));
-            $response = $crawler->send()->getBody();
-        }
-        $debugResponse = json_decode($response, true);
+        // Fetch meta data of supplied access token by query remote debug endpoint.
+        $client = new \Guzzle\Http\Client();
+        $crawler = $client->get($options['debug_endpoint'], array(), array(
+            'headers' => array('Authorization' => implode(' ', array('Bearer', $accessToken))),
+            'exceptions' => false,
+        ));
+        $response = json_decode($crawler->send()->getBody(), true);
 
         // Throw exception if error return.
-        if (isset($debugResponse['error'])) {
+        if (isset($response['error'])) {
             throw new InvalidRequestException(array(
                 'error_description' => 'The request includes an invalid parameter value.',
             ));
@@ -82,12 +70,12 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         // Create a new access token with fetched meta data.
         $class = $accessTokenManager->getClassName();
         $accessTokenCached = new $class();
-        $accessTokenCached->setAccessToken($debugResponse['access_token'])
-            ->setTokenType($debugResponse['token_type'])
-            ->setClientId($debugResponse['client_id'])
-            ->setUsername($debugResponse['username'])
-            ->setExpires(new \DateTime('@'.$debugResponse['expires']))
-            ->setScope($debugResponse['scope']);
+        $accessTokenCached->setAccessToken($response['access_token'])
+            ->setTokenType($response['token_type'])
+            ->setClientId($response['client_id'])
+            ->setUsername($response['username'])
+            ->setExpires(new \DateTime('@'.$response['expires']))
+            ->setScope($response['scope']);
         $accessTokenCached = $accessTokenManager->createModel($accessTokenCached);
 
         return $accessTokenCached;

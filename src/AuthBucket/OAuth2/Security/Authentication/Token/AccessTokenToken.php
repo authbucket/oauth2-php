@@ -150,7 +150,7 @@ class AccessTokenToken extends AbstractToken implements AccessTokenInterface
             $this->username,
             $this->expires,
             $this->scope,
-            parent::serialize()
+            parent::serialize(),
         ));
     }
 

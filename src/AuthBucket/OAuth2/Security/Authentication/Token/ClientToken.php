@@ -102,7 +102,7 @@ class ClientToken extends AbstractToken implements ClientInterface
             $this->clientId,
             $this->clientSecret,
             $this->redirectUri,
-            parent::serialize()
+            parent::serialize(),
         ));
     }
 
