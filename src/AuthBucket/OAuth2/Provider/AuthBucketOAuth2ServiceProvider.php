@@ -122,7 +122,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
 
         $app['authbucket_oauth2.resource_handler.factory'] = $app->share(function ($app) {
             return new ResourceTypeHandlerFactory(
-                $app,
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.resource_handler']
             );

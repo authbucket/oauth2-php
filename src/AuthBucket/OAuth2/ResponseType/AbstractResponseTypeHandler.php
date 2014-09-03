@@ -151,7 +151,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // specified.
         if (!$redirectUriStored && !$redirectUri) {
             throw new InvalidRequestException(array(
-                'error_description' => 'The request is missing a required parameter.'
+                'error_description' => 'The request is missing a required parameter.',
             ));
         }
 

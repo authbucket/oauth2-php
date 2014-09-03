@@ -13,7 +13,6 @@ namespace AuthBucket\OAuth2\ResourceType;
 
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * OAuth2 resource type handler factory implemention.
@@ -22,17 +21,14 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
 {
-    protected $httpKernel;
     protected $modelManagerFactory;
     protected $classes;
 
     public function __construct(
-        HttpKernelInterface $httpKernel,
         ModelManagerFactoryInterface $modelManagerFactory,
         array $classes = array()
     )
     {
-        $this->httpKernel = $httpKernel;
         $this->modelManagerFactory = $modelManagerFactory;
 
         foreach ($classes as $class) {
@@ -66,7 +62,6 @@ class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
         $class = $this->classes[$type];
 
         return new $class(
-            $this->httpKernel,
             $this->modelManagerFactory
         );
     }
