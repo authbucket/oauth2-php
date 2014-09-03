@@ -12,7 +12,6 @@
 namespace AuthBucket\OAuth2\Tests\Model;
 
 use AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory;
-use AuthBucket\OAuth2\Tests\WebTestCase;
 use Silex\Application;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
