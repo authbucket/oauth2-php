@@ -22,6 +22,7 @@ class ResourceTypeHandlerFactoryTest extends WebTestCase
     public function testNonExistsResourceTypeHandler()
     {
         $resourceTypeHandlerFactory = new ResourceTypeHandlerFactory(
+            $this->app,
             $this->app['authbucket_oauth2.model_manager.factory'],
             array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\NonExistsResourceTypeHandler')
         );
@@ -34,6 +35,7 @@ class ResourceTypeHandlerFactoryTest extends WebTestCase
     public function testBadAddResourceTypeHandler()
     {
         $resourceTypeHandlerFactory = new ResourceTypeHandlerFactory(
+            $this->app,
             $this->app['authbucket_oauth2.model_manager.factory'],
             array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\FooResourceTypeHandler')
         );
@@ -46,6 +48,7 @@ class ResourceTypeHandlerFactoryTest extends WebTestCase
     public function testBadGetResourceTypeHandler()
     {
         $resourceTypeHandlerFactory = new ResourceTypeHandlerFactory(
+            $this->app,
             $this->app['authbucket_oauth2.model_manager.factory'],
             array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\BarResourceTypeHandler')
         );
@@ -55,6 +58,7 @@ class ResourceTypeHandlerFactoryTest extends WebTestCase
     public function testGoodGetResourceTypeHandler()
     {
         $resourceTypeHandlerFactory = new ResourceTypeHandlerFactory(
+            $this->app,
             $this->app['authbucket_oauth2.model_manager.factory'],
             array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\BarResourceTypeHandler')
         );

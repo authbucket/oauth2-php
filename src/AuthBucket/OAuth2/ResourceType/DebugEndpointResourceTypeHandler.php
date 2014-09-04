@@ -52,13 +52,25 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             }
         }
 
-        // Fetch meta data of supplied access token by query remote debug endpoint.
-        $client = new \Guzzle\Http\Client();
-        $crawler = $client->get($options['debug_endpoint'], array(), array(
-            'headers' => array('Authorization' => implode(' ', array('Bearer', $accessToken))),
-            'exceptions' => false,
-        ));
-        $response = json_decode($crawler->send()->getBody(), true);
+        // Fetch meta data of supplied access token by query debug endpoint.
+        if (strpos($options['debug_endpoint'], '/') === 0) {
+            // For relative URL, use Symfony test client to simulates and
+            // HTTP client like a browser and makes requests.
+            $client = new \Symfony\Component\HttpKernel\Client($this->httpKernel);
+            $crawler = $client->request('GET', $options['debug_endpoint'], array(), array(), array(
+                'HTTP_Authorization' => implode(' ', array('Bearer', $accessToken)),
+            ));
+            $content = $client->getResponse()->getContent();
+        } else {
+            // For absolute URL, use Guzzle client to create request.
+            $client = new \Guzzle\Http\Client();
+            $crawler = $client->get($options['debug_endpoint'], array(), array(
+                'headers' => array('Authorization' => implode(' ', array('Bearer', $accessToken))),
+                'exceptions' => false,
+            ));
+            $content = $crawler->send()->getBody();
+        }
+        $response = json_decode($content, true);
 
         // Throw exception if error return.
         if (isset($response['error'])) {
