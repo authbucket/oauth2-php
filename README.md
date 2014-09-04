@@ -202,18 +202,6 @@ endpoint:
         ),
     );
 
-> NOTE: As we are using [Guzzle](http://guzzle3.readthedocs.org/) for
-> sending HTTP request, this style will NOT works if you are:
->
-> -   Setting `debug_endpoint` to current instance (in whatever absolute
->     nor relative URL style), AND
-> -   The current instance is running with PHP build-in web server (in
->     single thread style).
->
-> The build-in web server will deadlocked, and your browser will just
-> keep on waiting for timeout with
-> [WSOD](http://en.wikipedia.org/wiki/Screen_of_death).
-
 Demo
 ----
 
