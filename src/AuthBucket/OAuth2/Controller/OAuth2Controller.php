@@ -14,6 +14,7 @@ namespace AuthBucket\OAuth2\Controller;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
+use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
 use AuthBucket\OAuth2\Validator\Constraints\GrantType;
@@ -33,18 +34,21 @@ class OAuth2Controller
 {
     protected $securityContext;
     protected $validator;
+    protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
     protected $grantTypeHandlerFactory;
 
     public function __construct(
         SecurityContextInterface $securityContext,
         ValidatorInterface $validator,
+        ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
         GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory
     )
     {
         $this->securityContext = $securityContext;
         $this->validator = $validator;
+        $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
         $this->grantTypeHandlerFactory = $grantTypeHandlerFactory;
     }
@@ -113,5 +117,28 @@ class OAuth2Controller
             'Cache-Control' => 'no-store',
             'Pragma' => 'no-cache',
         ));
+    }
+
+    public function cronAction(Request $request)
+    {
+        $limit = 100;
+
+        foreach (array('access_token', 'code', 'refresh_token') as $type) {
+            $modelManager = $this->modelManagerFactory->getModelManager($type);
+
+            $offset = 0;
+            while (count($models = $modelManager->readModelBy(array(), array(), $limit, $offset)) > 0) {
+                $offset += $limit;
+
+                foreach ($models as $model) {
+                    if ($model->getExpires() < new \DateTime()) {
+                        $modelManager->deleteModel($model);
+                        $offset--;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }
