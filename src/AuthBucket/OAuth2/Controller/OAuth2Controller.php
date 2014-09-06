@@ -21,6 +21,7 @@ use AuthBucket\OAuth2\Validator\Constraints\GrantType;
 use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
@@ -139,6 +140,6 @@ class OAuth2Controller
             }
         }
 
-        return true;
+        return new Response();
     }
 }
