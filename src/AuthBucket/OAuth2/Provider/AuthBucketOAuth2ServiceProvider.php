@@ -132,6 +132,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
             return new OAuth2Controller(
                 $app['security'],
                 $app['validator'],
+                $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_handler.factory'],
                 $app['authbucket_oauth2.grant_handler.factory']
             );
@@ -250,7 +251,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
     {
         $controllers = $app['controllers_factory'];
 
-        foreach (array('authorize', 'token', 'debug') as $endpoint) {
+        foreach (array('authorize', 'token', 'debug', 'cron') as $endpoint) {
             $app->match('/api/v1.0/oauth2/'.$endpoint, 'authbucket_oauth2.oauth2_controller:'.$endpoint.'Action')->bind('api_oauth2_'.$endpoint);
         }
 
