@@ -292,7 +292,5 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
     public function boot(Application $app)
     {
         $app['dispatcher']->addListener(KernelEvents::EXCEPTION, array($app['authbucket_oauth2.exception_listener'], 'onKernelException'), -8);
-
-        $app->mount('/', $this->connect($app));
     }
 }

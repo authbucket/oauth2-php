@@ -52,7 +52,14 @@
 
                 <h3 id="registering">Registering</h3>
                 <p>If you are using <a href="http://silex.sensiolabs.org/">Silex</a>, register <a href="https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> as below:</p>
-<pre><code class="php">$app-&gt;register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());</code></pre>
+<pre><code class="php"># Create a shared provider.
+$provider = new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider();
+
+# Register the provider.
+$app-&gt;register($provider);
+
+# (Optional) Mount default route with the registered provider
+$app-&gt;mount(&#39;/&#39;, $provider);</code></pre>
                 <p>Moreover, enable following service providers if that's not already the case:</p>
 <pre><code class="php">$app-&gt;register(new Silex\Provider\SecurityServiceProvider());
 $app-&gt;register(new Silex\Provider\SerializerServiceProvider());
@@ -61,7 +68,7 @@ $app-&gt;register(new Silex\Provider\ValidatorServiceProvider());</code></pre>
 
                 <h2 id="usage" class="page-header">Usage</h2>
                 <p class="lead">This library seperate the endpoint logic in frontend firewall and backend controller point of view, so you will need to setup both for functioning.</p>
-                <p>By default once enable the <code>AuthBucketOAuth2ServiceProvider</code>, all above controllers will be enabled accordingly with routing prefix <code>/api/v1.0</code>.</p>
+                <p>If you also mount the default route as above mentioned, all above controllers will be enabled accordingly with routing prefix <code>/api/v1.0</code>.</p>
                 <p>Below is a list of recipes that cover some common use cases.</p>
 
                 <h3 id="authorization-endpoint">Authorization Endpoint</h3>
