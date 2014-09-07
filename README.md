@@ -82,14 +82,7 @@ If you are using [Silex](http://silex.sensiolabs.org/), register
 [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
 as below:
 
-    # Create a shared provider.
-    $provider = new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider();
-
-    # Register the provider.
-    $app->register($provider);
-
-    # (Optional) Mount default route with the registered provider
-    $app->mount('/', $provider);
+    $app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
 
 Moreover, enable following service providers if that's not already the
 case:
@@ -106,8 +99,13 @@ This library seperate the endpoint logic in frontend firewall and
 backend controller point of view, so you will need to setup both for
 functioning.
 
-If you also mount the default route as above mentioned, all above
-controllers will be enabled accordingly with routing prefix `/api/v1.0`.
+To enable the built-in controller with corresponding routing, you need
+to mount it with a shared provider instance, all above controllers will
+be enabled accordingly with routing prefix `/api/v1.0`:
+
+    $provider = new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider();
+    $app->register($provider);
+    $app->mount('/', $provider);
 
 Below is a list of recipes that cover some common use cases.
 
