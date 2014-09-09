@@ -16,7 +16,7 @@
     "extra": {
         "branch-alias": {
             "dev-develop": "2.x-dev",
-            "dev-master": "2.2.x-dev"
+            "dev-master": "2.3.x-dev"
         }
     },
     "homepage": "https://github.com/authbucket/oauth2-php",
