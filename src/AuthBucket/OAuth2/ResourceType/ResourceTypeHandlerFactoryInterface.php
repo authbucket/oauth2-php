@@ -28,4 +28,11 @@ interface ResourceTypeHandlerFactoryInterface
      * @throw ServerErrorException If supplied resource type not found.
      */
     public function getResourceTypeHandler($type = null);
+
+    /**
+     * Get a list of all supported handler.
+     *
+     * @return array Supported handler in key-value pair.
+     */
+    public function getResourceTypeHandlers();
 }

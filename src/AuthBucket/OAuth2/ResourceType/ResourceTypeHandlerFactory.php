@@ -70,4 +70,9 @@ class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
             $this->modelManagerFactory
         );
     }
+
+    public function getResourceTypeHandlers()
+    {
+        return $this->classes;
+    }
 }
