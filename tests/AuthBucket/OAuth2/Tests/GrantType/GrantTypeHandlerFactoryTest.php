@@ -21,7 +21,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
      */
     public function testNonExistsGrantTypeHandler()
     {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory(
+        $factory = new GrantTypeHandlerFactory(
             $this->app['security'],
             $this->app['security.user_checker'],
             $this->app['security.encoder_factory'],
@@ -31,7 +31,6 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             null,
             array('foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\NonExistsGrantTypeHandler')
         );
-        $grantTypeHandlerFactory->addGrantTypeHandler('foo', $grantTypeHandler);
     }
 
     /**
@@ -39,7 +38,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadAddGrantTypeHandler()
     {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory(
+        $factory = new GrantTypeHandlerFactory(
             $this->app['security'],
             $this->app['security.user_checker'],
             $this->app['security.encoder_factory'],
@@ -49,7 +48,6 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             null,
             array('foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\FooGrantTypeHandler')
         );
-        $grantTypeHandlerFactory->addGrantTypeHandler('foo', $grantTypeHandler);
     }
 
     /**
@@ -57,7 +55,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadGetGrantTypeHandler()
     {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory(
+        $factory = new GrantTypeHandlerFactory(
             $this->app['security'],
             $this->app['security.user_checker'],
             $this->app['security.encoder_factory'],
@@ -67,12 +65,12 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             null,
             array('bar' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\BarGrantTypeHandler')
         );
-        $grantTypeHandlerFactory->getGrantTypeHandler('foo');
+        $factory->getGrantTypeHandler('foo');
     }
 
     public function testGoodGetGrantTypeHandler()
     {
-        $grantTypeHandlerFactory = new GrantTypeHandlerFactory(
+        $factory = new GrantTypeHandlerFactory(
             $this->app['security'],
             $this->app['security.user_checker'],
             $this->app['security.encoder_factory'],
@@ -82,6 +80,6 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             null,
             array('bar' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\BarGrantTypeHandler')
         );
-        $grantTypeHandlerFactory->getGrantTypeHandler('bar');
+        $factory->getGrantTypeHandler('bar');
     }
 }
