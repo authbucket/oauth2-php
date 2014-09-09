@@ -95,4 +95,9 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
             $this->userProvider
         );
     }
+
+    public function getGrantTypeHandlers()
+    {
+        return $this->classes;
+    }
 }

@@ -11,6 +11,7 @@
 
 namespace AuthBucket\OAuth2\Security\Firewall;
 
+use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
@@ -56,8 +57,21 @@ class ResourceListener implements ListenerInterface
         $request = $event->getRequest();
 
         // Fetch access_token by token type handler.
-        $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler();
-        $accessToken = $tokenTypeHandler->getAccessToken($request);
+        $accessToken = null;
+        foreach ($this->tokenTypeHandlerFactory->getTokenTypeHandlers() as $key => $value) {
+            try {
+                $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler($key);
+                $accessToken = $tokenTypeHandler->getAccessToken($request);
+                break;
+            } catch (ExceptionInterface $e) {
+                continue;
+            }
+        }
+        if ($accessToken === null) {
+            throw new InvalidRequestException(array(
+                'error_description' => 'The request includes an invalid parameter value.',
+            ));
+        }
 
         // access_token must in valid format.
         $errors = $this->validator->validateValue($accessToken, array(

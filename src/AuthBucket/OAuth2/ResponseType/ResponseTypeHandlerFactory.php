@@ -80,4 +80,9 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
             $this->tokenTypeHandlerFactory
         );
     }
+
+    public function getResponseTypeHandlers()
+    {
+        return $this->classes;
+    }
 }

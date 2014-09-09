@@ -28,4 +28,11 @@ interface ResponseTypeHandlerFactoryInterface
      * @throw UnsupportedResponseTypeException If supplied response type not found.
      */
     public function getResponseTypeHandler($type = null);
+
+    /**
+     * Get a list of all supported handler.
+     *
+     * @return array Supported handler in key-value pair.
+     */
+    public function getResponseTypeHandlers();
 }

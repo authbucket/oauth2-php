@@ -70,4 +70,9 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
             $this->modelManagerFactory
         );
     }
+
+    public function getTokenTypeHandlers()
+    {
+        return $this->classes;
+    }
 }

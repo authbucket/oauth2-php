@@ -21,14 +21,14 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
      */
     public function testNonExistsResponseTypeHandler()
     {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory(
+        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\NonExistsResponseTypeHandler');
+        $factory = new ResponseTypeHandlerFactory(
             $this->app['security'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
-            array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\NonExistsResponseTypeHandler')
+            $classes
         );
-        $responseTypeHandlerFactory->addResponseTypeHandler('foo', $responseTypeHandler);
     }
 
     /**
@@ -36,14 +36,14 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadAddResponseTypeHandler()
     {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory(
+        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\FooResponseTypeHandler');
+        $factory = new ResponseTypeHandlerFactory(
             $this->app['security'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
-            array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\FooResponseTypeHandler')
+            $classes
         );
-        $responseTypeHandlerFactory->addResponseTypeHandler('foo', $responseTypeHandler);
     }
 
     /**
@@ -51,25 +51,28 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadGetResponseTypeHandler()
     {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory(
+        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler');
+        $factory = new ResponseTypeHandlerFactory(
             $this->app['security'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
-            array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler')
+            $classes
         );
-        $responseTypeHandlerFactory->getResponseTypeHandler('foo');
+        $handler = $factory->getResponseTypeHandler('foo');
     }
 
     public function testGoodGetResponseTypeHandler()
     {
-        $responseTypeHandlerFactory = new ResponseTypeHandlerFactory(
+        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler');
+        $factory = new ResponseTypeHandlerFactory(
             $this->app['security'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
-            array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler')
+            $classes
         );
-        $responseTypeHandlerFactory->getResponseTypeHandler('bar');
+        $handler = $factory->getResponseTypeHandler('bar');
+        $this->assertEquals($factory->getResponseTypeHandlers(), $classes);
     }
 }

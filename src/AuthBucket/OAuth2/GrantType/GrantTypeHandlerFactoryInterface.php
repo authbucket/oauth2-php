@@ -28,4 +28,11 @@ interface GrantTypeHandlerFactoryInterface
      * @throw UnsupportedGrantTypeException If supplied grant type not found.
      */
     public function getGrantTypeHandler($type = null);
+
+    /**
+     * Get a list of all supported handler.
+     *
+     * @return array Supported handler in key-value pair.
+     */
+    public function getGrantTypeHandlers();
 }

@@ -21,12 +21,12 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
      */
     public function testNonExistsTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\NonExistsTokenTypeHandler');
+        $factory = new TokenTypeHandlerFactory(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
-            array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\NonExistsTokenTypeHandler')
+            $classes
         );
-        $tokenTypeHandlerFactory->addTokenTypeHandler('foo', $tokenTypeHandler);
     }
 
     /**
@@ -34,24 +34,12 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadAddTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\FooTokenTypeHandler');
+        $factory = new TokenTypeHandlerFactory(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
-            array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\FooTokenTypeHandler')
+            $classes
         );
-        $tokenTypeHandlerFactory->addTokenTypeHandler('foo', $tokenTypeHandler);
-    }
-
-    /**
-     * @expectedException \AuthBucket\OAuth2\Exception\ServerErrorException
-     */
-    public function testEmptyGetTokenTypeHandler()
-    {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
-            $this->app['validator'],
-            $this->app['authbucket_oauth2.model_manager.factory']
-        );
-        $tokenTypeHandlerFactory->getTokenTypeHandler();
     }
 
     /**
@@ -59,21 +47,24 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadGetTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler');
+        $factory = new TokenTypeHandlerFactory(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
-            array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler')
+            $classes
         );
-        $tokenTypeHandlerFactory->getTokenTypeHandler('foo');
+        $handler = $factory->getTokenTypeHandler('foo');
     }
 
     public function testGoodGetTokenTypeHandler()
     {
-        $tokenTypeHandlerFactory = new TokenTypeHandlerFactory(
+        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler');
+        $factory = new TokenTypeHandlerFactory(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
-            array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler')
+            $classes
         );
-        $tokenTypeHandlerFactory->getTokenTypeHandler('bar');
+        $handler = $factory->getTokenTypeHandler('bar');
+        $this->assertEquals($factory->getTokenTypeHandlers(), $classes);
     }
 }
