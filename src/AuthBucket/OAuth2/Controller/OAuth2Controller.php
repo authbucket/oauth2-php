@@ -45,8 +45,7 @@ class OAuth2Controller
         ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
         GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory
-    )
-    {
+    ) {
         $this->securityContext = $securityContext;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;

@@ -29,8 +29,7 @@ abstract class AbstractTokenTypeHandler implements TokenTypeHandlerInterface
     public function __construct(
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory
-    )
-    {
+    ) {
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
     }
@@ -48,8 +47,7 @@ abstract class AbstractTokenTypeHandler implements TokenTypeHandlerInterface
         $scope = array(),
         $state = null,
         $withRefreshToken = true
-    )
-    {
+    ) {
         throw new TemporarilyUnavailableException(array(
             'error_description' => 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
         ));

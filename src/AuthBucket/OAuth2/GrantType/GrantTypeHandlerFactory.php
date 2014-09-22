@@ -45,8 +45,7 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null,
         array $classes = array()
-    )
-    {
+    ) {
         $this->securityContext = $securityContext;
         $this->userChecker = $userChecker;
         $this->encoderFactory = $encoderFactory;

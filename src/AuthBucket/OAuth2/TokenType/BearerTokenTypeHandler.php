@@ -73,8 +73,7 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
         $scope = array(),
         $state = null,
         $withRefreshToken = true
-    )
-    {
+    ) {
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
         $class = $accessTokenManager->getClassName();
         $accessToken = new $class();

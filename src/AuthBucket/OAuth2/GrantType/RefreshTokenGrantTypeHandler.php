@@ -65,8 +65,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     private function checkRefreshToken(
         Request $request,
         $clientId
-    )
-    {
+    ) {
         // refresh_token must exists and in valid format.
         $refreshToken = $request->request->get('refresh_token');
         $errors = $this->validator->validateValue($refreshToken, array(

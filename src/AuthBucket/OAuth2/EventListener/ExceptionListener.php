@@ -37,8 +37,7 @@ class ExceptionListener
     private function handleException(
         GetResponseForExceptionEvent $event,
         ExceptionInterface $exception
-    )
-    {
+    ) {
         $message = unserialize($exception->getMessage());
 
         if (isset($message['redirect_uri'])) {
