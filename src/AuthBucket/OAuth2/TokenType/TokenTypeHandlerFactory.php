@@ -30,8 +30,7 @@ class TokenTypeHandlerFactory implements TokenTypeHandlerFactoryInterface
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         array $classes = array()
-    )
-    {
+    ) {
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
 

@@ -23,8 +23,7 @@ class ModelResourceTypeHandler extends AbstractResourceTypeHandler
     public function handle(
         $accessToken,
         array $options = array()
-    )
-    {
+    ) {
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
         $accessTokenStored = $accessTokenManager->readModelOneBy(array(
             'accessToken' => $accessToken,

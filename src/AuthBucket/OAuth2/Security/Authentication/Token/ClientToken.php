@@ -31,8 +31,7 @@ class ClientToken extends AbstractToken implements ClientInterface
         $clientSecret,
         $redirectUri = '',
         array $roles = array()
-    )
-    {
+    ) {
         parent::__construct($roles);
 
         $this->providerKey = $providerKey;

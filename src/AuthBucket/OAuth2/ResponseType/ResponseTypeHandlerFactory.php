@@ -36,8 +36,7 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         array $classes = array()
-    )
-    {
+    ) {
         $this->securityContext = $securityContext;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;

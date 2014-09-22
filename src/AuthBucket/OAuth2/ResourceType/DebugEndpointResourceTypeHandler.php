@@ -26,8 +26,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
     public function handle(
         $accessToken,
         array $options = array()
-    )
-    {
+    ) {
         $options = array_merge(array(
             'debug_endpoint' => '',
             'cache' => true,
