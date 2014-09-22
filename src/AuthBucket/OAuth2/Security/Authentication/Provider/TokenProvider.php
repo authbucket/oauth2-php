@@ -30,8 +30,7 @@ class TokenProvider implements AuthenticationProviderInterface
     public function __construct(
         $providerKey,
         ModelManagerFactoryInterface $modelManagerFactory
-    )
-    {
+    ) {
         $this->providerKey = $providerKey;
         $this->modelManagerFactory = $modelManagerFactory;
     }

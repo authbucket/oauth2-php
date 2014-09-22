@@ -33,8 +33,7 @@ class ClientController
         ValidatorInterface $validator,
         SerializerInterface $serializer,
         ModelManagerFactoryInterface $modelManagerFactory
-    )
-    {
+    ) {
         $this->validator = $validator;
         $this->serializer = $serializer;
         $this->modelManagerFactory = $modelManagerFactory;

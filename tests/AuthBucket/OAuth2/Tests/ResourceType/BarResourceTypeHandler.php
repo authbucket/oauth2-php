@@ -18,7 +18,6 @@ class BarResourceTypeHandler implements ResourceTypeHandlerInterface
     public function handle(
         $accessToken,
         array $options = array()
-    )
-    {
+    ) {
     }
 }

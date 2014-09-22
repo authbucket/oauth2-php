@@ -43,8 +43,7 @@ class ResourceListener implements ListenerInterface
         AuthenticationManagerInterface $authenticationManager,
         ValidatorInterface $validator,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-    )
-    {
+    ) {
         $this->providerKey = $providerKey;
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;

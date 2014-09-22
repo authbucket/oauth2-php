@@ -40,8 +40,7 @@ class TokenListener implements ListenerInterface
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         ValidatorInterface $validator
-    )
-    {
+    ) {
         $this->providerKey = $providerKey;
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;

@@ -49,8 +49,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null
-    )
-    {
+    ) {
         $this->securityContext = $securityContext;
         $this->userChecker = $userChecker;
         $this->encoderFactory = $encoderFactory;
@@ -93,8 +92,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         Request $request,
         $clientId,
         $username
-    )
-    {
+    ) {
         // scope may not exists.
         $scope = $request->request->get('scope');
         if (empty($scope)) {

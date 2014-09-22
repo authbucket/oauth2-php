@@ -66,8 +66,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     private function checkCode(
         Request $request,
         $clientId
-    )
-    {
+    ) {
         // code is required and must in valid format.
         $code = $request->request->get('code');
         $errors = $this->validator->validateValue($code, array(
@@ -111,8 +110,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     private function checkRedirectUri(
         Request $request,
         $clientId
-    )
-    {
+    ) {
         // redirect_uri may not exists.
         $redirectUri = $request->request->get('redirect_uri');
         $errors = $this->validator->validateValue($redirectUri, array(

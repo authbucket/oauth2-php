@@ -37,8 +37,7 @@ class AccessTokenToken extends AbstractToken implements AccessTokenInterface
         $expires = '',
         array $scope = array(),
         array $roles = array()
-    )
-    {
+    ) {
         parent::__construct($roles);
 
         $this->providerKey = $providerKey;

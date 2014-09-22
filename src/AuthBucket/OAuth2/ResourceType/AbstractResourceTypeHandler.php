@@ -27,8 +27,7 @@ abstract class AbstractResourceTypeHandler implements ResourceTypeHandlerInterfa
     public function __construct(
         HttpKernelInterface $httpKernel,
         ModelManagerFactoryInterface $modelManagerFactory
-    )
-    {
+    ) {
         $this->httpKernel = $httpKernel;
         $this->modelManagerFactory = $modelManagerFactory;
     }

@@ -45,8 +45,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
-    )
-    {
+    ) {
         $this->securityContext = $securityContext;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
@@ -123,8 +122,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     protected function checkRedirectUri(
         Request $request,
         $clientId
-    )
-    {
+    ) {
         // redirect_uri may not exists.
         $redirectUri = $request->query->get('redirect_uri');
         $errors = $this->validator->validateValue($redirectUri, array(
@@ -172,8 +170,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     protected function checkState(
         Request $request,
         $redirectUri
-    )
-    {
+    ) {
         // state is required and in valid format.
         $state = $request->query->get('state');
         $errors = $this->validator->validateValue($state, array(
@@ -196,8 +193,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $username,
         $redirectUri,
         $state
-    )
-    {
+    ) {
         // scope may not exists.
         $scope = $request->query->get('scope');
         if (empty($scope)) {

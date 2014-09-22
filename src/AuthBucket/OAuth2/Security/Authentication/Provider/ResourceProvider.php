@@ -36,8 +36,7 @@ class ResourceProvider implements AuthenticationProviderInterface
         $resourceType = 'model',
         array $scopeRequired = array(),
         array $options = array()
-    )
-    {
+    ) {
         $this->providerKey = $providerKey;
         $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
         $this->resourceType = $resourceType;

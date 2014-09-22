@@ -26,7 +26,6 @@ class BarTokenTypeHandler implements TokenTypeHandlerInterface
         $scope = array(),
         $state = null,
         $withRefreshToken = true
-    )
-    {
+    ) {
     }
 }
