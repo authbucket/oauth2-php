@@ -24,6 +24,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\ProcessBuilder;
@@ -42,13 +43,39 @@ $input = new ArgvInput();
 $env = $input->getParameterOption(array('--env', '-e'), 'dev');
 $debug = !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
 
-if ($debug) {
-    Debug::enable();
-}
-
 $app = new Silex\Application(array('env' => $env));
 require __DIR__ . '/AppKernel.php';
+if ($debug) {
+    Debug::enable();
+    $app['debug'] = true;
+}
+else {
+    $app['debug'] = false;
+}
 $app->boot();
+
+$console
+    ->register('cache:clear')
+    ->setName('cache:clear')
+    ->setDescription('Clears the cache')
+    ->setHelp(<<<EOT
+The <info>%command.name%</info> command clears the application cache for a given environment
+and debug mode:
+
+<info>php %command.full_name% --env=dev</info>
+<info>php %command.full_name% --env=prod --no-debug</info>
+EOT
+)
+    ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
+        $finder = Finder::create()->in(__DIR__.'/cache/'.$app['env']);
+        $fs = new Filesystem();
+        try {
+            $output->writeln(sprintf('Clearing the cache for the <info>%s</info> environment with debug <info>%s</info>', $app['env'], var_export($app['debug'], true)));
+            $fs->remove($finder);
+        } catch (IOExceptionInterface $e) {
+            echo "An error occurred while creating your directory at ".$e->getPath();
+        }
+    });
 
 $console
     ->register('doctrine:database:drop')
