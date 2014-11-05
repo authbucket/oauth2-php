@@ -266,6 +266,7 @@ To run the test suite locally, execute the following command:
 
     $ vendor/bin/phpunit
 
+You need `sqlite` enabled to run the test.
 Open `build/logs/html` with your browser for the coverage report.
 
 References
