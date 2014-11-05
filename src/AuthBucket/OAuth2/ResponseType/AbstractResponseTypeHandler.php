@@ -66,7 +66,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         if ($token === null || (!$token instanceof RememberMeToken && !$token instanceof UsernamePasswordToken)) {
             throw new ServerErrorException(array(
                 'token' => $token,
-                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request. [Getting Username failed]',
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ));
         }
 
