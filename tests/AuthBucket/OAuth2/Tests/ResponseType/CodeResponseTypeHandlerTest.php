@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 class CodeResponseTypeHandlerTest extends WebTestCase
 {
+
+
     public function testExceptionCodeNoClientId()
     {
         $parameters = array(
@@ -320,7 +322,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $session = new Session(new MockFileSessionStorage());
         $session->start();
 
-        // Must use single shared client for continue session.
+        // Must use two clients for different users
         $client = $this->createClient();
 
         $crawler = $client->request('GET', '/oauth2/login');
@@ -328,6 +330,7 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $form = $buttonCrawlerNode->form(array(
             '_username' => 'demousername3',
             '_password' => 'demopassword3',
+            "_remember_me" => true,
         ));
         $client->submit($form);
 
@@ -341,5 +344,79 @@ class CodeResponseTypeHandlerTest extends WebTestCase
         $server = array();
         $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
+        $this->assertTrue($client->getResponse()->getTargetUrl() != "http://localhost/oauth2/login");
+    }
+
+    public function testRememberMeToken()
+    {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
+        // Must use two clients for different users
+        $client = $this->createClient();
+
+        $crawler = $client->request('GET', '/oauth2/login');
+        $buttonCrawlerNode = $crawler->selectButton('submit');
+        $form = $buttonCrawlerNode->form(array(
+            '_username' => 'demousername3',
+            '_password' => 'demopassword3',
+            "_remember_me" => true,
+        ));
+        $client->submit($form);
+
+        $remembermeCookie = $client->getCookieJar()->get('REMEMBERME');
+        $client->restart();
+        $client->getCookieJar()->set($remembermeCookie);
+
+        $parameters = array(
+            'response_type' => 'code',
+            'client_id' => 'http://democlient3.com/',
+            'redirect_uri' => 'http://democlient3.com/redirect_uri',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'state' => $session->getId(),
+        );
+        $server = array();
+        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $this->assertTrue($client->getResponse()->isRedirect());
+
+        $this->assertTrue($client->getResponse()->getTargetUrl() != "http://localhost/oauth2/login");
+    }
+
+
+    public function testNoRememberMeToken()
+    {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
+        // If we use a two clients and no remember_me, it should not work
+        $client = $this->createClient();
+
+        $crawler = $client->request('GET', '/oauth2/login');
+        $buttonCrawlerNode = $crawler->selectButton('submit');
+        $form = $buttonCrawlerNode->form(array(
+            '_username' => 'demousername3',
+            '_password' => 'demopassword3',
+            '_remember_me' => false,
+        ));
+        $client->submit($form);
+
+
+
+        $client->restart();
+
+        $parameters = array(
+            'response_type' => 'code',
+            'client_id' => 'http://democlient3.com/',
+            'redirect_uri' => 'http://democlient3.com/redirect_uri',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'state' => $session->getId(),
+        );
+        $server = array();
+
+        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $this->assertTrue($client->getResponse()->isRedirect());
+        $this->assertTrue($client->getResponse()->getTargetUrl() == "http://localhost/oauth2/login");
     }
 }
