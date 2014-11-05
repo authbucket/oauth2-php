@@ -45,7 +45,7 @@ class TokenProvider implements AuthenticationProviderInterface
         $client = $clientManager->readModelOneBy(array(
             'clientId' => $token->getClientId(),
         ));
-        if ($client === null || $client->getClientSecret() !== $token->getClientSecret()) {
+        if ($client === null || !$this->hash_equals($client->getClientSecret(), $token->getClientSecret())) {
             throw new InvalidClientException(array(
                 'error_description' => 'Client authentication failed.',
             ));
@@ -66,5 +66,17 @@ class TokenProvider implements AuthenticationProviderInterface
     public function supports(TokenInterface $token)
     {
         return $token instanceof ClientToken && $this->providerKey === $token->getProviderKey();
+    }
+    
+    public function hash_equals($a, $b)
+    {
+        if (function_exists('hash_equals')) {
+            return hash_equals($a, $b);
+        }
+        $diff = strlen($a) ^ strlen($b);
+        for ($i = 0; $i < strlen($a) && $i < strlen($b); $i++) {
+            $diff |= ord($a[$i]) ^ ord($b[$i]);
+        }
+        return $diff === 0;
     }
 }
