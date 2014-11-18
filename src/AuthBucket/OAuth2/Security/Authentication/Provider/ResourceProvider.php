@@ -47,7 +47,7 @@ class ResourceProvider implements AuthenticationProviderInterface
     public function authenticate(TokenInterface $token)
     {
         if (!$this->supports($token)) {
-            return null;
+            return;
         }
 
         // Handle different resource type access_token check.

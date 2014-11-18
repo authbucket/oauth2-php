@@ -23,6 +23,10 @@ $app->register(new Silex\Provider\TwigServiceProvider());
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
+# Before registering this service provider, you must register the SecurityServiceProvider.
+$app->register(new Silex\Provider\RememberMeServiceProvider());
+
+# Register and mount with same provider.
 $provider = new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider();
 $app->register($provider);
 $app->mount('/', $provider);

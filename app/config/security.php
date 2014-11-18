@@ -35,6 +35,7 @@ $app['security.firewalls'] = array(
     ),
     'oauth2_authorize' => array(
         'pattern' => '^/oauth2/authorize',
+        'remember_me' => true,
         'form' => array(
             'login_path' => '/oauth2/login',
             'check_path' => '/oauth2/authorize/login_check',

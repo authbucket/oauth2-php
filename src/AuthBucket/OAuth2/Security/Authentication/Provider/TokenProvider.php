@@ -38,7 +38,7 @@ class TokenProvider implements AuthenticationProviderInterface
     public function authenticate(TokenInterface $token)
     {
         if (!$this->supports($token)) {
-            return null;
+            return;
         }
 
         $clientManager = $this->modelManagerFactory->getModelManager('client');
