@@ -331,4 +331,37 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
+
+    public function testGoodTokenFormSubmitRememberMe()
+    {
+        // Start session manually.
+        $session = new Session(new MockFileSessionStorage());
+        $session->start();
+
+        // Save cookie REMEMBERME from first client.
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/oauth2/login');
+        $buttonCrawlerNode = $crawler->selectButton('submit');
+        $form = $buttonCrawlerNode->form(array(
+            '_username' => 'demousername3',
+            '_password' => 'demopassword3',
+            '_remember_me' => true,
+        ));
+        $client->submit($form);
+        $rememberMe = $client->getCookieJar()->get('REMEMBERME');
+
+        // Reuse cookie REMEMBERME for second client.
+        $parameters = array(
+            'response_type' => 'token',
+            'client_id' => 'http://democlient3.com/',
+            'redirect_uri' => 'http://democlient3.com/redirect_uri',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
+            'state' => $session->getId(),
+        );
+        $server = array();
+        $client = $this->createClient();
+        $client->getCookieJar()->get($rememberMe);
+        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $this->assertTrue($client->getResponse()->isRedirect());
+    }
 }
