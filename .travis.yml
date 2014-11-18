@@ -7,6 +7,7 @@ php:
   - hhvm
 
 before_script:
+  - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer install --dev --prefer-source
 
 script:
