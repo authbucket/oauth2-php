@@ -9,9 +9,6 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__.'/orm.php';
-require __DIR__.'/security.php';
-
 $app['debug'] = true;
 
 $app['twig.path'] = array(

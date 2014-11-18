@@ -9,19 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
-
-$app['security.encoder.digest'] = $app->share(function ($app) {
-    return new PlaintextPasswordEncoder();
-});
-
-$app['security.user_provider.default'] = $app->share(function ($app) {
-    return $app['authbucket_oauth2.model_manager.factory']->getModelManager('user');
-});
-
-$app['security.user_provider.admin'] = $app['security.user_provider.inmemory._proto'](array(
-    'admin' => array('ROLE_ADMIN', 'secrete'),
-));
+require __DIR__.'/security_dev.php';
 
 $app['security.firewalls'] = array(
     'admin' => array(
@@ -58,6 +46,46 @@ $app['security.firewalls'] = array(
     'api_oauth2_debug' => array(
         'pattern' => '^/api/v1.0/oauth2/debug$',
         'oauth2_resource' => true,
+    ),
+    'api_resource_model' => array(
+        'pattern' => '^/api/v1.0/resource/model$',
+        'oauth2_resource' => array(
+            'resource_type' => 'model',
+            'scope' => array('demoscope1'),
+        ),
+    ),
+    'api_resource_debug_endpoint' => array(
+        'pattern' => '^/api/v1.0/resource/debug_endpoint$',
+        'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array('demoscope1'),
+            'options' => array(
+                'debug_endpoint' => '/api/v1.0/oauth2/debug',
+                'cache' => false,
+            ),
+        ),
+    ),
+    'api_resource_debug_endpoint_cache' => array(
+        'pattern' => '^/api/v1.0/resource/debug_endpoint/cache$',
+        'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array('demoscope1'),
+            'options' => array(
+                'debug_endpoint' => '/api/v1.0/oauth2/debug',
+                'cache' => true,
+            ),
+        ),
+    ),
+    'api_resource_debug_endpoint_invalid_options' => array(
+        'pattern' => '^/api/v1.0/resource/debug_endpoint/invalid_options$',
+        'oauth2_resource' => array(
+            'resource_type' => 'debug_endpoint',
+            'scope' => array('demoscope1'),
+            'options' => array(
+                'debug_endpoint' => '',
+                'cache' => true,
+            ),
+        ),
     ),
     'api' => array(
         'pattern' => '^/api/v1.0',
