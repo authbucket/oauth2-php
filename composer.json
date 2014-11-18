@@ -52,7 +52,8 @@
         "symfony/process": "~2.3",
         "symfony/translation": "~2.3",
         "symfony/twig-bridge": "~2.3",
-        "twig/twig": "~1.8"
+        "twig/twig": "~1.8",
+        "ext-pdo_sqlite": "*"
     },
     "type": "library"
 }
