@@ -30,6 +30,17 @@ class AuthorizeFixture implements FixtureInterface
         $manager->persist($model);
 
         $model = new Authorize();
+        $model->setClientId('6b44c21ef7bc8ca7380bb5b8276b3f97')
+            ->setUsername('demousername1')
+            ->setScope(array(
+                'demoscope1',
+                'demoscope2',
+                'demoscope3',
+                'demoscope4',
+            ));
+        $manager->persist($model);
+
+        $model = new Authorize();
         $model->setClientId('authorization_code_grant')
             ->setUsername('demousername1')
             ->setScope(array(
