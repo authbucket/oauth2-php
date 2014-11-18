@@ -24,6 +24,7 @@ use AuthBucket\OAuth2\Validator\Constraints\State;
 use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
@@ -62,8 +63,9 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     protected function checkUsername()
     {
         $token = $this->securityContext->getToken();
-        if ($token === null || !$token instanceof UsernamePasswordToken) {
+        if ($token === null || (!$token instanceof RememberMeToken && !$token instanceof UsernamePasswordToken)) {
             throw new ServerErrorException(array(
+                'token' => $token,
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ));
         }

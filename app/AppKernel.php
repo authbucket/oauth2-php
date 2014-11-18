@@ -15,6 +15,7 @@ $app->register(new AuthBucket\OAuth2\Tests\TestBundle\TestBundleServiceProvider(
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\SecurityServiceProvider());
+$app->register(new Silex\Provider\RememberMeServiceProvider());
 $app->register(new Silex\Provider\SerializerServiceProvider());
 $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
