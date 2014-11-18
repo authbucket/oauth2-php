@@ -38,6 +38,7 @@
     "require-dev": {
         "doctrine/data-fixtures": "~1.0",
         "doctrine/orm": "~2.2,>=2.2.3",
+        "ext-pdo_sqlite": "*",
         "fabpot/php-cs-fixer": "@stable",
         "monolog/monolog": "~1.0",
         "phpunit/phpunit": "@stable",
