@@ -12,6 +12,12 @@
 $app->get('/', 'authbucket_oauth2.tests.default_controller:indexAction')
     ->bind('index');
 
+$app->get('/admin/refresh_database', 'authbucket_oauth2.tests.default_controller:adminRefreshDatabaseAction')
+    ->bind('admin_refresh_database');
+
+$app->get('/client', 'authbucket_oauth2.tests.client_controller:indexAction')
+    ->bind('client');
+
 $app->get('/demo', 'authbucket_oauth2.tests.demo_controller:indexAction')
     ->bind('demo');
 
@@ -54,11 +60,17 @@ $app->get('/oauth2/login', 'authbucket_oauth2.tests.oauth2_controller:loginActio
 $app->match('/oauth2/authorize', 'authbucket_oauth2.tests.oauth2_controller:authorizeAction')
     ->bind('oauth2_authorize');
 
-$app->get('/client', 'authbucket_oauth2.tests.client_controller:indexAction')
-    ->bind('client');
-
 $app->get('/resource', 'authbucket_oauth2.tests.resource_controller:indexAction')
     ->bind('resource');
 
-$app->get('/admin/refresh_database', 'authbucket_oauth2.tests.default_controller:adminRefreshDatabaseAction')
-    ->bind('admin_refresh_database');
+$app->match('/api/v1.0/resource/model', 'authbucket_oauth2.oauth2_controller:debugAction')
+    ->bind('api_resource_model');
+
+$app->match('/api/v1.0/resource/debug_endpoint', 'authbucket_oauth2.oauth2_controller:debugAction')
+    ->bind('api_resource_debug_endpoint');
+
+$app->match('/api/v1.0/resource/debug_endpoint/cache', 'authbucket_oauth2.oauth2_controller:debugAction')
+    ->bind('api_resource_debug_endpoint_cache');
+
+$app->match('/api/v1.0/resource/debug_endpoint/invalid_options', 'authbucket_oauth2.oauth2_controller:debugAction')
+    ->bind('api_resource_debug_endpoint_invalid_options');
