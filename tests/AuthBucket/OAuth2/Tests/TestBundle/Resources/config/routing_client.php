@@ -9,4 +9,5 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__.'/security.php';
+$app->get('/client', 'authbucket_oauth2.tests.client_controller:indexAction')
+    ->bind('client');

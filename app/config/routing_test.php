@@ -10,15 +10,3 @@
  */
 
 require __DIR__.'/routing_dev.php';
-
-$app->match('/api/v1.0/resource/model', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('api_resource_model');
-
-$app->match('/api/v1.0/resource/debug_endpoint', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('api_resource_debug_endpoint');
-
-$app->match('/api/v1.0/resource/debug_endpoint/cache', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('api_resource_debug_endpoint_cache');
-
-$app->match('/api/v1.0/resource/debug_endpoint/invalid_options', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('api_resource_debug_endpoint_invalid_options');
