@@ -10,3 +10,6 @@
  */
 
 require __DIR__.'/config.php';
+
+require __DIR__.'/routing_dev.php';
+require __DIR__.'/security_dev.php';
