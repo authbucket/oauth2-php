@@ -99,8 +99,4 @@ $app['security.firewalls'] = array(
             ),
         ),
     ),
-    'api' => array(
-        'pattern' => '^/api/v1.0',
-        'oauth2_resource' => true,
-    ),
 );
