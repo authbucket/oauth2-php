@@ -9,9 +9,4 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__.'/config_dev.php';
-
-require __DIR__.'/routing_test.php';
-require __DIR__.'/security_test.php';
-
-$app['session.test'] = true;
+require __DIR__.'/security.php';

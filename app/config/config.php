@@ -10,6 +10,7 @@
  */
 
 require __DIR__.'/orm.php';
+require __DIR__.'/routing.php';
 require __DIR__.'/security.php';
 
 $app['debug'] = true;
