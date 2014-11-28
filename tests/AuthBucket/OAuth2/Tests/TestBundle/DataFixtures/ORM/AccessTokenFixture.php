@@ -23,11 +23,9 @@ class AccessTokenFixture implements FixtureInterface
         $model->setAccessToken('18cdaa6481c0d5f323351ea1029fc065')
             ->setTokenType('bearer')
             ->setClientId('6b44c21ef7bc8ca7380bb5b8276b3f97')
-            ->setUsername('demousername1')
+            ->setUsername('')
             ->setExpires(new \DateTime('+10 years'))
-            ->setScope(array(
-                'demoscope1',
-            ));
+            ->setScope(array());
         $manager->persist($model);
 
         $model = new AccessToken();
