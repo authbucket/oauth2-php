@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>AuthBucket\OAuth2\Security\Authentication\Token\ClientToken | AuthBucket\OAuth2 API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">AuthBucket\OAuth2 API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../../AuthBucket/OAuth2/Security/Authentication/Token.html">AuthBucket\OAuth2\Security\Authentication\Token</a>\ClientToken</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>ClientToken</strong>        extends <abbr title="Symfony\Component\Security\Core\Authentication\Token\AbstractToken">AbstractToken</abbr>        implements
+        <a href="../../../../../AuthBucket/OAuth2/Model/ClientInterface.html"><abbr title="AuthBucket\OAuth2\Model\ClientInterface">ClientInterface</abbr></a></p>
+
+            <div class="description">
+            <p>OAuth2 ClientToken for token endpoint authentication.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>($providerKey, $clientId, $clientSecret, $redirectUri = &#039;&#039;, array $roles = array())
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getId">getId</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_setClientId">setClientId</a>(string $clientId)
+                    <p>Set client_id</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getClientId">getClientId</a>()
+                    <p>Get client_id</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_setClientSecret">setClientSecret</a>(string $clientSecret)
+                    <p>Set client_secret</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getClientSecret">getClientSecret</a>()
+                    <p>Get client_secret</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_setRedirectUri">setRedirectUri</a>(string $redirectUri)
+                    <p>Set redirect_uri</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getRedirectUri">getRedirectUri</a>()
+                    <p>Get redirect_uri</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getProviderKey">getProviderKey</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getCredentials">getCredentials</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_serialize">serialize</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_unserialize">unserialize</a>($str)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 28</div>
+        <code>            public            
+    <strong>__construct</strong>($providerKey, $clientId, $clientSecret, $redirectUri = &#039;&#039;, array $roles = array())</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$providerKey</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$clientId</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$clientSecret</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$redirectUri</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$roles</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getId">
+        <div class="location">at line 46</div>
+        <code>            public            
+    <strong>getId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setClientId">
+        <div class="location">at line 51</div>
+        <code>            public            <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+    <strong>setClientId</strong>(string $clientId)</code>
+    </h3>
+    <div class="details">
+        <p>Set client_id</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$clientId</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getClientId">
+        <div class="location">at line 58</div>
+        <code>            public            string
+    <strong>getClientId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get client_id</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setClientSecret">
+        <div class="location">at line 63</div>
+        <code>            public            <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+    <strong>setClientSecret</strong>(string $clientSecret)</code>
+    </h3>
+    <div class="details">
+        <p>Set client_secret</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$clientSecret</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getClientSecret">
+        <div class="location">at line 70</div>
+        <code>            public            string
+    <strong>getClientSecret</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get client_secret</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setRedirectUri">
+        <div class="location">at line 75</div>
+        <code>            public            <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+    <strong>setRedirectUri</strong>(string $redirectUri)</code>
+    </h3>
+    <div class="details">
+        <p>Set redirect_uri</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$redirectUri</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getRedirectUri">
+        <div class="location">at line 82</div>
+        <code>            public            string
+    <strong>getRedirectUri</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get redirect_uri</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getProviderKey">
+        <div class="location">at line 87</div>
+        <code>            public            
+    <strong>getProviderKey</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCredentials">
+        <div class="location">at line 92</div>
+        <code>            public            
+    <strong>getCredentials</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_serialize">
+        <div class="location">at line 97</div>
+        <code>            public            
+    <strong>serialize</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_unserialize">
+        <div class="location">at line 108</div>
+        <code>            public            
+    <strong>unserialize</strong>($str)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$str</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
