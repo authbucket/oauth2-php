@@ -22,7 +22,7 @@ class InMemoryTest extends SilexWebTestCase
     {
         $app = new Application(array('env' => 'test'));
 
-        require __DIR__.'/../../../../../app/AppKernel.php';
+        require __DIR__.'/../../app/AppKernel.php';
 
         $app['authbucket_oauth2.model'] = array(
             'access_token' => 'AuthBucket\\OAuth2\\Model\\InMemory\\AccessToken',
