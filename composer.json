@@ -28,11 +28,11 @@
     "require": {
         "guzzle/guzzle": "~3.9",
         "php": ">=5.3.9",
-        "symfony/http-foundation": "~2.3",
-        "symfony/http-kernel": "~2.3",
-        "symfony/security": "~2.3",
-        "symfony/serializer": "~2.3",
-        "symfony/validator": "~2.3"
+        "symfony/http-foundation": "~2.7",
+        "symfony/http-kernel": "~2.7",
+        "symfony/security": "~2.7",
+        "symfony/serializer": "~2.7",
+        "symfony/validator": "~2.7"
     },
     "require-dev": {
         "doctrine/data-fixtures": "~1.0",
@@ -44,14 +44,14 @@
         "sami/sami": "@stable",
         "satooshi/php-coveralls": "dev-master",
         "silex/silex": "~1.2",
-        "symfony/browser-kit": "~2.3",
-        "symfony/config": "~2.3",
-        "symfony/css-selector": "~2.3",
-        "symfony/form": "~2.3",
-        "symfony/locale": "~2.3",
-        "symfony/process": "~2.3",
-        "symfony/translation": "~2.3",
-        "symfony/twig-bridge": "~2.3",
+        "symfony/browser-kit": "~2.7",
+        "symfony/config": "~2.7",
+        "symfony/css-selector": "~2.7",
+        "symfony/form": "~2.7",
+        "symfony/locale": "~2.7",
+        "symfony/process": "~2.7",
+        "symfony/translation": "~2.7",
+        "symfony/twig-bridge": "~2.7",
         "twig/twig": "~1.8"
     },
     "type": "library"
