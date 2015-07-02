@@ -21,7 +21,7 @@ would be develop corresponding wrapper [Symfony2
 Bundle](http://symfony.com) and [Drupal module](https://www.drupal.org).
 
 This library bundle with a [Silex](http://silex.sensiolabs.org/) based
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php)
 for unit test and demo purpose. Installation and usage can refer as
 below.
 
@@ -36,14 +36,14 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2-php": "~2.4"
+            "authbucket/oauth2-php": "~3.0"
         }
     }
 
 ### Parameters
 
 The bundled
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php)
 come with following parameters:
 
 -   `authbucket_oauth2.model`: (Optional) Override this with your own
@@ -61,7 +61,7 @@ come with following parameters:
 ### Services
 
 The bundled
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php)
 come with following services controller which simplify the OAuth2.0
 controller implementation overhead:
 
@@ -79,7 +79,7 @@ controller for alter raw data set:
 ### Registering
 
 If you are using [Silex](http://silex.sensiolabs.org/), register
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php)
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php)
 as below:
 
     $app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
@@ -211,7 +211,7 @@ Demo
 ----
 
 The demo is based on [Silex](http://silex.sensiolabs.org/) and
-[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.php).
+[AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php).
 Read though [Demo](http://oauth2-php.authbucket.com/demo) for more
 information.
 
@@ -219,12 +219,12 @@ You may also run the demo locally. Open a console and execute the
 following command to install the latest version in the `oauth2-php`
 directory:
 
-    $ composer create-project authbucket/oauth2-php oauth2-php "~2.4"
+    $ composer create-project authbucket/oauth2-php oauth2-php "~3.0"
 
 Then use the PHP built-in web server to run the demo application:
 
     $ cd oauth2-php
-    $ php app/console server:run
+    $ ./app/console server:run
 
 If you get the error
 `There are no commands defined in the "server" namespace.`, then you are
@@ -249,7 +249,7 @@ Pages](http://authbucket.github.io/oauth2-php).
 
 To built the documents locally, execute the following command:
 
-    $ vendor/bin/sami.php update .sami.php
+    $ composer sami
 
 Open `build/sami/index.html` with your browser for the documents.
 
@@ -264,7 +264,7 @@ can be found from
 
 To run the test suite locally, execute the following command:
 
-    $ vendor/bin/phpunit
+    $ composer phpunit
 
 Open `build/logs/html` with your browser for the coverage report.
 
@@ -284,5 +284,5 @@ License
 
 -   Code released under
     [MIT](https://github.com/authbucket/oauth2-php/blob/master/LICENSE)
--   Docs released under [CC BY-NC-SA
-    3.0](http://creativecommons.org/licenses/by-nc-sa/3.0/)
+-   Docs released under [CC BY
+    4.0](http://creativecommons.org/licenses/by/4.0/)
