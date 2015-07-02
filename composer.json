@@ -44,7 +44,7 @@
         "doctrine/data-fixtures": "~1.0",
         "doctrine/orm": "~2.2",
         "ext-pdo_sqlite": "*",
-        "fabpot/php-cs-fixer": "@stable",
+        "fabpot/php-cs-fixer": "dev-master",
         "monolog/monolog": "~1.4",
         "phpunit/phpunit": "@stable",
         "sami/sami": "@stable",

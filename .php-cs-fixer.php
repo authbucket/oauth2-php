@@ -1,6 +1,10 @@
 <?php
 
-return Symfony\CS\Config\Config::create()->finder(Symfony\CS\Finder\DefaultFinder::create()
+$fixers = array(
+    '-psr0',
+);
+
+$finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('app/cache')
     ->exclude('app/log')
     ->exclude('build')
@@ -10,5 +14,9 @@ return Symfony\CS\Config\Config::create()->finder(Symfony\CS\Finder\DefaultFinde
     ->notName('LICENSE')
     ->notName('README.md')
     ->notName('composer.*')
-    ->notName('phpunit.xml*')
-);
+    ->notName('phpunit.xml*');
+
+return Symfony\CS\Config\Config::create()
+    ->setUsingCache(false)
+    ->fixers($fixers)
+    ->finder($finder);
