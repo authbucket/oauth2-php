@@ -27,7 +27,7 @@ $app['doctrine.orm.entity_manager'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
     $em = $app['dbs.event_manager']['default'];
 
-    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__.'/../../tests/AuthBucket/OAuth2/Tests/TestBundle/Entity'));
+    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__.'/../../tests/TestBundle/Entity'));
     $cache = new FilesystemCache(__DIR__.'/../cache/'.$app['env']);
 
     $config = Setup::createConfiguration(false);
@@ -63,7 +63,7 @@ require __DIR__.'/security.php';
 $app['debug'] = true;
 
 $app['twig.path'] = array(
-    __DIR__.'/../../tests/AuthBucket/OAuth2/Tests/TestBundle/Resources/views',
+    __DIR__.'/../../tests/TestBundle/Resources/views',
 );
 
 // We simply reuse the user provider that already created for authorize firewall
