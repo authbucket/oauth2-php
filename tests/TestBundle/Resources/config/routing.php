@@ -63,6 +63,16 @@ $app->match('/oauth2/authorize', 'authbucket_oauth2.tests.oauth2_controller:auth
 $app->get('/resource', 'authbucket_oauth2.tests.resource_controller:indexAction')
     ->bind('resource');
 
+$app->get('/api/v1.0/oauth2/authorize', 'authbucket_oauth2.oauth2_controller:authorizeAction')
+    ->bind('api_oauth2_authorize');
+
+$app->post('/api/v1.0/oauth2/token', 'authbucket_oauth2.oauth2_controller:tokenAction')
+    ->bind('api_oauth2_token');
+
+$app->match('/api/v1.0/oauth2/debug', 'authbucket_oauth2.oauth2_controller:debugAction')
+    ->bind('api_oauth2_debug')
+    ->method('GET|POST');
+
 $app->match('/api/v1.0/resource/model', 'authbucket_oauth2.oauth2_controller:debugAction')
     ->bind('api_resource_model');
 

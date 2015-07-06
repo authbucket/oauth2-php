@@ -118,27 +118,4 @@ class OAuth2Controller
             'Pragma' => 'no-cache',
         ));
     }
-
-    public function cronAction(Request $request)
-    {
-        $limit = 100;
-
-        foreach (array('access_token', 'code', 'refresh_token') as $type) {
-            $modelManager = $this->modelManagerFactory->getModelManager($type);
-
-            $offset = 0;
-            while (count($models = $modelManager->readModelBy(array(), array(), $limit, $offset)) > 0) {
-                $offset += $limit;
-
-                foreach ($models as $model) {
-                    if ($model->getExpires() < new \DateTime()) {
-                        $modelManager->deleteModel($model);
-                        $offset--;
-                    }
-                }
-            }
-        }
-
-        return new Response();
-    }
 }

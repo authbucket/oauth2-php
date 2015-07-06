@@ -11,10 +11,7 @@
 
 namespace AuthBucket\OAuth2\Provider;
 
-use AuthBucket\OAuth2\Controller\AuthorizeController;
-use AuthBucket\OAuth2\Controller\ClientController;
 use AuthBucket\OAuth2\Controller\OAuth2Controller;
-use AuthBucket\OAuth2\Controller\ScopeController;
 use AuthBucket\OAuth2\EventListener\ExceptionListener;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
 use AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory;
@@ -26,16 +23,14 @@ use AuthBucket\OAuth2\Security\Firewall\ResourceListener;
 use AuthBucket\OAuth2\Security\Firewall\TokenListener;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory;
 use Silex\Application;
-use Silex\ControllerProviderInterface;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * OAuth2 service provider as plugin for Silex SecurityServiceProvider.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, ControllerProviderInterface
+class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
@@ -85,8 +80,10 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
             'debug_endpoint' => 'AuthBucket\\OAuth2\\ResourceType\\DebugEndpointResourceTypeHandler',
         );
 
-        $app['authbucket_oauth2.exception_listener'] = $app->share(function () {
-            return new ExceptionListener();
+        $app['authbucket_oauth2.exception_listener'] = $app->share(function ($app) {
+            return new ExceptionListener(
+                $app['logger']
+            );
         });
 
         $app['authbucket_oauth2.response_handler.factory'] = $app->share(function ($app) {
@@ -135,30 +132,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_handler.factory'],
                 $app['authbucket_oauth2.grant_handler.factory']
-            );
-        });
-
-        $app['authbucket_oauth2.authorize_controller'] = $app->share(function () use ($app) {
-            return new AuthorizeController(
-                $app['validator'],
-                $app['serializer'],
-                $app['authbucket_oauth2.model_manager.factory']
-            );
-        });
-
-        $app['authbucket_oauth2.client_controller'] = $app->share(function () use ($app) {
-            return new ClientController(
-                $app['validator'],
-                $app['serializer'],
-                $app['authbucket_oauth2.model_manager.factory']
-            );
-        });
-
-        $app['authbucket_oauth2.scope_controller'] = $app->share(function () use ($app) {
-            return new ScopeController(
-                $app['validator'],
-                $app['serializer'],
-                $app['authbucket_oauth2.model_manager.factory']
             );
         });
 
@@ -247,50 +220,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Contr
         });
     }
 
-    public function connect(Application $app)
-    {
-        $controllers = $app['controllers_factory'];
-
-        $app->get('/api/v1.0/oauth2/authorize', 'authbucket_oauth2.oauth2_controller:authorizeAction')
-            ->bind('api_oauth2_authorize');
-
-        $app->post('/api/v1.0/oauth2/token', 'authbucket_oauth2.oauth2_controller:tokenAction')
-            ->bind('api_oauth2_token');
-
-        $app->match('/api/v1.0/oauth2/debug', 'authbucket_oauth2.oauth2_controller:debugAction')
-            ->bind('api_oauth2_debug')
-            ->method('GET|POST');
-
-        $app->get('/api/v1.0/oauth2/cron', 'authbucket_oauth2.oauth2_controller:cronAction')
-            ->bind('api_oauth2_cron');
-
-        foreach (array('authorize', 'client', 'scope') as $type) {
-            $app->post('/api/v1.0/'.$type.'.{_format}', 'authbucket_oauth2.'.$type.'_controller:createAction')
-                ->bind('api_'.$type.'_create')
-                ->assert('_format', 'json|xml');
-
-            $app->get('/api/v1.0/'.$type.'/{id}.{_format}', 'authbucket_oauth2.'.$type.'_controller:readAction')
-                ->bind('api_'.$type.'_read')
-                ->assert('_format', 'json|xml');
-
-            $app->put('/api/v1.0/'.$type.'/{id}.{_format}', 'authbucket_oauth2.'.$type.'_controller:updateAction')
-                ->bind('api_'.$type.'_update')
-                ->assert('_format', 'json|xml');
-
-            $app->delete('/api/v1.0/'.$type.'/{id}.{_format}', 'authbucket_oauth2.'.$type.'_controller:deleteAction')
-                ->bind('api_'.$type.'_delete')
-                ->assert('_format', 'json|xml');
-
-            $app->get('/api/v1.0/'.$type.'.{_format}', 'authbucket_oauth2.'.$type.'_controller:listAction')
-                ->bind('api_'.$type.'_list')
-                ->assert('_format', 'json|xml');
-        }
-
-        return $controllers;
-    }
-
     public function boot(Application $app)
     {
-        $app['dispatcher']->addListener(KernelEvents::EXCEPTION, array($app['authbucket_oauth2.exception_listener'], 'onKernelException'), -8);
+        $app['dispatcher']->addSubscriber($app['authbucket_oauth2.exception_listener']);
     }
 }

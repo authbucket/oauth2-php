@@ -16,6 +16,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 
+// File where logs are written to.
+$app['monolog.logfile'] = __DIR__.'/../logs/'.$app['env'].'.log';
+
 // Define SQLite DB path.
 $app['db.options'] = array(
     'driver' => 'pdo_sqlite',

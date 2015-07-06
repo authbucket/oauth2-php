@@ -191,28 +191,4 @@ class OAuth2ControllerTest extends WebTestCase
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $resourceResponse['username']);
     }
-
-    public function testCron()
-    {
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/cron', $parameters, array(), $server);
-
-        $modelManagerFactory = $this->app['authbucket_oauth2.model_manager.factory'];
-        $this->assertEmpty($modelManagerFactory->getModelManager('access_token')
-            ->readModelBy(array(
-                'accessToken' => 'd2b58c4c6bc0cc9fefca2d558f1221a5',
-            )));
-        $this->assertEmpty($modelManagerFactory->getModelManager('code')
-            ->readModelBy(array(
-                'code' => '1e5aa97ddaf4b0228dfb4223010d4417',
-            )));
-        $this->assertEmpty($modelManagerFactory->getModelManager('refresh_token')
-            ->readModelBy(array(
-                'refreshToken' => '5ff43cbc27b54202c6fd8bb9c2a308ce',
-            )));
-    }
 }
