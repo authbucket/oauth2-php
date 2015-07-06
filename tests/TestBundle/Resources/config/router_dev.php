@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-/*
+/**
  * This file implements rewrite rules for PHP built-in web server.
  *
  * See: http://www.php.net/manual/en/features.commandline.webserver.php

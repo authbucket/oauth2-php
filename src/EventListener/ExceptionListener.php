@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the authbucket/oauth2-php package.
  *
  * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
