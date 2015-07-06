@@ -71,8 +71,8 @@ Moreover, we also provide following model
 [CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
 controller for alter raw data set:
 
--   `authbucket_oauth2.authorize_controller`: Authorize endpoint
-    controller.
+-   `authbucket_oauth2.authorize_controller`: Authorize
+    endpoint controller.
 -   `authbucket_oauth2.client_controller`: Client endpoint controller.
 -   `authbucket_oauth2.scope_controller`: Scope endpoint controller.
 
