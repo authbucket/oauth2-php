@@ -27,7 +27,7 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
@@ -45,7 +45,7 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
@@ -63,7 +63,7 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
@@ -78,7 +78,7 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }

@@ -47,49 +47,49 @@ $app['security.firewalls'] = array(
         'users' => $app['security.user_provider.default'],
     ),
     'api_oauth2_authorize' => array(
-        'pattern' => '^/api/v1.0/oauth2/authorize$',
+        'pattern' => '^/api/oauth2/authorize$',
         'http' => true,
         'users' => $app['security.user_provider.default'],
     ),
     'api_oauth2_token' => array(
-        'pattern' => '^/api/v1.0/oauth2/token$',
+        'pattern' => '^/api/oauth2/token$',
         'oauth2_token' => true,
     ),
     'api_oauth2_debug' => array(
-        'pattern' => '^/api/v1.0/oauth2/debug$',
+        'pattern' => '^/api/oauth2/debug$',
         'oauth2_resource' => true,
     ),
     'api_resource_model' => array(
-        'pattern' => '^/api/v1.0/resource/model$',
+        'pattern' => '^/api/resource/model$',
         'oauth2_resource' => array(
             'resource_type' => 'model',
             'scope' => array('demoscope1'),
         ),
     ),
     'api_resource_debug_endpoint' => array(
-        'pattern' => '^/api/v1.0/resource/debug_endpoint$',
+        'pattern' => '^/api/resource/debug_endpoint$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => '/api/v1.0/oauth2/debug',
+                'debug_endpoint' => '/api/oauth2/debug',
                 'cache' => false,
             ),
         ),
     ),
     'api_resource_debug_endpoint_cache' => array(
-        'pattern' => '^/api/v1.0/resource/debug_endpoint/cache$',
+        'pattern' => '^/api/resource/debug_endpoint/cache$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => '/api/v1.0/oauth2/debug',
+                'debug_endpoint' => '/api/oauth2/debug',
                 'cache' => true,
             ),
         ),
     ),
     'api_resource_debug_endpoint_invalid_options' => array(
-        'pattern' => '^/api/v1.0/resource/debug_endpoint/invalid_options$',
+        'pattern' => '^/api/resource/debug_endpoint/invalid_options$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),

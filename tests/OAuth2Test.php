@@ -42,7 +42,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         // Check basic auth response that can simply compare.
@@ -64,7 +64,7 @@ class OAuth2Test extends WebTestCase
         );
         $server = array();
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Query token endpoint with grant_type = refresh_token.
@@ -79,7 +79,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
 
         // Check basic token response that can simply compare.
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
@@ -92,7 +92,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -116,7 +116,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
 
         // Check basic auth response that can simply compare.
@@ -138,7 +138,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -157,7 +157,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Query token endpoint with grant_type = refresh_token.
@@ -172,7 +172,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
 
         // Check basic token response that can simply compare.
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
@@ -185,7 +185,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $debugResponse['username']);
     }
@@ -202,7 +202,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         // Query token endpoint with grant_type = refresh_token.
@@ -217,7 +217,7 @@ class OAuth2Test extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
 
         // Check basic token response that can simply compare.
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
@@ -230,7 +230,7 @@ class OAuth2Test extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', $tokenResponse['access_token'])),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
         $debugResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('', $debugResponse['username']);
     }

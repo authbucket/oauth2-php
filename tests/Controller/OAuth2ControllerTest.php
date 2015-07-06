@@ -26,7 +26,7 @@ class OAuth2ControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/authorize', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
@@ -45,7 +45,7 @@ class OAuth2ControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demopassword1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/authorize', $parameters, array(), $server);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
@@ -63,7 +63,7 @@ class OAuth2ControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret2',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $tokenResponse['error']);
@@ -76,7 +76,7 @@ class OAuth2ControllerTest extends WebTestCase
         );
         $server = array();
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $tokenResponse['error']);
@@ -89,7 +89,7 @@ class OAuth2ControllerTest extends WebTestCase
         );
         $server = array();
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $tokenResponse['error']);
@@ -107,7 +107,7 @@ class OAuth2ControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'demosecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $tokenResponse['error']);
@@ -123,7 +123,7 @@ class OAuth2ControllerTest extends WebTestCase
             'PHP_AUTH_PW' => 'badsecret1',
         );
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_client', $tokenResponse['error']);
@@ -138,7 +138,7 @@ class OAuth2ControllerTest extends WebTestCase
         );
         $server = array();
         $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/v1.0/oauth2/token', $parameters, array(), $server);
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_client', $tokenResponse['error']);
@@ -151,7 +151,7 @@ class OAuth2ControllerTest extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', "aaa\x19bbb\x5Cccc\x7Fddd")),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $resourceResponse['error']);
     }
@@ -163,7 +163,7 @@ class OAuth2ControllerTest extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', 'abcd')),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $resourceResponse['error']);
     }
@@ -175,7 +175,7 @@ class OAuth2ControllerTest extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5')),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('invalid_request', $resourceResponse['error']);
     }
@@ -187,7 +187,7 @@ class OAuth2ControllerTest extends WebTestCase
             'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
         );
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/v1.0/oauth2/debug', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('demousername1', $resourceResponse['username']);
     }
