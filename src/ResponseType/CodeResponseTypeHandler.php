@@ -45,7 +45,7 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         );
 
         // Generate parameters, store to backend and set response.
-        $codeManager =  $this->modelManagerFactory->getModelManager('code');
+        $codeManager = $this->modelManagerFactory->getModelManager('code');
         $class = $codeManager->getClassName();
         $code = new $class();
         $code->setCode(md5(uniqid(null, true)))

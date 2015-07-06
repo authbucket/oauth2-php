@@ -23,7 +23,7 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
     {
         $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\NonExistsResponseTypeHandler');
         $factory = new ResponseTypeHandlerFactory(
-            $this->app['security'],
+            $this->app['security.token_storage'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
@@ -38,7 +38,7 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
     {
         $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\FooResponseTypeHandler');
         $factory = new ResponseTypeHandlerFactory(
-            $this->app['security'],
+            $this->app['security.token_storage'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
@@ -53,7 +53,7 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
     {
         $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler');
         $factory = new ResponseTypeHandlerFactory(
-            $this->app['security'],
+            $this->app['security.token_storage'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],
@@ -66,7 +66,7 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
     {
         $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler');
         $factory = new ResponseTypeHandlerFactory(
-            $this->app['security'],
+            $this->app['security.token_storage'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $this->app['authbucket_oauth2.token_handler.factory'],

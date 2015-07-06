@@ -68,7 +68,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     ) {
         // refresh_token must exists and in valid format.
         $refreshToken = $request->request->get('refresh_token');
-        $errors = $this->validator->validateValue($refreshToken, array(
+        $errors = $this->validator->validate($refreshToken, array(
             new NotBlank(),
             new RefreshToken(),
         ));
@@ -80,7 +80,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         // scope may not exists, else must be in valid format.
         $scope = $request->request->get('scope');
-        $errors = $this->validator->validateValue($scope, array(
+        $errors = $this->validator->validate($scope, array(
             new Scope(),
         ));
         if (count($errors) > 0) {

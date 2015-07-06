@@ -20,8 +20,8 @@ use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\ClientId;
 use AuthBucket\OAuth2\Validator\Constraints\Scope;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\ValidatorInterface;
@@ -33,7 +33,7 @@ use Symfony\Component\Validator\ValidatorInterface;
  */
 abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
-    protected $securityContext;
+    protected $tokenStorage;
     protected $userChecker;
     protected $encoderFactory;
     protected $validator;
@@ -42,7 +42,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     protected $userProvider;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
+        TokenStorageInterface $tokenStorage,
         UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validator,
@@ -50,7 +50,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null
     ) {
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
         $this->userChecker = $userChecker;
         $this->encoderFactory = $encoderFactory;
         $this->validator = $validator;
@@ -68,7 +68,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
      */
     protected function checkClientId()
     {
-        $token = $this->securityContext->getToken();
+        $token = $this->tokenStorage->getToken();
         if ($token === null || !$token instanceof ClientToken) {
             throw new ServerErrorException(array(
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
@@ -100,7 +100,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         }
 
         // scope must be in valid format.
-        $errors = $this->validator->validateValue($scope, array(
+        $errors = $this->validator->validate($scope, array(
             new Scope(),
         ));
         if (count($errors) > 0) {

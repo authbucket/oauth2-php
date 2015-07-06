@@ -88,7 +88,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
         $app['authbucket_oauth2.response_handler.factory'] = $app->share(function ($app) {
             return new ResponseTypeHandlerFactory(
-                $app['security'],
+                $app['security.token_storage'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.token_handler.factory'],
@@ -98,7 +98,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
         $app['authbucket_oauth2.grant_handler.factory'] = $app->share(function ($app) {
             return new GrantTypeHandlerFactory(
-                $app['security'],
+                $app['security.token_storage'],
                 $app['security.user_checker'],
                 $app['security.encoder_factory'],
                 $app['validator'],
@@ -127,7 +127,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
         $app['authbucket_oauth2.oauth2_controller'] = $app->share(function () use ($app) {
             return new OAuth2Controller(
-                $app['security'],
+                $app['security.token_storage'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_handler.factory'],
@@ -148,9 +148,10 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
             return $app->share(function () use ($app, $name, $options) {
                 return new TokenListener(
                     $name,
-                    $app['security'],
+                    $app['security.token_storage'],
                     $app['security.authentication_manager'],
-                    $app['validator']
+                    $app['validator'],
+                    $app['logger']
                 );
             });
         });
@@ -171,9 +172,10 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
             return $app->share(function () use ($app, $name, $options) {
                 return new ResourceListener(
                     $name,
-                    $app['security'],
+                    $app['security.token_storage'],
                     $app['security.authentication_manager'],
                     $app['validator'],
+                    $app['logger'],
                     $app['authbucket_oauth2.token_handler.factory']
                 );
             });

@@ -54,7 +54,7 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
             ?: $tokenQuery;
 
         // access_token must be in valid format.
-        $errors = $this->validator->validateValue($accessToken, array(
+        $errors = $this->validator->validate($accessToken, array(
             new NotBlank(),
             new AccessToken(),
         ));

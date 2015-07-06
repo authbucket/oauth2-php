@@ -53,6 +53,7 @@
         "symfony/config": "~2.7",
         "symfony/css-selector": "~2.7",
         "symfony/form": "~2.7",
+        "symfony/phpunit-bridge": "~2.7",
         "symfony/process": "~2.7",
         "symfony/translation": "~2.7",
         "symfony/twig-bridge": "~2.7",

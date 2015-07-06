@@ -22,7 +22,7 @@ use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
 
@@ -33,20 +33,20 @@ use Symfony\Component\Validator\ValidatorInterface;
  */
 class OAuth2Controller
 {
-    protected $securityContext;
+    protected $tokenStorage;
     protected $validator;
     protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
     protected $grantTypeHandlerFactory;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
+        TokenStorageInterface $tokenStorage,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
         GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory
     ) {
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
@@ -57,7 +57,7 @@ class OAuth2Controller
     {
         // Fetch response_type from GET.
         $responseType = $request->query->get('response_type');
-        $errors = $this->validator->validateValue($responseType, array(
+        $errors = $this->validator->validate($responseType, array(
             new NotBlank(),
             new ResponseType(),
         ));
@@ -77,7 +77,7 @@ class OAuth2Controller
     {
         // Fetch grant_type from POST.
         $grantType = $request->request->get('grant_type');
-        $errors = $this->validator->validateValue($grantType, array(
+        $errors = $this->validator->validate($grantType, array(
             new NotBlank(),
             new GrantType(),
         ));
@@ -96,7 +96,7 @@ class OAuth2Controller
     public function debugAction(Request $request)
     {
         // Fetch authenticated access token from security context.
-        $token = $this->securityContext->getToken();
+        $token = $this->tokenStorage->getToken();
         if ($token === null || !$token instanceof AccessTokenToken) {
             throw new ServerErrorException(array(
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',

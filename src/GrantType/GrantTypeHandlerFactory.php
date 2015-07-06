@@ -14,8 +14,8 @@ namespace AuthBucket\OAuth2\GrantType;
 use AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\ValidatorInterface;
@@ -27,7 +27,7 @@ use Symfony\Component\Validator\ValidatorInterface;
  */
 class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 {
-    protected $securityContext;
+    protected $tokenStorage;
     protected $userChecker;
     protected $encoderFactory;
     protected $validator;
@@ -37,7 +37,7 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
     protected $classes;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
+        TokenStorageInterface $tokenStorage,
         UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validator,
@@ -46,7 +46,7 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         UserProviderInterface $userProvider = null,
         array $classes = array()
     ) {
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
         $this->userChecker = $userChecker;
         $this->encoderFactory = $encoderFactory;
         $this->validator = $validator;
@@ -85,7 +85,7 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         $class = $this->classes[$type];
 
         return new $class(
-            $this->securityContext,
+            $this->tokenStorage,
             $this->userChecker,
             $this->encoderFactory,
             $this->validator,

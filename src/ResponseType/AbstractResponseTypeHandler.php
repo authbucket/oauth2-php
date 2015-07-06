@@ -24,8 +24,8 @@ use AuthBucket\OAuth2\Validator\Constraints\State;
 use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
 
@@ -36,18 +36,18 @@ use Symfony\Component\Validator\ValidatorInterface;
  */
 abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterface
 {
-    protected $securityContext;
+    protected $tokenStorage;
     protected $validator;
     protected $modelManagerFactory;
     protected $tokenTypeHandlerFactory;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
+        TokenStorageInterface $tokenStorage,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
@@ -62,7 +62,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
      */
     protected function checkUsername()
     {
-        $token = $this->securityContext->getToken();
+        $token = $this->tokenStorage->getToken();
         if (!$token instanceof RememberMeToken && !$token instanceof UsernamePasswordToken) {
             throw new ServerErrorException(array(
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
@@ -86,7 +86,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     {
         // client_id is required and in valid format.
         $clientId = $request->query->get('client_id');
-        $errors = $this->validator->validateValue($clientId, array(
+        $errors = $this->validator->validate($clientId, array(
             new NotBlank(),
             new ClientId(),
         ));
@@ -126,7 +126,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     ) {
         // redirect_uri may not exists.
         $redirectUri = $request->query->get('redirect_uri');
-        $errors = $this->validator->validateValue($redirectUri, array(
+        $errors = $this->validator->validate($redirectUri, array(
             new RedirectUri(),
         ));
         if (count($errors) > 0) {
@@ -174,7 +174,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     ) {
         // state is required and in valid format.
         $state = $request->query->get('state');
-        $errors = $this->validator->validateValue($state, array(
+        $errors = $this->validator->validate($state, array(
             new NotBlank(),
             new State(),
         ));
@@ -202,7 +202,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         }
 
         // scope must be in valid format.
-        $errors = $this->validator->validateValue($scope, array(
+        $errors = $this->validator->validate($scope, array(
             new NotBlank(),
             new Scope(),
         ));

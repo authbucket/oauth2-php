@@ -72,7 +72,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     {
         // username must exist and in valid format.
         $username = $request->request->get('username');
-        $errors = $this->validator->validateValue($username, array(
+        $errors = $this->validator->validate($username, array(
             new NotBlank(),
             new Username(),
         ));
@@ -84,7 +84,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 
         // password must exist and in valid format.
         $password = $request->request->get('password');
-        $errors = $this->validator->validateValue($password, array(
+        $errors = $this->validator->validate($password, array(
             new NotBlank(),
             new Password(),
         ));

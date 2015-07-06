@@ -69,7 +69,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     ) {
         // code is required and must in valid format.
         $code = $request->request->get('code');
-        $errors = $this->validator->validateValue($code, array(
+        $errors = $this->validator->validate($code, array(
             new NotBlank(),
             new Code(),
         ));
@@ -113,7 +113,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     ) {
         // redirect_uri may not exists.
         $redirectUri = $request->request->get('redirect_uri');
-        $errors = $this->validator->validateValue($redirectUri, array(
+        $errors = $this->validator->validate($redirectUri, array(
             new RedirectUri(),
         ));
         if (count($errors) > 0) {

@@ -16,10 +16,11 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ValidatorInterface;
@@ -32,22 +33,25 @@ use Symfony\Component\Validator\ValidatorInterface;
 class ResourceListener implements ListenerInterface
 {
     protected $providerKey;
-    protected $securityContext;
+    protected $tokenStorage;
     protected $authenticationManager;
     protected $validator;
+    protected $logger;
     protected $tokenTypeHandlerFactory;
 
     public function __construct(
         $providerKey,
-        SecurityContextInterface $securityContext,
+        TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
         ValidatorInterface $validator,
+        LoggerInterface $logger,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
         $this->providerKey = $providerKey;
-        $this->securityContext = $securityContext;
+        $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->validator = $validator;
+        $this->logger = $logger;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
@@ -73,7 +77,7 @@ class ResourceListener implements ListenerInterface
         }
 
         // access_token must in valid format.
-        $errors = $this->validator->validateValue($accessToken, array(
+        $errors = $this->validator->validate($accessToken, array(
             new NotBlank(),
             new AccessToken(),
         ));
@@ -83,7 +87,11 @@ class ResourceListener implements ListenerInterface
             ));
         }
 
-        if (null !== $token = $this->securityContext->getToken()) {
+        if (null !== $this->logger) {
+            $this->logger->info(sprintf('Resource endpoint access token found for access_token "%s"', $accessToken));
+        }
+
+        if (null !== $token = $this->tokenStorage->getToken()) {
             if ($token instanceof AccessTokenToken
                 && $token->isAuthenticated()
                 && $token->getAccessToken() === $accessToken
@@ -97,6 +105,6 @@ class ResourceListener implements ListenerInterface
             $accessToken
         );
         $tokenAuthenticated = $this->authenticationManager->authenticate($token);
-        $this->securityContext->setToken($tokenAuthenticated);
+        $this->tokenStorage->setToken($tokenAuthenticated);
     }
 }
