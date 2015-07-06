@@ -15,7 +15,7 @@ use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AccessToken
+ * AccessToken.
  *
  * @ORM\Table(name="authbucket_oauth2_access_token")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\AccessTokenRepository")
@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AccessToken implements AccessTokenInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -74,9 +74,9 @@ class AccessToken implements AccessTokenInterface
     protected $scope;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -84,7 +84,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Set access_token
+     * Set access_token.
      *
      * @param string $accessToken
      *
@@ -98,7 +98,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Get access_token
+     * Get access_token.
      *
      * @return string
      */
@@ -108,7 +108,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Set token_type
+     * Set token_type.
      *
      * @param string $tokenType
      *
@@ -122,7 +122,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Get token_type
+     * Get token_type.
      *
      * @return string
      */
@@ -132,7 +132,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -146,7 +146,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
@@ -156,7 +156,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -170,7 +170,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -180,7 +180,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Set expires
+     * Set expires.
      *
      * @param \DateTime $expires
      *
@@ -194,7 +194,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Get expires
+     * Get expires.
      *
      * @return \DateTime
      */
@@ -204,7 +204,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param array $scope
      *
@@ -218,7 +218,7 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return array
      */

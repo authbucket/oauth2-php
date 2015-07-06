@@ -14,7 +14,7 @@ namespace AuthBucket\OAuth2\Model\InMemory;
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
 
 /**
- * AccessToken
+ * AccessToken.
  */
 class AccessToken implements AccessTokenInterface
 {
@@ -38,7 +38,7 @@ class AccessToken implements AccessTokenInterface
 
         $this->id = $id;
 
-        $id++;
+        ++$id;
     }
 
     public function getId()

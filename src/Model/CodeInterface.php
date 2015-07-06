@@ -19,7 +19,7 @@ namespace AuthBucket\OAuth2\Model;
 interface CodeInterface extends ModelInterface
 {
     /**
-     * Set code
+     * Set code.
      *
      * @param string $code
      *
@@ -28,14 +28,14 @@ interface CodeInterface extends ModelInterface
     public function setCode($code);
 
     /**
-     * Get code
+     * Get code.
      *
      * @return string
      */
     public function getCode();
 
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -44,14 +44,14 @@ interface CodeInterface extends ModelInterface
     public function setClientId($clientId);
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
     public function getClientId();
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -60,14 +60,14 @@ interface CodeInterface extends ModelInterface
     public function setUsername($username);
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
     public function getUsername();
 
     /**
-     * Set redirect_uri
+     * Set redirect_uri.
      *
      * @param string $redirectUri
      *
@@ -76,30 +76,30 @@ interface CodeInterface extends ModelInterface
     public function setRedirectUri($redirectUri);
 
     /**
-     * Get redirect_uri
+     * Get redirect_uri.
      *
      * @return string
      */
     public function getRedirectUri();
 
     /**
-     * Set expires
+     * Set expires.
      *
-     * @param integer $expires
+     * @param int $expires
      *
      * @return Code
      */
     public function setExpires($expires);
 
     /**
-     * Get expires
+     * Get expires.
      *
-     * @return integer
+     * @return int
      */
     public function getExpires();
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param array $scope
      *
@@ -108,7 +108,7 @@ interface CodeInterface extends ModelInterface
     public function setScope($scope);
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return array
      */

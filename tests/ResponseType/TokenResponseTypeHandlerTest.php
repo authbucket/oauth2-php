@@ -146,7 +146,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => "unsupportedscope",
+            'scope' => 'unsupportedscope',
             'state' => $session->getId(),
         );
         $server = array(
@@ -171,7 +171,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient1.com/',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
-            'scope' => "demoscope4",
+            'scope' => 'demoscope4',
             'state' => $session->getId(),
         );
         $server = array(
@@ -192,7 +192,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'response_type' => 'token',
             'client_id' => 'http://democlient3.com/',
             'redirect_uri' => 'http://democlient3.com/redirect_uri',
-            'scope' => "demoscope1 demoscope2 demoscope3",
+            'scope' => 'demoscope1 demoscope2 demoscope3',
             'state' => "aaa\x19bbb\x7Fccc",
         );
         $server = array(

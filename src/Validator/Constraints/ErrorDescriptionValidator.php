@@ -14,7 +14,7 @@ namespace AuthBucket\OAuth2\Validator\Constraints;
 use Symfony\Component\Validator\Constraints\RegexValidator;
 
 /**
- * Validates whether the value is a valid error_description per RFC 6749
+ * Validates whether the value is a valid error_description per RFC 6749.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  *

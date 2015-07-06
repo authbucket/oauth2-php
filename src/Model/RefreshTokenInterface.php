@@ -19,7 +19,7 @@ namespace AuthBucket\OAuth2\Model;
 interface RefreshTokenInterface extends ModelInterface
 {
     /**
-     * Set refresh_token
+     * Set refresh_token.
      *
      * @param string $refreshToken
      *
@@ -28,14 +28,14 @@ interface RefreshTokenInterface extends ModelInterface
     public function setRefreshToken($refreshToken);
 
     /**
-     * Get refresh_token
+     * Get refresh_token.
      *
      * @return string
      */
     public function getRefreshToken();
 
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -44,14 +44,14 @@ interface RefreshTokenInterface extends ModelInterface
     public function setClientId($clientId);
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
     public function getClientId();
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -60,30 +60,30 @@ interface RefreshTokenInterface extends ModelInterface
     public function setUsername($username);
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
     public function getUsername();
 
     /**
-     * Set expires
+     * Set expires.
      *
-     * @param integer $expires
+     * @param int $expires
      *
      * @return RefreshToken
      */
     public function setExpires($expires);
 
     /**
-     * Get expires
+     * Get expires.
      *
-     * @return integer
+     * @return int
      */
     public function getExpires();
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param array $scope
      *
@@ -92,7 +92,7 @@ interface RefreshTokenInterface extends ModelInterface
     public function setScope($scope);
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return array
      */

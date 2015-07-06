@@ -100,7 +100,7 @@ class PasswordGrantTypeHandlerTest extends WebTestCase
             'grant_type' => 'password',
             'username' => 'demousername1',
             'password' => 'demopassword1',
-            'scope' => "unsupportedscope",
+            'scope' => 'unsupportedscope',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',
@@ -120,7 +120,7 @@ class PasswordGrantTypeHandlerTest extends WebTestCase
             'grant_type' => 'password',
             'username' => 'demousername1',
             'password' => 'demopassword1',
-            'scope' => "demoscope4",
+            'scope' => 'demoscope4',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',

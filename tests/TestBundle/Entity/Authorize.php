@@ -15,7 +15,7 @@ use AuthBucket\OAuth2\Model\AuthorizeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Authorize
+ * Authorize.
  *
  * @ORM\Table(name="authbucket_oauth2_authorize")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\AuthorizeRepository")
@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Authorize implements AuthorizeInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -53,9 +53,9 @@ class Authorize implements AuthorizeInterface
     protected $scope;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -63,7 +63,7 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -77,7 +77,7 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
@@ -87,7 +87,7 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -101,7 +101,7 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -111,7 +111,7 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param array $scope
      *
@@ -125,7 +125,7 @@ class Authorize implements AuthorizeInterface
     }
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return array
      */

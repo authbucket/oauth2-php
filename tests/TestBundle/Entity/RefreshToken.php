@@ -15,7 +15,7 @@ use AuthBucket\OAuth2\Model\RefreshTokenInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * RefreshToken
+ * RefreshToken.
  *
  * @ORM\Table(name="authbucket_oauth2_refresh_token")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\RefreshTokenRepository")
@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class RefreshToken implements RefreshTokenInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -67,9 +67,9 @@ class RefreshToken implements RefreshTokenInterface
     protected $scope;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -77,7 +77,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Set refresh_token
+     * Set refresh_token.
      *
      * @param string $refreshToken
      *
@@ -91,7 +91,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Get refresh_token
+     * Get refresh_token.
      *
      * @return string
      */
@@ -101,7 +101,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -115,7 +115,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
@@ -125,7 +125,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -139,7 +139,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -149,7 +149,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Set expires
+     * Set expires.
      *
      * @param \DateTime $expires
      *
@@ -163,7 +163,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Get expires
+     * Get expires.
      *
      * @return \DateTime
      */
@@ -173,7 +173,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param array $scope
      *
@@ -187,7 +187,7 @@ class RefreshToken implements RefreshTokenInterface
     }
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return array
      */

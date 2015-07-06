@@ -19,7 +19,7 @@ namespace AuthBucket\OAuth2\Model;
 interface AuthorizeInterface extends ModelInterface
 {
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -28,14 +28,14 @@ interface AuthorizeInterface extends ModelInterface
     public function setClientId($clientId);
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
     public function getClientId();
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -44,14 +44,14 @@ interface AuthorizeInterface extends ModelInterface
     public function setUsername($username);
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
     public function getUsername();
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param array $scope
      *
@@ -60,7 +60,7 @@ interface AuthorizeInterface extends ModelInterface
     public function setScope($scope);
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return array
      */

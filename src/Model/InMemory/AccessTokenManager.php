@@ -14,7 +14,7 @@ namespace AuthBucket\OAuth2\Model\InMemory;
 use AuthBucket\OAuth2\Model\AccessTokenManagerInterface;
 
 /**
- * AccessTokenManager
+ * AccessTokenManager.
  */
 class AccessTokenManager extends AbstractModelManager implements AccessTokenManagerInterface
 {

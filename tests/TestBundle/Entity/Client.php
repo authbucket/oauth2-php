@@ -15,7 +15,7 @@ use AuthBucket\OAuth2\Model\ClientInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Client
+ * Client.
  *
  * @ORM\Table(name="authbucket_oauth2_client")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\ClientRepository")
@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Client implements ClientInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -53,9 +53,9 @@ class Client implements ClientInterface
     protected $redirectUri;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -63,7 +63,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -77,7 +77,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
@@ -87,7 +87,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * Set client_secret
+     * Set client_secret.
      *
      * @param string $clientSecret
      *
@@ -101,7 +101,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * Get client_secret
+     * Get client_secret.
      *
      * @return string
      */
@@ -111,7 +111,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * Set redirect_uri
+     * Set redirect_uri.
      *
      * @param string $redirectUri
      *
@@ -125,7 +125,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * Get redirect_uri
+     * Get redirect_uri.
      *
      * @return string
      */

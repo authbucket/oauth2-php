@@ -39,7 +39,7 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
         $parameters = array(
             'grant_type' => 'refresh_token',
             'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
-            'scope' => "badscope1",
+            'scope' => 'badscope1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient3.com/',

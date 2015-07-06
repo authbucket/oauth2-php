@@ -19,7 +19,7 @@ namespace AuthBucket\OAuth2\Model;
 interface AccessTokenInterface extends ModelInterface
 {
     /**
-     * Set access_token
+     * Set access_token.
      *
      * @param string $accessToken
      *
@@ -28,14 +28,14 @@ interface AccessTokenInterface extends ModelInterface
     public function setAccessToken($accessToken);
 
     /**
-     * Get access_token
+     * Get access_token.
      *
      * @return string
      */
     public function getAccessToken();
 
     /**
-     * Set token_type
+     * Set token_type.
      *
      * @param string $tokenType
      *
@@ -44,14 +44,14 @@ interface AccessTokenInterface extends ModelInterface
     public function setTokenType($tokenType);
 
     /**
-     * Get token_type
+     * Get token_type.
      *
      * @return string
      */
     public function getTokenType();
 
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -60,14 +60,14 @@ interface AccessTokenInterface extends ModelInterface
     public function setClientId($clientId);
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
     public function getClientId();
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -76,30 +76,30 @@ interface AccessTokenInterface extends ModelInterface
     public function setUsername($username);
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
     public function getUsername();
 
     /**
-     * Set expires
+     * Set expires.
      *
-     * @param integer $expires
+     * @param int $expires
      *
      * @return AccessToken
      */
     public function setExpires($expires);
 
     /**
-     * Get expires
+     * Get expires.
      *
-     * @return integer
+     * @return int
      */
     public function getExpires();
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param array $scope
      *
@@ -108,7 +108,7 @@ interface AccessTokenInterface extends ModelInterface
     public function setScope($scope);
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return array
      */

@@ -12,7 +12,7 @@
 namespace AuthBucket\OAuth2\Exception;
 
 /**
- * ServerErrorException
+ * ServerErrorException.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */

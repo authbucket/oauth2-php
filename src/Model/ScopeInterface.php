@@ -19,7 +19,7 @@ namespace AuthBucket\OAuth2\Model;
 interface ScopeInterface extends ModelInterface
 {
     /**
-     * Set scope
+     * Set scope.
      *
      * @param string $scope
      *
@@ -28,7 +28,7 @@ interface ScopeInterface extends ModelInterface
     public function setScope($scope);
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return string
      */

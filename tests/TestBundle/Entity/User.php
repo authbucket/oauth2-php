@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User
+ * User.
  *
  * @ORM\Table(name="authbucket_oauth2_user")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\UserRepository")
@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements ModelInterface, UserInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -54,9 +54,9 @@ class User implements ModelInterface, UserInterface
     protected $roles;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -64,7 +64,7 @@ class User implements ModelInterface, UserInterface
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -78,7 +78,7 @@ class User implements ModelInterface, UserInterface
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -88,7 +88,7 @@ class User implements ModelInterface, UserInterface
     }
 
     /**
-     * Set password
+     * Set password.
      *
      * @param string $password
      *
@@ -102,7 +102,7 @@ class User implements ModelInterface, UserInterface
     }
 
     /**
-     * Get password
+     * Get password.
      *
      * @return string
      */

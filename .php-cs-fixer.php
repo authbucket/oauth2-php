@@ -2,6 +2,7 @@
 
 $fixers = array(
     '-psr0',
+    '-no_empty_lines_after_phpdocs',
 );
 
 $finder = Symfony\CS\Finder\DefaultFinder::create()
@@ -17,6 +18,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->notName('phpunit.xml*');
 
 return Symfony\CS\Config\Config::create()
+    ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
     ->setUsingCache(false)
     ->fixers($fixers)
     ->finder($finder);

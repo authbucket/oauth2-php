@@ -20,7 +20,7 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = array(
             'grant_type' => 'client_credentials',
-            'scope' => "badscope1",
+            'scope' => 'badscope1',
         );
         $server = array(
             'PHP_AUTH_USER' => 'http://democlient1.com/',

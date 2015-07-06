@@ -15,7 +15,7 @@ use AuthBucket\OAuth2\Model\ScopeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Scope
+ * Scope.
  *
  * @ORM\Table(name="authbucket_oauth2_scope")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\ScopeRepository")
@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Scope implements ScopeInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -39,9 +39,9 @@ class Scope implements ScopeInterface
     protected $scope;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -49,7 +49,7 @@ class Scope implements ScopeInterface
     }
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param string $scope
      *
@@ -63,7 +63,7 @@ class Scope implements ScopeInterface
     }
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return string
      */

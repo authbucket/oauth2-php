@@ -19,7 +19,7 @@ namespace AuthBucket\OAuth2\Model;
 interface ClientInterface extends ModelInterface
 {
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -28,14 +28,14 @@ interface ClientInterface extends ModelInterface
     public function setClientId($clientId);
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
     public function getClientId();
 
     /**
-     * Set client_secret
+     * Set client_secret.
      *
      * @param string $clientSecret
      *
@@ -44,14 +44,14 @@ interface ClientInterface extends ModelInterface
     public function setClientSecret($clientSecret);
 
     /**
-     * Get client_secret
+     * Get client_secret.
      *
      * @return string
      */
     public function getClientSecret();
 
     /**
-     * Set redirect_uri
+     * Set redirect_uri.
      *
      * @param string $redirectUri
      *
@@ -60,7 +60,7 @@ interface ClientInterface extends ModelInterface
     public function setRedirectUri($redirectUri);
 
     /**
-     * Get redirect_uri
+     * Get redirect_uri.
      *
      * @return string
      */

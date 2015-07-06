@@ -12,7 +12,7 @@
 namespace AuthBucket\OAuth2\Exception;
 
 /**
- * TemporarilyUnavailableException
+ * TemporarilyUnavailableException.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */

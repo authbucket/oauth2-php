@@ -15,7 +15,7 @@ use AuthBucket\OAuth2\Model\CodeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Code
+ * Code.
  *
  * @ORM\Table(name="authbucket_oauth2_code")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\CodeRepository")
@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Code implements CodeInterface
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -74,9 +74,9 @@ class Code implements CodeInterface
     protected $scope;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -84,7 +84,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set code
+     * Set code.
      *
      * @param string $code
      *
@@ -98,7 +98,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Get code
+     * Get code.
      *
      * @return string
      */
@@ -108,7 +108,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set client_id
+     * Set client_id.
      *
      * @param string $clientId
      *
@@ -122,7 +122,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Get client_id
+     * Get client_id.
      *
      * @return string
      */
@@ -132,7 +132,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -146,7 +146,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -156,7 +156,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set redirect_uri
+     * Set redirect_uri.
      *
      * @param string $redirectUri
      *
@@ -170,7 +170,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Get redirect_uri
+     * Get redirect_uri.
      *
      * @return string
      */
@@ -180,7 +180,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set expires
+     * Set expires.
      *
      * @param \DateTime $expires
      *
@@ -194,7 +194,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Get expires
+     * Get expires.
      *
      * @return \DateTime
      */
@@ -204,7 +204,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Set scope
+     * Set scope.
      *
      * @param array $scope
      *
@@ -218,7 +218,7 @@ class Code implements CodeInterface
     }
 
     /**
-     * Get scope
+     * Get scope.
      *
      * @return array
      */
