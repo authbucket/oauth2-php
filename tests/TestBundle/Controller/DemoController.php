@@ -51,7 +51,7 @@ class DemoController
 
         // Fetch parameters, which already checked.
         $clientId = $request->query->get('client_id');
-        $username = $app['security']->getToken()->getUser()->getUsername();
+        $username = $app['security.token_storage']->getToken()->getUser()->getUsername();
         $scope = preg_split('/\s+/', $request->query->get('scope', ''));
 
         // Create form.
@@ -79,7 +79,7 @@ class DemoController
                 $authorize->setClientId($clientId)
                     ->setUsername($username)
                     ->setScope(array_merge((array) $authorize->getScope(), $scope));
-                $authorizeManager->updateAuthorize($authorize);
+                $authorizeManager->updateModel($authorize);
             }
 
             // Back to this path, with original GET parameters.

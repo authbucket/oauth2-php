@@ -15,8 +15,8 @@ $app->get('/', 'authbucket_oauth2.tests.default_controller:indexAction')
 $app->get('/admin/refresh_database', 'authbucket_oauth2.tests.default_controller:adminRefreshDatabaseAction')
     ->bind('admin_refresh_database');
 
-$app->get('/client', 'authbucket_oauth2.tests.client_controller:indexAction')
-    ->bind('client');
+$app->get('/getting-started', 'authbucket_oauth2.tests.default_controller:gettingStartedIndexAction')
+    ->bind('getting-started');
 
 $app->get('/demo', 'authbucket_oauth2.tests.demo_controller:indexAction')
     ->bind('demo');
@@ -57,12 +57,6 @@ $app->get('/demo/resource_type/model', 'authbucket_oauth2.tests.demo_controller:
 $app->get('/demo/resource_type/debug_endpoint', 'authbucket_oauth2.tests.demo_controller:resourceTypeDebugEndpointAction')
     ->bind('demo_resource_type_debug_endpoint');
 
-$app->get('/oauth2', 'authbucket_oauth2.tests.oauth2_controller:indexAction')
-    ->bind('oauth2');
-
-$app->get('/resource', 'authbucket_oauth2.tests.resource_controller:indexAction')
-    ->bind('resource');
-
 $app->get('/api/oauth2/authorize', 'authbucket_oauth2.oauth2_controller:authorizeAction')
     ->bind('api_oauth2_authorize');
 
@@ -70,8 +64,7 @@ $app->post('/api/oauth2/token', 'authbucket_oauth2.oauth2_controller:tokenAction
     ->bind('api_oauth2_token');
 
 $app->match('/api/oauth2/debug', 'authbucket_oauth2.oauth2_controller:debugAction')
-    ->bind('api_oauth2_debug')
-    ->method('GET|POST');
+    ->bind('api_oauth2_debug');
 
 $app->match('/api/resource/model', 'authbucket_oauth2.oauth2_controller:debugAction')
     ->bind('api_resource_model');
