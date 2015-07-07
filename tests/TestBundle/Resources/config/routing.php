@@ -21,10 +21,10 @@ $app->get('/client', 'authbucket_oauth2.tests.client_controller:indexAction')
 $app->get('/demo', 'authbucket_oauth2.tests.demo_controller:indexAction')
     ->bind('demo');
 
-$app->get('/demo/login', 'authbucket_oauth2.tests.oauth2_controller:loginAction')
+$app->get('/demo/login', 'authbucket_oauth2.tests.demo_controller:loginAction')
     ->bind('demo_login');
 
-$app->match('/demo/authorize', 'authbucket_oauth2.tests.oauth2_controller:authorizeAction')
+$app->match('/demo/authorize', 'authbucket_oauth2.tests.demo_controller:authorizeAction')
     ->bind('demo_authorize');
 
 $app->get('/demo/request/code', 'authbucket_oauth2.tests.demo_controller:requestCodeAction')
