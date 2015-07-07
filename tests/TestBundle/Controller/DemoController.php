@@ -22,7 +22,7 @@ class DemoController
         return $app['twig']->render('demo/index.html.twig');
     }
 
-    public function authorizeCodeAction(Request $request, Application $app)
+    public function requestCodeAction(Request $request, Application $app)
     {
         $session = $request->getSession();
 
@@ -54,7 +54,7 @@ class DemoController
         return $app->redirect($url);
     }
 
-    public function authorizeTokenAction(Request $request, Application $app)
+    public function requestTokenAction(Request $request, Application $app)
     {
         $session = $request->getSession();
 
