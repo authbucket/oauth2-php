@@ -29,19 +29,19 @@ $app['security.firewalls'] = array(
         'http' => true,
         'users' => $app['security.user_provider.admin'],
     ),
-    'oauth2_login' => array(
-        'pattern' => '^/oauth2/login$',
+    'demo_login' => array(
+        'pattern' => '^/demo/login$',
         'anonymous' => true,
     ),
-    'oauth2_authorize' => array(
-        'pattern' => '^/oauth2/authorize',
+    'demo_authorize' => array(
+        'pattern' => '^/demo/authorize',
         'remember_me' => true,
         'form' => array(
-            'login_path' => '/oauth2/login',
-            'check_path' => '/oauth2/authorize/login_check',
+            'login_path' => '/demo/login',
+            'check_path' => '/demo/authorize/login_check',
         ),
         'logout' => array(
-            'logout_path' => '/oauth2/authorize/logout',
+            'logout_path' => '/demo/authorize/logout',
             'target_url' => '/demo',
         ),
         'users' => $app['security.user_provider.default'],

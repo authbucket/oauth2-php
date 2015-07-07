@@ -49,7 +49,7 @@ class DemoController
             'state' => $session->getId(),
         );
 
-        $url = Request::create($request->getUriForPath('/oauth2/authorize'), 'GET', $parameters)->getUri();
+        $url = Request::create($request->getUriForPath('/demo/authorize'), 'GET', $parameters)->getUri();
 
         return $app->redirect($url);
     }
@@ -81,7 +81,7 @@ class DemoController
             'state' => $session->getId(),
         );
 
-        $url = Request::create($request->getUriForPath('/oauth2/authorize'), 'GET', $parameters)->getUri();
+        $url = Request::create($request->getUriForPath('/demo/authorize'), 'GET', $parameters)->getUri();
 
         return $app->redirect($url);
     }

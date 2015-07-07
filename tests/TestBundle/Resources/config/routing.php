@@ -21,6 +21,12 @@ $app->get('/client', 'authbucket_oauth2.tests.client_controller:indexAction')
 $app->get('/demo', 'authbucket_oauth2.tests.demo_controller:indexAction')
     ->bind('demo');
 
+$app->get('/demo/login', 'authbucket_oauth2.tests.oauth2_controller:loginAction')
+    ->bind('demo_login');
+
+$app->match('/demo/authorize', 'authbucket_oauth2.tests.oauth2_controller:authorizeAction')
+    ->bind('demo_authorize');
+
 $app->get('/demo/request/code', 'authbucket_oauth2.tests.demo_controller:requestCodeAction')
     ->bind('demo_request_code');
 
@@ -53,12 +59,6 @@ $app->get('/demo/resource_type/debug_endpoint', 'authbucket_oauth2.tests.demo_co
 
 $app->get('/oauth2', 'authbucket_oauth2.tests.oauth2_controller:indexAction')
     ->bind('oauth2');
-
-$app->get('/oauth2/login', 'authbucket_oauth2.tests.oauth2_controller:loginAction')
-    ->bind('oauth2_login');
-
-$app->match('/oauth2/authorize', 'authbucket_oauth2.tests.oauth2_controller:authorizeAction')
-    ->bind('oauth2_authorize');
 
 $app->get('/resource', 'authbucket_oauth2.tests.resource_controller:indexAction')
     ->bind('resource');

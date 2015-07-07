@@ -312,7 +312,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         // Must use single shared client for continue session.
         $client = $this->createClient();
 
-        $crawler = $client->request('GET', '/oauth2/login');
+        $crawler = $client->request('GET', '/demo/login');
         $buttonCrawlerNode = $crawler->selectButton('submit');
         $form = $buttonCrawlerNode->form(array(
             '_username' => 'demousername3',
@@ -328,7 +328,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             'state' => $session->getId(),
         );
         $server = array();
-        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/demo/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
@@ -340,7 +340,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
 
         // Save cookie REMEMBERME from first client.
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/oauth2/login');
+        $crawler = $client->request('GET', '/demo/login');
         $buttonCrawlerNode = $crawler->selectButton('submit');
         $form = $buttonCrawlerNode->form(array(
             '_username' => 'demousername3',
@@ -361,7 +361,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         $server = array();
         $client = $this->createClient();
         $client->getCookieJar()->get($rememberMe);
-        $crawler = $client->request('GET', '/oauth2/authorize', $parameters, array(), $server);
+        $crawler = $client->request('GET', '/demo/authorize', $parameters, array(), $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 }
