@@ -1,18 +1,7 @@
 <?php
 
-/**
- * This file is part of the authbucket/oauth2-php package.
- *
- * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
-
 $app['security.encoder.digest'] = $app->share(function ($app) {
-    return new PlaintextPasswordEncoder();
+    return new Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
 });
 
 $app['security.user_provider.default'] = $app->share(function ($app) {
