@@ -10,17 +10,17 @@ before_install:
   - composer self-update
 
 install:
-  - composer install --dev --prefer-source
+  - composer install --prefer-source
 
 before_script:
   - mkdir -p build/logs
   - rm -rf app/cache/*/*
 
 script:
-  - vendor/bin/phpunit -c phpunit.xml.dist
+  - composer phpunit
 
 after_script:
-  - vendor/bin/coveralls -v
+  - composer coveralls
 
 matrix:
   allow_failures:
