@@ -67,15 +67,6 @@ controller implementation overhead:
 
 -   `authbucket_oauth2.oauth2_controller`: OAuth2 endpoint controller.
 
-Moreover, we also provide following model
-[CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
-controller for alter raw data set:
-
--   `authbucket_oauth2.authorize_controller`: Authorize
-    endpoint controller.
--   `authbucket_oauth2.client_controller`: Client endpoint controller.
--   `authbucket_oauth2.scope_controller`: Scope endpoint controller.
-
 ### Registering
 
 If you are using [Silex](http://silex.sensiolabs.org/), register
@@ -87,9 +78,8 @@ as below:
 Moreover, enable following service providers if that's not already the
 case:
 
+    $app->register(new Silex\Provider\MonologServiceProvider());
     $app->register(new Silex\Provider\SecurityServiceProvider());
-    $app->register(new Silex\Provider\SerializerServiceProvider());
-    $app->register(new Silex\Provider\ServiceControllerServiceProvider());
     $app->register(new Silex\Provider\ValidatorServiceProvider());
 
 Usage
@@ -100,12 +90,16 @@ backend controller point of view, so you will need to setup both for
 functioning.
 
 To enable the built-in controller with corresponding routing, you need
-to mount it with a shared provider instance, all above controllers will
-be enabled accordingly with routing prefix `/api/v1.0`:
+to mount it manually:
 
-    $provider = new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider();
-    $app->register($provider);
-    $app->mount('/', $provider);
+    $app->get('/api/oauth2/authorize', 'authbucket_oauth2.oauth2_controller:authorizeAction')
+        ->bind('api_oauth2_authorize');
+
+    $app->post('/api/oauth2/token', 'authbucket_oauth2.oauth2_controller:tokenAction')
+        ->bind('api_oauth2_token');
+
+    $app->match('/api/oauth2/debug', 'authbucket_oauth2.oauth2_controller:debugAction')
+        ->bind('api_oauth2_debug');
 
 Below is a list of recipes that cover some common use cases.
 
@@ -117,7 +111,7 @@ e.g. by
 [SecurityServiceProvider](http://silex.sensiolabs.org/doc/providers/security.html):
 
     $app['security.encoder.digest'] = $app->share(function ($app) {
-        return new PlaintextPasswordEncoder();
+        return new Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
     });
 
     $app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto'](array(
@@ -127,8 +121,8 @@ e.g. by
     ));
 
     $app['security.firewalls'] = array(
-        'oauth2_authorize' => array(
-            'pattern' => '^/api/v1.0/oauth2/authorize$',
+        'api_oauth2_authorize' => array(
+            'pattern' => '^/api/oauth2/authorize$',
             'http' => true,
             'users' => $app['security.user_provider.default'],
         ),
@@ -140,8 +134,8 @@ Similar as authorization endpoint, we need to protect this endpoint with
 our custom firewall `oauth2_token`:
 
     $app['security.firewalls'] = array(
-        'oauth2_token' => array(
-            'pattern' => '^/api/v1.0/oauth2/token$',
+        'api_oauth2_token' => array(
+            'pattern' => '^/api/oauth2/token$',
             'oauth2_token' => true,
         ),
     );
@@ -152,10 +146,10 @@ We should protect this endpoint with our custom firewall
 `oauth2_resource`:
 
     $app['security.firewalls'] = array(
-       'oauth2_debug' => array(
-           'pattern' => '^/api/v1.0/oauth2/debug$',
-           'oauth2_resource' => true,
-       ),
+        'api_oauth2_debug' => array(
+            'pattern' => '^/api/oauth2/debug$',
+            'oauth2_resource' => true,
+        ),
     );
 
 ### Resource Endpoint
@@ -171,8 +165,8 @@ resource server bundled with authorization server, query local model
 manager, without scope protection):
 
     $app['security.firewalls'] = array(
-        'resource' => array(
-            'pattern' => '^/api/v1.0/resource',
+        'api_resource' => array(
+            'pattern' => '^/api/resource',
             'oauth2_resource' => true,
         ),
     );
@@ -181,8 +175,8 @@ Longhand version (assume resource server bundled with authorization
 server, query local model manager, protect with scope `demoscope1`):
 
     $app['security.firewalls'] = array(
-        'resource' => array(
-            'pattern' => '^/api/v1.0/resource',
+        'api_resource' => array(
+            'pattern' => '^/api/resource',
             'oauth2_resource' => array(
                 'resource_type' => 'model',
                 'scope' => array('demoscope1'),
@@ -195,14 +189,15 @@ local resource endpoint by query remote authorization server debug
 endpoint:
 
     $app['security.firewalls'] = array(
-        'resource' => array(
-            'pattern' => '^/api/v1.0/resource',
+        'api_resource' => array(
+            'pattern' => '^/api/resource',
             'oauth2_resource' => array(
-            'resource_type' => 'debug_endpoint',
-            'scope' => array('demoscope1'),
-            'options' => array(
-                'debug_endpoint' => 'http://example.com/api/v1.0/oauth2/debug',
-                'cache' => true,
+                'resource_type' => 'debug_endpoint',
+                'scope' => array('demoscope1'),
+                'options' => array(
+                    'debug_endpoint' => 'http://example.com/api/oauth2/debug',
+                    'cache' => true,
+                ),
             ),
         ),
     );
@@ -219,7 +214,7 @@ You may also run the demo locally. Open a console and execute the
 following command to install the latest version in the `oauth2-php`
 directory:
 
-    $ composer create-project authbucket/oauth2-php oauth2-php "~3.0"
+    $ composer create-project authbucket/oauth2-php authbucket/oauth2-php "~3.0"
 
 Then use the PHP built-in web server to run the demo application:
 
