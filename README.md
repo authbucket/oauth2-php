@@ -4,7 +4,7 @@ AuthBucket\\OAuth2
 [![Build
 Status](https://travis-ci.org/authbucket/oauth2-php.svg?branch=master)](https://travis-ci.org/authbucket/oauth2-php)
 [![Coverage
-Status](https://img.shields.io/coveralls/authbucket/oauth2-php.svg)](https://coveralls.io/r/authbucket/oauth2-php?branch=master)
+Status](https://coveralls.io/repos/authbucket/oauth2-php/badge.svg?branch=master&service=github)](https://coveralls.io/github/authbucket/oauth2-php?branch=master)
 [![Dependency
 Status](https://www.versioneye.com/php/authbucket:oauth2-php/dev-master/badge.svg)](https://www.versioneye.com/php/authbucket:oauth2-php/dev-master)
 [![Latest Stable
