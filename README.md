@@ -218,7 +218,7 @@ directory:
 
 Then use the PHP built-in web server to run the demo application:
 
-    $ cd oauth2-php
+    $ cd authbucket/oauth2-php
     $ ./app/console server:run
 
 If you get the error
