@@ -62,12 +62,11 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
             $content = $client->getResponse()->getContent();
         } else {
             // For absolute URL, use Guzzle client to create request.
-            $client = new \Guzzle\Http\Client();
-            $crawler = $client->get($options['debug_endpoint'], array(), array(
+            $client = new \GuzzleHttp\Client();
+            $crawler = $client->get($options['debug_endpoint'], array(
                 'headers' => array('Authorization' => implode(' ', array('Bearer', $accessToken))),
-                'exceptions' => false,
             ));
-            $content = $crawler->send()->getBody();
+            $content = $crawler->getBody();
         }
         $response = json_decode($content, true);
 
