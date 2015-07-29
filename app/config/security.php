@@ -1,18 +1,7 @@
 <?php
 
-/**
- * This file is part of the authbucket/oauth2-php package.
- *
- * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
-
 $app['security.encoder.digest'] = $app->share(function ($app) {
-    return new PlaintextPasswordEncoder();
+    return new Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
 });
 
 $app['security.user_provider.default'] = $app->share(function ($app) {
@@ -29,67 +18,67 @@ $app['security.firewalls'] = array(
         'http' => true,
         'users' => $app['security.user_provider.admin'],
     ),
-    'oauth2_login' => array(
-        'pattern' => '^/oauth2/login$',
+    'demo_login' => array(
+        'pattern' => '^/demo/login$',
         'anonymous' => true,
     ),
-    'oauth2_authorize' => array(
-        'pattern' => '^/oauth2/authorize',
+    'demo_authorize' => array(
+        'pattern' => '^/demo/authorize',
         'remember_me' => true,
         'form' => array(
-            'login_path' => '/oauth2/login',
-            'check_path' => '/oauth2/authorize/login_check',
+            'login_path' => '/demo/login',
+            'check_path' => '/demo/authorize/login_check',
         ),
         'logout' => array(
-            'logout_path' => '/oauth2/authorize/logout',
+            'logout_path' => '/demo/authorize/logout',
             'target_url' => '/demo',
         ),
         'users' => $app['security.user_provider.default'],
     ),
     'api_oauth2_authorize' => array(
-        'pattern' => '^/api/v1.0/oauth2/authorize$',
+        'pattern' => '^/api/oauth2/authorize$',
         'http' => true,
         'users' => $app['security.user_provider.default'],
     ),
     'api_oauth2_token' => array(
-        'pattern' => '^/api/v1.0/oauth2/token$',
+        'pattern' => '^/api/oauth2/token$',
         'oauth2_token' => true,
     ),
     'api_oauth2_debug' => array(
-        'pattern' => '^/api/v1.0/oauth2/debug$',
+        'pattern' => '^/api/oauth2/debug$',
         'oauth2_resource' => true,
     ),
     'api_resource_model' => array(
-        'pattern' => '^/api/v1.0/resource/model$',
+        'pattern' => '^/api/resource/model$',
         'oauth2_resource' => array(
             'resource_type' => 'model',
             'scope' => array('demoscope1'),
         ),
     ),
     'api_resource_debug_endpoint' => array(
-        'pattern' => '^/api/v1.0/resource/debug_endpoint$',
+        'pattern' => '^/api/resource/debug_endpoint$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => '/api/v1.0/oauth2/debug',
+                'debug_endpoint' => '/api/oauth2/debug',
                 'cache' => false,
             ),
         ),
     ),
     'api_resource_debug_endpoint_cache' => array(
-        'pattern' => '^/api/v1.0/resource/debug_endpoint/cache$',
+        'pattern' => '^/api/resource/debug_endpoint/cache$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),
             'options' => array(
-                'debug_endpoint' => '/api/v1.0/oauth2/debug',
+                'debug_endpoint' => '/api/oauth2/debug',
                 'cache' => true,
             ),
         ),
     ),
     'api_resource_debug_endpoint_invalid_options' => array(
-        'pattern' => '^/api/v1.0/resource/debug_endpoint/invalid_options$',
+        'pattern' => '^/api/resource/debug_endpoint/invalid_options$',
         'oauth2_resource' => array(
             'resource_type' => 'debug_endpoint',
             'scope' => array('demoscope1'),

@@ -296,7 +296,7 @@ EOT
         $executor = new ORMExecutor($em, $purger);
 
         $loader = new Loader();
-        $loader->loadFromDirectory(__DIR__ . '/../tests/AuthBucket/OAuth2/Tests/TestBundle/DataFixtures/ORM');
+        $loader->loadFromDirectory(__DIR__ . '/../tests/TestBundle/DataFixtures/ORM');
         $executor->execute($loader->getFixtures());
     });
 
@@ -338,7 +338,7 @@ EOF
 
             $env = $input->getParameterOption(array('--env', '-e'), 'dev');
             $router = $input->getOption('router') 
-                ?: sprintf('%s/../tests/AuthBucket/OAuth2/Tests/TestBundle/Resources/config/router_%s.php', __DIR__, $env);
+                ?: sprintf('%s/../tests/TestBundle/Resources/config/router_%s.php', __DIR__, $env);
 
             $builder = new ProcessBuilder(array(PHP_BINARY, '-S', $input->getArgument('address'), $router));
             $builder->setWorkingDirectory($input->getOption('docroot'));

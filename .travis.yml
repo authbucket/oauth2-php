@@ -1,21 +1,28 @@
 language: php
 
 php:
-  - 5.3
-  - 5.4
   - 5.5
+  - 5.6
+  - 7.0
   - hhvm
 
+before_install:
+  - composer self-update
+
+install:
+  - composer install --prefer-source
+
 before_script:
-  - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - composer install --dev --prefer-source
+  - mkdir -p build/logs
+  - rm -rf app/cache/*/*
 
 script:
-  - vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover ./build/logs/clover.xml
+  - composer phpunit
 
 after_script:
-  - php vendor/bin/coveralls -v
+  - composer coveralls
 
 matrix:
   allow_failures:
+    - php: 7.0
     - php: hhvm

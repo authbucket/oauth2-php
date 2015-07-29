@@ -10,7 +10,7 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "./app/bootstrap.php">
+    bootstrap                   = "./app/bootstrap_test.php">
 
     <testsuites>
         <testsuite name="AuthBucket\OAuth2 Test Suite">
@@ -20,7 +20,6 @@
 
     <php>
         <server name="KERNEL_DIR" value="./app"/>
-        <env name="BOOTSTRAP_ENV" value="test"/>
     </php>
 
     <filter>

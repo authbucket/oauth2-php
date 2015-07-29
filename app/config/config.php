@@ -1,20 +1,14 @@
 <?php
 
-/**
- * This file is part of the authbucket/oauth2-php package.
- *
- * (c) Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 use AuthBucket\OAuth2\Tests\TestBundle\Entity\ModelManagerFactory;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
+
+// File where logs are written to.
+$app['monolog.logfile'] = __DIR__.'/../logs/'.$app['env'].'.log';
 
 // Define SQLite DB path.
 $app['db.options'] = array(
@@ -27,7 +21,7 @@ $app['doctrine.orm.entity_manager'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
     $em = $app['dbs.event_manager']['default'];
 
-    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__.'/../../tests/AuthBucket/OAuth2/Tests/TestBundle/Entity'));
+    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__.'/../../tests/TestBundle/Entity'));
     $cache = new FilesystemCache(__DIR__.'/../cache/'.$app['env']);
 
     $config = Setup::createConfiguration(false);
@@ -63,7 +57,7 @@ require __DIR__.'/security.php';
 $app['debug'] = true;
 
 $app['twig.path'] = array(
-    __DIR__.'/../../tests/AuthBucket/OAuth2/Tests/TestBundle/Resources/views',
+    __DIR__.'/../../tests/TestBundle/Resources/views',
 );
 
 // We simply reuse the user provider that already created for authorize firewall
