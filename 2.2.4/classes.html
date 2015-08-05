@@ -1,865 +1,976 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="robots" content="index, follow, all" />
-        <title>Classes | AuthBucket\OAuth2 API</title>
-                    <link rel="stylesheet" type="text/css" href="stylesheet.css">
-                            </head>
-        <body id="overview">
-            <div class="header">
-        <ul>
-            <li><a href="classes.html">Classes</a></li>
-                            <li><a href="namespaces.html">Namespaces</a></li>
-                        <li><a href="interfaces.html">Interfaces</a></li>
-            <li><a href="traits.html">Traits</a></li>
-            <li><a href="doc-index.html">Index</a></li>
-            
-        </ul>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>All Classes | AuthBucket\OAuth2 API</title>
 
-        <div id="title">AuthBucket\OAuth2 API</div>
+            <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="css/sami.css">
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/typeahead.min.js"></script>
+        <script src="sami.js"></script>
+    
+    
+    </head>
 
-            <h1>Classes</h1>
+    <body id="classes" data-name="" data-root-path="">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../develop/index.html">develop branch</option>
+                                            <option value="../master/index.html">master branch</option>
+                                            <option value="../1.0.0-alpha1/index.html">1.0.0-alpha1</option>
+                                            <option value="../1.0.0-alpha2/index.html">1.0.0-alpha2</option>
+                                            <option value="../1.0.0-alpha3/index.html">1.0.0-alpha3</option>
+                                            <option value="../1.0.0-alpha4/index.html">1.0.0-alpha4</option>
+                                            <option value="../1.0.0-alpha5/index.html">1.0.0-alpha5</option>
+                                            <option value="../1.0.0-beta1/index.html">1.0.0-beta1</option>
+                                            <option value="../1.0.0-rc1/index.html">1.0.0-rc1</option>
+                                            <option value="../1.0.0-rc2/index.html">1.0.0-rc2</option>
+                                            <option value="../1.0.0-rc3/index.html">1.0.0-rc3</option>
+                                            <option value="../1.0.0-rc4/index.html">1.0.0-rc4</option>
+                                            <option value="../1.0.0/index.html">1.0.0</option>
+                                            <option value="../1.0.1/index.html">1.0.1</option>
+                                            <option value="../2.0.0/index.html">2.0.0</option>
+                                            <option value="../2.0.1/index.html">2.0.1</option>
+                                            <option value="../2.0.2/index.html">2.0.2</option>
+                                            <option value="../2.0.3/index.html">2.0.3</option>
+                                            <option value="../2.0.4/index.html">2.0.4</option>
+                                            <option value="../2.0.5/index.html">2.0.5</option>
+                                            <option value="../2.0.6/index.html">2.0.6</option>
+                                            <option value="../2.1.0/index.html">2.1.0</option>
+                                            <option value="../2.1.1/index.html">2.1.1</option>
+                                            <option value="../2.1.2/index.html">2.1.2</option>
+                                            <option value="../2.1.3/index.html">2.1.3</option>
+                                            <option value="../2.1.4/index.html">2.1.4</option>
+                                            <option value="../2.1.5/index.html">2.1.5</option>
+                                            <option value="../2.1.6/index.html">2.1.6</option>
+                                            <option value="../2.1.7/index.html">2.1.7</option>
+                                            <option value="../2.1.8/index.html">2.1.8</option>
+                                            <option value="../2.1.9/index.html">2.1.9</option>
+                                            <option value="../2.1.10/index.html">2.1.10</option>
+                                            <option value="../2.1.11/index.html">2.1.11</option>
+                                            <option value="../2.1.12/index.html">2.1.12</option>
+                                            <option value="../2.1.13/index.html">2.1.13</option>
+                                            <option value="../2.1.14/index.html">2.1.14</option>
+                                            <option value="../2.1.15/index.html">2.1.15</option>
+                                            <option value="../2.1.16/index.html">2.1.16</option>
+                                            <option value="../2.1.17/index.html">2.1.17</option>
+                                            <option value="../2.1.18/index.html">2.1.18</option>
+                                            <option value="../2.2.0/index.html">2.2.0</option>
+                                            <option value="../2.2.1/index.html">2.2.1</option>
+                                            <option value="../2.2.2/index.html">2.2.2</option>
+                                            <option value="../2.2.3/index.html">2.2.3</option>
+                                            <option value="../2.2.4/index.html" selected>2.2.4</option>
+                                            <option value="../2.2.5/index.html">2.2.5</option>
+                                            <option value="../2.2.6/index.html">2.2.6</option>
+                                            <option value="../2.2.7/index.html">2.2.7</option>
+                                            <option value="../2.3.0/index.html">2.3.0</option>
+                                            <option value="../2.3.1/index.html">2.3.1</option>
+                                            <option value="../2.3.2/index.html">2.3.2</option>
+                                            <option value="../2.3.3/index.html">2.3.3</option>
+                                            <option value="../2.3.4/index.html">2.3.4</option>
+                                            <option value="../2.4.0/index.html">2.4.0</option>
+                                            <option value="../2.4.1/index.html">2.4.1</option>
+                                            <option value="../2.4.2/index.html">2.4.2</option>
+                                            <option value="../2.4.3/index.html">2.4.3</option>
+                                            <option value="../2.4.4/index.html">2.4.4</option>
+                                            <option value="../2.4.5/index.html">2.4.5</option>
+                                            <option value="../2.4.6/index.html">2.4.6</option>
+                                            <option value="../2.4.7/index.html">2.4.7</option>
+                                            <option value="../2.4.8/index.html">2.4.8</option>
+                                            <option value="../3.0.0/index.html">3.0.0</option>
+                                    </select>
+            </form>
+                <form id="search-form" action="search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
     </div>
-        <div class="content">
-                <table>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Controller/AuthorizeController.html" target="main"><abbr title="AuthBucket\OAuth2\Controller\AuthorizeController">AuthBucket\OAuth2\Controller\AuthorizeController</abbr></a>
-                                    </td>
-                <td>
-                    Authorize endpoint controller implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Controller/ClientController.html" target="main"><abbr title="AuthBucket\OAuth2\Controller\ClientController">AuthBucket\OAuth2\Controller\ClientController</abbr></a>
-                                    </td>
-                <td>
-                    Client endpoint controller implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Controller/OAuth2Controller.html" target="main"><abbr title="AuthBucket\OAuth2\Controller\OAuth2Controller">AuthBucket\OAuth2\Controller\OAuth2Controller</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 endpoint controller implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Controller/ScopeController.html" target="main"><abbr title="AuthBucket\OAuth2\Controller\ScopeController">AuthBucket\OAuth2\Controller\ScopeController</abbr></a>
-                                    </td>
-                <td>
-                    Scope endpoint controller implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/EventListener/ExceptionListener.html" target="main"><abbr title="AuthBucket\OAuth2\EventListener\ExceptionListener">AuthBucket\OAuth2\EventListener\ExceptionListener</abbr></a>
-                                    </td>
-                <td>
-                    ExceptionListener.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/AccessDeniedException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\AccessDeniedException">AuthBucket\OAuth2\Exception\AccessDeniedException</abbr></a>
-                                    </td>
-                <td>
-                    AccessDeniedException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Exception/ExceptionInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\ExceptionInterface">AuthBucket\OAuth2\Exception\ExceptionInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Base ExceptionInterface for the OAuth2 component.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/InvalidClientException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\InvalidClientException">AuthBucket\OAuth2\Exception\InvalidClientException</abbr></a>
-                                    </td>
-                <td>
-                    InvalidClientException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/InvalidGrantException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\InvalidGrantException">AuthBucket\OAuth2\Exception\InvalidGrantException</abbr></a>
-                                    </td>
-                <td>
-                    InvalidGrantException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/InvalidRequestException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\InvalidRequestException">AuthBucket\OAuth2\Exception\InvalidRequestException</abbr></a>
-                                    </td>
-                <td>
-                    InvalidRequestException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/InvalidScopeException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\InvalidScopeException">AuthBucket\OAuth2\Exception\InvalidScopeException</abbr></a>
-                                    </td>
-                <td>
-                    InvalidScopeException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/ServerErrorException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\ServerErrorException">AuthBucket\OAuth2\Exception\ServerErrorException</abbr></a>
-                                    </td>
-                <td>
-                    ServerErrorException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/TemporarilyUnavailableException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\TemporarilyUnavailableException">AuthBucket\OAuth2\Exception\TemporarilyUnavailableException</abbr></a>
-                                    </td>
-                <td>
-                    TemporarilyUnavailableException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/UnauthorizedClientException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\UnauthorizedClientException">AuthBucket\OAuth2\Exception\UnauthorizedClientException</abbr></a>
-                                    </td>
-                <td>
-                    UnauthorizedClientException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/UnsupportedGrantTypeException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException">AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException</abbr></a>
-                                    </td>
-                <td>
-                    UnsupportedGrantTypeException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Exception/UnsupportedResponseTypeException.html" target="main"><abbr title="AuthBucket\OAuth2\Exception\UnsupportedResponseTypeException">AuthBucket\OAuth2\Exception\UnsupportedResponseTypeException</abbr></a>
-                                    </td>
-                <td>
-                    UnsupportedResponseType
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/GrantType/AbstractGrantTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\GrantType\AbstractGrantTypeHandler">AuthBucket\OAuth2\GrantType\AbstractGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Shared grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/GrantType/AuthorizationCodeGrantTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\GrantType\AuthorizationCodeGrantTypeHandler">AuthBucket\OAuth2\GrantType\AuthorizationCodeGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Authorization code grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/GrantType/ClientCredentialsGrantTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\GrantType\ClientCredentialsGrantTypeHandler">AuthBucket\OAuth2\GrantType\ClientCredentialsGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Client credentials grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/GrantType/GrantTypeHandlerFactory.html" target="main"><abbr title="AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory">AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 grant type handler factory implemention.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/GrantType/GrantTypeHandlerFactoryInterface.html" target="main"><abbr title="AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface">AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 grant type handler factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/GrantType/GrantTypeHandlerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\GrantType\GrantTypeHandlerInterface">AuthBucket\OAuth2\GrantType\GrantTypeHandlerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 grant type handler interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/GrantType/PasswordGrantTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\GrantType\PasswordGrantTypeHandler">AuthBucket\OAuth2\GrantType\PasswordGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Password grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/GrantType/RefreshTokenGrantTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\GrantType\RefreshTokenGrantTypeHandler">AuthBucket\OAuth2\GrantType\RefreshTokenGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Refresh token grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/AccessTokenInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\AccessTokenInterface">AuthBucket\OAuth2\Model\AccessTokenInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 access token interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/AccessTokenManagerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\AccessTokenManagerInterface">AuthBucket\OAuth2\Model\AccessTokenManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 access token manager interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/AuthorizeInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\AuthorizeInterface">AuthBucket\OAuth2\Model\AuthorizeInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 authorize interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/AuthorizeManagerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\AuthorizeManagerInterface">AuthBucket\OAuth2\Model\AuthorizeManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 authorize manager interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/ClientInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\ClientInterface">AuthBucket\OAuth2\Model\ClientInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 client interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/ClientManagerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\ClientManagerInterface">AuthBucket\OAuth2\Model\ClientManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 client manager interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/CodeInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\CodeInterface">AuthBucket\OAuth2\Model\CodeInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 authorization code interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/CodeManagerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\CodeManagerInterface">AuthBucket\OAuth2\Model\CodeManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 authorization code manager interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Model/InMemory/AbstractModelManager.html" target="main"><abbr title="AuthBucket\OAuth2\Model\InMemory\AbstractModelManager">AuthBucket\OAuth2\Model\InMemory\AbstractModelManager</abbr></a>
-                                    </td>
-                <td>
-                    ModelManagerInterface in-memory implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Model/InMemory/AccessToken.html" target="main"><abbr title="AuthBucket\OAuth2\Model\InMemory\AccessToken">AuthBucket\OAuth2\Model\InMemory\AccessToken</abbr></a>
-                                    </td>
-                <td>
-                    AccessToken
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Model/InMemory/AccessTokenManager.html" target="main"><abbr title="AuthBucket\OAuth2\Model\InMemory\AccessTokenManager">AuthBucket\OAuth2\Model\InMemory\AccessTokenManager</abbr></a>
-                                    </td>
-                <td>
-                    AccessTokenManager
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Model/InMemory/ModelManagerFactory.html" target="main"><abbr title="AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory">AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 model manager factory in-memory implemention.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/ModelInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\ModelInterface">AuthBucket\OAuth2\Model\ModelInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 model interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">AuthBucket\OAuth2\Model\ModelManagerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 model manager factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/ModelManagerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\ModelManagerInterface">AuthBucket\OAuth2\Model\ModelManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 model manager interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/RefreshTokenInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\RefreshTokenInterface">AuthBucket\OAuth2\Model\RefreshTokenInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 refresh token interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/RefreshTokenManagerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\RefreshTokenManagerInterface">AuthBucket\OAuth2\Model\RefreshTokenManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 refresh token manager interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/ScopeInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\ScopeInterface">AuthBucket\OAuth2\Model\ScopeInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 scope interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/Model/ScopeManagerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\Model\ScopeManagerInterface">AuthBucket\OAuth2\Model\ScopeManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 scope manager interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.html" target="main"><abbr title="AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider">AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 service provider as plugin for Silex SecurityServiceProvider.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/ResourceType/AbstractResourceTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\ResourceType\AbstractResourceTypeHandler">AuthBucket\OAuth2\ResourceType\AbstractResourceTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Shared resource type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/ResourceType/DebugEndpointResourceTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\ResourceType\DebugEndpointResourceTypeHandler">AuthBucket\OAuth2\ResourceType\DebugEndpointResourceTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Token response type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/ResourceType/ModelResourceTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\ResourceType\ModelResourceTypeHandler">AuthBucket\OAuth2\ResourceType\ModelResourceTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Model response type handler implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/ResourceType/ResourceTypeHandlerFactory.html" target="main"><abbr title="AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory">AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 resource type handler factory implemention.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/ResourceType/ResourceTypeHandlerFactoryInterface.html" target="main"><abbr title="AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface">AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 resource type handler factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/ResourceType/ResourceTypeHandlerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerInterface">AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 resource type handler interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/ResponseType/AbstractResponseTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\ResponseType\AbstractResponseTypeHandler">AuthBucket\OAuth2\ResponseType\AbstractResponseTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Shared response type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/ResponseType/CodeResponseTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\ResponseType\CodeResponseTypeHandler">AuthBucket\OAuth2\ResponseType\CodeResponseTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Code response type handler implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/ResponseType/ResponseTypeHandlerFactory.html" target="main"><abbr title="AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory">AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 response type handler factory implemention.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/ResponseType/ResponseTypeHandlerFactoryInterface.html" target="main"><abbr title="AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface">AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 response type handler factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/ResponseType/ResponseTypeHandlerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerInterface">AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 response type handler interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/ResponseType/TokenResponseTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\ResponseType\TokenResponseTypeHandler">AuthBucket\OAuth2\ResponseType\TokenResponseTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Token response type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Security/Authentication/Provider/ResourceProvider.html" target="main"><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\ResourceProvider">AuthBucket\OAuth2\Security\Authentication\Provider\ResourceProvider</abbr></a>
-                                    </td>
-                <td>
-                    ResourceProvider implements OAuth2 resource endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Security/Authentication/Provider/TokenProvider.html" target="main"><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\TokenProvider">AuthBucket\OAuth2\Security\Authentication\Provider\TokenProvider</abbr></a>
-                                    </td>
-                <td>
-                    TokenProvider implements OAuth2 token endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Security/Authentication/Token/AccessTokenToken.html" target="main"><abbr title="AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken">AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 AccessTokenToken for resource endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Security/Authentication/Token/ClientToken.html" target="main"><abbr title="AuthBucket\OAuth2\Security\Authentication\Token\ClientToken">AuthBucket\OAuth2\Security\Authentication\Token\ClientToken</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 ClientToken for token endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Security/Firewall/ResourceListener.html" target="main"><abbr title="AuthBucket\OAuth2\Security\Firewall\ResourceListener">AuthBucket\OAuth2\Security\Firewall\ResourceListener</abbr></a>
-                                    </td>
-                <td>
-                    ResourceListener implements OAuth2 resource endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Security/Firewall/TokenListener.html" target="main"><abbr title="AuthBucket\OAuth2\Security\Firewall\TokenListener">AuthBucket\OAuth2\Security\Firewall\TokenListener</abbr></a>
-                                    </td>
-                <td>
-                    TokenListener implements OAuth2 token endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/TokenType/AbstractTokenTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\TokenType\AbstractTokenTypeHandler">AuthBucket\OAuth2\TokenType\AbstractTokenTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Shared token type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/TokenType/BearerTokenTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\TokenType\BearerTokenTypeHandler">AuthBucket\OAuth2\TokenType\BearerTokenTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Bearer token type handler implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/TokenType/MacTokenTypeHandler.html" target="main"><abbr title="AuthBucket\OAuth2\TokenType\MacTokenTypeHandler">AuthBucket\OAuth2\TokenType\MacTokenTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    MAC token type handler implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactory.html" target="main"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory">AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 grant type handler factory implemention.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html" target="main"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 token type handler factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="AuthBucket/OAuth2/TokenType/TokenTypeHandlerInterface.html" target="main"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface">AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    OAuth2 token type handler interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/AccessToken.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\AccessToken">AuthBucket\OAuth2\Validator\Constraints\AccessToken</abbr></a>
-                                    </td>
-                <td>
-                    
 
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/AccessTokenValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\AccessTokenValidator">AuthBucket\OAuth2\Validator\Constraints\AccessTokenValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid access_token per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ClientId.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ClientId">AuthBucket\OAuth2\Validator\Constraints\ClientId</abbr></a>
-                                    </td>
-                <td>
-                    
+                <div id="api-tree"></div>
 
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ClientIdValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ClientIdValidator">AuthBucket\OAuth2\Validator\Constraints\ClientIdValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid client_id per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ClientSecret.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ClientSecret">AuthBucket\OAuth2\Validator\Constraints\ClientSecret</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ClientSecretValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ClientSecretValidator">AuthBucket\OAuth2\Validator\Constraints\ClientSecretValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid client_secret per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/Code.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Code">AuthBucket\OAuth2\Validator\Constraints\Code</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/CodeValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\CodeValidator">AuthBucket\OAuth2\Validator\Constraints\CodeValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid code per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/Error.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Error">AuthBucket\OAuth2\Validator\Constraints\Error</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorDescription.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorDescription">AuthBucket\OAuth2\Validator\Constraints\ErrorDescription</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorDescriptionValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorDescriptionValidator">AuthBucket\OAuth2\Validator\Constraints\ErrorDescriptionValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid error_description per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorUri.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorUri">AuthBucket\OAuth2\Validator\Constraints\ErrorUri</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorUriValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorUriValidator">AuthBucket\OAuth2\Validator\Constraints\ErrorUriValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid error_uri per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorValidator">AuthBucket\OAuth2\Validator\Constraints\ErrorValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid error per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ExpiresIn.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ExpiresIn">AuthBucket\OAuth2\Validator\Constraints\ExpiresIn</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ExpiresInValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ExpiresInValidator">AuthBucket\OAuth2\Validator\Constraints\ExpiresInValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid expires_in per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/GrantType.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\GrantType">AuthBucket\OAuth2\Validator\Constraints\GrantType</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/GrantTypeValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\GrantTypeValidator">AuthBucket\OAuth2\Validator\Constraints\GrantTypeValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid grant_type per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/Password.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Password">AuthBucket\OAuth2\Validator\Constraints\Password</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/PasswordValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\PasswordValidator">AuthBucket\OAuth2\Validator\Constraints\PasswordValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid password per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/RedirectUri.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\RedirectUri">AuthBucket\OAuth2\Validator\Constraints\RedirectUri</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/RedirectUriValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\RedirectUriValidator">AuthBucket\OAuth2\Validator\Constraints\RedirectUriValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid redirect_uri per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/RefreshToken.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\RefreshToken">AuthBucket\OAuth2\Validator\Constraints\RefreshToken</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/RefreshTokenValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\RefreshTokenValidator">AuthBucket\OAuth2\Validator\Constraints\RefreshTokenValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid refresh_token per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ResponseType.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ResponseType">AuthBucket\OAuth2\Validator\Constraints\ResponseType</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ResponseTypeValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ResponseTypeValidator">AuthBucket\OAuth2\Validator\Constraints\ResponseTypeValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid response_type per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/Scope.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Scope">AuthBucket\OAuth2\Validator\Constraints\Scope</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/ScopeValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ScopeValidator">AuthBucket\OAuth2\Validator\Constraints\ScopeValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid scope per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/State.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\State">AuthBucket\OAuth2\Validator\Constraints\State</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/StateValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\StateValidator">AuthBucket\OAuth2\Validator\Constraints\StateValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid state per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/TokenType.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\TokenType">AuthBucket\OAuth2\Validator\Constraints\TokenType</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/TokenTypeValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\TokenTypeValidator">AuthBucket\OAuth2\Validator\Constraints\TokenTypeValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid token_type per RFC 6749
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/Username.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Username">AuthBucket\OAuth2\Validator\Constraints\Username</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="AuthBucket/OAuth2/Validator/Constraints/UsernameValidator.html" target="main"><abbr title="AuthBucket\OAuth2\Validator\Constraints\UsernameValidator">AuthBucket\OAuth2\Validator\Constraints\UsernameValidator</abbr></a>
-                                    </td>
-                <td>
-                    Validates whether the value is a valid username per RFC 6749
-                </td>
-            </tr>
-            </table>
         </div>
-            <div id="footer">
-        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">AuthBucket\OAuth2 API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="classes.html">Classes</a></li>
+                                            <li><a href="namespaces.html">Namespaces</a></li>
+                                        <li><a href="interfaces.html">Interfaces</a></li>
+                    <li><a href="traits.html">Traits</a></li>
+                    <li><a href="doc-index.html">Index</a></li>
+                    <li><a href="search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div id="page-content">
+                    <div class="page-header">
+        <h1>Classes</h1>
+    </div>
+
+    <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Controller/AuthorizeController.html"><abbr title="AuthBucket\OAuth2\Controller\AuthorizeController">AuthBucket\OAuth2\Controller\AuthorizeController</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Authorize endpoint controller implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Controller/ClientController.html"><abbr title="AuthBucket\OAuth2\Controller\ClientController">AuthBucket\OAuth2\Controller\ClientController</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Client endpoint controller implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Controller/OAuth2Controller.html"><abbr title="AuthBucket\OAuth2\Controller\OAuth2Controller">AuthBucket\OAuth2\Controller\OAuth2Controller</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 endpoint controller implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Controller/ScopeController.html"><abbr title="AuthBucket\OAuth2\Controller\ScopeController">AuthBucket\OAuth2\Controller\ScopeController</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Scope endpoint controller implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/EventListener/ExceptionListener.html"><abbr title="AuthBucket\OAuth2\EventListener\ExceptionListener">AuthBucket\OAuth2\EventListener\ExceptionListener</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    ExceptionListener.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/AccessDeniedException.html"><abbr title="AuthBucket\OAuth2\Exception\AccessDeniedException">AuthBucket\OAuth2\Exception\AccessDeniedException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    AccessDeniedException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Exception/ExceptionInterface.html"><abbr title="AuthBucket\OAuth2\Exception\ExceptionInterface">AuthBucket\OAuth2\Exception\ExceptionInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Base ExceptionInterface for the OAuth2 component.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/InvalidClientException.html"><abbr title="AuthBucket\OAuth2\Exception\InvalidClientException">AuthBucket\OAuth2\Exception\InvalidClientException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    InvalidClientException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/InvalidGrantException.html"><abbr title="AuthBucket\OAuth2\Exception\InvalidGrantException">AuthBucket\OAuth2\Exception\InvalidGrantException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    InvalidGrantException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/InvalidRequestException.html"><abbr title="AuthBucket\OAuth2\Exception\InvalidRequestException">AuthBucket\OAuth2\Exception\InvalidRequestException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    InvalidRequestException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/InvalidScopeException.html"><abbr title="AuthBucket\OAuth2\Exception\InvalidScopeException">AuthBucket\OAuth2\Exception\InvalidScopeException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    InvalidScopeException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/ServerErrorException.html"><abbr title="AuthBucket\OAuth2\Exception\ServerErrorException">AuthBucket\OAuth2\Exception\ServerErrorException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    ServerErrorException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/TemporarilyUnavailableException.html"><abbr title="AuthBucket\OAuth2\Exception\TemporarilyUnavailableException">AuthBucket\OAuth2\Exception\TemporarilyUnavailableException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    TemporarilyUnavailableException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/UnauthorizedClientException.html"><abbr title="AuthBucket\OAuth2\Exception\UnauthorizedClientException">AuthBucket\OAuth2\Exception\UnauthorizedClientException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    UnauthorizedClientException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/UnsupportedGrantTypeException.html"><abbr title="AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException">AuthBucket\OAuth2\Exception\UnsupportedGrantTypeException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    UnsupportedGrantTypeException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Exception/UnsupportedResponseTypeException.html"><abbr title="AuthBucket\OAuth2\Exception\UnsupportedResponseTypeException">AuthBucket\OAuth2\Exception\UnsupportedResponseTypeException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    UnsupportedResponseType
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/GrantType/AbstractGrantTypeHandler.html"><abbr title="AuthBucket\OAuth2\GrantType\AbstractGrantTypeHandler">AuthBucket\OAuth2\GrantType\AbstractGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Shared grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/GrantType/AuthorizationCodeGrantTypeHandler.html"><abbr title="AuthBucket\OAuth2\GrantType\AuthorizationCodeGrantTypeHandler">AuthBucket\OAuth2\GrantType\AuthorizationCodeGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Authorization code grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/GrantType/ClientCredentialsGrantTypeHandler.html"><abbr title="AuthBucket\OAuth2\GrantType\ClientCredentialsGrantTypeHandler">AuthBucket\OAuth2\GrantType\ClientCredentialsGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Client credentials grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/GrantType/GrantTypeHandlerFactory.html"><abbr title="AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory">AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 grant type handler factory implemention.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/GrantType/GrantTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface">AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 grant type handler factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/GrantType/GrantTypeHandlerInterface.html"><abbr title="AuthBucket\OAuth2\GrantType\GrantTypeHandlerInterface">AuthBucket\OAuth2\GrantType\GrantTypeHandlerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 grant type handler interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/GrantType/PasswordGrantTypeHandler.html"><abbr title="AuthBucket\OAuth2\GrantType\PasswordGrantTypeHandler">AuthBucket\OAuth2\GrantType\PasswordGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Password grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/GrantType/RefreshTokenGrantTypeHandler.html"><abbr title="AuthBucket\OAuth2\GrantType\RefreshTokenGrantTypeHandler">AuthBucket\OAuth2\GrantType\RefreshTokenGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Refresh token grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/AccessTokenInterface.html"><abbr title="AuthBucket\OAuth2\Model\AccessTokenInterface">AuthBucket\OAuth2\Model\AccessTokenInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 access token interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/AccessTokenManagerInterface.html"><abbr title="AuthBucket\OAuth2\Model\AccessTokenManagerInterface">AuthBucket\OAuth2\Model\AccessTokenManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 access token manager interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/AuthorizeInterface.html"><abbr title="AuthBucket\OAuth2\Model\AuthorizeInterface">AuthBucket\OAuth2\Model\AuthorizeInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 authorize interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/AuthorizeManagerInterface.html"><abbr title="AuthBucket\OAuth2\Model\AuthorizeManagerInterface">AuthBucket\OAuth2\Model\AuthorizeManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 authorize manager interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/ClientInterface.html"><abbr title="AuthBucket\OAuth2\Model\ClientInterface">AuthBucket\OAuth2\Model\ClientInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 client interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/ClientManagerInterface.html"><abbr title="AuthBucket\OAuth2\Model\ClientManagerInterface">AuthBucket\OAuth2\Model\ClientManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 client manager interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/CodeInterface.html"><abbr title="AuthBucket\OAuth2\Model\CodeInterface">AuthBucket\OAuth2\Model\CodeInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 authorization code interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/CodeManagerInterface.html"><abbr title="AuthBucket\OAuth2\Model\CodeManagerInterface">AuthBucket\OAuth2\Model\CodeManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 authorization code manager interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Model/InMemory/AbstractModelManager.html"><abbr title="AuthBucket\OAuth2\Model\InMemory\AbstractModelManager">AuthBucket\OAuth2\Model\InMemory\AbstractModelManager</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    ModelManagerInterface in-memory implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Model/InMemory/AccessToken.html"><abbr title="AuthBucket\OAuth2\Model\InMemory\AccessToken">AuthBucket\OAuth2\Model\InMemory\AccessToken</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    AccessToken
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Model/InMemory/AccessTokenManager.html"><abbr title="AuthBucket\OAuth2\Model\InMemory\AccessTokenManager">AuthBucket\OAuth2\Model\InMemory\AccessTokenManager</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    AccessTokenManager
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Model/InMemory/ModelManagerFactory.html"><abbr title="AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory">AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 model manager factory in-memory implemention.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/ModelInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelInterface">AuthBucket\OAuth2\Model\ModelInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 model interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/ModelManagerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">AuthBucket\OAuth2\Model\ModelManagerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 model manager factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/ModelManagerInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelManagerInterface">AuthBucket\OAuth2\Model\ModelManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 model manager interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/RefreshTokenInterface.html"><abbr title="AuthBucket\OAuth2\Model\RefreshTokenInterface">AuthBucket\OAuth2\Model\RefreshTokenInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 refresh token interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/RefreshTokenManagerInterface.html"><abbr title="AuthBucket\OAuth2\Model\RefreshTokenManagerInterface">AuthBucket\OAuth2\Model\RefreshTokenManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 refresh token manager interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/ScopeInterface.html"><abbr title="AuthBucket\OAuth2\Model\ScopeInterface">AuthBucket\OAuth2\Model\ScopeInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 scope interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/Model/ScopeManagerInterface.html"><abbr title="AuthBucket\OAuth2\Model\ScopeManagerInterface">AuthBucket\OAuth2\Model\ScopeManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 scope manager interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Provider/AuthBucketOAuth2ServiceProvider.html"><abbr title="AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider">AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 service provider as plugin for Silex SecurityServiceProvider.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/ResourceType/AbstractResourceTypeHandler.html"><abbr title="AuthBucket\OAuth2\ResourceType\AbstractResourceTypeHandler">AuthBucket\OAuth2\ResourceType\AbstractResourceTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Shared resource type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/ResourceType/DebugEndpointResourceTypeHandler.html"><abbr title="AuthBucket\OAuth2\ResourceType\DebugEndpointResourceTypeHandler">AuthBucket\OAuth2\ResourceType\DebugEndpointResourceTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Token response type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/ResourceType/ModelResourceTypeHandler.html"><abbr title="AuthBucket\OAuth2\ResourceType\ModelResourceTypeHandler">AuthBucket\OAuth2\ResourceType\ModelResourceTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Model response type handler implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/ResourceType/ResourceTypeHandlerFactory.html"><abbr title="AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory">AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 resource type handler factory implemention.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/ResourceType/ResourceTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface">AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 resource type handler factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/ResourceType/ResourceTypeHandlerInterface.html"><abbr title="AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerInterface">AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 resource type handler interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/ResponseType/AbstractResponseTypeHandler.html"><abbr title="AuthBucket\OAuth2\ResponseType\AbstractResponseTypeHandler">AuthBucket\OAuth2\ResponseType\AbstractResponseTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Shared response type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/ResponseType/CodeResponseTypeHandler.html"><abbr title="AuthBucket\OAuth2\ResponseType\CodeResponseTypeHandler">AuthBucket\OAuth2\ResponseType\CodeResponseTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Code response type handler implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/ResponseType/ResponseTypeHandlerFactory.html"><abbr title="AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory">AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 response type handler factory implemention.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/ResponseType/ResponseTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface">AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 response type handler factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/ResponseType/ResponseTypeHandlerInterface.html"><abbr title="AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerInterface">AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 response type handler interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/ResponseType/TokenResponseTypeHandler.html"><abbr title="AuthBucket\OAuth2\ResponseType\TokenResponseTypeHandler">AuthBucket\OAuth2\ResponseType\TokenResponseTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Token response type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Security/Authentication/Provider/ResourceProvider.html"><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\ResourceProvider">AuthBucket\OAuth2\Security\Authentication\Provider\ResourceProvider</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    ResourceProvider implements OAuth2 resource endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Security/Authentication/Provider/TokenProvider.html"><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\TokenProvider">AuthBucket\OAuth2\Security\Authentication\Provider\TokenProvider</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    TokenProvider implements OAuth2 token endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Security/Authentication/Token/AccessTokenToken.html"><abbr title="AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken">AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 AccessTokenToken for resource endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Security/Authentication/Token/ClientToken.html"><abbr title="AuthBucket\OAuth2\Security\Authentication\Token\ClientToken">AuthBucket\OAuth2\Security\Authentication\Token\ClientToken</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 ClientToken for token endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Security/Firewall/ResourceListener.html"><abbr title="AuthBucket\OAuth2\Security\Firewall\ResourceListener">AuthBucket\OAuth2\Security\Firewall\ResourceListener</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    ResourceListener implements OAuth2 resource endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Security/Firewall/TokenListener.html"><abbr title="AuthBucket\OAuth2\Security\Firewall\TokenListener">AuthBucket\OAuth2\Security\Firewall\TokenListener</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    TokenListener implements OAuth2 token endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/TokenType/AbstractTokenTypeHandler.html"><abbr title="AuthBucket\OAuth2\TokenType\AbstractTokenTypeHandler">AuthBucket\OAuth2\TokenType\AbstractTokenTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Shared token type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/TokenType/BearerTokenTypeHandler.html"><abbr title="AuthBucket\OAuth2\TokenType\BearerTokenTypeHandler">AuthBucket\OAuth2\TokenType\BearerTokenTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Bearer token type handler implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/TokenType/MacTokenTypeHandler.html"><abbr title="AuthBucket\OAuth2\TokenType\MacTokenTypeHandler">AuthBucket\OAuth2\TokenType\MacTokenTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    MAC token type handler implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactory.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory">AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 grant type handler factory implemention.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 token type handler factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="AuthBucket/OAuth2/TokenType/TokenTypeHandlerInterface.html"><abbr title="AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface">AuthBucket\OAuth2\TokenType\TokenTypeHandlerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 token type handler interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/AccessToken.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\AccessToken">AuthBucket\OAuth2\Validator\Constraints\AccessToken</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/AccessTokenValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\AccessTokenValidator">AuthBucket\OAuth2\Validator\Constraints\AccessTokenValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid access_token per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ClientId.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ClientId">AuthBucket\OAuth2\Validator\Constraints\ClientId</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ClientIdValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ClientIdValidator">AuthBucket\OAuth2\Validator\Constraints\ClientIdValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid client_id per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ClientSecret.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ClientSecret">AuthBucket\OAuth2\Validator\Constraints\ClientSecret</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ClientSecretValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ClientSecretValidator">AuthBucket\OAuth2\Validator\Constraints\ClientSecretValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid client_secret per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/Code.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Code">AuthBucket\OAuth2\Validator\Constraints\Code</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/CodeValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\CodeValidator">AuthBucket\OAuth2\Validator\Constraints\CodeValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid code per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/Error.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Error">AuthBucket\OAuth2\Validator\Constraints\Error</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorDescription.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorDescription">AuthBucket\OAuth2\Validator\Constraints\ErrorDescription</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorDescriptionValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorDescriptionValidator">AuthBucket\OAuth2\Validator\Constraints\ErrorDescriptionValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid error_description per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorUri.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorUri">AuthBucket\OAuth2\Validator\Constraints\ErrorUri</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorUriValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorUriValidator">AuthBucket\OAuth2\Validator\Constraints\ErrorUriValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid error_uri per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ErrorValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ErrorValidator">AuthBucket\OAuth2\Validator\Constraints\ErrorValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid error per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ExpiresIn.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ExpiresIn">AuthBucket\OAuth2\Validator\Constraints\ExpiresIn</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ExpiresInValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ExpiresInValidator">AuthBucket\OAuth2\Validator\Constraints\ExpiresInValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid expires_in per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/GrantType.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\GrantType">AuthBucket\OAuth2\Validator\Constraints\GrantType</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/GrantTypeValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\GrantTypeValidator">AuthBucket\OAuth2\Validator\Constraints\GrantTypeValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid grant_type per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/Password.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Password">AuthBucket\OAuth2\Validator\Constraints\Password</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/PasswordValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\PasswordValidator">AuthBucket\OAuth2\Validator\Constraints\PasswordValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid password per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/RedirectUri.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\RedirectUri">AuthBucket\OAuth2\Validator\Constraints\RedirectUri</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/RedirectUriValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\RedirectUriValidator">AuthBucket\OAuth2\Validator\Constraints\RedirectUriValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid redirect_uri per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/RefreshToken.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\RefreshToken">AuthBucket\OAuth2\Validator\Constraints\RefreshToken</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/RefreshTokenValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\RefreshTokenValidator">AuthBucket\OAuth2\Validator\Constraints\RefreshTokenValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid refresh_token per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ResponseType.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ResponseType">AuthBucket\OAuth2\Validator\Constraints\ResponseType</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ResponseTypeValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ResponseTypeValidator">AuthBucket\OAuth2\Validator\Constraints\ResponseTypeValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid response_type per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/Scope.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Scope">AuthBucket\OAuth2\Validator\Constraints\Scope</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/ScopeValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\ScopeValidator">AuthBucket\OAuth2\Validator\Constraints\ScopeValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid scope per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/State.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\State">AuthBucket\OAuth2\Validator\Constraints\State</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/StateValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\StateValidator">AuthBucket\OAuth2\Validator\Constraints\StateValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid state per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/TokenType.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\TokenType">AuthBucket\OAuth2\Validator\Constraints\TokenType</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/TokenTypeValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\TokenTypeValidator">AuthBucket\OAuth2\Validator\Constraints\TokenTypeValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid token_type per RFC 6749
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/Username.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\Username">AuthBucket\OAuth2\Validator\Constraints\Username</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="AuthBucket/OAuth2/Validator/Constraints/UsernameValidator.html"><abbr title="AuthBucket\OAuth2\Validator\Constraints\UsernameValidator">AuthBucket\OAuth2\Validator\Constraints\UsernameValidator</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Validates whether the value is a valid username per RFC 6749
+                </div>
+            </div>
+            </div>
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
     </div>
     </body>
+
 </html>

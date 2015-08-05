@@ -1,161 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="robots" content="index, follow, all" />
-        <title>AuthBucket\OAuth2\Model\RefreshTokenInterface | AuthBucket\OAuth2 API</title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
-        <body id="class">
-            <div class="header">
-        <ul>
-            <li><a href="../../../classes.html">Classes</a></li>
-                            <li><a href="../../../namespaces.html">Namespaces</a></li>
-                        <li><a href="../../../interfaces.html">Interfaces</a></li>
-            <li><a href="../../../traits.html">Traits</a></li>
-            <li><a href="../../../doc-index.html">Index</a></li>
-            
-        </ul>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>AuthBucket\OAuth2\Model\RefreshTokenInterface | AuthBucket\OAuth2 API</title>
 
-        <div id="title">AuthBucket\OAuth2 API</div>
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+    
+    
+    </head>
 
-            <div class="type">Interface</div>
-    <h1><a href="../../../AuthBucket/OAuth2/Model.html">AuthBucket\OAuth2\Model</a>\RefreshTokenInterface</h1>
+    <body id="class" data-name="class:AuthBucket_OAuth2_Model_RefreshTokenInterface" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../../../../develop/index.html" selected>develop branch</option>
+                                            <option value="../../../../master/index.html">master branch</option>
+                                            <option value="../../../../1.0.0-alpha1/index.html">1.0.0-alpha1</option>
+                                            <option value="../../../../1.0.0-alpha2/index.html">1.0.0-alpha2</option>
+                                            <option value="../../../../1.0.0-alpha3/index.html">1.0.0-alpha3</option>
+                                            <option value="../../../../1.0.0-alpha4/index.html">1.0.0-alpha4</option>
+                                            <option value="../../../../1.0.0-alpha5/index.html">1.0.0-alpha5</option>
+                                            <option value="../../../../1.0.0-beta1/index.html">1.0.0-beta1</option>
+                                            <option value="../../../../1.0.0-rc1/index.html">1.0.0-rc1</option>
+                                            <option value="../../../../1.0.0-rc2/index.html">1.0.0-rc2</option>
+                                            <option value="../../../../1.0.0-rc3/index.html">1.0.0-rc3</option>
+                                            <option value="../../../../1.0.0-rc4/index.html">1.0.0-rc4</option>
+                                            <option value="../../../../1.0.0/index.html">1.0.0</option>
+                                            <option value="../../../../1.0.1/index.html">1.0.1</option>
+                                            <option value="../../../../2.0.0/index.html">2.0.0</option>
+                                            <option value="../../../../2.0.1/index.html">2.0.1</option>
+                                            <option value="../../../../2.0.2/index.html">2.0.2</option>
+                                            <option value="../../../../2.0.3/index.html">2.0.3</option>
+                                            <option value="../../../../2.0.4/index.html">2.0.4</option>
+                                            <option value="../../../../2.0.5/index.html">2.0.5</option>
+                                            <option value="../../../../2.0.6/index.html">2.0.6</option>
+                                            <option value="../../../../2.1.0/index.html">2.1.0</option>
+                                            <option value="../../../../2.1.1/index.html">2.1.1</option>
+                                            <option value="../../../../2.1.2/index.html">2.1.2</option>
+                                            <option value="../../../../2.1.3/index.html">2.1.3</option>
+                                            <option value="../../../../2.1.4/index.html">2.1.4</option>
+                                            <option value="../../../../2.1.5/index.html">2.1.5</option>
+                                            <option value="../../../../2.1.6/index.html">2.1.6</option>
+                                            <option value="../../../../2.1.7/index.html">2.1.7</option>
+                                            <option value="../../../../2.1.8/index.html">2.1.8</option>
+                                            <option value="../../../../2.1.9/index.html">2.1.9</option>
+                                            <option value="../../../../2.1.10/index.html">2.1.10</option>
+                                            <option value="../../../../2.1.11/index.html">2.1.11</option>
+                                            <option value="../../../../2.1.12/index.html">2.1.12</option>
+                                            <option value="../../../../2.1.13/index.html">2.1.13</option>
+                                            <option value="../../../../2.1.14/index.html">2.1.14</option>
+                                            <option value="../../../../2.1.15/index.html">2.1.15</option>
+                                            <option value="../../../../2.1.16/index.html">2.1.16</option>
+                                            <option value="../../../../2.1.17/index.html">2.1.17</option>
+                                            <option value="../../../../2.1.18/index.html">2.1.18</option>
+                                            <option value="../../../../2.2.0/index.html">2.2.0</option>
+                                            <option value="../../../../2.2.1/index.html">2.2.1</option>
+                                            <option value="../../../../2.2.2/index.html">2.2.2</option>
+                                            <option value="../../../../2.2.3/index.html">2.2.3</option>
+                                            <option value="../../../../2.2.4/index.html">2.2.4</option>
+                                            <option value="../../../../2.2.5/index.html">2.2.5</option>
+                                            <option value="../../../../2.2.6/index.html">2.2.6</option>
+                                            <option value="../../../../2.2.7/index.html">2.2.7</option>
+                                            <option value="../../../../2.3.0/index.html">2.3.0</option>
+                                            <option value="../../../../2.3.1/index.html">2.3.1</option>
+                                            <option value="../../../../2.3.2/index.html">2.3.2</option>
+                                            <option value="../../../../2.3.3/index.html">2.3.3</option>
+                                            <option value="../../../../2.3.4/index.html">2.3.4</option>
+                                            <option value="../../../../2.4.0/index.html">2.4.0</option>
+                                            <option value="../../../../2.4.1/index.html">2.4.1</option>
+                                            <option value="../../../../2.4.2/index.html">2.4.2</option>
+                                            <option value="../../../../2.4.3/index.html">2.4.3</option>
+                                            <option value="../../../../2.4.4/index.html">2.4.4</option>
+                                            <option value="../../../../2.4.5/index.html">2.4.5</option>
+                                            <option value="../../../../2.4.6/index.html">2.4.6</option>
+                                            <option value="../../../../2.4.7/index.html">2.4.7</option>
+                                            <option value="../../../../2.4.8/index.html">2.4.8</option>
+                                            <option value="../../../../3.0.0/index.html">3.0.0</option>
+                                    </select>
+            </form>
+                <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
     </div>
-        <div class="content">
-                <p>    interface
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">AuthBucket\OAuth2 API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">interface</span></li>
+                                                            <li><a href="../../../AuthBucket.html">AuthBucket</a></li>
+                                        <li><a href="../../../AuthBucket/OAuth2.html">OAuth2</a></li>
+                                        <li><a href="../../../AuthBucket/OAuth2/Model.html">Model</a></li>
+    
+                <li>RefreshTokenInterface</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>RefreshTokenInterface</h1>
+    </div>
+
+    <p>    interface
     <strong>RefreshTokenInterface</strong>        implements
-        <a href="../../../AuthBucket/OAuth2/Model/ModelInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelInterface">ModelInterface</abbr></a></p>
+        <a href="../../../AuthBucket/OAuth2/Model/ModelInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelInterface">ModelInterface</abbr></a>
+</p>
 
             <div class="description">
-            <p>OAuth2 refresh token interface.</p>
-            <p>
-</p>
-        </div>
+            <p>OAuth2 refresh token interface.</p>                    </div>
+    
     
     
     
             <h2>Methods</h2>
 
-            <table>
-                    <tr>
-                <td class="type">
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
                     <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_setRefreshToken">setRefreshToken</a>(string $refreshToken)
-                    <p>Set refresh_token</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Set refresh_token.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     string
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_getRefreshToken">getRefreshToken</a>()
-                    <p>Get refresh_token</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Get refresh_token.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_setClientId">setClientId</a>(string $clientId)
-                    <p>Set client_id</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Set client_id.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     string
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_getClientId">getClientId</a>()
-                    <p>Get client_id</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Get client_id.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_setUsername">setUsername</a>(string $username)
-                    <p>Set username</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Set username.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     string
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_getUsername">getUsername</a>()
-                    <p>Get username</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Get username.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
-                </td>
-                <td class="last">
-                    <a href="#method_setExpires">setExpires</a>(integer $expires)
-                    <p>Set expires</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    integer
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setExpires">setExpires</a>(int $expires)
+                                            <p>Set expires.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_getExpires">getExpires</a>()
-                    <p>Get expires</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Get expires.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_setScope">setScope</a>(array $scope)
-                    <p>Set scope</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Set scope.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     array
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_getScope">getScope</a>()
-                    <p>Get scope</p>
-                </td>
-                <td></td>
-            </tr>
-            </table>
+                                            <p>Get scope.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
 
 
         <h2>Details</h2>
 
-                        <h3 id="method_setRefreshToken">
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_setRefreshToken">
         <div class="location">at line 28</div>
-        <code>            public            <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
+        <code>                    <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
     <strong>setRefreshToken</strong>(string $refreshToken)</code>
     </h3>
     <div class="details">
-        <p>Set refresh_token</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Set refresh_token.</p>                                </div>
+                <div class="tags">
                             <h4>Parameters</h4>
 
-                    <table>
+                    <table class="table table-condensed">
                     <tr>
                 <td>string</td>
                 <td>$refreshToken</td>
@@ -167,7 +274,7 @@
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td><abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr></td>
             <td>
@@ -180,20 +287,21 @@
                     </div>
     </div>
 
-                <h3 id="method_getRefreshToken">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getRefreshToken">
         <div class="location">at line 35</div>
-        <code>            public            string
+        <code>                    string
     <strong>getRefreshToken</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get refresh_token</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Get refresh_token.</p>                                </div>
+                <div class="tags">
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td>string</td>
             <td>
@@ -206,19 +314,20 @@
                     </div>
     </div>
 
-                <h3 id="method_setClientId">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setClientId">
         <div class="location">at line 44</div>
-        <code>            public            <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
+        <code>                    <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
     <strong>setClientId</strong>(string $clientId)</code>
     </h3>
     <div class="details">
-        <p>Set client_id</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Set client_id.</p>                                </div>
+                <div class="tags">
                             <h4>Parameters</h4>
 
-                    <table>
+                    <table class="table table-condensed">
                     <tr>
                 <td>string</td>
                 <td>$clientId</td>
@@ -230,7 +339,7 @@
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td><abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr></td>
             <td>
@@ -243,20 +352,21 @@
                     </div>
     </div>
 
-                <h3 id="method_getClientId">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getClientId">
         <div class="location">at line 51</div>
-        <code>            public            string
+        <code>                    string
     <strong>getClientId</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get client_id</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Get client_id.</p>                                </div>
+                <div class="tags">
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td>string</td>
             <td>
@@ -269,19 +379,20 @@
                     </div>
     </div>
 
-                <h3 id="method_setUsername">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setUsername">
         <div class="location">at line 60</div>
-        <code>            public            <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
+        <code>                    <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
     <strong>setUsername</strong>(string $username)</code>
     </h3>
     <div class="details">
-        <p>Set username</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Set username.</p>                                </div>
+                <div class="tags">
                             <h4>Parameters</h4>
 
-                    <table>
+                    <table class="table table-condensed">
                     <tr>
                 <td>string</td>
                 <td>$username</td>
@@ -293,7 +404,7 @@
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td><abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr></td>
             <td>
@@ -306,20 +417,21 @@
                     </div>
     </div>
 
-                <h3 id="method_getUsername">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getUsername">
         <div class="location">at line 67</div>
-        <code>            public            string
+        <code>                    string
     <strong>getUsername</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get username</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Get username.</p>                                </div>
+                <div class="tags">
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td>string</td>
             <td>
@@ -332,21 +444,22 @@
                     </div>
     </div>
 
-                <h3 id="method_setExpires">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setExpires">
         <div class="location">at line 76</div>
-        <code>            public            <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
-    <strong>setExpires</strong>(integer $expires)</code>
+        <code>                    <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
+    <strong>setExpires</strong>(int $expires)</code>
     </h3>
     <div class="details">
-        <p>Set expires</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Set expires.</p>                                </div>
+                <div class="tags">
                             <h4>Parameters</h4>
 
-                    <table>
+                    <table class="table table-condensed">
                     <tr>
-                <td>integer</td>
+                <td>int</td>
                 <td>$expires</td>
                 <td>
 </td>
@@ -356,7 +469,7 @@
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td><abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr></td>
             <td>
@@ -369,22 +482,23 @@
                     </div>
     </div>
 
-                <h3 id="method_getExpires">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getExpires">
         <div class="location">at line 83</div>
-        <code>            public            integer
+        <code>                    int
     <strong>getExpires</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get expires</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Get expires.</p>                                </div>
+                <div class="tags">
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
-            <td>integer</td>
+            <td>int</td>
             <td>
 </td>
         </tr>
@@ -395,19 +509,20 @@
                     </div>
     </div>
 
-                <h3 id="method_setScope">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setScope">
         <div class="location">at line 92</div>
-        <code>            public            <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
+        <code>                    <abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr>
     <strong>setScope</strong>(array $scope)</code>
     </h3>
     <div class="details">
-        <p>Set scope</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Set scope.</p>                                </div>
+                <div class="tags">
                             <h4>Parameters</h4>
 
-                    <table>
+                    <table class="table table-condensed">
                     <tr>
                 <td>array</td>
                 <td>$scope</td>
@@ -419,7 +534,7 @@
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td><abbr title="AuthBucket\OAuth2\Model\RefreshToken">RefreshToken</abbr></td>
             <td>
@@ -432,20 +547,21 @@
                     </div>
     </div>
 
-                <h3 id="method_getScope">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getScope">
         <div class="location">at line 99</div>
-        <code>            public            array
+        <code>                    array
     <strong>getScope</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get scope</p>
-        <p>
-</p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Get scope.</p>                                </div>
+                <div class="tags">
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td>array</td>
             <td>
@@ -458,10 +574,17 @@
                     </div>
     </div>
 
+            </div>
+            </div>
+
     
             </div>
-            <div id="footer">
-        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
     </div>
     </body>
+
 </html>

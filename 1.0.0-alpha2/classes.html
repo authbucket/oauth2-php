@@ -1,520 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="robots" content="index, follow, all" />
-        <title>Classes | AuthBucket\OAuth2 API</title>
-                    <link rel="stylesheet" type="text/css" href="stylesheet.css">
-                            </head>
-        <body id="overview">
-            <div class="header">
-        <ul>
-            <li><a href="classes.html">Classes</a></li>
-                            <li><a href="namespaces.html">Namespaces</a></li>
-                        <li><a href="interfaces.html">Interfaces</a></li>
-            <li><a href="traits.html">Traits</a></li>
-            <li><a href="doc-index.html">Index</a></li>
-            
-        </ul>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>All Classes | AuthBucket\OAuth2 API</title>
 
-        <div id="title">AuthBucket\OAuth2 API</div>
+            <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="css/sami.css">
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/typeahead.min.js"></script>
+        <script src="sami.js"></script>
+    
+    
+    </head>
 
-            <h1>Classes</h1>
+    <body id="classes" data-name="" data-root-path="">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../develop/index.html">develop branch</option>
+                                            <option value="../master/index.html">master branch</option>
+                                            <option value="../1.0.0-alpha1/index.html">1.0.0-alpha1</option>
+                                            <option value="../1.0.0-alpha2/index.html" selected>1.0.0-alpha2</option>
+                                            <option value="../1.0.0-alpha3/index.html">1.0.0-alpha3</option>
+                                            <option value="../1.0.0-alpha4/index.html">1.0.0-alpha4</option>
+                                            <option value="../1.0.0-alpha5/index.html">1.0.0-alpha5</option>
+                                            <option value="../1.0.0-beta1/index.html">1.0.0-beta1</option>
+                                            <option value="../1.0.0-rc1/index.html">1.0.0-rc1</option>
+                                            <option value="../1.0.0-rc2/index.html">1.0.0-rc2</option>
+                                            <option value="../1.0.0-rc3/index.html">1.0.0-rc3</option>
+                                            <option value="../1.0.0-rc4/index.html">1.0.0-rc4</option>
+                                            <option value="../1.0.0/index.html">1.0.0</option>
+                                            <option value="../1.0.1/index.html">1.0.1</option>
+                                            <option value="../2.0.0/index.html">2.0.0</option>
+                                            <option value="../2.0.1/index.html">2.0.1</option>
+                                            <option value="../2.0.2/index.html">2.0.2</option>
+                                            <option value="../2.0.3/index.html">2.0.3</option>
+                                            <option value="../2.0.4/index.html">2.0.4</option>
+                                            <option value="../2.0.5/index.html">2.0.5</option>
+                                            <option value="../2.0.6/index.html">2.0.6</option>
+                                            <option value="../2.1.0/index.html">2.1.0</option>
+                                            <option value="../2.1.1/index.html">2.1.1</option>
+                                            <option value="../2.1.2/index.html">2.1.2</option>
+                                            <option value="../2.1.3/index.html">2.1.3</option>
+                                            <option value="../2.1.4/index.html">2.1.4</option>
+                                            <option value="../2.1.5/index.html">2.1.5</option>
+                                            <option value="../2.1.6/index.html">2.1.6</option>
+                                            <option value="../2.1.7/index.html">2.1.7</option>
+                                            <option value="../2.1.8/index.html">2.1.8</option>
+                                            <option value="../2.1.9/index.html">2.1.9</option>
+                                            <option value="../2.1.10/index.html">2.1.10</option>
+                                            <option value="../2.1.11/index.html">2.1.11</option>
+                                            <option value="../2.1.12/index.html">2.1.12</option>
+                                            <option value="../2.1.13/index.html">2.1.13</option>
+                                            <option value="../2.1.14/index.html">2.1.14</option>
+                                            <option value="../2.1.15/index.html">2.1.15</option>
+                                            <option value="../2.1.16/index.html">2.1.16</option>
+                                            <option value="../2.1.17/index.html">2.1.17</option>
+                                            <option value="../2.1.18/index.html">2.1.18</option>
+                                            <option value="../2.2.0/index.html">2.2.0</option>
+                                            <option value="../2.2.1/index.html">2.2.1</option>
+                                            <option value="../2.2.2/index.html">2.2.2</option>
+                                            <option value="../2.2.3/index.html">2.2.3</option>
+                                            <option value="../2.2.4/index.html">2.2.4</option>
+                                            <option value="../2.2.5/index.html">2.2.5</option>
+                                            <option value="../2.2.6/index.html">2.2.6</option>
+                                            <option value="../2.2.7/index.html">2.2.7</option>
+                                            <option value="../2.3.0/index.html">2.3.0</option>
+                                            <option value="../2.3.1/index.html">2.3.1</option>
+                                            <option value="../2.3.2/index.html">2.3.2</option>
+                                            <option value="../2.3.3/index.html">2.3.3</option>
+                                            <option value="../2.3.4/index.html">2.3.4</option>
+                                            <option value="../2.4.0/index.html">2.4.0</option>
+                                            <option value="../2.4.1/index.html">2.4.1</option>
+                                            <option value="../2.4.2/index.html">2.4.2</option>
+                                            <option value="../2.4.3/index.html">2.4.3</option>
+                                            <option value="../2.4.4/index.html">2.4.4</option>
+                                            <option value="../2.4.5/index.html">2.4.5</option>
+                                            <option value="../2.4.6/index.html">2.4.6</option>
+                                            <option value="../2.4.7/index.html">2.4.7</option>
+                                            <option value="../2.4.8/index.html">2.4.8</option>
+                                            <option value="../3.0.0/index.html">3.0.0</option>
+                                    </select>
+            </form>
+                <form id="search-form" action="search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
     </div>
-        <div class="content">
-                <table>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Controller/AuthorizeController.html" target="main"><abbr title="Pantarei\Oauth2\Controller\AuthorizeController">Pantarei\Oauth2\Controller\AuthorizeController</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 authorization endpoint controller implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Controller/ResourceController.html" target="main"><abbr title="Pantarei\Oauth2\Controller\ResourceController">Pantarei\Oauth2\Controller\ResourceController</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 resource endpoint controller implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Controller/TokenController.html" target="main"><abbr title="Pantarei\Oauth2\Controller\TokenController">Pantarei\Oauth2\Controller\TokenController</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 token endpoint controller implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/EventListener/ExceptionListener.html" target="main"><abbr title="Pantarei\Oauth2\EventListener\ExceptionListener">Pantarei\Oauth2\EventListener\ExceptionListener</abbr></a>
-                                    </td>
-                <td>
-                    
 
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/AccessDeniedException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\AccessDeniedException">Pantarei\Oauth2\Exception\AccessDeniedException</abbr></a>
-                                    </td>
-                <td>
-                    AccessDeniedException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Exception/ExceptionInterface.html" target="main"><abbr title="Pantarei\Oauth2\Exception\ExceptionInterface">Pantarei\Oauth2\Exception\ExceptionInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Base ExceptionInterface for the Oauth2 component.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/InvalidClientException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\InvalidClientException">Pantarei\Oauth2\Exception\InvalidClientException</abbr></a>
-                                    </td>
-                <td>
-                    InvalidClientException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/InvalidGrantException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\InvalidGrantException">Pantarei\Oauth2\Exception\InvalidGrantException</abbr></a>
-                                    </td>
-                <td>
-                    InvalidGrantException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/InvalidRequestException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\InvalidRequestException">Pantarei\Oauth2\Exception\InvalidRequestException</abbr></a>
-                                    </td>
-                <td>
-                    InvalidRequestException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/InvalidScopeException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\InvalidScopeException">Pantarei\Oauth2\Exception\InvalidScopeException</abbr></a>
-                                    </td>
-                <td>
-                    InvalidScopeException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/ServerErrorException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\ServerErrorException">Pantarei\Oauth2\Exception\ServerErrorException</abbr></a>
-                                    </td>
-                <td>
-                    ServerErrorException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/TemporarilyUnavailableException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\TemporarilyUnavailableException">Pantarei\Oauth2\Exception\TemporarilyUnavailableException</abbr></a>
-                                    </td>
-                <td>
-                    TemporarilyUnavailableException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/UnauthorizedClientException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\UnauthorizedClientException">Pantarei\Oauth2\Exception\UnauthorizedClientException</abbr></a>
-                                    </td>
-                <td>
-                    UnauthorizedClientException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/UnsupportedGrantTypeException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\UnsupportedGrantTypeException">Pantarei\Oauth2\Exception\UnsupportedGrantTypeException</abbr></a>
-                                    </td>
-                <td>
-                    UnsupportedGrantTypeException
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Exception/UnsupportedResponseTypeException.html" target="main"><abbr title="Pantarei\Oauth2\Exception\UnsupportedResponseTypeException">Pantarei\Oauth2\Exception\UnsupportedResponseTypeException</abbr></a>
-                                    </td>
-                <td>
-                    UnsupportedResponseType
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/GrantType/AbstractGrantTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\GrantType\AbstractGrantTypeHandler">Pantarei\Oauth2\GrantType\AbstractGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Shared grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/GrantType/AuthorizationCodeGrantTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\GrantType\AuthorizationCodeGrantTypeHandler">Pantarei\Oauth2\GrantType\AuthorizationCodeGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Authorization code grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/GrantType/ClientCredentialsGrantTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\GrantType\ClientCredentialsGrantTypeHandler">Pantarei\Oauth2\GrantType\ClientCredentialsGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Client credentials grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/GrantType/GrantTypeHandlerFactory.html" target="main"><abbr title="Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory">Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 grant type handler factory implemention.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/GrantType/GrantTypeHandlerFactoryInterface.html" target="main"><abbr title="Pantarei\Oauth2\GrantType\GrantTypeHandlerFactoryInterface">Pantarei\Oauth2\GrantType\GrantTypeHandlerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Oauth2 grant type handler factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/GrantType/GrantTypeHandlerInterface.html" target="main"><abbr title="Pantarei\Oauth2\GrantType\GrantTypeHandlerInterface">Pantarei\Oauth2\GrantType\GrantTypeHandlerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Oauth2 grant type handler interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/GrantType/PasswordGrantTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\GrantType\PasswordGrantTypeHandler">Pantarei\Oauth2\GrantType\PasswordGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Password grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/GrantType/RefreshTokenGrantTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\GrantType\RefreshTokenGrantTypeHandler">Pantarei\Oauth2\GrantType\RefreshTokenGrantTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Refresh token grant type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/AccessTokenInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\AccessTokenInterface">Pantarei\Oauth2\Model\AccessTokenInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
+                <div id="api-tree"></div>
 
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/AccessTokenManagerInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\AccessTokenManagerInterface">Pantarei\Oauth2\Model\AccessTokenManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/AuthorizeInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\AuthorizeInterface">Pantarei\Oauth2\Model\AuthorizeInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/AuthorizeManagerInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\AuthorizeManagerInterface">Pantarei\Oauth2\Model\AuthorizeManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/ClientInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\ClientInterface">Pantarei\Oauth2\Model\ClientInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/ClientManagerInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\ClientManagerInterface">Pantarei\Oauth2\Model\ClientManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/CodeInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\CodeInterface">Pantarei\Oauth2\Model\CodeInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/CodeManagerInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\CodeManagerInterface">Pantarei\Oauth2\Model\CodeManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/ModelInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\ModelInterface">Pantarei\Oauth2\Model\ModelInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/ModelManagerFactoryInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\ModelManagerFactoryInterface">Pantarei\Oauth2\Model\ModelManagerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Oauth2 model manager factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/ModelManagerInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\ModelManagerInterface">Pantarei\Oauth2\Model\ModelManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/RefreshTokenInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\RefreshTokenInterface">Pantarei\Oauth2\Model\RefreshTokenInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/RefreshTokenManagerInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\RefreshTokenManagerInterface">Pantarei\Oauth2\Model\RefreshTokenManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/ScopeInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\ScopeInterface">Pantarei\Oauth2\Model\ScopeInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/Model/ScopeManagerInterface.html" target="main"><abbr title="Pantarei\Oauth2\Model\ScopeManagerInterface">Pantarei\Oauth2\Model\ScopeManagerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Provider/Oauth2ServiceProvider.html" target="main"><abbr title="Pantarei\Oauth2\Provider\Oauth2ServiceProvider">Pantarei\Oauth2\Provider\Oauth2ServiceProvider</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 service provider as plugin for Silex SecurityServiceProvider.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/ResponseType/AbstractResponseTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\ResponseType\AbstractResponseTypeHandler">Pantarei\Oauth2\ResponseType\AbstractResponseTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Shared response type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/ResponseType/CodeResponseTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\ResponseType\CodeResponseTypeHandler">Pantarei\Oauth2\ResponseType\CodeResponseTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Code response type handler implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/ResponseType/ResponseTypeHandlerFactory.html" target="main"><abbr title="Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactory">Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactory</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 grant type handler factory implemention.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/ResponseType/ResponseTypeHandlerFactoryInterface.html" target="main"><abbr title="Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface">Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Oauth2 response type handler factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/ResponseType/ResponseTypeHandlerInterface.html" target="main"><abbr title="Pantarei\Oauth2\ResponseType\ResponseTypeHandlerInterface">Pantarei\Oauth2\ResponseType\ResponseTypeHandlerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Oauth2 response type handler interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/ResponseType/TokenResponseTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\ResponseType\TokenResponseTypeHandler">Pantarei\Oauth2\ResponseType\TokenResponseTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Token response type implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Security/Authentication/Provider/ResourceProvider.html" target="main"><abbr title="Pantarei\Oauth2\Security\Authentication\Provider\ResourceProvider">Pantarei\Oauth2\Security\Authentication\Provider\ResourceProvider</abbr></a>
-                                    </td>
-                <td>
-                    TokenProvider implements Oauth2 token endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Security/Authentication/Provider/TokenProvider.html" target="main"><abbr title="Pantarei\Oauth2\Security\Authentication\Provider\TokenProvider">Pantarei\Oauth2\Security\Authentication\Provider\TokenProvider</abbr></a>
-                                    </td>
-                <td>
-                    TokenProvider implements Oauth2 token endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Security/Authentication/Token/AccessToken.html" target="main"><abbr title="Pantarei\Oauth2\Security\Authentication\Token\AccessToken">Pantarei\Oauth2\Security\Authentication\Token\AccessToken</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 AccessToken for resource endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Security/Authentication/Token/ClientToken.html" target="main"><abbr title="Pantarei\Oauth2\Security\Authentication\Token\ClientToken">Pantarei\Oauth2\Security\Authentication\Token\ClientToken</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 ClientToken for token endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Security/Firewall/ResourceListener.html" target="main"><abbr title="Pantarei\Oauth2\Security\Firewall\ResourceListener">Pantarei\Oauth2\Security\Firewall\ResourceListener</abbr></a>
-                                    </td>
-                <td>
-                    TokenEndpointListener implements Oauth2 token endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Security/Firewall/TokenListener.html" target="main"><abbr title="Pantarei\Oauth2\Security\Firewall\TokenListener">Pantarei\Oauth2\Security\Firewall\TokenListener</abbr></a>
-                                    </td>
-                <td>
-                    TokenEndpointListener implements Oauth2 token endpoint authentication.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/TokenType/BearerTokenTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\TokenType\BearerTokenTypeHandler">Pantarei\Oauth2\TokenType\BearerTokenTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    Bearer token type handler implementation.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/TokenType/MacTokenTypeHandler.html" target="main"><abbr title="Pantarei\Oauth2\TokenType\MacTokenTypeHandler">Pantarei\Oauth2\TokenType\MacTokenTypeHandler</abbr></a>
-                                    </td>
-                <td>
-                    
-
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/TokenType/TokenTypeHandlerFactory.html" target="main"><abbr title="Pantarei\Oauth2\TokenType\TokenTypeHandlerFactory">Pantarei\Oauth2\TokenType\TokenTypeHandlerFactory</abbr></a>
-                                    </td>
-                <td>
-                    Oauth2 grant type handler factory implemention.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/TokenType/TokenTypeHandlerFactoryInterface.html" target="main"><abbr title="Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface">Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Oauth2 token type handler factory interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                    <em>                    <a href="Pantarei/Oauth2/TokenType/TokenTypeHandlerInterface.html" target="main"><abbr title="Pantarei\Oauth2\TokenType\TokenTypeHandlerInterface">Pantarei\Oauth2\TokenType\TokenTypeHandlerInterface</abbr></a>
-                    </em>                </td>
-                <td>
-                    Oauth2 token type handler interface.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Util/Filter.html" target="main"><abbr title="Pantarei\Oauth2\Util\Filter">Pantarei\Oauth2\Util\Filter</abbr></a>
-                                    </td>
-                <td>
-                    A simple Doctrine ORM service provider for Oauth2.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Util/JsonResponse.html" target="main"><abbr title="Pantarei\Oauth2\Util\JsonResponse">Pantarei\Oauth2\Util\JsonResponse</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 specific Response represents an HTTP response in JSON format.
-                </td>
-            </tr>
-                    <tr>
-                <td>
-                                        <a href="Pantarei/Oauth2/Util/RedirectResponse.html" target="main"><abbr title="Pantarei\Oauth2\Util\RedirectResponse">Pantarei\Oauth2\Util\RedirectResponse</abbr></a>
-                                    </td>
-                <td>
-                    OAuth2 specific RedirectResponse represents an HTTP response doing a redirect.
-                </td>
-            </tr>
-            </table>
         </div>
-            <div id="footer">
-        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">AuthBucket\OAuth2 API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="classes.html">Classes</a></li>
+                                            <li><a href="namespaces.html">Namespaces</a></li>
+                                        <li><a href="interfaces.html">Interfaces</a></li>
+                    <li><a href="traits.html">Traits</a></li>
+                    <li><a href="doc-index.html">Index</a></li>
+                    <li><a href="search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div id="page-content">
+                    <div class="page-header">
+        <h1>Classes</h1>
+    </div>
+
+    <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Controller/AuthorizeController.html"><abbr title="Pantarei\Oauth2\Controller\AuthorizeController">Pantarei\Oauth2\Controller\AuthorizeController</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 authorization endpoint controller implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Controller/ResourceController.html"><abbr title="Pantarei\Oauth2\Controller\ResourceController">Pantarei\Oauth2\Controller\ResourceController</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 resource endpoint controller implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Controller/TokenController.html"><abbr title="Pantarei\Oauth2\Controller\TokenController">Pantarei\Oauth2\Controller\TokenController</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 token endpoint controller implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/EventListener/ExceptionListener.html"><abbr title="Pantarei\Oauth2\EventListener\ExceptionListener">Pantarei\Oauth2\EventListener\ExceptionListener</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/AccessDeniedException.html"><abbr title="Pantarei\Oauth2\Exception\AccessDeniedException">Pantarei\Oauth2\Exception\AccessDeniedException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    AccessDeniedException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Exception/ExceptionInterface.html"><abbr title="Pantarei\Oauth2\Exception\ExceptionInterface">Pantarei\Oauth2\Exception\ExceptionInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Base ExceptionInterface for the Oauth2 component.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/InvalidClientException.html"><abbr title="Pantarei\Oauth2\Exception\InvalidClientException">Pantarei\Oauth2\Exception\InvalidClientException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    InvalidClientException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/InvalidGrantException.html"><abbr title="Pantarei\Oauth2\Exception\InvalidGrantException">Pantarei\Oauth2\Exception\InvalidGrantException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    InvalidGrantException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/InvalidRequestException.html"><abbr title="Pantarei\Oauth2\Exception\InvalidRequestException">Pantarei\Oauth2\Exception\InvalidRequestException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    InvalidRequestException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/InvalidScopeException.html"><abbr title="Pantarei\Oauth2\Exception\InvalidScopeException">Pantarei\Oauth2\Exception\InvalidScopeException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    InvalidScopeException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/ServerErrorException.html"><abbr title="Pantarei\Oauth2\Exception\ServerErrorException">Pantarei\Oauth2\Exception\ServerErrorException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    ServerErrorException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/TemporarilyUnavailableException.html"><abbr title="Pantarei\Oauth2\Exception\TemporarilyUnavailableException">Pantarei\Oauth2\Exception\TemporarilyUnavailableException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    TemporarilyUnavailableException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/UnauthorizedClientException.html"><abbr title="Pantarei\Oauth2\Exception\UnauthorizedClientException">Pantarei\Oauth2\Exception\UnauthorizedClientException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    UnauthorizedClientException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/UnsupportedGrantTypeException.html"><abbr title="Pantarei\Oauth2\Exception\UnsupportedGrantTypeException">Pantarei\Oauth2\Exception\UnsupportedGrantTypeException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    UnsupportedGrantTypeException
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Exception/UnsupportedResponseTypeException.html"><abbr title="Pantarei\Oauth2\Exception\UnsupportedResponseTypeException">Pantarei\Oauth2\Exception\UnsupportedResponseTypeException</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    UnsupportedResponseType
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/GrantType/AbstractGrantTypeHandler.html"><abbr title="Pantarei\Oauth2\GrantType\AbstractGrantTypeHandler">Pantarei\Oauth2\GrantType\AbstractGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Shared grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/GrantType/AuthorizationCodeGrantTypeHandler.html"><abbr title="Pantarei\Oauth2\GrantType\AuthorizationCodeGrantTypeHandler">Pantarei\Oauth2\GrantType\AuthorizationCodeGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Authorization code grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/GrantType/ClientCredentialsGrantTypeHandler.html"><abbr title="Pantarei\Oauth2\GrantType\ClientCredentialsGrantTypeHandler">Pantarei\Oauth2\GrantType\ClientCredentialsGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Client credentials grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/GrantType/GrantTypeHandlerFactory.html"><abbr title="Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory">Pantarei\Oauth2\GrantType\GrantTypeHandlerFactory</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 grant type handler factory implemention.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/GrantType/GrantTypeHandlerFactoryInterface.html"><abbr title="Pantarei\Oauth2\GrantType\GrantTypeHandlerFactoryInterface">Pantarei\Oauth2\GrantType\GrantTypeHandlerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 grant type handler factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/GrantType/GrantTypeHandlerInterface.html"><abbr title="Pantarei\Oauth2\GrantType\GrantTypeHandlerInterface">Pantarei\Oauth2\GrantType\GrantTypeHandlerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 grant type handler interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/GrantType/PasswordGrantTypeHandler.html"><abbr title="Pantarei\Oauth2\GrantType\PasswordGrantTypeHandler">Pantarei\Oauth2\GrantType\PasswordGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Password grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/GrantType/RefreshTokenGrantTypeHandler.html"><abbr title="Pantarei\Oauth2\GrantType\RefreshTokenGrantTypeHandler">Pantarei\Oauth2\GrantType\RefreshTokenGrantTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Refresh token grant type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/AccessTokenInterface.html"><abbr title="Pantarei\Oauth2\Model\AccessTokenInterface">Pantarei\Oauth2\Model\AccessTokenInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/AccessTokenManagerInterface.html"><abbr title="Pantarei\Oauth2\Model\AccessTokenManagerInterface">Pantarei\Oauth2\Model\AccessTokenManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/AuthorizeInterface.html"><abbr title="Pantarei\Oauth2\Model\AuthorizeInterface">Pantarei\Oauth2\Model\AuthorizeInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/AuthorizeManagerInterface.html"><abbr title="Pantarei\Oauth2\Model\AuthorizeManagerInterface">Pantarei\Oauth2\Model\AuthorizeManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/ClientInterface.html"><abbr title="Pantarei\Oauth2\Model\ClientInterface">Pantarei\Oauth2\Model\ClientInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/ClientManagerInterface.html"><abbr title="Pantarei\Oauth2\Model\ClientManagerInterface">Pantarei\Oauth2\Model\ClientManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/CodeInterface.html"><abbr title="Pantarei\Oauth2\Model\CodeInterface">Pantarei\Oauth2\Model\CodeInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/CodeManagerInterface.html"><abbr title="Pantarei\Oauth2\Model\CodeManagerInterface">Pantarei\Oauth2\Model\CodeManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/ModelInterface.html"><abbr title="Pantarei\Oauth2\Model\ModelInterface">Pantarei\Oauth2\Model\ModelInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/ModelManagerFactoryInterface.html"><abbr title="Pantarei\Oauth2\Model\ModelManagerFactoryInterface">Pantarei\Oauth2\Model\ModelManagerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 model manager factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/ModelManagerInterface.html"><abbr title="Pantarei\Oauth2\Model\ModelManagerInterface">Pantarei\Oauth2\Model\ModelManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/RefreshTokenInterface.html"><abbr title="Pantarei\Oauth2\Model\RefreshTokenInterface">Pantarei\Oauth2\Model\RefreshTokenInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/RefreshTokenManagerInterface.html"><abbr title="Pantarei\Oauth2\Model\RefreshTokenManagerInterface">Pantarei\Oauth2\Model\RefreshTokenManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/ScopeInterface.html"><abbr title="Pantarei\Oauth2\Model\ScopeInterface">Pantarei\Oauth2\Model\ScopeInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/Model/ScopeManagerInterface.html"><abbr title="Pantarei\Oauth2\Model\ScopeManagerInterface">Pantarei\Oauth2\Model\ScopeManagerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Provider/Oauth2ServiceProvider.html"><abbr title="Pantarei\Oauth2\Provider\Oauth2ServiceProvider">Pantarei\Oauth2\Provider\Oauth2ServiceProvider</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 service provider as plugin for Silex SecurityServiceProvider.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/ResponseType/AbstractResponseTypeHandler.html"><abbr title="Pantarei\Oauth2\ResponseType\AbstractResponseTypeHandler">Pantarei\Oauth2\ResponseType\AbstractResponseTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Shared response type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/ResponseType/CodeResponseTypeHandler.html"><abbr title="Pantarei\Oauth2\ResponseType\CodeResponseTypeHandler">Pantarei\Oauth2\ResponseType\CodeResponseTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Code response type handler implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/ResponseType/ResponseTypeHandlerFactory.html"><abbr title="Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactory">Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactory</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 grant type handler factory implemention.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/ResponseType/ResponseTypeHandlerFactoryInterface.html"><abbr title="Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface">Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 response type handler factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/ResponseType/ResponseTypeHandlerInterface.html"><abbr title="Pantarei\Oauth2\ResponseType\ResponseTypeHandlerInterface">Pantarei\Oauth2\ResponseType\ResponseTypeHandlerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 response type handler interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/ResponseType/TokenResponseTypeHandler.html"><abbr title="Pantarei\Oauth2\ResponseType\TokenResponseTypeHandler">Pantarei\Oauth2\ResponseType\TokenResponseTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Token response type implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Security/Authentication/Provider/ResourceProvider.html"><abbr title="Pantarei\Oauth2\Security\Authentication\Provider\ResourceProvider">Pantarei\Oauth2\Security\Authentication\Provider\ResourceProvider</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    TokenProvider implements Oauth2 token endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Security/Authentication/Provider/TokenProvider.html"><abbr title="Pantarei\Oauth2\Security\Authentication\Provider\TokenProvider">Pantarei\Oauth2\Security\Authentication\Provider\TokenProvider</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    TokenProvider implements Oauth2 token endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Security/Authentication/Token/AccessToken.html"><abbr title="Pantarei\Oauth2\Security\Authentication\Token\AccessToken">Pantarei\Oauth2\Security\Authentication\Token\AccessToken</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 AccessToken for resource endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Security/Authentication/Token/ClientToken.html"><abbr title="Pantarei\Oauth2\Security\Authentication\Token\ClientToken">Pantarei\Oauth2\Security\Authentication\Token\ClientToken</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 ClientToken for token endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Security/Firewall/ResourceListener.html"><abbr title="Pantarei\Oauth2\Security\Firewall\ResourceListener">Pantarei\Oauth2\Security\Firewall\ResourceListener</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    TokenEndpointListener implements Oauth2 token endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Security/Firewall/TokenListener.html"><abbr title="Pantarei\Oauth2\Security\Firewall\TokenListener">Pantarei\Oauth2\Security\Firewall\TokenListener</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    TokenEndpointListener implements Oauth2 token endpoint authentication.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/TokenType/BearerTokenTypeHandler.html"><abbr title="Pantarei\Oauth2\TokenType\BearerTokenTypeHandler">Pantarei\Oauth2\TokenType\BearerTokenTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Bearer token type handler implementation.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/TokenType/MacTokenTypeHandler.html"><abbr title="Pantarei\Oauth2\TokenType\MacTokenTypeHandler">Pantarei\Oauth2\TokenType\MacTokenTypeHandler</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    
+
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/TokenType/TokenTypeHandlerFactory.html"><abbr title="Pantarei\Oauth2\TokenType\TokenTypeHandlerFactory">Pantarei\Oauth2\TokenType\TokenTypeHandlerFactory</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 grant type handler factory implemention.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/TokenType/TokenTypeHandlerFactoryInterface.html"><abbr title="Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface">Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 token type handler factory interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <em><a href="Pantarei/Oauth2/TokenType/TokenTypeHandlerInterface.html"><abbr title="Pantarei\Oauth2\TokenType\TokenTypeHandlerInterface">Pantarei\Oauth2\TokenType\TokenTypeHandlerInterface</abbr></a></em>
+                                    </div>
+                <div class="col-md-6">
+                    Oauth2 token type handler interface.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Util/Filter.html"><abbr title="Pantarei\Oauth2\Util\Filter">Pantarei\Oauth2\Util\Filter</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    A simple Doctrine ORM service provider for Oauth2.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Util/JsonResponse.html"><abbr title="Pantarei\Oauth2\Util\JsonResponse">Pantarei\Oauth2\Util\JsonResponse</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 specific Response represents an HTTP response in JSON format.
+                </div>
+            </div>
+                    <div class="row">
+                <div class="col-md-6">
+                                            <a href="Pantarei/Oauth2/Util/RedirectResponse.html"><abbr title="Pantarei\Oauth2\Util\RedirectResponse">Pantarei\Oauth2\Util\RedirectResponse</abbr></a>
+                                    </div>
+                <div class="col-md-6">
+                    OAuth2 specific RedirectResponse represents an HTTP response doing a redirect.
+                </div>
+            </div>
+            </div>
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
     </div>
     </body>
+
 </html>
