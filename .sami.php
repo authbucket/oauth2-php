@@ -16,7 +16,7 @@ $versions = GitVersionCollection::create($dir)
     ->addFromTags('*');
 
 return new Sami($iterator, array(
-    'theme' => 'enhanced',
+    'theme' => 'default',
     'versions' => $versions,
     'title' => 'AuthBucket\OAuth2 API',
     'build_dir' => __DIR__ . '/build/sami/%version%',
