@@ -16,6 +16,7 @@ use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * ResourceProvider implements OAuth2 resource endpoint authentication.
@@ -29,19 +30,22 @@ class ResourceProvider implements AuthenticationProviderInterface
     protected $resourceType;
     protected $scopeRequired;
     protected $options;
+    protected $userProvider;
 
     public function __construct(
         $providerKey,
         ResourceTypeHandlerFactoryInterface $resourceTypeHandlerFactory,
         $resourceType = 'model',
         array $scopeRequired = array(),
-        array $options = array()
+        array $options = array(),
+        UserProviderInterface $userProvider = null
     ) {
         $this->providerKey = $providerKey;
         $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
         $this->resourceType = $resourceType;
         $this->scopeRequired = $scopeRequired;
         $this->options = $options;
+        $this->userProvider = $userProvider;
     }
 
     public function authenticate(TokenInterface $token)
@@ -78,7 +82,12 @@ class ResourceProvider implements AuthenticationProviderInterface
             $accessToken->getScope(),
             $token->getRoles()
         );
-        $tokenAuthenticated->setUser($accessToken->getUsername());
+
+        if ($this->userProvider) {
+            $tokenAuthenticated->setUser($this->userProvider->loadUserByUsername($accessToken->getUsername()));
+        } else {
+            $tokenAuthenticated->setUser($accessToken->getUsername());
+        }
 
         return $tokenAuthenticated;
     }
