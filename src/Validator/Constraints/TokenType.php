@@ -22,9 +22,9 @@ class TokenType extends Regex
 {
     public function __construct($options = null)
     {
-        return parent::__construct(array_merge(array(
+        return parent::__construct(array_merge([
             'message' => 'This is not a valid token_type.',
             'pattern' => '/^([a-z0-9\_\-\.]+)$/',
-        ), (array) $options));
+        ], (array) $options));
     }
 }

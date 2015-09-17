@@ -30,6 +30,6 @@ interface ResourceTypeHandlerInterface
      */
     public function handle(
         $accessToken,
-        array $options = array()
+        array $options = []
     );
 }

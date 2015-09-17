@@ -34,14 +34,14 @@ class ResourceProvider implements AuthenticationProviderInterface
         $providerKey,
         ResourceTypeHandlerFactoryInterface $resourceTypeHandlerFactory,
         $resourceType = 'model',
-        array $scopeRequired = array(),
-        array $options = array()
+        array $scopeRequired = [],
+        array $options = []
     ) {
-        $this->providerKey = $providerKey;
+        $this->providerKey                = $providerKey;
         $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
-        $this->resourceType = $resourceType;
-        $this->scopeRequired = $scopeRequired;
-        $this->options = $options;
+        $this->resourceType               = $resourceType;
+        $this->scopeRequired              = $scopeRequired;
+        $this->options                    = $options;
     }
 
     public function authenticate(TokenInterface $token)
@@ -59,12 +59,12 @@ class ResourceProvider implements AuthenticationProviderInterface
             );
 
         // Check if enough scope supplied.
-        $scope = $accessToken->getScope() ?: array();
+        $scope = $accessToken->getScope() ?: [];
         if ($this->scopeRequired) {
             if (array_intersect($this->scopeRequired, $scope) != $this->scopeRequired) {
-                throw new InvalidScopeException(array(
+                throw new InvalidScopeException([
                     'error_description' => 'The requested scope is malformed.',
-                ));
+                ]);
             }
         }
 

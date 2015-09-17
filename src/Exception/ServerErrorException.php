@@ -18,7 +18,7 @@ namespace AuthBucket\OAuth2\Exception;
  */
 class ServerErrorException extends \LogicException implements ExceptionInterface
 {
-    public function __construct($message = array(), $code = 500, Exception $previous = null)
+    public function __construct($message = [], $code = 500, Exception $previous = null)
     {
         $message['error'] = 'server_error';
         parent::__construct(serialize($message), $code, $previous);

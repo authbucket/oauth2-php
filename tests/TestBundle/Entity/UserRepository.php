@@ -49,9 +49,9 @@ class UserRepository extends AbstractEntityRepository implements UserProviderInt
 
     public function loadUserByUsername($username)
     {
-        $user = $this->findOneBy(array(
+        $user = $this->findOneBy([
             'username' => $username,
-        ));
+        ]);
         if ($user === null) {
             throw new UsernameNotFoundException();
         }

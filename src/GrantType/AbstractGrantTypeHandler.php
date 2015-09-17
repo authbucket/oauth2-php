@@ -50,13 +50,13 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->userChecker = $userChecker;
-        $this->encoderFactory = $encoderFactory;
-        $this->validator = $validator;
-        $this->modelManagerFactory = $modelManagerFactory;
+        $this->tokenStorage            = $tokenStorage;
+        $this->userChecker             = $userChecker;
+        $this->encoderFactory          = $encoderFactory;
+        $this->validator               = $validator;
+        $this->modelManagerFactory     = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
-        $this->userProvider = $userProvider;
+        $this->userProvider            = $userProvider;
     }
 
     /**
@@ -70,9 +70,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     {
         $token = $this->tokenStorage->getToken();
         if ($token === null || !$token instanceof ClientToken) {
-            throw new ServerErrorException(array(
+            throw new ServerErrorException([
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
-            ));
+            ]);
         }
 
         return $token->getClientId();
@@ -100,46 +100,46 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         }
 
         // scope must be in valid format.
-        $errors = $this->validator->validate($scope, array(
+        $errors = $this->validator->validate($scope, [
             new Scope(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         $scope = preg_split('/\s+/', $scope);
 
         // Compare if given scope within all supported scopes.
-        $scopeSupported = array();
-        $scopeManager = $this->modelManagerFactory->getModelManager('scope');
-        $result = $scopeManager->readModelAll();
+        $scopeSupported = [];
+        $scopeManager   = $this->modelManagerFactory->getModelManager('scope');
+        $result         = $scopeManager->readModelAll();
         if ($result !== null) {
             foreach ($result as $row) {
                 $scopeSupported[] = $row->getScope();
             }
         }
         if (array_intersect($scope, $scopeSupported) !== $scope) {
-            throw new InvalidScopeException(array(
+            throw new InvalidScopeException([
                 'error_description' => 'The requested scope is unknown.',
-            ));
+            ]);
         }
 
         // Compare if given scope within all authorized scopes.
-        $scopeAuthorized = array();
+        $scopeAuthorized  = [];
         $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
-        $result = $authorizeManager->readModelOneBy(array(
+        $result           = $authorizeManager->readModelOneBy([
             'clientId' => $clientId,
             'username' => $username,
-        ));
+        ]);
         if ($result !== null) {
             $scopeAuthorized = $result->getScope();
         }
         if (array_intersect($scope, $scopeAuthorized) !== $scope) {
-            throw new InvalidScopeException(array(
+            throw new InvalidScopeException([
                 'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
-            ));
+            ]);
         }
 
         return $scope;

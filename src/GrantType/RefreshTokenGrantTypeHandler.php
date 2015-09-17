@@ -44,10 +44,10 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
                 $scope
             );
 
-        return JsonResponse::create($parameters, 200, array(
+        return JsonResponse::create($parameters, 200, [
             'Cache-Control' => 'no-store',
-            'Pragma' => 'no-cache',
-        ));
+            'Pragma'        => 'no-cache',
+        ]);
     }
 
     /**
@@ -68,40 +68,40 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     ) {
         // refresh_token must exists and in valid format.
         $refreshToken = $request->request->get('refresh_token');
-        $errors = $this->validator->validate($refreshToken, array(
+        $errors       = $this->validator->validate($refreshToken, [
             new NotBlank(),
             new RefreshToken(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // scope may not exists, else must be in valid format.
-        $scope = $request->request->get('scope');
-        $errors = $this->validator->validate($scope, array(
+        $scope  = $request->request->get('scope');
+        $errors = $this->validator->validate($scope, [
             new Scope(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // Check refresh_token with database record.
         $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
-        $result = $refreshTokenManager->readModelOneBy(array(
+        $result              = $refreshTokenManager->readModelOneBy([
             'refreshToken' => $refreshToken,
-        ));
+        ]);
         if ($result === null || $result->getClientId() !== $clientId) {
-            throw new InvalidGrantException(array(
+            throw new InvalidGrantException([
                 'error_description' => 'The provided refresh token was issued to another client.',
-            ));
+            ]);
         } elseif ($result->getExpires() < new \DateTime()) {
-            throw new InvalidGrantException(array(
+            throw new InvalidGrantException([
                 'error_description' => 'The provided refresh token is expired.',
-            ));
+            ]);
         }
 
         // Fetch username from stored refresh_token.
@@ -118,9 +118,9 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             // Compare if given scope within all available granted scopes.
             $scope = preg_split('/\s+/', $scope);
             if (array_intersect($scope, $scopeGranted) !== $scope) {
-                throw new InvalidScopeException(array(
+                throw new InvalidScopeException([
                     'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
-                ));
+                ]);
             }
         }
         // Return original refresh_token's scope if not specify in new request.
@@ -130,37 +130,37 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         if ($scope !== null) {
             // Compare if given scope within all supported scopes.
-            $scopeSupported = array();
-            $scopeManager = $this->modelManagerFactory->getModelManager('scope');
-            $result = $scopeManager->readModelAll();
+            $scopeSupported = [];
+            $scopeManager   = $this->modelManagerFactory->getModelManager('scope');
+            $result         = $scopeManager->readModelAll();
             if ($result !== null) {
                 foreach ($result as $row) {
                     $scopeSupported[] = $row->getScope();
                 }
             }
             if (array_intersect($scope, $scopeSupported) !== $scope) {
-                throw new InvalidScopeException(array(
+                throw new InvalidScopeException([
                     'error_description' => 'The requested scope is unknown.',
-                ));
+                ]);
             }
 
             // Compare if given scope within all authorized scopes.
-            $scopeAuthorized = array();
+            $scopeAuthorized  = [];
             $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->readModelOneBy(array(
+            $result           = $authorizeManager->readModelOneBy([
                 'clientId' => $clientId,
                 'username' => $username,
-            ));
+            ]);
             if ($result !== null) {
                 $scopeAuthorized = $result->getScope();
             }
             if (array_intersect($scope, $scopeAuthorized) !== $scope) {
-                throw new InvalidScopeException(array(
+                throw new InvalidScopeException([
                     'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
-                ));
+                ]);
             }
         }
 
-        return array($username, $scope);
+        return [$username, $scope];
     }
 }

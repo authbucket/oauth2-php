@@ -22,25 +22,25 @@ class UserFixture implements FixtureInterface
         $model = new User();
         $model->setUsername('demousername1')
             ->setPassword('demopassword1')
-            ->setRoles(array(
+            ->setRoles([
                 'ROLE_USER',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new User();
         $model->setUsername('demousername2')
             ->setPassword('demopassword2')
-            ->setRoles(array(
+            ->setRoles([
                 'ROLE_USER',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new User();
         $model->setUsername('demousername3')
             ->setPassword('demopassword3')
-            ->setRoles(array(
+            ->setRoles([
                 'ROLE_USER',
-            ));
+            ]);
         $manager->persist($model);
 
         $manager->flush();

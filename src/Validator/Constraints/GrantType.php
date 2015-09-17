@@ -22,9 +22,9 @@ class GrantType extends Regex
 {
     public function __construct($options = null)
     {
-        return parent::__construct(array_merge(array(
+        return parent::__construct(array_merge([
             'message' => 'This is not a valid grant_type.',
             'pattern' => '/^([a-z0-9\_\-\.]+)$/',
-        ), (array) $options));
+        ], (array) $options));
     }
 }

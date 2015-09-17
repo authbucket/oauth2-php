@@ -41,9 +41,9 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
                 $scope
             );
 
-        return JsonResponse::create($parameters, 200, array(
+        return JsonResponse::create($parameters, 200, [
             'Cache-Control' => 'no-store',
-            'Pragma' => 'no-cache',
-        ));
+            'Pragma'        => 'no-cache',
+        ]);
     }
 }

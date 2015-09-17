@@ -18,25 +18,25 @@ class ModelResourceTypeHandlerTest extends WebTestCase
 {
     public function testExceptionNotExistsAccessToken()
     {
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'abcd')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/resource/model', $parameters, array(), $server);
+        $parameters = [];
+        $server     = [
+            'HTTP_Authorization' => implode(' ', ['Bearer', 'abcd']),
+        ];
+        $client           = $this->createClient();
+        $crawler          = $client->request('GET', '/api/resource/model', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resourceResponse['error']);
+        $this->assertSame('invalid_request', $resourceResponse['error']);
     }
 
     public function testExceptionExpiredAccessToken()
     {
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/resource/model', $parameters, array(), $server);
+        $parameters = [];
+        $server     = [
+            'HTTP_Authorization' => implode(' ', ['Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5']),
+        ];
+        $client           = $this->createClient();
+        $crawler          = $client->request('GET', '/api/resource/model', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resourceResponse['error']);
+        $this->assertSame('invalid_request', $resourceResponse['error']);
     }
 }

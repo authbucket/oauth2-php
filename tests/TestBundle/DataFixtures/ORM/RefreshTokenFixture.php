@@ -24,9 +24,9 @@ class RefreshTokenFixture implements FixtureInterface
             ->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setExpires(new \DateTime('-1 days'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope1',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new RefreshToken();
@@ -34,10 +34,10 @@ class RefreshTokenFixture implements FixtureInterface
             ->setClientId('http://democlient2.com/')
             ->setUsername('demousername2')
             ->setExpires(new \DateTime('+1 days'))
-            ->setScope(array(
+            ->setScope([
                 'unsupportedscope',
                 'demoscope4',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new RefreshToken();
@@ -45,11 +45,11 @@ class RefreshTokenFixture implements FixtureInterface
             ->setClientId('http://democlient3.com/')
             ->setUsername('demousername3')
             ->setExpires(new \DateTime('+1 days'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
-            ));
+            ]);
         $manager->persist($model);
 
         $manager->flush();

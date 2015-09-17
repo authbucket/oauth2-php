@@ -25,7 +25,7 @@ class AccessTokenFixture implements FixtureInterface
             ->setClientId('6b44c21ef7bc8ca7380bb5b8276b3f97')
             ->setUsername('')
             ->setExpires(new \DateTime('+10 years'))
-            ->setScope(array());
+            ->setScope([]);
         $manager->persist($model);
 
         $model = new AccessToken();
@@ -34,9 +34,9 @@ class AccessTokenFixture implements FixtureInterface
             ->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setExpires(new \DateTime('+10 years'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope1',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new AccessToken();
@@ -45,9 +45,9 @@ class AccessTokenFixture implements FixtureInterface
             ->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setExpires(new \DateTime('-1 hours'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope1',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new AccessToken();
@@ -56,10 +56,10 @@ class AccessTokenFixture implements FixtureInterface
             ->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setExpires(new \DateTime('+1 hours'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope1',
                 'demoscope2',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new AccessToken();
@@ -68,9 +68,9 @@ class AccessTokenFixture implements FixtureInterface
             ->setClientId('http://democlient1.com/')
             ->setUsername('demousername1')
             ->setExpires(new \DateTime('+1 hours'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope3',
-            ));
+            ]);
         $manager->persist($model);
 
         $manager->flush();

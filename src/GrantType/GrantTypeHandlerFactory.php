@@ -44,28 +44,28 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null,
-        array $classes = array()
+        array $classes = []
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->userChecker = $userChecker;
-        $this->encoderFactory = $encoderFactory;
-        $this->validator = $validator;
-        $this->modelManagerFactory = $modelManagerFactory;
+        $this->tokenStorage            = $tokenStorage;
+        $this->userChecker             = $userChecker;
+        $this->encoderFactory          = $encoderFactory;
+        $this->validator               = $validator;
+        $this->modelManagerFactory     = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
-        $this->userProvider = $userProvider;
+        $this->userProvider            = $userProvider;
 
         foreach ($classes as $class) {
             if (!class_exists($class)) {
-                throw new UnsupportedGrantTypeException(array(
+                throw new UnsupportedGrantTypeException([
                     'error_description' => 'The authorization grant type is not supported by the authorization server.',
-                ));
+                ]);
             }
 
             $reflection = new \ReflectionClass($class);
             if (!$reflection->implementsInterface('AuthBucket\\OAuth2\\GrantType\\GrantTypeHandlerInterface')) {
-                throw new UnsupportedGrantTypeException(array(
+                throw new UnsupportedGrantTypeException([
                     'error_description' => 'The authorization grant type is not supported by the authorization server.',
-                ));
+                ]);
             }
         }
 
@@ -77,9 +77,9 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         $type = $type ?: current(array_keys($this->classes));
 
         if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
-            throw new UnsupportedGrantTypeException(array(
+            throw new UnsupportedGrantTypeException([
                 'error_description' => 'The authorization grant type is not supported by the authorization server.',
-            ));
+            ]);
         }
 
         $class = $this->classes[$type];

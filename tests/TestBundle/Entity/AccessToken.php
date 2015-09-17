@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AccessToken implements AccessTokenInterface
 {
     /**
-     * @var int
+     * @type int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,42 +32,42 @@ class AccessToken implements AccessTokenInterface
     protected $id;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="access_token", type="string", length=255)
      */
     protected $accessToken;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="token_type", type="string", length=255)
      */
     protected $tokenType;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $clientId;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
-     * @var \DateTime
+     * @type \DateTime
      *
      * @ORM\Column(name="expires", type="datetime")
      */
     protected $expires;
 
     /**
-     * @var array
+     * @type array
      *
      * @ORM\Column(name="scope", type="array")
      */

@@ -24,13 +24,13 @@ class ModelManagerFactory implements ModelManagerFactoryInterface
 {
     protected $managers;
 
-    public function __construct(array $models = array())
+    public function __construct(array $models = [])
     {
-        $managers = array();
+        $managers = [];
 
         foreach ($models as $type => $model) {
             $className = $model.'Manager';
-            $manager = new $className();
+            $manager   = new $className();
             if (!$manager instanceof ModelManagerInterface) {
                 throw new ServerErrorException();
             }
