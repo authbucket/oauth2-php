@@ -12,6 +12,9 @@
         <script src="../../../../../js/bootstrap.min.js"></script>
         <script src="../../../../../js/typeahead.min.js"></script>
         <script src="../../../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     
     
     </head>
@@ -85,6 +88,8 @@
                                             <option value="../../../../../../2.4.7/index.html">2.4.7</option>
                                             <option value="../../../../../../2.4.8/index.html">2.4.8</option>
                                             <option value="../../../../../../3.0.0/index.html">3.0.0</option>
+                                            <option value="../../../../../../3.0.1/index.html">3.0.1</option>
+                                            <option value="../../../../../../3.0.2/index.html">3.0.2</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../../../search.html" method="GET">
@@ -159,9 +164,15 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
+    
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\HttpKernel\HttpKernelInterface">HttpKernelInterface</abbr> $httpKernel, <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface">ResourceTypeHandlerFactoryInterface</abbr> $resourceTypeHandlerFactory, $providerKey, $resourceType = &#039;model&#039;, array $scopeRequired = array(), array $options = array())
+                    <a href="#method___construct">__construct</a>(
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\HttpKernel\HttpKernelInterface">HttpKernelInterface</abbr> $httpKernel, 
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface">ResourceTypeHandlerFactoryInterface</abbr> $resourceTypeHandlerFactory, $providerKey, $resourceType = &#039;model&#039;, 
+    array $scopeRequired = array(), 
+    array $options = array())
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -169,9 +180,11 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
+    
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_authenticate">authenticate</a>(<abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr> $token)
+                    <a href="#method_authenticate">authenticate</a>(
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr> $token)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -179,9 +192,11 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
+    
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_supports">supports</a>(<abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr> $token)
+                    <a href="#method_supports">supports</a>(
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr> $token)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -196,7 +211,13 @@
                     <h3 id="method___construct">
         <div class="location">at line 38</div>
         <code>                    
-    <strong>__construct</strong>(<abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\HttpKernel\HttpKernelInterface">HttpKernelInterface</abbr> $httpKernel, <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface">ResourceTypeHandlerFactoryInterface</abbr> $resourceTypeHandlerFactory, $providerKey, $resourceType = &#039;model&#039;, array $scopeRequired = array(), array $options = array())</code>
+    
+    <strong>__construct</strong>(
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\HttpKernel\HttpKernelInterface">HttpKernelInterface</abbr> $httpKernel, 
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface">ResourceTypeHandlerFactoryInterface</abbr> $resourceTypeHandlerFactory, $providerKey, $resourceType = &#039;model&#039;, 
+    array $scopeRequired = array(), 
+    array $options = array())</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -204,19 +225,22 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\HttpKernel\HttpKernelInterface">HttpKernelInterface</abbr></td>
+                <td>
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\HttpKernel\HttpKernelInterface">HttpKernelInterface</abbr></td>
                 <td>$httpKernel</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></td>
+                <td>
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></td>
                 <td>$modelManagerFactory</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface">ResourceTypeHandlerFactoryInterface</abbr></td>
+                <td>
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface">ResourceTypeHandlerFactoryInterface</abbr></td>
                 <td>$resourceTypeHandlerFactory</td>
                 <td>
 </td>
@@ -234,13 +258,15 @@
 </td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td>
+    array</td>
                 <td>$scopeRequired</td>
                 <td>
 </td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td>
+    array</td>
                 <td>$options</td>
                 <td>
 </td>
@@ -258,7 +284,9 @@
                     <h3 id="method_authenticate">
         <div class="location">at line 57</div>
         <code>                    
-    <strong>authenticate</strong>(<abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr> $token)</code>
+    
+    <strong>authenticate</strong>(
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr> $token)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -266,7 +294,8 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr></td>
+                <td>
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr></td>
                 <td>$token</td>
                 <td>
 </td>
@@ -284,7 +313,9 @@
                     <h3 id="method_supports">
         <div class="location">at line 92</div>
         <code>                    
-    <strong>supports</strong>(<abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr> $token)</code>
+    
+    <strong>supports</strong>(
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr> $token)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -292,7 +323,8 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td><abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr></td>
+                <td>
+    <abbr title="AuthBucket\OAuth2\Security\Authentication\Provider\Symfony\Component\Security\Core\Authentication\Token\TokenInterface">TokenInterface</abbr></td>
                 <td>$token</td>
                 <td>
 </td>
