@@ -36,7 +36,7 @@ class MacTokenTypeHandlerTest extends WebTestCase
     public function testExceptionCreateAccessToken()
     {
         $modelManagerFactory = new BarModelManagerFactory();
-        $handler = new MacTokenTypeHandler(
+        $handler             = new MacTokenTypeHandler(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory']
         );

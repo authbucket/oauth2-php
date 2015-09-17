@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Scope implements ScopeInterface
 {
     /**
-     * @var int
+     * @type int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,7 +32,7 @@ class Scope implements ScopeInterface
     protected $id;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="scope", type="string", length=255)
      */

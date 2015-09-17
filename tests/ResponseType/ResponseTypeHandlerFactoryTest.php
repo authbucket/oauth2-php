@@ -21,7 +21,7 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
      */
     public function testNonExistsResponseTypeHandler()
     {
-        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\NonExistsResponseTypeHandler');
+        $classes = ['foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\NonExistsResponseTypeHandler'];
         $factory = new ResponseTypeHandlerFactory(
             $this->app['security.token_storage'],
             $this->app['validator'],
@@ -36,7 +36,7 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadAddResponseTypeHandler()
     {
-        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\FooResponseTypeHandler');
+        $classes = ['foo' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\FooResponseTypeHandler'];
         $factory = new ResponseTypeHandlerFactory(
             $this->app['security.token_storage'],
             $this->app['validator'],
@@ -51,7 +51,7 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadGetResponseTypeHandler()
     {
-        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler');
+        $classes = ['bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler'];
         $factory = new ResponseTypeHandlerFactory(
             $this->app['security.token_storage'],
             $this->app['validator'],
@@ -64,7 +64,7 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
 
     public function testGoodGetResponseTypeHandler()
     {
-        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler');
+        $classes = ['bar' => 'AuthBucket\\OAuth2\\Tests\\ResponseType\\BarResponseTypeHandler'];
         $factory = new ResponseTypeHandlerFactory(
             $this->app['security.token_storage'],
             $this->app['validator'],
@@ -73,6 +73,6 @@ class ResponseTypeHandlerFactoryTest extends WebTestCase
             $classes
         );
         $handler = $factory->getResponseTypeHandler('bar');
-        $this->assertEquals($factory->getResponseTypeHandlers(), $classes);
+        $this->assertSame($factory->getResponseTypeHandlers(), $classes);
     }
 }

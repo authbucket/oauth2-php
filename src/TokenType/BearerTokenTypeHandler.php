@@ -32,20 +32,20 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
             $tokenHeaders = false;
         }
         $tokenRequest = $request->request->get('access_token', false);
-        $tokenQuery = $request->query->get('access_token', false);
+        $tokenQuery   = $request->query->get('access_token', false);
 
         // At least one (and only one) of client credentials method required.
         if (!$tokenHeaders && !$tokenRequest && !$tokenQuery) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request is missing a required parameter.',
-            ));
+            ]);
         } elseif (($tokenHeaders && $tokenRequest)
             || ($tokenRequest && $tokenQuery)
             || ($tokenQuery && $tokenHeaders)
         ) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes multiple credentials.',
-            ));
+            ]);
         }
 
         // Check with HTTP basic auth if exists.
@@ -54,14 +54,14 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
             ?: $tokenQuery;
 
         // access_token must be in valid format.
-        $errors = $this->validator->validate($accessToken, array(
+        $errors = $this->validator->validate($accessToken, [
             new NotBlank(),
             new AccessToken(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         return $accessToken;
@@ -70,13 +70,13 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
     public function createAccessToken(
         $clientId,
         $username = '',
-        $scope = array(),
+        $scope = [],
         $state = null,
         $withRefreshToken = true
     ) {
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $class = $accessTokenManager->getClassName();
-        $accessToken = new $class();
+        $class              = $accessTokenManager->getClassName();
+        $accessToken        = new $class();
         $accessToken->setAccessToken(md5(uniqid(null, true)))
             ->setTokenType('bearer')
             ->setClientId($clientId)
@@ -85,11 +85,11 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
             ->setScope((array) $scope);
         $accessToken = $accessTokenManager->createModel($accessToken);
 
-        $parameters = array(
+        $parameters = [
             'access_token' => $accessToken->getAccessToken(),
-            'token_type' => $accessToken->getTokenType(),
-            'expires_in' => $accessToken->getExpires()->getTimestamp() - time(),
-        );
+            'token_type'   => $accessToken->getTokenType(),
+            'expires_in'   => $accessToken->getExpires()->getTimestamp() - time(),
+        ];
 
         if (!empty($scope)) {
             $parameters['scope'] = implode(' ', (array) $scope);
@@ -101,8 +101,8 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
 
         if ($withRefreshToken === true) {
             $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
-            $class = $refreshTokenManager->getClassName();
-            $refreshToken = new $class();
+            $class               = $refreshTokenManager->getClassName();
+            $refreshToken        = new $class();
             $refreshToken->setRefreshToken(md5(uniqid(null, true)))
                 ->setClientId($clientId)
                 ->setUsername($username)

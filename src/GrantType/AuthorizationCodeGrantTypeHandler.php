@@ -46,10 +46,10 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
                 $scope
             );
 
-        return JsonResponse::create($parameters, 200, array(
+        return JsonResponse::create($parameters, 200, [
             'Cache-Control' => 'no-store',
-            'Pragma' => 'no-cache',
-        ));
+            'Pragma'        => 'no-cache',
+        ]);
     }
 
     /**
@@ -68,33 +68,33 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $clientId
     ) {
         // code is required and must in valid format.
-        $code = $request->request->get('code');
-        $errors = $this->validator->validate($code, array(
+        $code   = $request->request->get('code');
+        $errors = $this->validator->validate($code, [
             new NotBlank(),
             new Code(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // Check code with database record.
         $codeManager = $this->modelManagerFactory->getModelManager('code');
-        $result = $codeManager->readModelOneBy(array(
+        $result      = $codeManager->readModelOneBy([
             'code' => $code,
-        ));
+        ]);
         if ($result === null || $result->getClientId() !== $clientId) {
-            throw new InvalidGrantException(array(
+            throw new InvalidGrantException([
                 'error_description' => 'The provided authorization grant is invalid.',
-            ));
+            ]);
         } elseif ($result->getExpires() < new \DateTime()) {
-            throw new InvalidGrantException(array(
+            throw new InvalidGrantException([
                 'error_description' => 'The provided authorization grant is expired.',
-            ));
+            ]);
         }
 
-        return array($result->getUsername(), $result->getScope());
+        return [$result->getUsername(), $result->getScope()];
     }
 
     /**
@@ -113,22 +113,22 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     ) {
         // redirect_uri may not exists.
         $redirectUri = $request->request->get('redirect_uri');
-        $errors = $this->validator->validate($redirectUri, array(
+        $errors      = $this->validator->validate($redirectUri, [
             new RedirectUri(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
-        $stored = null;
+        $stored        = null;
         $clientManager = $this->modelManagerFactory->getModelManager('client');
-        $result = $clientManager->readModelOneBy(array(
+        $result        = $clientManager->readModelOneBy([
             'clientId' => $clientId,
-        ));
+        ]);
         if ($result !== null && $result->getRedirectUri()) {
             $stored = $result->getRedirectUri();
         }
@@ -136,18 +136,18 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // At least one of: existing redirect URI or input redirect URI must be
         // specified.
         if (!$stored && !$redirectUri) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request is missing a required parameter.',
-            ));
+            ]);
         }
 
         // If there's an existing uri and one from input, verify that they match.
         if ($stored && $redirectUri) {
             // Ensure that the input uri starts with the stored uri.
             if (strcasecmp(substr($redirectUri, 0, strlen($stored)), $stored) !== 0) {
-                throw new InvalidGrantException(array(
+                throw new InvalidGrantException([
                     'error_description' => 'The provided authorization grant does not match the redirection URI used in the authorization request.',
-                ));
+                ]);
             }
         }
 

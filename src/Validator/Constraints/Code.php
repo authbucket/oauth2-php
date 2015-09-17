@@ -22,9 +22,9 @@ class Code extends Regex
 {
     public function __construct($options = null)
     {
-        return parent::__construct(array_merge(array(
+        return parent::__construct(array_merge([
             'message' => 'This is not a valid code.',
             'pattern' => '/^([\x20-\x7E]+)$/',
-        ), (array) $options));
+        ], (array) $options));
     }
 }

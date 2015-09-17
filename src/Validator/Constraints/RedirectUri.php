@@ -22,8 +22,8 @@ class RedirectUri extends Url
 {
     public function __construct($options = null)
     {
-        return parent::__construct(array_merge(array(
+        return parent::__construct(array_merge([
             'message' => 'This is not a valid redirect_uri.',
-        ), (array) $options));
+        ], (array) $options));
     }
 }

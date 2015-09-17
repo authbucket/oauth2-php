@@ -59,9 +59,9 @@ class ExceptionListener implements EventSubscriberInterface
             );
 
             if ($exception->getCode() < 500) {
-                $this->logger->error($message, array('exception' => $exception));
+                $this->logger->error($message, ['exception' => $exception]);
             } else {
-                $this->logger->critical($message, array('exception' => $exception));
+                $this->logger->critical($message, ['exception' => $exception]);
             }
         }
 
@@ -76,10 +76,10 @@ class ExceptionListener implements EventSubscriberInterface
         } else {
             $code = $exception->getCode();
 
-            $response = JsonResponse::create($message, $code, array(
+            $response = JsonResponse::create($message, $code, [
                 'Cache-Control' => 'no-store',
-                'Pragma' => 'no-cache',
-            ));
+                'Pragma'        => 'no-cache',
+            ]);
         }
 
         $event->setResponse($response);
@@ -87,13 +87,13 @@ class ExceptionListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             /*
              * Priority -2 is used to come after those from SecurityServiceProvider (0)
              * but before the error handlers added with Silex\EventListener\LogListener (-4)
              * and Silex\Application::error (defaults to -8)
              */
-            KernelEvents::EXCEPTION => array('onKernelException', -2),
-        );
+            KernelEvents::EXCEPTION => ['onKernelException', -2],
+        ];
     }
 }

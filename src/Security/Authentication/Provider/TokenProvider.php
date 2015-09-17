@@ -31,7 +31,7 @@ class TokenProvider implements AuthenticationProviderInterface
         $providerKey,
         ModelManagerFactoryInterface $modelManagerFactory
     ) {
-        $this->providerKey = $providerKey;
+        $this->providerKey         = $providerKey;
         $this->modelManagerFactory = $modelManagerFactory;
     }
 
@@ -42,13 +42,13 @@ class TokenProvider implements AuthenticationProviderInterface
         }
 
         $clientManager = $this->modelManagerFactory->getModelManager('client');
-        $client = $clientManager->readModelOneBy(array(
+        $client        = $clientManager->readModelOneBy([
             'clientId' => $token->getClientId(),
-        ));
+        ]);
         if ($client === null || $client->getClientSecret() !== $token->getClientSecret()) {
-            throw new InvalidClientException(array(
+            throw new InvalidClientException([
                 'error_description' => 'Client authentication failed.',
-            ));
+            ]);
         }
 
         $tokenAuthenticated = new ClientToken(

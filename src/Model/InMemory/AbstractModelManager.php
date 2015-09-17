@@ -37,7 +37,7 @@ abstract class AbstractModelManager implements ModelManagerInterface
 
     public function readModelBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $models = array();
+        $models = [];
 
         foreach ($this->models as $model) {
             foreach ($criteria as $key => $value) {

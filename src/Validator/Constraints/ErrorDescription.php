@@ -22,9 +22,9 @@ class ErrorDescription extends Regex
 {
     public function __construct($options = null)
     {
-        return parent::__construct(array_merge(array(
+        return parent::__construct(array_merge([
             'message' => 'This is not a valid error_description.',
             'pattern' => '/^([\x21\x22-\x5B\x5D-\x7E]+)$/',
-        ), (array) $options));
+        ], (array) $options));
     }
 }

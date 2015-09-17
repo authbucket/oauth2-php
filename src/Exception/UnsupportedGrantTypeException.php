@@ -18,7 +18,7 @@ namespace AuthBucket\OAuth2\Exception;
  */
 class UnsupportedGrantTypeException extends \InvalidArgumentException implements ExceptionInterface
 {
-    public function __construct($message = array(), $code = 400, Exception $previous = null)
+    public function __construct($message = [], $code = 400, Exception $previous = null)
     {
         $message['error'] = 'unsupported_grant_type';
         parent::__construct(serialize($message), $code, $previous);

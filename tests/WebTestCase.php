@@ -24,7 +24,7 @@ abstract class WebTestCase extends SilexWebTestCase
 {
     public function createApplication()
     {
-        $app = new Application(array('env' => 'test'));
+        $app = new Application(['env' => 'test']);
 
         require __DIR__.'/../app/AppKernel.php';
 

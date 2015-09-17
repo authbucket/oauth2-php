@@ -18,177 +18,177 @@ class OAuth2ControllerTest extends WebTestCase
 {
     public function testExceptionNoResponseType()
     {
-        $parameters = array(
+        $parameters = [
             'client_id' => '1234',
-        );
-        $server = array(
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/oauth2/authorize', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demopassword1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('GET', '/api/oauth2/authorize', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
+        $this->assertSame('invalid_request', $tokenResponse['error']);
     }
 
     public function testErrorBadResponseType()
     {
-        $parameters = array(
+        $parameters = [
             'response_type' => 'foo',
-            'client_id' => '1234',
-            'redirect_uri' => 'http://example.com/redirect_uri',
-        );
-        $server = array(
+            'client_id'     => '1234',
+            'redirect_uri'  => 'http://example.com/redirect_uri',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'demousername1',
-            'PHP_AUTH_PW' => 'demopassword1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/oauth2/authorize', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demopassword1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('GET', '/api/oauth2/authorize', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('unsupported_response_type', $tokenResponse['error']);
+        $this->assertSame('unsupported_response_type', $tokenResponse['error']);
     }
 
     public function testExceptionNoGrantType()
     {
-        $parameters = array(
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+        $parameters = [
+            'code'         => 'f0c68d250bcc729eb780a235371a9a55',
             'redirect_uri' => 'http://democlient2.com/redirect_uri',
-        );
-        $server = array(
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW' => 'demosecret2',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
+            'PHP_AUTH_PW'   => 'demosecret2',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
+        $this->assertSame('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionBadGrantType()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'foo',
-        );
-        $server = array();
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
+        ];
+        $server  = [];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
+        $this->assertSame('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeNoClientId()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'authorization_code',
-        );
-        $server = array();
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
+        ];
+        $server  = [];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
+        $this->assertSame('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeBothClientId()
     {
-        $parameters = array(
-            'grant_type' => 'authorization_code',
-            'client_id' => 'http://democlient1.com/',
+        $parameters = [
+            'grant_type'    => 'authorization_code',
+            'client_id'     => 'http://democlient1.com/',
             'client_secret' => 'demosecret1',
-        );
-        $server = array(
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
+            'PHP_AUTH_PW'   => 'demosecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
+        $this->assertSame('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeBadBasicClientId()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'authorization_code',
-        );
-        $server = array(
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://badclient1.com/',
-            'PHP_AUTH_PW' => 'badsecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
+            'PHP_AUTH_PW'   => 'badsecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_client', $tokenResponse['error']);
+        $this->assertSame('invalid_client', $tokenResponse['error']);
     }
 
     public function testExceptionAuthCodeBadPostClientId()
     {
-        $parameters = array(
-            'grant_type' => 'authorization_code',
-            'client_id' => 'http://badclient1.com/',
+        $parameters = [
+            'grant_type'    => 'authorization_code',
+            'client_id'     => 'http://badclient1.com/',
             'client_secret' => 'badsecret1',
-        );
-        $server = array();
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
+        ];
+        $server  = [];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_client', $tokenResponse['error']);
+        $this->assertSame('invalid_client', $tokenResponse['error']);
     }
 
     public function testExceptionBadAccessToken()
     {
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', "aaa\x19bbb\x5Cccc\x7Fddd")),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
+        $parameters = [];
+        $server     = [
+            'HTTP_Authorization' => implode(' ', ['Bearer', "aaa\x19bbb\x5Cccc\x7Fddd"]),
+        ];
+        $client           = $this->createClient();
+        $crawler          = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resourceResponse['error']);
+        $this->assertSame('invalid_request', $resourceResponse['error']);
     }
 
     public function testExceptionNotExistsAccessToken()
     {
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'abcd')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
+        $parameters = [];
+        $server     = [
+            'HTTP_Authorization' => implode(' ', ['Bearer', 'abcd']),
+        ];
+        $client           = $this->createClient();
+        $crawler          = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resourceResponse['error']);
+        $this->assertSame('invalid_request', $resourceResponse['error']);
     }
 
     public function testExceptionExpiredAccessToken()
     {
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
+        $parameters = [];
+        $server     = [
+            'HTTP_Authorization' => implode(' ', ['Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5']),
+        ];
+        $client           = $this->createClient();
+        $crawler          = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $resourceResponse['error']);
+        $this->assertSame('invalid_request', $resourceResponse['error']);
     }
 
     public function testGoodAccessToken()
     {
-        $parameters = array();
-        $server = array(
-            'HTTP_Authorization' => implode(' ', array('Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93')),
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, array(), $server);
+        $parameters = [];
+        $server     = [
+            'HTTP_Authorization' => implode(' ', ['Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93']),
+        ];
+        $client           = $this->createClient();
+        $crawler          = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('demousername1', $resourceResponse['username']);
+        $this->assertSame('demousername1', $resourceResponse['username']);
     }
 }

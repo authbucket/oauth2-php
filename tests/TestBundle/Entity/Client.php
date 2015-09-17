@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Client implements ClientInterface
 {
     /**
-     * @var int
+     * @type int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,21 +32,21 @@ class Client implements ClientInterface
     protected $id;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $clientId;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="client_secret", type="string", length=255)
      */
     protected $clientSecret;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="redirect_uri", type="text")
      */

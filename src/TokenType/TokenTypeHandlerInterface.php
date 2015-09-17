@@ -43,7 +43,7 @@ interface TokenTypeHandlerInterface
     public function createAccessToken(
         $clientId,
         $username = '',
-        $scope = array(),
+        $scope = [],
         $state = null,
         $withRefreshToken = true
     );

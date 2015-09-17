@@ -21,7 +21,7 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
      */
     public function testNonExistsTokenTypeHandler()
     {
-        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\NonExistsTokenTypeHandler');
+        $classes = ['foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\NonExistsTokenTypeHandler'];
         $factory = new TokenTypeHandlerFactory(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
@@ -34,7 +34,7 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadAddTokenTypeHandler()
     {
-        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\FooTokenTypeHandler');
+        $classes = ['foo' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\FooTokenTypeHandler'];
         $factory = new TokenTypeHandlerFactory(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
@@ -47,7 +47,7 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadGetTokenTypeHandler()
     {
-        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler');
+        $classes = ['bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler'];
         $factory = new TokenTypeHandlerFactory(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
@@ -58,13 +58,13 @@ class TokenTypeHandlerFactoryTest extends WebTestCase
 
     public function testGoodGetTokenTypeHandler()
     {
-        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler');
+        $classes = ['bar' => 'AuthBucket\\OAuth2\\Tests\\TokenType\\BarTokenTypeHandler'];
         $factory = new TokenTypeHandlerFactory(
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
             $classes
         );
         $handler = $factory->getTokenTypeHandler('bar');
-        $this->assertEquals($factory->getTokenTypeHandlers(), $classes);
+        $this->assertSame($factory->getTokenTypeHandlers(), $classes);
     }
 }

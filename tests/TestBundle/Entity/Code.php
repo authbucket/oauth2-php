@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Code implements CodeInterface
 {
     /**
-     * @var int
+     * @type int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,42 +32,42 @@ class Code implements CodeInterface
     protected $id;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="code", type="string", length=255)
      */
     protected $code;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $clientId;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="redirect_uri", type="text")
      */
     protected $redirectUri;
 
     /**
-     * @var \DateTime
+     * @type \DateTime
      *
      * @ORM\Column(name="expires", type="datetime")
      */
     protected $expires;
 
     /**
-     * @var array
+     * @type array
      *
      * @ORM\Column(name="scope", type="array")
      */
