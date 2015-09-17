@@ -22,9 +22,9 @@ class RefreshToken extends Regex
 {
     public function __construct($options = null)
     {
-        return parent::__construct(array_merge(array(
+        return parent::__construct(array_merge([
             'message' => 'This is not a valid refresh_token.',
             'pattern' => '/^([\x20-\x7E]+)$/',
-        ), (array) $options));
+        ], (array) $options));
     }
 }

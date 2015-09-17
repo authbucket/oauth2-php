@@ -11,17 +11,17 @@ use Doctrine\ORM\Tools\Setup;
 $app['monolog.logfile'] = __DIR__.'/../logs/'.$app['env'].'.log';
 
 // Define SQLite DB path.
-$app['db.options'] = array(
+$app['db.options'] = [
     'driver' => 'pdo_sqlite',
-    'path' => __DIR__.'/../cache/'.$app['env'].'/.ht.sqlite',
-);
+    'path'   => __DIR__.'/../cache/'.$app['env'].'/.ht.sqlite',
+];
 
 // Return an instance of Doctrine ORM entity manager.
 $app['doctrine.orm.entity_manager'] = $app->share(function ($app) {
     $conn = $app['dbs']['default'];
     $em = $app['dbs.event_manager']['default'];
 
-    $driver = new AnnotationDriver(new AnnotationReader(), array(__DIR__.'/../../tests/TestBundle/Entity'));
+    $driver = new AnnotationDriver(new AnnotationReader(), [__DIR__.'/../../tests/TestBundle/Entity']);
     $cache = new FilesystemCache(__DIR__.'/../cache/'.$app['env']);
 
     $config = Setup::createConfiguration(false);
@@ -33,15 +33,15 @@ $app['doctrine.orm.entity_manager'] = $app->share(function ($app) {
 });
 
 // Return entity classes for model manager.
-$app['authbucket_oauth2.model'] = array(
-    'access_token' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\AccessToken',
-    'authorize' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Authorize',
-    'client' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Client',
-    'code' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Code',
+$app['authbucket_oauth2.model'] = [
+    'access_token'  => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\AccessToken',
+    'authorize'     => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Authorize',
+    'client'        => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Client',
+    'code'          => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Code',
     'refresh_token' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\RefreshToken',
-    'scope' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Scope',
-    'user' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\User',
-);
+    'scope'         => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Scope',
+    'user'          => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\User',
+];
 
 // Add model managers from ORM.
 $app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
@@ -56,9 +56,9 @@ require __DIR__.'/security.php';
 
 $app['debug'] = true;
 
-$app['twig.path'] = array(
+$app['twig.path'] = [
     __DIR__.'/../../tests/TestBundle/Resources/views',
-);
+];
 
 // We simply reuse the user provider that already created for authorize firewall
 // here.

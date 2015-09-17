@@ -35,25 +35,25 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        array $classes = array()
+        array $classes = []
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->validator = $validator;
-        $this->modelManagerFactory = $modelManagerFactory;
+        $this->tokenStorage            = $tokenStorage;
+        $this->validator               = $validator;
+        $this->modelManagerFactory     = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
 
         foreach ($classes as $class) {
             if (!class_exists($class)) {
-                throw new UnsupportedResponseTypeException(array(
+                throw new UnsupportedResponseTypeException([
                     'error_description' => 'The authorization server does not support obtaining an authorization code using this method.',
-                ));
+                ]);
             }
 
             $reflection = new \ReflectionClass($class);
             if (!$reflection->implementsInterface('AuthBucket\\OAuth2\\ResponseType\\ResponseTypeHandlerInterface')) {
-                throw new UnsupportedResponseTypeException(array(
+                throw new UnsupportedResponseTypeException([
                     'error_description' => 'The authorization server does not support obtaining an authorization code using this method.',
-                ));
+                ]);
             }
         }
 
@@ -65,9 +65,9 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
         $type = $type ?: current(array_keys($this->classes));
 
         if (!isset($this->classes[$type]) || !class_exists($this->classes[$type])) {
-            throw new UnsupportedResponseTypeException(array(
+            throw new UnsupportedResponseTypeException([
                 'error_description' => 'The authorization server does not support obtaining an authorization code using this method.',
-            ));
+            ]);
         }
 
         $class = $this->classes[$type];

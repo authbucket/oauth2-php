@@ -18,174 +18,174 @@ class PasswordGrantTypeHandlerTest extends WebTestCase
 {
     public function testErrorPasswordNoUsername()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'password' => 'demopassword1',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
-        );
-        $server = array(
+            'password'   => 'demopassword1',
+            'scope'      => 'demoscope1 demoscope2 demoscope3',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
+        $this->assertSame('invalid_request', $tokenResponse['error']);
     }
 
     public function testErrorPasswordNoPassword()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'username' => 'demousername1',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
-        );
-        $server = array(
+            'username'   => 'demousername1',
+            'scope'      => 'demoscope1 demoscope2 demoscope3',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
+        $this->assertSame('invalid_request', $tokenResponse['error']);
     }
 
     public function testExceptionPasswordBadPassword()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'username' => 'demousername1',
-            'password' => 'badpassword1',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
-        );
-        $server = array(
+            'username'   => 'demousername1',
+            'password'   => 'badpassword1',
+            'scope'      => 'demoscope1 demoscope2 demoscope3',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_grant', $tokenResponse['error']);
+        $this->assertSame('invalid_grant', $tokenResponse['error']);
     }
 
     public function testExceptionPasswordBadUsername()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'username' => 'badusername1',
-            'password' => 'badpassword1',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
-        );
-        $server = array(
+            'username'   => 'badusername1',
+            'password'   => 'badpassword1',
+            'scope'      => 'demoscope1 demoscope2 demoscope3',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_grant', $tokenResponse['error']);
+        $this->assertSame('invalid_grant', $tokenResponse['error']);
     }
 
     public function testErrorPasswordUnsupportedScope()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'username' => 'demousername1',
-            'password' => 'demopassword1',
-            'scope' => 'unsupportedscope',
-        );
-        $server = array(
+            'username'   => 'demousername1',
+            'password'   => 'demopassword1',
+            'scope'      => 'unsupportedscope',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_scope', $tokenResponse['error']);
+        $this->assertSame('invalid_scope', $tokenResponse['error']);
     }
 
     public function testErrorPasswordUnauthorizedScope()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'username' => 'demousername1',
-            'password' => 'demopassword1',
-            'scope' => 'demoscope4',
-        );
-        $server = array(
+            'username'   => 'demousername1',
+            'password'   => 'demopassword1',
+            'scope'      => 'demoscope4',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_scope', $tokenResponse['error']);
+        $this->assertSame('invalid_scope', $tokenResponse['error']);
     }
 
     public function testErrorPasswordBadScopeFormat()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'username' => 'demousername1',
-            'password' => 'demopassword1',
-            'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
-        );
-        $server = array(
+            'username'   => 'demousername1',
+            'password'   => 'demopassword1',
+            'scope'      => "demoscope1\x22demoscope2\x5cdemoscope3",
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW' => 'demosecret1',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret1',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('invalid_request', $tokenResponse['error']);
+        $this->assertSame('invalid_request', $tokenResponse['error']);
     }
 
     public function testGoodPassword()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'username' => 'demousername3',
-            'password' => 'demopassword3',
-            'scope' => 'demoscope1 demoscope2 demoscope3',
-        );
-        $server = array(
+            'username'   => 'demousername3',
+            'password'   => 'demopassword3',
+            'scope'      => 'demoscope1 demoscope2 demoscope3',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient3.com/',
-            'PHP_AUTH_PW' => 'demosecret3',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret3',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
 
     public function testGoodPasswordNoScope()
     {
-        $parameters = array(
+        $parameters = [
             'grant_type' => 'password',
-            'username' => 'demousername3',
-            'password' => 'demopassword3',
-        );
-        $server = array(
+            'username'   => 'demousername3',
+            'password'   => 'demopassword3',
+        ];
+        $server = [
             'PHP_AUTH_USER' => 'http://democlient3.com/',
-            'PHP_AUTH_PW' => 'demosecret3',
-        );
-        $client = $this->createClient();
-        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, array(), $server);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+            'PHP_AUTH_PW'   => 'demosecret3',
+        ];
+        $client  = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
     }
 }

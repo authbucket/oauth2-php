@@ -30,15 +30,15 @@ class ClientToken extends AbstractToken implements ClientInterface
         $clientId,
         $clientSecret,
         $redirectUri = '',
-        array $roles = array()
+        array $roles = []
     ) {
         parent::__construct($roles);
 
         $this->providerKey = $providerKey;
 
-        $this->clientId = $clientId;
+        $this->clientId     = $clientId;
         $this->clientSecret = $clientSecret;
-        $this->redirectUri = $redirectUri;
+        $this->redirectUri  = $redirectUri;
 
         parent::setAuthenticated(count($roles) > 0);
     }
@@ -96,13 +96,13 @@ class ClientToken extends AbstractToken implements ClientInterface
 
     public function serialize()
     {
-        return serialize(array(
+        return serialize([
             $this->providerKey,
             $this->clientId,
             $this->clientSecret,
             $this->redirectUri,
             parent::serialize(),
-        ));
+        ]);
     }
 
     public function unserialize($str)

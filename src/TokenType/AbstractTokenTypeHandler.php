@@ -30,26 +30,26 @@ abstract class AbstractTokenTypeHandler implements TokenTypeHandlerInterface
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory
     ) {
-        $this->validator = $validator;
+        $this->validator           = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
     }
 
     public function getAccessToken(Request $request)
     {
-        throw new TemporarilyUnavailableException(array(
+        throw new TemporarilyUnavailableException([
             'error_description' => 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
-        ));
+        ]);
     }
 
     public function createAccessToken(
         $clientId,
         $username = '',
-        $scope = array(),
+        $scope = [],
         $state = null,
         $withRefreshToken = true
     ) {
-        throw new TemporarilyUnavailableException(array(
+        throw new TemporarilyUnavailableException([
             'error_description' => 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
-        ));
+        ]);
     }
 }

@@ -21,7 +21,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
      */
     public function testNonExistsGrantTypeHandler()
     {
-        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\NonExistsGrantTypeHandler');
+        $classes = ['foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\NonExistsGrantTypeHandler'];
         $factory = new GrantTypeHandlerFactory(
             $this->app['security.token_storage'],
             $this->app['security.user_checker'],
@@ -39,7 +39,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadAddGrantTypeHandler()
     {
-        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\FooGrantTypeHandler');
+        $classes = ['foo' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\FooGrantTypeHandler'];
         $factory = new GrantTypeHandlerFactory(
             $this->app['security.token_storage'],
             $this->app['security.user_checker'],
@@ -57,7 +57,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadGetGrantTypeHandler()
     {
-        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\BarGrantTypeHandler');
+        $classes = ['bar' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\BarGrantTypeHandler'];
         $factory = new GrantTypeHandlerFactory(
             $this->app['security.token_storage'],
             $this->app['security.user_checker'],
@@ -73,7 +73,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
 
     public function testGoodGetGrantTypeHandler()
     {
-        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\BarGrantTypeHandler');
+        $classes = ['bar' => 'AuthBucket\\OAuth2\\Tests\\GrantType\\BarGrantTypeHandler'];
         $factory = new GrantTypeHandlerFactory(
             $this->app['security.token_storage'],
             $this->app['security.user_checker'],
@@ -85,6 +85,6 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $classes
         );
         $handler = $factory->getGrantTypeHandler('bar');
-        $this->assertEquals($factory->getGrantTypeHandlers(), $classes);
+        $this->assertSame($factory->getGrantTypeHandlers(), $classes);
     }
 }

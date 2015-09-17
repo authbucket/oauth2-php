@@ -18,7 +18,7 @@ namespace AuthBucket\OAuth2\Exception;
  */
 class TemporarilyUnavailableException extends \LogicException implements ExceptionInterface
 {
-    public function __construct($message = array(), $code = 503, Exception $previous = null)
+    public function __construct($message = [], $code = 503, Exception $previous = null)
     {
         $message['error'] = 'temporarily_unavailable';
         parent::__construct(serialize($message), $code, $previous);

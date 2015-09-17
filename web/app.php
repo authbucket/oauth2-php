@@ -2,7 +2,7 @@
 
 require __DIR__.'/../app/bootstrap.php';
 
-$app = new Silex\Application(array('env' => 'prod'));
+$app = new Silex\Application(['env' => 'prod']);
 
 require __DIR__.'/../app/AppKernel.php';
 

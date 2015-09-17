@@ -25,10 +25,10 @@ class CodeFixture implements FixtureInterface
             ->setUsername('demousername2')
             ->setRedirectUri('http://democlient2.com/redirect_uri')
             ->setExpires(new \DateTime('+10 minutes'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope1',
                 'demoscope2',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new Code();
@@ -37,9 +37,9 @@ class CodeFixture implements FixtureInterface
             ->setUsername('demousername1')
             ->setRedirectUri('http://democlient1.com/redirect_uri')
             ->setExpires(new \DateTime('-10 minutes'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope1',
-            ));
+            ]);
         $manager->persist($model);
 
         $model = new Code();
@@ -48,9 +48,9 @@ class CodeFixture implements FixtureInterface
             ->setUsername('demousername4')
             ->setRedirectUri('http://democlient4.com/redirect_uri')
             ->setExpires(new \DateTime('+10 minutes'))
-            ->setScope(array(
+            ->setScope([
                 'demoscope1',
-            ));
+            ]);
         $manager->persist($model);
 
         $manager->flush();

@@ -35,19 +35,19 @@ class AccessTokenToken extends AbstractToken implements AccessTokenInterface
         $clientId = '',
         $username = '',
         $expires = '',
-        array $scope = array(),
-        array $roles = array()
+        array $scope = [],
+        array $roles = []
     ) {
         parent::__construct($roles);
 
         $this->providerKey = $providerKey;
 
         $this->accessToken = $accessToken;
-        $this->tokenType = $tokenType;
-        $this->clientId = $clientId;
-        $this->username = $username;
-        $this->expires = $expires;
-        $this->scope = $scope;
+        $this->tokenType   = $tokenType;
+        $this->clientId    = $clientId;
+        $this->username    = $username;
+        $this->expires     = $expires;
+        $this->scope       = $scope;
 
         parent::setAuthenticated(count($roles) > 0);
     }
@@ -141,7 +141,7 @@ class AccessTokenToken extends AbstractToken implements AccessTokenInterface
 
     public function serialize()
     {
-        return serialize(array(
+        return serialize([
             $this->providerKey,
             $this->accessToken,
             $this->tokenType,
@@ -150,7 +150,7 @@ class AccessTokenToken extends AbstractToken implements AccessTokenInterface
             $this->expires,
             $this->scope,
             parent::serialize(),
-        ));
+        ]);
     }
 
     public function unserialize($str)

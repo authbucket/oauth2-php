@@ -22,9 +22,9 @@ class Password extends Regex
 {
     public function __construct($options = null)
     {
-        return parent::__construct(array_merge(array(
+        return parent::__construct(array_merge([
             'message' => 'This is not a valid password.',
             'pattern' => '/^([\x09\x20-\x7E\x80-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]*)$/u',
-        ), (array) $options));
+        ], (array) $options));
     }
 }

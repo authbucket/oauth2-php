@@ -25,27 +25,27 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
 {
     public function handle(
         $accessToken,
-        array $options = array()
+        array $options = []
     ) {
-        $options = array_merge(array(
+        $options = array_merge([
             'debug_endpoint' => '',
-            'cache' => true,
-        ), $options);
+            'cache'          => true,
+        ], $options);
 
         // Both options are required.
         if (!$options['debug_endpoint']) {
-            throw new ServerErrorException(array(
+            throw new ServerErrorException([
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
-            ));
+            ]);
         }
 
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
 
         // Get cached access_token and return if exists.
         if ($options['cache']) {
-            $stored = $accessTokenManager->readModelOneBy(array(
+            $stored = $accessTokenManager->readModelOneBy([
                 'accessToken' => $accessToken,
-            ));
+            ]);
             if ($stored !== null && $stored->getExpires() > new \DateTime()) {
                 return $stored;
             }
@@ -55,30 +55,30 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         if (strpos($options['debug_endpoint'], '/') === 0) {
             // For relative URL, use Symfony test client to simulates and
             // HTTP client like a browser and makes requests.
-            $client = new \Symfony\Component\HttpKernel\Client($this->httpKernel);
-            $crawler = $client->request('GET', $options['debug_endpoint'], array(), array(), array(
-                'HTTP_Authorization' => implode(' ', array('Bearer', $accessToken)),
-            ));
+            $client  = new \Symfony\Component\HttpKernel\Client($this->httpKernel);
+            $crawler = $client->request('GET', $options['debug_endpoint'], [], [], [
+                'HTTP_Authorization' => implode(' ', ['Bearer', $accessToken]),
+            ]);
             $content = $client->getResponse()->getContent();
         } else {
             // For absolute URL, use Guzzle client to create request.
-            $client = new \GuzzleHttp\Client();
-            $crawler = $client->get($options['debug_endpoint'], array(
-                'headers' => array('Authorization' => implode(' ', array('Bearer', $accessToken))),
-            ));
+            $client  = new \GuzzleHttp\Client();
+            $crawler = $client->get($options['debug_endpoint'], [
+                'headers' => ['Authorization' => implode(' ', ['Bearer', $accessToken])],
+            ]);
             $content = $crawler->getBody();
         }
         $response = json_decode($content, true);
 
         // Throw exception if error return.
         if (isset($response['error'])) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // Create a new access token with fetched meta data.
-        $class = $accessTokenManager->getClassName();
+        $class             = $accessTokenManager->getClassName();
         $accessTokenCached = new $class();
         $accessTokenCached->setAccessToken($response['access_token'])
             ->setTokenType($response['token_type'])

@@ -21,7 +21,7 @@ class ResourceTypeHandlerFactoryTest extends WebTestCase
      */
     public function testNonExistsResourceTypeHandler()
     {
-        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\NonExistsResourceTypeHandler');
+        $classes = ['foo' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\NonExistsResourceTypeHandler'];
         $factory = new ResourceTypeHandlerFactory(
             $this->app,
             $this->app['authbucket_oauth2.model_manager.factory'],
@@ -34,7 +34,7 @@ class ResourceTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadAddResourceTypeHandler()
     {
-        $classes = array('foo' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\FooResourceTypeHandler');
+        $classes = ['foo' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\FooResourceTypeHandler'];
         $factory = new ResourceTypeHandlerFactory(
             $this->app,
             $this->app['authbucket_oauth2.model_manager.factory'],
@@ -47,7 +47,7 @@ class ResourceTypeHandlerFactoryTest extends WebTestCase
      */
     public function testBadGetResourceTypeHandler()
     {
-        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\BarResourceTypeHandler');
+        $classes = ['bar' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\BarResourceTypeHandler'];
         $factory = new ResourceTypeHandlerFactory(
             $this->app,
             $this->app['authbucket_oauth2.model_manager.factory'],
@@ -58,13 +58,13 @@ class ResourceTypeHandlerFactoryTest extends WebTestCase
 
     public function testGoodGetResourceTypeHandler()
     {
-        $classes = array('bar' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\BarResourceTypeHandler');
+        $classes = ['bar' => 'AuthBucket\\OAuth2\\Tests\\ResourceType\\BarResourceTypeHandler'];
         $factory = new ResourceTypeHandlerFactory(
             $this->app,
             $this->app['authbucket_oauth2.model_manager.factory'],
             $classes
         );
         $handler = $factory->getResourceTypeHandler('bar');
-        $this->assertEquals($factory->getResourceTypeHandlers(), $classes);
+        $this->assertSame($factory->getResourceTypeHandlers(), $classes);
     }
 }

@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements ModelInterface, UserInterface
 {
     /**
-     * @var int
+     * @type int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -33,21 +33,21 @@ class User implements ModelInterface, UserInterface
     protected $id;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
-     * @var string
+     * @type string
      *
      * @ORM\Column(name="password", type="string", length=255)
      */
     protected $password;
 
     /**
-     * @var array
+     * @type array
      *
      * @ORM\Column(name="roles", type="array")
      */

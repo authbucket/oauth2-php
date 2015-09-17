@@ -52,10 +52,10 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
                 $scope
             );
 
-        return JsonResponse::create($parameters, 200, array(
+        return JsonResponse::create($parameters, 200, [
             'Cache-Control' => 'no-store',
-            'Pragma' => 'no-cache',
-        ));
+            'Pragma'        => 'no-cache',
+        ]);
     }
 
     /**
@@ -72,31 +72,31 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     {
         // username must exist and in valid format.
         $username = $request->request->get('username');
-        $errors = $this->validator->validate($username, array(
+        $errors   = $this->validator->validate($username, [
             new NotBlank(),
             new Username(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // password must exist and in valid format.
         $password = $request->request->get('password');
-        $errors = $this->validator->validate($password, array(
+        $errors   = $this->validator->validate($password, [
             new NotBlank(),
             new Password(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // Validate credentials with authentication manager.
         try {
-            $token = new UsernamePasswordToken($username, $password, 'oauth2');
+            $token                  = new UsernamePasswordToken($username, $password, 'oauth2');
             $authenticationProvider = new DaoAuthenticationProvider(
                 $this->userProvider,
                 $this->userChecker,
@@ -105,9 +105,9 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             );
             $authenticationProvider->authenticate($token);
         } catch (BadCredentialsException $e) {
-            throw new InvalidGrantException(array(
+            throw new InvalidGrantException([
                 'error_description' => 'The provided resource owner credentials is invalid.',
-            ));
+            ]);
         }
 
         return $username;

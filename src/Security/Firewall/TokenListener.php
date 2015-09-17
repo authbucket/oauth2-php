@@ -44,11 +44,11 @@ class TokenListener implements ListenerInterface
         ValidatorInterface $validator,
         LoggerInterface $logger
     ) {
-        $this->providerKey = $providerKey;
-        $this->tokenStorage = $tokenStorage;
+        $this->providerKey           = $providerKey;
+        $this->tokenStorage          = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
-        $this->validator = $validator;
-        $this->logger = $logger;
+        $this->validator             = $validator;
+        $this->logger                = $logger;
     }
 
     public function handle(GetResponseEvent $event)
@@ -57,44 +57,44 @@ class TokenListener implements ListenerInterface
 
         // At least one (and only one) of client credentials method required.
         if (!$request->headers->get('PHP_AUTH_USER', false) && !$request->request->get('client_id', false)) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request is missing a required parameter',
-            ));
+            ]);
         } elseif ($request->headers->get('PHP_AUTH_USER', false) && $request->request->get('client_id', false)) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request utilizes more than one mechanism for authenticating the client',
-            ));
+            ]);
         }
 
         // Check with HTTP basic auth if exists.
         if ($request->headers->get('PHP_AUTH_USER', false)) {
-            $clientId = $request->headers->get('PHP_AUTH_USER', false);
+            $clientId     = $request->headers->get('PHP_AUTH_USER', false);
             $clientSecret = $request->headers->get('PHP_AUTH_PW', false);
         } else {
-            $clientId = $request->request->get('client_id', false);
+            $clientId     = $request->request->get('client_id', false);
             $clientSecret = $request->request->get('client_secret', false);
         }
 
         // client_id must in valid format.
-        $errors = $this->validator->validate($clientId, array(
+        $errors = $this->validator->validate($clientId, [
             new NotBlank(),
             new ClientId(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // client_secret must in valid format.
-        $errors = $this->validator->validate($clientId, array(
+        $errors = $this->validator->validate($clientId, [
             new NotBlank(),
             new ClientSecret(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         if (null !== $this->logger) {

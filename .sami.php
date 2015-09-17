@@ -15,12 +15,12 @@ $versions = GitVersionCollection::create($dir)
     ->add('master', 'master branch')
     ->addFromTags('*');
 
-return new Sami($iterator, array(
-    'theme' => 'default',
-    'versions' => $versions,
-    'title' => 'AuthBucket\OAuth2 API',
-    'build_dir' => __DIR__ . '/build/sami/%version%',
-    'cache_dir' => __DIR__ . '/build/cache/sami/%version%',
-    'include_parent_data' => false,
+return new Sami($iterator, [
+    'theme'                => 'default',
+    'versions'             => $versions,
+    'title'                => 'AuthBucket\OAuth2 API',
+    'build_dir'            => __DIR__.'/build/sami/%version%',
+    'cache_dir'            => __DIR__.'/build/cache/sami/%version%',
+    'include_parent_data'  => false,
     'default_opened_level' => 2,
-));
+]);

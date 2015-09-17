@@ -46,8 +46,8 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
 
         // Generate parameters, store to backend and set response.
         $codeManager = $this->modelManagerFactory->getModelManager('code');
-        $class = $codeManager->getClassName();
-        $code = new $class();
+        $class       = $codeManager->getClassName();
+        $code        = new $class();
         $code->setCode(md5(uniqid(null, true)))
             ->setClientId($clientId)
             ->setUsername($username)
@@ -56,10 +56,10 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
             ->setScope((array) $scope);
         $code = $codeManager->createModel($code);
 
-        $parameters = array(
-            'code' => $code->getCode(),
+        $parameters = [
+            'code'  => $code->getCode(),
             'state' => $state,
-        );
+        ];
 
         $redirectUri = Request::create($redirectUri, 'GET', $parameters)->getUri();
 

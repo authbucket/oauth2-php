@@ -18,7 +18,7 @@ namespace AuthBucket\OAuth2\Exception;
  */
 class UnauthorizedClientException extends \LogicException implements ExceptionInterface
 {
-    public function __construct($message = array(), $code = 401, Exception $previous = null)
+    public function __construct($message = [], $code = 401, Exception $previous = null)
     {
         $message['error'] = 'unauthorized_client';
         parent::__construct(serialize($message), $code, $previous);

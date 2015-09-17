@@ -22,9 +22,9 @@ class ExpiresIn extends Regex
 {
     public function __construct($options = null)
     {
-        return parent::__construct(array_merge(array(
+        return parent::__construct(array_merge([
             'message' => 'This is not a valid expires_in.',
             'pattern' => '/^([0-9]+)$/',
-        ), $options));
+        ], $options));
     }
 }

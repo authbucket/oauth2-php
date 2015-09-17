@@ -47,11 +47,11 @@ class ResourceListener implements ListenerInterface
         LoggerInterface $logger,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
-        $this->providerKey = $providerKey;
-        $this->tokenStorage = $tokenStorage;
-        $this->authenticationManager = $authenticationManager;
-        $this->validator = $validator;
-        $this->logger = $logger;
+        $this->providerKey             = $providerKey;
+        $this->tokenStorage            = $tokenStorage;
+        $this->authenticationManager   = $authenticationManager;
+        $this->validator               = $validator;
+        $this->logger                  = $logger;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
@@ -64,27 +64,27 @@ class ResourceListener implements ListenerInterface
         foreach ($this->tokenTypeHandlerFactory->getTokenTypeHandlers() as $key => $value) {
             try {
                 $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler($key);
-                $accessToken = $tokenTypeHandler->getAccessToken($request);
+                $accessToken      = $tokenTypeHandler->getAccessToken($request);
                 break;
             } catch (ExceptionInterface $e) {
                 continue;
             }
         }
         if ($accessToken === null) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         // access_token must in valid format.
-        $errors = $this->validator->validate($accessToken, array(
+        $errors = $this->validator->validate($accessToken, [
             new NotBlank(),
             new AccessToken(),
-        ));
+        ]);
         if (count($errors) > 0) {
-            throw new InvalidRequestException(array(
+            throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
-            ));
+            ]);
         }
 
         if (null !== $this->logger) {
