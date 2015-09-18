@@ -20,13 +20,13 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = [
             'grant_type' => 'authorization_code',
-            'code'       => '08fb55e26c84f8cb060b7803bc177af8',
+            'code' => '08fb55e26c84f8cb060b7803bc177af8',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient4.com/',
-            'PHP_AUTH_PW'   => 'demosecret4',
+            'PHP_AUTH_PW' => 'demosecret4',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -37,15 +37,15 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testExceptionAuthCodeBadRedirectUri()
     {
         $parameters = [
-            'grant_type'   => 'authorization_code',
-            'code'         => 'f0c68d250bcc729eb780a235371a9a55',
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
             'redirect_uri' => 'http://democlient2.com/wrong_uri',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW'   => 'demosecret2',
+            'PHP_AUTH_PW' => 'demosecret2',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -56,15 +56,15 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testExceptionAuthCodeBadRedirectUriFormat()
     {
         $parameters = [
-            'grant_type'   => 'authorization_code',
-            'code'         => 'f0c68d250bcc729eb780a235371a9a55',
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
             'redirect_uri' => "aaa\x22bbb\x5Cccc\x7Fddd",
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW'   => 'demosecret2',
+            'PHP_AUTH_PW' => 'demosecret2',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -74,16 +74,16 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
 
     public function testErrorAuthCodeNoCode()
     {
-        $request    = new Request();
+        $request = new Request();
         $parameters = [
-            'grant_type'   => 'authorization_code',
+            'grant_type' => 'authorization_code',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -94,15 +94,15 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testExceptionWrongClientIdAuthCode()
     {
         $parameters = [
-            'grant_type'   => 'authorization_code',
-            'code'         => 'f0c68d250bcc729eb780a235371a9a55',
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
             'redirect_uri' => 'http://democlient2.com/redirect_uri',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient3.com/',
-            'PHP_AUTH_PW'   => 'demosecret3',
+            'PHP_AUTH_PW' => 'demosecret3',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -113,15 +113,15 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testExceptionExpiredAuthCode()
     {
         $parameters = [
-            'grant_type'   => 'authorization_code',
-            'code'         => '1e5aa97ddaf4b0228dfb4223010d4417',
+            'grant_type' => 'authorization_code',
+            'code' => '1e5aa97ddaf4b0228dfb4223010d4417',
             'redirect_uri' => 'http://democlient1.com/redirect_uri',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -132,29 +132,29 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testGoodAuthCode()
     {
         $parameters = [
-            'grant_type'   => 'authorization_code',
-            'code'         => 'f0c68d250bcc729eb780a235371a9a55',
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
             'redirect_uri' => 'http://democlient2.com/redirect_uri',
-            'state'        => 'f0c68d250bcc729eb780a235371a9a55',
+            'state' => 'f0c68d250bcc729eb780a235371a9a55',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW'   => 'demosecret2',
+            'PHP_AUTH_PW' => 'demosecret2',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         $parameters = [
-            'grant_type'    => 'authorization_code',
-            'code'          => 'f0c68d250bcc729eb780a235371a9a55',
-            'redirect_uri'  => 'http://democlient2.com/redirect_uri',
-            'client_id'     => 'http://democlient2.com/',
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'redirect_uri' => 'http://democlient2.com/redirect_uri',
+            'client_id' => 'http://democlient2.com/',
             'client_secret' => 'demosecret2',
-            'state'         => 'f0c68d250bcc729eb780a235371a9a55',
+            'state' => 'f0c68d250bcc729eb780a235371a9a55',
         ];
-        $server  = [];
-        $client  = $this->createClient();
+        $server = [];
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -163,14 +163,14 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testGoodAuthCodeNoPassedRedirectUri()
     {
         $parameters = [
-            'grant_type'    => 'authorization_code',
-            'code'          => 'f0c68d250bcc729eb780a235371a9a55',
-            'client_id'     => 'http://democlient2.com/',
+            'grant_type' => 'authorization_code',
+            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'client_id' => 'http://democlient2.com/',
             'client_secret' => 'demosecret2',
-            'state'         => 'f0c68d250bcc729eb780a235371a9a55',
+            'state' => 'f0c68d250bcc729eb780a235371a9a55',
         ];
-        $server  = [];
-        $client  = $this->createClient();
+        $server = [];
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -179,15 +179,15 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     public function testGoodAuthCodeNoStoredRedirectUri()
     {
         $parameters = [
-            'grant_type'    => 'authorization_code',
-            'code'          => '08fb55e26c84f8cb060b7803bc177af8',
-            'redirect_uri'  => 'http://democlient4.com/redirect_uri',
-            'client_id'     => 'http://democlient4.com/',
+            'grant_type' => 'authorization_code',
+            'code' => '08fb55e26c84f8cb060b7803bc177af8',
+            'redirect_uri' => 'http://democlient4.com/redirect_uri',
+            'client_id' => 'http://democlient4.com/',
             'client_secret' => 'demosecret4',
-            'state'         => '08fb55e26c84f8cb060b7803bc177af8',
+            'state' => '08fb55e26c84f8cb060b7803bc177af8',
         ];
-        $server  = [];
-        $client  = $this->createClient();
+        $server = [];
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));

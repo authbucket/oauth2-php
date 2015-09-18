@@ -25,7 +25,7 @@ class ModelResourceTypeHandler extends AbstractResourceTypeHandler
         array $options = []
     ) {
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $accessTokenStored  = $accessTokenManager->readModelOneBy([
+        $accessTokenStored = $accessTokenManager->readModelOneBy([
             'accessToken' => $accessToken,
         ]);
         if ($accessTokenStored === null) {

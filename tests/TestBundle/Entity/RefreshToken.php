@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class RefreshToken implements RefreshTokenInterface
 {
     /**
-     * @type int
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,35 +32,35 @@ class RefreshToken implements RefreshTokenInterface
     protected $id;
 
     /**
-     * @type string
+     * @var string
      *
      * @ORM\Column(name="refresh_token", type="string", length=255)
      */
     protected $refreshToken;
 
     /**
-     * @type string
+     * @var string
      *
      * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $clientId;
 
     /**
-     * @type string
+     * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
-     * @type \DateTime
+     * @var \DateTime
      *
      * @ORM\Column(name="expires", type="datetime")
      */
     protected $expires;
 
     /**
-     * @type array
+     * @var array
      *
      * @ORM\Column(name="scope", type="array")
      */

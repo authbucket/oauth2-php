@@ -44,11 +44,11 @@ class TokenListener implements ListenerInterface
         ValidatorInterface $validator,
         LoggerInterface $logger
     ) {
-        $this->providerKey           = $providerKey;
-        $this->tokenStorage          = $tokenStorage;
+        $this->providerKey = $providerKey;
+        $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
-        $this->validator             = $validator;
-        $this->logger                = $logger;
+        $this->validator = $validator;
+        $this->logger = $logger;
     }
 
     public function handle(GetResponseEvent $event)
@@ -68,10 +68,10 @@ class TokenListener implements ListenerInterface
 
         // Check with HTTP basic auth if exists.
         if ($request->headers->get('PHP_AUTH_USER', false)) {
-            $clientId     = $request->headers->get('PHP_AUTH_USER', false);
+            $clientId = $request->headers->get('PHP_AUTH_USER', false);
             $clientSecret = $request->headers->get('PHP_AUTH_PW', false);
         } else {
-            $clientId     = $request->request->get('client_id', false);
+            $clientId = $request->request->get('client_id', false);
             $clientSecret = $request->request->get('client_secret', false);
         }
 

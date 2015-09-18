@@ -36,9 +36,9 @@ class ClientToken extends AbstractToken implements ClientInterface
 
         $this->providerKey = $providerKey;
 
-        $this->clientId     = $clientId;
+        $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
-        $this->redirectUri  = $redirectUri;
+        $this->redirectUri = $redirectUri;
 
         parent::setAuthenticated(count($roles) > 0);
     }

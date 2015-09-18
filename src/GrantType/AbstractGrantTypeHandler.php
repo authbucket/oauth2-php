@@ -50,13 +50,13 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         UserProviderInterface $userProvider = null
     ) {
-        $this->tokenStorage            = $tokenStorage;
-        $this->userChecker             = $userChecker;
-        $this->encoderFactory          = $encoderFactory;
-        $this->validator               = $validator;
-        $this->modelManagerFactory     = $modelManagerFactory;
+        $this->tokenStorage = $tokenStorage;
+        $this->userChecker = $userChecker;
+        $this->encoderFactory = $encoderFactory;
+        $this->validator = $validator;
+        $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
-        $this->userProvider            = $userProvider;
+        $this->userProvider = $userProvider;
     }
 
     /**
@@ -113,8 +113,8 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 
         // Compare if given scope within all supported scopes.
         $scopeSupported = [];
-        $scopeManager   = $this->modelManagerFactory->getModelManager('scope');
-        $result         = $scopeManager->readModelAll();
+        $scopeManager = $this->modelManagerFactory->getModelManager('scope');
+        $result = $scopeManager->readModelAll();
         if ($result !== null) {
             foreach ($result as $row) {
                 $scopeSupported[] = $row->getScope();
@@ -127,9 +127,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         }
 
         // Compare if given scope within all authorized scopes.
-        $scopeAuthorized  = [];
+        $scopeAuthorized = [];
         $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
-        $result           = $authorizeManager->readModelOneBy([
+        $result = $authorizeManager->readModelOneBy([
             'clientId' => $clientId,
             'username' => $username,
         ]);

@@ -46,7 +46,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         return JsonResponse::create($parameters, 200, [
             'Cache-Control' => 'no-store',
-            'Pragma'        => 'no-cache',
+            'Pragma' => 'no-cache',
         ]);
     }
 
@@ -68,7 +68,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     ) {
         // refresh_token must exists and in valid format.
         $refreshToken = $request->request->get('refresh_token');
-        $errors       = $this->validator->validate($refreshToken, [
+        $errors = $this->validator->validate($refreshToken, [
             new NotBlank(),
             new RefreshToken(),
         ]);
@@ -79,7 +79,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         }
 
         // scope may not exists, else must be in valid format.
-        $scope  = $request->request->get('scope');
+        $scope = $request->request->get('scope');
         $errors = $this->validator->validate($scope, [
             new Scope(),
         ]);
@@ -91,7 +91,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check refresh_token with database record.
         $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
-        $result              = $refreshTokenManager->readModelOneBy([
+        $result = $refreshTokenManager->readModelOneBy([
             'refreshToken' => $refreshToken,
         ]);
         if ($result === null || $result->getClientId() !== $clientId) {
@@ -131,8 +131,8 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         if ($scope !== null) {
             // Compare if given scope within all supported scopes.
             $scopeSupported = [];
-            $scopeManager   = $this->modelManagerFactory->getModelManager('scope');
-            $result         = $scopeManager->readModelAll();
+            $scopeManager = $this->modelManagerFactory->getModelManager('scope');
+            $result = $scopeManager->readModelAll();
             if ($result !== null) {
                 foreach ($result as $row) {
                     $scopeSupported[] = $row->getScope();
@@ -145,9 +145,9 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             }
 
             // Compare if given scope within all authorized scopes.
-            $scopeAuthorized  = [];
+            $scopeAuthorized = [];
             $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
-            $result           = $authorizeManager->readModelOneBy([
+            $result = $authorizeManager->readModelOneBy([
                 'clientId' => $clientId,
                 'username' => $username,
             ]);

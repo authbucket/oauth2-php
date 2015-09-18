@@ -37,9 +37,9 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         array $classes = []
     ) {
-        $this->tokenStorage            = $tokenStorage;
-        $this->validator               = $validator;
-        $this->modelManagerFactory     = $modelManagerFactory;
+        $this->tokenStorage = $tokenStorage;
+        $this->validator = $validator;
+        $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
 
         foreach ($classes as $class) {

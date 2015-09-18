@@ -31,7 +31,7 @@ class ResourceTypeHandlerFactory implements ResourceTypeHandlerFactoryInterface
         ModelManagerFactoryInterface $modelManagerFactory,
         array $classes = []
     ) {
-        $this->httpKernel          = $httpKernel;
+        $this->httpKernel = $httpKernel;
         $this->modelManagerFactory = $modelManagerFactory;
 
         foreach ($classes as $class) {
