@@ -30,7 +30,7 @@ abstract class AbstractTokenTypeHandler implements TokenTypeHandlerInterface
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory
     ) {
-        $this->validator           = $validator;
+        $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
     }
 

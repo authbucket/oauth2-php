@@ -34,10 +34,10 @@ class DefaultController
     public function adminRefreshDatabaseAction(Request $request, Application $app)
     {
         $conn = $app['db'];
-        $em   = $app['doctrine.orm.entity_manager'];
+        $em = $app['doctrine.orm.entity_manager'];
 
         $params = $conn->getParams();
-        $name   = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
+        $name = isset($params['path']) ? $params['path'] : (isset($params['dbname']) ? $params['dbname'] : false);
 
         try {
             $conn->getSchemaManager()->dropDatabase($name);
@@ -57,7 +57,7 @@ class DefaultController
         $tool->dropSchema($classes);
         $tool->createSchema($classes);
 
-        $purger   = new ORMPurger();
+        $purger = new ORMPurger();
         $executor = new ORMExecutor($em, $purger);
 
         $loader = new Loader();

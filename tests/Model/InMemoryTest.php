@@ -33,7 +33,7 @@ class InMemoryTest extends SilexWebTestCase
         });
 
         $accessTokenManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('access_token');
-        $className          = $accessTokenManager->getClassName();
+        $className = $accessTokenManager->getClassName();
 
         $model = new $className();
         $model->setAccessToken('eeb5aa92bbb4b56373b9e0d00bc02d93')
@@ -65,11 +65,11 @@ class InMemoryTest extends SilexWebTestCase
     public function testExceptionBadAccessToken()
     {
         $parameters = [];
-        $server     = [
+        $server = [
             'HTTP_Authorization' => implode(' ', ['Bearer', "aaa\x19bbb\x5Cccc\x7Fddd"]),
         ];
-        $client           = $this->createClient();
-        $crawler          = $client->request('GET', '/api/resource/debug_endpoint', $parameters, [], $server);
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/resource/debug_endpoint', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('invalid_request', $resourceResponse['error']);
     }
@@ -77,11 +77,11 @@ class InMemoryTest extends SilexWebTestCase
     public function testExceptionNotExistsAccessToken()
     {
         $parameters = [];
-        $server     = [
+        $server = [
             'HTTP_Authorization' => implode(' ', ['Bearer', 'abcd']),
         ];
-        $client           = $this->createClient();
-        $crawler          = $client->request('GET', '/api/resource/debug_endpoint', $parameters, [], $server);
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/resource/debug_endpoint', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('invalid_request', $resourceResponse['error']);
     }
@@ -89,11 +89,11 @@ class InMemoryTest extends SilexWebTestCase
     public function testExceptionExpiredAccessToken()
     {
         $parameters = [];
-        $server     = [
+        $server = [
             'HTTP_Authorization' => implode(' ', ['Bearer', 'd2b58c4c6bc0cc9fefca2d558f1221a5']),
         ];
-        $client           = $this->createClient();
-        $crawler          = $client->request('GET', '/api/resource/debug_endpoint', $parameters, [], $server);
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/resource/debug_endpoint', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('invalid_request', $resourceResponse['error']);
     }
@@ -101,11 +101,11 @@ class InMemoryTest extends SilexWebTestCase
     public function testExceptionInvalidParameter()
     {
         $parameters = [];
-        $server     = [
+        $server = [
             'HTTP_Authorization' => implode(' ', ['Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93']),
         ];
-        $client           = $this->createClient();
-        $crawler          = $client->request('GET', '/api/resource/debug_endpoint/invalid_options', $parameters, [], $server);
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/resource/debug_endpoint/invalid_options', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('server_error', $resourceResponse['error']);
     }
@@ -113,11 +113,11 @@ class InMemoryTest extends SilexWebTestCase
     public function testGoodAccessToken()
     {
         $parameters = [];
-        $server     = [
+        $server = [
             'HTTP_Authorization' => implode(' ', ['Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93']),
         ];
-        $client           = $this->createClient();
-        $crawler          = $client->request('GET', '/api/resource/debug_endpoint', $parameters, [], $server);
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/resource/debug_endpoint', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('demousername1', $resourceResponse['username']);
     }
@@ -125,11 +125,11 @@ class InMemoryTest extends SilexWebTestCase
     public function testGoodAccessTokenCached()
     {
         $parameters = [];
-        $server     = [
+        $server = [
             'HTTP_Authorization' => implode(' ', ['Bearer', 'eeb5aa92bbb4b56373b9e0d00bc02d93']),
         ];
-        $client           = $this->createClient();
-        $crawler          = $client->request('GET', '/api/resource/debug_endpoint/cache', $parameters, [], $server);
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/resource/debug_endpoint/cache', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('demousername1', $resourceResponse['username']);
     }
