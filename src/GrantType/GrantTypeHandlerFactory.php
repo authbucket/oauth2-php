@@ -46,13 +46,13 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         UserProviderInterface $userProvider = null,
         array $classes = []
     ) {
-        $this->tokenStorage            = $tokenStorage;
-        $this->userChecker             = $userChecker;
-        $this->encoderFactory          = $encoderFactory;
-        $this->validator               = $validator;
-        $this->modelManagerFactory     = $modelManagerFactory;
+        $this->tokenStorage = $tokenStorage;
+        $this->userChecker = $userChecker;
+        $this->encoderFactory = $encoderFactory;
+        $this->validator = $validator;
+        $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
-        $this->userProvider            = $userProvider;
+        $this->userProvider = $userProvider;
 
         foreach ($classes as $class) {
             if (!class_exists($class)) {

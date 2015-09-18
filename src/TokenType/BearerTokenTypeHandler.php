@@ -32,7 +32,7 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
             $tokenHeaders = false;
         }
         $tokenRequest = $request->request->get('access_token', false);
-        $tokenQuery   = $request->query->get('access_token', false);
+        $tokenQuery = $request->query->get('access_token', false);
 
         // At least one (and only one) of client credentials method required.
         if (!$tokenHeaders && !$tokenRequest && !$tokenQuery) {
@@ -75,8 +75,8 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
         $withRefreshToken = true
     ) {
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $class              = $accessTokenManager->getClassName();
-        $accessToken        = new $class();
+        $class = $accessTokenManager->getClassName();
+        $accessToken = new $class();
         $accessToken->setAccessToken(md5(uniqid(null, true)))
             ->setTokenType('bearer')
             ->setClientId($clientId)
@@ -87,8 +87,8 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
 
         $parameters = [
             'access_token' => $accessToken->getAccessToken(),
-            'token_type'   => $accessToken->getTokenType(),
-            'expires_in'   => $accessToken->getExpires()->getTimestamp() - time(),
+            'token_type' => $accessToken->getTokenType(),
+            'expires_in' => $accessToken->getExpires()->getTimestamp() - time(),
         ];
 
         if (!empty($scope)) {
@@ -101,8 +101,8 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
 
         if ($withRefreshToken === true) {
             $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
-            $class               = $refreshTokenManager->getClassName();
-            $refreshToken        = new $class();
+            $class = $refreshTokenManager->getClassName();
+            $refreshToken = new $class();
             $refreshToken->setRefreshToken(md5(uniqid(null, true)))
                 ->setClientId($clientId)
                 ->setUsername($username)

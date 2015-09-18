@@ -54,7 +54,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 
         return JsonResponse::create($parameters, 200, [
             'Cache-Control' => 'no-store',
-            'Pragma'        => 'no-cache',
+            'Pragma' => 'no-cache',
         ]);
     }
 
@@ -72,7 +72,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     {
         // username must exist and in valid format.
         $username = $request->request->get('username');
-        $errors   = $this->validator->validate($username, [
+        $errors = $this->validator->validate($username, [
             new NotBlank(),
             new Username(),
         ]);
@@ -84,7 +84,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 
         // password must exist and in valid format.
         $password = $request->request->get('password');
-        $errors   = $this->validator->validate($password, [
+        $errors = $this->validator->validate($password, [
             new NotBlank(),
             new Password(),
         ]);
@@ -96,7 +96,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Validate credentials with authentication manager.
         try {
-            $token                  = new UsernamePasswordToken($username, $password, 'oauth2');
+            $token = new UsernamePasswordToken($username, $password, 'oauth2');
             $authenticationProvider = new DaoAuthenticationProvider(
                 $this->userProvider,
                 $this->userChecker,

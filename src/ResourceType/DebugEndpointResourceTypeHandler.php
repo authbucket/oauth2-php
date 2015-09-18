@@ -29,7 +29,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
     ) {
         $options = array_merge([
             'debug_endpoint' => '',
-            'cache'          => true,
+            'cache' => true,
         ], $options);
 
         // Both options are required.
@@ -55,14 +55,14 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         if (strpos($options['debug_endpoint'], '/') === 0) {
             // For relative URL, use Symfony test client to simulates and
             // HTTP client like a browser and makes requests.
-            $client  = new \Symfony\Component\HttpKernel\Client($this->httpKernel);
+            $client = new \Symfony\Component\HttpKernel\Client($this->httpKernel);
             $crawler = $client->request('GET', $options['debug_endpoint'], [], [], [
                 'HTTP_Authorization' => implode(' ', ['Bearer', $accessToken]),
             ]);
             $content = $client->getResponse()->getContent();
         } else {
             // For absolute URL, use Guzzle client to create request.
-            $client  = new \GuzzleHttp\Client();
+            $client = new \GuzzleHttp\Client();
             $crawler = $client->get($options['debug_endpoint'], [
                 'headers' => ['Authorization' => implode(' ', ['Bearer', $accessToken])],
             ]);
@@ -78,7 +78,7 @@ class DebugEndpointResourceTypeHandler extends AbstractResourceTypeHandler
         }
 
         // Create a new access token with fetched meta data.
-        $class             = $accessTokenManager->getClassName();
+        $class = $accessTokenManager->getClassName();
         $accessTokenCached = new $class();
         $accessTokenCached->setAccessToken($response['access_token'])
             ->setTokenType($response['token_type'])

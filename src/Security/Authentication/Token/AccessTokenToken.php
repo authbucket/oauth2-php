@@ -43,11 +43,11 @@ class AccessTokenToken extends AbstractToken implements AccessTokenInterface
         $this->providerKey = $providerKey;
 
         $this->accessToken = $accessToken;
-        $this->tokenType   = $tokenType;
-        $this->clientId    = $clientId;
-        $this->username    = $username;
-        $this->expires     = $expires;
-        $this->scope       = $scope;
+        $this->tokenType = $tokenType;
+        $this->clientId = $clientId;
+        $this->username = $username;
+        $this->expires = $expires;
+        $this->scope = $scope;
 
         parent::setAuthenticated(count($roles) > 0);
     }

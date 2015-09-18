@@ -47,9 +47,9 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
-        $this->tokenStorage            = $tokenStorage;
-        $this->validator               = $validator;
-        $this->modelManagerFactory     = $modelManagerFactory;
+        $this->tokenStorage = $tokenStorage;
+        $this->validator = $validator;
+        $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
@@ -86,7 +86,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     {
         // client_id is required and in valid format.
         $clientId = $request->query->get('client_id');
-        $errors   = $this->validator->validate($clientId, [
+        $errors = $this->validator->validate($clientId, [
             new NotBlank(),
             new ClientId(),
         ]);
@@ -98,7 +98,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         // Compare client_id with database record.
         $clientManager = $this->modelManagerFactory->getModelManager('client');
-        $result        = $clientManager->readModelOneBy([
+        $result = $clientManager->readModelOneBy([
             'clientId' => $clientId,
         ]);
         if ($result === null) {
@@ -126,7 +126,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     ) {
         // redirect_uri may not exists.
         $redirectUri = $request->query->get('redirect_uri');
-        $errors      = $this->validator->validate($redirectUri, [
+        $errors = $this->validator->validate($redirectUri, [
             new RedirectUri(),
         ]);
         if (count($errors) > 0) {
@@ -138,8 +138,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
         $redirectUriStored = null;
-        $clientManager     = $this->modelManagerFactory->getModelManager('client');
-        $result            = $clientManager->readModelOneBy([
+        $clientManager = $this->modelManagerFactory->getModelManager('client');
+        $result = $clientManager->readModelOneBy([
             'clientId' => $clientId,
         ]);
         if ($result !== null && $result->getRedirectUri()) {
@@ -173,14 +173,14 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         $redirectUri
     ) {
         // state is required and in valid format.
-        $state  = $request->query->get('state');
+        $state = $request->query->get('state');
         $errors = $this->validator->validate($state, [
             new NotBlank(),
             new State(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
-                'redirect_uri'      => $redirectUri,
+                'redirect_uri' => $redirectUri,
                 'error_description' => 'The request includes an invalid parameter value',
             ]);
         }
@@ -208,8 +208,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
-                'redirect_uri'      => $redirectUri,
-                'state'             => $state,
+                'redirect_uri' => $redirectUri,
+                'state' => $state,
                 'error_description' => 'The request includes an invalid parameter value.',
             ]);
         }
@@ -218,8 +218,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         // Compare if given scope within all supported scopes.
         $scopeSupported = [];
-        $scopeManager   = $this->modelManagerFactory->getModelManager('scope');
-        $result         = $scopeManager->readModelAll();
+        $scopeManager = $this->modelManagerFactory->getModelManager('scope');
+        $result = $scopeManager->readModelAll();
         if ($result !== null) {
             foreach ($result as $row) {
                 $scopeSupported[] = $row->getScope();
@@ -227,16 +227,16 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         }
         if (array_intersect($scope, $scopeSupported) !== $scope) {
             throw new InvalidScopeException([
-                'redirect_uri'      => $redirectUri,
-                'state'             => $state,
+                'redirect_uri' => $redirectUri,
+                'state' => $state,
                 'error_description' => 'The requested scope is unknown.',
             ]);
         }
 
         // Compare if given scope within all authorized scopes.
-        $scopeAuthorized  = [];
+        $scopeAuthorized = [];
         $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
-        $result           = $authorizeManager->readModelOneBy([
+        $result = $authorizeManager->readModelOneBy([
             'clientId' => $clientId,
             'username' => $username,
         ]);
@@ -245,8 +245,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         }
         if (array_intersect($scope, $scopeAuthorized) !== $scope) {
             throw new InvalidScopeException([
-                'redirect_uri'      => $redirectUri,
-                'state'             => $state,
+                'redirect_uri' => $redirectUri,
+                'state' => $state,
                 'error_description' => 'The requested scope is invalid.',
             ]);
         }

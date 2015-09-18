@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Authorize implements AuthorizeInterface
 {
     /**
-     * @type int
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,21 +32,21 @@ class Authorize implements AuthorizeInterface
     protected $id;
 
     /**
-     * @type string
+     * @var string
      *
      * @ORM\Column(name="client_id", type="string", length=255)
      */
     protected $clientId;
 
     /**
-     * @type string
+     * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
-     * @type array
+     * @var array
      *
      * @ORM\Column(name="scope", type="array")
      */
