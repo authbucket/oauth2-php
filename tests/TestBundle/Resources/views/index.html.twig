@@ -71,71 +71,71 @@ $app-&gt;match(&#39;/api/oauth2/debug&#39;, &#39;authbucket_oauth2.oauth2_contro
     return new Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
 });
 
-$app[&#39;security.user_provider.default&#39;] = $app[&#39;security.user_provider.inmemory._proto&#39;](array(
-    &#39;demousername1&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword1&#39;),
-    &#39;demousername2&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword2&#39;),
-    &#39;demousername3&#39; =&gt; array(&#39;ROLE_USER&#39;, &#39;demopassword3&#39;),
-));
+$app[&#39;security.user_provider.default&#39;] = $app[&#39;security.user_provider.inmemory._proto&#39;]([
+    &#39;demousername1&#39; =&gt; [&#39;ROLE_USER&#39;, &#39;demopassword1&#39;],
+    &#39;demousername2&#39; =&gt; [&#39;ROLE_USER&#39;, &#39;demopassword2&#39;],
+    &#39;demousername3&#39; =&gt; [&#39;ROLE_USER&#39;, &#39;demopassword3&#39;],
+]);
 
-$app[&#39;security.firewalls&#39;] = array(
-    &#39;api_oauth2_authorize&#39; =&gt; array(
+$app[&#39;security.firewalls&#39;] = [
+    &#39;api_oauth2_authorize&#39; =&gt; [
         &#39;pattern&#39; =&gt; &#39;^/api/oauth2/authorize$&#39;,
         &#39;http&#39; =&gt; true,
         &#39;users&#39; =&gt; $app[&#39;security.user_provider.default&#39;],
-    ),
-);</code></pre>
+    ],
+];</code></pre>
 
                 <h3 id="token-endpoint">Token Endpoint</h3>
                 <p>Similar as authorization endpoint, we need to protect this endpoint with our custom firewall <code>oauth2_token</code>:</p>
-<pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
-    &#39;api_oauth2_token&#39; =&gt; array(
+<pre><code class="php">$app[&#39;security.firewalls&#39;] = [
+    &#39;api_oauth2_token&#39; =&gt; [
         &#39;pattern&#39; =&gt; &#39;^/api/oauth2/token$&#39;,
         &#39;oauth2_token&#39; =&gt; true,
-    ),
-);</code></pre>
+    ],
+];</code></pre>
 
                 <h3 id="debug-endpoint">Debug Endpoint</h3>
                 <p>We should protect this endpoint with our custom firewall <code>oauth2_resource</code>:</p>
-<pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
-    &#39;api_oauth2_debug&#39; =&gt; array(
+<pre><code class="php">$app[&#39;security.firewalls&#39;] = [
+    &#39;api_oauth2_debug&#39; =&gt; [
         &#39;pattern&#39; =&gt; &#39;^/api/oauth2/debug$&#39;,
         &#39;oauth2_resource&#39; =&gt; true,
-    ),
-);</code></pre>
+    ],
+];</code></pre>
 
                 <h3 id="resource-endpoint">Resource Endpoint</h3>
                 <p>We don't provide other else resource endpoint controller implementation besides above debug endpoint. You should consider implement your own endpoint with custom logic, e.g. fetching user email address or profile image.</p>
                 <p>On the other hand, you can protect your resource server endpoint with our custom firewall <code>oauth2_resource</code>. Shorthand version (default assume resource server bundled with authorization server, query local model manager, without scope protection):</p>
-<pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
-    &#39;api_resource&#39; =&gt; array(
+<pre><code class="php">$app[&#39;security.firewalls&#39;] = [
+    &#39;api_resource&#39; =&gt; [
         &#39;pattern&#39; =&gt; &#39;^/api/resource&#39;,
         &#39;oauth2_resource&#39; =&gt; true,
-    ),
-);</code></pre>
+    ],
+];</code></pre>
                 <p>Longhand version (assume resource server bundled with authorization server, query local model manager, protect with scope <code>demoscope1</code>):</p>
-<pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
-    &#39;api_resource&#39; =&gt; array(
+<pre><code class="php">$app[&#39;security.firewalls&#39;] = [
+    &#39;api_resource&#39; =&gt; [
         &#39;pattern&#39; =&gt; &#39;^/api/resource&#39;,
-        &#39;oauth2_resource&#39; =&gt; array(
+        &#39;oauth2_resource&#39; =&gt; [
             &#39;resource_type&#39; =&gt; &#39;model&#39;,
-            &#39;scope&#39; =&gt; array(&#39;demoscope1&#39;),
-        ),
-    ),
-);</code></pre>
+            &#39;scope&#39; =&gt; [&#39;demoscope1&#39;],
+        ],
+    ],
+];</code></pre>
                 <p>If authorization server is hosting somewhere else, you can protect your local resource endpoint by query remote authorization server debug endpoint:</p>
-<pre><code class="php">$app[&#39;security.firewalls&#39;] = array(
-    &#39;api_resource&#39; =&gt; array(
+<pre><code class="php">$app[&#39;security.firewalls&#39;] = [
+    &#39;api_resource&#39; =&gt; [
         &#39;pattern&#39; =&gt; &#39;^/api/resource&#39;,
-        &#39;oauth2_resource&#39; =&gt; array(
+        &#39;oauth2_resource&#39; =&gt; [
             &#39;resource_type&#39; =&gt; &#39;debug_endpoint&#39;,
-            &#39;scope&#39; =&gt; array(&#39;demoscope1&#39;),
-            &#39;options&#39; =&gt; array(
+            &#39;scope&#39; =&gt; [&#39;demoscope1&#39;],
+            &#39;options&#39; =&gt; [
                 &#39;debug_endpoint&#39; =&gt; &#39;http://example.com/api/oauth2/debug&#39;,
                 &#39;cache&#39; =&gt; true,
-            ),
-        ),
-    ),
-);</code></pre>
+            ],
+        ],
+    ],
+];</code></pre>
 
                 <h2 id="demo" class="page-header">Demo</h2>
                 <p class="lead">The demo is based on <a href="http://silex.sensiolabs.org/">Silex</a> and <a href="https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a>. Read though <a href="http://oauth2-php.authbucket.com/demo">Demo</a> for more information.</p>
