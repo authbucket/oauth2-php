@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>PantaRei\OAuth2\TokenType\MacTokenTypeHandler | AuthBucket\OAuth2 API</title>
+    <title>Pantarei\Oauth2\TokenType\MacTokenTypeHandler | AuthBucket\OAuth2 API</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:PantaRei_OAuth2_TokenType_MacTokenTypeHandler" data-root-path="../../../">
+    <body id="class" data-name="class:Pantarei_Oauth2_TokenType_MacTokenTypeHandler" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -27,9 +27,9 @@
                 <select id="version-switcher" name="version">
                                             <option value="../../../../develop/index.html">develop branch</option>
                                             <option value="../../../../master/index.html">master branch</option>
-                                            <option value="../../../../1.0.0-alpha1/index.html">1.0.0-alpha1</option>
+                                            <option value="../../../../1.0.0-alpha1/index.html" selected>1.0.0-alpha1</option>
                                             <option value="../../../../1.0.0-alpha2/index.html">1.0.0-alpha2</option>
-                                            <option value="../../../../1.0.0-alpha3/index.html" selected>1.0.0-alpha3</option>
+                                            <option value="../../../../1.0.0-alpha3/index.html">1.0.0-alpha3</option>
                                             <option value="../../../../1.0.0-alpha4/index.html">1.0.0-alpha4</option>
                                             <option value="../../../../1.0.0-alpha5/index.html">1.0.0-alpha5</option>
                                             <option value="../../../../1.0.0-beta1/index.html">1.0.0-beta1</option>
@@ -90,6 +90,8 @@
                                             <option value="../../../../3.0.0/index.html">3.0.0</option>
                                             <option value="../../../../3.0.1/index.html">3.0.1</option>
                                             <option value="../../../../3.0.2/index.html">3.0.2</option>
+                                            <option value="../../../../3.0.3/index.html">3.0.3</option>
+                                            <option value="../../../../3.0.4/index.html">3.0.4</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../search.html" method="GET">
@@ -132,9 +134,9 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                                                            <li><a href="../../../PantaRei.html">PantaRei</a></li>
-                                        <li><a href="../../../PantaRei/OAuth2.html">OAuth2</a></li>
-                                        <li><a href="../../../PantaRei/OAuth2/TokenType.html">TokenType</a></li>
+                                                            <li><a href="../../../Pantarei.html">Pantarei</a></li>
+                                        <li><a href="../../../Pantarei/Oauth2.html">Oauth2</a></li>
+                                        <li><a href="../../../Pantarei/Oauth2/TokenType.html">TokenType</a></li>
     
                 <li>MacTokenTypeHandler</li>
             </ol>
@@ -147,7 +149,7 @@
 
     <p>    class
     <strong>MacTokenTypeHandler</strong>        implements
-        <a href="../../../PantaRei/OAuth2/TokenType/TokenTypeHandlerInterface.html"><abbr title="PantaRei\OAuth2\TokenType\TokenTypeHandlerInterface">TokenTypeHandlerInterface</abbr></a>
+        <a href="../../../Pantarei/Oauth2/TokenType/TokenTypeHandlerInterface.html"><abbr title="Pantarei\Oauth2\TokenType\TokenTypeHandlerInterface">TokenTypeHandlerInterface</abbr></a>
 </p>
 
     
@@ -164,7 +166,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getAccessToken">getAccessToken</a>(
-    <abbr title="PantaRei\OAuth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
+    <abbr title="Pantarei\Oauth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
                                             <p>Fetch access_token from given request.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -175,7 +177,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_createAccessToken">createAccessToken</a>(
-    <abbr title="PantaRei\OAuth2\TokenType\PantaRei\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
+    <abbr title="Pantarei\Oauth2\TokenType\Pantarei\Oauth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
     string $client_id, 
     string $username = &#039;&#039;, 
     array $scope = array(), 
@@ -196,7 +198,7 @@
         <code>                    
     string
     <strong>getAccessToken</strong>(
-    <abbr title="PantaRei\OAuth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
+    <abbr title="Pantarei\Oauth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -207,7 +209,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>
-    <abbr title="PantaRei\OAuth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr></td>
+    <abbr title="Pantarei\Oauth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr></td>
                 <td>$request</td>
                 <td>Incoming request object.</td>
             </tr>
@@ -236,7 +238,7 @@
         <code>                    
     array
     <strong>createAccessToken</strong>(
-    <abbr title="PantaRei\OAuth2\TokenType\PantaRei\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
+    <abbr title="Pantarei\Oauth2\TokenType\Pantarei\Oauth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
     string $client_id, 
     string $username = &#039;&#039;, 
     array $scope = array(), 
@@ -252,7 +254,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>
-    <abbr title="PantaRei\OAuth2\TokenType\PantaRei\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></td>
+    <abbr title="Pantarei\Oauth2\TokenType\Pantarei\Oauth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></td>
                 <td>$modelManagerFactory</td>
                 <td>Model manager factory for storing record into database.</td>
             </tr>

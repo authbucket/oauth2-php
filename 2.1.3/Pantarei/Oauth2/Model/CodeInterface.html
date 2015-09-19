@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>Pantarei\OAuth2\Model\CodeInterface | AuthBucket\OAuth2 API</title>
+    <title>Pantarei\Oauth2\Model\CodeInterface | AuthBucket\OAuth2 API</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:Pantarei_OAuth2_Model_CodeInterface" data-root-path="../../../">
+    <body id="class" data-name="class:Pantarei_Oauth2_Model_CodeInterface" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -27,10 +27,10 @@
                 <select id="version-switcher" name="version">
                                             <option value="../../../../develop/index.html">develop branch</option>
                                             <option value="../../../../master/index.html">master branch</option>
-                                            <option value="../../../../1.0.0-alpha1/index.html">1.0.0-alpha1</option>
+                                            <option value="../../../../1.0.0-alpha1/index.html" selected>1.0.0-alpha1</option>
                                             <option value="../../../../1.0.0-alpha2/index.html">1.0.0-alpha2</option>
                                             <option value="../../../../1.0.0-alpha3/index.html">1.0.0-alpha3</option>
-                                            <option value="../../../../1.0.0-alpha4/index.html" selected>1.0.0-alpha4</option>
+                                            <option value="../../../../1.0.0-alpha4/index.html">1.0.0-alpha4</option>
                                             <option value="../../../../1.0.0-alpha5/index.html">1.0.0-alpha5</option>
                                             <option value="../../../../1.0.0-beta1/index.html">1.0.0-beta1</option>
                                             <option value="../../../../1.0.0-rc1/index.html">1.0.0-rc1</option>
@@ -90,6 +90,8 @@
                                             <option value="../../../../3.0.0/index.html">3.0.0</option>
                                             <option value="../../../../3.0.1/index.html">3.0.1</option>
                                             <option value="../../../../3.0.2/index.html">3.0.2</option>
+                                            <option value="../../../../3.0.3/index.html">3.0.3</option>
+                                            <option value="../../../../3.0.4/index.html">3.0.4</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../search.html" method="GET">
@@ -133,8 +135,8 @@
             <ol class="breadcrumb">
                 <li><span class="label label-default">interface</span></li>
                                                             <li><a href="../../../Pantarei.html">Pantarei</a></li>
-                                        <li><a href="../../../Pantarei/OAuth2.html">OAuth2</a></li>
-                                        <li><a href="../../../Pantarei/OAuth2/Model.html">Model</a></li>
+                                        <li><a href="../../../Pantarei/Oauth2.html">Oauth2</a></li>
+                                        <li><a href="../../../Pantarei/Oauth2/Model.html">Model</a></li>
     
                 <li>CodeInterface</li>
             </ol>
@@ -147,7 +149,7 @@
 
     <p>    interface
     <strong>CodeInterface</strong>        implements
-        <a href="../../../Pantarei/OAuth2/Model/ModelInterface.html"><abbr title="Pantarei\OAuth2\Model\ModelInterface">ModelInterface</abbr></a>
+        <a href="../../../Pantarei/Oauth2/Model/ModelInterface.html"><abbr title="Pantarei\Oauth2\Model\ModelInterface">ModelInterface</abbr></a>
 </p>
 
     
@@ -157,17 +159,6 @@
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setCode">setCode</a>(
-    string $code)
-                                            <p>Set code</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     
@@ -181,33 +172,11 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setClientId">setClientId</a>(
-    string $client_id)
-                                            <p>Set client_id</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
     string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getClientId">getClientId</a>()
-                                            <p>Get client_id</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setUsername">setUsername</a>(
-    string $username)
-                                            <p>Set username</p>                </div>
+                                            <p>Get clientId</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -223,33 +192,11 @@
                     <div class="row">
                 <div class="col-md-2 type">
                     
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setRedirectUri">setRedirectUri</a>(
-    string $redirect_uri)
-                                            <p>Set redirect_uri</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
     string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getRedirectUri">getRedirectUri</a>()
-                                            <p>Get redirect_uri</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setExpires">setExpires</a>(
-    integer $expires)
-                                            <p>Set expires</p>                </div>
+                                            <p>Get redirectUri</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -260,17 +207,6 @@
                 <div class="col-md-8 type">
                     <a href="#method_getExpires">getExpires</a>()
                                             <p>Get expires</p>                </div>
-                <div class="col-md-2"></div>
-            </div>
-                    <div class="row">
-                <div class="col-md-2 type">
-                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-                </div>
-                <div class="col-md-8 type">
-                    <a href="#method_setScope">setScope</a>(
-    array $scope)
-                                            <p>Set scope</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -290,50 +226,8 @@
 
             <div id="method-details">
                     <div class="method-item">
-                    <h3 id="method_setCode">
-        <div class="location">at line 22</div>
-        <code>                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-    <strong>setCode</strong>(
-    string $code)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Set code</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    string</td>
-                <td>$code</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_getCode">
-        <div class="location">at line 29</div>
+        <div class="location">at line 21</div>
         <code>                    
     string
     <strong>getCode</strong>()</code>
@@ -361,57 +255,15 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_setClientId">
-        <div class="location">at line 37</div>
-        <code>                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-    <strong>setClientId</strong>(
-    string $client_id)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Set client_id</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    string</td>
-                <td>$client_id</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_getClientId">
-        <div class="location">at line 44</div>
+        <div class="location">at line 28</div>
         <code>                    
     string
     <strong>getClientId</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Get client_id</p>                                </div>
+                                    <p>Get clientId</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -420,48 +272,6 @@
         <tr>
             <td>
     string</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_setUsername">
-        <div class="location">at line 52</div>
-        <code>                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-    <strong>setUsername</strong>(
-    string $username)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Set username</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    string</td>
-                <td>$username</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr></td>
             <td>
 </td>
         </tr>
@@ -475,7 +285,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getUsername">
-        <div class="location">at line 59</div>
+        <div class="location">at line 35</div>
         <code>                    
     string
     <strong>getUsername</strong>()</code>
@@ -503,57 +313,15 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_setRedirectUri">
-        <div class="location">at line 67</div>
-        <code>                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-    <strong>setRedirectUri</strong>(
-    string $redirect_uri)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Set redirect_uri</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    string</td>
-                <td>$redirect_uri</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_getRedirectUri">
-        <div class="location">at line 74</div>
+        <div class="location">at line 42</div>
         <code>                    
     string
     <strong>getRedirectUri</strong>()</code>
     </h3>
     <div class="details">
                     <div class="method-description">
-                                    <p>Get redirect_uri</p>                                </div>
+                                    <p>Get redirectUri</p>                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>
@@ -562,48 +330,6 @@
         <tr>
             <td>
     string</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
-                    <h3 id="method_setExpires">
-        <div class="location">at line 82</div>
-        <code>                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-    <strong>setExpires</strong>(
-    integer $expires)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Set expires</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    integer</td>
-                <td>$expires</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr></td>
             <td>
 </td>
         </tr>
@@ -617,7 +343,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getExpires">
-        <div class="location">at line 89</div>
+        <div class="location">at line 49</div>
         <code>                    
     integer
     <strong>getExpires</strong>()</code>
@@ -645,50 +371,8 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_setScope">
-        <div class="location">at line 97</div>
-        <code>                    
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr>
-    <strong>setScope</strong>(
-    array $scope)</code>
-    </h3>
-    <div class="details">
-                    <div class="method-description">
-                                    <p>Set scope</p>                                </div>
-                <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table class="table table-condensed">
-                    <tr>
-                <td>
-    array</td>
-                <td>$scope</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table class="table table-condensed">
-        <tr>
-            <td>
-    <abbr title="Pantarei\OAuth2\Model\Code">Code</abbr></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-            </div>
-                    <div class="method-item">
                     <h3 id="method_getScope">
-        <div class="location">at line 104</div>
+        <div class="location">at line 56</div>
         <code>                    
     array
     <strong>getScope</strong>()</code>

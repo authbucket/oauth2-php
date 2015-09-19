@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>Pantarei\OAuth2\Controller\AuthorizeController | AuthBucket\OAuth2 API</title>
+    <title>Pantarei\Oauth2\Controller\AuthorizeController | AuthBucket\OAuth2 API</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:Pantarei_OAuth2_Controller_AuthorizeController" data-root-path="../../../">
+    <body id="class" data-name="class:Pantarei_Oauth2_Controller_AuthorizeController" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -28,9 +28,9 @@
                                             <option value="../../../../develop/index.html">develop branch</option>
                                             <option value="../../../../master/index.html">master branch</option>
                                             <option value="../../../../1.0.0-alpha1/index.html">1.0.0-alpha1</option>
-                                            <option value="../../../../1.0.0-alpha2/index.html">1.0.0-alpha2</option>
+                                            <option value="../../../../1.0.0-alpha2/index.html" selected>1.0.0-alpha2</option>
                                             <option value="../../../../1.0.0-alpha3/index.html">1.0.0-alpha3</option>
-                                            <option value="../../../../1.0.0-alpha4/index.html" selected>1.0.0-alpha4</option>
+                                            <option value="../../../../1.0.0-alpha4/index.html">1.0.0-alpha4</option>
                                             <option value="../../../../1.0.0-alpha5/index.html">1.0.0-alpha5</option>
                                             <option value="../../../../1.0.0-beta1/index.html">1.0.0-beta1</option>
                                             <option value="../../../../1.0.0-rc1/index.html">1.0.0-rc1</option>
@@ -90,6 +90,8 @@
                                             <option value="../../../../3.0.0/index.html">3.0.0</option>
                                             <option value="../../../../3.0.1/index.html">3.0.1</option>
                                             <option value="../../../../3.0.2/index.html">3.0.2</option>
+                                            <option value="../../../../3.0.3/index.html">3.0.3</option>
+                                            <option value="../../../../3.0.4/index.html">3.0.4</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../search.html" method="GET">
@@ -133,8 +135,8 @@
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../../Pantarei.html">Pantarei</a></li>
-                                        <li><a href="../../../Pantarei/OAuth2.html">OAuth2</a></li>
-                                        <li><a href="../../../Pantarei/OAuth2/Controller.html">Controller</a></li>
+                                        <li><a href="../../../Pantarei/Oauth2.html">Oauth2</a></li>
+                                        <li><a href="../../../Pantarei/Oauth2/Controller.html">Controller</a></li>
     
                 <li>AuthorizeController</li>
             </ol>
@@ -150,7 +152,7 @@
 </p>
 
             <div class="description">
-            <p>OAuth2 authorization endpoint controller implementation.</p>                    </div>
+            <p>Oauth2 authorization endpoint controller implementation.</p>                    </div>
     
     
     
@@ -165,10 +167,10 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method___construct">__construct</a>(
-    <abbr title="Pantarei\OAuth2\Controller\Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, 
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface">ResponseTypeHandlerFactoryInterface</abbr> $responseTypeHandlerFactory, 
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr> $tokenTypeHandlerFactory)
+    <abbr title="Pantarei\Oauth2\Controller\Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, 
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface">ResponseTypeHandlerFactoryInterface</abbr> $responseTypeHandlerFactory, 
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr> $tokenTypeHandlerFactory)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -180,7 +182,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_authorizeAction">authorizeAction</a>(
-    <abbr title="Pantarei\OAuth2\Controller\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
+    <abbr title="Pantarei\Oauth2\Controller\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -197,10 +199,10 @@
         <code>                    
     
     <strong>__construct</strong>(
-    <abbr title="Pantarei\OAuth2\Controller\Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, 
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface">ResponseTypeHandlerFactoryInterface</abbr> $responseTypeHandlerFactory, 
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr> $tokenTypeHandlerFactory)</code>
+    <abbr title="Pantarei\Oauth2\Controller\Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr> $securityContext, 
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr> $modelManagerFactory, 
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface">ResponseTypeHandlerFactoryInterface</abbr> $responseTypeHandlerFactory, 
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr> $tokenTypeHandlerFactory)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -209,28 +211,28 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>
-    <abbr title="Pantarei\OAuth2\Controller\Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr></td>
+    <abbr title="Pantarei\Oauth2\Controller\Symfony\Component\Security\Core\SecurityContextInterface">SecurityContextInterface</abbr></td>
                 <td>$securityContext</td>
                 <td>
 </td>
             </tr>
                     <tr>
                 <td>
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></td>
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\Model\ModelManagerFactoryInterface">ModelManagerFactoryInterface</abbr></td>
                 <td>$modelManagerFactory</td>
                 <td>
 </td>
             </tr>
                     <tr>
                 <td>
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface">ResponseTypeHandlerFactoryInterface</abbr></td>
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\ResponseType\ResponseTypeHandlerFactoryInterface">ResponseTypeHandlerFactoryInterface</abbr></td>
                 <td>$responseTypeHandlerFactory</td>
                 <td>
 </td>
             </tr>
                     <tr>
                 <td>
-    <abbr title="Pantarei\OAuth2\Controller\Pantarei\OAuth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></td>
+    <abbr title="Pantarei\Oauth2\Controller\Pantarei\Oauth2\TokenType\TokenTypeHandlerFactoryInterface">TokenTypeHandlerFactoryInterface</abbr></td>
                 <td>$tokenTypeHandlerFactory</td>
                 <td>
 </td>
@@ -250,7 +252,7 @@
         <code>                    
     
     <strong>authorizeAction</strong>(
-    <abbr title="Pantarei\OAuth2\Controller\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
+    <abbr title="Pantarei\Oauth2\Controller\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -259,7 +261,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>
-    <abbr title="Pantarei\OAuth2\Controller\Symfony\Component\HttpFoundation\Request">Request</abbr></td>
+    <abbr title="Pantarei\Oauth2\Controller\Symfony\Component\HttpFoundation\Request">Request</abbr></td>
                 <td>$request</td>
                 <td>
 </td>

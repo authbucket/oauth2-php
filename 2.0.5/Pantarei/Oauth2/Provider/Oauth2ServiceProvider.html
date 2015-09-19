@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>Pantarei\OAuth2\Provider\OAuth2ServiceProvider | AuthBucket\OAuth2 API</title>
+    <title>Pantarei\Oauth2\Provider\Oauth2ServiceProvider | AuthBucket\OAuth2 API</title>
 
             <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:Pantarei_OAuth2_Provider_OAuth2ServiceProvider" data-root-path="../../../">
+    <body id="class" data-name="class:Pantarei_Oauth2_Provider_Oauth2ServiceProvider" data-root-path="../../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -28,9 +28,9 @@
                                             <option value="../../../../develop/index.html">develop branch</option>
                                             <option value="../../../../master/index.html">master branch</option>
                                             <option value="../../../../1.0.0-alpha1/index.html">1.0.0-alpha1</option>
-                                            <option value="../../../../1.0.0-alpha2/index.html">1.0.0-alpha2</option>
+                                            <option value="../../../../1.0.0-alpha2/index.html" selected>1.0.0-alpha2</option>
                                             <option value="../../../../1.0.0-alpha3/index.html">1.0.0-alpha3</option>
-                                            <option value="../../../../1.0.0-alpha4/index.html" selected>1.0.0-alpha4</option>
+                                            <option value="../../../../1.0.0-alpha4/index.html">1.0.0-alpha4</option>
                                             <option value="../../../../1.0.0-alpha5/index.html">1.0.0-alpha5</option>
                                             <option value="../../../../1.0.0-beta1/index.html">1.0.0-beta1</option>
                                             <option value="../../../../1.0.0-rc1/index.html">1.0.0-rc1</option>
@@ -90,6 +90,8 @@
                                             <option value="../../../../3.0.0/index.html">3.0.0</option>
                                             <option value="../../../../3.0.1/index.html">3.0.1</option>
                                             <option value="../../../../3.0.2/index.html">3.0.2</option>
+                                            <option value="../../../../3.0.3/index.html">3.0.3</option>
+                                            <option value="../../../../3.0.4/index.html">3.0.4</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../search.html" method="GET">
@@ -133,25 +135,25 @@
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
                                                             <li><a href="../../../Pantarei.html">Pantarei</a></li>
-                                        <li><a href="../../../Pantarei/OAuth2.html">OAuth2</a></li>
-                                        <li><a href="../../../Pantarei/OAuth2/Provider.html">Provider</a></li>
+                                        <li><a href="../../../Pantarei/Oauth2.html">Oauth2</a></li>
+                                        <li><a href="../../../Pantarei/Oauth2/Provider.html">Provider</a></li>
     
-                <li>OAuth2ServiceProvider</li>
+                <li>Oauth2ServiceProvider</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>OAuth2ServiceProvider</h1>
+        <h1>Oauth2ServiceProvider</h1>
     </div>
 
     <p>    class
-    <strong>OAuth2ServiceProvider</strong>        implements
+    <strong>Oauth2ServiceProvider</strong>        implements
         <abbr title="Silex\ServiceProviderInterface">ServiceProviderInterface</abbr>
 </p>
 
             <div class="description">
-            <p>OAuth2 service provider as plugin for Silex SecurityServiceProvider.</p>                    </div>
+            <p>Oauth2 service provider as plugin for Silex SecurityServiceProvider.</p>                    </div>
     
     
     
@@ -166,7 +168,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_register">register</a>(
-    <abbr title="Pantarei\OAuth2\Provider\Silex\Application">Application</abbr> $app)
+    <abbr title="Pantarei\Oauth2\Provider\Silex\Application">Application</abbr> $app)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -178,7 +180,7 @@
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_boot">boot</a>(
-    <abbr title="Pantarei\OAuth2\Provider\Silex\Application">Application</abbr> $app)
+    <abbr title="Pantarei\Oauth2\Provider\Silex\Application">Application</abbr> $app)
                                             <p class="no-description">No description</p>
                                     </div>
                 <div class="col-md-2"></div>
@@ -195,7 +197,7 @@
         <code>                    
     
     <strong>register</strong>(
-    <abbr title="Pantarei\OAuth2\Provider\Silex\Application">Application</abbr> $app)</code>
+    <abbr title="Pantarei\Oauth2\Provider\Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -204,7 +206,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>
-    <abbr title="Pantarei\OAuth2\Provider\Silex\Application">Application</abbr></td>
+    <abbr title="Pantarei\Oauth2\Provider\Silex\Application">Application</abbr></td>
                 <td>$app</td>
                 <td>
 </td>
@@ -224,7 +226,7 @@
         <code>                    
     
     <strong>boot</strong>(
-    <abbr title="Pantarei\OAuth2\Provider\Silex\Application">Application</abbr> $app)</code>
+    <abbr title="Pantarei\Oauth2\Provider\Silex\Application">Application</abbr> $app)</code>
     </h3>
     <div class="details">
                 <div class="tags">
@@ -233,7 +235,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>
-    <abbr title="Pantarei\OAuth2\Provider\Silex\Application">Application</abbr></td>
+    <abbr title="Pantarei\Oauth2\Provider\Silex\Application">Application</abbr></td>
                 <td>$app</td>
                 <td>
 </td>
