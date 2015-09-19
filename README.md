@@ -114,43 +114,43 @@ e.g. by
         return new Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
     });
 
-    $app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto'](array(
-        'demousername1' => array('ROLE_USER', 'demopassword1'),
-        'demousername2' => array('ROLE_USER', 'demopassword2'),
-        'demousername3' => array('ROLE_USER', 'demopassword3'),
-    ));
+    $app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto']([
+        'demousername1' => ['ROLE_USER', 'demopassword1'],
+        'demousername2' => ['ROLE_USER', 'demopassword2'],
+        'demousername3' => ['ROLE_USER', 'demopassword3'],
+    ]);
 
-    $app['security.firewalls'] = array(
-        'api_oauth2_authorize' => array(
+    $app['security.firewalls'] = [
+        'api_oauth2_authorize' => [
             'pattern' => '^/api/oauth2/authorize$',
             'http' => true,
             'users' => $app['security.user_provider.default'],
-        ),
-    );
+        ],
+    ];
 
 ### Token Endpoint
 
 Similar as authorization endpoint, we need to protect this endpoint with
 our custom firewall `oauth2_token`:
 
-    $app['security.firewalls'] = array(
-        'api_oauth2_token' => array(
+    $app['security.firewalls'] = [
+        'api_oauth2_token' => [
             'pattern' => '^/api/oauth2/token$',
             'oauth2_token' => true,
-        ),
-    );
+        ],
+    ];
 
 ### Debug Endpoint
 
 We should protect this endpoint with our custom firewall
 `oauth2_resource`:
 
-    $app['security.firewalls'] = array(
-        'api_oauth2_debug' => array(
+    $app['security.firewalls'] = [
+        'api_oauth2_debug' => [
             'pattern' => '^/api/oauth2/debug$',
             'oauth2_resource' => true,
-        ),
-    );
+        ],
+    ];
 
 ### Resource Endpoint
 
@@ -164,43 +164,43 @@ our custom firewall `oauth2_resource`. Shorthand version (default assume
 resource server bundled with authorization server, query local model
 manager, without scope protection):
 
-    $app['security.firewalls'] = array(
-        'api_resource' => array(
+    $app['security.firewalls'] = [
+        'api_resource' => [
             'pattern' => '^/api/resource',
             'oauth2_resource' => true,
-        ),
-    );
+        ],
+    ];
 
 Longhand version (assume resource server bundled with authorization
 server, query local model manager, protect with scope `demoscope1`):
 
-    $app['security.firewalls'] = array(
-        'api_resource' => array(
+    $app['security.firewalls'] = [
+        'api_resource' => [
             'pattern' => '^/api/resource',
-            'oauth2_resource' => array(
+            'oauth2_resource' => [
                 'resource_type' => 'model',
-                'scope' => array('demoscope1'),
-            ),
-        ),
-    );
+                'scope' => ['demoscope1'],
+            ],
+        ],
+    ];
 
 If authorization server is hosting somewhere else, you can protect your
 local resource endpoint by query remote authorization server debug
 endpoint:
 
-    $app['security.firewalls'] = array(
-        'api_resource' => array(
+    $app['security.firewalls'] = [
+        'api_resource' => [
             'pattern' => '^/api/resource',
-            'oauth2_resource' => array(
+            'oauth2_resource' => [
                 'resource_type' => 'debug_endpoint',
-                'scope' => array('demoscope1'),
-                'options' => array(
+                'scope' => ['demoscope1'],
+                'options' => [
                     'debug_endpoint' => 'http://example.com/api/oauth2/debug',
                     'cache' => true,
-                ),
-            ),
-        ),
-    );
+                ],
+            ],
+        ],
+    ];
 
 Demo
 ----
