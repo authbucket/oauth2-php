@@ -13,7 +13,7 @@ $app['monolog.logfile'] = __DIR__.'/../logs/'.$app['env'].'.log';
 // Define SQLite DB path.
 $app['db.options'] = [
     'driver' => 'pdo_sqlite',
-    'path'   => __DIR__.'/../cache/'.$app['env'].'/.ht.sqlite',
+    'path' => __DIR__.'/../cache/'.$app['env'].'/.ht.sqlite',
 ];
 
 // Return an instance of Doctrine ORM entity manager.
@@ -34,13 +34,13 @@ $app['doctrine.orm.entity_manager'] = $app->share(function ($app) {
 
 // Return entity classes for model manager.
 $app['authbucket_oauth2.model'] = [
-    'access_token'  => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\AccessToken',
-    'authorize'     => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Authorize',
-    'client'        => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Client',
-    'code'          => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Code',
+    'access_token' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\AccessToken',
+    'authorize' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Authorize',
+    'client' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Client',
+    'code' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Code',
     'refresh_token' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\RefreshToken',
-    'scope'         => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Scope',
-    'user'          => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\User',
+    'scope' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\Scope',
+    'user' => 'AuthBucket\\OAuth2\\Tests\\TestBundle\\Entity\\User',
 ];
 
 // Add model managers from ORM.

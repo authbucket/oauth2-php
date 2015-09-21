@@ -56,7 +56,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
 
         // Add default response type handler.
         $app['authbucket_oauth2.response_handler'] = [
-            'code'  => 'AuthBucket\\OAuth2\\ResponseType\\CodeResponseTypeHandler',
+            'code' => 'AuthBucket\\OAuth2\\ResponseType\\CodeResponseTypeHandler',
             'token' => 'AuthBucket\\OAuth2\\ResponseType\\TokenResponseTypeHandler',
         ];
 
@@ -64,19 +64,19 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         $app['authbucket_oauth2.grant_handler'] = [
             'authorization_code' => 'AuthBucket\\OAuth2\\GrantType\\AuthorizationCodeGrantTypeHandler',
             'client_credentials' => 'AuthBucket\\OAuth2\\GrantType\\ClientCredentialsGrantTypeHandler',
-            'password'           => 'AuthBucket\\OAuth2\\GrantType\\PasswordGrantTypeHandler',
-            'refresh_token'      => 'AuthBucket\\OAuth2\\GrantType\\RefreshTokenGrantTypeHandler',
+            'password' => 'AuthBucket\\OAuth2\\GrantType\\PasswordGrantTypeHandler',
+            'refresh_token' => 'AuthBucket\\OAuth2\\GrantType\\RefreshTokenGrantTypeHandler',
         ];
 
         // Add default token type handler.
         $app['authbucket_oauth2.token_handler'] = [
             'bearer' => 'AuthBucket\\OAuth2\\TokenType\\BearerTokenTypeHandler',
-            'mac'    => 'AuthBucket\\OAuth2\\TokenType\\MacTokenTypeHandler',
+            'mac' => 'AuthBucket\\OAuth2\\TokenType\\MacTokenTypeHandler',
         ];
 
         // Add default resource type handler.
         $app['authbucket_oauth2.resource_handler'] = [
-            'model'          => 'AuthBucket\\OAuth2\\ResourceType\\ModelResourceTypeHandler',
+            'model' => 'AuthBucket\\OAuth2\\ResourceType\\ModelResourceTypeHandler',
             'debug_endpoint' => 'AuthBucket\\OAuth2\\ResourceType\\DebugEndpointResourceTypeHandler',
         ];
 
@@ -201,8 +201,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         $app['security.authentication_listener.factory.oauth2_resource'] = $app->protect(function ($name, $options) use ($app) {
             $options = array_merge([
                 'resource_type' => 'model',
-                'scope'         => [],
-                'options'       => [],
+                'scope' => [],
+                'options' => [],
             ], (array) $options);
 
             if (!isset($app['security.authentication_provider.'.$name.'.oauth2_resource'])) {

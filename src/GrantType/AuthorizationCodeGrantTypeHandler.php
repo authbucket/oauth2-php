@@ -48,7 +48,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         return JsonResponse::create($parameters, 200, [
             'Cache-Control' => 'no-store',
-            'Pragma'        => 'no-cache',
+            'Pragma' => 'no-cache',
         ]);
     }
 
@@ -68,7 +68,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         $clientId
     ) {
         // code is required and must in valid format.
-        $code   = $request->request->get('code');
+        $code = $request->request->get('code');
         $errors = $this->validator->validate($code, [
             new NotBlank(),
             new Code(),
@@ -81,7 +81,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // Check code with database record.
         $codeManager = $this->modelManagerFactory->getModelManager('code');
-        $result      = $codeManager->readModelOneBy([
+        $result = $codeManager->readModelOneBy([
             'code' => $code,
         ]);
         if ($result === null || $result->getClientId() !== $clientId) {
@@ -113,7 +113,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     ) {
         // redirect_uri may not exists.
         $redirectUri = $request->request->get('redirect_uri');
-        $errors      = $this->validator->validate($redirectUri, [
+        $errors = $this->validator->validate($redirectUri, [
             new RedirectUri(),
         ]);
         if (count($errors) > 0) {
@@ -124,9 +124,9 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 
         // redirect_uri is not required if already established via other channels,
         // check an existing redirect URI against the one supplied.
-        $stored        = null;
+        $stored = null;
         $clientManager = $this->modelManagerFactory->getModelManager('client');
-        $result        = $clientManager->readModelOneBy([
+        $result = $clientManager->readModelOneBy([
             'clientId' => $clientId,
         ]);
         if ($result !== null && $result->getRedirectUri()) {

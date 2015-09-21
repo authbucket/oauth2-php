@@ -26,11 +26,11 @@
     "homepage": "https://github.com/authbucket/oauth2-php",
     "keywords": [
         "oauth2",
-        "silex",
         "psr-1",
         "psr-2",
         "psr-3",
-        "psr-4"
+        "psr-4",
+        "silex"
     ],
     "license": "MIT",
     "name": "authbucket/oauth2-php",

@@ -19,9 +19,9 @@ class BearerTokenTypeHandlerTest extends WebTestCase
     public function testExceptionNoToken()
     {
         $parameters = [];
-        $server     = [];
-        $client     = $this->createClient();
-        $crawler    = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
+        $server = [];
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
@@ -36,7 +36,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $server = [
             'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -47,20 +47,20 @@ class BearerTokenTypeHandlerTest extends WebTestCase
     public function testAuthorizationHeader()
     {
         $parameters = [];
-        $server     = [
+        $server = [
             'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
         ];
-        $client           = $this->createClient();
-        $crawler          = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('demousername1', $resourceResponse['username']);
 
         $parameters = [];
-        $server     = [
+        $server = [
             'HTTP_Authorization' => 'Bearer eeb5aa92bbb4b56373b9e0d00bc02d93',
         ];
-        $client           = $this->createClient();
-        $crawler          = $client->request('POST', '/api/oauth2/debug', $parameters, [], $server);
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/debug', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('demousername1', $resourceResponse['username']);
     }
@@ -70,9 +70,9 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $parameters = [
             'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
         ];
-        $server           = [];
-        $client           = $this->createClient();
-        $crawler          = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
+        $server = [];
+        $client = $this->createClient();
+        $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('demousername1', $resourceResponse['username']);
     }
@@ -82,9 +82,9 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $parameters = [
             'access_token' => 'eeb5aa92bbb4b56373b9e0d00bc02d93',
         ];
-        $server           = [];
-        $client           = $this->createClient();
-        $crawler          = $client->request('POST', '/api/oauth2/debug', $parameters, [], $server);
+        $server = [];
+        $client = $this->createClient();
+        $crawler = $client->request('POST', '/api/oauth2/debug', $parameters, [], $server);
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('demousername1', $resourceResponse['username']);
     }

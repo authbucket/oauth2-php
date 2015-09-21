@@ -37,11 +37,11 @@ class ResourceProvider implements AuthenticationProviderInterface
         array $scopeRequired = [],
         array $options = []
     ) {
-        $this->providerKey                = $providerKey;
+        $this->providerKey = $providerKey;
         $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
-        $this->resourceType               = $resourceType;
-        $this->scopeRequired              = $scopeRequired;
-        $this->options                    = $options;
+        $this->resourceType = $resourceType;
+        $this->scopeRequired = $scopeRequired;
+        $this->options = $options;
     }
 
     public function authenticate(TokenInterface $token)

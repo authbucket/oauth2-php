@@ -78,7 +78,7 @@ class ExceptionListener implements EventSubscriberInterface
 
             $response = JsonResponse::create($message, $code, [
                 'Cache-Control' => 'no-store',
-                'Pragma'        => 'no-cache',
+                'Pragma' => 'no-cache',
             ]);
         }
 

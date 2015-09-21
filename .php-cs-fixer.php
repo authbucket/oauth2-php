@@ -3,13 +3,10 @@
 $fixers = [
     '-no_empty_lines_after_phpdocs',
     '-psr0',
-    'align_double_arrow',
-    'align_equals',
     'ordered_use',
     'php_unit_construct',
     'php_unit_strict',
     'phpdoc_order',
-    'phpdoc_var_to_type',
     'short_array_syntax',
 ];
 

@@ -46,18 +46,18 @@ class OAuth2Controller
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
         GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory
     ) {
-        $this->tokenStorage               = $tokenStorage;
-        $this->validator                  = $validator;
-        $this->modelManagerFactory        = $modelManagerFactory;
+        $this->tokenStorage = $tokenStorage;
+        $this->validator = $validator;
+        $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
-        $this->grantTypeHandlerFactory    = $grantTypeHandlerFactory;
+        $this->grantTypeHandlerFactory = $grantTypeHandlerFactory;
     }
 
     public function authorizeAction(Request $request)
     {
         // Fetch response_type from GET.
         $responseType = $request->query->get('response_type');
-        $errors       = $this->validator->validate($responseType, [
+        $errors = $this->validator->validate($responseType, [
             new NotBlank(),
             new ResponseType(),
         ]);
@@ -77,7 +77,7 @@ class OAuth2Controller
     {
         // Fetch grant_type from POST.
         $grantType = $request->request->get('grant_type');
-        $errors    = $this->validator->validate($grantType, [
+        $errors = $this->validator->validate($grantType, [
             new NotBlank(),
             new GrantType(),
         ]);
@@ -106,16 +106,16 @@ class OAuth2Controller
         // Handle debug endpoint response.
         $parameters = [
             'access_token' => $token->getAccessToken(),
-            'token_type'   => $token->getTokenType(),
-            'client_id'    => $token->getClientId(),
-            'username'     => $token->getUsername(),
-            'expires'      => $token->getExpires()->getTimestamp(),
-            'scope'        => $token->getScope(),
+            'token_type' => $token->getTokenType(),
+            'client_id' => $token->getClientId(),
+            'username' => $token->getUsername(),
+            'expires' => $token->getExpires()->getTimestamp(),
+            'scope' => $token->getScope(),
         ];
 
         return JsonResponse::create($parameters, 200, [
             'Cache-Control' => 'no-store',
-            'Pragma'        => 'no-cache',
+            'Pragma' => 'no-cache',
         ]);
     }
 }

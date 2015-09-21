@@ -20,13 +20,13 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = [
             'grant_type' => 'refresh_token',
-            'scope'      => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -37,15 +37,15 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     public function testErrorRefreshTokenBadScope()
     {
         $parameters = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
-            'scope'         => 'badscope1',
+            'scope' => 'badscope1',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient3.com/',
-            'PHP_AUTH_PW'   => 'demosecret3',
+            'PHP_AUTH_PW' => 'demosecret3',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -56,15 +56,15 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     public function testErrorRefreshTokenUnsupportedScope()
     {
         $parameters = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => '302a7e7af27a25a6c052302d0dcac2c0',
-            'scope'         => 'unsupportedscope',
+            'scope' => 'unsupportedscope',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW'   => 'demosecret2',
+            'PHP_AUTH_PW' => 'demosecret2',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -75,15 +75,15 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     public function testErrorRefreshTokenUnauthorizedScope()
     {
         $parameters = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => '302a7e7af27a25a6c052302d0dcac2c0',
-            'scope'         => 'demoscope4',
+            'scope' => 'demoscope4',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient2.com/',
-            'PHP_AUTH_PW'   => 'demosecret2',
+            'PHP_AUTH_PW' => 'demosecret2',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -94,15 +94,15 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     public function testErrorRefreshTokenBadScopeFormat()
     {
         $parameters = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
-            'scope'         => "demoscope1\x22demoscope2\x5cdemoscope3",
+            'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient3.com/',
-            'PHP_AUTH_PW'   => 'demosecret3',
+            'PHP_AUTH_PW' => 'demosecret3',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -113,15 +113,15 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     public function testExceptionRefreshTokenBadClientId()
     {
         $parameters = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
-            'scope'         => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -132,15 +132,15 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     public function testExceptionRefreshTokenExpired()
     {
         $parameters = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => '5ff43cbc27b54202c6fd8bb9c2a308ce',
-            'scope'         => 'demoscope1',
+            'scope' => 'demoscope1',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -151,28 +151,28 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
     public function testGoodRefreshToken()
     {
         $parameters = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
-            'scope'         => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient3.com/',
-            'PHP_AUTH_PW'   => 'demosecret3',
+            'PHP_AUTH_PW' => 'demosecret3',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
 
         $parameters = [
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient3.com/',
-            'PHP_AUTH_PW'   => 'demosecret3',
+            'PHP_AUTH_PW' => 'demosecret3',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));

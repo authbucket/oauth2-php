@@ -20,13 +20,13 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = [
             'grant_type' => 'client_credentials',
-            'scope'      => 'badscope1',
+            'scope' => 'badscope1',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -38,13 +38,13 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = [
             'grant_type' => 'client_credentials',
-            'scope'      => "demoscope1\x22demoscope2\x5cdemoscope3",
+            'scope' => "demoscope1\x22demoscope2\x5cdemoscope3",
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(400, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -56,13 +56,13 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = [
             'grant_type' => 'client_credentials',
-            'scope'      => 'demoscope1 demoscope2 demoscope3',
+            'scope' => 'demoscope1 demoscope2 demoscope3',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
@@ -75,9 +75,9 @@ class ClientCredentialsGrantTypeHandlerTest extends WebTestCase
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient1.com/',
-            'PHP_AUTH_PW'   => 'demosecret1',
+            'PHP_AUTH_PW' => 'demosecret1',
         ];
-        $client  = $this->createClient();
+        $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
