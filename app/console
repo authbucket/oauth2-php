@@ -206,7 +206,7 @@ The <info>doctrine:schema:drop</info> command generates the SQL needed to
 
     Alternatively, you can execute the generated queries:
 
-<info>php app/console doctrine:schema:drop --force</info>
+<info>php app/console doctrine:schema:drop</info>
 
 You can also optionally specify the name of a entity manager to drop the
 schema for:
