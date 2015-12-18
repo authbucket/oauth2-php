@@ -22,9 +22,8 @@ use AuthBucket\OAuth2\Validator\Constraints\Scope;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Shared grant type implementation.
@@ -34,7 +33,6 @@ use Symfony\Component\Validator\ValidatorInterface;
 abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
     protected $tokenStorage;
-    protected $userChecker;
     protected $encoderFactory;
     protected $validator;
     protected $modelManagerFactory;
@@ -43,7 +41,6 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 
     public function __construct(
         TokenStorageInterface $tokenStorage,
-        UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
@@ -51,7 +48,6 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
         UserProviderInterface $userProvider = null
     ) {
         $this->tokenStorage = $tokenStorage;
-        $this->userChecker = $userChecker;
         $this->encoderFactory = $encoderFactory;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
