@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\TokenType;
 
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * OAuth2 grant type handler factory implemention.

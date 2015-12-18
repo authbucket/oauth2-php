@@ -14,7 +14,7 @@ namespace AuthBucket\OAuth2\TokenType;
 use AuthBucket\OAuth2\Exception\TemporarilyUnavailableException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Shared token type implementation.
