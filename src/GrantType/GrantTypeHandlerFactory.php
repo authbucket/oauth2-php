@@ -16,7 +16,6 @@ use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\ValidatorInterface;
 
@@ -28,7 +27,6 @@ use Symfony\Component\Validator\ValidatorInterface;
 class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 {
     protected $tokenStorage;
-    protected $userChecker;
     protected $encoderFactory;
     protected $validator;
     protected $modelManagerFactory;
@@ -38,7 +36,6 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 
     public function __construct(
         TokenStorageInterface $tokenStorage,
-        UserCheckerInterface $userChecker,
         EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
@@ -47,7 +44,6 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
         array $classes = []
     ) {
         $this->tokenStorage = $tokenStorage;
-        $this->userChecker = $userChecker;
         $this->encoderFactory = $encoderFactory;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
@@ -86,7 +82,6 @@ class GrantTypeHandlerFactory implements GrantTypeHandlerFactoryInterface
 
         return new $class(
             $this->tokenStorage,
-            $this->userChecker,
             $this->encoderFactory,
             $this->validator,
             $this->modelManagerFactory,

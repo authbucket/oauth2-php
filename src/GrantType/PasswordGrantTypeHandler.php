@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\User\UserChecker;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
@@ -99,7 +100,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             $token = new UsernamePasswordToken($username, $password, 'oauth2');
             $authenticationProvider = new DaoAuthenticationProvider(
                 $this->userProvider,
-                $this->userChecker,
+                new UserChecker(),
                 'oauth2',
                 $this->encoderFactory
             );

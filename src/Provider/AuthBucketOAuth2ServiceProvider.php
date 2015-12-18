@@ -99,7 +99,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         $app['authbucket_oauth2.grant_handler.factory'] = $app->share(function ($app) {
             return new GrantTypeHandlerFactory(
                 $app['security.token_storage'],
-                $app['security.user_checker'],
                 $app['security.encoder_factory'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
