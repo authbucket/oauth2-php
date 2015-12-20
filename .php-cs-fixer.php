@@ -11,9 +11,9 @@ $fixers = [
 ];
 
 $finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->exclude('app/cache')
-    ->exclude('app/log')
     ->exclude('build')
+    ->exclude('var/cache')
+    ->exclude('var/log')
     ->exclude('vendor')
     ->ignoreDotFiles(false)
     ->ignoreVCS(true)
