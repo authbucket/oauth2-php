@@ -55,7 +55,7 @@ class DemoController
         $scope = preg_split('/\s+/', $request->query->get('scope', ''));
 
         // Create form.
-        $form = $app['form.factory']->createBuilder('form')->getForm();
+        $form = $app['form.factory']->createBuilder()->getForm();
         $form->handleRequest($request);
 
         // Save authorized scope if submitted by POST.
