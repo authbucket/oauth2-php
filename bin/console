@@ -33,7 +33,7 @@ umask(0000);
 
 set_time_limit(0);
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/../var/bootstrap.php';
 
 $console = new Application('AuthBucket\OAuth2', '1.0.0');
 $console->getDefinition()->addOption(new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', 'prod'));
@@ -44,7 +44,7 @@ $env = $input->getParameterOption(array('--env', '-e'), 'dev');
 $debug = !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
 
 $app = new Silex\Application(array('env' => $env));
-require __DIR__ . '/AppKernel.php';
+require __DIR__ . '/../app/AppKernel.php';
 if ($debug) {
     Debug::enable();
     $app['debug'] = true;
@@ -67,7 +67,7 @@ and debug mode:
 EOT
 )
     ->setCode(function (InputInterface $input, OutputInterface $output) use ($app) {
-        $finder = Finder::create()->in(__DIR__.'/cache/'.$app['env']);
+        $finder = Finder::create()->in(__DIR__.'/../var/cache/'.$app['env']);
         $fs = new Filesystem();
         try {
             $output->writeln(sprintf('Clearing the cache for the <info>%s</info> environment with debug <info>%s</info>', $app['env'], var_export($app['debug'], true)));
