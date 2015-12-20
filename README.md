@@ -166,7 +166,7 @@ You may also run the demo locally. Open a console and execute the following comm
 Then use the PHP built-in web server to run the demo application:
 
     $ cd authbucket/oauth2-php
-    $ ./app/console server:run
+    $ ./bin/console server:run
 
 If you get the error `There are no commands defined in the "server" namespace.`, then you are probably using PHP 5.3. That's ok! But the built-in web server is only available for PHP 5.4.0 or higher. If you have an older version of PHP or if you prefer a traditional web server such as Apache or Nginx, read the [Configuring a web server](http://silex.sensiolabs.org/doc/web_servers.html) article.
 

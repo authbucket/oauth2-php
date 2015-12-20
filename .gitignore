@@ -1,6 +1,6 @@
-app/cache/*
-app/logs/*
 build/
 composer.lock
 composer.phar
+var/cache/*
+var/logs/*
 vendor/

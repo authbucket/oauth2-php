@@ -10,7 +10,7 @@
     processIsolation            = "false"
     stopOnFailure               = "false"
     syntaxCheck                 = "false"
-    bootstrap                   = "./app/bootstrap_test.php">
+    bootstrap                   = "./var/bootstrap_test.php">
 
     <testsuites>
         <testsuite name="AuthBucket\OAuth2 Test Suite">

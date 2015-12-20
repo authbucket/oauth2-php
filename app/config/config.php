@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 
 // File where logs are written to.
-$app['monolog.logfile'] = __DIR__.'/../logs/'.$app['env'].'.log';
+$app['monolog.logfile'] = __DIR__.'/../../var/logs/'.$app['env'].'.log';
 
 // Define SQLite DB path.
 $app['db.options'] = [
     'driver' => 'pdo_sqlite',
-    'path' => __DIR__.'/../cache/'.$app['env'].'/.ht.sqlite',
+    'path' => __DIR__.'/../../var/cache/'.$app['env'].'/.ht.sqlite',
 ];
 
 // Return an instance of Doctrine ORM entity manager.
@@ -22,7 +22,7 @@ $app['doctrine.orm.entity_manager'] = $app->share(function ($app) {
     $em = $app['dbs.event_manager']['default'];
 
     $driver = new AnnotationDriver(new AnnotationReader(), [__DIR__.'/../../tests/TestBundle/Entity']);
-    $cache = new FilesystemCache(__DIR__.'/../cache/'.$app['env']);
+    $cache = new FilesystemCache(__DIR__.'/../../var/cache/'.$app['env']);
 
     $config = Setup::createConfiguration(false);
     $config->setMetadataDriverImpl($driver);
