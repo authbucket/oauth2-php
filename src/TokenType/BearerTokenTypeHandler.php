@@ -77,7 +77,7 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
         $class = $accessTokenManager->getClassName();
         $accessToken = new $class();
-        $accessToken->setAccessToken(md5(uniqid(null, true)))
+        $accessToken->setAccessToken(md5(openssl_random_pseudo_bytes(256)))
             ->setTokenType('bearer')
             ->setClientId($clientId)
             ->setUsername($username)
@@ -103,7 +103,7 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
             $refreshTokenManager = $this->modelManagerFactory->getModelManager('refresh_token');
             $class = $refreshTokenManager->getClassName();
             $refreshToken = new $class();
-            $refreshToken->setRefreshToken(md5(uniqid(null, true)))
+            $refreshToken->setRefreshToken(md5(openssl_random_pseudo_bytes(256)))
                 ->setClientId($clientId)
                 ->setUsername($username)
                 ->setExpires(new \DateTime('+1 days'))
