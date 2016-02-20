@@ -36,6 +36,7 @@
     "name": "authbucket/oauth2-php",
     "require": {
         "guzzlehttp/guzzle": "~6.0",
+        "lib-openssl": "*",
         "php": ">=5.5.9",
         "psr/log": "~1.0",
         "symfony/http-foundation": "~2.8|~3.0",
