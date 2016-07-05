@@ -7,8 +7,12 @@ dist: trusty
 language: php
 
 before_install:
+  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update
-  - composer global require satooshi/php-coveralls:@stable
+  - composer global require --no-update hirak/prestissimo:@stable
+  - composer global require --no-update phpunit/phpunit:@stable
+  - composer global require --no-update satooshi/php-coveralls:@stable
+  - composer global update
   - export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 install:

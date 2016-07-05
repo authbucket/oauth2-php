@@ -62,7 +62,7 @@
     },
     "scripts": {
         "coveralls": "coveralls -v; exit 0",
-        "php-cs-fixer": "php-cs-fixer fix --config-file .php-cs-fixer.php; exit 0",
+        "php-cs-fixer": "php-cs-fixer fix; exit 0",
         "phpunit": "phpunit -c phpunit.xml.dist; exit 0",
         "sami": "sami.php update .sami.php; exit 0"
     },
