@@ -33,7 +33,7 @@
         "silex"
     ],
     "license": "MIT",
-    "name": "authbucket/oauth2-php",
+    "name": "nikov1405/oauth2-php",
     "require": {
         "guzzlehttp/guzzle": "~6.0",
         "lib-openssl": "*",

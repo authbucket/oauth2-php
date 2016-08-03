@@ -23,16 +23,19 @@ use AuthBucket\OAuth2\Security\Firewall\ResourceListener;
 use AuthBucket\OAuth2\Security\Firewall\TokenListener;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Silex\Api\EventListenerProviderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 /**
  * OAuth2 service provider as plugin for Silex SecurityServiceProvider.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
+class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, EventListenerProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
         // (Optional) Override this with your own model classes, default with
         // in-memory AccessToken for using resource firewall with remote debug
@@ -45,9 +48,9 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         // Doctrine ORM EntityRepository, default with in-memory
         // implementation for using resource firewall with remote debug
         // endpoint.
-        $app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
+        $app['authbucket_oauth2.model_manager.factory'] = function ($app) {
             return new ModelManagerFactory($app['authbucket_oauth2.model']);
-        });
+        };
 
         // (Optional) For using grant_type = password, override this parameter
         // with your own user provider, e.g. using InMemoryUserProvider or a
@@ -80,13 +83,13 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
             'debug_endpoint' => 'AuthBucket\\OAuth2\\ResourceType\\DebugEndpointResourceTypeHandler',
         ];
 
-        $app['authbucket_oauth2.exception_listener'] = $app->share(function ($app) {
+        $app['authbucket_oauth2.exception_listener'] = function ($app) {
             return new ExceptionListener(
                 $app['logger']
             );
-        });
+        };
 
-        $app['authbucket_oauth2.response_handler.factory'] = $app->share(function ($app) {
+        $app['authbucket_oauth2.response_handler.factory'] = function ($app) {
             return new ResponseTypeHandlerFactory(
                 $app['security.token_storage'],
                 $app['validator'],
@@ -94,9 +97,9 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                 $app['authbucket_oauth2.token_handler.factory'],
                 $app['authbucket_oauth2.response_handler']
             );
-        });
+        };
 
-        $app['authbucket_oauth2.grant_handler.factory'] = $app->share(function ($app) {
+        $app['authbucket_oauth2.grant_handler.factory'] = function ($app) {
             return new GrantTypeHandlerFactory(
                 $app['security.token_storage'],
                 $app['security.encoder_factory'],
@@ -106,25 +109,25 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                 $app['authbucket_oauth2.user_provider'],
                 $app['authbucket_oauth2.grant_handler']
             );
-        });
+        };
 
-        $app['authbucket_oauth2.token_handler.factory'] = $app->share(function ($app) {
+        $app['authbucket_oauth2.token_handler.factory'] = function ($app) {
             return new TokenTypeHandlerFactory(
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.token_handler']
             );
-        });
+        };
 
-        $app['authbucket_oauth2.resource_handler.factory'] = $app->share(function ($app) {
+        $app['authbucket_oauth2.resource_handler.factory'] = function ($app) {
             return new ResourceTypeHandlerFactory(
                 $app,
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.resource_handler']
             );
-        });
+        };
 
-        $app['authbucket_oauth2.oauth2_controller'] = $app->share(function () use ($app) {
+        $app['authbucket_oauth2.oauth2_controller'] = function () use ($app) {
             return new OAuth2Controller(
                 $app['security.token_storage'],
                 $app['validator'],
@@ -132,19 +135,19 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                 $app['authbucket_oauth2.response_handler.factory'],
                 $app['authbucket_oauth2.grant_handler.factory']
             );
-        });
+        };
 
         $app['security.authentication_provider.oauth2_token._proto'] = $app->protect(function ($name, $options) use ($app) {
-            return $app->share(function () use ($app, $name, $options) {
+            return function () use ($app, $name, $options) {
                 return new TokenProvider(
                     $name,
                     $app['authbucket_oauth2.model_manager.factory']
                 );
-            });
+            };
         });
 
         $app['security.authentication_listener.oauth2_token._proto'] = $app->protect(function ($name, $options) use ($app) {
-            return $app->share(function () use ($app, $name, $options) {
+            return function () use ($app, $name, $options) {
                 return new TokenListener(
                     $name,
                     $app['security.token_storage'],
@@ -152,11 +155,11 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                     $app['validator'],
                     $app['logger']
                 );
-            });
+            };
         });
 
         $app['security.authentication_provider.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
-            return $app->share(function () use ($app, $name, $options) {
+            return function () use ($app, $name, $options) {
                 return new ResourceProvider(
                     $name,
                     $app['authbucket_oauth2.resource_handler.factory'],
@@ -164,11 +167,11 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                     $options['scope'],
                     $options['options']
                 );
-            });
+            };
         });
 
         $app['security.authentication_listener.oauth2_resource._proto'] = $app->protect(function ($name, $options) use ($app) {
-            return $app->share(function () use ($app, $name, $options) {
+            return function () use ($app, $name, $options) {
                 return new ResourceListener(
                     $name,
                     $app['security.token_storage'],
@@ -177,7 +180,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
                     $app['logger'],
                     $app['authbucket_oauth2.token_handler.factory']
                 );
-            });
+            };
         });
 
         $app['security.authentication_listener.factory.oauth2_token'] = $app->protect(function ($name, $options) use ($app) {
@@ -221,8 +224,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface
         });
     }
 
-    public function boot(Application $app)
+    public function subscribe(Container $app, EventDispatcherInterface $dispatcher)
     {
-        $app['dispatcher']->addSubscriber($app['authbucket_oauth2.exception_listener']);
+        $dispatcher->addSubscriber($app['authbucket_oauth2.exception_listener']);
     }
 }
