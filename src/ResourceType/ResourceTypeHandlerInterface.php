@@ -23,10 +23,10 @@ interface ResourceTypeHandlerInterface
     /**
      * Handle corresponding resource type logic.
      *
-     * @param string $accessToken Access token for checking.
-     * @param array  $options     Additional options for this handler.
+     * @param string $accessToken Access token for checking
+     * @param array  $options     Additional options for this handler
      *
-     * @return AccessTokenInterface The stored access token with meta information.
+     * @return AccessTokenInterface The stored access token with meta information
      */
     public function handle(
         $accessToken,

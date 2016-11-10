@@ -21,9 +21,9 @@ interface ResourceTypeHandlerFactoryInterface
     /**
      * Gets a stored resource type handler.
      *
-     * @param string $type Type of resource type handler.
+     * @param string $type Type of resource type handler
      *
-     * @return ResourceTypeHandlerInterface The stored resource type handler.
+     * @return ResourceTypeHandlerInterface The stored resource type handler
      *
      * @throw ServerErrorException If supplied resource type not found.
      */
@@ -32,7 +32,7 @@ interface ResourceTypeHandlerFactoryInterface
     /**
      * Get a list of all supported handler.
      *
-     * @return array Supported handler in key-value pair.
+     * @return array Supported handler in key-value pair
      */
     public function getResourceTypeHandlers();
 }

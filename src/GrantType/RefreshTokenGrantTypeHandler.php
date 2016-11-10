@@ -53,10 +53,10 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     /**
      * Check refresh_token supplied, return stored username and scope.
      *
-     * @param Request $request  Incoming request object.
-     * @param string  $clientId Corresponding client_id that refresh_token should belongs to.
+     * @param Request $request  Incoming request object
+     * @param string  $clientId Corresponding client_id that refresh_token should belongs to
      *
-     * @return array A list with stored username and scope, originally grant in authorize endpoint.
+     * @return array A list with stored username and scope, originally grant in authorize endpoint
      *
      * @throw InvalidRequestException If supplied refresh_token or scope in invalid format.
      * @throw InvalidGrantException If refresh_token not belongs to give client_id, or already expired.

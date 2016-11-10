@@ -62,9 +62,9 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     /**
      * Fetch username from POST.
      *
-     * @param Request $request Incoming request object.
+     * @param Request $request Incoming request object
      *
-     * @return string The supplied username.
+     * @return string The supplied username
      *
      * @throw InvalidRequestException If username or password in invalid format.
      * @throw InvalidGrantException If reported as bad credentials from authentication provider.

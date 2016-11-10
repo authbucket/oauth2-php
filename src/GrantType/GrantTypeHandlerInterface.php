@@ -23,9 +23,9 @@ interface GrantTypeHandlerInterface
     /**
      * Handle corresponding grant type logic.
      *
-     * @param Request $request Incoming request object.
+     * @param Request $request Incoming request object
      *
-     * @return JsonResponse The json response object for token endpoint.
+     * @return JsonResponse The json response object for token endpoint
      */
     public function handle(Request $request);
 }
