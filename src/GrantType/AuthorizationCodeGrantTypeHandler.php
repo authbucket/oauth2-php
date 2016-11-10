@@ -55,10 +55,10 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     /**
      * Fetch code from POST.
      *
-     * @param Request $request  Incoming request object.
-     * @param string  $clientId Corresponding client_id that code should belongs to.
+     * @param Request $request  Incoming request object
+     * @param string  $clientId Corresponding client_id that code should belongs to
      *
-     * @return array A list with stored username and scope, originally grant in authorize endpoint.
+     * @return array A list with stored username and scope, originally grant in authorize endpoint
      *
      * @throw InvalidRequestException If code in invalid format.
      * @throw InvalidGrantException If code provided is no longer valid.
@@ -100,10 +100,10 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     /**
      * Fetch redirect_uri from POST, or stored record.
      *
-     * @param Request $request  Incoming request object.
-     * @param string  $clientId Corresponding client_id that code should belongs to.
+     * @param Request $request  Incoming request object
+     * @param string  $clientId Corresponding client_id that code should belongs to
      *
-     * @return string The supplied redirect_uri from incoming request, or from stored record.
+     * @return string The supplied redirect_uri from incoming request, or from stored record
      *
      * @throw InvalidRequestException If redirect_uri not exists in both incoming request and database record, or supplied value not match with stord record.
      */

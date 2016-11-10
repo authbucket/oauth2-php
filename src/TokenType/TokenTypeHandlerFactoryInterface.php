@@ -21,9 +21,9 @@ interface TokenTypeHandlerFactoryInterface
     /**
      * Gets a stored token type handler.
      *
-     * @param string $type Type of token type handler, as refer to RFC6749.
+     * @param string $type Type of token type handler, as refer to RFC6749
      *
-     * @return GrantTypeHandlerInterface The stored token type handler.
+     * @return GrantTypeHandlerInterface The stored token type handler
      *
      * @throw UnsupportedGrantTypeException If supplied token type not found.
      */
@@ -32,7 +32,7 @@ interface TokenTypeHandlerFactoryInterface
     /**
      * Get a list of all supported handler.
      *
-     * @return array Supported handler in key-value pair.
+     * @return array Supported handler in key-value pair
      */
     public function getTokenTypeHandlers();
 }

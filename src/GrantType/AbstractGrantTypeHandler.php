@@ -58,7 +58,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     /**
      * Fetch client_id from authenticated token.
      *
-     * @return string Supplied client_id from authenticated token.
+     * @return string Supplied client_id from authenticated token
      *
      * @throw ServerErrorException If supplied token is not a ClientToken instance.
      */
@@ -77,9 +77,9 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
     /**
      * Fetch scope from POST.
      *
-     * @param Request $request Incoming request object.
+     * @param Request $request Incoming request object
      *
-     * @return array|null Supplied scope in array from incoming request, or null if none given.
+     * @return array|null Supplied scope in array from incoming request, or null if none given
      *
      * @throw InvalidRequestException If supplied scope in bad format.
      * @throw InvalidScopeException If supplied scope outside supported scope range.
