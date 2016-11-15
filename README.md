@@ -21,7 +21,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2-php": "~4.0"
+            "authbucket/oauth2-php": "~4.1"
         }
     }
 
@@ -161,7 +161,7 @@ The demo is based on [Silex](http://silex.sensiolabs.org/) and [AuthBucketOAuth2
 
 You may also run the demo locally. Open a console and execute the following command to install the latest version in the `oauth2-php` directory:
 
-    $ composer create-project authbucket/oauth2-php authbucket/oauth2-php "~4.0"
+    $ composer create-project authbucket/oauth2-php authbucket/oauth2-php "~4.1"
 
 Then use the PHP built-in web server to run the demo application:
 
