@@ -19,8 +19,8 @@
     "description": "The standard compliant OAuth2.0 library based on the Symfony Components",
     "extra": {
         "branch-alias": {
-            "dev-develop": "3.x-dev",
-            "dev-master": "3.0.x-dev"
+            "dev-develop": "4.x-dev",
+            "dev-master": "4.1.x-dev"
         }
     },
     "homepage": "https://github.com/authbucket/oauth2-php",
