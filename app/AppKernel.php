@@ -22,12 +22,13 @@ $app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider())
 // Register additional Silex providers for TestBundleServiceProvider.
 $app->register(new Silex\Provider\DoctrineServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
+$app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\RememberMeServiceProvider());
+$app->register(new Silex\Provider\RoutingServiceProvider());
 $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
 $app->register(new Silex\Provider\TwigServiceProvider());
-$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 // Register TestBundleServiceProvider.
 $app->register(new AuthBucket\OAuth2\Tests\TestBundle\TestBundleServiceProvider());

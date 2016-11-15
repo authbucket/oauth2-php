@@ -73,9 +73,9 @@ Below is a list of recipes that cover some common use cases.
 
 We don't provide custom firewall for this endpoint, which you should protect it by yourself, authenticate and capture the user credential, e.g. by [SecurityServiceProvider](http://silex.sensiolabs.org/doc/providers/security.html):
 
-    $app['security.encoder.digest'] = $app->share(function ($app) {
+    $app['security.default_encoder'] = function ($app) {
         return new Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
-    });
+    };
 
     $app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto']([
         'demousername1' => ['ROLE_USER', 'demopassword1'],
@@ -212,3 +212,4 @@ License
 
 -   Code released under [MIT](https://github.com/authbucket/oauth2-php/blob/master/LICENSE)
 -   Docs released under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)
+
