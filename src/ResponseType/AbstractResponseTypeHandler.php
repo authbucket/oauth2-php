@@ -56,7 +56,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch username from authenticated token.
      *
-     * @return string Supplied username from authenticated token.
+     * @return string Supplied username from authenticated token
      *
      * @throw ServerErrorException If supplied token is not a standard TokenInterface instance.
      */
@@ -75,9 +75,9 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch cliend_id from GET.
      *
-     * @param Request $request Incoming request object.
+     * @param Request $request Incoming request object
      *
-     * @return string Supplied client_id from incoming request.
+     * @return string Supplied client_id from incoming request
      *
      * @throw InvalidRequestException If supplied client_id in bad format.
      * @throw UnauthorizedClientException If client_id not found from database record.
@@ -113,10 +113,10 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     /**
      * Fetch redirect_uri from GET.
      *
-     * @param Request $request  Incoming request object.
-     * @param string  $clientId Corresponding client_id that code should belongs to.
+     * @param Request $request  Incoming request object
+     * @param string  $clientId Corresponding client_id that code should belongs to
      *
-     * @return string The supplied redirect_uri from incoming request, or from stored record.
+     * @return string The supplied redirect_uri from incoming request, or from stored record
      *
      * @throw InvalidRequestException If redirect_uri not exists in both incoming request and database record, or supplied value not match with stord record.
      */

@@ -1,12 +1,12 @@
 <?php
 
-$app['security.encoder.digest'] = $app->share(function ($app) {
+$app['security.default_encoder'] = function ($app) {
     return new Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
-});
+};
 
-$app['security.user_provider.default'] = $app->share(function ($app) {
+$app['security.user_provider.default'] = function ($app) {
     return $app['authbucket_oauth2.model_manager.factory']->getModelManager('user');
-});
+};
 
 $app['security.user_provider.admin'] = $app['security.user_provider.inmemory._proto']([
     'admin' => ['ROLE_ADMIN', 'secrete'],

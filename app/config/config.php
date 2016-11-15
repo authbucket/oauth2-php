@@ -17,7 +17,7 @@ $app['db.options'] = [
 ];
 
 // Return an instance of Doctrine ORM entity manager.
-$app['doctrine.orm.entity_manager'] = $app->share(function ($app) {
+$app['doctrine.orm.entity_manager'] = function ($app) {
     $conn = $app['dbs']['default'];
     $em = $app['dbs.event_manager']['default'];
 
@@ -30,7 +30,7 @@ $app['doctrine.orm.entity_manager'] = $app->share(function ($app) {
     $config->setQueryCacheImpl($cache);
 
     return EntityManager::create($conn, $config, $em);
-});
+};
 
 // Return entity classes for model manager.
 $app['authbucket_oauth2.model'] = [
@@ -44,12 +44,12 @@ $app['authbucket_oauth2.model'] = [
 ];
 
 // Add model managers from ORM.
-$app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
+$app['authbucket_oauth2.model_manager.factory'] = function ($app) {
     return new ModelManagerFactory(
         $app['doctrine.orm.entity_manager'],
         $app['authbucket_oauth2.model']
     );
-});
+};
 
 require __DIR__.'/routing.php';
 require __DIR__.'/security.php';

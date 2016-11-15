@@ -21,7 +21,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2-php": "~4.0"
+            "authbucket/oauth2-php": "~4.1"
         }
     }
 
@@ -73,9 +73,9 @@ Below is a list of recipes that cover some common use cases.
 
 We don't provide custom firewall for this endpoint, which you should protect it by yourself, authenticate and capture the user credential, e.g. by [SecurityServiceProvider](http://silex.sensiolabs.org/doc/providers/security.html):
 
-    $app['security.encoder.digest'] = $app->share(function ($app) {
+    $app['security.default_encoder'] = function ($app) {
         return new Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder();
-    });
+    };
 
     $app['security.user_provider.default'] = $app['security.user_provider.inmemory._proto']([
         'demousername1' => ['ROLE_USER', 'demopassword1'],
@@ -161,7 +161,7 @@ The demo is based on [Silex](http://silex.sensiolabs.org/) and [AuthBucketOAuth2
 
 You may also run the demo locally. Open a console and execute the following command to install the latest version in the `oauth2-php` directory:
 
-    $ composer create-project authbucket/oauth2-php authbucket/oauth2-php "~4.0"
+    $ composer create-project authbucket/oauth2-php authbucket/oauth2-php "~4.1"
 
 Then use the PHP built-in web server to run the demo application:
 
@@ -212,3 +212,4 @@ License
 
 -   Code released under [MIT](https://github.com/authbucket/oauth2-php/blob/master/LICENSE)
 -   Docs released under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)
+

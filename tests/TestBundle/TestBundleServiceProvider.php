@@ -13,25 +13,27 @@ namespace AuthBucket\OAuth2\Tests\TestBundle;
 
 use AuthBucket\OAuth2\Tests\TestBundle\Controller\DefaultController;
 use AuthBucket\OAuth2\Tests\TestBundle\Controller\DemoController;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 
 /**
  * Test bundle provider.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class TestBundleServiceProvider implements ServiceProviderInterface
+class TestBundleServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['authbucket_oauth2.tests.default_controller'] = $app->share(function () {
+        $app['authbucket_oauth2.tests.default_controller'] = function () {
             return new DefaultController();
-        });
+        };
 
-        $app['authbucket_oauth2.tests.demo_controller'] = $app->share(function () {
+        $app['authbucket_oauth2.tests.demo_controller'] = function () {
             return new DemoController();
-        });
+        };
     }
 
     public function boot(Application $app)

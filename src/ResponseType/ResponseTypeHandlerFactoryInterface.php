@@ -21,9 +21,9 @@ interface ResponseTypeHandlerFactoryInterface
     /**
      * Gets a stored response type handler.
      *
-     * @param string $type Type of response type handler, as refer to RFC6749.
+     * @param string $type Type of response type handler, as refer to RFC6749
      *
-     * @return ResponseTypeHandlerInterface The stored response type handler.
+     * @return ResponseTypeHandlerInterface The stored response type handler
      *
      * @throw UnsupportedResponseTypeException If supplied response type not found.
      */
@@ -32,7 +32,7 @@ interface ResponseTypeHandlerFactoryInterface
     /**
      * Get a list of all supported handler.
      *
-     * @return array Supported handler in key-value pair.
+     * @return array Supported handler in key-value pair
      */
     public function getResponseTypeHandlers();
 }

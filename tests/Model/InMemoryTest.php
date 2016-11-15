@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\Tests\Model;
 
-use AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory;
 use Silex\Application;
 use Silex\WebTestCase as SilexWebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +26,6 @@ class InMemoryTest extends SilexWebTestCase
         $app['authbucket_oauth2.model'] = [
             'access_token' => 'AuthBucket\\OAuth2\\Model\\InMemory\\AccessToken',
         ];
-
-        $app['authbucket_oauth2.model_manager.factory'] = $app->share(function ($app) {
-            return new ModelManagerFactory($app['authbucket_oauth2.model']);
-        });
 
         $accessTokenManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('access_token');
         $className = $accessTokenManager->getClassName();
