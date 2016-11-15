@@ -25,9 +25,9 @@
                 <div id="control-panel">
                     <form action="#" method="GET">
                 <select id="version-switcher" name="version">
-                                            <option value="../../../../develop/index.html">develop branch</option>
+                                            <option value="../../../../develop/index.html" selected>develop branch</option>
                                             <option value="../../../../master/index.html">master branch</option>
-                                            <option value="../../../../3.0.0/index.html" selected>3.0.0</option>
+                                            <option value="../../../../3.0.0/index.html">3.0.0</option>
                                             <option value="../../../../3.0.1/index.html">3.0.1</option>
                                             <option value="../../../../3.0.2/index.html">3.0.2</option>
                                             <option value="../../../../3.0.3/index.html">3.0.3</option>
@@ -42,11 +42,18 @@
                                             <option value="../../../../3.0.12/index.html">3.0.12</option>
                                             <option value="../../../../3.0.13/index.html">3.0.13</option>
                                             <option value="../../../../3.0.14/index.html">3.0.14</option>
+                                            <option value="../../../../3.0.15/index.html">3.0.15</option>
+                                            <option value="../../../../3.0.16/index.html">3.0.16</option>
+                                            <option value="../../../../3.1.1/index.html">3.1.1</option>
                                             <option value="../../../../4.0.0/index.html">4.0.0</option>
                                             <option value="../../../../4.0.1/index.html">4.0.1</option>
                                             <option value="../../../../4.0.2/index.html">4.0.2</option>
                                             <option value="../../../../4.0.3/index.html">4.0.3</option>
                                             <option value="../../../../4.0.4/index.html">4.0.4</option>
+                                            <option value="../../../../4.0.5/index.html">4.0.5</option>
+                                            <option value="../../../../4.0.6/index.html">4.0.6</option>
+                                            <option value="../../../../4.1.0/index.html">4.1.0</option>
+                                            <option value="../../../../4.1.1/index.html">4.1.1</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../search.html" method="GET">
@@ -99,13 +106,19 @@
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>ClientInterface</h1>
+        <h1>
+            ClientInterface
+                
+        </h1>
     </div>
 
     <p>    interface
     <strong>ClientInterface</strong>        implements
         <a href="../../../AuthBucket/OAuth2/Model/ModelInterface.html"><abbr title="AuthBucket\OAuth2\Model\ModelInterface">ModelInterface</abbr></a>
 </p>
+
+        
+    
 
             <div class="description">
             <p>OAuth2 client interface.</p>                    </div>
@@ -118,64 +131,61 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setClientId">setClientId</a>(
-    string $clientId)
+                    <a href="#method_setClientId">setClientId</a>(string $clientId)
+        
                                             <p>Set client_id.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    string
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getClientId">getClientId</a>()
+        
                                             <p>Get client_id.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setClientSecret">setClientSecret</a>(
-    string $clientSecret)
+                    <a href="#method_setClientSecret">setClientSecret</a>(string $clientSecret)
+        
                                             <p>Set client_secret.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    string
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getClientSecret">getClientSecret</a>()
+        
                                             <p>Get client_secret.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_setRedirectUri">setRedirectUri</a>(
-    string $redirectUri)
+                    <a href="#method_setRedirectUri">setRedirectUri</a>(string $redirectUri)
+        
                                             <p>Set redirect_uri.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    string
+                    string
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getRedirectUri">getRedirectUri</a>()
+        
                                             <p>Get redirect_uri.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -187,13 +197,15 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_setClientId">
-        <div class="location">at line 28</div>
-        <code>                    
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
-    <strong>setClientId</strong>(
-    string $clientId)</code>
+        <div class="location">at line         line 28</div>
+        <code>                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+    <strong>setClientId</strong>(string $clientId)
+        </code>
     </h3>
     <div class="details">
+            
+    
+
                     <div class="method-description">
                                     <p>Set client_id.</p>                                </div>
                 <div class="tags">
@@ -201,11 +213,9 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$clientId</td>
-                <td>
-</td>
+                <td></td>
             </tr>
             </table>
 
@@ -214,10 +224,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
-            <td>
-</td>
+            <td><abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
+            <td></td>
         </tr>
     </table>
 
@@ -229,12 +237,15 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getClientId">
-        <div class="location">at line 35</div>
-        <code>                    
-    string
-    <strong>getClientId</strong>()</code>
+        <div class="location">at line         line 35</div>
+        <code>                    string
+    <strong>getClientId</strong>()
+        </code>
     </h3>
     <div class="details">
+            
+    
+
                     <div class="method-description">
                                     <p>Get client_id.</p>                                </div>
                 <div class="tags">
@@ -243,10 +254,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    string</td>
-            <td>
-</td>
+            <td>string</td>
+            <td></td>
         </tr>
     </table>
 
@@ -258,13 +267,15 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setClientSecret">
-        <div class="location">at line 44</div>
-        <code>                    
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
-    <strong>setClientSecret</strong>(
-    string $clientSecret)</code>
+        <div class="location">at line         line 44</div>
+        <code>                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+    <strong>setClientSecret</strong>(string $clientSecret)
+        </code>
     </h3>
     <div class="details">
+            
+    
+
                     <div class="method-description">
                                     <p>Set client_secret.</p>                                </div>
                 <div class="tags">
@@ -272,11 +283,9 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$clientSecret</td>
-                <td>
-</td>
+                <td></td>
             </tr>
             </table>
 
@@ -285,10 +294,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
-            <td>
-</td>
+            <td><abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
+            <td></td>
         </tr>
     </table>
 
@@ -300,12 +307,15 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getClientSecret">
-        <div class="location">at line 51</div>
-        <code>                    
-    string
-    <strong>getClientSecret</strong>()</code>
+        <div class="location">at line         line 51</div>
+        <code>                    string
+    <strong>getClientSecret</strong>()
+        </code>
     </h3>
     <div class="details">
+            
+    
+
                     <div class="method-description">
                                     <p>Get client_secret.</p>                                </div>
                 <div class="tags">
@@ -314,10 +324,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    string</td>
-            <td>
-</td>
+            <td>string</td>
+            <td></td>
         </tr>
     </table>
 
@@ -329,13 +337,15 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setRedirectUri">
-        <div class="location">at line 60</div>
-        <code>                    
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
-    <strong>setRedirectUri</strong>(
-    string $redirectUri)</code>
+        <div class="location">at line         line 60</div>
+        <code>                    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr>
+    <strong>setRedirectUri</strong>(string $redirectUri)
+        </code>
     </h3>
     <div class="details">
+            
+    
+
                     <div class="method-description">
                                     <p>Set redirect_uri.</p>                                </div>
                 <div class="tags">
@@ -343,11 +353,9 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$redirectUri</td>
-                <td>
-</td>
+                <td></td>
             </tr>
             </table>
 
@@ -356,10 +364,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    <abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
-            <td>
-</td>
+            <td><abbr title="AuthBucket\OAuth2\Model\Client">Client</abbr></td>
+            <td></td>
         </tr>
     </table>
 
@@ -371,12 +377,15 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getRedirectUri">
-        <div class="location">at line 67</div>
-        <code>                    
-    string
-    <strong>getRedirectUri</strong>()</code>
+        <div class="location">at line         line 67</div>
+        <code>                    string
+    <strong>getRedirectUri</strong>()
+        </code>
     </h3>
     <div class="details">
+            
+    
+
                     <div class="method-description">
                                     <p>Get redirect_uri.</p>                                </div>
                 <div class="tags">
@@ -385,10 +394,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    string</td>
-            <td>
-</td>
+            <td>string</td>
+            <td></td>
         </tr>
     </table>
 

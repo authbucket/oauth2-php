@@ -42,11 +42,18 @@
                                             <option value="../../../../3.0.12/index.html">3.0.12</option>
                                             <option value="../../../../3.0.13/index.html">3.0.13</option>
                                             <option value="../../../../3.0.14/index.html">3.0.14</option>
+                                            <option value="../../../../3.0.15/index.html">3.0.15</option>
+                                            <option value="../../../../3.0.16/index.html">3.0.16</option>
+                                            <option value="../../../../3.1.1/index.html">3.1.1</option>
                                             <option value="../../../../4.0.0/index.html">4.0.0</option>
                                             <option value="../../../../4.0.1/index.html">4.0.1</option>
                                             <option value="../../../../4.0.2/index.html">4.0.2</option>
                                             <option value="../../../../4.0.3/index.html">4.0.3</option>
                                             <option value="../../../../4.0.4/index.html">4.0.4</option>
+                                            <option value="../../../../4.0.5/index.html">4.0.5</option>
+                                            <option value="../../../../4.0.6/index.html">4.0.6</option>
+                                            <option value="../../../../4.1.0/index.html">4.1.0</option>
+                                            <option value="../../../../4.1.1/index.html">4.1.1</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../search.html" method="GET">
@@ -99,12 +106,18 @@
                 <div id="page-content">
                 
     <div class="page-header">
-        <h1>TokenTypeHandlerInterface</h1>
+        <h1>
+            TokenTypeHandlerInterface
+                
+        </h1>
     </div>
 
     <p>    interface
     <strong>TokenTypeHandlerInterface</strong>
 </p>
+
+        
+    
 
             <div class="description">
             <p>OAuth2 token type handler interface.</p>                    </div>
@@ -117,27 +130,21 @@
             <div class="container-fluid underlined">
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    string
+                    string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getAccessToken">getAccessToken</a>(
-    <abbr title="AuthBucket\OAuth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
+                    <a href="#method_getAccessToken">getAccessToken</a>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
+        
                                             <p>Fetch access_token from given request.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
-    array
+                    array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_createAccessToken">createAccessToken</a>(
-    string $clientId, 
-    string $username = &#039;&#039;, 
-    array $scope = array(), 
-    string $state = null, 
-    bool $withRefreshToken = true)
+                    <a href="#method_createAccessToken">createAccessToken</a>(string $clientId, string $username = &#039;&#039;, array $scope = array(), string $state = null, bool $withRefreshToken = true)
+        
                                             <p>Create and save access_token parameters for generate response.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -149,13 +156,15 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_getAccessToken">
-        <div class="location">at line 30</div>
-        <code>                    
-    string
-    <strong>getAccessToken</strong>(
-    <abbr title="AuthBucket\OAuth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr> $request)</code>
+        <div class="location">at line         line 30</div>
+        <code>                    string
+    <strong>getAccessToken</strong>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request)
+        </code>
     </h3>
     <div class="details">
+            
+    
+
                     <div class="method-description">
                                     <p>Fetch access_token from given request.</p>                                </div>
                 <div class="tags">
@@ -163,10 +172,9 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    <abbr title="AuthBucket\OAuth2\TokenType\Symfony\Component\HttpFoundation\Request">Request</abbr></td>
+                <td><abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr></td>
                 <td>$request</td>
-                <td>Incoming request object.</td>
+                <td>Incoming request object</td>
             </tr>
             </table>
 
@@ -175,9 +183,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    string</td>
-            <td>Fetched access_token from incoming request.</td>
+            <td>string</td>
+            <td>Fetched access_token from incoming request</td>
         </tr>
     </table>
 
@@ -189,17 +196,15 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createAccessToken">
-        <div class="location">at line 43</div>
-        <code>                    
-    array
-    <strong>createAccessToken</strong>(
-    string $clientId, 
-    string $username = &#039;&#039;, 
-    array $scope = array(), 
-    string $state = null, 
-    bool $withRefreshToken = true)</code>
+        <div class="location">at line         line 43</div>
+        <code>                    array
+    <strong>createAccessToken</strong>(string $clientId, string $username = &#039;&#039;, array $scope = array(), string $state = null, bool $withRefreshToken = true)
+        </code>
     </h3>
     <div class="details">
+            
+    
+
                     <div class="method-description">
                                     <p>Create and save access_token parameters for generate response.</p>                                </div>
                 <div class="tags">
@@ -207,34 +212,29 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$clientId</td>
-                <td>client_id this access token should belongs to.</td>
+                <td>client_id this access token should belongs to</td>
             </tr>
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$username</td>
-                <td>username this access token should belongs to.</td>
+                <td>username this access token should belongs to</td>
             </tr>
                     <tr>
-                <td>
-    array</td>
+                <td>array</td>
                 <td>$scope</td>
-                <td>All scope that this access token grant.</td>
+                <td>All scope that this access token grant</td>
             </tr>
                     <tr>
-                <td>
-    string</td>
+                <td>string</td>
                 <td>$state</td>
-                <td>Original state which should preserve.</td>
+                <td>Original state which should preserve</td>
             </tr>
                     <tr>
-                <td>
-    bool</td>
+                <td>bool</td>
                 <td>$withRefreshToken</td>
-                <td>False for response_type=token.</td>
+                <td>False for response_type=token</td>
             </tr>
             </table>
 
@@ -243,9 +243,8 @@
 
                     <table class="table table-condensed">
         <tr>
-            <td>
-    array</td>
-            <td>All parameters for generate response.</td>
+            <td>array</td>
+            <td>All parameters for generate response</td>
         </tr>
     </table>
 
