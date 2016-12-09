@@ -11,18 +11,18 @@
 
 namespace AuthBucket\OAuth2\Controller;
 
+use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
+use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
+use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
 use AuthBucket\OAuth2\Validator\Constraints\GrantType;
 use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -33,24 +33,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class OAuth2Controller
 {
-    protected $tokenStorage;
     protected $validator;
     protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
     protected $grantTypeHandlerFactory;
+    protected $tokenTypeHandlerFactory;
 
     public function __construct(
-        TokenStorageInterface $tokenStorage,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
-        GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory
+        GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
-        $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
         $this->grantTypeHandlerFactory = $grantTypeHandlerFactory;
+        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     public function authorizeAction(Request $request)
@@ -95,22 +95,57 @@ class OAuth2Controller
 
     public function debugAction(Request $request)
     {
-        // Fetch authenticated access token from security context.
-        $token = $this->tokenStorage->getToken();
-        if ($token === null || !$token instanceof AccessTokenToken) {
-            throw new ServerErrorException([
-                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
+        // Fetch access_token by token type handler.
+        $accessToken = null;
+        foreach ($this->tokenTypeHandlerFactory->getTokenTypeHandlers() as $key => $value) {
+            try {
+                $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler($key);
+                $accessToken = $tokenTypeHandler->getAccessToken($request);
+                break;
+            } catch (ExceptionInterface $e) {
+                continue;
+            }
+        }
+        if ($accessToken === null) {
+            throw new InvalidRequestException([
+                'error_description' => 'The request includes an invalid parameter value.',
+            ]);
+        }
+
+        // access_token must in valid format.
+        $errors = $this->validator->validate($accessToken, [
+            new NotBlank(),
+            new AccessToken(),
+        ]);
+        if (count($errors) > 0) {
+            throw new InvalidRequestException([
+                'error_description' => 'The request includes an invalid parameter value.',
+            ]);
+        }
+
+        // Compare access_token with database record.
+        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
+        $accessTokenStored = $accessTokenManager->readModelOneBy([
+            'accessToken' => $accessToken,
+        ]);
+        if ($accessTokenStored === null) {
+            throw new InvalidRequestException([
+                'error_description' => 'The provided access token is invalid.',
+            ]);
+        } elseif ($accessTokenStored->getExpires() < new \DateTime()) {
+            throw new InvalidRequestException([
+                'error_description' => 'The provided access token is expired.',
             ]);
         }
 
         // Handle debug endpoint response.
         $parameters = [
-            'access_token' => $token->getAccessToken(),
-            'token_type' => $token->getTokenType(),
-            'client_id' => $token->getClientId(),
-            'username' => $token->getUsername(),
-            'expires' => $token->getExpires()->getTimestamp(),
-            'scope' => $token->getScope(),
+            'access_token' => $accessTokenStored->getAccessToken(),
+            'token_type' => $accessTokenStored->getTokenType(),
+            'client_id' => $accessTokenStored->getClientId(),
+            'username' => $accessTokenStored->getUsername(),
+            'expires' => $accessTokenStored->getExpires()->getTimestamp(),
+            'scope' => $accessTokenStored->getScope(),
         ];
 
         return JsonResponse::create($parameters, 200, [

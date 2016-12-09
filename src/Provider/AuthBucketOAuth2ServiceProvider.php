@@ -126,11 +126,11 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
 
         $app['authbucket_oauth2.oauth2_controller'] = function () use ($app) {
             return new OAuth2Controller(
-                $app['security.token_storage'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_handler.factory'],
-                $app['authbucket_oauth2.grant_handler.factory']
+                $app['authbucket_oauth2.grant_handler.factory'],
+                $app['authbucket_oauth2.token_handler.factory']
             );
         };
 
