@@ -11,9 +11,9 @@
 
 namespace AuthBucket\OAuth2\Tests\TestBundle\Entity;
 
-use AuthBucket\OAuth2\Model\UserInterface;
+use AuthBucket\OAuth2\Model\ModelInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User.
@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  * @ORM\Table(name="authbucket_oauth2_user")
  * @ORM\Entity(repositoryClass="AuthBucket\OAuth2\Tests\TestBundle\Entity\UserRepository")
  */
-class User implements UserInterface, SymfonyUserInterface
+class User implements ModelInterface, UserInterface
 {
     /**
      * @var int
