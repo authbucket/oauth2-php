@@ -11,18 +11,18 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
+use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\ClientId;
+use AuthBucket\OAuth2\Validator\Constraints\Password;
 use AuthBucket\OAuth2\Validator\Constraints\Scope;
+use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -32,27 +32,18 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
-    protected $tokenStorage;
-    protected $encoderFactory;
     protected $validator;
     protected $modelManagerFactory;
     protected $tokenTypeHandlerFactory;
-    protected $userProvider;
 
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
-        UserProviderInterface $userProvider = null
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->encoderFactory = $encoderFactory;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
-        $this->userProvider = $userProvider;
     }
 
     /**
@@ -60,18 +51,56 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
      *
      * @return string Supplied client_id from authenticated token
      *
-     * @throw ServerErrorException If supplied token is not a ClientToken instance.
+     * @throw ServerErrorException If supplied token is not in valid format.
      */
-    protected function checkClientId()
+    protected function checkClientId(Request $request)
     {
-        $token = $this->tokenStorage->getToken();
-        if ($token === null || !$token instanceof ClientToken) {
-            throw new ServerErrorException([
-                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
+        // Check with HTTP basic auth if exists.
+        if ($request->headers->get('PHP_AUTH_USER', false)) {
+            $clientId = $request->headers->get('PHP_AUTH_USER', false);
+        } else {
+            $clientId = $request->request->get('client_id', false);
+        }
+
+        // client_id must in valid format.
+        $errors = $this->validator->validate($clientId, [
+            new NotBlank(),
+            new ClientId(),
+        ]);
+        if (count($errors) > 0) {
+            throw new InvalidRequestException([
+                'error_description' => 'The request includes an invalid parameter value.',
             ]);
         }
 
-        return $token->getClientId();
+        return $clientId;
+    }
+
+    /**
+     * Fetch username from POST.
+     *
+     * @param Request $request Incoming request object
+     *
+     * @return string The supplied username
+     *
+     * @throw InvalidRequestException If username or password in invalid format.
+     * @throw InvalidGrantException If reported as bad credentials from authentication provider.
+     */
+    protected function checkUsername(Request $request)
+    {
+        // username must exist and in valid format.
+        $username = $request->request->get('username');
+        $errors = $this->validator->validate($username, [
+            new NotBlank(),
+            new Username(),
+        ]);
+        if (count($errors) > 0) {
+            throw new InvalidRequestException([
+                'error_description' => 'The request includes an invalid parameter value.',
+            ]);
+        }
+
+        return $username;
     }
 
     /**

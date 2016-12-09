@@ -11,17 +11,9 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Exception\InvalidGrantException;
-use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Validator\Constraints\Password;
-use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\User\UserChecker;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Password grant type implementation.
@@ -36,7 +28,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId();
+        $clientId = $this->checkClientId($request);
 
         // Check resource owner credentials
         $username = $this->checkUsername($request);
@@ -57,60 +49,5 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
             'Cache-Control' => 'no-store',
             'Pragma' => 'no-cache',
         ]);
-    }
-
-    /**
-     * Fetch username from POST.
-     *
-     * @param Request $request Incoming request object
-     *
-     * @return string The supplied username
-     *
-     * @throw InvalidRequestException If username or password in invalid format.
-     * @throw InvalidGrantException If reported as bad credentials from authentication provider.
-     */
-    private function checkUsername(Request $request)
-    {
-        // username must exist and in valid format.
-        $username = $request->request->get('username');
-        $errors = $this->validator->validate($username, [
-            new NotBlank(),
-            new Username(),
-        ]);
-        if (count($errors) > 0) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request includes an invalid parameter value.',
-            ]);
-        }
-
-        // password must exist and in valid format.
-        $password = $request->request->get('password');
-        $errors = $this->validator->validate($password, [
-            new NotBlank(),
-            new Password(),
-        ]);
-        if (count($errors) > 0) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request includes an invalid parameter value.',
-            ]);
-        }
-
-        // Validate credentials with authentication manager.
-        try {
-            $token = new UsernamePasswordToken($username, $password, 'oauth2');
-            $authenticationProvider = new DaoAuthenticationProvider(
-                $this->userProvider,
-                new UserChecker(),
-                'oauth2',
-                $this->encoderFactory
-            );
-            $authenticationProvider->authenticate($token);
-        } catch (BadCredentialsException $e) {
-            throw new InvalidGrantException([
-                'error_description' => 'The provided resource owner credentials is invalid.',
-            ]);
-        }
-
-        return $username;
     }
 }

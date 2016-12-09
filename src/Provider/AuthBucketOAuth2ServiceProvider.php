@@ -101,12 +101,9 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
 
         $app['authbucket_oauth2.grant_handler.factory'] = $app->factory(function ($app) {
             return new GrantTypeHandlerFactory(
-                $app['security.token_storage'],
-                $app['security.encoder_factory'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.token_handler.factory'],
-                $app['authbucket_oauth2.user_provider'],
                 $app['authbucket_oauth2.grant_handler']
             );
         });
@@ -153,7 +150,9 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
                     $app['security.token_storage'],
                     $app['security.authentication_manager'],
                     $app['validator'],
-                    $app['logger']
+                    $app['logger'],
+                    $app['security.encoder_factory'],
+                    $app['authbucket_oauth2.user_provider']
                 );
             };
         });

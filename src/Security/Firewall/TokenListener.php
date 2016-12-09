@@ -11,15 +11,25 @@
 
 namespace AuthBucket\OAuth2\Security\Firewall;
 
+use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
 use AuthBucket\OAuth2\Validator\Constraints\ClientId;
 use AuthBucket\OAuth2\Validator\Constraints\ClientSecret;
+use AuthBucket\OAuth2\Validator\Constraints\GrantType;
+use AuthBucket\OAuth2\Validator\Constraints\Password;
+use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\User\UserChecker;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -36,19 +46,25 @@ class TokenListener implements ListenerInterface
     protected $authenticationManager;
     protected $validator;
     protected $logger;
+    protected $encoderFactory;
+    protected $userProvider;
 
     public function __construct(
         $providerKey,
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
         ValidatorInterface $validator,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        EncoderFactoryInterface $encoderFactory,
+        UserProviderInterface $userProvider
     ) {
         $this->providerKey = $providerKey;
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->validator = $validator;
         $this->logger = $logger;
+        $this->encoderFactory = $encoderFactory;
+        $this->userProvider = $userProvider;
     }
 
     public function handle(GetResponseEvent $event)
@@ -95,6 +111,61 @@ class TokenListener implements ListenerInterface
             throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
             ]);
+        }
+
+        // grant_type must in valid format.
+        $grantType = $request->request->get('grant_type');
+        $errors = $this->validator->validate($grantType, [
+            new NotBlank(),
+            new GrantType(),
+        ]);
+        if (count($errors) > 0) {
+            throw new InvalidRequestException([
+                'error_description' => 'The request includes an invalid parameter value.',
+            ]);
+        }
+
+        // check username and password if grant_type = password.
+        if ($grantType == 'password') {
+            // username must exist and in valid format.
+            $username = $request->request->get('username');
+            $errors = $this->validator->validate($username, [
+                new NotBlank(),
+                new Username(),
+            ]);
+            if (count($errors) > 0) {
+                throw new InvalidRequestException([
+                    'error_description' => 'The request includes an invalid parameter value.',
+                ]);
+            }
+
+            // password must exist and in valid format.
+            $password = $request->request->get('password');
+            $errors = $this->validator->validate($password, [
+                new NotBlank(),
+                new Password(),
+            ]);
+            if (count($errors) > 0) {
+                throw new InvalidRequestException([
+                    'error_description' => 'The request includes an invalid parameter value.',
+                ]);
+            }
+
+            // Validate credentials with authentication manager.
+            try {
+                $token = new UsernamePasswordToken($username, $password, 'oauth2');
+                $authenticationProvider = new DaoAuthenticationProvider(
+                    $this->userProvider,
+                    new UserChecker(),
+                    'oauth2',
+                    $this->encoderFactory
+                );
+                $authenticationProvider->authenticate($token);
+            } catch (BadCredentialsException $e) {
+                throw new InvalidGrantException([
+                    'error_description' => 'The provided resource owner credentials is invalid.',
+                ]);
+            }
         }
 
         if (null !== $this->logger) {
