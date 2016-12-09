@@ -92,7 +92,6 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
 
         $app['authbucket_oauth2.response_handler.factory'] = $app->factory(function ($app) {
             return new ResponseTypeHandlerFactory(
-                $app['security.token_storage'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.token_handler.factory'],

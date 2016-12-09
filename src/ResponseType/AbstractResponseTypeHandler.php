@@ -23,9 +23,6 @@ use AuthBucket\OAuth2\Validator\Constraints\Scope;
 use AuthBucket\OAuth2\Validator\Constraints\State;
 use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -36,40 +33,42 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterface
 {
-    protected $tokenStorage;
     protected $validator;
     protected $modelManagerFactory;
     protected $tokenTypeHandlerFactory;
 
     public function __construct(
-        TokenStorageInterface $tokenStorage,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
-        $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     /**
-     * Fetch username from authenticated token.
+     * Fetch username from request header.
      *
      * @return string Supplied username from authenticated token
      *
      * @throw ServerErrorException If supplied token is not a standard TokenInterface instance.
      */
-    protected function checkUsername()
+    protected function checkUsername(Request $request)
     {
-        $token = $this->tokenStorage->getToken();
-        if (!$token instanceof RememberMeToken && !$token instanceof UsernamePasswordToken) {
-            throw new ServerErrorException([
-                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
+        // username is required and in valid format.
+        $username = $request->headers->get('PHP_AUTH_USER', false);
+        $error = $this->validator->validate($username, [
+            new NotBlank(),
+            new Username(),
+        ]);
+        if (count($errors) > 0) {
+            throw new InvalidRequestException([
+                'error_description' => 'The request includes an invalid parameter value.',
             ]);
         }
 
-        return $token->getUsername();
+        return $username;
     }
 
     /**
