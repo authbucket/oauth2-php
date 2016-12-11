@@ -112,17 +112,6 @@ class OAuth2Controller
             ]);
         }
 
-        // access_token must in valid format.
-        $errors = $this->validator->validate($accessToken, [
-            new NotBlank(),
-            new AccessToken(),
-        ]);
-        if (count($errors) > 0) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request includes an invalid parameter value.',
-            ]);
-        }
-
         // Compare access_token with database record.
         $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
         $accessTokenStored = $accessTokenManager->readModelOneBy([
