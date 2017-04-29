@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Security\Authentication\Provider;
+namespace AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Provider;
 
 use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
