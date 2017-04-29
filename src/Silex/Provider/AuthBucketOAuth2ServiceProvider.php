@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\Silex\Provider;
 
 use AuthBucket\OAuth2\Controller\OAuth2Controller;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
-use AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory;
+use AuthBucket\OAuth2\Model\InMemoryModelManagerFactory;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use AuthBucket\OAuth2\Symfony\Component\EventDispatcher\ExceptionListener;
@@ -42,7 +42,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
         // in-memory AccessToken for using resource firewall with remote debug
         // endpoint.
         $app['authbucket_oauth2.model'] = [
-            'access_token' => 'AuthBucket\\OAuth2\\Model\\InMemory\\AccessToken',
+            'access_token' => 'AuthBucket\\OAuth2\\Model\\InMemoryAccessToken',
         ];
 
         // (Optional) Override this with your backend model managers, e.g.

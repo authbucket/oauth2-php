@@ -9,18 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Model\InMemory;
+namespace AuthBucket\OAuth2\Model;
 
 use AuthBucket\OAuth2\Exception\ServerErrorException;
-use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\Model\ModelManagerInterface;
 
 /**
  * OAuth2 model manager factory in-memory implemention.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class ModelManagerFactory implements ModelManagerFactoryInterface
+class InMemoryModelManagerFactory implements ModelManagerFactoryInterface
 {
     protected $managers;
 
