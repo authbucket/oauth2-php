@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Provider;
+namespace AuthBucket\OAuth2\Silex\Provider;
 
 use AuthBucket\OAuth2\Controller\OAuth2Controller;
 use AuthBucket\OAuth2\EventListener\ExceptionListener;

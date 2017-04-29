@@ -10,7 +10,7 @@ AuthBucket\\OAuth2
 
 The primary goal of [AuthBucket\\OAuth2](http://oauth2-php.authbucket.com/) is to develop a standards compliant [RFC6749 OAuth2.0](http://tools.ietf.org/html/rfc6749) library; secondary goal would be develop corresponding wrapper [Symfony2 Bundle](http://symfony.com) and [Drupal module](https://www.drupal.org).
 
-This library bundle with a [Silex](http://silex.sensiolabs.org/) based [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php) for unit test and demo purpose. Installation and usage can refer as below.
+This library bundle with a [Silex](http://silex.sensiolabs.org/) based [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Silex/Provider/AuthBucketOAuth2ServiceProvider.php) for unit test and demo purpose. Installation and usage can refer as below.
 
 Installation
 ------------
@@ -27,7 +27,7 @@ Here is a minimal example of a `composer.json`:
 
 ### Parameters
 
-The bundled [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php) come with following parameters:
+The bundled [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Silex/Provider/AuthBucketOAuth2ServiceProvider.php) come with following parameters:
 
 -   `authbucket_oauth2.model`: (Optional) Override this with your own model classes, default with in-memory AccessToken for using resource firewall with remote debug endpoint.
 -   `authbucket_oauth2.model_manager.factory`: (Optional) Override this with your backend model managers, e.g. Doctrine ORM EntityRepository, default with in-memory implementation for using resource firewall with remote debug endpoint.
@@ -35,15 +35,15 @@ The bundled [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oaut
 
 ### Services
 
-The bundled [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php) come with following services controller which simplify the OAuth2.0 controller implementation overhead:
+The bundled [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Silex/Provider/AuthBucketOAuth2ServiceProvider.php) come with following services controller which simplify the OAuth2.0 controller implementation overhead:
 
 -   `authbucket_oauth2.oauth2_controller`: OAuth2 endpoint controller.
 
 ### Registering
 
-If you are using [Silex](http://silex.sensiolabs.org/), register [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php) as below:
+If you are using [Silex](http://silex.sensiolabs.org/), register [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Silex/Provider/AuthBucketOAuth2ServiceProvider.php) as below:
 
-    $app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
+    $app->register(new AuthBucket\OAuth2\Silex\Provider\AuthBucketOAuth2ServiceProvider());
 
 Moreover, enable following service providers if that's not already the case:
 
@@ -157,7 +157,7 @@ If authorization server is hosting somewhere else, you can protect your local re
 Demo
 ----
 
-The demo is based on [Silex](http://silex.sensiolabs.org/) and [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Provider/AuthBucketOAuth2ServiceProvider.php). Read though [Demo](http://oauth2-php.authbucket.com/demo) for more information.
+The demo is based on [Silex](http://silex.sensiolabs.org/) and [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Silex/Provider/AuthBucketOAuth2ServiceProvider.php). Read though [Demo](http://oauth2-php.authbucket.com/demo) for more information.
 
 You may also run the demo locally. Open a console and execute the following command to install the latest version in the `oauth2-php` directory:
 
