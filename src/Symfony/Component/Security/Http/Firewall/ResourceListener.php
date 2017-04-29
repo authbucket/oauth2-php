@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Security\Firewall;
+namespace AuthBucket\OAuth2\Symfony\Component\Security\Http\Firewall;
 
 use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
