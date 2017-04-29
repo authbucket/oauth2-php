@@ -17,8 +17,6 @@ use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Security\Authentication\Token\ClientCredentialsToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Validator\Constraints\ClientId;
-use AuthBucket\OAuth2\Validator\Constraints\Scope;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -97,7 +95,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 
         // scope must be in valid format.
         $errors = $this->validator->validate($scope, [
-            new Scope(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\Scope(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([

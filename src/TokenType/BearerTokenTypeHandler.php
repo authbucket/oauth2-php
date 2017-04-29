@@ -12,9 +12,7 @@
 namespace AuthBucket\OAuth2\TokenType;
 
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Bearer token type handler implementation.
@@ -55,8 +53,8 @@ class BearerTokenTypeHandler extends AbstractTokenTypeHandler
 
         // access_token must be in valid format.
         $errors = $this->validator->validate($accessToken, [
-            new NotBlank(),
-            new AccessToken(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\AccessToken(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([

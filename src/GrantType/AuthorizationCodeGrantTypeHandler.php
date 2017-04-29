@@ -13,11 +13,8 @@ namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Validator\Constraints\Code;
-use AuthBucket\OAuth2\Validator\Constraints\RedirectUri;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Authorization code grant type implementation.
@@ -70,8 +67,8 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // code is required and must in valid format.
         $code = $request->request->get('code');
         $errors = $this->validator->validate($code, [
-            new NotBlank(),
-            new Code(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\Code(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -114,7 +111,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // redirect_uri may not exists.
         $redirectUri = $request->request->get('redirect_uri');
         $errors = $this->validator->validate($redirectUri, [
-            new RedirectUri(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\RedirectUri(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
