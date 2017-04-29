@@ -1,16 +1,14 @@
 <?php
 
-$fixers = [
-    '-no_empty_lines_after_phpdocs',
-    '-psr0',
-    'ordered_use',
-    'php_unit_construct',
-    'php_unit_strict',
-    'phpdoc_order',
-    'short_array_syntax',
+$rules = [
+    '@Symfony' => true,
+    'array_syntax' => ['syntax' => 'short'],
+    'no_blank_lines_after_phpdoc' => false,
+    'ordered_class_elements' => true,
+    'phpdoc_order' => true,
 ];
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
+$finder = PhpCsFixer\Finder::create()
     ->exclude('build')
     ->exclude('var/cache')
     ->exclude('var/log')
@@ -24,8 +22,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->notName('composer.*')
     ->notName('phpunit.xml*');
 
-return Symfony\CS\Config\Config::create()
-    ->level(Symfony\CS\FixerInterface::SYMFONY_LEVEL)
+return PhpCsFixer\Config::create()
     ->setUsingCache(false)
-    ->fixers($fixers)
-    ->finder($finder);
+    ->setRules($rules)
+    ->setFinder($finder);

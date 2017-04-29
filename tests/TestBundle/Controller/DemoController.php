@@ -22,6 +22,7 @@ class DemoController
     {
         return $app['twig']->render('demo/index.html.twig');
     }
+
     public function loginAction(Request $request, Application $app)
     {
         $session = $request->getSession();

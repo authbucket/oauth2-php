@@ -44,6 +44,18 @@ class ExceptionListener implements EventSubscriberInterface
         } while (null !== $exception = $exception->getPrevious());
     }
 
+    public static function getSubscribedEvents()
+    {
+        return [
+            /*
+             * Priority -2 is used to come after those from SecurityServiceProvider (0)
+             * but before the error handlers added with Silex\EventListener\LogListener (-4)
+             * and Silex\Application::error (defaults to -8)
+             */
+            KernelEvents::EXCEPTION => ['onKernelException', -2],
+        ];
+    }
+
     private function handleException(
         GetResponseForExceptionEvent $event,
         ExceptionInterface $exception
@@ -83,17 +95,5 @@ class ExceptionListener implements EventSubscriberInterface
         }
 
         $event->setResponse($response);
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            /*
-             * Priority -2 is used to come after those from SecurityServiceProvider (0)
-             * but before the error handlers added with Silex\EventListener\LogListener (-4)
-             * and Silex\Application::error (defaults to -8)
-             */
-            KernelEvents::EXCEPTION => ['onKernelException', -2],
-        ];
     }
 }
