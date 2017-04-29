@@ -77,7 +77,7 @@ class ResourceListener implements ListenerInterface
         // access_token must in valid format.
         $errors = $this->validator->validate($accessToken, [
             new \Symfony\Component\Validator\Constraints\NotBlank(),
-            new \AuthBucket\OAuth2\Validator\Constraints\AccessToken(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\AccessToken(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([

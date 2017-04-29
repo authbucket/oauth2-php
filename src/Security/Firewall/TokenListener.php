@@ -88,7 +88,7 @@ class TokenListener implements ListenerInterface
         // client_id must in valid format.
         $errors = $this->validator->validate($clientId, [
             new \Symfony\Component\Validator\Constraints\NotBlank(),
-            new \AuthBucket\OAuth2\Validator\Constraints\ClientId(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\ClientId(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -99,7 +99,7 @@ class TokenListener implements ListenerInterface
         // client_secret must in valid format.
         $errors = $this->validator->validate($clientId, [
             new \Symfony\Component\Validator\Constraints\NotBlank(),
-            new \AuthBucket\OAuth2\Validator\Constraints\ClientSecret(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\ClientSecret(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
