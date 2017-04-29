@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Security\Authentication\Token;
+namespace AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token;
 
 use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;

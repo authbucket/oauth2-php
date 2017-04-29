@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
+use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\AccessToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 

@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\Security\Firewall;
 
 use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
+use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\AccessToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;

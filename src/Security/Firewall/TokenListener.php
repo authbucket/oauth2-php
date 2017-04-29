@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\Security\Firewall;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Security\Authentication\Token\ClientCredentialsToken;
+use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\ClientCredentialsToken;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
