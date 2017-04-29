@@ -14,11 +14,8 @@ namespace AuthBucket\OAuth2\GrantType;
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
-use AuthBucket\OAuth2\Validator\Constraints\RefreshToken;
-use AuthBucket\OAuth2\Validator\Constraints\Scope;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Refresh token grant type implementation.
@@ -69,8 +66,8 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         // refresh_token must exists and in valid format.
         $refreshToken = $request->request->get('refresh_token');
         $errors = $this->validator->validate($refreshToken, [
-            new NotBlank(),
-            new RefreshToken(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\RefreshToken(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -81,7 +78,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
         // scope may not exists, else must be in valid format.
         $scope = $request->request->get('scope');
         $errors = $this->validator->validate($scope, [
-            new Scope(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\Scope(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([

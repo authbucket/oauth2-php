@@ -17,7 +17,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
 
 // Register AuthBucketOAuth2ServiceProvider.
-$app->register(new AuthBucket\OAuth2\Provider\AuthBucketOAuth2ServiceProvider());
+$app->register(new AuthBucket\OAuth2\Silex\Provider\AuthBucketOAuth2ServiceProvider());
 
 // Register additional Silex providers for TestBundleServiceProvider.
 $app->register(new Silex\Provider\DoctrineServiceProvider());

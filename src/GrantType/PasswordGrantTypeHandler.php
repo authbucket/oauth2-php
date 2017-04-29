@@ -13,15 +13,12 @@ namespace AuthBucket\OAuth2\GrantType;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Validator\Constraints\Password;
-use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserChecker;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Password grant type implementation.
@@ -74,8 +71,8 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         // username must exist and in valid format.
         $username = $request->request->get('username');
         $errors = $this->validator->validate($username, [
-            new NotBlank(),
-            new Username(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\Username(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -86,8 +83,8 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
         // password must exist and in valid format.
         $password = $request->request->get('password');
         $errors = $this->validator->validate($password, [
-            new NotBlank(),
-            new Password(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\Password(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([

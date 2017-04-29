@@ -12,6 +12,7 @@
 namespace AuthBucket\OAuth2\Tests\ResponseType;
 
 use AuthBucket\OAuth2\Tests\WebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
@@ -319,6 +320,8 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             '_password' => 'demopassword3',
         ]);
         $client->submit($form);
+        $cookie = new Cookie($session->getName(), $session->getId());
+        $client->getCookieJar()->set($cookie);
 
         $parameters = [
             'response_type' => 'token',
@@ -348,7 +351,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
             '_remember_me' => true,
         ]);
         $client->submit($form);
-        $rememberMe = $client->getCookieJar()->get('REMEMBERME');
+        $cookie = $client->getCookieJar()->get('REMEMBERME');
 
         // Reuse cookie REMEMBERME for second client.
         $parameters = [
@@ -360,7 +363,7 @@ class TokenResponseTypeHandlerTest extends WebTestCase
         ];
         $server = [];
         $client = $this->createClient();
-        $client->getCookieJar()->get($rememberMe);
+        $client->getCookieJar()->get($cookie);
         $crawler = $client->request('GET', '/demo/authorize', $parameters, [], $server);
         $this->assertTrue($client->getResponse()->isRedirect());
     }

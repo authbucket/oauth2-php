@@ -17,16 +17,10 @@ use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Exception\UnauthorizedClientException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Validator\Constraints\ClientId;
-use AuthBucket\OAuth2\Validator\Constraints\RedirectUri;
-use AuthBucket\OAuth2\Validator\Constraints\Scope;
-use AuthBucket\OAuth2\Validator\Constraints\State;
-use AuthBucket\OAuth2\Validator\Constraints\Username;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -87,8 +81,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // client_id is required and in valid format.
         $clientId = $request->query->get('client_id');
         $errors = $this->validator->validate($clientId, [
-            new NotBlank(),
-            new ClientId(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\ClientId(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -127,7 +121,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // redirect_uri may not exists.
         $redirectUri = $request->query->get('redirect_uri');
         $errors = $this->validator->validate($redirectUri, [
-            new RedirectUri(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\RedirectUri(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -175,8 +169,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // state is required and in valid format.
         $state = $request->query->get('state');
         $errors = $this->validator->validate($state, [
-            new NotBlank(),
-            new State(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\State(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -203,8 +197,8 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
 
         // scope must be in valid format.
         $errors = $this->validator->validate($scope, [
-            new NotBlank(),
-            new Scope(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\Scope(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([

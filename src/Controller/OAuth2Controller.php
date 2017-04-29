@@ -16,14 +16,11 @@ use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
-use AuthBucket\OAuth2\Validator\Constraints\GrantType;
-use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
+use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\AccessToken;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -58,8 +55,8 @@ class OAuth2Controller
         // Fetch response_type from GET.
         $responseType = $request->query->get('response_type');
         $errors = $this->validator->validate($responseType, [
-            new NotBlank(),
-            new ResponseType(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\ResponseType(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -78,8 +75,8 @@ class OAuth2Controller
         // Fetch grant_type from POST.
         $grantType = $request->request->get('grant_type');
         $errors = $this->validator->validate($grantType, [
-            new NotBlank(),
-            new GrantType(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\GrantType(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -97,7 +94,7 @@ class OAuth2Controller
     {
         // Fetch authenticated access token from security context.
         $token = $this->tokenStorage->getToken();
-        if ($token === null || !$token instanceof AccessTokenToken) {
+        if ($token === null || !$token instanceof AccessToken) {
             throw new ServerErrorException([
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ]);
