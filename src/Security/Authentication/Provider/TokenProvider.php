@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 
 use AuthBucket\OAuth2\Exception\InvalidClientException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
+use AuthBucket\OAuth2\Security\Authentication\Token\ClientCredentialsToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -51,7 +51,7 @@ class TokenProvider implements AuthenticationProviderInterface
             ]);
         }
 
-        $tokenAuthenticated = new ClientToken(
+        $tokenAuthenticated = new ClientCredentialsToken(
             $this->providerKey,
             $client->getClientId(),
             $client->getClientSecret(),
@@ -65,6 +65,6 @@ class TokenProvider implements AuthenticationProviderInterface
 
     public function supports(TokenInterface $token)
     {
-        return $token instanceof ClientToken && $this->providerKey === $token->getProviderKey();
+        return $token instanceof ClientCredentialsToken && $this->providerKey === $token->getProviderKey();
     }
 }

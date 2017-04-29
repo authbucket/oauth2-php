@@ -13,16 +13,14 @@ namespace AuthBucket\OAuth2\Security\Firewall;
 
 use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
+use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -78,8 +76,8 @@ class ResourceListener implements ListenerInterface
 
         // access_token must in valid format.
         $errors = $this->validator->validate($accessToken, [
-            new NotBlank(),
-            new AccessToken(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Validator\Constraints\AccessToken(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -92,7 +90,7 @@ class ResourceListener implements ListenerInterface
         }
 
         if (null !== $token = $this->tokenStorage->getToken()) {
-            if ($token instanceof AccessTokenToken
+            if ($token instanceof AccessToken
                 && $token->isAuthenticated()
                 && $token->getAccessToken() === $accessToken
             ) {
@@ -100,7 +98,7 @@ class ResourceListener implements ListenerInterface
             }
         }
 
-        $token = new AccessTokenToken(
+        $token = new AccessToken(
             $this->providerKey,
             $accessToken
         );

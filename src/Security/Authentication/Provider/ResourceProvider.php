@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\Security\Authentication\Provider;
 
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
+use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -68,7 +68,7 @@ class ResourceProvider implements AuthenticationProviderInterface
             }
         }
 
-        $tokenAuthenticated = new AccessTokenToken(
+        $tokenAuthenticated = new AccessToken(
             $this->providerKey,
             $accessToken->getAccessToken(),
             $accessToken->getTokenType(),
@@ -85,6 +85,6 @@ class ResourceProvider implements AuthenticationProviderInterface
 
     public function supports(TokenInterface $token)
     {
-        return $token instanceof AccessTokenToken && $this->providerKey === $token->getProviderKey();
+        return $token instanceof AccessToken && $this->providerKey === $token->getProviderKey();
     }
 }

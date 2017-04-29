@@ -15,9 +15,9 @@ use AuthBucket\OAuth2\Model\AccessTokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 /**
- * OAuth2 AccessTokenToken for resource endpoint authentication.
+ * OAuth2 AccessToken for resource endpoint authentication.
  */
-class AccessTokenToken extends AbstractToken implements AccessTokenInterface
+class AccessToken extends AbstractToken implements AccessTokenInterface
 {
     protected $providerKey;
 

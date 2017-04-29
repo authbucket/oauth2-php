@@ -15,7 +15,7 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
+use AuthBucket\OAuth2\Security\Authentication\Token\ClientCredentialsToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\ClientId;
 use AuthBucket\OAuth2\Validator\Constraints\Scope;
@@ -60,12 +60,12 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
      *
      * @return string Supplied client_id from authenticated token
      *
-     * @throw ServerErrorException If supplied token is not a ClientToken instance.
+     * @throw ServerErrorException If supplied token is not a ClientCredentialsToken instance.
      */
     protected function checkClientId()
     {
         $token = $this->tokenStorage->getToken();
-        if ($token === null || !$token instanceof ClientToken) {
+        if ($token === null || !$token instanceof ClientCredentialsToken) {
             throw new ServerErrorException([
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ]);

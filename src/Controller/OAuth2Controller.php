@@ -16,7 +16,7 @@ use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
+use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
 use AuthBucket\OAuth2\Validator\Constraints\GrantType;
 use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -97,7 +97,7 @@ class OAuth2Controller
     {
         // Fetch authenticated access token from security context.
         $token = $this->tokenStorage->getToken();
-        if ($token === null || !$token instanceof AccessTokenToken) {
+        if ($token === null || !$token instanceof AccessToken) {
             throw new ServerErrorException([
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ]);
