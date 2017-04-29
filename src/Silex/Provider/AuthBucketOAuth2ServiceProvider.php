@@ -59,13 +59,13 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
         $app['authbucket_oauth2.user_provider'] = null;
 
         // Add default response type handler.
-        $app['authbucket_oauth2.response_handler'] = [
+        $app['authbucket_oauth2.response_type_handler'] = [
             'code' => 'AuthBucket\\OAuth2\\ResponseType\\CodeResponseTypeHandler',
             'token' => 'AuthBucket\\OAuth2\\ResponseType\\TokenResponseTypeHandler',
         ];
 
         // Add default grant type handler.
-        $app['authbucket_oauth2.grant_handler'] = [
+        $app['authbucket_oauth2.grant_type_handler'] = [
             'authorization_code' => 'AuthBucket\\OAuth2\\GrantType\\AuthorizationCodeGrantTypeHandler',
             'client_credentials' => 'AuthBucket\\OAuth2\\GrantType\\ClientCredentialsGrantTypeHandler',
             'password' => 'AuthBucket\\OAuth2\\GrantType\\PasswordGrantTypeHandler',
@@ -73,13 +73,13 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
         ];
 
         // Add default token type handler.
-        $app['authbucket_oauth2.token_handler'] = [
+        $app['authbucket_oauth2.token_type_handler'] = [
             'bearer' => 'AuthBucket\\OAuth2\\TokenType\\BearerTokenTypeHandler',
             'mac' => 'AuthBucket\\OAuth2\\TokenType\\MacTokenTypeHandler',
         ];
 
         // Add default resource type handler.
-        $app['authbucket_oauth2.resource_handler'] = [
+        $app['authbucket_oauth2.resource_type_handler'] = [
             'model' => 'AuthBucket\\OAuth2\\ResourceType\\ModelResourceTypeHandler',
             'debug_endpoint' => 'AuthBucket\\OAuth2\\ResourceType\\DebugEndpointResourceTypeHandler',
         ];
@@ -90,41 +90,41 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
             );
         };
 
-        $app['authbucket_oauth2.response_handler.factory'] = $app->factory(function ($app) {
+        $app['authbucket_oauth2.response_type_handler.factory'] = $app->factory(function ($app) {
             return new ResponseTypeHandlerFactory(
                 $app['security.token_storage'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.token_handler.factory'],
-                $app['authbucket_oauth2.response_handler']
+                $app['authbucket_oauth2.token_type_handler.factory'],
+                $app['authbucket_oauth2.response_type_handler']
             );
         });
 
-        $app['authbucket_oauth2.grant_handler.factory'] = $app->factory(function ($app) {
+        $app['authbucket_oauth2.grant_type_handler.factory'] = $app->factory(function ($app) {
             return new GrantTypeHandlerFactory(
                 $app['security.token_storage'],
                 $app['security.encoder_factory'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.token_handler.factory'],
+                $app['authbucket_oauth2.token_type_handler.factory'],
                 $app['authbucket_oauth2.user_provider'],
-                $app['authbucket_oauth2.grant_handler']
+                $app['authbucket_oauth2.grant_type_handler']
             );
         });
 
-        $app['authbucket_oauth2.token_handler.factory'] = $app->factory(function ($app) {
+        $app['authbucket_oauth2.token_type_handler.factory'] = $app->factory(function ($app) {
             return new TokenTypeHandlerFactory(
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.token_handler']
+                $app['authbucket_oauth2.token_type_handler']
             );
         });
 
-        $app['authbucket_oauth2.resource_handler.factory'] = $app->factory(function ($app) {
+        $app['authbucket_oauth2.resource_type_handler.factory'] = $app->factory(function ($app) {
             return new ResourceTypeHandlerFactory(
                 $app,
                 $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.resource_handler']
+                $app['authbucket_oauth2.resource_type_handler']
             );
         });
 
@@ -133,8 +133,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
                 $app['security.token_storage'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.response_handler.factory'],
-                $app['authbucket_oauth2.grant_handler.factory']
+                $app['authbucket_oauth2.response_type_handler.factory'],
+                $app['authbucket_oauth2.grant_type_handler.factory']
             );
         };
 
@@ -163,7 +163,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
             return function () use ($app, $name, $options) {
                 return new ResourceProvider(
                     $name,
-                    $app['authbucket_oauth2.resource_handler.factory'],
+                    $app['authbucket_oauth2.resource_type_handler.factory'],
                     $options['resource_type'],
                     $options['scope'],
                     $options['options']
@@ -179,7 +179,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
                     $app['security.authentication_manager'],
                     $app['validator'],
                     $app['logger'],
-                    $app['authbucket_oauth2.token_handler.factory']
+                    $app['authbucket_oauth2.token_type_handler.factory']
                 );
             };
         });

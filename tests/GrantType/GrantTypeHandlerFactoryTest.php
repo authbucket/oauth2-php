@@ -27,7 +27,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $this->app['security.encoder_factory'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
-            $this->app['authbucket_oauth2.token_handler.factory'],
+            $this->app['authbucket_oauth2.token_type_handler.factory'],
             null,
             $classes
         );
@@ -44,7 +44,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $this->app['security.encoder_factory'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
-            $this->app['authbucket_oauth2.token_handler.factory'],
+            $this->app['authbucket_oauth2.token_type_handler.factory'],
             null,
             $classes
         );
@@ -61,7 +61,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $this->app['security.encoder_factory'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
-            $this->app['authbucket_oauth2.token_handler.factory'],
+            $this->app['authbucket_oauth2.token_type_handler.factory'],
             null,
             $classes
         );
@@ -76,7 +76,7 @@ class GrantTypeHandlerFactoryTest extends WebTestCase
             $this->app['security.encoder_factory'],
             $this->app['validator'],
             $this->app['authbucket_oauth2.model_manager.factory'],
-            $this->app['authbucket_oauth2.token_handler.factory'],
+            $this->app['authbucket_oauth2.token_type_handler.factory'],
             null,
             $classes
         );
