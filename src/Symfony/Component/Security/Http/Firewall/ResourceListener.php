@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Security\Firewall;
+namespace AuthBucket\OAuth2\Symfony\Component\Security\Http\Firewall;
 
+use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\ClientCredentialsToken;
+use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\AccessToken;
+use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -22,71 +24,60 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * TokenListener implements OAuth2 token endpoint authentication.
+ * ResourceListener implements OAuth2 resource endpoint authentication.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class TokenListener implements ListenerInterface
+class ResourceListener implements ListenerInterface
 {
     protected $providerKey;
     protected $tokenStorage;
     protected $authenticationManager;
     protected $validator;
     protected $logger;
+    protected $tokenTypeHandlerFactory;
 
     public function __construct(
         $providerKey,
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
         ValidatorInterface $validator,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
         $this->providerKey = $providerKey;
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->validator = $validator;
         $this->logger = $logger;
+        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
 
-        // At least one (and only one) of client credentials method required.
-        if (!$request->headers->get('PHP_AUTH_USER', false) && !$request->request->get('client_id', false)) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request is missing a required parameter',
-            ]);
-        } elseif ($request->headers->get('PHP_AUTH_USER', false) && $request->request->get('client_id', false)) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request utilizes more than one mechanism for authenticating the client',
-            ]);
+        // Fetch access_token by token type handler.
+        $accessToken = null;
+        foreach ($this->tokenTypeHandlerFactory->getTokenTypeHandlers() as $key => $value) {
+            try {
+                $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler($key);
+                $accessToken = $tokenTypeHandler->getAccessToken($request);
+                break;
+            } catch (ExceptionInterface $e) {
+                continue;
+            }
         }
-
-        // Check with HTTP basic auth if exists.
-        if ($request->headers->get('PHP_AUTH_USER', false)) {
-            $clientId = $request->headers->get('PHP_AUTH_USER', false);
-            $clientSecret = $request->headers->get('PHP_AUTH_PW', false);
-        } else {
-            $clientId = $request->request->get('client_id', false);
-            $clientSecret = $request->request->get('client_secret', false);
-        }
-
-        // client_id must in valid format.
-        $errors = $this->validator->validate($clientId, [
-            new \Symfony\Component\Validator\Constraints\NotBlank(),
-            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\ClientId(),
-        ]);
-        if (count($errors) > 0) {
+        if ($accessToken === null) {
             throw new InvalidRequestException([
                 'error_description' => 'The request includes an invalid parameter value.',
             ]);
         }
 
-        // client_secret must in valid format.
-        $errors = $this->validator->validate($clientId, [
+        // access_token must in valid format.
+        $errors = $this->validator->validate($accessToken, [
             new \Symfony\Component\Validator\Constraints\NotBlank(),
-            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\ClientSecret(),
+            new \AuthBucket\OAuth2\Symfony\Component\Validator\Constraints\AccessToken(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -95,22 +86,21 @@ class TokenListener implements ListenerInterface
         }
 
         if (null !== $this->logger) {
-            $this->logger->info(sprintf('Token endpoint client credentials found for client_id "%s"', $clientId));
+            $this->logger->info(sprintf('Resource endpoint access token found for access_token "%s"', $accessToken));
         }
 
         if (null !== $token = $this->tokenStorage->getToken()) {
-            if ($token instanceof ClientCredentialsToken
+            if ($token instanceof AccessToken
                 && $token->isAuthenticated()
-                && $token->getClientId() === $clientId
+                && $token->getAccessToken() === $accessToken
             ) {
                 return;
             }
         }
 
-        $token = new ClientCredentialsToken(
+        $token = new AccessToken(
             $this->providerKey,
-            $clientId,
-            $clientSecret
+            $accessToken
         );
         $tokenAuthenticated = $this->authenticationManager->authenticate($token);
         $this->tokenStorage->setToken($tokenAuthenticated);
