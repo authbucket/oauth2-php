@@ -13,7 +13,7 @@ namespace AuthBucket\OAuth2\Security\Firewall;
 
 use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Security\Authentication\Token\AccessTokenToken;
+use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,12 +74,23 @@ class ResourceListener implements ListenerInterface
             ]);
         }
 
+        // access_token must in valid format.
+        $errors = $this->validator->validate($accessToken, [
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Validator\Constraints\AccessToken(),
+        ]);
+        if (count($errors) > 0) {
+            throw new InvalidRequestException([
+                'error_description' => 'The request includes an invalid parameter value.',
+            ]);
+        }
+
         if (null !== $this->logger) {
             $this->logger->info(sprintf('Resource endpoint access token found for access_token "%s"', $accessToken));
         }
 
         if (null !== $token = $this->tokenStorage->getToken()) {
-            if ($token instanceof AccessTokenToken
+            if ($token instanceof AccessToken
                 && $token->isAuthenticated()
                 && $token->getAccessToken() === $accessToken
             ) {
@@ -87,7 +98,7 @@ class ResourceListener implements ListenerInterface
             }
         }
 
-        $token = new AccessTokenToken(
+        $token = new AccessToken(
             $this->providerKey,
             $accessToken
         );

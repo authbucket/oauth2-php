@@ -16,8 +16,7 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
-use AuthBucket\OAuth2\Validator\Constraints\AccessToken;
+use AuthBucket\OAuth2\Security\Authentication\Token\AccessToken;
 use AuthBucket\OAuth2\Validator\Constraints\GrantType;
 use AuthBucket\OAuth2\Validator\Constraints\ResponseType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -95,35 +94,11 @@ class OAuth2Controller
 
     public function debugAction(Request $request)
     {
-        // Fetch access_token by token type handler.
-        $accessToken = null;
-        foreach ($this->tokenTypeHandlerFactory->getTokenTypeHandlers() as $key => $value) {
-            try {
-                $tokenTypeHandler = $this->tokenTypeHandlerFactory->getTokenTypeHandler($key);
-                $accessToken = $tokenTypeHandler->getAccessToken($request);
-                break;
-            } catch (ExceptionInterface $e) {
-                continue;
-            }
-        }
-        if ($accessToken === null) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request includes an invalid parameter value.',
-            ]);
-        }
-
-        // Compare access_token with database record.
-        $accessTokenManager = $this->modelManagerFactory->getModelManager('access_token');
-        $accessTokenStored = $accessTokenManager->readModelOneBy([
-            'accessToken' => $accessToken,
-        ]);
-        if ($accessTokenStored === null) {
-            throw new InvalidRequestException([
-                'error_description' => 'The provided access token is invalid.',
-            ]);
-        } elseif ($accessTokenStored->getExpires() < new \DateTime()) {
-            throw new InvalidRequestException([
-                'error_description' => 'The provided access token is expired.',
+        // Fetch authenticated access token from security context.
+        $token = $this->tokenStorage->getToken();
+        if ($token === null || !$token instanceof AccessToken) {
+            throw new ServerErrorException([
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ]);
         }
 

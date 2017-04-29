@@ -15,9 +15,9 @@ use AuthBucket\OAuth2\Model\ClientInterface;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 /**
- * OAuth2 ClientToken for token endpoint authentication.
+ * OAuth2 ClientCredentialsToken for token endpoint authentication.
  */
-class ClientToken extends AbstractToken implements ClientInterface
+class ClientCredentialsToken extends AbstractToken implements ClientInterface
 {
     protected $providerKey;
 

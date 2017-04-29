@@ -16,6 +16,7 @@ use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
+use AuthBucket\OAuth2\Security\Authentication\Token\ClientCredentialsToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Validator\Constraints\ClientId;
 use AuthBucket\OAuth2\Validator\Constraints\Password;
@@ -51,52 +52,14 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
      *
      * @return string Supplied client_id from authenticated token
      *
-     * @throw ServerErrorException If supplied token is not in valid format.
+     * @throw ServerErrorException If supplied token is not a ClientCredentialsToken instance.
      */
     protected function checkClientId(Request $request)
     {
-        // Check with HTTP basic auth if exists.
-        if ($request->headers->get('PHP_AUTH_USER', false)) {
-            $clientId = $request->headers->get('PHP_AUTH_USER', false);
-        } else {
-            $clientId = $request->request->get('client_id', false);
-        }
-
-        // client_id must in valid format.
-        $errors = $this->validator->validate($clientId, [
-            new NotBlank(),
-            new ClientId(),
-        ]);
-        if (count($errors) > 0) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request includes an invalid parameter value.',
-            ]);
-        }
-
-        return $clientId;
-    }
-
-    /**
-     * Fetch username from POST.
-     *
-     * @param Request $request Incoming request object
-     *
-     * @return string The supplied username
-     *
-     * @throw InvalidRequestException If username or password in invalid format.
-     * @throw InvalidGrantException If reported as bad credentials from authentication provider.
-     */
-    protected function checkUsername(Request $request)
-    {
-        // username must exist and in valid format.
-        $username = $request->request->get('username');
-        $errors = $this->validator->validate($username, [
-            new NotBlank(),
-            new Username(),
-        ]);
-        if (count($errors) > 0) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request includes an invalid parameter value.',
+        $token = $this->tokenStorage->getToken();
+        if ($token === null || !$token instanceof ClientCredentialsToken) {
+            throw new ServerErrorException([
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ]);
         }
 

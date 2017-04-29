@@ -13,12 +13,7 @@ namespace AuthBucket\OAuth2\Security\Firewall;
 
 use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
-use AuthBucket\OAuth2\Security\Authentication\Token\ClientToken;
-use AuthBucket\OAuth2\Validator\Constraints\ClientId;
-use AuthBucket\OAuth2\Validator\Constraints\ClientSecret;
-use AuthBucket\OAuth2\Validator\Constraints\GrantType;
-use AuthBucket\OAuth2\Validator\Constraints\Password;
-use AuthBucket\OAuth2\Validator\Constraints\Username;
+use AuthBucket\OAuth2\Security\Authentication\Token\ClientCredentialsToken;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -31,7 +26,6 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserChecker;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -93,8 +87,8 @@ class TokenListener implements ListenerInterface
 
         // client_id must in valid format.
         $errors = $this->validator->validate($clientId, [
-            new NotBlank(),
-            new ClientId(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Validator\Constraints\ClientId(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -104,8 +98,8 @@ class TokenListener implements ListenerInterface
 
         // client_secret must in valid format.
         $errors = $this->validator->validate($clientId, [
-            new NotBlank(),
-            new ClientSecret(),
+            new \Symfony\Component\Validator\Constraints\NotBlank(),
+            new \AuthBucket\OAuth2\Validator\Constraints\ClientSecret(),
         ]);
         if (count($errors) > 0) {
             throw new InvalidRequestException([
@@ -173,7 +167,7 @@ class TokenListener implements ListenerInterface
         }
 
         if (null !== $token = $this->tokenStorage->getToken()) {
-            if ($token instanceof ClientToken
+            if ($token instanceof ClientCredentialsToken
                 && $token->isAuthenticated()
                 && $token->getClientId() === $clientId
             ) {
@@ -181,7 +175,7 @@ class TokenListener implements ListenerInterface
             }
         }
 
-        $token = new ClientToken(
+        $token = new ClientCredentialsToken(
             $this->providerKey,
             $clientId,
             $clientSecret
