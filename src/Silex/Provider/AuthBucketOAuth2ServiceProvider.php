@@ -12,11 +12,11 @@
 namespace AuthBucket\OAuth2\Silex\Provider;
 
 use AuthBucket\OAuth2\Controller\OAuth2Controller;
-use AuthBucket\OAuth2\EventListener\ExceptionListener;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
 use AuthBucket\OAuth2\Model\InMemory\ModelManagerFactory;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
+use AuthBucket\OAuth2\Symfony\Component\EventDispatcher\ExceptionListener;
 use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Provider\ResourceProvider;
 use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Provider\TokenProvider;
 use AuthBucket\OAuth2\Symfony\Component\Security\Http\Firewall\ResourceListener;

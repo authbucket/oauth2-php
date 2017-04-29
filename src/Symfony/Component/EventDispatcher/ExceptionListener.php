@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\EventListener;
+namespace AuthBucket\OAuth2\Symfony\Component\EventDispatcher;
 
 use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use Psr\Log\LoggerInterface;
