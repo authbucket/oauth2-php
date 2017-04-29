@@ -9,19 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Model\InMemory;
-
-use AuthBucket\OAuth2\Model\ModelInterface;
-use AuthBucket\OAuth2\Model\ModelManagerInterface;
+namespace AuthBucket\OAuth2\Model;
 
 /**
  * ModelManagerInterface in-memory implementation.
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-abstract class AbstractModelManager implements ModelManagerInterface
+class InMemoryAccessTokenManager implements AccessTokenManagerInterface
 {
     protected $models;
+
+    public function getClassName()
+    {
+        return 'AuthBucket\\OAuth2\\Model\\InMemoryAccessToken';
+    }
 
     public function createModel(ModelInterface $model)
     {

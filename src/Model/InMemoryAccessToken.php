@@ -9,14 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace AuthBucket\OAuth2\Model\InMemory;
-
-use AuthBucket\OAuth2\Model\AccessTokenInterface;
+namespace AuthBucket\OAuth2\Model;
 
 /**
- * AccessToken.
+ * InMemoryAccessToken.
  */
-class AccessToken implements AccessTokenInterface
+class InMemoryAccessToken implements AccessTokenInterface
 {
     protected $id;
 
