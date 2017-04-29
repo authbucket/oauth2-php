@@ -92,6 +92,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
 
         $app['authbucket_oauth2.response_type_handler.factory'] = $app->factory(function ($app) {
             return new ResponseTypeHandlerFactory(
+                $app['security.token_storage'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.token_type_handler.factory'],
@@ -101,6 +102,8 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
 
         $app['authbucket_oauth2.grant_type_handler.factory'] = $app->factory(function ($app) {
             return new GrantTypeHandlerFactory(
+                $app['security.token_storage'],
+                $app['security.encoder_factory'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.token_type_handler.factory'],
@@ -127,6 +130,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
 
         $app['authbucket_oauth2.oauth2_controller'] = function () use ($app) {
             return new OAuth2Controller(
+                $app['security.token_storage'],
                 $app['validator'],
                 $app['authbucket_oauth2.model_manager.factory'],
                 $app['authbucket_oauth2.response_type_handler.factory'],
@@ -150,9 +154,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
                     $app['security.token_storage'],
                     $app['security.authentication_manager'],
                     $app['validator'],
-                    $app['logger'],
-                    $app['security.encoder_factory'],
-                    $app['authbucket_oauth2.user_provider']
+                    $app['logger']
                 );
             };
         });

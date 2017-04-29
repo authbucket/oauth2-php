@@ -24,7 +24,7 @@ class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId($request);
+        $clientId = $this->checkClientId();
 
         // No (and not possible to have) username, set as empty string.
         $username = '';

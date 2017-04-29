@@ -14,6 +14,7 @@ namespace AuthBucket\OAuth2\ResponseType;
 use AuthBucket\OAuth2\Exception\UnsupportedResponseTypeException;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -23,17 +24,20 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
 {
+    protected $tokenStorage;
     protected $validator;
     protected $modelManagerFactory;
     protected $tokenTypeHandlerFactory;
     protected $classes;
 
     public function __construct(
+        TokenStorageInterface $tokenStorage,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
         array $classes = []
     ) {
+        $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
@@ -69,6 +73,7 @@ class ResponseTypeHandlerFactory implements ResponseTypeHandlerFactoryInterface
         $class = $this->classes[$type];
 
         return new $class(
+            $this->tokenStorage,
             $this->validator,
             $this->modelManagerFactory,
             $this->tokenTypeHandlerFactory

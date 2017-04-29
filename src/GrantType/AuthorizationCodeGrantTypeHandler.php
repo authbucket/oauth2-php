@@ -26,7 +26,7 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId($request);
+        $clientId = $this->checkClientId();
 
         // Fetch username and scope from stored code.
         list($username, $scope) = $this->checkCode($request, $clientId);

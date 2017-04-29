@@ -24,7 +24,7 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
     public function handle(Request $request)
     {
         // Fetch username from authenticated token.
-        $username = $this->checkUsername($request);
+        $username = $this->checkUsername();
 
         // Fetch and check client_id.
         $clientId = $this->checkClientId($request);

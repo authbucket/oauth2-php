@@ -30,42 +30,40 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterface
 {
+    protected $tokenStorage;
     protected $validator;
     protected $modelManagerFactory;
     protected $tokenTypeHandlerFactory;
 
     public function __construct(
+        TokenStorageInterface $tokenStorage,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
     ) {
+        $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     /**
-     * Fetch username from request header.
+     * Fetch username from authenticated token.
      *
      * @return string Supplied username from authenticated token
      *
      * @throw ServerErrorException If supplied token is not a standard TokenInterface instance.
      */
-    protected function checkUsername(Request $request)
+    protected function checkUsername()
     {
-        // username is required and in valid format.
-        $username = $request->headers->get('PHP_AUTH_USER', false);
-        $error = $this->validator->validate($username, [
-            new NotBlank(),
-            new Username(),
-        ]);
-        if (count($errors) > 0) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request includes an invalid parameter value.',
+        $token = $this->tokenStorage->getToken();
+        if (!$token instanceof RememberMeToken && !$token instanceof UsernamePasswordToken) {
+            throw new ServerErrorException([
+                'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ]);
         }
 
-        return $username;
+        return $token->getUsername();
     }
 
     /**

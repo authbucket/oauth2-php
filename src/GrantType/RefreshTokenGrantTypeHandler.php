@@ -27,7 +27,7 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId($request);
+        $clientId = $this->checkClientId();
 
         // Check refresh_token, then fetch username and scope.
         list($username, $scope) = $this->checkRefreshToken($request, $clientId);

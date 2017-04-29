@@ -11,7 +11,6 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
-use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
@@ -19,7 +18,9 @@ use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\ClientCredentialsToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -29,18 +30,27 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
+    protected $tokenStorage;
+    protected $encoderFactory;
     protected $validator;
     protected $modelManagerFactory;
     protected $tokenTypeHandlerFactory;
+    protected $userProvider;
 
     public function __construct(
+        TokenStorageInterface $tokenStorage,
+        EncoderFactoryInterface $encoderFactory,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        UserProviderInterface $userProvider = null
     ) {
+        $this->tokenStorage = $tokenStorage;
+        $this->encoderFactory = $encoderFactory;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
+        $this->userProvider = $userProvider;
     }
 
     /**
@@ -50,7 +60,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
      *
      * @throw ServerErrorException If supplied token is not a ClientCredentialsToken instance.
      */
-    protected function checkClientId(Request $request)
+    protected function checkClientId()
     {
         $token = $this->tokenStorage->getToken();
         if ($token === null || !$token instanceof ClientCredentialsToken) {
@@ -59,7 +69,7 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
             ]);
         }
 
-        return $username;
+        return $token->getClientId();
     }
 
     /**

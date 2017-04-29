@@ -33,7 +33,7 @@ class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
-        $clientId = $this->checkClientId($request);
+        $clientId = $this->checkClientId();
 
         // Check resource owner credentials
         $username = $this->checkUsername($request);

@@ -11,8 +11,8 @@
 
 namespace AuthBucket\OAuth2\Controller;
 
-use AuthBucket\OAuth2\Exception\ExceptionInterface;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
+use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactoryInterface;
@@ -30,24 +30,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class OAuth2Controller
 {
+    protected $tokenStorage;
     protected $validator;
     protected $modelManagerFactory;
     protected $responseTypeHandlerFactory;
     protected $grantTypeHandlerFactory;
-    protected $tokenTypeHandlerFactory;
 
     public function __construct(
+        TokenStorageInterface $tokenStorage,
         ValidatorInterface $validator,
         ModelManagerFactoryInterface $modelManagerFactory,
         ResponseTypeHandlerFactoryInterface $responseTypeHandlerFactory,
-        GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        GrantTypeHandlerFactoryInterface $grantTypeHandlerFactory
     ) {
+        $this->tokenStorage = $tokenStorage;
         $this->validator = $validator;
         $this->modelManagerFactory = $modelManagerFactory;
         $this->responseTypeHandlerFactory = $responseTypeHandlerFactory;
         $this->grantTypeHandlerFactory = $grantTypeHandlerFactory;
-        $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
     }
 
     public function authorizeAction(Request $request)
@@ -102,12 +102,12 @@ class OAuth2Controller
 
         // Handle debug endpoint response.
         $parameters = [
-            'access_token' => $accessTokenStored->getAccessToken(),
-            'token_type' => $accessTokenStored->getTokenType(),
-            'client_id' => $accessTokenStored->getClientId(),
-            'username' => $accessTokenStored->getUsername(),
-            'expires' => $accessTokenStored->getExpires()->getTimestamp(),
-            'scope' => $accessTokenStored->getScope(),
+            'access_token' => $token->getAccessToken(),
+            'token_type' => $token->getTokenType(),
+            'client_id' => $token->getClientId(),
+            'username' => $token->getUsername(),
+            'expires' => $token->getExpires()->getTimestamp(),
+            'scope' => $token->getScope(),
         ];
 
         return JsonResponse::create($parameters, 200, [
