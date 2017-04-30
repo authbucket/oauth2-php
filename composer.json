@@ -53,6 +53,7 @@
         "symfony/browser-kit": "~2.8",
         "symfony/config": "~2.8",
         "symfony/css-selector": "~2.8",
+        "symfony/finder": "~2.8",
         "symfony/form": "~2.8",
         "symfony/phpunit-bridge": "~2.8",
         "symfony/process": "~2.8",
