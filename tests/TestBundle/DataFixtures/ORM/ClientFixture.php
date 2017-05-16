@@ -22,7 +22,7 @@ class ClientFixture implements FixtureInterface
     {
         $request = Request::createFromGlobals();
         if (!$request->getUri()) {
-            $request = Request::create('http://127.0.0.1:8080');
+            $request = Request::create('http://127.0.0.1:8000');
         }
 
         $model = new Client();
