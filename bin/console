@@ -305,7 +305,7 @@ if (version_compare(phpversion(), '5.4.0', '>') && !defined('HHVM_VERSION')) {
         ->register('server:run')
         ->setName('server:run')
         ->setDescription('Runs PHP built-in web server')
-        ->addArgument('address', InputArgument::OPTIONAL, 'Address:port', '127.0.0.1:8080')
+        ->addArgument('address', InputArgument::OPTIONAL, 'Address:port', '127.0.0.1:8000')
         ->addOption('docroot', 'd', InputOption::VALUE_REQUIRED, 'Document root', 'web/')
         ->addOption('router', 'r', InputOption::VALUE_REQUIRED, 'Path to custom router script')
         ->setHelp(<<<EOF
