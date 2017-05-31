@@ -11,9 +11,10 @@
 
 namespace AuthBucket\OAuth2\Silex\Provider;
 
-use AuthBucket\OAuth2\Controller\OAuth2Controller;
+use AuthBucket\OAuth2\Controller\AuthorizationController;
+use AuthBucket\OAuth2\Controller\TokenController;
+use AuthBucket\OAuth2\Controller\DebugController;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
-use AuthBucket\OAuth2\Model\InMemoryModelManagerFactory;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use AuthBucket\OAuth2\Symfony\Component\EventDispatcher\ExceptionListener;
@@ -128,13 +129,23 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
             );
         });
 
-        $app['authbucket_oauth2.oauth2_controller'] = function () use ($app) {
-            return new OAuth2Controller(
-                $app['security.token_storage'],
+        $app['authbucket_oauth2.authorization_controller'] = function () use ($app) {
+            return new AuthorizationController(
                 $app['validator'],
-                $app['authbucket_oauth2.model_manager.factory'],
-                $app['authbucket_oauth2.response_type_handler.factory'],
+                $app['authbucket_oauth2.response_type_handler.factory']
+            );
+        };
+
+        $app['authbucket_oauth2.token_controller'] = function () use ($app) {
+            return new TokenController(
+                $app['validator'],
                 $app['authbucket_oauth2.grant_type_handler.factory']
+            );
+        };
+
+        $app['authbucket_oauth2.debug_controller'] = function () use ($app) {
+            return new DebugController(
+                $app['security.token_storage']
             );
         };
 
