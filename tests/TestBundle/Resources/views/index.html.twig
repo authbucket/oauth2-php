@@ -41,7 +41,9 @@
                 <h3 id="services">Services</h3>
                 <p>The bundled <a href="https://github.com/authbucket/oauth2-php/blob/master/src/Silex/Provider/AuthBucketOAuth2ServiceProvider.php">AuthBucketOAuth2ServiceProvider</a> come with following services controller which simplify the OAuth2.0 controller implementation overhead:</p>
                 <ul>
-                    <li><code>authbucket_oauth2.oauth2_controller</code>: OAuth2 endpoint controller.</li>
+                    <li><code>authbucket_oauth2.authorization_controller</code>: Authorization Endpoint controller.</li>
+                    <li><code>authbucket_oauth2.token_controller</code>: Token Endpoint controller.</li>
+                    <li><code>authbucket_oauth2.debug_controller</code>: Debug Endpoint controller.</li>
                 </ul>
 
                 <h3 id="registering">Registering</h3>
@@ -55,13 +57,13 @@ $app-&gt;register(new Silex\Provider\ValidatorServiceProvider());</code></pre>
                 <h2 id="usage" class="page-header">Usage</h2>
                 <p class="lead">This library seperate the endpoint logic in frontend firewall and backend controller point of view, so you will need to setup both for functioning.</p>
                 <p>To enable the built-in controller with corresponding routing, you need to mount it manually:</p>
-<pre><code class="php">$app-&gt;get(&#39;/api/oauth2/authorize&#39;, &#39;authbucket_oauth2.oauth2_controller:authorizeAction&#39;)
+<pre><code class="php">$app-&gt;get(&#39;/api/oauth2/authorize&#39;, &#39;authbucket_oauth2.authorization_controller:indexAction&#39;)
     -&gt;bind(&#39;api_oauth2_authorize&#39;);
 
-$app-&gt;post(&#39;/api/oauth2/token&#39;, &#39;authbucket_oauth2.oauth2_controller:tokenAction&#39;)
+$app-&gt;post(&#39;/api/oauth2/token&#39;, &#39;authbucket_oauth2.token_controller:indexAction&#39;)
     -&gt;bind(&#39;api_oauth2_token&#39;);
 
-$app-&gt;match(&#39;/api/oauth2/debug&#39;, &#39;authbucket_oauth2.oauth2_controller:debugAction&#39;)
+$app-&gt;match(&#39;/api/oauth2/debug&#39;, &#39;authbucket_oauth2.debug_controller:indexAction&#39;)
     -&gt;bind(&#39;api_oauth2_debug&#39;);</code></pre>
                 <p>Below is a list of recipes that cover some common use cases.</p>
 
