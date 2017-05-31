@@ -20,7 +20,7 @@
     "extra": {
         "branch-alias": {
             "dev-develop": "4.x-dev",
-            "dev-master": "4.1.x-dev"
+            "dev-master": "4.2.x-dev"
         }
     },
     "homepage": "https://github.com/authbucket/oauth2-php",
@@ -41,6 +41,7 @@
         "psr/log": "~1.0",
         "symfony/http-foundation": "~2.8",
         "symfony/http-kernel": "~2.8",
+        "symfony/security": "~2.8",
         "symfony/validator": "~2.8"
     },
     "require-dev": {
@@ -57,7 +58,6 @@
         "symfony/form": "~2.8",
         "symfony/phpunit-bridge": "~2.8",
         "symfony/process": "~2.8",
-        "symfony/security": "~2.8",
         "symfony/translation": "~2.8",
         "symfony/twig-bridge": "~2.8",
         "twig/twig": "~1.27"
