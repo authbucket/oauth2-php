@@ -21,7 +21,7 @@ Here is a minimal example of a `composer.json`:
 
     {
         "require": {
-            "authbucket/oauth2-php": "~4.1"
+            "authbucket/oauth2-php": "~4.2"
         }
     }
 
@@ -37,7 +37,9 @@ The bundled [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oaut
 
 The bundled [AuthBucketOAuth2ServiceProvider](https://github.com/authbucket/oauth2-php/blob/master/src/Silex/Provider/AuthBucketOAuth2ServiceProvider.php) come with following services controller which simplify the OAuth2.0 controller implementation overhead:
 
--   `authbucket_oauth2.oauth2_controller`: OAuth2 endpoint controller.
+-   `authbucket_oauth2.authorization_controller`: Authorization Endpoint controller.
+-   `authbucket_oauth2.token_controller`: Token Endpoint controller.
+-   `authbucket_oauth2.debug_controller`: Debug Endpoint controller.
 
 ### Registering
 
@@ -58,13 +60,13 @@ This library seperate the endpoint logic in frontend firewall and backend contro
 
 To enable the built-in controller with corresponding routing, you need to mount it manually:
 
-    $app->get('/api/oauth2/authorize', 'authbucket_oauth2.oauth2_controller:authorizeAction')
+    $app->get('/api/oauth2/authorize', 'authbucket_oauth2.authorization_controller:indexAction')
         ->bind('api_oauth2_authorize');
 
-    $app->post('/api/oauth2/token', 'authbucket_oauth2.oauth2_controller:tokenAction')
+    $app->post('/api/oauth2/token', 'authbucket_oauth2.token_controller:indexAction')
         ->bind('api_oauth2_token');
 
-    $app->match('/api/oauth2/debug', 'authbucket_oauth2.oauth2_controller:debugAction')
+    $app->match('/api/oauth2/debug', 'authbucket_oauth2.debug_controller:indexAction')
         ->bind('api_oauth2_debug');
 
 Below is a list of recipes that cover some common use cases.
@@ -161,7 +163,7 @@ The demo is based on [Silex](http://silex.sensiolabs.org/) and [AuthBucketOAuth2
 
 You may also run the demo locally. Open a console and execute the following command to install the latest version in the `oauth2-php` directory:
 
-    $ composer create-project authbucket/oauth2-php authbucket/oauth2-php "~4.1"
+    $ composer create-project authbucket/oauth2-php authbucket/oauth2-php "~4.2"
 
 Then use the PHP built-in web server to run the demo application:
 

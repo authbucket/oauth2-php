@@ -57,23 +57,23 @@ $app->get('/demo/resource_type/model', 'authbucket_oauth2.tests.demo_controller:
 $app->get('/demo/resource_type/debug_endpoint', 'authbucket_oauth2.tests.demo_controller:resourceTypeDebugEndpointAction')
     ->bind('demo_resource_type_debug_endpoint');
 
-$app->get('/api/oauth2/authorize', 'authbucket_oauth2.oauth2_controller:authorizeAction')
+$app->get('/api/oauth2/authorize', 'authbucket_oauth2.authorization_controller:indexAction')
     ->bind('api_oauth2_authorize');
 
-$app->post('/api/oauth2/token', 'authbucket_oauth2.oauth2_controller:tokenAction')
+$app->post('/api/oauth2/token', 'authbucket_oauth2.token_controller:indexAction')
     ->bind('api_oauth2_token');
 
-$app->match('/api/oauth2/debug', 'authbucket_oauth2.oauth2_controller:debugAction')
+$app->match('/api/oauth2/debug', 'authbucket_oauth2.debug_controller:indexAction')
     ->bind('api_oauth2_debug');
 
-$app->match('/api/resource/model', 'authbucket_oauth2.oauth2_controller:debugAction')
+$app->match('/api/resource/model', 'authbucket_oauth2.debug_controller:indexAction')
     ->bind('api_resource_model');
 
-$app->match('/api/resource/debug_endpoint', 'authbucket_oauth2.oauth2_controller:debugAction')
+$app->match('/api/resource/debug_endpoint', 'authbucket_oauth2.debug_controller:indexAction')
     ->bind('api_resource_debug_endpoint');
 
-$app->match('/api/resource/debug_endpoint/cache', 'authbucket_oauth2.oauth2_controller:debugAction')
+$app->match('/api/resource/debug_endpoint/cache', 'authbucket_oauth2.debug_controller:indexAction')
     ->bind('api_resource_debug_endpoint_cache');
 
-$app->match('/api/resource/debug_endpoint/invalid_options', 'authbucket_oauth2.oauth2_controller:debugAction')
+$app->match('/api/resource/debug_endpoint/invalid_options', 'authbucket_oauth2.debug_controller:indexAction')
     ->bind('api_resource_debug_endpoint_invalid_options');
