@@ -62,7 +62,7 @@
         "symfony/process": "~3.2",
         "symfony/translation": "~3.2",
         "symfony/twig-bridge": "~3.2",
-        "twig/twig": "~2.0"
+        "twig/twig": "~1.28|~2.0"
     },
     "scripts": {
         "coveralls": "coveralls -v",
