@@ -43,7 +43,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
         // in-memory AccessToken for using resource firewall with remote debug
         // endpoint.
         $app['authbucket_oauth2.model'] = [
-            'access_token' => 'AuthBucket\\OAuth2\\Model\\InMemoryAccessToken',
+            'access_token' => 'AuthBucket\\OAuth2\\Model\\AccessToken',
         ];
 
         // (Optional) Override this with your backend model managers, e.g.

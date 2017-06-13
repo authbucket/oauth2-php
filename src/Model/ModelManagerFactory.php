@@ -18,7 +18,7 @@ use AuthBucket\OAuth2\Exception\ServerErrorException;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class InMemoryModelManagerFactory implements ModelManagerFactoryInterface
+class ModelManagerFactory implements ModelManagerFactoryInterface
 {
     protected $managers;
 

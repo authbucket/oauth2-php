@@ -12,9 +12,9 @@
 namespace AuthBucket\OAuth2\Model;
 
 /**
- * InMemoryAccessToken.
+ * AccessToken in-memory implementation.
  */
-class InMemoryAccessToken implements AccessTokenInterface
+class AccessToken implements AccessTokenInterface
 {
     protected $id;
 
