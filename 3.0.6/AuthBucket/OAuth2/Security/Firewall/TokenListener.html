@@ -47,6 +47,12 @@
                                             <option value="../../../../../3.1.1/index.html" data-version="3.1.1">3.1.1</option>
                                             <option value="../../../../../3.1.2/index.html" data-version="3.1.2">3.1.2</option>
                                             <option value="../../../../../3.1.3/index.html" data-version="3.1.3">3.1.3</option>
+                                            <option value="../../../../../3.1.4/index.html" data-version="3.1.4">3.1.4</option>
+                                            <option value="../../../../../3.1.5/index.html" data-version="3.1.5">3.1.5</option>
+                                            <option value="../../../../../3.1.6/index.html" data-version="3.1.6">3.1.6</option>
+                                            <option value="../../../../../3.2.0/index.html" data-version="3.2.0">3.2.0</option>
+                                            <option value="../../../../../3.2.1/index.html" data-version="3.2.1">3.2.1</option>
+                                            <option value="../../../../../3.2.2/index.html" data-version="3.2.2">3.2.2</option>
                                             <option value="../../../../../4.0.0/index.html" data-version="4.0.0">4.0.0</option>
                                             <option value="../../../../../4.0.1/index.html" data-version="4.0.1">4.0.1</option>
                                             <option value="../../../../../4.0.2/index.html" data-version="4.0.2">4.0.2</option>
@@ -58,6 +64,12 @@
                                             <option value="../../../../../4.1.1/index.html" data-version="4.1.1">4.1.1</option>
                                             <option value="../../../../../4.1.2/index.html" data-version="4.1.2">4.1.2</option>
                                             <option value="../../../../../4.1.3/index.html" data-version="4.1.3">4.1.3</option>
+                                            <option value="../../../../../4.1.4/index.html" data-version="4.1.4">4.1.4</option>
+                                            <option value="../../../../../4.1.5/index.html" data-version="4.1.5">4.1.5</option>
+                                            <option value="../../../../../4.1.6/index.html" data-version="4.1.6">4.1.6</option>
+                                            <option value="../../../../../4.2.0/index.html" data-version="4.2.0">4.2.0</option>
+                                            <option value="../../../../../4.2.1/index.html" data-version="4.2.1">4.2.1</option>
+                                            <option value="../../../../../4.2.2/index.html" data-version="4.2.2">4.2.2</option>
                                     </select>
             </form>
                 <script>
@@ -103,12 +115,7 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                                                            <li><a href="../../../../AuthBucket.html">AuthBucket</a></li>
-                                        <li><a href="../../../../AuthBucket/OAuth2.html">OAuth2</a></li>
-                                        <li><a href="../../../../AuthBucket/OAuth2/Security.html">Security</a></li>
-                                        <li><a href="../../../../AuthBucket/OAuth2/Security/Firewall.html">Firewall</a></li>
-    
-                <li>TokenListener</li>
+                        <li><a href="../../../../AuthBucket.html">AuthBucket</a></li><li class="backslash">\</li><li><a href="../../../../AuthBucket/OAuth2.html">OAuth2</a></li><li class="backslash">\</li><li><a href="../../../../AuthBucket/OAuth2/Security.html">Security</a></li><li class="backslash">\</li><li><a href="../../../../AuthBucket/OAuth2/Security/Firewall.html">Firewall</a></li><li class="backslash">\</li><li>TokenListener</li>
             </ol>
         </div>
                 <div id="page-content">
@@ -129,7 +136,7 @@
     
 
             <div class="description">
-            <p>TokenListener implements OAuth2 token endpoint authentication.</p>                    </div>
+            <p>TokenListener implements OAuth2 token endpoint authentication.</p>                                </div>
     
     
     
@@ -187,7 +194,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>($providerKey,  $tokenStorage,  $authenticationManager,  $validator,  $logger)
+                    <a href="#method___construct">__construct</a>($providerKey, <abbr title="Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface">TokenStorageInterface</abbr> $tokenStorage, <abbr title="Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface">AuthenticationManagerInterface</abbr> $authenticationManager, <abbr title="Symfony\Component\Validator\ValidatorInterface">ValidatorInterface</abbr> $validator, <abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -198,7 +205,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_handle">handle</a>( $event)
+                    <a href="#method_handle">handle</a>(<abbr title="Symfony\Component\HttpKernel\Event\GetResponseEvent">GetResponseEvent</abbr> $event)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -214,7 +221,7 @@
                     <h3 id="method___construct">
         <div class="location">at         line 40</div>
         <code>                    
-    <strong>__construct</strong>($providerKey,  $tokenStorage,  $authenticationManager,  $validator,  $logger)
+    <strong>__construct</strong>($providerKey, <abbr title="Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface">TokenStorageInterface</abbr> $tokenStorage, <abbr title="Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface">AuthenticationManagerInterface</abbr> $authenticationManager, <abbr title="Symfony\Component\Validator\ValidatorInterface">ValidatorInterface</abbr> $validator, <abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)
         </code>
     </h3>
     <div class="details">
@@ -231,22 +238,22 @@
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface">TokenStorageInterface</abbr></td>
                 <td>$tokenStorage</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface">AuthenticationManagerInterface</abbr></td>
                 <td>$authenticationManager</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="Symfony\Component\Validator\ValidatorInterface">ValidatorInterface</abbr></td>
                 <td>$validator</td>
                 <td></td>
             </tr>
                     <tr>
-                <td></td>
+                <td><abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr></td>
                 <td>$logger</td>
                 <td></td>
             </tr>
@@ -263,7 +270,7 @@
                     <h3 id="method_handle">
         <div class="location">at         line 54</div>
         <code>                    
-    <strong>handle</strong>( $event)
+    <strong>handle</strong>(<abbr title="Symfony\Component\HttpKernel\Event\GetResponseEvent">GetResponseEvent</abbr> $event)
         </code>
     </h3>
     <div class="details">
@@ -275,7 +282,7 @@
 
                     <table class="table table-condensed">
                     <tr>
-                <td></td>
+                <td><abbr title="Symfony\Component\HttpKernel\Event\GetResponseEvent">GetResponseEvent</abbr></td>
                 <td>$event</td>
                 <td></td>
             </tr>
