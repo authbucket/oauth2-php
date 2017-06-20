@@ -24,7 +24,7 @@ class InMemoryTest extends SilexWebTestCase
         require __DIR__.'/../../app/AppKernel.php';
 
         $app['authbucket_oauth2.model'] = [
-            'access_token' => 'AuthBucket\\OAuth2\\Model\\InMemory\\AccessToken',
+            'access_token' => 'AuthBucket\\OAuth2\\Model\\AccessToken',
         ];
 
         $accessTokenManager = $app['authbucket_oauth2.model_manager.factory']->getModelManager('access_token');

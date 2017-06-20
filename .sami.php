@@ -14,7 +14,8 @@ $versions = GitVersionCollection::create($dir)
     ->add('develop', 'develop branch')
     ->add('master', 'master branch')
     ->addFromTags('3.*')
-    ->addFromTags('4.*');
+    ->addFromTags('4.*')
+    ->addFromTags('5.*');
 
 return new Sami($iterator, [
     'theme' => 'default',

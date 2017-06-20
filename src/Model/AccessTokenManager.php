@@ -16,13 +16,13 @@ namespace AuthBucket\OAuth2\Model;
  *
  * @author Wong Hoi Sing Edison <hswong3i@pantarei-design.com>
  */
-class InMemoryAccessTokenManager implements AccessTokenManagerInterface
+class AccessTokenManager implements AccessTokenManagerInterface
 {
     protected $models;
 
     public function getClassName()
     {
-        return 'AuthBucket\\OAuth2\\Model\\InMemoryAccessToken';
+        return 'AuthBucket\\OAuth2\\Model\\AccessToken';
     }
 
     public function createModel(ModelInterface $model)
