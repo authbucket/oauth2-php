@@ -12,9 +12,9 @@ before_install:
   - travis_retry composer global require --no-update consolidation/cgr:@stable
   - travis_retry composer global require --no-update hirak/prestissimo:@stable
   - travis_retry composer global update
+  - travis_retry cgr phpunit/phpunit ~5.7
+  - travis_retry cgr satooshi/php-coveralls ~1.0
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - cgr phpunit/phpunit ~5.7
-  - cgr satooshi/php-coveralls ~1.0
 
 install:
   - sh -c "if [ '$SYMFONY_DEPS_VERSION' = '3.2' ]; then sed -i 's/~3.2/3.2.*@dev/g' composer.json; fi"
@@ -26,11 +26,9 @@ before_script:
   - rm -rf app/cache/*/*
 
 script:
-  - which phpunit
   - phpunit -c phpunit.xml.dist
 
 after_script:
-  - which coveralls
   - travis_retry coveralls -v
 
 matrix:

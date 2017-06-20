@@ -183,7 +183,7 @@ OAuth2's documentation is built with [Sami](https://github.com/fabpot/Sami) and 
 
 To built the documents locally, execute the following command:
 
-    $ composer sami
+    $ sami.php update .sami.php
 
 Open `build/sami/index.html` with your browser for the documents.
 
@@ -194,7 +194,7 @@ This project is coverage with [PHPUnit](http://phpunit.de/) test cases; CI resul
 
 To run the test suite locally, execute the following command:
 
-    $ composer phpunit
+    $ phpunit -c phpunit.xml.dist
 
 Open `build/logs/html` with your browser for the coverage report.
 

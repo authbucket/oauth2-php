@@ -62,11 +62,5 @@
         "symfony/twig-bridge": "~3.2",
         "twig/twig": "~1.28|~2.0"
     },
-    "scripts": {
-        "coveralls": "coveralls -v",
-        "php-cs-fixer": "php-cs-fixer fix",
-        "phpunit": "phpunit -c phpunit.xml.dist",
-        "sami": "sami.php update .sami.php"
-    },
     "type": "library"
 }
