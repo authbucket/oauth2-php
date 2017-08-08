@@ -33,19 +33,22 @@ class TokenListener implements ListenerInterface
     protected $authenticationManager;
     protected $validator;
     protected $logger;
+    protected $clientTokenRoles;
 
     public function __construct(
         $providerKey,
         TokenStorageInterface $tokenStorage,
         AuthenticationManagerInterface $authenticationManager,
         ValidatorInterface $validator,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        array $clientTokenRoles = []
     ) {
         $this->providerKey = $providerKey;
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
         $this->validator = $validator;
         $this->logger = $logger;
+        $this->clientTokenRoles = $clientTokenRoles;
     }
 
     public function handle(GetResponseEvent $event)
@@ -110,7 +113,9 @@ class TokenListener implements ListenerInterface
         $token = new ClientCredentialsToken(
             $this->providerKey,
             $clientId,
-            $clientSecret
+            $clientSecret,
+            '',
+            $this->clientTokenRoles
         );
         $tokenAuthenticated = $this->authenticationManager->authenticate($token);
         $this->tokenStorage->setToken($tokenAuthenticated);
