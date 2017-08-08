@@ -48,7 +48,7 @@ class CodeResponseTypeHandler extends AbstractResponseTypeHandler
         $codeManager = $this->modelManagerFactory->getModelManager('code');
         $class = $codeManager->getClassName();
         $code = new $class();
-        $code->setCode(md5(openssl_random_pseudo_bytes(256)))
+        $code->setCode(bin2hex(random_bytes(64)))
             ->setClientId($clientId)
             ->setUsername($username)
             ->setRedirectUri($redirectUri)
