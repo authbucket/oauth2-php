@@ -16,6 +16,8 @@ use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactoryInterface;
 use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\AccessToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * ResourceProvider implements OAuth2 resource endpoint authentication.
@@ -29,19 +31,22 @@ class ResourceProvider implements AuthenticationProviderInterface
     protected $resourceType;
     protected $scopeRequired;
     protected $options;
+    protected $userProvider;
 
     public function __construct(
         $providerKey,
         ResourceTypeHandlerFactoryInterface $resourceTypeHandlerFactory,
         $resourceType = 'model',
         array $scopeRequired = [],
-        array $options = []
+        array $options = [],
+        UserProviderInterface $userProvider = null
     ) {
         $this->providerKey = $providerKey;
         $this->resourceTypeHandlerFactory = $resourceTypeHandlerFactory;
         $this->resourceType = $resourceType;
         $this->scopeRequired = $scopeRequired;
         $this->options = $options;
+        $this->userProvider = $userProvider;
     }
 
     public function authenticate(TokenInterface $token)
@@ -68,6 +73,17 @@ class ResourceProvider implements AuthenticationProviderInterface
             }
         }
 
+        $user = null;
+        $roles = $token->getRoles();
+        if ($this->userProvider) {
+            try {
+                $user = $this->userProvider->loadUserByUsername($accessToken->getUsername());
+                $roles = array_merge($roles, $user->getRoles());
+            } catch (UsernameNotFoundException $e) {
+                // No user with this username, but there is a valid access token, so thats all good
+            }
+        }
+
         $tokenAuthenticated = new AccessToken(
             $this->providerKey,
             $accessToken->getAccessToken(),
@@ -76,9 +92,9 @@ class ResourceProvider implements AuthenticationProviderInterface
             $accessToken->getUsername(),
             $accessToken->getExpires(),
             $accessToken->getScope(),
-            $token->getRoles()
+            $roles,
+            $user ? $user : $accessToken->getUsername()
         );
-        $tokenAuthenticated->setUser($accessToken->getUsername());
 
         return $tokenAuthenticated;
     }

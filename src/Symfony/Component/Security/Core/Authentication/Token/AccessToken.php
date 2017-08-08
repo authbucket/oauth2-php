@@ -36,7 +36,8 @@ class AccessToken extends AbstractToken implements AccessTokenInterface
         $username = '',
         $expires = '',
         array $scope = [],
-        array $roles = []
+        array $roles = [],
+        $user = null
     ) {
         parent::__construct($roles);
 
@@ -48,6 +49,9 @@ class AccessToken extends AbstractToken implements AccessTokenInterface
         $this->username = $username;
         $this->expires = $expires;
         $this->scope = $scope;
+        if (null !== $user) {
+            $this->setUser($user);
+        }
 
         parent::setAuthenticated(count($roles) > 0);
     }
