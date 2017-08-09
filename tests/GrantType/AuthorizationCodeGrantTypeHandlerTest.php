@@ -133,7 +133,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = [
             'grant_type' => 'authorization_code',
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'code' => 'f0c68d250bcc729eb780a235371a9a56',
             'redirect_uri' => 'http://democlient2.com/redirect_uri',
             'state' => 'f0c68d250bcc729eb780a235371a9a55',
         ];
@@ -144,10 +144,13 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
         $client = $this->createClient();
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+    }
 
+    public function testGoodAuthCodeClientPost()
+    {
         $parameters = [
             'grant_type' => 'authorization_code',
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'code' => 'f0c68d250bcc729eb780a235371a9a57',
             'redirect_uri' => 'http://democlient2.com/redirect_uri',
             'client_id' => 'http://democlient2.com/',
             'client_secret' => 'demosecret2',
@@ -164,7 +167,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = [
             'grant_type' => 'authorization_code',
-            'code' => 'f0c68d250bcc729eb780a235371a9a55',
+            'code' => 'f0c68d250bcc729eb780a235371a9a58',
             'client_id' => 'http://democlient2.com/',
             'client_secret' => 'demosecret2',
             'state' => 'f0c68d250bcc729eb780a235371a9a55',
@@ -180,7 +183,7 @@ class AuthorizationCodeGrantTypeHandlerTest extends WebTestCase
     {
         $parameters = [
             'grant_type' => 'authorization_code',
-            'code' => '08fb55e26c84f8cb060b7803bc177af8',
+            'code' => '08fb55e26c84f8cb060b7803bc177af9',
             'redirect_uri' => 'http://democlient4.com/redirect_uri',
             'client_id' => 'http://democlient4.com/',
             'client_secret' => 'demosecret4',
