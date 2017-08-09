@@ -91,6 +91,9 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
             ]);
         }
 
+        // Delete this code so it can only be used once
+        $codeManager->deleteModel($result);
+
         return [$result->getUsername(), $result->getScope()];
     }
 
