@@ -42,7 +42,8 @@
         "symfony/http-foundation": "~3.2",
         "symfony/http-kernel": "~3.2",
         "symfony/security": "~3.2",
-        "symfony/validator": "~3.2"
+        "symfony/validator": "~3.2",
+        "paragonie/random_compat": "^2.0"
     },
     "require-dev": {
         "doctrine/data-fixtures": "~1.0",
