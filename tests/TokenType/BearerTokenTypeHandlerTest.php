@@ -22,7 +22,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         $server = [];
         $client = $this->createClient();
         $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
-        $this->assertSame(400, $client->getResponse()->getStatusCode());
+        $this->assertSame(401, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('invalid_request', $tokenResponse['error']);
@@ -38,7 +38,7 @@ class BearerTokenTypeHandlerTest extends WebTestCase
         ];
         $client = $this->createClient();
         $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
-        $this->assertSame(400, $client->getResponse()->getStatusCode());
+        $this->assertSame(401, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
         $tokenResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('invalid_request', $tokenResponse['error']);

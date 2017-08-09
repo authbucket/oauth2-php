@@ -68,10 +68,9 @@ class ResourceListener implements ListenerInterface
                 continue;
             }
         }
+        // If there is no access token then dont continue
         if ($accessToken === null) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request includes an invalid parameter value.',
-            ]);
+            return;
         }
 
         // access_token must in valid format.

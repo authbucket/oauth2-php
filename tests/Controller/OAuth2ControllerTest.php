@@ -152,6 +152,7 @@ class OAuth2ControllerTest extends WebTestCase
         ];
         $client = $this->createClient();
         $crawler = $client->request('GET', '/api/oauth2/debug', $parameters, [], $server);
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
         $resourceResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('invalid_request', $resourceResponse['error']);
     }

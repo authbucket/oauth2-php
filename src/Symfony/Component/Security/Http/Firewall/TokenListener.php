@@ -72,6 +72,11 @@ class TokenListener implements ListenerInterface
             $clientSecret = $request->request->get('client_secret', false);
         }
 
+        // If there is no client then dont continue
+        if ($clientId === false && $clientSecret === false) {
+            return;
+        }
+
         // client_id must in valid format.
         $errors = $this->validator->validate($clientId, [
             new \Symfony\Component\Validator\Constraints\NotBlank(),
