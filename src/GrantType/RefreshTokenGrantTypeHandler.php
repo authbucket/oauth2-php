@@ -129,9 +129,9 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             // Compare if given scope within all supported scopes.
             $scopeSupported = [];
             $scopeManager = $this->modelManagerFactory->getModelManager('scope');
-            $result = $scopeManager->readModelAll();
-            if ($result !== null) {
-                foreach ($result as $row) {
+            $scopeResult = $scopeManager->readModelAll();
+            if ($scopeResult !== null) {
+                foreach ($scopeResult as $row) {
                     $scopeSupported[] = $row->getScope();
                 }
             }
@@ -144,12 +144,12 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
             // Compare if given scope within all authorized scopes.
             $scopeAuthorized = [];
             $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
-            $result = $authorizeManager->readModelOneBy([
+            $authorizeResult = $authorizeManager->readModelOneBy([
                 'clientId' => $clientId,
                 'username' => $username,
             ]);
-            if ($result !== null) {
-                $scopeAuthorized = $result->getScope();
+            if ($authorizeResult !== null) {
+                $scopeAuthorized = $authorizeResult->getScope();
             }
             if (array_intersect($scope, $scopeAuthorized) !== $scope) {
                 throw new InvalidScopeException([
@@ -157,6 +157,9 @@ class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
                 ]);
             }
         }
+
+        // Delete this refresh token and new one will be issued
+        $refreshTokenManager->deleteModel($result);
 
         return [$username, $scope];
     }

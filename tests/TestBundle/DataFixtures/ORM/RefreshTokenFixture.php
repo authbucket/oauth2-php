@@ -52,6 +52,18 @@ class RefreshTokenFixture implements FixtureInterface
             ]);
         $manager->persist($model);
 
+        $model = new RefreshToken();
+        $model->setRefreshToken('288b5ea8e75d2b24368a79ed5ed9593c')
+            ->setClientId('http://democlient3.com/')
+            ->setUsername('demousername3')
+            ->setExpires(new \DateTime('+1 days'))
+            ->setScope([
+                'demoscope1',
+                'demoscope2',
+                'demoscope3',
+            ]);
+        $manager->persist($model);
+
         $manager->flush();
     }
 }

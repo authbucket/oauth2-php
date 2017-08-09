@@ -28,11 +28,11 @@ class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
         // Fetch client_id from authenticated token.
         $clientId = $this->checkClientId();
 
-        // Fetch username and scope from stored code.
-        list($username, $scope) = $this->checkCode($request, $clientId);
-
         // Check and set redirect_uri.
         $redirectUri = $this->checkRedirectUri($request, $clientId);
+
+        // Fetch username and scope from stored code.
+        list($username, $scope) = $this->checkCode($request, $clientId);
 
         // Generate access_token, store to backend and set token response.
         $parameters = $this->tokenTypeHandlerFactory

@@ -163,10 +163,13 @@ class RefreshTokenGrantTypeHandlerTest extends WebTestCase
         $crawler = $client->request('POST', '/api/oauth2/token', $parameters, [], $server);
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $this->assertNotNull(json_decode($client->getResponse()->getContent()));
+    }
 
+    public function testGoodRefreshTokenDefaultScope()
+    {
         $parameters = [
             'grant_type' => 'refresh_token',
-            'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593b',
+            'refresh_token' => '288b5ea8e75d2b24368a79ed5ed9593c',
         ];
         $server = [
             'PHP_AUTH_USER' => 'http://democlient3.com/',
