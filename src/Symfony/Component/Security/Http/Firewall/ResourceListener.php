@@ -36,6 +36,7 @@ class ResourceListener implements ListenerInterface
     protected $validator;
     protected $logger;
     protected $tokenTypeHandlerFactory;
+    protected $accessTokenRoles;
 
     public function __construct(
         $providerKey,
@@ -43,7 +44,8 @@ class ResourceListener implements ListenerInterface
         AuthenticationManagerInterface $authenticationManager,
         ValidatorInterface $validator,
         LoggerInterface $logger,
-        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory
+        TokenTypeHandlerFactoryInterface $tokenTypeHandlerFactory,
+        array $accessTokenRoles = []
     ) {
         $this->providerKey = $providerKey;
         $this->tokenStorage = $tokenStorage;
@@ -51,6 +53,7 @@ class ResourceListener implements ListenerInterface
         $this->validator = $validator;
         $this->logger = $logger;
         $this->tokenTypeHandlerFactory = $tokenTypeHandlerFactory;
+        $this->accessTokenRoles = $accessTokenRoles;
     }
 
     public function handle(GetResponseEvent $event)
@@ -100,7 +103,13 @@ class ResourceListener implements ListenerInterface
 
         $token = new AccessToken(
             $this->providerKey,
-            $accessToken
+            $accessToken,
+            '',
+            '',
+            '',
+            '',
+            [],
+            $this->accessTokenRoles
         );
         $tokenAuthenticated = $this->authenticationManager->authenticate($token);
         $this->tokenStorage->setToken($tokenAuthenticated);
