@@ -52,14 +52,11 @@ class TokenListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        // At least one (and only one) of client credentials method required.
+        // At least one of client credentials method required.
+        // If more than one is set then basic auth will be used. Some clients (incorrectly) use more than one.
         if (!$request->headers->get('PHP_AUTH_USER', false) && !$request->request->get('client_id', false)) {
             throw new InvalidRequestException([
                 'error_description' => 'The request is missing a required parameter',
-            ]);
-        } elseif ($request->headers->get('PHP_AUTH_USER', false) && $request->request->get('client_id', false)) {
-            throw new InvalidRequestException([
-                'error_description' => 'The request utilizes more than one mechanism for authenticating the client',
             ]);
         }
 
