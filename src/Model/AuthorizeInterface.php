@@ -65,4 +65,11 @@ interface AuthorizeInterface extends ModelInterface
      * @return array
      */
     public function getScope();
+
+    /**
+     * Get Grant types that this client is allowed to use.
+     *
+     * @return array
+     */
+    public function getGrantType();
 }

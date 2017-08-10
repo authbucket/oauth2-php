@@ -24,6 +24,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RefreshTokenGrantTypeHandler extends AbstractGrantTypeHandler
 {
+    const GRANT_TYPE = 'refresh_token';
+
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.

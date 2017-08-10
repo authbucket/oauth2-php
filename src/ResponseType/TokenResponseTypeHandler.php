@@ -22,6 +22,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TokenResponseTypeHandler extends AbstractResponseTypeHandler
 {
+    const GRANT_TYPE = 'implicit';
+
     public function handle(Request $request)
     {
         // Fetch username from authenticated token.

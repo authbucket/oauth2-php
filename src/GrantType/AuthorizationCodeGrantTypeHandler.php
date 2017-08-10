@@ -23,6 +23,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AuthorizationCodeGrantTypeHandler extends AbstractGrantTypeHandler
 {
+    const GRANT_TYPE = 'authorization_code';
+
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.

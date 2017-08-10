@@ -53,6 +53,13 @@ class Authorize implements AuthorizeInterface
     protected $scope;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="grant_type", type="array")
+     */
+    protected $grantType;
+
+    /**
      * Get id.
      *
      * @return int
@@ -132,5 +139,27 @@ class Authorize implements AuthorizeInterface
     public function getScope()
     {
         return $this->scope;
+    }
+
+    /**
+     * Set grant type.
+     *
+     * @param array $grantType
+     *
+     * @return Authorize
+     */
+    public function setGrantType($grantType)
+    {
+        $this->grantType = $grantType;
+    }
+
+    /**
+     * Get grant type.
+     *
+     * @return array
+     */
+    public function getGrantType()
+    {
+        return $this->grantType;
     }
 }

@@ -30,6 +30,8 @@ use Symfony\Component\Security\Core\User\UserChecker;
  */
 class PasswordGrantTypeHandler extends AbstractGrantTypeHandler
 {
+    const GRANT_TYPE = 'password';
+
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.
