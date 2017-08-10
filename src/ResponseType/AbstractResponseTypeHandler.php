@@ -11,10 +11,12 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
+use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
 use AuthBucket\OAuth2\Exception\UnauthorizedClientException;
+use AuthBucket\OAuth2\Model\AuthorizeInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +32,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterface
 {
+    const GRANT_TYPE = null;
     protected $tokenStorage;
     protected $validator;
     protected $modelManagerFactory;
@@ -230,6 +233,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
         // Compare if given scope within all authorized scopes.
         $scopeAuthorized = [];
         $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
+        /** @var AuthorizeInterface $result */
         $result = $authorizeManager->readModelOneBy([
             'clientId' => $clientId,
             'username' => $username,
@@ -242,6 +246,13 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
                 'redirect_uri' => $redirectUri,
                 'state' => $state,
                 'error_description' => 'The requested scope is invalid.',
+            ]);
+        }
+
+        if (!in_array(static::GRANT_TYPE, $result->getGrantType())) {
+            throw new InvalidGrantException([
+                'state' => $state,
+                'error_description' => 'The requested grant is invalid.',
             ]);
         }
 

@@ -11,6 +11,7 @@
 
 namespace AuthBucket\OAuth2\ResponseType;
 
+use AuthBucket\OAuth2\GrantType\AuthorizationCodeGrantTypeHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,6 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CodeResponseTypeHandler extends AbstractResponseTypeHandler
 {
+    const GRANT_TYPE = AuthorizationCodeGrantTypeHandler::GRANT_TYPE;
+
     public function handle(Request $request)
     {
         // Fetch username from authenticated token.

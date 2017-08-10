@@ -21,6 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ClientCredentialsGrantTypeHandler extends AbstractGrantTypeHandler
 {
+    const GRANT_TYPE = 'client_credentials';
+
     public function handle(Request $request)
     {
         // Fetch client_id from authenticated token.

@@ -77,6 +77,11 @@ class AuthorizeFixture implements FixtureInterface
             ->setUsername('demousername1')
             ->setScope([
                 'demoscope1',
+            ])
+            ->setGrantType([
+                'authorization_code',
+                'password',
+                'implicit',
             ]);
         $manager->persist($model);
 
@@ -86,6 +91,9 @@ class AuthorizeFixture implements FixtureInterface
             ->setScope([
                 'demoscope1',
                 'demoscope2',
+            ])
+            ->setGrantType([
+                'authorization_code',
             ]);
         $manager->persist($model);
 
@@ -96,6 +104,11 @@ class AuthorizeFixture implements FixtureInterface
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
+            ])
+            ->setGrantType([
+                'authorization_code',
+                'password',
+                'implicit',
             ]);
         $manager->persist($model);
 
@@ -106,6 +119,9 @@ class AuthorizeFixture implements FixtureInterface
                 'demoscope1',
                 'demoscope2',
                 'demoscope3',
+            ])
+            ->setGrantType([
+                'client_credentials',
             ]);
         $manager->persist($model);
 

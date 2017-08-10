@@ -11,9 +11,11 @@
 
 namespace AuthBucket\OAuth2\GrantType;
 
+use AuthBucket\OAuth2\Exception\InvalidGrantException;
 use AuthBucket\OAuth2\Exception\InvalidRequestException;
 use AuthBucket\OAuth2\Exception\InvalidScopeException;
 use AuthBucket\OAuth2\Exception\ServerErrorException;
+use AuthBucket\OAuth2\Model\AuthorizeInterface;
 use AuthBucket\OAuth2\Model\ModelManagerFactoryInterface;
 use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Token\ClientCredentialsToken;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactoryInterface;
@@ -30,6 +32,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 {
+    const GRANT_TYPE = null;
+
     protected $tokenStorage;
     protected $encoderFactory;
     protected $validator;
@@ -122,17 +126,25 @@ abstract class AbstractGrantTypeHandler implements GrantTypeHandlerInterface
 
         // Compare if given scope within all authorized scopes.
         $scopeAuthorized = [];
+        $grantTypeAuthorized = [];
         $authorizeManager = $this->modelManagerFactory->getModelManager('authorize');
+        /** @var AuthorizeInterface $result */
         $result = $authorizeManager->readModelOneBy([
             'clientId' => $clientId,
             'username' => $username,
         ]);
         if ($result !== null) {
             $scopeAuthorized = $result->getScope();
+            $grantTypeAuthorized = $result->getGrantType();
         }
         if (array_intersect($scope, $scopeAuthorized) !== $scope) {
             throw new InvalidScopeException([
                 'error_description' => 'The requested scope exceeds the scope granted by the resource owner.',
+            ]);
+        }
+        if (!in_array(static::GRANT_TYPE, $grantTypeAuthorized)) {
+            throw new InvalidGrantException([
+                'error_description' => 'The requested grant is invalid.',
             ]);
         }
 
