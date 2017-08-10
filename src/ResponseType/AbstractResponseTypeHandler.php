@@ -57,7 +57,7 @@ abstract class AbstractResponseTypeHandler implements ResponseTypeHandlerInterfa
     protected function checkUsername()
     {
         $token = $this->tokenStorage->getToken();
-        if (!$token instanceof RememberMeToken && !$token instanceof UsernamePasswordToken) {
+        if (!$token->getUsername()) {
             throw new ServerErrorException([
                 'error_description' => 'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
             ]);
