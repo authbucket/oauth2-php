@@ -20,6 +20,8 @@ use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use AuthBucket\OAuth2\Symfony\Component\EventDispatcher\ExceptionListener;
 use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Provider\ResourceProvider;
 use AuthBucket\OAuth2\Symfony\Component\Security\Core\Authentication\Provider\TokenProvider;
+use AuthBucket\OAuth2\Symfony\Component\Security\Http\EntryPoint\ResourceAuthenticationEntryPoint;
+use AuthBucket\OAuth2\Symfony\Component\Security\Http\EntryPoint\TokenAuthenticationEntryPoint;
 use AuthBucket\OAuth2\Symfony\Component\Security\Http\Firewall\ResourceListener;
 use AuthBucket\OAuth2\Symfony\Component\Security\Http\Firewall\TokenListener;
 use AuthBucket\OAuth2\TokenType\TokenTypeHandlerFactory;
@@ -149,6 +151,14 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
             );
         };
 
+        $app['authbucket_oauth2.token_entry_point'] = function () {
+            return new TokenAuthenticationEntryPoint();
+        };
+
+        $app['authbucket_oauth2.resource_entry_point'] = function () {
+            return new ResourceAuthenticationEntryPoint();
+        };
+
         $app['security.authentication_provider.oauth2_token._proto'] = $app->protect(function ($name, $options) use ($app) {
             return function () use ($app, $name, $options) {
                 return new TokenProvider(
@@ -207,7 +217,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
             return [
                 'security.authentication_provider.'.$name.'.oauth2_token',
                 'security.authentication_listener.'.$name.'.oauth2_token',
-                null,
+                'authbucket_oauth2.token_entry_point',
                 'pre_auth',
             ];
         });
@@ -230,7 +240,7 @@ class AuthBucketOAuth2ServiceProvider implements ServiceProviderInterface, Event
             return [
                 'security.authentication_provider.'.$name.'.oauth2_resource',
                 'security.authentication_listener.'.$name.'.oauth2_resource',
-                null,
+                'authbucket_oauth2.resource_entry_point',
                 'pre_auth',
             ];
         });
