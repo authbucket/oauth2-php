@@ -83,6 +83,9 @@ class ResourceProvider implements AuthenticationProviderInterface
                 // No user with this username, but there is a valid access token, so thats all good
             }
         }
+        $roles = array_merge($roles, array_map(function($scope) {
+            return 'ROLE_SCOPE_' . strtoupper($scope);
+        }, $scope));
 
         $tokenAuthenticated = new AccessToken(
             $this->providerKey,
