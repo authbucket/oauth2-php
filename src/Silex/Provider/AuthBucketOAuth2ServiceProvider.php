@@ -15,6 +15,7 @@ use AuthBucket\OAuth2\Controller\AuthorizationController;
 use AuthBucket\OAuth2\Controller\TokenController;
 use AuthBucket\OAuth2\Controller\DebugController;
 use AuthBucket\OAuth2\GrantType\GrantTypeHandlerFactory;
+use AuthBucket\OAuth2\Model\ModelManagerFactory;
 use AuthBucket\OAuth2\ResourceType\ResourceTypeHandlerFactory;
 use AuthBucket\OAuth2\ResponseType\ResponseTypeHandlerFactory;
 use AuthBucket\OAuth2\Symfony\Component\EventDispatcher\ExceptionListener;
